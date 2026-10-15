@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Giao diện"
+  short_description: "Sửa CEGUI, SelfEquip, nền ô và thao tác giao diện"
+  default_prompt: "Dùng $cys-ui-repair để sửa giao diện CY-Source theo skin và hành vi của bản tham khảo."

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+  <Window Type="DefaultWindow" Name="CysFontProof">
+    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+    <Window Type="TLBB_StaticText" Name="CysFontProof/Chinese">
+      <Property Name="UnifiedAreaRect" Value="{{0,32},{0,32},{1,-32},{0,106}}" />
+      <Property Name="Font" Value="YouYuan18" />
+      <Property Name="Text" Value="天龙八部 · 中文与越南语 · 江湖英雄" />
+    </Window>
+    <Window Type="TLBB_StaticText" Name="CysFontProof/Vietnamese">
+      <Property Name="UnifiedAreaRect" Value="{{0,32},{0,120},{1,-32},{0,194}}" />
+      <Property Name="Font" Value="YouYuan18" />
+      <Property Name="Text" Value="Thiên Long Bát Bộ · Tiếng Việt có dấu" />
+    </Window>
+    <Window Type="TLBB_StaticText" Name="CysFontProof/Tones">
+      <Property Name="UnifiedAreaRect" Value="{{0,32},{0,208},{1,-32},{0,282}}" />
+      <Property Name="Font" Value="YouYuan13" />
+      <Property Name="Text" Value="Ă Â Đ Ê Ô Ơ Ư · ắ ằ ẳ ẵ ặ · ấ ầ ẩ ẫ ậ · ớ ờ ở ỡ ợ · ứ ừ ử ữ ự" />
+    </Window>
+    <Window Type="TLBB_StaticText" Name="CysFontProof/Mixed">
+      <Property Name="UnifiedAreaRect" Value="{{0,32},{0,296},{1,-32},{0,370}}" />
+      <Property Name="Font" Value="SongTiBmp12" />
+      <Property Name="Text" Value="你好 Việt Nam! · Nhân vật 角色 · Trang bị 装备 · Võ lâm 武林 · 0123456789" />
+    </Window>
+  </Window>
+</GUILayout>

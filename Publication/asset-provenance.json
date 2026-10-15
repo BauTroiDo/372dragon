@@ -1,0 +1,73 @@
+{
+  "status": "redistribution_terms_unverified",
+  "project_claims_ownership": false,
+  "user_statement": "User states redistribution rights exist and will provide the basis; evidence not attached in this preparation.",
+  "project_license_applies": false,
+  "sources": [
+    {
+      "id": "S1",
+      "local_collection_label": "client_GL",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S2",
+      "local_collection_label": "DataCY31-08-26",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S2b",
+      "local_collection_label": "tlbb15 (historical reference)",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S3",
+      "local_collection_label": "CYHJ091026",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S4",
+      "local_collection_label": "CY Game 3.71",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S5",
+      "local_collection_label": "TLGL_extracted",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S6",
+      "local_collection_label": "loose packs",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    },
+    {
+      "id": "S7",
+      "local_collection_label": "085 original data",
+      "original_author": null,
+      "original_distribution_url": null,
+      "license_or_permission": null,
+      "status": "unverified"
+    }
+  ],
+  "note": "Collection labels are not author identities. This is source-family inventory, not a file-by-file ownership audit."
+}

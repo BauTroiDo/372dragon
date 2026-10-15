@@ -1,0 +1,27 @@
+local class = require "class"
+local define = require "define"
+local skillenginer = require "skillenginer":getinstance()
+local impactenginer = require "impactenginer":getinstance()
+local base = require "scene.skill.talent_logic.base"
+local std_talent_781 = class("std_talent_781", base)
+function std_talent_781:is_specific_skill(skill_id)
+    return skill_id == 426
+end
+
+function std_talent_781:get_refix_value(talent, level)
+    local params = talent.params[level]
+    return params[1] or 0
+end
+
+function std_talent_781:on_hit_target(talent, level, sender, reciver, skill_id)
+    if self:is_specific_skill(skill_id) then
+		local value = self:get_refix_value(talent, level)
+		if math.random(100) <= value then
+			impactenginer:send_impact_to_unit(reciver, 63072, sender, 0, false, 0) -- server-impact: ID impact GL → dải riêng (xem lualib/cys_gl_impact_remap.lua)
+		end
+	end
+end
+
+
+
+return std_talent_781

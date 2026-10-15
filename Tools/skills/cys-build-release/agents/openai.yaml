@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Build và phát hành"
+  short_description: "Build, test, phát hành và kiểm toán CY-Source"
+  default_prompt: "Dùng $cys-build-release để kiểm tra bản build và phát hành đúng candidate đã được xác minh."

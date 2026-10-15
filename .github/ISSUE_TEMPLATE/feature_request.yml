@@ -1,0 +1,26 @@
+name: Đề xuất cải tiến
+description: Thay đổi có mục đích và phạm vi cụ thể.
+title: "[Proposal] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Vấn đề cần giải quyết
+      description: Ai gặp vấn đề, trong tình huống nào?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Hành vi hoặc kết quả mong muốn
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Phạm vi, phương án và cách kiểm tra
+  - type: textarea
+    id: references
+    attributes:
+      label: Tài liệu và bằng chứng liên quan
+      description: Nêu nguồn hợp lệ; không gửi SDK, data hoặc thông tin riêng không có quyền chia sẻ.

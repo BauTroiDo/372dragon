@@ -1,0 +1,3 @@
+# Preserve original GBK/UTF-8 bytes and mixed line endings in the source snapshot.
+# In particular, cloning on Linux must not rewrite legacy Windows payloads.
+* -text

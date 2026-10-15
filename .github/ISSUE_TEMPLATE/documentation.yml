@@ -1,0 +1,21 @@
+name: Tài liệu / tải data
+description: Hướng dẫn chưa rõ, link sai hoặc lỗi tải/kiểm data.
+title: "[Docs] "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: File tài liệu hoặc bước đang thực hiện
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Nội dung thiếu hoặc lỗi gặp phải
+      description: Với Drive, ghi thông báo và thời điểm; với checksum, ghi tên gói và hash nhận được.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Đề xuất sửa hoặc thông tin bổ sung

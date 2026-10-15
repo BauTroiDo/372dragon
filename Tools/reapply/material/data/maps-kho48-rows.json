@@ -1,0 +1,27 @@
+{
+ "dot": "2026-09-19-maps-kho48",
+ "ghi_chu": "Muc all.material phai noi them de nhap ban do nhom `kho` tu nhanh GL. Nguon tung ten: Tools/game/scene_import_gl.py plan --maps <map> (truong `thieu_material`). Thu tu trong danh sach = thu tu nhap; moi ban do nghiem thu xong moi sang ban ke. BAY: viet ten bang KY TU THAT (tep nay la UTF-8), dung escape \\uXXXX - mot chu so hex sai bien 雪地营帐1 thanh 雪地营帆1 va cong cu se bao 'GL khong co material'.",
+ "muc": [
+  {
+   "map": "songliao",
+   "canh": 47,
+   "ten_canh": "宋辽边境",
+   "nguon": "GL",
+   "material": [
+    "雪地战车2吊房",
+    "雪地营帐1",
+    "雪地马棚"
+   ]
+  },
+  {
+   "map": "longta_0",
+   "canh": 1350,
+   "ten_canh": "锁龙古塔一层",
+   "nguon": "GL",
+   "ghi_chu": "longta_0 con thieu 1 he hat `cj_妖塔_方向雾_黄` — CO Y KHONG NOI vao all.particle: canh DHXYyongningcheng (type=0, DANG BAT, survey `client=OK`) thieu DUNG he hat do ma van ve. Bang chung: Build/Logs/2026-09-19-maps-kho48/26-verify-154-dangbat.json.",
+   "material": [
+    "祀林岛_火盆柱"
+   ]
+  }
+ ]
+}

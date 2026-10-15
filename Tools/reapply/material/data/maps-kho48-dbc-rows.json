@@ -1,0 +1,70 @@
+{
+ "schema": 1,
+ "dot": "2026-09-19-maps-kho48",
+ "zero_wmap": true,
+ "ghi_chu": "Dong `client_res` cho cac ban do nhom `kho` vua nhap. Duong di: server Lua `g_ClientRes = <ID>` -> GCEnterScene.client_res -> WorldManager.cpp:118-125 (CYS-SCENERES) tra DBC client theo COT 0. Canh type=1 (pho ban) khong bao gio tra duoc theo sceneid that (client nhan 10001..10020), nen KHONG co dong nay thi client nem TDThrow 'Invalid scene ID'. Noi dung 24 o lay tu bang SERVER `R/configs/SceneDefineEx.txt` cung ID, cot 1/22 lay ten tieng Viet tu bang client GL (`Assets/Canonical/Data/ConfigFolder/SceneDefineEx.txt`), cot 11..14 = 0, them cot 24 = 0. CHAY SAU Buoc 5 (scenes-lo2) — ky vong truoc: 799 dong.",
+ "rows": [
+  {
+   "id": 3079,
+   "cells": [
+    3079,
+    "Biên Cương Tống Liêu",
+    128,
+    128,
+    "songliao.scene",
+    "songliao.path",
+    "songliao.wCollision",
+    "songliao.jpg",
+    117,
+    60000,
+    "songliaoscene",
+    0,
+    0,
+    0,
+    0,
+    15000,
+    10,
+    "Sign1",
+    "MiniMap_Icon",
+    "YiPinTang_Normal",
+    "MiniMap_Icon",
+    "YipinTang_Hover",
+    "Biên Cương Tống Liêu",
+    "0.2;0.2",
+    0
+   ],
+   "nguon": "bang SERVER R/configs/SceneDefineEx.txt dong 3079 (24 o) + ten tieng Viet tu bang client GL dong 79. client_res 3079 = boundary_between_song_and_liao.g_ClientRes (Game_2/Script/scripts/event/xunhuan/boundary_between_song_and_liao.lua:39); canh server [scene47] type=1 active=1 file=songliao.scn"
+  },
+  {
+   "id": 1350,
+   "cells": [
+    1350,
+    "Tỏa Long Cổ Tháp tầng 1",
+    256,
+    256,
+    "longta_0.Scene",
+    "longta_0.path",
+    "longta_0.wCollision",
+    "longta_0.jpg",
+    2169,
+    60000,
+    "longta_0",
+    0,
+    0,
+    0,
+    0,
+    20000,
+    10,
+    "Sign10",
+    "BaseInterface",
+    "Space",
+    "BaseInterface",
+    "Space",
+    "Long Tháp tầng một",
+    "0.2;0.2",
+    0
+   ],
+   "nguon": "bang SERVER R/configs/SceneDefineEx.txt dong 679 (24 o, mo ta dung longta_0) + ten tieng Viet cot 1/22 tu bang client GL dong 679. DAT O ID CANH 1350 chu KHONG o 679: canh 1350 la `type=0` nen client tra DBC theo CHINH ID canh (WorldManager.cpp Search_First_Column_Equ(0, 1350)); duong `client_res` chi la duong lui. BAY: dong 679 cua DBC client DA CO SAN va tro `guigufb.scene` (64x64) — neu bat canh 1350 ma KHONG co dong 1350 thi client se IM LANG ve nham guigufb thay vi bao loi."
+  }
+ ]
+}

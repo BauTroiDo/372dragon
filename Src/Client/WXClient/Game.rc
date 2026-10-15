@@ -1,0 +1,243 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_GAME                ICON                    "..\\..\\..\\TSGame.ico"
+IDI_SMALL               ICON                    "..\\..\\..\\TSGame.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_GAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_GAME ACCELERATORS 
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+// CYS 17/09/2026: hop thoai IDD_DIALOG_CHOOSE_USERID da bi go khoi WXClient.cpp
+// (Debug_ChooseUserFunc/Debug_ChooseUserSetting). Go luon tai nguyen chet o day.
+
+IDD_DIALOG_WXC_SML DIALOGEX 0, 0, 386, 76
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Çë¼òµ¥ÃèÊö£¬Äú¸Õ¸ÕµÄ²Ù×÷£¡"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,55,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,329,55,50,14
+    EDITTEXT        IDC_EDIT_WXC_SML,7,20,372,29,ES_AUTOHSCROLL
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR_NORMAL       CURSOR                  "Res\\Normal.cur"
+IDC_CURSOR_ATTACK       CURSOR                  "Res\\Attack.cur"
+IDC_CURSOR_AUTORUN      CURSOR                  "Res\\AutoRun.cur"
+IDC_CURSOR_UNREACHABLE  CURSOR                  "Res\\UnReachable.cur"
+IDC_CURSOR_PICKUP       CURSOR                  "Res\\PickUp.cur"
+IDC_CURSOR_MINE         CURSOR                  "Res\\Mine.CUR"
+IDC_CURSOR_HERBS        CURSOR                  "Res\\Herbs.CUR"
+IDC_CURSOR_INTERACT     CURSOR                  "Res\\Interact.CUR"
+IDC_CURSOR_SPEAK        CURSOR                  "Res\\Speak.CUR"
+IDC_CURSOR_REPAIR       CURSOR                  "Res\\Repair.CUR"
+IDC_CURSOR_HOVER        CURSOR                  "Res\\Hover.CUR"
+IDC_CURSOR_IDENFITY     CURSOR                  "Res\\Identify.CUR"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor (client_GL "B" art). Recovered by static analysis of
+// client_GL\Bin64\Game.exe (CCursorMng::Initial); see
+// Tools\cursor\extract_cursors.py and Build\re\cursor\out for the
+// per-cursor .cur/.png evidence and manifest.json this was built from.
+// The 0.85 cursors above are kept as-is and used as a fallback by
+// Cursor\CursorMng.cpp if one of these ever fails to load.
+//
+
+IDC_CURSOR_GL_NORMAL       CURSOR                  "Res\\gl\\GL_Normal.cur"
+IDC_CURSOR_GL_ATTACK       CURSOR                  "Res\\gl\\GL_Attack.cur"
+IDC_CURSOR_GL_AUTORUN      CURSOR                  "Res\\gl\\GL_AutoRun.cur"
+IDC_CURSOR_GL_PICKUP       CURSOR                  "Res\\gl\\GL_PickUp.cur"
+IDC_CURSOR_GL_UNREACHABLE  CURSOR                  "Res\\gl\\GL_UnReachable.cur"
+IDC_CURSOR_GL_MINE         CURSOR                  "Res\\gl\\GL_Mine.cur"
+IDC_CURSOR_GL_HERBS        CURSOR                  "Res\\gl\\GL_Herbs.cur"
+IDC_CURSOR_GL_FISH         CURSOR                  "Res\\gl\\GL_Fish.cur"
+IDC_CURSOR_GL_SPEAK        CURSOR                  "Res\\gl\\GL_Speak.cur"
+IDC_CURSOR_GL_INTERACT     CURSOR                  "Res\\gl\\GL_Interact.cur"
+IDC_CURSOR_GL_REPAIR       CURSOR                  "Res\\gl\\GL_Repair.cur"
+IDC_CURSOR_GL_HOVER        CURSOR                  "Res\\gl\\GL_Hover.cur"
+IDC_CURSOR_GL_IDENTIFY     CURSOR                  "Res\\gl\\GL_Identify.cur"
+IDC_CURSOR_GL_ADDFRIEND    CURSOR                  "Res\\gl\\GL_AddFriend.cur"
+IDC_CURSOR_GL_EXCHANGE     CURSOR                  "Res\\gl\\GL_Exchange.cur"
+IDC_CURSOR_GL_CATCH_PET    CURSOR                  "Res\\gl\\GL_CatchPet.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,0,4
+ PRODUCTVERSION 0,0,0,4
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+            VALUE "CompanyName", "ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½"
+            VALUE "FileDescription", "Alpha_0.0.0004"
+            VALUE "FileVersion", "0, 0, 0, 4"
+            VALUE "InternalName", "WXSJ"
+            VALUE "LegalCopyright", "Copyright ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½(C) 2007"
+            VALUE "OriginalFilename", "WXClient.exe"
+            VALUE "ProductName", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+            VALUE "ProductVersion", "0, 0, 0, 4"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG_WXC_SML, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 379
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 69
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_APP_TITLE           "Game"
+    IDC_GAME                "GAME"
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

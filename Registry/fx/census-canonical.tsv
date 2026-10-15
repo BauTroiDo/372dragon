@@ -1,0 +1,322 @@
+set	category	status	scope	type	key	value	occurrences	templates	weight	examples	where
+canonical	effect	rejected-key	effect		use_scale	true	8525	8525	24693	2025争霸赛第一名_skill_07 | 2025争霸赛第一名_skill_08 | 2025争霸赛第一名_skill_09	all.effect:78
+canonical	particle	rejected-key	affector	ColourFading	opacity3	0	7585	7585	16895	back_2024月光宝盒_A_14 | back_2024月光宝盒_A_15 | back_2024月光宝盒_A_16	all.particle:5126
+canonical	particle	rejected-key	affector	ColourFading	opacity0	0	4484	4484	7322	back_2024月光宝盒_A_16 | back_2024月光宝盒_A_17 | back_2025凤栖梧桐_自身A_5	all.particle:5211
+canonical	skill	rejected-key	skillblock	AnimEffect	DefaultShow	true	4512	1905	1905	qc_2024争霸赛第一名_地面休闲2 | qc_2025争霸赛第一名_地面休闲2 | qc_2024争霸赛第一名_休闲	all.skill:118
+canonical	particle	rejected-key	affector	ColourFading	opacity2	0	2301	2301	3740	back_2024冰峰汽水_2 | back_2025凤栖梧桐_自身A_5 | back_2025阴阳如意葫芦_10	all.particle:4865
+canonical	particle	rejected-key	affector	ColourFading	opacity1	0.3	1532	1532	2563	back_2024冰峰汽水_2 | back_2025金瓯永固景观_自身A05 | back_2026冰元素竖琴_自身A_5	all.particle:4862
+canonical	particle	rejected-key	affector	ScaleInterpolator	use_uniform_size	false	113	113	3931	im85_20260907_palm_core_l_ps | im85_20260907_nozzle_l_ps | im85_20260907_hover_l_ps	all.particle:2145654
+canonical	particle	rejected-key	affector	ColourFading	opacity4	0	1364	1364	2161	back_2025金瓯永固景观_自身A01 | back_2025金瓯永固景观_自身A05 | back_2025阴阳如意葫芦_10	all.particle:10328
+canonical	particle	value-not-applied(review)	emitter	Ring	inner_height	0	726	726	1251	back_2025七夕兰若寺_自身A_2 | back_2025金瓯永固弓_A_4 | back_2025金瓯永固弓_B_2	all.particle:5934 runtime=1
+canonical	particle	value-not-applied(review)	emitter	Ring	inner_width	0	723	723	1246	back_2025七夕兰若寺_自身A_2 | back_2025金瓯永固弓_A_4 | back_2025金瓯永固弓_B_2	all.particle:5933 runtime=1
+canonical	particle	rejected-key	affector	ScaleInterpolator	use_interpolated_increment	true	475	475	877	back_2025北极熊玩偶_自身_2 | back_2025北极熊玩偶_自身_3 | back_2025海豹团团_自身_3	all.particle:6512
+canonical	effect	accepted-but-ignored	element	Particle	use_particle_effect	true	785	455	452	yanhua_冰雪节_组合总 | yanhua_鬼市_海_组合总 | 时装_时装宝石雪花飘_身体中心_三级	all.effect:2402 WXParticleElement.cpp:42 mUseParticleEffect never read
+canonical	effect	accepted-but-ignored	element	Particle	ParEffectName	yanhua_鬼市_海_散开红色_B	805	457	425	yanhua_鬼市_海_组合总 | yanhua_冰雪节_组合总 | 时装_时装宝石雪花飘_身体中心_三级	all.effect:2401 WXParticleElement.cpp:42-44 member mParEffectName only declared/initialised/Cmd (grep 2 uses)
+canonical	particle	rejected-key	affector	ColourFading	opacity5	0	306	306	499	boss_2025紫禁城殿前司都使_攻击A_2 | boss_2025通天塔四层阿修罗王_技能2释放_2 | boss_2025通天塔紧那罗王_技能1发招C_8	all.particle:52288
+canonical	effect	accepted-but-ignored	element	Particle	pass_rotation_to_sub_effect	true	241	120	165	boss_2026月常李秋水_剑舞_细线C | boss_2026月常李秋水_剑舞_细线C_内 | boss_2026月常李秋水_剑舞_细线C_冰	all.effect:6102 WXParticleElement.cpp mPassRotationToSubEffect never read
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time0	0	141	141	192	back_2025北极熊玩偶_自身_3 | back_2025海豹团团_自身_3 | boss_2025七夕副本血槐娘娘_召唤食人花B_3	all.particle:6565
+canonical	effect	accepted-but-ignored	element	Particle	legacy_pos_for_sub_effect	false	163	63	102	boss_2026月常李秋水_剑舞_细线C | boss_2026月常李秋水_剑舞_细线C_内 | boss_2026月常李秋水_剑舞_细线C_冰	all.effect:3885 WXParticleElement.cpp mLegacyPosForSubEffect never read
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_value0	0 0 0	106	106	127	back_2025北极熊玩偶_自身_2 | back_2025海豹团团_自身_3 | boss_2025七夕副本血槐娘娘_召唤食人花B_3	all.particle:6513
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_value1	500 500 50	79	79	127	back_2025北极熊玩偶_自身_3 | back_2025海豹团团_自身_3 | boss_2025七夕副本血槐娘娘_召唤食人花B_3	all.particle:6566
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time1	0.1	69	69	110	back_2025北极熊玩偶_自身_3 | back_2025海豹团团_自身_3 | boss_契丹庄主_刀气纵横_2021_09	all.particle:6567
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time2	0.2	59	59	101	back_2025海豹团团_自身_3 | boss_龙塔boss_技能1_发招A_10 | buff_2026风云联动_凌云窟主角轻功01	all.particle:9815
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_repeat_times	2	36	36	119	兽魂附体_20220310玄武_01 | 兽魂附体_20220310玄武_01_一级 | 兽魂附体_20220310玄武三级染色2_01_1	all.particle:1996720
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time5	2	49	49	91	boss_龙塔boss_技能1_发招A_10 | buff_2026风云联动_凌云窟主角轻功01 | buff_冰雪节副本改造_雪浪霜花_4	all.particle:436826
+canonical	effect	rejected-key	element	Beam	CurveType	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:19982
+canonical	effect	rejected-key	element	Beam	TexRepeat	1	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:19987
+canonical	effect	rejected-key	element	Beam	IsVisable	true	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:19988
+canonical	effect	rejected-key	element	Beam	IsSinPlay	true	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:19998
+canonical	effect	rejected-key	element	Beam	WaveExtent-y	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:19999
+canonical	effect	rejected-key	element	Beam	WaveExtent-z	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20000
+canonical	effect	rejected-key	element	Beam	WaveFrequency	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20001
+canonical	effect	rejected-key	element	Beam	WaveVelocity	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20002
+canonical	effect	rejected-key	element	Beam	WaveShade-y	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20003
+canonical	effect	rejected-key	element	Beam	WaveShade-z	0	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20004
+canonical	effect	rejected-key	element	Beam	SpLineEditor	no data	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20005
+canonical	effect	rejected-key	element	Beam	BindElement	none	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20006
+canonical	effect	rejected-key	element	Beam	IsSubEleActive	false	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20007
+canonical	effect	rejected-key	element	Beam	SubElementFrequency	2	54	29	36	hj_慕容武道_日月任我攀连线 | boss_2026聚贤庄游骥_技能4_连线_水 | buff_中级机关连接特效	all.effect:20008
+canonical	effect	accepted-but-ignored	element	Particle	use_energy_wave	true	38	16	14	yanhua_冰雪节烟花_01橘色小扇形 | yanhua_冰雪节烟花_01紫色小扇形 | yanhua_鬼市_花喷花类_01橘色小扇形	all.effect:31730 WXParticleElement.cpp:44 mUseEnergyWave never read
+canonical	particle	rejected-key	affector	MeshAnimationAffector	animation_range_begin	0.5	17	17	32	boss_2026月常李秋水_剑气A_范围_5 | boss_2026月常李秋水_剑气B_范围_5 | boss_2026月常李秋水_剑气_下部分_7	all.particle:93559
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	<template>	32	16	16	g01_单短跑步 | g01_双环跑步 | g01_双短跑步	all.skill:47010
+canonical	effect	accepted-but-ignored	element	Particle	ColEffectName	hj_boss秦皇地宫将军17_远程攻击B	25	18	21	hj_boss秦皇地宫将军17_远程攻击 | cj_妖塔_坍塌落石 | cj_妖塔_坍塌落石_水	all.effect:32294 WXParticleElement.cpp member mColEffectName only declared/initialised/Cmd (grep 2 uses)
+canonical	particle	rejected-key	emitter	Ellipsoid	inner_width	0.5	19	19	24	back_2026风云联动万剑归宗_休闲背后法阵_6拖尾_4 | back_2026风云联动万剑归宗_休闲背后法阵_6拖尾金色_4 | boss_2026慕容预热慕容博_技能1武器_1	all.particle:17349
+canonical	particle	rejected-key	emitter	Ellipsoid	inner_height	0.5	19	19	24	back_2026风云联动万剑归宗_休闲背后法阵_6拖尾_4 | back_2026风云联动万剑归宗_休闲背后法阵_6拖尾金色_4 | boss_2026慕容预热慕容博_技能1武器_1	all.particle:17350
+canonical	particle	rejected-key	emitter	Ellipsoid	inner_depth	0.5	19	19	24	back_2026风云联动万剑归宗_休闲背后法阵_6拖尾_4 | back_2026风云联动万剑归宗_休闲背后法阵_6拖尾金色_4 | boss_2026慕容预热慕容博_技能1武器_1	all.particle:17351
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	<tiaotemplate>	28	15	15	npc_guaishou_tudi | npc_qichengluotuo_tudi | npc_qichengdiao_tudi	all.skill:54319
+canonical	effect	accepted-but-ignored	element	Particle	use_particle_collision	true	21	18	21	cj_妖塔_坍塌落石 | cj_妖塔_坍塌落石_水 | boss_2025野外精英辽军都头_技能1三令无赦陷阱特效激发	all.effect:32295 WXParticleElement.cpp:43 mUseParticleCollision never read
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_value2	-80 -80 1	19	19	19	back_2025北极熊玩偶_自身_3 | back_2025海豹团团_自身_3 | boss_契丹庄主_刀气纵横_2021_09	all.particle:6568
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	bbbbbbb1	12	12	12	g01_ts_dd_踏雪寻梅 | g01_ts_sd_踏雪寻梅 | g01_ts_shan_踏雪寻梅	all.skill:42250
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_value3	-1 -1 1	8	8	9	buff_冰雪节假面舞会_抓鬼人_捕捉_1 | npc_2026夏日稳活蝴蝶低_B_1 | npc_2026夏日稳活蝴蝶高_B_1	all.particle:501933
+canonical	particle	rejected-key	affector	MeshAnimationAffector	animation_range_end	0.55	8	8	8	boss_2026月常李秋水_剑气_下部分_6 | boss_2026月常李秋水_剑气_下部分_7 | boss_2026月常李秋水_逍遥御风_预警_A_1	all.particle:95329
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time3	0.8	6	6	6	back_2025海豹团团_自身_3 | buff_新生肖故事_崩懵了_4 | npc_Q3打卡_天天眩晕buff_1	all.particle:9816
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	2000	4	4	7	boss_地宫古墓囚禁守卫07 | boss_镜湖水鬼_火烧赤壁_01 | g01_weifusifang_02	all.particle
+canonical	effect	accepted-but-ignored	element	Particle	CreateLevel	120	4	3	7	buff_校场免疫控制 | hj_boss九尾灵狐_禁锢光球 | hj_npc青丘九尾内丹17	all.effect:223428 WXEffectElement.cpp:135 CmdCreateLevel stores mCreateLevel; no consumer (EffectManager level EL_HIGH, WXEffectManager.cpp:114; no setEffectLevel caller)
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	all_bj00010	8	2	2	g01_远程攻击连招三_xx | m01_远程攻击连招三_xx	all.skill:54575
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	2025争霸赛第一名_skill_14	7	1	1	qc_2025争霸赛第一名_地面休闲2	all.skill:118812
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	2025争霸赛第一名_skill_15	6	1	1	qc_2025争霸赛第一名_地面休闲2	all.skill:118732
+canonical	cost	quota-outlier(>=2000)	system	texcoord_billboard	quota	6000	2	2	4	HJ_npc烟花小丸子17_跑步_3 | boss_冰雪节打卡_熊瞎子_普攻2_6	all.particle
+canonical	particle	rejected-key	affector	MeshAnimationAffector	anim_pos1	0.38 0.1	3	3	3	buff_冰雪节打卡_心型血槽_1 | buff_冰雪节打卡_心型血槽_2 | buff_冰雪节打卡_心型血槽_3	all.particle:515854
+canonical	particle	rejected-key	affector	MeshAnimationAffector	anim_pos2	0.5 0.4	3	3	3	buff_冰雪节打卡_心型血槽_1 | buff_冰雪节打卡_心型血槽_2 | buff_冰雪节打卡_心型血槽_3	all.particle:515855
+canonical	particle	rejected-key	affector	MeshAnimationAffector	anim_pos3	0.7 1	3	3	3	buff_冰雪节打卡_心型血槽_1 | buff_冰雪节打卡_心型血槽_2 | buff_冰雪节打卡_心型血槽_3	all.particle:515856
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	EffectSystem/特效_地面闪电_mesh.mesh	3	3	3	cj_闪电特效2_202212_4 | cj_闪电特效2_紫_4 | cj_闪电特效2_橘黄_4	pparams.tsv
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	8000	1	1	4	暴风骤雨	all.particle
+canonical	material	opaque-pass(particle material, no blending)	material		特效蝙蝠	one/zero depth_write=1	1	1	4	特效蝙蝠	pass 0
+canonical	particle	rejected-key	affector	ScaleInterpolator	depth_range_start	1	2	2	2	buff_泡温泉_传染_4 | cj_大话西游_水帘洞水花特效_2	all.particle:597732
+canonical	particle	rejected-key	emitter	Ellipsoid	height_range	1 0.4	2	2	2	top_2026水晶翅膀_4 | qc_2026呆呆牛_身体_飘带_1	all.particle:1717526
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	3200	1	1	2	飞雪连天02	all.particle
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	神兵变身_萧峰_蟠龙击C	2	1	1	sb_变身_萧峰_蟠龙击	all.skill:127946
+canonical	reference	missing-material(particle)	system		material	boss_211227玄武_攻击2_08	1	1	2	boss_211227玄武_攻击2_08	all.particle
+canonical	cost	quota-outlier(>=2000)	system	texcoord_billboard	quota	99999	1	1	1	cj_闪电特效_雷劫副本动画_保护罩_8	all.particle
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	4500	1	1	1	cj_束河下雨_01	all.particle
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	9999	1	1	1	npc_2025七夕副本噬人花_子弹_2	all.particle
+canonical	material	opaque-pass(particle material, no blending)	material		M_鸽子飞远_00	one/zero depth_write=1	1	1	1	M_鸽子飞远_00	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		SB_怒涛锤_舍身破阵_4	one/zero depth_write=1	1	1	1	SB_怒涛锤_舍身破阵_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		SB_清欢箭_子弹特效_1	one/zero depth_write=1	1	1	1	SB_清欢箭_子弹特效_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2024大话二郎神_技能5_宝莲灯X_1	one/zero depth_write=1	1	1	1	boss_2024大话二郎神_技能5_宝莲灯X_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2024大话二郎神_技能5_宝莲灯收回_子_3	one/zero depth_write=1	1	1	1	boss_2024大话二郎神_技能5_宝莲灯收回_子_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2024牛魔王_技能1_A自身2_1	one/zero depth_write=1	1	1	1	boss_2024牛魔王_技能1_A自身2_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2024牛魔王_远程攻击_10	one/zero depth_write=1	1	1	1	boss_2024牛魔王_远程攻击_10	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2025通天塔迦叶尊者_技能2发招B01	one/zero depth_write=1	1	1	1	boss_2025通天塔迦叶尊者_技能2发招B01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2025野外精英辽军都头_技能1三令无赦箭身_1	one/zero depth_write=1	1	1	1	boss_2025野外精英辽军都头_技能1三令无赦箭身_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026慕容预热慕容博_陷阱箭矢箭身_1	one/zero depth_write=1	1	1	1	boss_2026慕容预热慕容博_陷阱箭矢箭身_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026慕容预热慕容博_陷阱落石_1	one/zero depth_write=1	1	1	1	boss_2026慕容预热慕容博_陷阱落石_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026慕容预热慕容博_陷阱预警_2	one/zero depth_write=1	1	1	1	boss_2026慕容预热慕容博_陷阱预警_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026月常李秋水_逍遥御风_预警_人_2	one/zero depth_write=1	1	1	1	boss_2026月常李秋水_逍遥御风_预警_人_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026月常桑土公_僵尸出生特效_20	one/zero depth_write=1	1	1	1	boss_2026月常桑土公_僵尸出生特效_20	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_2026月常桑土公_召唤小怪_3	one/zero depth_write=1	1	1	1	boss_2026月常桑土公_召唤小怪_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_HJ_boss古偃甲延寿_峰岳断空陷阱_10	one/zero depth_write=1	1	1	1	boss_HJ_boss古偃甲延寿_峰岳断空陷阱_10	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_带头大哥_技能3聚气8秒发招E_1	one/zero depth_write=1	1	1	1	boss_带头大哥_技能3聚气8秒发招E_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_帝陵重现_耶律隆绪_技能2_陷阱_落箭_1	one/zero depth_write=1	1	1	1	boss_帝陵重现_耶律隆绪_技能2_陷阱_落箭_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_龙塔boss_技能1_陷阱爆炸_1	one/zero depth_write=1	1	1	1	boss_龙塔boss_技能1_陷阱爆炸_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_契丹力士_地刺_2021_碎石02	one/zero depth_write=1	1	1	1	boss_契丹力士_地刺_2021_碎石02	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_契丹力士_地刺爆炸_2021_碎石01	one/zero depth_write=1	1	1	1	boss_契丹力士_地刺爆炸_2021_碎石01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_契丹力士_地刺震动_2021_石子01	one/zero depth_write=1	1	1	1	boss_契丹力士_地刺震动_2021_石子01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_神兵_谭婆技能1_毒圈爆炸_12	one/zero depth_write=1	1	1	1	boss_神兵_谭婆技能1_毒圈爆炸_12	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_神兵_谭婆技能1_毒圈爆炸_13	one/zero depth_write=1	1	1	1	boss_神兵_谭婆技能1_毒圈爆炸_13	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_宋江_妖星聚义蓄力C01	one/zero depth_write=1	1	1	1	boss_宋江_妖星聚义蓄力C01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_萧峰心魔_技能2陷阱_10	one/zero depth_write=1	1	1	1	boss_萧峰心魔_技能2陷阱_10	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_萧峰心魔_技能2陷阱_爆炸_6	one/zero depth_write=1	1	1	1	boss_萧峰心魔_技能2陷阱_爆炸_6	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_小队夺宝_禁军_赤杀箭雨爆炸特效_箭身特效_1	one/zero depth_write=1	1	1	1	boss_小队夺宝_禁军_赤杀箭雨爆炸特效_箭身特效_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_玄慈_技能3聚气8秒发招E01	one/zero depth_write=1	1	1	1	boss_玄慈_技能3聚气8秒发招E01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_血鹫24_技能二预警_1	one/zero depth_write=1	1	1	1	boss_血鹫24_技能二预警_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_血鹫24_技能二预警_2	one/zero depth_write=1	1	1	1	boss_血鹫24_技能二预警_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_血鹫24_技能二预警_3	one/zero depth_write=1	1	1	1	boss_血鹫24_技能二预警_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_血鹫24_技能二预警_4	one/zero depth_write=1	1	1	1	boss_血鹫24_技能二预警_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		boss_赵钱孙_洞_4	one/zero depth_write=1	1	1	1	boss_赵钱孙_洞_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_12人PVP重开_缚灵绳陷阱_白_2	one/zero depth_write=1	1	1	1	buff_12人PVP重开_缚灵绳陷阱_白_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_12人PVP重开_缚灵绳陷阱_红_2	one/zero depth_write=1	1	1	1	buff_12人PVP重开_缚灵绳陷阱_红_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_12人PVP重开_缚灵绳陷阱_绿_2	one/zero depth_write=1	1	1	1	buff_12人PVP重开_缚灵绳陷阱_绿_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冰雪节打卡_技能5饿火滔天B_1	one/zero depth_write=1	1	1	1	buff_冰雪节打卡_技能5饿火滔天B_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冰雪节打卡_技能5饿火滔天陷阱爆炸_1	one/zero depth_write=1	1	1	1	buff_冰雪节打卡_技能5饿火滔天陷阱爆炸_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冰雪节副本改造_冰雪诛敌_1	one/zero depth_write=1	1	1	1	buff_冰雪节副本改造_冰雪诛敌_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冰雪节假面舞会_闪光霹雳弹_预警_6	one/zero depth_write=1	1	1	1	buff_冰雪节假面舞会_闪光霹雳弹_预警_6	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_紧箍箴言_1	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_紧箍箴言_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_三藏之雷_1	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_三藏之雷_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_三藏之雷_白_1	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_三藏之雷_白_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_三藏之雷_绿_1	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_三藏之雷_绿_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_陷阱紧箍_1	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_陷阱紧箍_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_陷阱紧箍_白_2	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_陷阱紧箍_白_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_大话联动12人PVP_陷阱紧箍_绿_2	one/zero depth_write=1	1	1	1	buff_大话联动12人PVP_陷阱紧箍_绿_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冻冻脑瓜_金色皇冠_1	one/zero depth_write=1	1	1	1	buff_冻冻脑瓜_金色皇冠_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冻冻脑瓜_小卷轴_3	one/zero depth_write=1	1	1	1	buff_冻冻脑瓜_小卷轴_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_冻冻脑瓜_狍子嘲笑_1	one/zero depth_write=1	1	1	1	buff_冻冻脑瓜_狍子嘲笑_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_恶人谷预热_臭鸡蛋特效_4	one/zero depth_write=1	1	1	1	buff_恶人谷预热_臭鸡蛋特效_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_合成雪球_大雪球_1	one/zero depth_write=1	1	1	1	buff_合成雪球_大雪球_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_合成雪球_巨大雪球_1	one/zero depth_write=1	1	1	1	buff_合成雪球_巨大雪球_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_合成雪球_小雪球_1	one/zero depth_write=1	1	1	1	buff_合成雪球_小雪球_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_合成雪球_中型雪球_1	one/zero depth_write=1	1	1	1	buff_合成雪球_中型雪球_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_婚车烟花经验圈特效_11	one/zero depth_write=1	1	1	1	buff_婚车烟花经验圈特效_11	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_婚车烟花经验圈特效_12	one/zero depth_write=1	1	1	1	buff_婚车烟花经验圈特效_12	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_婚车烟花经验圈特效_2	one/zero depth_write=1	1	1	1	buff_婚车烟花经验圈特效_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_结婚优化_红绣球_1	one/zero depth_write=1	1	1	1	buff_结婚优化_红绣球_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_聚贤庄防守_葫芦_增伤_1	one/zero depth_write=1	1	1	1	buff_聚贤庄防守_葫芦_增伤_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_聚贤庄防守_薛慕华_百毒攻心_1	one/zero depth_write=1	1	1	1	buff_聚贤庄防守_薛慕华_百毒攻心_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_七夕倩女打卡_金钱劫_1	one/zero depth_write=1	1	1	1	buff_七夕倩女打卡_金钱劫_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_新杀星_禁足_1	one/zero depth_write=1	1	1	1	buff_新杀星_禁足_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_新生肖故事_贴福字_2	one/zero depth_write=1	1	1	1	buff_新生肖故事_贴福字_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_冰块子弹01	one/zero depth_write=1	1	1	1	buff_雪人PVP_冰块子弹01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_二级盾_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_二级盾_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_二级盾_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_二级盾_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_二级盾大_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_二级盾大_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_二级武器_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_二级武器_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_三级盾_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_三级盾_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_三级盾_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_三级盾_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_三级盾大_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_三级盾大_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_三级武器_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_三级武器_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_一级盾_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_一级盾_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_一级盾_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_一级盾_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_一级盾大_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_一级盾大_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		buff_雪人PVP_一级武器_放置obj_1	one/zero depth_write=1	1	1	1	buff_雪人PVP_一级武器_放置obj_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cangying	one/zero depth_write=1	1	1	1	cangying	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_2026云山英雄会_水龙卷主体A_1	one/zero depth_write=1	1	1	1	cj_2026云山英雄会_水龙卷主体A_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_Q3打卡_送达点_4	one/zero depth_write=1	1	1	1	cj_Q3打卡_送达点_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_Q3打卡_送达点_9	one/zero depth_write=1	1	1	1	cj_Q3打卡_送达点_9	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_黄河_水花D01	one/zero depth_write=1	1	1	1	cj_黄河_水花D01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_2022合集_猫	one/zero depth_write=1	1	1	1	cj_落跑猫咪_2022合集_猫	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_2022合集_鼠	one/zero depth_write=1	1	1	1	cj_落跑猫咪_2022合集_鼠	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_2022合集_蜗牛	one/zero depth_write=1	1	1	1	cj_落跑猫咪_2022合集_蜗牛	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_2022合集_鸭	one/zero depth_write=1	1	1	1	cj_落跑猫咪_2022合集_鸭	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_2022合集_猪	one/zero depth_write=1	1	1	1	cj_落跑猫咪_2022合集_猪	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_落跑猫咪_粉色猪_01	one/zero depth_write=1	1	1	1	cj_落跑猫咪_粉色猪_01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_迷离梦境_少室山大雄宝殿01_2	one/zero depth_write=1	1	1	1	cj_迷离梦境_少室山大雄宝殿01_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_迷离梦境_土块剥离瓦解_1	one/zero depth_write=1	1	1	1	cj_迷离梦境_土块剥离瓦解_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cj_倩女幽魂_聂小倩坐姿_1	one/zero depth_write=1	1	1	1	cj_倩女幽魂_聂小倩坐姿_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_pet_2024榫卯蝎子01_A脚下_1	one/zero depth_write=1	1	1	1	cw_pet_2024榫卯蝎子01_A脚下_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_pet_2024榫卯蝎子01_A脚下_2	one/zero depth_write=1	1	1	1	cw_pet_2024榫卯蝎子01_A脚下_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_pet_2024榫卯蝎子_A脚下_2	one/zero depth_write=1	1	1	1	cw_pet_2024榫卯蝎子_A脚下_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽161112钻石vip凤凰01_倒地_01	one/zero depth_write=1	1	1	1	cw_珍兽161112钻石vip凤凰01_倒地_01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽161112钻石vip凤凰冷色_倒地_01	one/zero depth_write=1	1	1	1	cw_珍兽161112钻石vip凤凰冷色_倒地_01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210629法海_倒地B01	one/zero depth_write=1	1	1	1	cw_珍兽20210629法海_倒地B01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210629法海_攻击2D09	one/zero depth_write=1	1	1	1	cw_珍兽20210629法海_攻击2D09	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210629法海_休闲2A01	one/zero depth_write=1	1	1	1	cw_珍兽20210629法海_休闲2A01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210629法海高级_攻击2D09	one/zero depth_write=1	1	1	1	cw_珍兽20210629法海高级_攻击2D09	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210811火焰妖魔_攻击2_04碎石	one/zero depth_write=1	1	1	1	cw_珍兽20210811火焰妖魔_攻击2_04碎石	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽20210811火焰妖魔_攻击2_04碎石2	one/zero depth_write=1	1	1	1	cw_珍兽20210811火焰妖魔_攻击2_04碎石2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		cw_珍兽210511祖龙_远程攻击A08	one/zero depth_write=1	1	1	1	cw_珍兽210511祖龙_远程攻击A08	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		BaseWhite	one/zero depth_write=1	1	1	1	BaseWhite	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_boss地宫秦始皇17_技能B施法b01	one/zero depth_write=1	1	1	1	hj_boss地宫秦始皇17_技能B施法b01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_boss地宫秦始皇17_技能B施法b02	one/zero depth_write=1	1	1	1	hj_boss地宫秦始皇17_技能B施法b02	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_boss地宫秦始皇17_技能C聚气b01	one/zero depth_write=1	1	1	1	hj_boss地宫秦始皇17_技能C聚气b01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_boss地宫秦始皇17_技能C施法b01	one/zero depth_write=1	1	1	1	hj_boss地宫秦始皇17_技能C施法b01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_buff_藏宝图_陷阱关卡落石_1	one/zero depth_write=1	1	1	1	hj_buff_藏宝图_陷阱关卡落石_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_npc青丘九尾内丹17_倒地01	one/zero depth_write=1	1	1	1	hj_npc青丘九尾内丹17_倒地01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_npc怪万仁图马贼投弹手24_技能一陷阱激发_1	one/zero depth_write=1	1	1	1	hj_藏宝图_npc怪万仁图马贼投弹手24_技能一陷阱激发_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_树枝_白玉_1	one/zero depth_write=1	1	1	1	hj_藏宝图_树枝_白玉_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_树枝_黄金_1	one/zero depth_write=1	1	1	1	hj_藏宝图_树枝_黄金_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_树枝_翡翠_1	one/zero depth_write=1	1	1	1	hj_藏宝图_树枝_翡翠_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_陶罐_白玉_1	one/zero depth_write=1	1	1	1	hj_藏宝图_陶罐_白玉_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_陶罐_黄金_1	one/zero depth_write=1	1	1	1	hj_藏宝图_陶罐_黄金_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_藏宝图_陶罐_翡翠_1	one/zero depth_write=1	1	1	1	hj_藏宝图_陶罐_翡翠_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_粉色特效位置指示A_15	one/zero depth_write=1	1	1	1	hj_粉色特效位置指示A_15	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_曼陀山庄_寒江雪发招C01	one/zero depth_write=1	1	1	1	hj_曼陀山庄_寒江雪发招C01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_曼陀山庄_望穿秋水发招_0	one/zero depth_write=0	1	1	1	hj_曼陀山庄_望穿秋水发招_0	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_铃铛_1	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_铃铛_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_铃铛_2	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_铃铛_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_袜子_1	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_袜子_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_袜子_2	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_袜子_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_雪人_1	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_雪人_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_圣诞礼物掉落_雪人_2	one/zero depth_write=1	1	1	1	hj_圣诞礼物掉落_雪人_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_特殊特效位置指示_礼物盒A_17	one/zero depth_write=1	1	1	1	hj_特殊特效位置指示_礼物盒A_17	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		hj_特殊特效位置指示_礼物盒A_9	one/zero depth_write=1	1	1	1	hj_特殊特效位置指示_礼物盒A_9	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		m01_曼陀山庄预热_祈福_7	one/zero depth_write=1	1	1	1	m01_曼陀山庄预热_祈福_7	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_2025兽穴PVP技能三_爆炸_1	one/zero depth_write=1	1	1	1	npc_2025兽穴PVP技能三_爆炸_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_2025兽穴PVP技能三_爆炸_2	one/zero depth_write=1	1	1	1	npc_2025兽穴PVP技能三_爆炸_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_2026金瓯争夺赛罗盘_自身_5	one/zero depth_write=1	1	1	1	npc_2026金瓯争夺赛罗盘_自身_5	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_2026夏日版本预热_冰冰凉_头_1	one/zero depth_write=1	1	1	1	npc_2026夏日版本预热_冰冰凉_头_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_2026夏日版本预热_冰冰凉_头_2	one/zero depth_write=1	1	1	1	npc_2026夏日版本预热_冰冰凉_头_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_Q3打卡_天天该打_3	one/zero depth_write=1	1	1	1	npc_Q3打卡_天天该打_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_凌霄梦尘1级_1	one/zero depth_write=1	1	1	1	npc_凌霄梦尘1级_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_凌霄梦尘2级_1	one/zero depth_write=1	1	1	1	npc_凌霄梦尘2级_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_凌霄梦尘3级_1	one/zero depth_write=1	1	1	1	npc_凌霄梦尘3级_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_美人鱼_蓝色贝壳A04	one/zero depth_write=1	1	1	1	npc_美人鱼_蓝色贝壳A04	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_美人鱼_绿色贝壳A_4	one/zero depth_write=1	1	1	1	npc_美人鱼_绿色贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_美人鱼_五彩贝壳A_4	one/zero depth_write=1	1	1	1	npc_美人鱼_五彩贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_美人鱼_烟花_1	one/zero depth_write=1	1	1	1	npc_美人鱼_烟花_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_美人鱼_紫色贝壳A_4	one/zero depth_write=1	1	1	1	npc_美人鱼_紫色贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_小队夺宝_禁军队长24_攻击2_8	one/zero depth_write=1	1	1	1	npc_小队夺宝_禁军队长24_攻击2_8	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_珍兽PVP_变身呆呆牛技能1_子弹_3	one/zero depth_write=1	1	1	1	npc_珍兽PVP_变身呆呆牛技能1_子弹_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc_珍兽PVP_变身呆呆牛技能4_子弹_4	one/zero depth_write=1	1	1	1	npc_珍兽PVP_变身呆呆牛技能4_子弹_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		npc怪_2026萧阿刺落石_技能3_A_7	one/zero depth_write=1	1	1	1	npc怪_2026萧阿刺落石_技能3_A_7	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		pet_2025混世魔猿_休闲B01	one/zero depth_write=1	1	1	1	pet_2025混世魔猿_休闲B01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		qc_骑乘210430兵马俑魂体金马休闲C_1	one/zero depth_write=1	1	1	1	qc_骑乘210430兵马俑魂体金马休闲C_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		qc_骑乘210430兵马俑魂体马休闲A02	one/zero depth_write=1	1	1	1	qc_骑乘210430兵马俑魂体马休闲A02	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		wq_2025冰元素镰刀_展示_15	one/zero depth_write=1	1	1	1	wq_2025冰元素镰刀_展示_15	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		wq_2025七夕唯美剑_展示G_21	one/zero depth_write=1	1	1	1	wq_2025七夕唯美剑_展示G_21	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		wq_2025七夕唯美剑_展示G_22	one/zero depth_write=1	1	1	1	wq_2025七夕唯美剑_展示G_22	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		wq_2025七夕唯美剑_展示G_23	one/zero depth_write=1	1	1	1	wq_2025七夕唯美剑_展示G_23	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		wq_2025七夕唯美剑_展示G_24	one/zero depth_write=1	1	1	1	wq_2025七夕唯美剑_展示G_24	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_冰雪节_造型类C_1	one/zero depth_write=1	1	1	1	yanhua_冰雪节_造型类C_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_冰雪节_组合B_1	one/zero depth_write=1	1	1	1	yanhua_冰雪节_组合B_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_冰雪节_组合C_1	one/zero depth_write=1	1	1	1	yanhua_冰雪节_组合C_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_夫妻周常_横烟秋水A_14	one/zero depth_write=1	1	1	1	yanhua_夫妻周常_横烟秋水A_14	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_夫妻周常_山色空濛A06	one/zero depth_write=1	1	1	1	yanhua_夫妻周常_山色空濛A06	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_夫妻周常_醉韵红妆A_17	one/zero depth_write=1	1	1	1	yanhua_夫妻周常_醉韵红妆A_17	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_鬼市_海_造型类A_2_01	one/zero depth_write=1	1	1	1	yanhua_鬼市_海_造型类A_2_01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_鬼市_海_造型类C_1	one/zero depth_write=1	1	1	1	yanhua_鬼市_海_造型类C_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_鬼市_海_组合B_01	one/zero depth_write=1	1	1	1	yanhua_鬼市_海_组合B_01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散C01	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散C01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散C02	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散C02	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散C03	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散C03	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散C04	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散C04	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散E01	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散E01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散F01	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散F01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散F02	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散F02	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散H01	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散H01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_喷散I01	one/zero depth_write=1	1	1	1	yanhua_合作烟花_喷散I01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_升A04	one/zero depth_write=1	1	1	1	yanhua_合作烟花_升A04	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_合作烟花_字体A08	one/zero depth_write=1	1	1	1	yanhua_合作烟花_字体A08	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_周年庆_圆形烟花A01	one/zero depth_write=1	1	1	1	yanhua_周年庆_圆形烟花A01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_周年庆_圆形烟花_子粒子A_4	one/zero depth_write=1	1	1	1	yanhua_周年庆_圆形烟花_子粒子A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		yanhua_周年庆_字体烟花A08	one/zero depth_write=1	1	1	1	yanhua_周年庆_字体烟花A08	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_五百年前_1	one/zero depth_write=1	1	1	1	大话西游_五百年前_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_五百年前_2	one/zero depth_write=1	1	1	1	大话西游_五百年前_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_五百年前_3	one/zero depth_write=1	1	1	1	大话西游_五百年前_3	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_五百年前_4	one/zero depth_write=1	1	1	1	大话西游_五百年前_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_五百年前_5	one/zero depth_write=1	1	1	1	大话西游_五百年前_5	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_转场_翠云山渲染图_2	one/zero depth_write=1	1	1	1	大话西游_转场_翠云山渲染图_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_转场_怀旧洛阳渲染图_2	one/zero depth_write=1	1	1	1	大话西游_转场_怀旧洛阳渲染图_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_转场_经典洛阳渲染图_2	one/zero depth_write=1	1	1	1	大话西游_转场_经典洛阳渲染图_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_转场_水帘洞渲染图_2	one/zero depth_write=1	1	1	1	大话西游_转场_水帘洞渲染图_2	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		大话西游_转场_永宁城渲染图	one/zero depth_write=1	1	1	1	大话西游_转场_永宁城渲染图	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		段誉王语嫣双人动作_展示A04	one/zero depth_write=1	1	1	1	段誉王语嫣双人动作_展示A04	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		陷阱_美人鱼_蓝色贝壳A_4	one/zero depth_write=1	1	1	1	陷阱_美人鱼_蓝色贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		陷阱_美人鱼_绿色贝壳A_4	one/zero depth_write=1	1	1	1	陷阱_美人鱼_绿色贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		陷阱_美人鱼_五彩贝壳A_4	one/zero depth_write=1	1	1	1	陷阱_美人鱼_五彩贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		陷阱_美人鱼_紫色贝壳A_4	one/zero depth_write=1	1	1	1	陷阱_美人鱼_紫色贝壳A_4	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		主角_双人互动郭靖黄蓉_展示A_1	one/zero depth_write=1	1	1	1	主角_双人互动郭靖黄蓉_展示A_1	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		主角_周年庆拍卖套装_烟花全景特效A_17	one/zero depth_write=1	1	1	1	主角_周年庆拍卖套装_烟花全景特效A_17	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		主角_周年庆拍卖套装_展示特效A13	one/zero depth_write=1	1	1	1	主角_周年庆拍卖套装_展示特效A13	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		主角_周年庆拍卖套装_展示特效D01	one/zero depth_write=1	1	1	1	主角_周年庆拍卖套装_展示特效D01	pass 0
+canonical	material	opaque-pass(particle material, no blending)	material		主角_周年庆拍卖套装_展示特效J01	one/zero depth_write=1	1	1	1	主角_周年庆拍卖套装_展示特效J01	pass 0
+canonical	particle	rejected-key	affector	ScaleInterpolator	depth_range_end	1	1	1	1	buff_泡温泉_传染_4	all.particle:597733
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_value4	-40 -40 1	1	1	1	npc_Q3预热_通用自身buff_有毒_1	all.particle:1452122
+canonical	particle	rejected-key	affector	ScaleInterpolator	increment_time4	0.8	1	1	1	npc_Q3预热_通用自身buff_有毒_1	all.particle:1452123
+canonical	particle	rejected-key	emitter	Ellipsoid	angle_range	140 40	1	1	1	qc_2026呆呆牛_身体_飘带_1	all.particle:2246832
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	秘籍_gb_01	1	1	1	g01_秘籍_gb	all.skill:52730
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	秘籍_gb_02	1	1	1	g01_秘籍_gb	all.skill:52739
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	all_gedang_01	1	1	1	m01_招架_01	all.skill:86322
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	2025争霸赛第一名_skill_13	1	1	1	qc_2025争霸赛第一名_地面休闲2	all.skill:118722
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	神兵变身_萧峰_蟠龙击A	1	1	1	sb_变身_萧峰_蟠龙击	all.skill:127936
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	神兵变身_萧峰_蟠龙击B	1	1	1	sb_变身_萧峰_蟠龙击	all.skill:127966
+canonical	reference	missing-effect-template	skill	AnimEffect	EffectTemplateName	神兵变身_萧峰_蟠龙击D	1	1	1	sb_变身_萧峰_蟠龙击	all.skill:127976
+canonical	reference	missing-material(particle)	system		material	cj_迷离梦境_少室山大雄宝殿01换色_2	1	1	1	cj_迷离梦境_少室山大雄宝殿01换色_2	all.particle
+canonical	reference	missing-material(particle)	system		material	cj_迷离梦境_少室山大雄宝殿01换色_子_1	1	1	1	cj_迷离梦境_少室山大雄宝殿01换色_子_1	all.particle
+canonical	reference	missing-material(particle)	system		material	cj_迷离梦境_少室山大雄宝殿01换色_子_2	1	1	1	cj_迷离梦境_少室山大雄宝殿01换色_子_2	all.particle
+canonical	reference	missing-material(particle)	system		material	FairyEmptyParticle	2	2	0	dao01 | go1_cuixinliepi01	all.particle
+canonical	reference	missing-material(particle)	system		material	g01_zdo_yueluoxishan_01	1	1	1	g01_zdo_yueluoxishan_01	all.particle
+canonical	reference	missing-material(particle)	system		material	npc_buff_06	1	1	1	npc_buff_06	all.particle
+canonical	reference	missing-material(particle)	system		material	npc_夺宝马贼头领_赤血毒咒_zdo_01	1	1	1	npc_夺宝马贼头领_赤血毒咒_zdo_01	all.particle
+canonical	reference	missing-material(particle)	system		material	npc_夺宝马贼头领_赤血毒咒_zdo_02	1	1	1	npc_夺宝马贼头领_赤血毒咒_zdo_02	all.particle
+canonical	reference	missing-material(particle)	system		material	npc_夺宝马贼头领_赤血毒咒_zdo_03	1	1	1	npc_夺宝马贼头领_赤血毒咒_zdo_03	all.particle
+canonical	reference	missing-material(particle)	system		material	npc_夺宝马贼头领_赤血毒咒_zdo_04	1	1	1	npc_夺宝马贼头领_赤血毒咒_zdo_04	all.particle
+canonical	reference	missing-material(particle)	system		material	创建场景特效_男_01	1	1	1	创建场景特效_男_01	all.particle
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	chuansongdian_01.mesh	1	1	1	HJ_chuansongdian_08	pparams.tsv
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	特效_武当剑.mesh	1	1	1	npc_2024变身红衣紫霞_技能二陷阱爆炸_7	pparams.tsv
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	草药矿石/孔明灯1.mesh	1	1	1	npc_孔明灯_01	pparams.tsv
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	草药矿石/孔明灯3.mesh	1	1	1	npc_孔明灯_03	pparams.tsv
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	草药矿石/孔明灯2.mesh	1	1	1	npc_孔明灯_05	pparams.tsv
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	12000	1	1	0	cj_snow03	all.particle
+canonical	cost	quota-outlier(>=2000)	system	billboard	quota	5000	1	1	0	rain_new	all.particle
+canonical	log-once	reported-once	log	EffectManager::parseEffectAttrib	use_scale	Bad effect attribute line	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	CurveType	Bad effect element attribute 'CurveType' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	TexRepeat	Bad effect element attribute 'TexRepeat' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	IsVisable	Bad effect element attribute 'IsVisable' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	IsSinPlay	Bad effect element attribute 'IsSinPlay' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveExtent-y	Bad effect element attribute 'WaveExtent-y' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveExtent-z	Bad effect element attribute 'WaveExtent-z' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveFrequency	Bad effect element attribute 'WaveFrequency' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveVelocity	Bad effect element attribute 'WaveVelocity' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveShade-y	Bad effect element attribute 'WaveShade-y' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	WaveShade-z	Bad effect element attribute 'WaveShade-z' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	SpLineEditor	Bad effect element attribute 'SpLineEditor' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	BindElement	Bad effect element attribute 'BindElement' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	IsSubEleActive	Bad effect element attribute 'IsSubEleActive' on element type 'Beam'	1	1	0		census.log
+canonical	log-once	reported-once	log	EffectManager::parseElementAttrib	SubElementFrequency	Bad effect element attribute 'SubElementFrequency' on element type 'Beam'	1	1	0		census.log
+canonical	reference	missing-material(particle)	system		material	m01_em_打通经脉_01	1	1	0	m01_gb_打通经脉_01	all.particle
+canonical	reference	missing-material(particle)	system		material	qrj蓝色妖姬_zd_01	1	1	0	qc_骑乘情人节花车05	all.particle
+canonical	reference	missing-material(particle)	system		material	月亮	1	1	0	yueliang	all.particle
+canonical	reference	missing-material(particle)	system		material	水母	1	1	0	水母	all.particle
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	boss_唐门_身体_03特效.mesh	1	1	0	boss_2026聚贤庄游骥_技能3_蓄力_B_5	pparams.tsv
+canonical	reference	missing-mesh(particle renderer; effect creation throws)	renderer	mesh	mesh_name	龙城水母.mesh	1	1	0	水母	pparams.tsv
+canonical	runtime	dictionary-key-not-lowercase(never matched)	emitter	Cylinder	BendAngle		1	1	0		dict.tsv

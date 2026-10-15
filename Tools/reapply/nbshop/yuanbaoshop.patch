@@ -1,0 +1,69 @@
+--- a/Game_2/Script/scripts/event/prize/yuanbaoshop.lua
++++ b/Game_2/Script/scripts/event/prize/yuanbaoshop.lua
+@@ -4,37 +4,43 @@
+ local class = require "class"
+ local script_base = require "script_base"
+ local yuanbaoshop = class("yuanbaoshop", script_base)
++-- CYS-NBSHOP: matches the CY YuanbaoShop.lua menu and CY item tables.
+ local shoplist = {}
+-shoplist[1]	= {188, 189, 197,190,191, 133}				--大卖场
+-shoplist[2]	= {150, 198, 193}			--宝石商城,添加"大理宝石斋--149",czf,2009.07.21-254, 255, 178, 
+-shoplist[3]	= {194, 135, 152, 195, 421}			--珍兽商城
+-shoplist[4]	= {136, 137, 248, 144}				--南北杂货
+-shoplist[5]	= {120, 247, 181, 145, 182, 134, 419, 420}			--形象广场
+--- shoplist[6]	= {190, 191, 192, 133}				--花舞人间
+-shoplist[6]	= { 192}				--花舞人间
+-shoplist[7]	= {146, 415, 416, 417, 418}						--武功秘籍
+-shoplist[8]	= {156, 157, 158, 159, 160, 161, 162, 163}	--打造图
+-shoplist[9]	= {149}			--我要更强大
+-shoplist[10]	= {149}			--我要更有魅力
+-shoplist[11]	= {149}			--我要打造极品装备
+-shoplist[12]	= {149}				--我要打造极品珍兽
+-shoplist[13]	= {149}					--我要移动的更快
+-shoplist[14]	= {149}			--我要向别人表白
+-shoplist[15]	= {149}				--我要学习新技能
+---绑定元宝店
+-shoplist[101]	= {209}				--我要学习新技能
+-shoplist[102]	= {212,211,213,215}				--我要学习新技能
+-shoplist[103]	= {216}				--我要学习新技能
+-shoplist[104]	= {217,218}		    --我要学习新技能
++shoplist[1] = {188, 189, 197} -- new / popular / bargain
++shoplist[2] = {150, 307, 308, 178, 198, 193} -- gems 3 / 4 / 5 / 6 / essence / tools
++shoplist[3] = {194, 135, 152, 195} -- pets / normal / advanced / medicine
++shoplist[4] = {136, 137, 248, 144} -- medicine / crafting / rare / identify
++shoplist[5] = {120, 247, 181, 145, 182, 134, 208, 345} -- costume / fashion / transform / hair / face / ride / advanced ride / manor
++shoplist[6] = {190, 191, 254, 192, 133} -- traditional / personal / festival / scene fireworks / flowers
++shoplist[7] = {146, 253, 277, 278} -- skill secrets / advanced secrets / offensive / defensive
++shoplist[8] = {156, 159, 160, 161, 162, 163} -- weapon / cap+armour / glove+boot / cuff+shoulder / belt+neck / ring+amulet
++shoplist[9] = {150, 178, 198, 193, 137, 194, 136} -- CY search shortcuts
++shoplist[10] = {134, 208, 120, 247, 181, 145, 182} -- CY search shortcuts
++shoplist[11] = {150, 178, 193, 137, 248} -- CY search shortcuts
++shoplist[12] = {194, 135, 152, 195} -- CY search shortcuts
++shoplist[13] = {134, 208, 248, 144} -- CY search shortcuts
++shoplist[14] = {190, 191, 254, 192, 133} -- CY search shortcuts
++shoplist[15] = {146, 253, 277, 278, 135, 152} -- CY search shortcuts
++shoplist[101] = {209} -- new bind goods
++shoplist[102] = {215} -- gem processing
++shoplist[103] = {216} -- pet medicine
++shoplist[104] = {217, 218, 219, 302, 323, 304} -- medicine / rare / armour engraving / weapon engraving / new engraving / processing
+ function yuanbaoshop:OpenYuanbaoShop(selfid, targetid, shopA, shopB)
++    -- Unknown menu coordinates must not index a nil subtable or reopen an unrelated GL shop.
++    local category = shoplist[tonumber(shopA)]
++    local shop_id = category and category[tonumber(shopB)]
++    if not shop_id then
++        self:notify_tips(selfid, "Danh muc cua hang nay chua duoc ho tro.")
++        return
++    end
+     if targetid == -1 then
+         if self:GetLevel(selfid) < 15 then
+             self:notify_tips(selfid,"Chức năng này chỉ dùng được khi cấp bạn >= 15.")
+             return
+         end
+-        self:DispatchYuanbaoShopItem(selfid, shoplist[shopA][shopB])
++        self:DispatchYuanbaoShopItem(selfid, shop_id)
+     else
+-        self:DispatchNpcYuanbaoShopItem(selfid, targetid, shoplist[shopA][shopB])
++        self:DispatchNpcYuanbaoShopItem(selfid, targetid, shop_id)
+     end
+ end
+ 

@@ -1,0 +1,8 @@
+{
+  "path": "GameServer/config_maker.lua",
+  "source_sha256": "cf39b6c176135b85e1f2c3a030e641f56fb34980be66c798aa2f09300b4acf23",
+  "test_sha256": "cf39b6c176135b85e1f2c3a030e641f56fb34980be66c798aa2f09300b4acf23",
+  "reason": "config_maker restored after the original init ignore rule was corrected",
+  "original_manifest_sha256": "6fbb81301aca24b48e09e642e3181fa7a707a7fcf29014329fefdac939a07726",
+  "at": "2026-09-13T00:43:04.567758+00:00"
+}

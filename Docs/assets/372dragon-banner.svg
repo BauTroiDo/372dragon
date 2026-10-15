@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440" role="img" aria-labelledby="title desc">
+  <title id="title">372dragon — TLBB x64 client and server source</title>
+  <desc id="desc">Gold lettering and an original geometric dragon emblem on a dark blue background.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#111d2e"/><stop offset="1" stop-color="#080e18"/></linearGradient>
+    <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#f4d69c"/><stop offset="1" stop-color="#ae8246"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#28374b" stroke-width="0.6"/></pattern>
+    <clipPath id="frame"><rect x="1" y="1" width="1278" height="438" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1280" height="440" fill="url(#bg)"/>
+    <rect x="810" width="470" height="440" fill="url(#grid)" opacity="0.45"/>
+    <circle cx="1190" cy="22" r="190" fill="#6c3436" opacity="0.14"/>
+    <circle cx="1030" cy="222" r="171" fill="none" stroke="#d0ad70" opacity="0.12"/>
+    <circle cx="1030" cy="222" r="146" fill="none" stroke="#d0ad70" opacity="0.18" stroke-dasharray="2 10"/>
+    <path d="M800 80V360" stroke="#b5935b" opacity="0.25"/>
+    <path d="M76 75H109" stroke="#dbb573" stroke-width="3"/>
+    <text x="123" y="80" font-family="Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="3.8" fill="#c7b394">THE 372DRAGON PROJECT</text>
+    <text x="70" y="198" font-family="Segoe UI,Arial,sans-serif" font-weight="700" font-size="91" letter-spacing="-5"><tspan fill="#e9c68c">372</tspan><tspan fill="#f2f1eb">dragon</tspan></text>
+    <text x="76" y="252" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#e1e5e9">TLBB x64 · Client &amp; server source</text>
+    <text x="76" y="288" font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#9daabd">Study the code. Understand the systems. Build and test.</text>
+    <g font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#d7e0e8">
+      <rect x="76" y="338" width="146" height="35" rx="17.5" fill="#172536" stroke="#344455"/>
+      <text x="149" y="361" text-anchor="middle">WINDOWS x64</text>
+      <rect x="234" y="338" width="155" height="35" rx="17.5" fill="#172536" stroke="#344455"/>
+      <text x="311.5" y="361" text-anchor="middle">SKYNET SERVER</text>
+      <rect x="401" y="338" width="130" height="35" rx="17.5" fill="#172536" stroke="#344455"/>
+      <text x="466" y="361" text-anchor="middle">C/C++ + LUA</text>
+    </g>
+    <g fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1038 188C1107 173 1150 219 1120 276C1094 328 1006 340 964 298C930 264 945 216 982 211C1018 205 1040 232 1028 255C1019 272 995 272 986 258" stroke-width="18"/>
+      <path d="M964 298C938 283 922 278 906 288C917 264 930 256 940 254" stroke-width="5"/>
+      <path d="M1070 160L1085 118L1060 143M1039 148L1011 119L1020 160" stroke-width="7"/>
+      <path d="M1091 185C1119 181 1142 169 1151 157M1083 205C1110 209 1131 205 1149 195" stroke-width="3"/>
+      <path d="M1000 301L990 320M1017 309L1013 328M1036 311V330M1054 309L1059 328" stroke-width="3" opacity="0.7"/>
+    </g>
+    <path d="M1017 160L1045 143L1070 159L1099 174L1091 196L1066 210L1043 201L1020 188L1006 174Z" fill="url(#gold)"/>
+    <path d="M1049 168L1064 173L1052 180Z" fill="#0c1522"/>
+    <path d="M1074 187L1095 183" stroke="#0c1522" stroke-width="4" stroke-linecap="round"/>
+    <text x="1030" y="382" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" letter-spacing="4" fill="#a58a62">SOURCE · SYSTEMS · RESEARCH</text>
+  </g>
+  <rect x="1" y="1" width="1278" height="438" rx="24" fill="none" stroke="#293749"/>
+</svg>

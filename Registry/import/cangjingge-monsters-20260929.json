@@ -1,0 +1,258 @@
+{
+  "source": "GL quarantined MonsterAttrExTable; assets verified against native CY",
+  "reserved_offset": 100000,
+  "rows": [
+    {
+      "source": 13565,
+      "target": 113565,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13566,
+      "target": 113566,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13567,
+      "target": 113567,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13568,
+      "target": 113568,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13569,
+      "target": 113569,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13570,
+      "target": 113570,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13571,
+      "target": 113571,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13572,
+      "target": 113572,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13573,
+      "target": 113573,
+      "model": 1607,
+      "asset": "战斗少林武僧.obj",
+      "name": "少林云游武僧"
+    },
+    {
+      "source": 13574,
+      "target": 113574,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13575,
+      "target": 113575,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13576,
+      "target": 113576,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13577,
+      "target": 113577,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13578,
+      "target": 113578,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13579,
+      "target": 113579,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13580,
+      "target": 113580,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13581,
+      "target": 113581,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13582,
+      "target": 113582,
+      "model": 299,
+      "asset": "西藏喇嘛.obj",
+      "name": "盗书恶僧"
+    },
+    {
+      "source": 13583,
+      "target": 113583,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13584,
+      "target": 113584,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13585,
+      "target": 113585,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13586,
+      "target": 113586,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13587,
+      "target": 113587,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13588,
+      "target": 113588,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13589,
+      "target": 113589,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13590,
+      "target": 113590,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13591,
+      "target": 113591,
+      "model": 417,
+      "asset": "洛阳兵1.obj",
+      "name": "伪官军"
+    },
+    {
+      "source": 13592,
+      "target": 113592,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13593,
+      "target": 113593,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13594,
+      "target": 113594,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13595,
+      "target": 113595,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13596,
+      "target": 113596,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13597,
+      "target": 113597,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13598,
+      "target": 113598,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13599,
+      "target": 113599,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    },
+    {
+      "source": 13600,
+      "target": 113600,
+      "model": 2305,
+      "asset": "boss藏经阁蒙面番僧.obj",
+      "name": "蒙面恶僧"
+    }
+  ]
+}

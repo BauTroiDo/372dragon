@@ -1,0 +1,20 @@
+ident	vi	note
+#INTERFACE_XML_226	Đồ	Packet tab 42 px (Packet_Material): "Đạo cụ" 48 px chồng tab bên (gui-live-8)
+#INTERFACE_XML_146	Liệu	Packet tab 42 px (Packet_Stall): "Nguyên liệu" 86 px
+#INTERFACE_XML_570	N.vụ	Packet tab 42 px (Packet_Mission): "Nhiệm vụ" 68 px
+#INTERFACE_XML_861	Xếp	Packet_Classify 36 px (+ZhenYuan): "Sắp xếp" 57 px
+#INTERFACE_XML_675	Khóa	Packet_Lock 36 px (+PetProcreate/ZhenYuan): "Khóa mục tiêu" 82 px
+#INTERFACE_XML_167	Tách	Packet_Pet 36 px: "Chia tách" 65 px
+#INTERFACE_XML_122	Sạp	Packet_StallSale 36 px: "Bày bán" 56 px
+#AQZX_130812_02	An toàn	Packet_Anti_Steal 60 px: "Trung tâm Bảo mật" 137 px
+#INTERFACE_XML_373	Nhận	Quest_Button_Accept 40 px: "Chấp nhận" 74 px (chồng nút Tiếp tục)
+#INTERFACE_XML_352	Tiếp	Quest_Button_Continue 40 px: "Tiếp tục" 60 px
+#INTERFACE_XML_185	Bán	Shop_Sell 72 px (+BieYe shops): "Xuất thụ" bị cắt
+#INTERFACE_XML_489	Mua sỉ	Shop_Wholesale 72 px: "Mua số lượng lớn" 122 px
+#Shop_Try_00	Thử	Shop_Try 60 px: "Mặc thử/Cưỡi thử" 126 px
+#XBWDH_130521_21	#cfff263Đổi #Guy vọng#cfff263 lấy thưởng tại đây.	Shop_Show_Text 277 px một dòng: câu gốc 655 px
+元宝：	N.Bảo:	Lua Packet/SuperTooltip: "Nguyên Bảo:" + 8 chữ số tràn ô 165 px của túi (gui-live-3)
+继续	Tiếp	npc-quest 15/09: Quest_Button_Continue 40 px (Quest.lua SetText 继续): "Tiếp tục" chồng nút Nhận (gui-live-10)
+再见	Thôi	npc-quest: Quest_Button_Refuse 40 px (再见): "Tạm biệt" bị cắt
+取消	Hủy	npc-quest: Quest_Button_Refuse (取消): "Hủy bỏ" bị cắt
+完成	Xong	npc-quest: Quest_Button_Continue (完成): "Hoàn thành" bị cắt

@@ -1,0 +1,11 @@
+return {
+    MANAGER_NODE = {
+        name = "manager_tlbb_8",
+        constr = "127.0.0.1:18888",
+        servers = {
+            {name = "cluster_mgr", alias = ".cluster_mgr"},
+            {name = "cluster_db_mgr", alias = ".cluster_db_mgr"},
+            {name = "cfgdb", alias = ".CfgDB"}
+        }
+    }
+}

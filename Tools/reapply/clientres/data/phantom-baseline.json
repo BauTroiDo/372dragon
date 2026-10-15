@@ -1,0 +1,31 @@
+{
+ "dau": "CYS-CLIENTRES",
+ "luc": "2026-09-20T09:06:04",
+ "so_dong_ma": 53,
+ "dbc_sha256": "ee9db9dd5471bac23627e4a0662da77ff56579c7ee9bd128164acd1093a4ab7a",
+ "dbc_so_dong": 806,
+ "so_vi_pham": 12,
+ "vi_pham_da_biet": [
+  "A_sceneid:1051",
+  "A_sceneid:814",
+  "A_sceneid:818",
+  "A_sceneid:819",
+  "B_clientres:1298",
+  "B_clientres:1301",
+  "B_clientres:316",
+  "B_clientres:42",
+  "C_lua:265",
+  "C_lua:272",
+  "C_lua:3596",
+  "C_lua:649"
+ ],
+ "so_va_cham": 5,
+ "va_cham_da_biet": [
+  "128",
+  "129",
+  "183",
+  "185",
+  "314"
+ ],
+ "ghi_chu": "Moc no ky thuat DA BIET. CHI DUOC GIAM: `ghi-moc` tu choi khi co vi pham moi hoac khi so dong ma tang. Xem Timeline/handoff/clientres-sweep.md."
+}

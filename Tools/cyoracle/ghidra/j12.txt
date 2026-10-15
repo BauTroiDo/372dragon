@@ -1,0 +1,1 @@
+strdec C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\video.txt ^(start play video %u|preload video %u,%s)$

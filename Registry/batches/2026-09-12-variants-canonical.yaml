@@ -1,0 +1,2531 @@
+# Batch record written by Tools/pipeline/build_canonical.py - do not edit by hand (re-run the tool).
+# Canonical overlay of the automatic variant selection; revert: see "revert" at the end.
+schema: 1
+batch: "2026-09-12-variants-canonical"
+status: "applied"
+created: "2026-09-12T18:13:23"
+tool: "Tools/pipeline/build_canonical.py 1.0 (2026-09-12) (+ canon_lib.py)"
+selection:
+  file: "Registry/selections/2026-09-12-variants.yaml"
+  sha256: "7a4948e644a3de13d9029ebdd4ad402f3b76af4b9fb483817425bf6fc1b2e7fa"
+  objects: 388
+  switched: 26
+  rule: "Tools/pipeline/auto_select.py (consensus >= 2 sources, then quality score)"
+canonical_root: "C:/TLBB/085/CY-Source/Assets/Canonical/Data"
+base:
+  source: "S1"
+  root: "C:/TLBB/085/client_GL/Data"
+  mirror: "every file except 451 backup files (Assets/Canonical/_manifest/skipped_backups.tsv)"
+sources:
+  S2: "C:/TLBB/085/Tools/DATA NEW/DataCY31-08-26"
+  S3: "C:/TLBB/085/Tools/DATA NEW/CYHJ091026"
+policy:
+  - "files and definitions compared by content (files: sha256 of the format-length content; blocks: whitespace-normalised hash)"
+  - "overwrite / replace in place only when the base has one copy and every reference to the name in the whole base data lies in definitions this batch replaces; otherwise a new name <name>_hj (S3) / _cy (S2) and the references inside the closure are rewritten at byte level"
+  - "all.obj: first occurrence of a duplicated object name replaced (WXLogicModelManager keeps the first); new objects inserted before </AllObjects>; new definitions appended; files never re-encoded"
+  - "source files copied at their format length (Assets/Staging/index fmt_len / sha256_content)"
+  - "ModelFolder/filedep.xml (preload index generated from the scripts) is not a use: it is ignored by the exclusivity scan and not edited, so new / renamed names are simply not preloaded"
+  - "a base mesh / skeleton that nothing outside the batch uses any more (orphaned, e.g. the S1 placeholder sword of boss_2026武神坛耶律浚) does not block an in-place overwrite through its binary links"
+summary:
+  effect new: 1
+  effect rename: 2
+  effect same: 4
+  material new: 9
+  material rename: 4
+  material replace: 6
+  material same: 29
+  mesh new: 2
+  mesh rename: 8
+  mesh replace: 8
+  mesh same: 8
+  particle new: 4
+  particle rename: 2
+  particle replace: 4
+  particle same: 14
+  skeleton new: 2
+  skeleton rename: 2
+  skeleton replace: 6
+  skeleton same: 2
+  texture new: 1
+  texture rename: 12
+  texture replace: 4
+  texture same: 26
+objects:
+  - name: "boss_2026武神坛萧阿刺.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "boss_2026武神坛萧阿刺.skeleton"
+        status: "replace"
+        target: "Model3Folder/boss_2026ÎäÉñÌ³Ïô°¢´Ì.skeleton"
+        source: "S3:Model3/boss_2026武神坛萧阿刺.skeleton"
+      - kind: "mesh"
+        name: "boss_2026武神坛萧阿刺.mesh"
+        status: "replace"
+        target: "Model3Folder/boss_2026ÎäÉñÌ³Ïô°¢´Ì.mesh"
+        source: "S3:Model3/boss_2026武神坛萧阿刺.mesh"
+      - kind: "texture"
+        name: "tga_boss_2026武神坛萧阿刺.dds"
+        status: "replace"
+        target: "Material5Folder/tga_boss_2026ÎäÉñÌ³Ïô°¢´Ì.dds"
+        source: "S3:Material5/tga_boss_2026武神坛萧阿刺.dds"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺"
+        status: "same"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺半透"
+        status: "new"
+      - kind: "texture"
+        name: "png_cj_jiuzhaigou_heliu01.dds"
+        status: "rename"
+        final_name: "png_cj_jiuzhaigou_heliu01_hj.dds"
+        target: "Material2Folder/png_cj_jiuzhaigou_heliu01_hj.dds"
+        source: "S3:Material2/png_cj_jiuzhaigou_heliu01.dds"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+        status: "replace"
+      - kind: "particle"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+        status: "replace"
+      - kind: "texture"
+        name: "png_801_effect_288.dds"
+        status: "same"
+        source: "S3:Material/png_801_effect_288.dds"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_2"
+        status: "same"
+      - kind: "particle"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_2"
+        status: "replace"
+      - kind: "texture"
+        name: "jpg_effect510_0321.dds"
+        status: "same"
+        source: "S3:Material/jpg_effect510_0321.dds"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_3"
+        status: "same"
+      - kind: "particle"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_3"
+        status: "replace"
+      - kind: "texture"
+        name: "jpg_effect510_0205.dds"
+        status: "same"
+        source: "S3:Material/jpg_effect510_0205.dds"
+      - kind: "material"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_4"
+        status: "same"
+      - kind: "particle"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_4"
+        status: "replace"
+      - kind: "effect"
+        name: "boss_2026武神坛萧阿刺_自身特效_A"
+        status: "same"
+  - name: "boss_2026武神坛耶律浚.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "boss_2026武神坛耶律浚.skeleton"
+        status: "replace"
+        target: "Model3Folder/boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.skeleton"
+        source: "S3:Model3/boss_2026武神坛耶律浚.skeleton"
+      - kind: "mesh"
+        name: "boss_2026武神坛耶律浚.mesh"
+        status: "replace"
+        target: "Model3Folder/boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.mesh"
+        source: "S3:Model3/boss_2026武神坛耶律浚.mesh"
+      - kind: "texture"
+        name: "tga_boss_2026武神坛耶律浚.dds"
+        status: "replace"
+        target: "Material5Folder/tga_boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.dds"
+        source: "S3:Material5/tga_boss_2026武神坛耶律浚.dds"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚"
+        status: "same"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚半透"
+        status: "new"
+      - kind: "texture"
+        name: "png_cj_jiuzhaigou_heliu01.dds"
+        status: "rename"
+        final_name: "png_cj_jiuzhaigou_heliu01_hj.dds"
+        target: "Material2Folder/png_cj_jiuzhaigou_heliu01_hj.dds"
+        source: "S3:Material2/png_cj_jiuzhaigou_heliu01.dds"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚_自身特效_A_1"
+        status: "new"
+      - kind: "particle"
+        name: "boss_2026武神坛耶律浚_自身特效_A_1"
+        status: "new"
+      - kind: "texture"
+        name: "png_801_effect_288.dds"
+        status: "same"
+        source: "S3:Material/png_801_effect_288.dds"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚_自身特效_A_2"
+        status: "new"
+      - kind: "particle"
+        name: "boss_2026武神坛耶律浚_自身特效_A_2"
+        status: "new"
+      - kind: "texture"
+        name: "jpg_effect510_0321.dds"
+        status: "same"
+        source: "S3:Material/jpg_effect510_0321.dds"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚_自身特效_A_3"
+        status: "new"
+      - kind: "particle"
+        name: "boss_2026武神坛耶律浚_自身特效_A_3"
+        status: "new"
+      - kind: "texture"
+        name: "jpg_effect510_0205.dds"
+        status: "same"
+        source: "S3:Material/jpg_effect510_0205.dds"
+      - kind: "material"
+        name: "boss_2026武神坛耶律浚_自身特效_A_4"
+        status: "new"
+      - kind: "particle"
+        name: "boss_2026武神坛耶律浚_自身特效_A_4"
+        status: "new"
+      - kind: "effect"
+        name: "boss_2026武神坛耶律浚_自身特效_A"
+        status: "new"
+  - name: "npc_2026大理种花虞美人花02.obj"
+    source: "S3"
+    reason: "điểm cao nhất S3 34.3 (S2 34.3, S3 34.3)"
+    all_obj: "block inserted"
+    base_occurrences: 0
+    closure:
+      - kind: "skeleton"
+        name: "npc_2026大理种花虞美人花.skeleton"
+        status: "new"
+        target: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨.skeleton"
+        source: "S3:Model3/npc_2026大理种花虞美人花.skeleton"
+      - kind: "mesh"
+        name: "npc_2026大理种花虞美人花02.mesh"
+        status: "new"
+        target: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨02.mesh"
+        source: "S3:Model3/npc_2026大理种花虞美人花02.mesh"
+      - kind: "texture"
+        name: "tga_npc_2026大理种花虞美人花.dds"
+        status: "new"
+        target: "Material5Folder/tga_npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨.dds"
+        source: "S3:Material5/tga_npc_2026大理种花虞美人花.dds"
+      - kind: "material"
+        name: "npc_2026大理种花虞美人花01"
+        status: "new"
+      - kind: "texture"
+        name: "jpg_xingxing01.dds"
+        status: "same"
+        source: "S3:Material/jpg_xingxing01.dds"
+      - kind: "material"
+        name: "kuangdui03"
+        status: "same"
+      - kind: "particle"
+        name: "kuangdui03"
+        status: "same"
+      - kind: "effect"
+        name: "kuangdui03"
+        status: "same"
+  - name: "npc_2026大理种花虞美人花04.obj"
+    source: "S3"
+    reason: "điểm cao nhất S3 36.0 (S2 36.0, S3 36.0)"
+    all_obj: "block inserted"
+    base_occurrences: 0
+    closure:
+      - kind: "skeleton"
+        name: "npc_2026大理种花虞美人花04.skeleton"
+        status: "new"
+        target: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨04.skeleton"
+        source: "S3:Model3/npc_2026大理种花虞美人花04.skeleton"
+      - kind: "mesh"
+        name: "npc_2026大理种花虞美人花04.mesh"
+        status: "new"
+        target: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨04.mesh"
+        source: "S3:Model3/npc_2026大理种花虞美人花04.mesh"
+      - kind: "texture"
+        name: "tga_npc_2026大理种花虞美人花.dds"
+        status: "new"
+        target: "Material5Folder/tga_npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨.dds"
+        source: "S3:Material5/tga_npc_2026大理种花虞美人花.dds"
+      - kind: "material"
+        name: "npc_2026大理种花虞美人花01"
+        status: "new"
+      - kind: "texture"
+        name: "jpg_xingguang03.dds"
+        status: "same"
+        source: "S3:Material/jpg_xingguang03.dds"
+      - kind: "material"
+        name: "baofu"
+        status: "same"
+      - kind: "particle"
+        name: "baofu"
+        status: "same"
+      - kind: "effect"
+        name: "baofu"
+        status: "same"
+  - name: "npc_2026七夕副本动态阻挡_猩红荆棘.obj"
+    source: "S2"
+    reason: "mọi bản đầy đủ giống nhau"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "mesh"
+        name: "npc空模型.mesh"
+        status: "rename"
+        final_name: "npc空模型_cy.mesh"
+        target: "ModelFolder/npc¿ÕÄ£ÐÍ_cy.mesh"
+        source: "S2:Model/npc空模型.mesh"
+      - kind: "texture"
+        name: "tga_通用合体特效.dds"
+        status: "rename"
+        final_name: "tga_通用合体特效_cy.dds"
+        target: "MaterialFolder/tga_Í¨ÓÃºÏÌåÌØÐ§_cy.dds"
+        source: "S2:Material/tga_通用合体特效.dds"
+      - kind: "material"
+        name: "通天塔空模型"
+        status: "new"
+      - kind: "texture"
+        name: "jpg_TL_Point_001.dds"
+        status: "same"
+        source: "S2:Material/jpg_TL_Point_001.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_1"
+        status: "same"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_1"
+        status: "same"
+      - kind: "texture"
+        name: "tga_wm_effect_331.dds"
+        status: "rename"
+        final_name: "tga_wm_effect_331_cy.dds"
+        target: "Material3Folder/tga_wm_effect_331_cy.dds"
+        source: "S2:Material3/tga_wm_effect_331.dds"
+      - kind: "texture"
+        name: "png_2023遮罩06.dds"
+        status: "rename"
+        final_name: "png_2023遮罩06_cy.dds"
+        target: "Material4Folder/png_2023ÕÚÕÖ06_cy.dds"
+        source: "S2:Material4/png_2023遮罩06.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_2"
+        status: "replace"
+      - kind: "mesh"
+        name: "特效珍兽200311牛郎织女mesh.mesh"
+        status: "same"
+        source: "S2:Model2/特效珍兽200311牛郎织女mesh.mesh"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_2"
+        status: "same"
+      - kind: "texture"
+        name: "png_z_uv075.dds"
+        status: "same"
+        source: "S2:Material6/png_z_uv075.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_3"
+        status: "replace"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_3"
+        status: "same"
+      - kind: "texture"
+        name: "jpg_z_uv020.dds"
+        status: "rename"
+        final_name: "jpg_z_uv020_cy.dds"
+        target: "Material4Folder/jpg_z_uv020_cy.dds"
+        source: "S2:Material4/jpg_z_uv020.dds"
+      - kind: "texture"
+        name: "jpg_圆形蒙版02.dds"
+        status: "rename"
+        final_name: "jpg_圆形蒙版02_cy.dds"
+        target: "Material3Folder/jpg_Ô²ÐÎÃÉ°æ02_cy.dds"
+        source: "S2:Material3/jpg_圆形蒙版02.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_4"
+        status: "replace"
+      - kind: "mesh"
+        name: "特效_黄鹤楼双环_mesh02.mesh"
+        status: "same"
+        source: "S2:Model6/特效_黄鹤楼双环_mesh02.mesh"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_4"
+        status: "same"
+      - kind: "texture"
+        name: "png_erg_dot01.dds"
+        status: "rename"
+        final_name: "png_erg_dot01_cy.dds"
+        target: "Material5Folder/png_erg_dot01_cy.dds"
+        source: "S2:Material6/png_erg_dot01.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_5"
+        status: "replace"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_5"
+        status: "same"
+      - kind: "texture"
+        name: "png_z_uv_002.dds"
+        status: "rename"
+        final_name: "png_z_uv_002_cy.dds"
+        target: "Material4Folder/png_z_uv_002_cy.dds"
+        source: "S2:Material4/png_z_uv_002.dds"
+      - kind: "texture"
+        name: "png_glow光01.dds"
+        status: "rename"
+        final_name: "png_glow光01_cy.dds"
+        target: "Material4Folder/png_glow¹â01_cy.dds"
+        source: "S2:Material4/png_glow光01.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_6"
+        status: "replace"
+      - kind: "mesh"
+        name: "特效_倩女幽魂场景特效mesh01.mesh"
+        status: "same"
+        source: "S2:Model7/特效_倩女幽魂场景特效mesh01.mesh"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_6"
+        status: "same"
+      - kind: "texture"
+        name: "tga_特效mesh新均天城红色荆棘01.dds"
+        status: "same"
+        source: "S2:Material7/tga_特效mesh新均天城红色荆棘01.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_7"
+        status: "same"
+      - kind: "mesh"
+        name: "特效mesh新均天城红色荆棘01.mesh"
+        status: "same"
+        source: "S2:Model8/特效mesh新均天城红色荆棘01.mesh"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_7"
+        status: "same"
+      - kind: "texture"
+        name: "jpg_cq火四个2025mini.dds"
+        status: "same"
+        source: "S2:Material6/jpg_cq火四个2025mini.dds"
+      - kind: "material"
+        name: "cj_场景机制_七夕副本_动态阻挡_8"
+        status: "same"
+      - kind: "particle"
+        name: "cj_场景机制_七夕副本_动态阻挡_8"
+        status: "same"
+      - kind: "effect"
+        name: "cj_场景机制_七夕副本_动态阻挡"
+        status: "same"
+  - name: "npc怪_2026萧阿刺落石.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc怪_2026萧阿刺落石.skeleton"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÂäÊ¯.skeleton"
+        source: "S3:Model3/npc怪_2026萧阿刺落石.skeleton"
+      - kind: "mesh"
+        name: "npc怪_2026萧阿刺落石.mesh"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÂäÊ¯.mesh"
+        source: "S3:Model3/npc怪_2026萧阿刺落石.mesh"
+      - kind: "texture"
+        name: "jpg_npc怪_2026萧阿刺落石.dds"
+        status: "same"
+        source: "S3:Material5/jpg_npc怪_2026萧阿刺落石.dds"
+      - kind: "material"
+        name: "npc怪_2026萧阿刺落石"
+        status: "same"
+  - name: "npc怪_2026萧阿刺巡逻兵.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc怪_2026萧阿刺巡逻兵.skeleton"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.skeleton"
+        source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.skeleton"
+      - kind: "mesh"
+        name: "npc怪_2026萧阿刺巡逻兵.mesh"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.mesh"
+        source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.mesh"
+      - kind: "texture"
+        name: "tga_npc怪_2026萧阿刺巡逻兵.dds"
+        status: "same"
+        source: "S3:Material5/tga_npc怪_2026萧阿刺巡逻兵.dds"
+      - kind: "material"
+        name: "npc怪_2026萧阿刺巡逻兵"
+        status: "same"
+  - name: "npc怪_2026耶律浚突石.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc怪_2026耶律浚突石.skeleton"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ò®ÂÉ¿£Í»Ê¯.skeleton"
+        source: "S3:Model3/npc怪_2026耶律浚突石.skeleton"
+      - kind: "mesh"
+        name: "npc怪_2026耶律浚突石.mesh"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ò®ÂÉ¿£Í»Ê¯.mesh"
+        source: "S3:Model3/npc怪_2026耶律浚突石.mesh"
+      - kind: "texture"
+        name: "jpg_npc怪_2026耶律浚突石.dds"
+        status: "same"
+        source: "S3:Material5/jpg_npc怪_2026耶律浚突石.dds"
+      - kind: "material"
+        name: "npc怪_2026耶律浚突石"
+        status: "same"
+  - name: "npc怪_2026耶律浚巡逻兵.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc怪_2026萧阿刺巡逻兵.skeleton"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.skeleton"
+        source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.skeleton"
+      - kind: "mesh"
+        name: "npc怪_2026萧阿刺巡逻兵.mesh"
+        status: "replace"
+        target: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.mesh"
+        source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.mesh"
+      - kind: "texture"
+        name: "tga_npc怪_2026耶律浚巡逻兵.dds"
+        status: "same"
+        source: "S3:Material5/tga_npc怪_2026耶律浚巡逻兵.dds"
+      - kind: "material"
+        name: "npc怪_2026耶律浚巡逻兵"
+        status: "same"
+  - name: "npc空模型_七夕剧情红特效.obj"
+    source: "S3"
+    reason: "điểm cao nhất S3 16.0 (S2 16.0, S3 16.0)"
+    all_obj: "block inserted"
+    base_occurrences: 0
+    closure:
+      - kind: "mesh"
+        name: "npc空模型.mesh"
+        status: "same"
+        source: "S3:Model/npc空模型.mesh"
+      - kind: "texture"
+        name: "tga_通用合体特效.dds"
+        status: "same"
+        source: "S3:Material/tga_通用合体特效.dds"
+      - kind: "material"
+        name: "npc空模型"
+        status: "same"
+      - kind: "texture"
+        name: "png_z_uv_001.dds"
+        status: "same"
+        source: "S3:Material/png_z_uv_001.dds"
+      - kind: "texture"
+        name: "jpg_z_雪花04.dds"
+        status: "rename"
+        final_name: "jpg_z_雪花04_hj.dds"
+        target: "MaterialFolder/jpg_z_Ñ©»¨04_hj.dds"
+        source: "S3:Material/jpg_z_雪花04.dds"
+      - kind: "material"
+        name: "npc_变身小花仙女23_自身A_1"
+        status: "rename"
+        final_name: "npc_变身小花仙女23_自身A_1_hj"
+      - kind: "particle"
+        name: "npc_变身小花仙女23_自身A_1"
+        status: "rename"
+        final_name: "npc_变身小花仙女23_自身A_1_hj"
+      - kind: "texture"
+        name: "png_桃花瓣02.dds"
+        status: "same"
+        source: "S3:Material/png_桃花瓣02.dds"
+      - kind: "material"
+        name: "npc_变身小花仙女23_自身A_2"
+        status: "same"
+      - kind: "particle"
+        name: "npc_变身小花仙女23_自身A_2"
+        status: "same"
+      - kind: "texture"
+        name: "jpg_特效蝴蝶序列图2X2横版无色01.dds"
+        status: "same"
+        source: "S3:Material/jpg_特效蝴蝶序列图2X2横版无色01.dds"
+      - kind: "material"
+        name: "npc_变身小花仙女23_自身A_3"
+        status: "same"
+      - kind: "particle"
+        name: "npc_变身小花仙女23_自身A_3"
+        status: "same"
+      - kind: "effect"
+        name: "npc_变身小花仙女23_自身A"
+        status: "rename"
+        final_name: "npc_变身小花仙女23_自身A_hj"
+  - name: "npc空模型_七夕剧情蓝特效.obj"
+    source: "S3"
+    reason: "điểm cao nhất S3 16.0 (S2 16.0, S3 16.0)"
+    all_obj: "block inserted"
+    base_occurrences: 0
+    closure:
+      - kind: "mesh"
+        name: "npc空模型.mesh"
+        status: "same"
+        source: "S3:Model/npc空模型.mesh"
+      - kind: "texture"
+        name: "tga_通用合体特效.dds"
+        status: "same"
+        source: "S3:Material/tga_通用合体特效.dds"
+      - kind: "material"
+        name: "npc空模型"
+        status: "same"
+      - kind: "texture"
+        name: "png_z_uv_001.dds"
+        status: "same"
+        source: "S3:Material/png_z_uv_001.dds"
+      - kind: "texture"
+        name: "jpg_z_雪花04.dds"
+        status: "rename"
+        final_name: "jpg_z_雪花04_hj.dds"
+        target: "MaterialFolder/jpg_z_Ñ©»¨04_hj.dds"
+        source: "S3:Material/jpg_z_雪花04.dds"
+      - kind: "material"
+        name: "npc_变身小花仙男23_自身A_1"
+        status: "rename"
+        final_name: "npc_变身小花仙男23_自身A_1_hj"
+      - kind: "particle"
+        name: "npc_变身小花仙男23_自身A_1"
+        status: "rename"
+        final_name: "npc_变身小花仙男23_自身A_1_hj"
+      - kind: "texture"
+        name: "png_青色花瓣01.dds"
+        status: "same"
+        source: "S3:Material3/png_青色花瓣01.dds"
+      - kind: "material"
+        name: "npc_变身小花仙男23_自身A_2"
+        status: "same"
+      - kind: "particle"
+        name: "npc_变身小花仙男23_自身A_2"
+        status: "same"
+      - kind: "texture"
+        name: "jpg_特效蝴蝶序列图2X2横版无色01.dds"
+        status: "same"
+        source: "S3:Material/jpg_特效蝴蝶序列图2X2横版无色01.dds"
+      - kind: "material"
+        name: "npc_变身小花仙男23_自身A_3"
+        status: "same"
+      - kind: "particle"
+        name: "npc_变身小花仙男23_自身A_3"
+        status: "same"
+      - kind: "effect"
+        name: "npc_变身小花仙男23_自身A"
+        status: "rename"
+        final_name: "npc_变身小花仙男23_自身A_hj"
+  - name: "npc汴梁城富家女_撑伞.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城富家女.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城富家女.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城富家女.mesh"
+        status: "rename"
+        final_name: "npc汴梁城富家女_hj.mesh"
+        target: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+        source: "S3:Model2/npc汴梁城富家女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城富家女.dds"
+        status: "same"
+        source: "S3:Material3/tga_npc汴梁城富家女.dds"
+      - kind: "material"
+        name: "npc汴梁城富家女"
+        status: "same"
+      - kind: "material"
+        name: "npc汴梁城富家女半透"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城陶投壶富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城陶投壶富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城陶投壶200716.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城陶投壶200716.dds"
+      - kind: "material"
+        name: "npc汴梁城陶投壶富女"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城雨伞富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城雨伞富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城富家女_购买.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城富家女.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城富家女.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城富家女.mesh"
+        status: "rename"
+        final_name: "npc汴梁城富家女_hj.mesh"
+        target: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+        source: "S3:Model2/npc汴梁城富家女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城富家女.dds"
+        status: "same"
+        source: "S3:Material3/tga_npc汴梁城富家女.dds"
+      - kind: "material"
+        name: "npc汴梁城富家女"
+        status: "same"
+      - kind: "material"
+        name: "npc汴梁城富家女半透"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城陶投壶富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城陶投壶富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城陶投壶200716.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城陶投壶200716.dds"
+      - kind: "material"
+        name: "npc汴梁城陶投壶富女"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城雨伞富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城雨伞富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城富家女_购买2.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城富家女.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城富家女.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城富家女.mesh"
+        status: "rename"
+        final_name: "npc汴梁城富家女_hj.mesh"
+        target: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+        source: "S3:Model2/npc汴梁城富家女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城富家女.dds"
+        status: "same"
+        source: "S3:Material3/tga_npc汴梁城富家女.dds"
+      - kind: "material"
+        name: "npc汴梁城富家女"
+        status: "same"
+      - kind: "material"
+        name: "npc汴梁城富家女半透"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城陶投壶富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城陶投壶富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城陶投壶200716.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城陶投壶200716.dds"
+      - kind: "material"
+        name: "npc汴梁城陶投壶富女"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城雨伞富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城雨伞富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城富家女_购买3.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城富家女.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城富家女.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城富家女.mesh"
+        status: "rename"
+        final_name: "npc汴梁城富家女_hj.mesh"
+        target: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+        source: "S3:Model2/npc汴梁城富家女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城富家女.dds"
+        status: "same"
+        source: "S3:Material3/tga_npc汴梁城富家女.dds"
+      - kind: "material"
+        name: "npc汴梁城富家女"
+        status: "same"
+      - kind: "material"
+        name: "npc汴梁城富家女半透"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城陶投壶富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城陶投壶富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城陶投壶200716.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城陶投壶200716.dds"
+      - kind: "material"
+        name: "npc汴梁城陶投壶富女"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城雨伞富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城雨伞富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城富家女_交谈.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城富家女.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城富家女.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城富家女.mesh"
+        status: "rename"
+        final_name: "npc汴梁城富家女_hj.mesh"
+        target: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+        source: "S3:Model2/npc汴梁城富家女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城富家女.dds"
+        status: "same"
+        source: "S3:Material3/tga_npc汴梁城富家女.dds"
+      - kind: "material"
+        name: "npc汴梁城富家女"
+        status: "same"
+      - kind: "material"
+        name: "npc汴梁城富家女半透"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城陶投壶富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城陶投壶富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城陶投壶200716.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城陶投壶200716.dds"
+      - kind: "material"
+        name: "npc汴梁城陶投壶富女"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城雨伞富女.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城雨伞富女.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城红色青楼女子200724.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城红色青楼女子200724.skeleton"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.skeleton"
+        source: "S3:Model2/npc汴梁城红色青楼女子200724.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城红色青楼女子200724.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.mesh"
+        source: "S3:Model2/npc汴梁城红色青楼女子200724.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城红色青楼女子200724.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城红色青楼女子200724.dds"
+      - kind: "material"
+        name: "npc汴梁城红色青楼女子200724"
+        status: "same"
+  - name: "npc汴梁城红色青楼女子200724_站立.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城红色青楼女子200724.skeleton"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.skeleton"
+        source: "S3:Model2/npc汴梁城红色青楼女子200724.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城红色青楼女子200724.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.mesh"
+        source: "S3:Model2/npc汴梁城红色青楼女子200724.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城红色青楼女子200724.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城红色青楼女子200724.dds"
+      - kind: "material"
+        name: "npc汴梁城红色青楼女子200724"
+        status: "same"
+  - name: "npc汴梁城蓝色青楼女子200724_站立.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 2
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城红色青楼女子200724.skeleton"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.skeleton"
+        source: "S3:Model2/npc汴梁城红色青楼女子200724.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城蓝色青楼女子200724.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÀ¶É«ÇàÂ¥Å®×Ó200724.mesh"
+        source: "S3:Model2/npc汴梁城蓝色青楼女子200724.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城蓝色青楼女子200724.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城蓝色青楼女子200724.dds"
+      - kind: "material"
+        name: "npc汴梁城蓝色青楼女子200724"
+        status: "same"
+  - name: "npc汴梁城女青年200702.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城女青年200702.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年200702.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城女青年200702.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+        source: "S3:Model2/npc汴梁城女青年200702.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城女青年200702.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城女青年200702.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年200702"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城女青年雨伞.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年雨伞.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城女青年200702_撑伞站立.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城女青年200702.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年200702.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城女青年200702.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+        source: "S3:Model2/npc汴梁城女青年200702.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城女青年200702.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城女青年200702.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年200702"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城女青年雨伞.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年雨伞.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城女青年200702_交谈.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 2
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城女青年200702.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年200702.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城女青年200702.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+        source: "S3:Model2/npc汴梁城女青年200702.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城女青年200702.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城女青年200702.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年200702"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城女青年雨伞.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年雨伞.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城女青年200702_围观.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城女青年200702.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年200702.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城女青年200702.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+        source: "S3:Model2/npc汴梁城女青年200702.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城女青年200702.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城女青年200702.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年200702"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城女青年雨伞.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年雨伞.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城女青年200702_站立.obj"
+    source: "S3"
+    reason: "đồng thuận S3=S2"
+    all_obj: "unchanged (identical block)"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城女青年200702.skeleton"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年200702.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城女青年200702.mesh"
+        status: "replace"
+        target: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+        source: "S3:Model2/npc汴梁城女青年200702.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城女青年200702.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城女青年200702.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年200702"
+        status: "same"
+      - kind: "mesh"
+        name: "npc汴梁城女青年雨伞.mesh"
+        status: "same"
+        source: "S3:Model2/npc汴梁城女青年雨伞.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城雨伞200714.dds"
+        status: "same"
+        source: "S3:Material2/tga_npc汴梁城雨伞200714.dds"
+      - kind: "material"
+        name: "npc汴梁城女青年雨伞"
+        status: "same"
+  - name: "npc汴梁城小女孩变色_斗蛐蛐.obj"
+    source: "S2"
+    reason: "điểm cao nhất S2 39.7 (S2 39.7, S3 39.6)"
+    all_obj: "block inserted"
+    base_occurrences: 0
+    closure:
+      - kind: "skeleton"
+        name: "npc汴梁城小女孩变色.skeleton"
+        status: "rename"
+        final_name: "npc汴梁城小女孩变色_cy.skeleton"
+        target: "Model2Folder/npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.skeleton"
+        source: "S2:Model2/npc汴梁城小女孩变色.skeleton"
+      - kind: "mesh"
+        name: "npc汴梁城小女孩变色.mesh"
+        status: "rename"
+        final_name: "npc汴梁城小女孩变色_cy.mesh"
+        target: "Model2Folder/npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.mesh"
+        source: "S2:Model2/npc汴梁城小女孩变色.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城小女孩变色.dds"
+        status: "rename"
+        final_name: "tga_npc汴梁城小女孩变色_cy.dds"
+        target: "Material2Folder/tga_npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.dds"
+        source: "S2:Material2/tga_npc汴梁城小女孩变色.dds"
+      - kind: "material"
+        name: "npc汴梁城小女孩变色"
+        status: "rename"
+        final_name: "npc汴梁城小女孩变色_cy"
+      - kind: "mesh"
+        name: "npc汴梁城蛐蛐罐女孩变色.mesh"
+        status: "rename"
+        final_name: "npc汴梁城蛐蛐罐女孩变色_cy.mesh"
+        target: "Model3Folder/npcãêÁº³ÇòÐòÐ¹ÞÅ®º¢±äÉ«_cy.mesh"
+        source: "S2:Model3/npc汴梁城蛐蛐罐女孩变色.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城蛐蛐罐200804.dds"
+        status: "same"
+        source: "S2:Material2/tga_npc汴梁城蛐蛐罐200804.dds"
+      - kind: "material"
+        name: "npc汴梁城大变活人男孩蛐蛐罐"
+        status: "new"
+      - kind: "mesh"
+        name: "npc汴梁城风车女孩变色.mesh"
+        status: "rename"
+        final_name: "npc汴梁城风车女孩变色_cy.mesh"
+        target: "Model3Folder/npcãêÁº³Ç·ç³µÅ®º¢±äÉ«_cy.mesh"
+        source: "S2:Model3/npc汴梁城风车女孩变色.mesh"
+      - kind: "texture"
+        name: "tga_npc汴梁城风筝和风车200814.dds"
+        status: "same"
+        source: "S2:Material2/tga_npc汴梁城风筝和风车200814.dds"
+      - kind: "material"
+        name: "npc汴梁城风筝和风车小女孩"
+        status: "same"
+  - name: "珍兽上古神猿2a.obj"
+    source: "S2"
+    reason: "mọi bản đầy đủ giống nhau"
+    all_obj: "block replaced"
+    base_occurrences: 1
+    closure:
+      - kind: "skeleton"
+        name: "珍兽上古神猿1.skeleton"
+        status: "rename"
+        final_name: "珍兽上古神猿1_cy.skeleton"
+        target: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³1_cy.skeleton"
+        source: "S2:Model/珍兽上古神猿1.skeleton"
+      - kind: "mesh"
+        name: "珍兽上古神猿兵器2.mesh"
+        status: "rename"
+        final_name: "珍兽上古神猿兵器2_cy.mesh"
+        target: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³±øÆ÷2_cy.mesh"
+        source: "S2:Model/珍兽上古神猿兵器2.mesh"
+      - kind: "texture"
+        name: "jpg_珍兽上古神猿兵器2a.dds"
+        status: "replace"
+        target: "MaterialFolder/jpg_ÕäÊÞÉÏ¹ÅÉñÔ³±øÆ÷2a.dds"
+        source: "S2:Material/jpg_珍兽上古神猿兵器2a.dds"
+      - kind: "material"
+        name: "珍兽上古神猿兵器2a"
+        status: "same"
+      - kind: "mesh"
+        name: "珍兽上古神猿身2.mesh"
+        status: "rename"
+        final_name: "珍兽上古神猿身2_cy.mesh"
+        target: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³Éí2_cy.mesh"
+        source: "S2:Model/珍兽上古神猿身2.mesh"
+      - kind: "texture"
+        name: "tga_珍兽上古神猿身2a.dds"
+        status: "replace"
+        target: "MaterialFolder/tga_ÕäÊÞÉÏ¹ÅÉñÔ³Éí2a.dds"
+        source: "S2:Material/tga_珍兽上古神猿身2a.dds"
+      - kind: "material"
+        name: "珍兽上古神猿身2a"
+        status: "same"
+      - kind: "mesh"
+        name: "珍兽上古神猿装备2.mesh"
+        status: "rename"
+        final_name: "珍兽上古神猿装备2_cy.mesh"
+        target: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³×°±¸2_cy.mesh"
+        source: "S2:Model/珍兽上古神猿装备2.mesh"
+      - kind: "texture"
+        name: "tga_珍兽上古神猿装备2.dds"
+        status: "rename"
+        final_name: "tga_珍兽上古神猿装备2_cy.dds"
+        target: "MaterialFolder/tga_ÕäÊÞÉÏ¹ÅÉñÔ³×°±¸2_cy.dds"
+        source: "S2:Material/tga_珍兽上古神猿装备2.dds"
+      - kind: "material"
+        name: "珍兽上古神猿装备2"
+        status: "rename"
+        final_name: "珍兽上古神猿装备2_cy"
+files:
+  - path: "Material4Folder/jpg_z_uv020_cy.dds"
+    path_gbk: "jpg_z_uv020_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material4/jpg_z_uv020.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "66be1667cea484870bc9d717371f00e15f84778a9c80860b86de9954eb21c766"
+    bytes_after: 21992
+    padding_trimmed: 0
+  - path: "Material3Folder/jpg_Ô²ÐÎÃÉ°æ02_cy.dds"
+    path_gbk: "jpg_圆形蒙版02_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material3/jpg_圆形蒙版02.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "8e7575d6573d286cf1da3fa1e4d588511beacd23e819cb3dd82bb9fe3caac213"
+    bytes_after: 43832
+    padding_trimmed: 0
+  - path: "MaterialFolder/jpg_ÕäÊÞÉÏ¹ÅÉñÔ³±øÆ÷2a.dds"
+    path_gbk: "jpg_珍兽上古神猿兵器2a.dds"
+    kind: "texture"
+    action: "overwrite"
+    source: "S2:Material/jpg_珍兽上古神猿兵器2a.dds"
+    sha256_before: "bd120ccae6b6571a3b0c4741f2700de85225b0b2820fa38c0bbb960a8eb5750b"
+    bytes_before: 5608
+    sha256_after: "f3ece6e188540940081c034d3c01bf40c1f87d45e0b6441d11e61be380b00a9f"
+    bytes_after: 5608
+    padding_trimmed: 0
+  - path: "Material4Folder/png_2023ÕÚÕÖ06_cy.dds"
+    path_gbk: "png_2023遮罩06_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material4/png_2023遮罩06.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "eed44e2c7b8e3c211e18e9b14e1076967a8687b59eb238c17748105a280361ca"
+    bytes_after: 87536
+    padding_trimmed: 0
+  - path: "Material5Folder/png_erg_dot01_cy.dds"
+    path_gbk: "png_erg_dot01_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material6/png_erg_dot01.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "85875d86e8b8a53990834b421c60cb23307873823dee2a0ae40aa8abf6f74690"
+    bytes_after: 5616
+    padding_trimmed: 6
+  - path: "Material4Folder/png_glow¹â01_cy.dds"
+    path_gbk: "png_glow光01_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material4/png_glow光01.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "d2bd13491a24c51f9185ce9a5c0ec760e472607d9746cd8439854a457fdf778a"
+    bytes_after: 22000
+    padding_trimmed: 0
+  - path: "Material4Folder/png_z_uv_002_cy.dds"
+    path_gbk: "png_z_uv_002_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material4/png_z_uv_002.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "7987e02a93affd5df43c5c11794e06514b353881f139aa763fb0dcf9e45c5bf1"
+    bytes_after: 349680
+    padding_trimmed: 0
+  - path: "Material2Folder/tga_npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.dds"
+    path_gbk: "tga_npc汴梁城小女孩变色_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material2/tga_npc汴梁城小女孩变色.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "282092dc59b3511c2bfafcaad0c58d2474e63b7b32902bb6daef22425abd2082"
+    bytes_after: 174928
+    padding_trimmed: 0
+  - path: "Material3Folder/tga_wm_effect_331_cy.dds"
+    path_gbk: "tga_wm_effect_331_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material3/tga_wm_effect_331.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "3bf59dd96f30aab9e28400848c1995553787424cfe3fbb5a509738763b9ecbc3"
+    bytes_after: 22000
+    padding_trimmed: 0
+  - path: "MaterialFolder/tga_Í¨ÓÃºÏÌåÌØÐ§_cy.dds"
+    path_gbk: "tga_通用合体特效_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material/tga_通用合体特效.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "05dbefaaafc3ad95fd24a515e28da41dd3486708de9d4b82a3d9c519fb1914c1"
+    bytes_after: 1520
+    padding_trimmed: 0
+  - path: "MaterialFolder/tga_ÕäÊÞÉÏ¹ÅÉñÔ³Éí2a.dds"
+    path_gbk: "tga_珍兽上古神猿身2a.dds"
+    kind: "texture"
+    action: "overwrite"
+    source: "S2:Material/tga_珍兽上古神猿身2a.dds"
+    sha256_before: "5d12a78fefc8b8149ff005fcefc49e88748d1becf3b716efcf5ffb48bd78c776"
+    bytes_before: 87536
+    sha256_after: "1c07781e3e0dcd4062bf2a377f86d45022077caf0e887277596f947042516a6d"
+    bytes_after: 87536
+    padding_trimmed: 0
+  - path: "MaterialFolder/tga_ÕäÊÞÉÏ¹ÅÉñÔ³×°±¸2_cy.dds"
+    path_gbk: "tga_珍兽上古神猿装备2_cy.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S2:Material/tga_珍兽上古神猿装备2.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "95e380f11c91d71eab00217be204ae4af322400ac33644e8855f3f61f45c78dd"
+    bytes_after: 22000
+    padding_trimmed: 0
+  - path: "MaterialFolder/jpg_z_Ñ©»¨04_hj.dds"
+    path_gbk: "jpg_z_雪花04_hj.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S3:Material/jpg_z_雪花04.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "afdd3742d5bcab7ff80c74d48440d43f26eb3a257ef81adc990b5cb7c6564ce6"
+    bytes_after: 11064
+    padding_trimmed: 0
+  - path: "Material2Folder/png_cj_jiuzhaigou_heliu01_hj.dds"
+    path_gbk: "png_cj_jiuzhaigou_heliu01_hj.dds"
+    kind: "texture"
+    action: "add-renamed"
+    source: "S3:Material2/png_cj_jiuzhaigou_heliu01.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "1256000eb5499f4e5adac7632e33fe90a92342937d7d7e267326eee54693de59"
+    bytes_after: 87536
+    padding_trimmed: 0
+  - path: "Material5Folder/tga_boss_2026ÎäÉñÌ³Ïô°¢´Ì.dds"
+    path_gbk: "tga_boss_2026武神坛萧阿刺.dds"
+    kind: "texture"
+    action: "overwrite"
+    source: "S3:Material5/tga_boss_2026武神坛萧阿刺.dds"
+    sha256_before: "f56a1f17686a04f5c9cce4f749faaec4c6cbbdff2a61335cbc849f34569256b5"
+    bytes_before: 174928
+    sha256_after: "0b6e8463fc1d8c80a723aa6326a9cdc8cc8608a757ec4e53b3d9ebce9ef1d425"
+    bytes_after: 699216
+    padding_trimmed: 6
+  - path: "Material5Folder/tga_boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.dds"
+    path_gbk: "tga_boss_2026武神坛耶律浚.dds"
+    kind: "texture"
+    action: "overwrite"
+    source: "S3:Material5/tga_boss_2026武神坛耶律浚.dds"
+    sha256_before: "656f5ce21cb152769f1ba579aeaa2744fe901e3d2e156fd25c902edc9d26a6d9"
+    bytes_before: 1398256
+    sha256_after: "7354783c90e0116b58ba11f9586a5f42d9f3ca69b62757a4d2e0a3c7f7f73d16"
+    bytes_after: 1398256
+    padding_trimmed: 11
+  - path: "Material5Folder/tga_npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨.dds"
+    path_gbk: "tga_npc_2026大理种花虞美人花.dds"
+    kind: "texture"
+    action: "add"
+    source: "S3:Material5/tga_npc_2026大理种花虞美人花.dds"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "9f64bd343aabbbdfc3d512a2847c70228c1bad4a00e63f1cd02d8edcba30dcf0"
+    bytes_after: 87536
+    padding_trimmed: 1
+  - path: "Model2Folder/npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.skeleton"
+    path_gbk: "npc汴梁城小女孩变色_cy.skeleton"
+    kind: "skeleton"
+    action: "add-renamed"
+    source: "S2:Model2/npc汴梁城小女孩变色.skeleton"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "4e33f31323c36d9a54a61aa3b8eac4e03708d90a91212d82fa6b40871e1542a2"
+    bytes_after: 1577062
+    padding_trimmed: 0
+  - path: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³1_cy.skeleton"
+    path_gbk: "珍兽上古神猿1_cy.skeleton"
+    kind: "skeleton"
+    action: "add-renamed"
+    source: "S2:Model/珍兽上古神猿1.skeleton"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "db55348bd5ec13822fbc03982843d647a919def9e68d4ff42128d5c234865f5e"
+    bytes_after: 226399
+    padding_trimmed: 0
+  - path: "Model3Folder/boss_2026ÎäÉñÌ³Ïô°¢´Ì.skeleton"
+    path_gbk: "boss_2026武神坛萧阿刺.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model3/boss_2026武神坛萧阿刺.skeleton"
+    sha256_before: "613fd883af1c9cdd2e879975848e18409a5fdad02bd81e06f5e7a117c893fd7d"
+    bytes_before: 999524
+    sha256_after: "151c6a873ea18b1b07e9c23e29042b2a2ab95299ba2b7553435683e5e86c24eb"
+    bytes_after: 1437088
+    padding_trimmed: 0
+  - path: "Model3Folder/boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.skeleton"
+    path_gbk: "boss_2026武神坛耶律浚.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model3/boss_2026武神坛耶律浚.skeleton"
+    sha256_before: "9655201e5c0a7e6d3a3d7550ab1514c4a1eedd0f28e40a617ee973089e2da5fa"
+    bytes_before: 1144093
+    sha256_after: "579c523a8af43af01c93775f4c0fe6215036c9a2bd2e47c0478db512def88a21"
+    bytes_after: 1584223
+    padding_trimmed: 0
+  - path: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨.skeleton"
+    path_gbk: "npc_2026大理种花虞美人花.skeleton"
+    kind: "skeleton"
+    action: "add"
+    source: "S3:Model3/npc_2026大理种花虞美人花.skeleton"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "e66c6752e69895378354247e938e6225b034b88375ce1edc528bbf5935d58b8f"
+    bytes_after: 10613
+    padding_trimmed: 4
+  - path: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨04.skeleton"
+    path_gbk: "npc_2026大理种花虞美人花04.skeleton"
+    kind: "skeleton"
+    action: "add"
+    source: "S3:Model3/npc_2026大理种花虞美人花04.skeleton"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "d39c9a99a2480b61073cdeee47441532be7f342ca76a7b1abb6ef996f854e0c2"
+    bytes_after: 12333
+    padding_trimmed: 9
+  - path: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÂäÊ¯.skeleton"
+    path_gbk: "npc怪_2026萧阿刺落石.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026萧阿刺落石.skeleton"
+    sha256_before: "2ea5abede0e7ca43505eb80ea06bf4cfd20fac62d40fad09b0efe773f90f58b7"
+    bytes_before: 19131
+    sha256_after: "cb35c4bbe46fe9363ef3ad2e262a6361641dab5b9e923abe3285923f0c359410"
+    bytes_after: 20165
+    padding_trimmed: 7
+  - path: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.skeleton"
+    path_gbk: "npc怪_2026萧阿刺巡逻兵.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.skeleton"
+    sha256_before: "6ec5e480bd67a83e35b42f594d58c1f406b48f520bbd9d64b3dbf6573f132e7f"
+    bytes_before: 334153
+    sha256_after: "8f1d6ccdfa49c1b847fd39031000183b70ae19c0a99e78ca59a6131c73b931be"
+    bytes_after: 324922
+    padding_trimmed: 5
+  - path: "Model3Folder/npc¹Ö_2026Ò®ÂÉ¿£Í»Ê¯.skeleton"
+    path_gbk: "npc怪_2026耶律浚突石.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026耶律浚突石.skeleton"
+    sha256_before: "169b6ac0d7dfa4b2392587b384d9e6be4246187aabccce58ab845b8bd3615dd8"
+    bytes_before: 18321
+    sha256_after: "53f309fedfc54707d2e1fe20b4439568b12e5f6291e82aea3336972641aafe66"
+    bytes_after: 18321
+    padding_trimmed: 6
+  - path: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.skeleton"
+    path_gbk: "npc汴梁城红色青楼女子200724.skeleton"
+    kind: "skeleton"
+    action: "overwrite"
+    source: "S3:Model2/npc汴梁城红色青楼女子200724.skeleton"
+    sha256_before: "22583cb1651e8bd176c44c028318bb667aa3559fe803324898cf0df5ee08ebee"
+    bytes_before: 269246
+    sha256_after: "e866aa40c9e4e95fe221bd547993fe4e24d309abf37706dae21282d87de4ea6e"
+    bytes_after: 269790
+    padding_trimmed: 12
+  - path: "ModelFolder/npc¿ÕÄ£ÐÍ_cy.mesh"
+    path_gbk: "npc空模型_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model/npc空模型.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "ce66c6b526ba168f19a6030846713854771e9cacbb7b46d63e37b37ba0a872cb"
+    bytes_after: 707
+    padding_trimmed: 0
+  - path: "Model3Folder/npcãêÁº³Ç·ç³µÅ®º¢±äÉ«_cy.mesh"
+    path_gbk: "npc汴梁城风车女孩变色_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model3/npc汴梁城风车女孩变色.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "38ef48fc6a35c07767a4d22c384e78ffa6d067f75e221700ea8efe04b019d307"
+    bytes_after: 2052
+    padding_trimmed: 0
+  - path: "Model2Folder/npcãêÁº³ÇÐ¡Å®º¢±äÉ«_cy.mesh"
+    path_gbk: "npc汴梁城小女孩变色_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model2/npc汴梁城小女孩变色.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "b609bd316e2d6bbc49a1151aa5903a960ec5448c0058a8708abd7e1418d7eb0a"
+    bytes_after: 93934
+    padding_trimmed: 0
+  - path: "Model3Folder/npcãêÁº³ÇòÐòÐ¹ÞÅ®º¢±äÉ«_cy.mesh"
+    path_gbk: "npc汴梁城蛐蛐罐女孩变色_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model3/npc汴梁城蛐蛐罐女孩变色.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "e54f245582da2dad03f9a55c3280cfc220944148d89bdc20769b8cc916b289a9"
+    bytes_after: 8702
+    padding_trimmed: 0
+  - path: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³±øÆ÷2_cy.mesh"
+    path_gbk: "珍兽上古神猿兵器2_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model/珍兽上古神猿兵器2.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "d16bc9c0faf78fa6fe1b1d87f61b3c6b2566e5ee4675a79e250da528cc915094"
+    bytes_after: 17410
+    padding_trimmed: 0
+  - path: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³Éí2_cy.mesh"
+    path_gbk: "珍兽上古神猿身2_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model/珍兽上古神猿身2.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "2933028729aedcac8c12ce05aa0a144063b9d27428d854c3fdf18570187b24ee"
+    bytes_after: 57474
+    padding_trimmed: 0
+  - path: "ModelFolder/ÕäÊÞÉÏ¹ÅÉñÔ³×°±¸2_cy.mesh"
+    path_gbk: "珍兽上古神猿装备2_cy.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S2:Model/珍兽上古神猿装备2.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "5282e6c4a31dac8b1d3235effa63586d5a21e54611c94289f4ef861076fabd9b"
+    bytes_after: 22852
+    padding_trimmed: 0
+  - path: "Model3Folder/boss_2026ÎäÉñÌ³Ïô°¢´Ì.mesh"
+    path_gbk: "boss_2026武神坛萧阿刺.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model3/boss_2026武神坛萧阿刺.mesh"
+    sha256_before: "9e78610b02ffd0886de595e2c4904b3435fae7b18199fd932c68cb2c40e9cdf1"
+    bytes_before: 95063
+    sha256_after: "2b570401727e330a7dc88b58991113f1c3bbf7318628c64661c3b126f535aeb2"
+    bytes_after: 303381
+    padding_trimmed: 0
+  - path: "Model3Folder/boss_2026ÎäÉñÌ³Ò®ÂÉ¿£.mesh"
+    path_gbk: "boss_2026武神坛耶律浚.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model3/boss_2026武神坛耶律浚.mesh"
+    sha256_before: "4b76d72f6fa4e24ac29b4cf8dce90da1a5ab28214ff55f7677815682e739263c"
+    bytes_before: 188835
+    sha256_after: "388f9b9a5e60742b4000b27889418e7b04bea63de99820dfd0a22844fc0d74f5"
+    bytes_after: 293351
+    padding_trimmed: 0
+  - path: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨02.mesh"
+    path_gbk: "npc_2026大理种花虞美人花02.mesh"
+    kind: "mesh"
+    action: "add"
+    source: "S3:Model3/npc_2026大理种花虞美人花02.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "e234ea04d63983c22062f68fe46fe53eed1630ada2ab30762004961771a25887"
+    bytes_after: 61559
+    padding_trimmed: 0
+  - path: "Model3Folder/npc_2026´óÀíÖÖ»¨ÓÝÃÀÈË»¨04.mesh"
+    path_gbk: "npc_2026大理种花虞美人花04.mesh"
+    kind: "mesh"
+    action: "add"
+    source: "S3:Model3/npc_2026大理种花虞美人花04.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "6ef409d96192c5af5515e578522214409e2724c352a704ed3a454687e7e0ed0a"
+    bytes_after: 107481
+    padding_trimmed: 0
+  - path: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÂäÊ¯.mesh"
+    path_gbk: "npc怪_2026萧阿刺落石.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026萧阿刺落石.mesh"
+    sha256_before: "525e64c061de8d670fa19a31caeb2774ebff73dff8205e427faab4783746b6e7"
+    bytes_before: 111453
+    sha256_after: "65489eecb45e829361789104d7543be0b13a06c0af20584e1c53201f2dd90e1b"
+    bytes_after: 69653
+    padding_trimmed: 0
+  - path: "Model3Folder/npc¹Ö_2026Ïô°¢´ÌÑ²Âß±ø.mesh"
+    path_gbk: "npc怪_2026萧阿刺巡逻兵.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026萧阿刺巡逻兵.mesh"
+    sha256_before: "281131872d1cdf3da48caf6e60fac284c95eb5d61cca5a0a57dbaf3b64e92fa7"
+    bytes_before: 68871
+    sha256_after: "bfdceb78582a9652613137b180aebe6b48c214439afe260d169228d1d25e287b"
+    bytes_after: 68871
+    padding_trimmed: 0
+  - path: "Model3Folder/npc¹Ö_2026Ò®ÂÉ¿£Í»Ê¯.mesh"
+    path_gbk: "npc怪_2026耶律浚突石.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model3/npc怪_2026耶律浚突石.mesh"
+    sha256_before: "b24906071e3f101fd7ee3f1085ef94e049f65a62e444543bb174a68af368aecd"
+    bytes_before: 65753
+    sha256_after: "7f3f792f6c4662e128807c32669e750bdfb47fdad10ce9755acd1f64e0f6d84a"
+    bytes_after: 23621
+    padding_trimmed: 0
+  - path: "Model2Folder/npcãêÁº³Ç¸»¼ÒÅ®_hj.mesh"
+    path_gbk: "npc汴梁城富家女_hj.mesh"
+    kind: "mesh"
+    action: "add-renamed"
+    source: "S3:Model2/npc汴梁城富家女.mesh"
+    sha256_before: null
+    bytes_before: null
+    sha256_after: "09ea1519fab5f45aa6be0021be3e6082aedd308ee55a2e3f9b04801bdb467a44"
+    bytes_after: 113831
+    padding_trimmed: 1
+  - path: "Model2Folder/npcãêÁº³ÇºìÉ«ÇàÂ¥Å®×Ó200724.mesh"
+    path_gbk: "npc汴梁城红色青楼女子200724.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model2/npc汴梁城红色青楼女子200724.mesh"
+    sha256_before: "38b200089afa3c88063b1bf500ab68799a01d29812f41b9d3e5057bb846ef60a"
+    bytes_before: 117401
+    sha256_after: "96f805bb34a4de21eb926f1a13a9d1119059b964d972a5972cb0b294293aa1e0"
+    bytes_after: 124993
+    padding_trimmed: 0
+  - path: "Model2Folder/npcãêÁº³ÇÀ¶É«ÇàÂ¥Å®×Ó200724.mesh"
+    path_gbk: "npc汴梁城蓝色青楼女子200724.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model2/npc汴梁城蓝色青楼女子200724.mesh"
+    sha256_before: "c4cea2d6bcb3b5fff5188a9ec41ab507e78c5b21091805bc29cf5188b22c80c3"
+    bytes_before: 117401
+    sha256_after: "a4f16256f257ff6fa711c1cb02075ae479dc0c7d7d8e56a177d014de45ab4c94"
+    bytes_after: 124993
+    padding_trimmed: 0
+  - path: "Model2Folder/npcãêÁº³ÇÅ®ÇàÄê200702.mesh"
+    path_gbk: "npc汴梁城女青年200702.mesh"
+    kind: "mesh"
+    action: "overwrite"
+    source: "S3:Model2/npc汴梁城女青年200702.mesh"
+    sha256_before: "450f91edf9e1820759617e77ad50701678ab2dfb7781a833caeb3a5a7bf65009"
+    bytes_before: 103279
+    sha256_after: "75e870e5e58fe7f121bf0d4fcd24a1ec90b1b6bc1d62ad093a23ccb60b32390d"
+    bytes_after: 103279
+    padding_trimmed: 8
+definitions:
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "cj_场景机制_七夕副本_动态阻挡_2"
+    action: "replace"
+    source: "S2"
+    s1_span: [17316272, 17316804]
+    sha256_before: "5010f1ad2383e1fcbc7a929b9d0d1b6e503ba13a6cafca888cdace2cb7b1c36b"
+    sha256_after: "e941917c9434b16b04089fc17c918d106eed315e9d561cf29759c2e82b7b34d0"
+    bytes_after: 538
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "cj_场景机制_七夕副本_动态阻挡_3"
+    action: "replace"
+    source: "S2"
+    s1_span: [17316806, 17317332]
+    sha256_before: "8b117205aca82bbebd5c2873bdc09f47969f638398cab9e9e8085e391fd2666b"
+    sha256_after: "f9ceb02c82d5f2f278cb1ec8ea1aced3704517d90d257aae1f6adbd8d38f10ea"
+    bytes_after: 529
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "cj_场景机制_七夕副本_动态阻挡_4"
+    action: "replace"
+    source: "S2"
+    s1_span: [17317334, 17317842]
+    sha256_before: "bb1cd57ec54c2711db695657c03356b53fb72961701fe76a0915d58897d48e2e"
+    sha256_after: "76f4bab2f8e44f87f654a019b08628b94cd4026e63e4f9a3560f2aff46c80630"
+    bytes_after: 514
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "cj_场景机制_七夕副本_动态阻挡_5"
+    action: "replace"
+    source: "S2"
+    s1_span: [17317844, 17318051]
+    sha256_before: "8a56048d49d8c9ee14f88da86d7bcce85bf5aebc5d91b9c8d1e88a6ac4df470e"
+    sha256_after: "ab0ca11b25e5d1933e49ab1b7ff7dd4490d151161091d62771f89f6d35443422"
+    bytes_after: 210
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "cj_场景机制_七夕副本_动态阻挡_6"
+    action: "replace"
+    source: "S2"
+    s1_span: [17318053, 17318557]
+    sha256_before: "693d550e30abeb1cbbc15898652717710532eb0aedd1f789979fc1103b43c47e"
+    sha256_after: "f9b6673bfff08377b3bb97381137995278496797ac9404a8cf2544adb3698e45"
+    bytes_after: 510
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "npc汴梁城大变活人男孩蛐蛐罐"
+    action: "add"
+    source: "S2"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "608ccd32bec26fd09fa7494399a1558e93e318ddd861fec77b8a3de31f68c131"
+    bytes_after: 269
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "npc汴梁城小女孩变色_cy"
+    action: "add-renamed"
+    source: "S2"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "4d8949d2a118618a68fe5aab9f0c1b63f4e17f6d732e71584c1bfbb8bb2d000e"
+    bytes_after: 306
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "通天塔空模型"
+    action: "add"
+    source: "S2"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "87241dcd80cd76d73bf6cd0433daf5fdc557b7363f5e1e9f8558246eb6d8fd6b"
+    bytes_after: 290
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "珍兽上古神猿装备2_cy"
+    action: "add-renamed"
+    source: "S2"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "fef3686a9b98ffa9c20f8f2a97150792c1b5f34f3be0d2cbcda7e338e506dadc"
+    bytes_after: 217
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+    action: "replace"
+    source: "S3"
+    s1_span: [835184, 835462]
+    sha256_before: "9b499268014ff0b914bb8a1b97bce780346ea9948e8830fb90642bb18ad6df3a"
+    sha256_after: "308152e554a8a263d46a6a896d7dbeae816b09c0d51fbbb2e3f307f8996e777e"
+    bytes_after: 281
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛萧阿刺半透"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "5218d087a69e3f8930f888f2cbf8083349ac277e621f133ef182dbf8eea84729"
+    bytes_after: 219
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛耶律浚_自身特效_A_1"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "c65d7a057ed9c16d57495c40a3b769a21a730b45798ef6be655f3d2ccb755182"
+    bytes_after: 282
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛耶律浚_自身特效_A_2"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "3e43d5b40553f6c25152fa3392f3ed08535cae635b7aff65016157ceb0f7426c"
+    bytes_after: 218
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛耶律浚_自身特效_A_3"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "a89add0f71f6ff34414394939f62d3de92f7646be5d743c9d0c585c3363ce45a"
+    bytes_after: 191
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛耶律浚_自身特效_A_4"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "9788b58538bed062306c1bc726e1645c664cae4d58d49841a28392dc1027af9d"
+    bytes_after: 217
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "boss_2026武神坛耶律浚半透"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "04d47b4916350ecb3ad033ca8bffaa77f4d2ec59cab1b90943d0bbdce5a58ce2"
+    bytes_after: 219
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "npc_2026大理种花虞美人花01"
+    action: "add"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "76e5bb89ea9baca96164ad1ae88251ce54687cf054cc614fc5a5f96898226dd6"
+    bytes_after: 312
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "npc_变身小花仙男23_自身A_1_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "78925e2903b5216c09bef0e4218e49925139ba398a373792432ec0fd836209d5"
+    bytes_after: 464
+  - file: "MaterialFolder/all.material"
+    kind: "material"
+    name: "npc_变身小花仙女23_自身A_1_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [17348240, 17348240]
+    sha256_before: null
+    sha256_after: "0314a51a6204f49f7c620372ce38701e7f759568c48cc1246516ea8529bcae99"
+    bytes_after: 464
+  - file: "EffectFolder/all.effect"
+    kind: "effect"
+    name: "boss_2026武神坛耶律浚_自身特效_A"
+    action: "add"
+    source: "S3"
+    s1_span: [16953465, 16953465]
+    sha256_before: null
+    sha256_after: "c612ec6887d6d3ef1ca766d658d0608cb0a2ade55a570a67f99df331fc85b77e"
+    bytes_after: 1717
+  - file: "EffectFolder/all.effect"
+    kind: "effect"
+    name: "npc_变身小花仙男23_自身A_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [16953465, 16953465]
+    sha256_before: null
+    sha256_after: "d97afc294ecc2c0eea54fa6b5cbfeaa649d2f3047a8cc1838195cc183e9871d1"
+    bytes_after: 1109
+  - file: "EffectFolder/all.effect"
+    kind: "effect"
+    name: "npc_变身小花仙女23_自身A_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [16953465, 16953465]
+    sha256_before: null
+    sha256_after: "704eb531c32d15721657931ec5e4496bf4efba80879a80343379cc4a23896559"
+    bytes_after: 1107
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+    action: "replace"
+    source: "S3"
+    s1_span: [2292828, 2293928]
+    sha256_before: "39e8b84adacb52434942519c9b71d904cb6a9320fe342946a3c510d7009558c3"
+    sha256_after: "0aacf17ac283eb74129871d49ed20e3b30edd106c096fe1a5781984d47bbb3b1"
+    bytes_after: 1102
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛萧阿刺_自身特效_A_2"
+    action: "replace"
+    source: "S3"
+    s1_span: [2293932, 2294986]
+    sha256_before: "c6d9110cd7c1b94c47034b444b350ebcd81a50c109604cddd152fe6224c8c11d"
+    sha256_after: "c3abca35ca976a139eb04d2e6f080c9d834d0c7e09ac7f381abe1befbd52e0af"
+    bytes_after: 1056
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛萧阿刺_自身特效_A_3"
+    action: "replace"
+    source: "S3"
+    s1_span: [2294990, 2295994]
+    sha256_before: "42332d46686ac07815705037b5662d9accae51889d620f5957497c9035f15246"
+    sha256_after: "ce5b6340495306331b9b389a9a06970616d7a844d20af29b3e4716c2c86fe53e"
+    bytes_after: 964
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛萧阿刺_自身特效_A_4"
+    action: "replace"
+    source: "S3"
+    s1_span: [2295998, 2296988]
+    sha256_before: "e398ad28dd4dd9750b5a4dbe1e19ff96900867437288814f6c143314285b3879"
+    sha256_after: "01964ab6acc0544267cb45c3b429d61ff08748d5c422dd0da98811fe29b143b7"
+    bytes_after: 950
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛耶律浚_自身特效_A_1"
+    action: "add"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "58ea221157856f1e7ad3d90a7ca7459ae2698698812923f5e72c7976d13fc592"
+    bytes_after: 1099
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛耶律浚_自身特效_A_2"
+    action: "add"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "81011d29b6a8f8ad660070be07826a3ed37d28afe719060a4af25dc3618c7bee"
+    bytes_after: 1059
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛耶律浚_自身特效_A_3"
+    action: "add"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "4e6aa0563f284bde467101d1840372bd592f6598832126bc83c9061a82849a71"
+    bytes_after: 971
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "boss_2026武神坛耶律浚_自身特效_A_4"
+    action: "add"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "bfc71074a55098c0803a900fab993294f900965c4cc97262d8b72ac6a0a3900a"
+    bytes_after: 989
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "npc_变身小花仙男23_自身A_1_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "b14d01c4c2ce2592faeecb6e2ecef4b78b3d41fc29ca8b957fdbe3413b3dd186"
+    bytes_after: 843
+  - file: "EffectFolder/all.particle"
+    kind: "particle"
+    name: "npc_变身小花仙女23_自身A_1_hj"
+    action: "add-renamed"
+    source: "S3"
+    s1_span: [35326641, 35326641]
+    sha256_before: null
+    sha256_after: "1ce2e332d67ff78d6a0774bfbb3dc443441e1248d768219dbd65f378c395c58b"
+    bytes_after: 843
+scripts:
+  - path: "ModelFolder/all.obj"
+    edits: 18
+    replaced_blocks: 13
+    inserted_blocks: 5
+    sha256_s1: "b83b48470daf5af5fc1b7c7c06b6d78e079e7b6c19323447ea0936bd4267c5a3"
+    bytes_s1: 14439793
+    sha256_canonical: "932cb789739aeb0c37935f52f4154cee1755c54d6418107bf780b3930f213a78"
+    bytes_canonical: 14448723
+    edit_list:
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺.obj"
+        s1_span: [160116, 162758]
+        old_sha256: "95ceb8380da1412d4c4feabef304975c4f01cf06851d24aaaf520e8af7a98326"
+        new_sha256: "f1c3a164732888311f290e25fc27197c259a3c930cfb354d58afd2d2fc97267a"
+        new_len: 2972
+      - op: "replace"
+        name: "boss_2026武神坛耶律浚.obj"
+        s1_span: [157991, 160113]
+        old_sha256: "49f1e6bfd75a06dc824e430d54c06b741035666b01397c324e9d7872251dd5c5"
+        new_sha256: "8d2d0d0055affb6c01d3965df048cafcbab37bd5551b0c3ed881b3c905615c37"
+        new_len: 2163
+      - op: "insert"
+        name: "npc_2026大理种花虞美人花02.obj"
+        s1_span: [14439779, 14439779]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "4d0e86d277acd37fc7dcc97ae1a17bc8839eb882083c00bafece7210ff7a8cde"
+        new_len: 1879
+      - op: "insert"
+        name: "npc_2026大理种花虞美人花04.obj"
+        s1_span: [14439779, 14439779]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "e31b59a4a3427d7c8f56a46980c1d2fb486eb2429101d090a90281e37fdf2bd9"
+        new_len: 1875
+      - op: "replace"
+        name: "npc_2026七夕副本动态阻挡_猩红荆棘.obj"
+        s1_span: [14420754, 14422256]
+        old_sha256: "4fd5d9443684115897b6abd5bea0adba32fe1b78e3a6cf079457917569cb434f"
+        new_sha256: "150eb90213055e926a3bcfe6255bd4d0b345fd3267b58752f01e9e0c80fe4656"
+        new_len: 1475
+      - op: "replace"
+        name: "npc怪_2026萧阿刺落石.obj"
+        s1_span: [4595219, 4596575]
+        old_sha256: "ad522dcb02ba386d21efeb2bc168d1ec07478cd2f7642210a6811c71e89281d0"
+        new_sha256: "0b42d3499c8758ce249323ec336c80dca599742717d8015fe45425bb22aeb9b2"
+        new_len: 1356
+      - op: "replace"
+        name: "npc怪_2026萧阿刺巡逻兵.obj"
+        s1_span: [4587803, 4589500]
+        old_sha256: "c65d0002c4060e223f58b6540bffdaf6264fcfdaa0ba169e7ed1675dc19ec874"
+        new_sha256: "be6a6be0516b38553b7259f95799b8a671f2f8171ee845183c3c8db5c51ae8bd"
+        new_len: 1697
+      - op: "replace"
+        name: "npc怪_2026耶律浚突石.obj"
+        s1_span: [4562739, 4564100]
+        old_sha256: "833cd8c2b0b7b99ccf4b0a382bc3bc8d81d7241b38fa21fc1619d55f48e95959"
+        new_sha256: "50d71e90d1b43234aab90a900abe94a50cfe9c7e2ccc8c24658bc8e28a9caffa"
+        new_len: 1361
+      - op: "replace"
+        name: "npc怪_2026耶律浚巡逻兵.obj"
+        s1_span: [4556641, 4558360]
+        old_sha256: "c9e95dce713230224dd07f3d7547b921f11b40064f05620eadd0fa35610b0208"
+        new_sha256: "acc0c0173c5a66006ad8607977ef2ab18659fef5b92cfd65352f1ad5d8d51a0d"
+        new_len: 1719
+      - op: "insert"
+        name: "npc空模型_七夕剧情红特效.obj"
+        s1_span: [14439779, 14439779]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "f6d85ad09a80311fb2a502f84da7f9337a3d22307d03d487a709690df729a8f6"
+        new_len: 1335
+      - op: "insert"
+        name: "npc空模型_七夕剧情蓝特效.obj"
+        s1_span: [14439779, 14439779]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "5777c543787681837f4d0e649cba0a3e33fc93c5923b7667277fe8358d37cdd3"
+        new_len: 1335
+      - op: "replace"
+        name: "npc汴梁城富家女_撑伞.obj"
+        s1_span: [11719691, 11721758]
+        old_sha256: "32f0bca3cce19bf6d67574b274937d473e550feb7ab28f47d3bd505607db4650"
+        new_sha256: "fa1964691a016b833d5166d8eb70bef82a658a8ad77ebba3a67d2af7998f5114"
+        new_len: 2070
+      - op: "replace"
+        name: "npc汴梁城富家女_购买.obj"
+        s1_span: [11721761, 11723838]
+        old_sha256: "98274bbeb33297e2459b9b7f8addfbe73a1e717909970ca0f70ebdc8d330dfc7"
+        new_sha256: "029db23b0f2ee8c776efa680b8e827ba0926e4fde41b25506f908343519cc890"
+        new_len: 2080
+      - op: "replace"
+        name: "npc汴梁城富家女_购买2.obj"
+        s1_span: [11723841, 11725910]
+        old_sha256: "3bab34104dab5bf38b8a9b9fc9d0b0b52ea484b4fca2a3954307af4965d0b4d1"
+        new_sha256: "685788d3e25dad978bdebc9c92590eb51ba165578dbd09731dbd310d8944b0c5"
+        new_len: 2072
+      - op: "replace"
+        name: "npc汴梁城富家女_购买3.obj"
+        s1_span: [11725913, 11727976]
+        old_sha256: "46a200cbd95ac92fac44b1e7e221ec118cc44325abcb535a0ed346a349c509e5"
+        new_sha256: "d09757aafa066e9b2dcb28d365a888324caff31224a8b8c624fb4f2998b50665"
+        new_len: 2066
+      - op: "replace"
+        name: "npc汴梁城富家女_交谈.obj"
+        s1_span: [11717626, 11719688]
+        old_sha256: "7b161ceefd5e33805c391aaf02f29ccf9dc9813ee9f011a39dec7e706e8cc6a5"
+        new_sha256: "fbddabbcfa1ac0f0b6b3338d5e8860076586d6f8fec853b615eac79d6769cc8f"
+        new_len: 2065
+      - op: "insert"
+        name: "npc汴梁城小女孩变色_斗蛐蛐.obj"
+        s1_span: [14439779, 14439779]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "0234dea0fa608b12c64e5851e29e83c309307de10298e660c107a1df5ec8afb6"
+        new_len: 2136
+      - op: "replace"
+        name: "珍兽上古神猿2a.obj"
+        s1_span: [10624178, 10626523]
+        old_sha256: "74117c17ee78e4d1a0b054168c120171650431ac616f1b5145572436a72e65c9"
+        new_sha256: "7c73341e7d0c82e206cf38fb849d9bad015116847186027d1428ccc9b71b4774"
+        new_len: 2356
+  - path: "MaterialFolder/all.material"
+    edits: 19
+    replaced_blocks: 6
+    inserted_blocks: 13
+    sha256_s1: "5ed3be0861ea1a8e22b42e5af2fcbea00ea3f593b2c87868d6015257326d57db"
+    bytes_s1: 17348240
+    sha256_canonical: "889fa2c6bf346a57f15ee1d0cea12e94aa5848d83b0fd155b4589939fbbefba4"
+    bytes_canonical: 17351935
+    edit_list:
+      - op: "replace"
+        name: "cj_场景机制_七夕副本_动态阻挡_2"
+        s1_span: [17316272, 17316804]
+        old_sha256: "5010f1ad2383e1fcbc7a929b9d0d1b6e503ba13a6cafca888cdace2cb7b1c36b"
+        new_sha256: "e941917c9434b16b04089fc17c918d106eed315e9d561cf29759c2e82b7b34d0"
+        new_len: 538
+      - op: "replace"
+        name: "cj_场景机制_七夕副本_动态阻挡_3"
+        s1_span: [17316806, 17317332]
+        old_sha256: "8b117205aca82bbebd5c2873bdc09f47969f638398cab9e9e8085e391fd2666b"
+        new_sha256: "f9ceb02c82d5f2f278cb1ec8ea1aced3704517d90d257aae1f6adbd8d38f10ea"
+        new_len: 529
+      - op: "replace"
+        name: "cj_场景机制_七夕副本_动态阻挡_4"
+        s1_span: [17317334, 17317842]
+        old_sha256: "bb1cd57ec54c2711db695657c03356b53fb72961701fe76a0915d58897d48e2e"
+        new_sha256: "76f4bab2f8e44f87f654a019b08628b94cd4026e63e4f9a3560f2aff46c80630"
+        new_len: 514
+      - op: "replace"
+        name: "cj_场景机制_七夕副本_动态阻挡_5"
+        s1_span: [17317844, 17318051]
+        old_sha256: "8a56048d49d8c9ee14f88da86d7bcce85bf5aebc5d91b9c8d1e88a6ac4df470e"
+        new_sha256: "ab0ca11b25e5d1933e49ab1b7ff7dd4490d151161091d62771f89f6d35443422"
+        new_len: 210
+      - op: "replace"
+        name: "cj_场景机制_七夕副本_动态阻挡_6"
+        s1_span: [17318053, 17318557]
+        old_sha256: "693d550e30abeb1cbbc15898652717710532eb0aedd1f789979fc1103b43c47e"
+        new_sha256: "f9b6673bfff08377b3bb97381137995278496797ac9404a8cf2544adb3698e45"
+        new_len: 510
+      - op: "insert"
+        name: "npc汴梁城大变活人男孩蛐蛐罐"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "608ccd32bec26fd09fa7494399a1558e93e318ddd861fec77b8a3de31f68c131"
+        new_len: 269
+      - op: "insert"
+        name: "npc汴梁城小女孩变色_cy"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "4d8949d2a118618a68fe5aab9f0c1b63f4e17f6d732e71584c1bfbb8bb2d000e"
+        new_len: 306
+      - op: "insert"
+        name: "通天塔空模型"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "87241dcd80cd76d73bf6cd0433daf5fdc557b7363f5e1e9f8558246eb6d8fd6b"
+        new_len: 290
+      - op: "insert"
+        name: "珍兽上古神猿装备2_cy"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "fef3686a9b98ffa9c20f8f2a97150792c1b5f34f3be0d2cbcda7e338e506dadc"
+        new_len: 217
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+        s1_span: [835184, 835462]
+        old_sha256: "9b499268014ff0b914bb8a1b97bce780346ea9948e8830fb90642bb18ad6df3a"
+        new_sha256: "308152e554a8a263d46a6a896d7dbeae816b09c0d51fbbb2e3f307f8996e777e"
+        new_len: 281
+      - op: "insert"
+        name: "boss_2026武神坛萧阿刺半透"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "5218d087a69e3f8930f888f2cbf8083349ac277e621f133ef182dbf8eea84729"
+        new_len: 219
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_1"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "c65d7a057ed9c16d57495c40a3b769a21a730b45798ef6be655f3d2ccb755182"
+        new_len: 282
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_2"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "3e43d5b40553f6c25152fa3392f3ed08535cae635b7aff65016157ceb0f7426c"
+        new_len: 218
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_3"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "a89add0f71f6ff34414394939f62d3de92f7646be5d743c9d0c585c3363ce45a"
+        new_len: 191
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_4"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "9788b58538bed062306c1bc726e1645c664cae4d58d49841a28392dc1027af9d"
+        new_len: 217
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚半透"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "04d47b4916350ecb3ad033ca8bffaa77f4d2ec59cab1b90943d0bbdce5a58ce2"
+        new_len: 219
+      - op: "insert"
+        name: "npc_2026大理种花虞美人花01"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "76e5bb89ea9baca96164ad1ae88251ce54687cf054cc614fc5a5f96898226dd6"
+        new_len: 312
+      - op: "insert"
+        name: "npc_变身小花仙男23_自身A_1_hj"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "78925e2903b5216c09bef0e4218e49925139ba398a373792432ec0fd836209d5"
+        new_len: 464
+      - op: "insert"
+        name: "npc_变身小花仙女23_自身A_1_hj"
+        s1_span: [17348240, 17348240]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "0314a51a6204f49f7c620372ce38701e7f759568c48cc1246516ea8529bcae99"
+        new_len: 464
+  - path: "EffectFolder/all.effect"
+    edits: 3
+    replaced_blocks: 0
+    inserted_blocks: 3
+    sha256_s1: "ff42afca5bf95a494b742a441c014dcc6a73bd5ee88c561ae0d565f38588c316"
+    bytes_s1: 16953465
+    sha256_canonical: "cf4f75f35d84ee0e1747f66c9a96f3b7701588cc6d85d53fddd2a214cefe4b8f"
+    bytes_canonical: 16957398
+    edit_list:
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A"
+        s1_span: [16953465, 16953465]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "c612ec6887d6d3ef1ca766d658d0608cb0a2ade55a570a67f99df331fc85b77e"
+        new_len: 1717
+      - op: "insert"
+        name: "npc_变身小花仙男23_自身A_hj"
+        s1_span: [16953465, 16953465]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "d97afc294ecc2c0eea54fa6b5cbfeaa649d2f3047a8cc1838195cc183e9871d1"
+        new_len: 1109
+      - op: "insert"
+        name: "npc_变身小花仙女23_自身A_hj"
+        s1_span: [16953465, 16953465]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "704eb531c32d15721657931ec5e4496bf4efba80879a80343379cc4a23896559"
+        new_len: 1107
+  - path: "EffectFolder/all.particle"
+    edits: 10
+    replaced_blocks: 4
+    inserted_blocks: 6
+    sha256_s1: "2d3ddd2e44871c8bab75b8b34b88ad824c7c7a1a1a0c71409ddca4a2ead62b90"
+    bytes_s1: 35326641
+    sha256_canonical: "1732e4f5e00c138611a59749e7b96955dae604384043883ee73b402a2d19cf8b"
+    bytes_canonical: 35332369
+    edit_list:
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_1"
+        s1_span: [2292828, 2293928]
+        old_sha256: "39e8b84adacb52434942519c9b71d904cb6a9320fe342946a3c510d7009558c3"
+        new_sha256: "0aacf17ac283eb74129871d49ed20e3b30edd106c096fe1a5781984d47bbb3b1"
+        new_len: 1102
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_2"
+        s1_span: [2293932, 2294986]
+        old_sha256: "c6d9110cd7c1b94c47034b444b350ebcd81a50c109604cddd152fe6224c8c11d"
+        new_sha256: "c3abca35ca976a139eb04d2e6f080c9d834d0c7e09ac7f381abe1befbd52e0af"
+        new_len: 1056
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_3"
+        s1_span: [2294990, 2295994]
+        old_sha256: "42332d46686ac07815705037b5662d9accae51889d620f5957497c9035f15246"
+        new_sha256: "ce5b6340495306331b9b389a9a06970616d7a844d20af29b3e4716c2c86fe53e"
+        new_len: 964
+      - op: "replace"
+        name: "boss_2026武神坛萧阿刺_自身特效_A_4"
+        s1_span: [2295998, 2296988]
+        old_sha256: "e398ad28dd4dd9750b5a4dbe1e19ff96900867437288814f6c143314285b3879"
+        new_sha256: "01964ab6acc0544267cb45c3b429d61ff08748d5c422dd0da98811fe29b143b7"
+        new_len: 950
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_1"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "58ea221157856f1e7ad3d90a7ca7459ae2698698812923f5e72c7976d13fc592"
+        new_len: 1099
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_2"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "81011d29b6a8f8ad660070be07826a3ed37d28afe719060a4af25dc3618c7bee"
+        new_len: 1059
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_3"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "4e6aa0563f284bde467101d1840372bd592f6598832126bc83c9061a82849a71"
+        new_len: 971
+      - op: "insert"
+        name: "boss_2026武神坛耶律浚_自身特效_A_4"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "bfc71074a55098c0803a900fab993294f900965c4cc97262d8b72ac6a0a3900a"
+        new_len: 989
+      - op: "insert"
+        name: "npc_变身小花仙男23_自身A_1_hj"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "b14d01c4c2ce2592faeecb6e2ecef4b78b3d41fc29ca8b957fdbe3413b3dd186"
+        new_len: 843
+      - op: "insert"
+        name: "npc_变身小花仙女23_自身A_1_hj"
+        s1_span: [35326641, 35326641]
+        old_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        new_sha256: "1ce2e332d67ff78d6a0774bfbb3dc443441e1248d768219dbd65f378c395c58b"
+        new_len: 843
+renames:
+  - kind: "texture"
+    from: "jpg_z_uv020.dds"
+    to: "jpg_z_uv020_cy.dds"
+    source: "S2"
+    reason: "base has 2 copies/definitions of the name"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_4 (texture)"]
+  - kind: "texture"
+    from: "jpg_圆形蒙版02.dds"
+    to: "jpg_圆形蒙版02_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 97 reference(s) outside this batch, e.g. all.material back_2025周年庆剑匣01_A剑匣_6; all.material back_2025周年庆剑匣01_A剑匣_7; all.material back_2025周年庆剑匣_A剑匣_6"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_4 (texture)"]
+  - kind: "texture"
+    from: "png_2023遮罩06.dds"
+    to: "png_2023遮罩06_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 99 reference(s) outside this batch, e.g. all.material back_2025周年庆剑匣01_休闲_剑匣_8; all.material boss_2025七夕副本血槐娘娘_百骸共溃_发招_6; all.material boss_2025通天塔紧那罗王_技能2发招A02"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_2 (texture)", "material cj_场景机制_七夕副本_动态阻挡_3 (texture)"]
+  - kind: "texture"
+    from: "png_erg_dot01.dds"
+    to: "png_erg_dot01_cy.dds"
+    source: "S2"
+    reason: "base has 2 copies/definitions of the name"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_5 (texture)"]
+  - kind: "texture"
+    from: "png_glow光01.dds"
+    to: "png_glow光01_cy.dds"
+    source: "S2"
+    reason: "base has 2 copies/definitions of the name"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_6 (texture)"]
+  - kind: "texture"
+    from: "png_z_uv_002.dds"
+    to: "png_z_uv_002_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 65 reference(s) outside this batch, e.g. all.material boss_2024大话二郎神_技能1扇形预警_3; all.material boss_2024牛魔王_技能2_爆发_12; all.material boss_2024牛魔王_技能2_爆发_13"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_6 (texture)"]
+  - kind: "texture"
+    from: "tga_npc汴梁城小女孩变色.dds"
+    to: "tga_npc汴梁城小女孩变色_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.material npc汴梁城小女孩变色"
+    references_rewritten_in: ["material npc汴梁城小女孩变色_cy (texture)"]
+  - kind: "texture"
+    from: "tga_wm_effect_331.dds"
+    to: "tga_wm_effect_331_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 18 reference(s) outside this batch, e.g. all.material boss_211227九尾狐_攻击2A03; all.material boss_单正_技能1buff_数字1_18; all.material boss_单正_技能1buff_数字1_31"
+    references_rewritten_in: ["material cj_场景机制_七夕副本_动态阻挡_2 (texture)"]
+  - kind: "texture"
+    from: "tga_通用合体特效.dds"
+    to: "tga_通用合体特效_cy.dds"
+    source: "S2"
+    reason: "several variants of the name are needed"
+    references_rewritten_in: ["material 通天塔空模型 (texture)"]
+  - kind: "texture"
+    from: "tga_珍兽上古神猿装备2.dds"
+    to: "tga_珍兽上古神猿装备2_cy.dds"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.material 珍兽上古神猿装备2"
+    references_rewritten_in: ["material 珍兽上古神猿装备2_cy (texture)"]
+  - kind: "texture"
+    from: "jpg_z_雪花04.dds"
+    to: "jpg_z_雪花04_hj.dds"
+    source: "S3"
+    reason: "base has 2 copies/definitions of the name"
+    references_rewritten_in: ["material npc_变身小花仙女23_自身A_1_hj (texture)", "material npc_变身小花仙男23_自身A_1_hj (texture)"]
+  - kind: "texture"
+    from: "png_cj_jiuzhaigou_heliu01.dds"
+    to: "png_cj_jiuzhaigou_heliu01_hj.dds"
+    source: "S3"
+    reason: "base has 2 copies/definitions of the name"
+    references_rewritten_in:
+      - "material boss_2026武神坛耶律浚_自身特效_A_1 (texture)"
+      - "material boss_2026武神坛萧阿刺_自身特效_A_1 (texture)"
+  - kind: "skeleton"
+    from: "npc汴梁城小女孩变色.skeleton"
+    to: "npc汴梁城小女孩变色_cy.skeleton"
+    source: "S2"
+    reason: "base copy shared: 3 reference(s) outside this batch, e.g. binary link in Model2Folder\\npc汴梁城风车女孩变色.mesh; binary link in Model2Folder\\npc汴梁城小女孩变色.mesh; binary link in Model2Folder\\npc汴梁城蛐蛐罐女孩变色.mesh"
+    references_rewritten_in: ["mesh npc汴梁城小女孩变色_cy.mesh (skeleton)", "mesh npc汴梁城蛐蛐罐女孩变色_cy.mesh (skeleton)", "mesh npc汴梁城风车女孩变色_cy.mesh (skeleton)"]
+  - kind: "skeleton"
+    from: "珍兽上古神猿1.skeleton"
+    to: "珍兽上古神猿1_cy.skeleton"
+    source: "S2"
+    reason: "base copy shared: 18 reference(s) outside this batch, e.g. binary link in ModelFolder\\珍兽上古神猿兵器1.mesh; binary link in ModelFolder\\珍兽上古神猿兵器2.mesh; binary link in ModelFolder\\珍兽上古神猿兵器3.mesh"
+    references_rewritten_in: ["mesh 珍兽上古神猿兵器2_cy.mesh (skeleton)", "mesh 珍兽上古神猿装备2_cy.mesh (skeleton)", "mesh 珍兽上古神猿身2_cy.mesh (skeleton)"]
+  - kind: "mesh"
+    from: "npc空模型.mesh"
+    to: "npc空模型_cy.mesh"
+    source: "S2"
+    reason: "several variants of the name are needed"
+    references_rewritten_in: ["obj npc_2026七夕副本动态阻挡_猩红荆棘.obj (entity)"]
+  - kind: "mesh"
+    from: "npc汴梁城风车女孩变色.mesh"
+    to: "npc汴梁城风车女孩变色_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object npc汴梁城小女孩变色_围观.obj>"
+    references_rewritten_in: ["obj npc汴梁城小女孩变色_斗蛐蛐.obj (entity)"]
+  - kind: "mesh"
+    from: "npc汴梁城小女孩变色.mesh"
+    to: "npc汴梁城小女孩变色_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object npc汴梁城小女孩变色_围观.obj>"
+    references_rewritten_in: ["obj npc汴梁城小女孩变色_斗蛐蛐.obj (entity)"]
+  - kind: "mesh"
+    from: "npc汴梁城蛐蛐罐女孩变色.mesh"
+    to: "npc汴梁城蛐蛐罐女孩变色_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object npc汴梁城小女孩变色_围观.obj>"
+    references_rewritten_in: ["obj npc汴梁城小女孩变色_斗蛐蛐.obj (entity)"]
+  - kind: "mesh"
+    from: "珍兽上古神猿兵器2.mesh"
+    to: "珍兽上古神猿兵器2_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object 珍兽上古神猿2.obj>"
+    references_rewritten_in: ["obj 珍兽上古神猿2a.obj (entity)"]
+  - kind: "mesh"
+    from: "珍兽上古神猿身2.mesh"
+    to: "珍兽上古神猿身2_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object 珍兽上古神猿2.obj>"
+    references_rewritten_in: ["obj 珍兽上古神猿2a.obj (entity)"]
+  - kind: "mesh"
+    from: "珍兽上古神猿装备2.mesh"
+    to: "珍兽上古神猿装备2_cy.mesh"
+    source: "S2"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object 珍兽上古神猿2.obj>"
+    references_rewritten_in: ["obj 珍兽上古神猿2a.obj (entity)"]
+  - kind: "mesh"
+    from: "npc汴梁城富家女.mesh"
+    to: "npc汴梁城富家女_hj.mesh"
+    source: "S3"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object npc汴梁城富家女.obj>"
+    references_rewritten_in: ["obj npc汴梁城富家女_交谈.obj (entity)", "obj npc汴梁城富家女_撑伞.obj (entity)", "obj npc汴梁城富家女_购买.obj (entity)", "obj npc汴梁城富家女_购买2.obj (entity)", "obj npc汴梁城富家女_购买3.obj (entity)"]
+  - kind: "material"
+    from: "npc汴梁城小女孩变色"
+    to: "npc汴梁城小女孩变色_cy"
+    source: "S2"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. binary link in Model2Folder\\npc汴梁城小女孩变色.mesh; all.obj <Object npc汴梁城小女孩变色_围观.obj>"
+    references_rewritten_in: ["obj npc汴梁城小女孩变色_斗蛐蛐.obj (entity_mat)"]
+  - kind: "material"
+    from: "珍兽上古神猿装备2"
+    to: "珍兽上古神猿装备2_cy"
+    source: "S2"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. binary link in ModelFolder\\珍兽上古神猿装备2.mesh; all.obj <Object 珍兽上古神猿2.obj>"
+    references_rewritten_in: ["obj 珍兽上古神猿2a.obj (entity_mat)"]
+  - kind: "material"
+    from: "npc_变身小花仙男23_自身A_1"
+    to: "npc_变身小花仙男23_自身A_1_hj"
+    source: "S3"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. all.effect npc_变身小花仙男23_自身A; all.particle npc_变身小花仙男23_自身A_1"
+    references_rewritten_in:
+      - "particle npc_变身小花仙男23_自身A_1_hj (material)"
+  - kind: "material"
+    from: "npc_变身小花仙女23_自身A_1"
+    to: "npc_变身小花仙女23_自身A_1_hj"
+    source: "S3"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. all.effect npc_变身小花仙女23_自身A; all.particle npc_变身小花仙女23_自身A_1"
+    references_rewritten_in:
+      - "particle npc_变身小花仙女23_自身A_1_hj (material)"
+  - kind: "particle"
+    from: "npc_变身小花仙男23_自身A_1"
+    to: "npc_变身小花仙男23_自身A_1_hj"
+    source: "S3"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. all.effect npc_变身小花仙男23_自身A; all.material npc_变身小花仙男23_自身A_1"
+    references_rewritten_in: ["effect npc_变身小花仙男23_自身A_hj (particle)"]
+  - kind: "particle"
+    from: "npc_变身小花仙女23_自身A_1"
+    to: "npc_变身小花仙女23_自身A_1_hj"
+    source: "S3"
+    reason: "base copy shared: 2 reference(s) outside this batch, e.g. all.effect npc_变身小花仙女23_自身A; all.material npc_变身小花仙女23_自身A_1"
+    references_rewritten_in: ["effect npc_变身小花仙女23_自身A_hj (particle)"]
+  - kind: "effect"
+    from: "npc_变身小花仙男23_自身A"
+    to: "npc_变身小花仙男23_自身A_hj"
+    source: "S3"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object HJ_npc变身小花仙男23.obj>"
+    references_rewritten_in: ["obj npc空模型_七夕剧情蓝特效.obj (effect)"]
+  - kind: "effect"
+    from: "npc_变身小花仙女23_自身A"
+    to: "npc_变身小花仙女23_自身A_hj"
+    source: "S3"
+    reason: "base copy shared: 1 reference(s) outside this batch, e.g. all.obj <Object HJ_npc变身小花仙23.obj>"
+    references_rewritten_in: ["obj npc空模型_七夕剧情红特效.obj (effect)"]
+problems: []
+validators:
+  errors: 0
+  warnings: 3
+  checked:
+    objects: 26
+    materials: 48
+    effects: 7
+    particles: 24
+    meshes: 26
+    skeletons: 12
+    textures: 43
+    scripts: 4
+  by_validator:
+    V01:
+      error: 0
+      warn: 0
+      info: 26
+    V02:
+      error: 0
+      warn: 0
+      info: 12
+    V03:
+      error: 0
+      warn: 2
+      info: 26
+    V04:
+      error: 0
+      warn: 0
+      info: 48
+    V05:
+      error: 0
+      warn: 1
+      info: 43
+    V06:
+      error: 0
+      warn: 0
+      info: 34
+    V13:
+      error: 0
+      warn: 0
+      info: 4
+  report: "Build/Logs/2026-09-12-canonical/validate.txt"
+  catalogue_regression:
+    check: "Tests/validators run.py --all-objects: V03 on every all.obj object, Canonical vs S1"
+    objects: 6771
+    objects_in_s1: 6766
+    with_errors: 88
+    with_errors_in_s1: 88
+    regressions: 0
+    report: "Build/Logs/2026-09-12-canonical/objects_all.json"
+revert:
+  command: "python Tools/pipeline/build_canonical.py --revert --batch 2026-09-12-variants-canonical"
+  manual:
+    - "copy every files[action=overwrite] path back from the S1 root (sha256_before)"
+    - "move every files[action=add|add-renamed] path out of Canonical (the tool moves them to Assets/Canonical/_quarantine/2026-09-12-variants-canonical)"
+    - "copy ModelFolder/all.obj, MaterialFolder/all.material, EffectFolder/all.effect, EffectFolder/all.particle back from S1 (their bytes outside scripts[].edit_list are S1 bytes)"
+  state_file: "Assets/Canonical/_manifest/overlay-2026-09-12-variants-canonical.json"

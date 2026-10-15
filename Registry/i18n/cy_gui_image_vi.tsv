@@ -1,0 +1,173 @@
+# cy_gui_image_vi.tsv - Vietnamese labels painted into CY 3.71 GUI textures (layer cy-gui-image-vi, Tools/pipeline/cy_gui_image_vi.py)
+# Columns (TAB): imageset, images (comma list, * wildcard; every state of one button), zh (label drawn by CY), vi (new label),
+# opts (key=value;... box/area=x0,y0,x1,y1 in image pixels, size, squeeze, stroke, color, ink=dark, widen, dx, dy, ref, grow, fill),
+# note (source: TM = analysis/translation/translation.db exact match, "TM rut gon" = shortened for the CY frame,
+# HV = Han-Viet reading, dich = own short translation). Keys, imageset and file names are never changed.
+imageset	images	zh	vi	opts	note
+# ---- HUD: mission tracker (MissionTrack.layout.xml)
+MissionAtrack	MK_Mission	任务追踪	Theo dõi NV		TM rut gon (Theo dõi nhiệm vụ)
+MissionAtrack	MK_Huodong	活动追踪	Theo dõi HĐ		dich (hoạt động)
+MissionAtrack	MKCurrentMission_*	已接	Đã nhận	area=1,3,39,16	dich (tooltip RWZZ_090601_01)
+MissionAtrack	MKAcceptMission_*	可接	Có thể	area=1,3,39,16	dich (tooltip RWZZ_090601_02)
+# ---- HUD: portrait (PlayerFrame.layout.xml)
+CommonItem	Chongzhibtn_*	充值	Nạp		TM rut gon (Nạp tiền)
+CommonItem	Duihuanbtn_*	兑换	Đổi		TM
+CommonFrame2	XinNiuIcon_*	新	Tân	icon=round;alt=T	TM (新 = Tân; nút tân thủ); T = Tân (tân thủ) khi nút 22 px không đủ chỗ
+CommonFrame5	YouLongKaBtn_*	捷	Tiệp	icon=round;alt=T	HV; T = Tiệp
+CommonFrame39	Xian_Button_*	限	Hạn	icon=round;alt=H	TM; H = Hạn
+NewFreshManPH	NewFreshManPH_BtnMPBook_*	门派手册	Cẩm nang phái	box=18,4,74,23;area=14,4,76,23;color=#fff6e0;stroke=1;stroke_color=#4a2c10	dich
+ImageButtons	Jincanxianli_*	金丝献礼	Kim Ti Hiến Lễ	box=24,6,80,23;area=24,6,80,23	TM
+ImageButtons	InfantCardGift_*	典籍回馈	Quà điển tịch	box=17,5,73,23;area=17,5,73,23	dich
+# ---- HUD: minimap (MiniMap.layout.xml)
+Button8	MiniMap_AutoSearch_Normal,MiniMap_AutoSearch_Hover,MiniMap_AutoSearch_Pushed,MiniMap_AutoSearch_Disabled	自动寻路	Tự tìm đường	widen=0	TM rut gon (Tự động tìm đường)
+CommonFrame20	SafeCenter_MiniMapButton_*	安全	An toàn	widen=0	TM
+TServerUI2	Bang_Xuanzhan_*	榜	Bảng	icon=round;alt=BXH|B	HV (bảng xếp hạng); BXH = bảng xếp hạng
+CommonFrame39	Fenxian_*	线	Tuyến	icon=round;alt=T	TM rut gon (Phân tuyến); T = Tuyến (phân tuyến)
+Button13	Community_*	社	Xã	icon=round	HV
+AutoAttack_Button	AutoAttack_Btn_G_*,AutoAttack_Btn_Y_*	战	Chiến	icon=round;core=10;alt=Đấu|Đ	HV (tự chiến đấu); Đấu/Đ = tự chiến đấu
+CommonFrame7	XunIcon_*	询	Hỏi	icon=round;alt=H	dich; H = Hỏi
+CommonFrame15	DiaoIcon_*	调	Điều	icon=round;alt=Đ	HV; Đ = Điều
+CommonStaticImage	Minimap_Time1	子	Tý		HV (giờ Tý)
+CommonStaticImage	Minimap_Time2	丑	Sửu		HV
+CommonStaticImage	Minimap_Time3	寅	Dần		HV
+CommonStaticImage	Minimap_Time4	卯	Mão		HV
+CommonStaticImage	Minimap_Time5	辰	Thìn		HV
+CommonStaticImage	Minimap_Time6	巳	Tỵ		HV
+CommonStaticImage	Minimap_Time7	午	Ngọ		HV
+CommonStaticImage	Minimap_Time8	未	Mùi		HV
+CommonStaticImage	Minimap_Time9	申	Thân		HV
+CommonStaticImage	Minimap_Time10	酉	Dậu		HV
+CommonStaticImage	Minimap_Time11	戌	Tuất		HV
+CommonStaticImage	Minimap_Time12	亥	Hợi		HV
+# ---- HUD: main menu bar (MainMenuBar.layout.xml)
+CommonFrame2	FenIcon_*	分	Phân	icon=round;alt=P	TM (分 = phân); P = Phân
+# ---- HUD: chat channels (ChatFrame.layout.xml / ChatFrame.lua)
+Buttons	ChannelVicinity_*,Channelvicinity_Normal	近	Gần		dich (Lân cận)
+Buttons	ChannelWorld_*	世	TG		dich (Thế giới)
+Buttons	ChannelPersonal_*	密	PM		dich (tin nhắn riêng)
+Buttons	ChannelTeam_*	组	Đội		TM (Đội)
+Buttons	ChannelMenpai_*	门	MP		dich (Môn phái)
+Buttons	ChannelCorporative_*	帮	BH		dich (Bang hội)
+CommonFrame6	ChannelTongMeng_*	盟	ĐM		dich (Đồng minh)
+UIIcons	ChannelCorporative_*	城	TT		dich (Thành thị)
+Union1	Union_Channel_*	团	QĐ		dich (Quân đoàn)
+Button12	ChannelOUT_*	天	TH		dich (Thiên hạ)
+Button12	ChannelShili_*	族	Tộc		HV
+Buttons	ChannelJiangHu_*	江	GH		dich (Giang hồ)
+Buttons	IME_Chinese	中	Tr		dich (bộ gõ Trung)
+# ---- login (LogOn.layout.xml)
+CommonFrame20	CustomMail_*	选择后缀登录	Chọn hậu tố		dich (TM: Nhập hậu tố để đăng nhập)
+CommonFrame20	ZidingyiMail_*	输入后缀登录	Nhập hậu tố		TM rut gon (Nhập hậu tố để đăng nhập)
+CommonFrame28	Logon_Houzhui_*	选择后缀登录	Chọn hậu tố		dich
+CommonFrame28	Logon_EnterHouzhui_*	输入后缀登录	Nhập hậu tố		TM rut gon
+CommonFrame28	Logon_Erweima_*	二维码登录	Mã QR		TM rut gon (Đăng nhập bằng mã QR)
+CommonFrame18	EnterGame_*	进入游戏	Vào game		dich (TM: Tiến nhập trò chơi)
+# ---- role selection (SelectRole.layout.xml)
+MainFrameLuo03	CreateRole_*	创建角色	Tạo nhân vật		TM
+MainFrameLuo03	DelRole_*	删除角色	Xóa nhân vật		TM
+MainFrameLuo03	Last_*	上一步	Bước trước	cap=0.62	TM
+MainFrameLuo06	CancelDelete_*	取消删除	Hủy xóa		dich
+# ---- character (SelfEquip.layout.xml)
+LevelUpLock	LevelUpLock_Opening	解锁中	Đang mở		TM rut gon (Đang mở khóa)
+# ---- role selection title (SelectRoleBKG1 = whole side panel; the title is a strip at the top)
+MainFrameLuo04	SelectRoleBKG1	选择角色	Chọn nhân vật	box=56,14,152,34;area=46,14,162,34	TM
+# ---- character creation (CreateRole.layout.xml)
+MainFrameLuo04	CreateRole_*	创建角色	Tạo nhân vật		TM
+MainFrameLuo04	Last_Create_*	上一页	Trang trước		TM
+MainFrameLuo04	Next_Create_*	下一页	Trang sau		TM
+MainFrameLuo04	SelectSex	选择性别	Giới tính	area=0,0,59,13	TM rut gon (Chọn giới tính)
+MainFrameLuo04	SelectHair	选择发型	Kiểu tóc	area=0,0,59,13	TM rut gon (Chọn kiểu tóc)
+MainFrameLuo04	SelectFace	选择脸型	Khuôn mặt	area=0,0,59,13	TM rut gon (Chọn khuôn mặt)
+MainFrameLuo04	SelectCloth	选择衣着	Y phục	area=0,0,59,13	TM rut gon (Chọn y phục)
+MainFrameLuo04	SelectHead	选择头像	Chân dung	area=0,0,59,13	dich (TM: Chọn ảnh đại diện)
+CreateRole1	BtnRandom_*	随机形象	Ngẫu nhiên		TM rut gon (Ngẫu nhiên hình tượng)
+CreateRole1	Icon_Menpai	门派介绍	Giới thiệu phái	box=70,6,152,34;area=62,6,158,34	dich
+CreateRole1	Icon_Sex	选择预览性别	Xem trước giới tính	area=0,0,89,13	dich
+CreateRole2	BtnCancel_*	取消预览	Hủy xem trước		TM
+CreateRole2	CreateRole_Name2	角色名称	Tên nhân vật		TM
+MainFrameLuo05	MenpaiShow	门派预览	Xem môn phái	box=66,6,146,32;area=58,6,152,32	dich
+MainFrameLuo03	Cs_Shaolin_*	少林	Thiếu Lâm	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo03	Cs_Mingjiao_*	明教	Minh Giáo	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo03	Cs_Gaibang_*	丐帮	Cái Bang	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo03	Cs_Emei_*	峨嵋	Nga My	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo03	Cs_Murong_*	慕容	Mộ Dung	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo03	Cs_Tianlong_Normal	天龙	Thiên Long	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo04	Cs_Tianlong_Pushed	天龙	Thiên Long	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo04	Cs_Tianshan_*	天山	Thiên Sơn	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Wudang_*	武当	Võ Đang	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Xingxiu_*	星宿	Tinh Túc	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Xiaoyao_*	逍遥	Tiêu Dao	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Tangmen_*	唐门	Đường Môn	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Guigu_*	鬼谷	Quỷ Cốc	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo05	Cs_Kunlun_*	桃花岛	Đào Hoa Đảo	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo06	Cs_Congren_*	绝情谷	Tuyệt Tình Cốc	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+MainFrameLuo06	Cs_ERenGu_*	恶人谷	Ác Nhân Cốc	box=16,3,130,38;area=14,4,122,37;cap=0.62	HV (tên phái)
+# ---- target frame (TargetFrame.layout.xml): target type badges, camp names
+CommonFrame3	TragetProperty0	兽	Thú	icon=round;r=0.36;chan=r;color=#ff6a48;alt=T	HV; chữ đỏ sáng hơn CY cho dễ đọc, T = viết tắt
+CommonFrame3	TragetProperty1	妖	Yêu	icon=round;r=0.36;chan=r;color=#ff6a48;alt=Y	HV; chữ đỏ sáng hơn CY cho dễ đọc, Y = viết tắt
+CommonFrame3	TragetProperty2	宠	Sủng	icon=round;r=0.36;chan=r;color=#ff6a48;alt=S	HV; chữ đỏ sáng hơn CY cho dễ đọc, S = viết tắt
+CommonFrame3	TragetProperty3	异	Dị	icon=round;r=0.36;chan=r;color=#ff6a48;alt=D	HV; chữ đỏ sáng hơn CY cho dễ đọc, D = viết tắt
+CommonFrame3	TragetProperty4	傀	Khôi	icon=round;r=0.36;chan=r;color=#ff6a48;alt=K	HV; chữ đỏ sáng hơn CY cho dễ đọc, K = viết tắt
+CommonFrame3	TragetProperty5	人	Nhân	icon=round;r=0.36;chan=r;color=#ff6a48;alt=N	HV; chữ đỏ sáng hơn CY cho dễ đọc, N = viết tắt
+CommonFrame3	TragetProperty6	修	Tu	icon=round;r=0.36;chan=r;color=#ff6a48;alt=T	HV; chữ đỏ sáng hơn CY cho dễ đọc, T = viết tắt
+CommonFrame4	TragetCamp_ShaoLin	少林	Thiếu Lâm	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_MingJiao	明教	Minh Giáo	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_GaiBang	丐帮	Cái Bang	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_WuDang	武当	Võ Đang	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_EMei	峨嵋	Nga My	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_XingXiu	星宿	Tinh Túc	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_TianLong	天龙	Thiên Long	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_TianShan	天山	Thiên Sơn	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_XiaoYao	逍遥	Tiêu Dao	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_XinShou	新手	Tân Thủ	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_DaSong	大宋	Đại Tống	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_DaLiao	大辽	Đại Liêu	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_DaLi	大理	Đại Lý	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_XiXia	西夏	Tây Hạ	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_FanBang	番邦	Phiên Bang	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_MangGai	莽盖	Mãng Cái	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_YiMin	遗民	Di Dân	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_LangRen	狼人	Lang Nhân	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_BaiMiao	白苗	Bạch Miêu	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_HeiMiao	黑苗	Hắc Miêu	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_XiuLuo	修罗	Tu La	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_YueNv	越女	Việt Nữ	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_YueNan	越男	Việt Nam	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_EShen	鳄神	Ngạc Thần	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_YeShou	野兽	Dã Thú	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_LvLin	绿林	Lục Lâm	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_YaoMo	妖魔	Yêu Ma	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_GuSu	慕容	Mộ Dung	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_TangMen	唐门	Đường Môn	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_Zinv	子女	Tử Nữ	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_Guigu	鬼谷	Quỷ Cốc	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_Taohuadao	桃花岛	Đào Hoa	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame4	TragetCamp_Congren	绝情谷	Tuyệt Tình	area=0,1,37,17;squeeze=0.62	HV
+CommonFrame39	TragetCamp_ERenGu	恶人谷	Ác Nhân	area=0,1,37,17;squeeze=0.62	HV
+KVKLeague_UI04	TragetCamp_KVKCity1	千秋	Thiên Thu	area=0,1,37,17;squeeze=0.62	HV
+KVKLeague_UI04	TragetCamp_KVKCity2	不归	Bất Quy	area=0,1,37,17;squeeze=0.62	HV
+KVKLeague_UI04	TragetCamp_KVKCity3	无涯	Vô Nhai	area=0,1,37,17;squeeze=0.62	HV
+KVKLeague_UI04	TragetCamp_KVKCity4	炎罗	Viêm La	area=0,1,37,17;squeeze=0.62	HV
+KVKLeague_UI04	TragetCamp_KVKCity5	玉皇	Ngọc Hoàng	area=0,1,37,17;squeeze=0.62	HV
+# ---- character panel (SelfEquip.layout.xml): sect title rank badges 零..二十 -> Arabic numbers
+SectTitle	SectTitle_M0_*	零	0	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M1_*	一	1	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M2_*	二	2	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M3_*	三	3	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M4_*	四	4	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M5_*	五	5	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M6_*	六	6	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M7_*	七	7	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M8_*	八	8	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M9_*	九	9	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M10_*	十	10	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M11_*	十一	11	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M12_*	十二	12	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M13_*	十三	13	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M14_*	十四	14	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M15_*	十五	15	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M16_*	十六	16	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M17_*	十七	17	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M18_*	十八	18	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M19_*	十九	19	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)
+SectTitle	SectTitle_M20_*	二十	20	box=11,5,35,41;area=8,8,38,38;grow=2;keepborder=1;fill=telea	so Ả Rập (bậc danh hiệu môn phái)

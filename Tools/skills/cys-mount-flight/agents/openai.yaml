@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Bay cao thú cưỡi"
+  short_description: "Bay cao CY, động tác và kiểm tra nơi hạ cánh"
+  default_prompt: "Dùng $cys-mount-flight để kiểm tra bay cao thú cưỡi theo giao thức, dữ liệu và động tác CY."

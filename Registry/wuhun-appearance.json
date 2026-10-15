@@ -1,0 +1,235 @@
+{
+ "source": "GL WuhunWg / ItemVisualLocator, private server visual IDs",
+ "models": [
+  {
+   "visual": 699,
+   "object": "武魂琉璃焰20090722.obj",
+   "model": 2341
+  },
+  {
+   "visual": 700,
+   "object": "武魂琉璃焰变异20090722.obj",
+   "model": 2342
+  },
+  {
+   "visual": 701,
+   "object": "武魂琉璃焰变异20090722-02.obj",
+   "model": 2343
+  },
+  {
+   "visual": 702,
+   "object": "武魂琉璃焰变异20090722-03.obj",
+   "model": 2344
+  },
+  {
+   "visual": 703,
+   "object": "武魂琉璃焰变异20090722-04.obj",
+   "model": 2345
+  },
+  {
+   "visual": 704,
+   "object": "武魂御瑶盘20090722.obj",
+   "model": 2346
+  },
+  {
+   "visual": 705,
+   "object": "武魂御瑶盘变异20090722.obj",
+   "model": 2347
+  },
+  {
+   "visual": 706,
+   "object": "武魂御瑶盘变异20090722-02.obj",
+   "model": 2348
+  },
+  {
+   "visual": 707,
+   "object": "武魂御瑶盘变异20090722-03.obj",
+   "model": 2349
+  },
+  {
+   "visual": 708,
+   "object": "武魂御瑶盘变异20090722-04.obj",
+   "model": 2350
+  },
+  {
+   "visual": 729,
+   "object": "cys_wh_dd2634efed58220a.obj",
+   "model": 9995
+  },
+  {
+   "visual": 730,
+   "object": "cys_wh_1a13c415ba3f1aa7.obj",
+   "model": 9996
+  },
+  {
+   "visual": 731,
+   "object": "cys_wh_ef66818222ae1368.obj",
+   "model": 9997
+  },
+  {
+   "visual": 732,
+   "object": "cys_wh_40300b46527531f2.obj",
+   "model": 9998
+  },
+  {
+   "visual": 733,
+   "object": "cys_wh_ffc3d8813d889811.obj",
+   "model": 9999
+  },
+  {
+   "visual": 734,
+   "object": "cys_wh_0e39359402fbd018.obj",
+   "model": 10000
+  },
+  {
+   "visual": 735,
+   "object": "cys_wh_7e7403abe2a1bded.obj",
+   "model": 10001
+  },
+  {
+   "visual": 736,
+   "object": "cys_wh_2e66d41984bd7c65.obj",
+   "model": 10002
+  },
+  {
+   "visual": 737,
+   "object": "cys_wh_2bcbebeba612fc05.obj",
+   "model": 10003
+  },
+  {
+   "visual": 738,
+   "object": "cys_wh_af688df652b619ed.obj",
+   "model": 10004
+  },
+  {
+   "visual": 739,
+   "object": "cys_wh_9efdf1f25d373fad.obj",
+   "model": 10005
+  },
+  {
+   "visual": 740,
+   "object": "cys_wh_916fc00f35cc471c.obj",
+   "model": 10006
+  },
+  {
+   "visual": 741,
+   "object": "cys_wh_1cc6ca433dfaeaa6.obj",
+   "model": 10007
+  },
+  {
+   "visual": 742,
+   "object": "cys_wh_41426b2c276d7e2f.obj",
+   "model": 10008
+  },
+  {
+   "visual": 743,
+   "object": "cys_wh_d84787d0dc685a79.obj",
+   "model": 10009
+  },
+  {
+   "visual": 744,
+   "object": "cys_wh_4d46bf54d6a33402.obj",
+   "model": 10010
+  },
+  {
+   "visual": 745,
+   "object": "cys_wh_6badf263e172d260.obj",
+   "model": 10011
+  },
+  {
+   "visual": 746,
+   "object": "cys_wh_489d7b0508019521.obj",
+   "model": 10012
+  },
+  {
+   "visual": 747,
+   "object": "cys_wh_05296d6520058cb8.obj",
+   "model": 10013
+  },
+  {
+   "visual": 748,
+   "object": "cys_wh_25c1e5e07bf58fc2.obj",
+   "model": 10014
+  },
+  {
+   "visual": 749,
+   "object": "cys_wh_b8723b83b175683e.obj",
+   "model": 10015
+  },
+  {
+   "visual": 750,
+   "object": "cys_wh_d683cdd144bfeafc.obj",
+   "model": 10016
+  },
+  {
+   "visual": 751,
+   "object": "cys_wh_aa8eabfaeb396359.obj",
+   "model": 10017
+  },
+  {
+   "visual": 752,
+   "object": "cys_wh_d044ec06d1d0970d.obj",
+   "model": 10018
+  },
+  {
+   "visual": 753,
+   "object": "cys_wh_ea6b84230813dc80.obj",
+   "model": 10019
+  },
+  {
+   "visual": 754,
+   "object": "cys_wh_91c94c18c06097dd.obj",
+   "model": 10020
+  },
+  {
+   "visual": 755,
+   "object": "cys_wh_8cff66a3e8f55b54.obj",
+   "model": 10021
+  },
+  {
+   "visual": 756,
+   "object": "cys_wh_5c5867cac72e21f3.obj",
+   "model": 10022
+  },
+  {
+   "visual": 757,
+   "object": "cys_wh_c209a23a88607cc6.obj",
+   "model": 10023
+  },
+  {
+   "visual": 758,
+   "object": "cys_wh_932546ac82d84447.obj",
+   "model": 10024
+  },
+  {
+   "visual": 759,
+   "object": "cys_wh_81eed90b74bcbc28.obj",
+   "model": 10025
+  },
+  {
+   "visual": 760,
+   "object": "cys_wh_4bf128a60d1532b2.obj",
+   "model": 10026
+  },
+  {
+   "visual": 761,
+   "object": "cys_wh_15c71d97bd94a93d.obj",
+   "model": 10027
+  },
+  {
+   "visual": 762,
+   "object": "cys_wh_52a3be8b01343780.obj",
+   "model": 10028
+  },
+  {
+   "visual": 763,
+   "object": "cys_wh_f2c9d805407e89bb.obj",
+   "model": 10029
+  },
+  {
+   "visual": 764,
+   "object": "cys_wh_980f7535d8799e8c.obj",
+   "model": 10030
+  }
+ ]
+}

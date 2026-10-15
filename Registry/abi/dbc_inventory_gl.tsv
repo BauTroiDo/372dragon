@@ -1,0 +1,346 @@
+file	our_dbc	phase	loader	b_id	b_record_size	format	columns	records	size_x64	b_size_match	names	schema
+89FeiPinHuiShou.txt	-	-	-	335	16	binary	4	67	16	True	no	I I I I
+<scene>.esd	-	world	Client/WXClient/World/Scene.cpp	-	-	MISSING	0	0	0	-	no	
+Ability.txt	DBC_LIFEABILITY_DEFINE	startup	CDataBaseSystem::OpenAllDataBase	146	0	binary	21	77	120	None	no	I S I I S I I I F I I S I S I S I I I I I
+AccountSafeRef.txt	-	-	-	220	0	binary	4	88	24	None	no	I I I S
+ActionExtInfo.txt	-	-	-	164	0	binary	6	2	32	None	no	I I I I I S
+ActionSet/ActionSet.txt	-	world	(B only)	-	-	text	4	243148	16	-	no	I I I I
+ActionSet/ActionSetKV.txt	-	world	(B only)	-	-	text	2	5727	16	-	no	I S
+ActionSet/ActionSetLine.txt	-	world	(B only)	-	-	text	19	7199	76	-	no	I I I I I I I I I I I I I I I I I I I
+ActionSetFile.txt	DBC_ACTION_SET_FILE	startup	CDataBaseSystem::OpenAllDataBase	108	-	text	2	1724	16	None	no	I S
+AttackTraits.txt	-	-	-	190	0	binary	9	21	48	None	no	I S S I I I I I I
+AutoSearch.txt	-	-	-	204	0	binary	11	2189	56	None	no	I I I I S S S I I I I
+BeHit.txt	-	startup-ui	Client/CEGUISystem/UICreatureBoardSystem.cpp	182	-	text	20	14	104	None	no	I S I I I I I I I I S S S S F F F F I I
+BlueEquipBase.txt	DBC_ITEM_EQUIP_BLUE	startup	CDataBaseSystem::OpenAllDataBase	-	-	binary	91	248	392	-	no	I I I I I I I I I I S I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S S I I I
+BuildingDefine.txt	DBC_BUILDING_DEINFE	startup	CDataBaseSystem::OpenAllDataBase	137	0	binary	8	15	64	None	no	I S S S S S S S
+BuildingName.txt	-	-	-	140	0	binary	7	20	56	None	no	I S S S S S S
+Bullet.txt	DBC_BULLET_DATA	startup	CDataBaseSystem::OpenAllDataBase	130	0	binary	16	227	120	None	no	I I F S S F S S S S S S S S S I
+BusInfo.txt	-	-	-	135	0	binary	21	32	128	None	no	I S I I I I F I F I I S I I S S S S S S S
+CampaignItem.txt	-	-	-	275	0	binary	12	281	72	None	no	I I S S S I S I I I I I
+CampaignTable.txt	-	-	-	217	0	binary	16	403	104	None	no	I I S S I I S S S S S I S I I I
+CampAndStand.txt	DBC_CAMP_AND_STAND	startup	CDataBaseSystem::OpenAllDataBase	168	-	binary	17	16	68	None	no	I I I I I I I I I I I I I I I I I
+CardRule.txt	-	-	-	274	0	binary	19	6	136	None	no	I S S S S S S S S S S I I I I S S S I
+CharacterFace.txt	DBC_CHARACTER_FACE	startup	CDataBaseSystem::OpenAllDataBase	109	0,32	binary	6	80	32	True	no	I I S I I S
+CharActionSet.txt	DBC_CHARACTER_ACTION_SET	startup	CDataBaseSystem::OpenAllDataBase	104	-	binary	10	92	80	None	no	I S S S S S S S S S
+CharEffect.txt	DBC_CHARACTER_EFFECT	startup	CDataBaseSystem::OpenAllDataBase	105	-	binary	6	27	32	None	no	I I I I S S
+CharFaceGeo.txt	DBC_CHARACTER_HEAD_GEO	startup	CDataBaseSystem::OpenAllDataBase	103	0,64	binary	11	234	64	True	no	I I S S S I I I S I I
+CharFrameDIY.txt	-	-	-	260	0	binary	9	2	48	None	no	I I S I I S I I S
+CharHairGeo.txt	DBC_CHARACTER_HAIR_GEO	startup	CDataBaseSystem::OpenAllDataBase	101	0,80	binary	13	340	80	True	no	I I S S S S S I I I S I I
+CharHead.txt	-	-	-	223	0	binary	11	80	64	None	no	I I S I I I S I I S I
+CharModelEx.txt	DBC_CHARACTER_MODEL	startup	CDataBaseSystem::OpenAllDataBase	107	0,48	text	10	4906	48	True	no	I S F F F F I I I I
+CharMount.txt	DBC_CHARACTER_MOUNT	startup	CDataBaseSystem::OpenAllDataBase	110	0,80	text	15	201	80	True	no	I S I I F I I I S I I S I I F
+CharRace.txt	DBC_CHARACTER_RACE	startup	CDataBaseSystem::OpenAllDataBase	100	-	binary	10	8	40	None	no	I I I I I I I I I I
+CharStyleFrame.txt	-	-	-	259	0	binary	46	3	360	None	no	I S S S S S S S S S S S S S S S S S S S S S S S S S S S S S I I S S S S S S S S S S S S S S
+CharTitle.txt	DBC_TITLE_NAME	startup	CDataBaseSystem::OpenAllDataBase	153	0	binary	45	245	208	None	no	I I S S I I I S I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+CharTitleBoard.txt	-	-	-	285	0	binary	11	124	56	None	no	I S I I I I S I I I I
+CharTitleNew.txt	-	-	-	276	0	text	49	492	216	None	yes	I I S S I I I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+ChatConfig.txt	DBC_TALK_CONFIG	startup	CDataBaseSystem::OpenAllDataBase	165	0	binary	11	17	56	None	no	I S S I I I I I I I I
+ChatHelp.txt	-	-	-	187	-	binary	5	27	24	None	no	I I I I S
+ChatMood.txt	DBC_TALK_ACT	startup	CDataBaseSystem::OpenAllDataBase	162	0	text	14	150	104	None	no	I S S S S I I S S S S S I S
+ChatMood_Double.txt	-	-	-	163	0	text	46	400	344	None	no	I S S S S I I I F F F S S S S S S F S S S S S S F S S S S S S F S S S S S S S S S I S S S S
+CityBuilding.txt	DBC_CITY_BUILDING	startup	CDataBaseSystem::OpenAllDataBase	138	0	binary	23	3240	112	None	no	I I S I I I S S I I I I I I I I I I I I I I I
+CityIdOfChina.txt	-	login	Client/WXClient/Procedure/GameProcedure.cpp	222	0	binary	5	340	32	None	no	I I S S I
+CityInfo.txt	-	-	-	139	0	binary	18	216	88	None	no	I I I I I I I I I S S I I I I I I I
+CJ_EquipInfo.txt	-	-	-	406	32	binary	6	120	32	True	no	I I S I I I
+CJ_ItemInfo.txt	-	-	-	407	24	binary	4	4	24	True	no	I I I S
+CJTSFeiPinHuiShou.txt	-	-	-	336	16	binary	4	56	16	True	no	I I I I
+CJTSitemdesc.txt	-	-	-	412	24	text	4	1481	24	True	no	I I S S
+CodeConvert.txt	DBC_CODE_CONVERT	startup	CDataBaseSystem::OpenAllDataBase	150	-	binary	3	7	24	None	no	I S S
+CommonItem.txt	DBC_ITEM_MEDIC	startup	CDataBaseSystem::OpenAllDataBase	117	0,128	text	27	10093	128	True	yes	I I I I I S S S I I I I I I I I I I I I S I I I I I I
+Condition.txt	-	-	-	141	0	binary	7	79	28	None	no	I I I I I I I
+Config_Cpu.txt	-	startup	Engine/WXRender/HardwareInfoSystem.cpp	-	-	MISSING	0	0	0	-	no	
+Config_PhyMemory.txt	-	startup	Engine/WXRender/HardwareInfoSystem.cpp	-	-	MISSING	0	0	0	-	no	
+Config_VideoCard.txt	-	startup	Engine/WXRender/HardwareInfoSystem.cpp	-	-	MISSING	0	0	0	-	no	
+CoupleCalendar.txt	-	-	-	348	24	binary	3	1371	24	True	no	I S S
+CreatureSound.txt	DBC_CREATURE_SOUND	startup	CDataBaseSystem::OpenAllDataBase	113	-	binary	4	4	16	None	no	I I I I
+CysCreateCamera.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearanceGame.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateFace.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateHair.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateModel.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateOutfit.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreatePortrait.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreatePreview.txt	-	charcreate	Client/WXClient/Interface/GMGameInterface_Script_CreateRole.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateRace.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysCreateVisual.txt	-	charcreate	Client/WXClient/Procedure/CysCreateRoleAppearance.cpp	-	-	MISSING	0	0	0	-	no	
+CysLoginShowroom.txt	-	charsel	Client/WXClient/Procedure/CysLoginScene.cpp	-	-	MISSING	0	0	0	-	no	
+DaHuaQiXi_Shop.txt	-	-	-	380	48	binary	10	20	48	True	no	I I I I I I I I S I
+DarkBaseQuality.txt	-	-	-	230	0	binary	2	5	8	None	no	I I
+DarkExpLevel.txt	-	-	-	228	0	binary	2	150	8	None	no	I I
+DarkImpackStr.txt	-	-	-	229	0	binary	2	1970	16	None	no	I S
+DFengEssence.txt	-	-	-	426	28	binary	7	200	28	True	no	I I I I I I I
+DFengEssenceKW.txt	-	-	-	428	64	binary	14	180	64	True	no	I I I I I I I I I I I I I S
+DFengLevelInfo.txt	-	-	-	413	16	binary	4	200	16	True	no	I I I I
+DFengPointInfo.txt	-	-	-	414	8	text	2	200	8	True	no	I I
+Di4Shop.txt	-	-	-	290	0	binary	10	22	48	None	no	I I S I I I I I I I
+DiaowenInfo.txt	-	-	-	261	0	binary	95	1140	408	None	no	I I S I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S S I
+DiaowenRule.txt	-	-	-	262	0	binary	39	13	156	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+DiffSceneRaid.txt	-	-	-	359	24	binary	5	125	24	True	no	I I I I S
+DiffSceneTeam.txt	-	-	-	358	24	text	5	125	24	True	no	I I I I S
+DiGong4SceneInfo.txt	-	-	-	327	0	binary	5	160	24	None	no	I I I I S
+DressCollection.txt	-	-	-	417	56	binary	10	84	56	True	no	I I I I I I I S S I
+DressCollectionEffect.txt	-	-	-	420	60	binary	15	22	60	True	no	I I I I I I I I I I I I I I I
+DressCollectionInfo.txt	-	-	-	418	136	binary	32	79	136	True	no	I I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+DressCollectionSeries.txt	-	-	-	419	104	binary	24	2	104	True	no	I S I I I I I I I I I I I I I I I I I I I I I I
+DressColorRate.txt	-	-	-	255	184	binary	33	119	184	True	no	I S I I I S I I S I I S I I S I I S I I S I I S I I S I I S I I S
+DressColorSpecial.txt	-	-	-	288	0	binary	2	13	16	None	no	I S
+DummyItem.txt	-	-	-	210	0	binary	4	6	32	None	no	I S S S
+DWJinJieInfo.txt	-	-	-	369	24	binary	6	50	24	True	no	I I I I I I
+DWJinJieTeXing.txt	-	-	-	370	176	binary	29	36	176	True	no	I S S S S S S S S S S S S S S I I I I I I I I I I I I I I
+DWJinJieTeXingShengJi.txt	-	-	-	371	16	binary	4	10	16	True	no	I I I I
+EffectDefine.txt	DBC_EFFECT_DEFINE	startup	CDataBaseSystem::OpenAllDataBase	125	-	binary	4	48	24	None	no	I S I I
+EquipBase.txt	DBC_ITEM_EQUIP_BASE	startup	CDataBaseSystem::OpenAllDataBase	116	0	text	101	20840	432	None	yes	I I I I I I I I I I S I S S I I I I I I I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+EquipDress.txt	-	-	-	122	32	binary	8	997	32	True	no	I I I I I I I I
+EquipExtraAttr.txt	-	-	-	205	0	binary	14	9072	64	None	no	I I I S I I I I I I I I I I
+EquipMoodAction.txt	-	-	-	356	40	text	10	394	40	True	no	I I I I I I I I I I
+EquipSetAttr.txt	DBC_ITEM_SETATT	startup	CDataBaseSystem::OpenAllDataBase	120	-	binary	37	207	160	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+EquipVisual.txt	-	-	-	189	0	binary	12	10	48	None	no	I I I I I I I I I I I I
+Exterior_BG.txt	-	-	-	377	120	text	26	22	120	True	no	I S S S I I I I I I I I I I I I I I F F F F F F I I
+Exterior_BGTSitem.txt	-	-	-	376	16	text	4	76	16	True	no	I I I I
+Exterior_ExchangeItem.txt	-	-	-	373	16	text	4	1544	16	True	no	I I I I
+Exterior_Face.txt	-	-	-	297	0	binary	8	111	40	None	no	I I I I I I I S
+Exterior_Hair.txt	-	-	-	298	0	binary	9	166	48	None	no	I I I I I I I S S
+Exterior_Head.txt	-	-	-	299	0	binary	7	40	28	None	no	I I I I I I I
+Exterior_Poss.txt	-	-	-	317	0	text	14	18	64	None	yes	I I I I S S I I I I I I I I
+Exterior_RanSe.txt	-	-	-	349	64	binary	13	96	64	True	no	I I I I I I I I I I S I S
+Exterior_Ride.txt	-	-	-	303	0	text	26	198	120	None	no	I I I I I I I S S S I I I I I I I I I I I I I I I I
+Exterior_TS.txt	-	-	-	378	128	binary	27	23	128	True	no	I S S S I I I I I I I I I I I I I I F F F F F F I I I
+Exterior_Weapon.txt	-	-	-	321	0	text	13	74	72	None	no	I S S S I I I I I I I I I
+ExteriorRideCamera.txt	-	-	-	304	0	text	6	186	32	None	no	I S F F F F
+ExteriorWeaponLevelUp.txt	-	-	-	322	0	text	10	71	40	None	no	I I I I I I I I I I
+FeiPinHuiShou.txt	-	-	-	334	16	binary	4	69	16	True	no	I I I I
+FestivalShopItem.txt	-	-	-	306	-	binary	4	8	16	None	no	I I I I
+FestivalShopItem_ori.txt	-	-	-	427	-	binary	4	6	16	None	no	I I I I
+FSSJBuff.txt	-	-	-	424	96	binary	13	10	96	True	no	I I S S S I S S S I S S S
+FullCompareFilter.txt	DBC_FULLCMP_FILTER	startup	CDataBaseSystem::OpenAllDataBase	-	-	binary	3	679	24	-	no	I S S
+fuqishop.txt	-	-	-	347	0	binary	12	9	56	None	no	I I S I I I I I I I I I
+GemCarve.txt	-	-	-	215	0	binary	4	72	16	None	no	I I I I
+GemEffect_Cloth.txt	-	-	-	302	0	binary	4	94	32	None	no	I S I S
+GemInfo.txt	DBC_ITEM_GEM	startup	CDataBaseSystem::OpenAllDataBase	118	0,352	text	81	753	352	True	yes	I I I I I S I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S S I I I I
+GemMelting.txt	-	-	-	225	0	binary	5	36	20	None	no	I I I I I
+GoodsProtect_Goods.txt	-	-	-	238	0	binary	2	1370	16	None	no	I S
+GoodsProtect_Pet.txt	-	-	-	237	-	binary	2	0	16	None	no	I S
+GreenEquipBase.txt	DBC_ITEM_EQUIP_GREEN	startup	CDataBaseSystem::OpenAllDataBase	-	-	binary	93	8197	400	-	no	I I I I I I I I I I S I S I I I I I I I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+GrowPoint.txt	DBC_LIFEABILITY_GROWPOINT	startup	CDataBaseSystem::OpenAllDataBase	145	0	binary	9	415	56	None	no	I S S I I S I I I
+HairStyle.txt	DBC_HAIR_STYLE	startup	CDataBaseSystem::OpenAllDataBase	166	-	binary	4	2	16	None	no	I I I I
+HeroesReturnsRoad.txt	-	-	-	279	0	binary	14	21	72	None	no	I I I I S I I I S S I I F F
+HeroesReturnsShop.txt	-	-	-	278	0	binary	6	8	24	None	no	I I I I I I
+HKCJGiftInfo.txt	-	-	-	309	0	binary	14	251	64	None	no	I I I I S I I I I I I I I I
+IDCollections.txt	-	-	-	280	0	binary	35	396	152	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S
+IdentityEquipSet.txt	-	-	-	364	88	binary	20	60	88	True	no	I S I I I I I I I I I I I I I I I I I I
+IdentityGrowPointClient.txt	-	-	-	365	16	binary	4	52	16	True	no	I I I I
+ImpactDirectly.txt	DBC_DIRECTLY_IMPACT	startup	CDataBaseSystem::OpenAllDataBase	129	0	text	20	399	160	None	no	I S S S S S S S S S S S S S S S S S S I
+ImpactSEData_V1.txt	DBC_BUFF_IMPACT	startup	CDataBaseSystem::OpenAllDataBase	128	0	text	22	5376	136	None	no	I I I S S S S S S S I I I I I S S I I I I I
+InterfaceEx.txt	DBC_UI_LAYOUTDEFINE	startup	CDataBaseSystem::OpenAllDataBase	144	-	text	9	1170	64	None	no	I S S S I S I I S
+ItemAptRate.txt	-	-	-	202	0	binary	7	255	28	None	no	I I I I I I I
+ItemCompound.txt	DBC_LIFEABILITY_ITEMCOMPOSE	startup	CDataBaseSystem::OpenAllDataBase	147	0	binary	32	1639	144	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I S I I
+ItemCompoundHelper.txt	-	-	-	148	0	binary	6	680	32	None	no	I I S I I I
+ItemEnhance.txt	-	-	-	121	0	text	14	1881	56	None	yes	I I I I I I I I I I I I I I
+ItemLocatorAction.txt	-	-	-	400	144	text	21	7	144	True	no	I I I I I I S S S S S S S S S S S S S S S
+ItemOrnamentsVisual.txt	-	-	-	379	72	text	9	44	72	True	no	I S S S S S S S S
+ItemRule.txt	DBC_ITEM_RULE	startup	CDataBaseSystem::OpenAllDataBase	159	0	text	14	93	56	None	yes	I I I I I I I I I I I I I I
+ItemVisualChar.txt	DBC_ITEM_VISUAL_CHAR	startup	CDataBaseSystem::OpenAllDataBase	114	184	binary	23	682	184	True	no	I S S S S S S S S S S S S S S S S S S S S S S
+ItemVisualLocator.txt	DBC_ITEM_VISUAL_LOCATOR	startup	CDataBaseSystem::OpenAllDataBase	115	424	text	53	1453	424	True	no	I S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S
+jiyuanshop.txt	-	-	-	308	0	binary	14	4	64	None	no	I I S I I I I I I I I I I I
+JYQuestion.txt	-	-	-	346	32	binary	4	26	32	True	no	I S S S
+KFSAttrEx.txt	-	-	-	243	0	binary	70	160	288	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+KFSAttrLevelUp.txt	-	-	-	245	0	binary	26	121	104	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I
+KFSBase.txt	-	-	-	242	0	binary	35	4	140	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+KFSCompoudEx.txt	-	-	-	246	0	binary	2	10	8	None	no	I I
+KFSLevelupExp.txt	-	-	-	244	0	binary	2	120	8	None	no	I I
+KFSSkillLevelup.txt	-	-	-	247	0	binary	5	276	20	None	no	I I I I I
+KFSSlot.txt	-	-	-	248	0	binary	6	10	24	None	no	I I I I I I
+LimitShop.txt	-	-	-	416	20	binary	5	24	20	True	no	I I I I I
+LingYuBase.txt	-	-	-	338	0	binary	9	144	40	None	no	I I I I I I I I S
+LingYuSet.txt	-	-	-	339	0	binary	15	6	88	None	no	I S I I I I I I I I S S S S S
+LingYuSetEffect.txt	-	-	-	340	0	binary	12	48	56	None	no	I I I I I I I I I I I S
+LinkAction.txt	-	-	-	401	56	binary	8	1	56	True	no	I I S I S I S I
+LogicSceneAttr.txt	-	-	-	203	0	binary	4	219	24	None	no	I S I I
+LvMaxMoney.txt	DBC_LV_MAXMONEY	startup	CDataBaseSystem::OpenAllDataBase	161	0	binary	3	150	12	None	no	I I I
+MCDefaultRes.txt	-	-	-	324	-	binary	7	29	40	None	no	I I I I S S S
+Mergeserver.txt	-	-	-	316	0	binary	6	6	24	None	no	I I I I I I
+Mission_Delivery.txt	-	-	-	175	0	binary	84	625	416	None	no	I I I I I I I I I S S S I S S I S I S I S I S I I I I I I I I I S I S I I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+Mission_EnterArea.txt	-	-	-	183	0	binary	66	56	312	None	no	I I I I I I I I S S S S S I S S I S I I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+Mission_Husong.txt	-	-	-	178	280	binary	58	7	280	True	no	I I I I I I I I S S S S S I S I S I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+Mission_KillMonster.txt	-	-	-	176	0	binary	82	181	408	None	no	I I I I I I I I I S S S S S I S I I S I I I I I I S I I S I I S I I S I I S I I I I I I I S I S I I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+Mission_LootItem.txt	-	-	-	177	0	binary	93	266	448	None	no	I I I I I I I I I S S S S S I S I I S I I I I I I S I I I I S I I I I S I I I I S I I I I S I I I I I I I I I S I S I I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+MissionData.txt	DBC_MISSION_DATA	startup	CDataBaseSystem::OpenAllDataBase	133	-	binary	6	1	24	None	no	I I I I I I
+MissionDialog.txt	DBC_MISSION_DIALOG	startup	CDataBaseSystem::OpenAllDataBase	-	-	MISSING	0	0	0	-	no	
+MissionItem_GroupHashTable.txt	-	-	-	218	0	binary	66	701	264	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+MissionItem_HashTable.txt	-	-	-	172	0	binary	654	2290	2632	None	no	I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+MissionKind.txt	DBC_MISSION_KIND	startup	CDataBaseSystem::OpenAllDataBase	156	0	binary	2	200	16	None	no	I S
+MissionList.txt	DBC_MISSION_LIST	startup	CDataBaseSystem::OpenAllDataBase	-	-	MISSING	0	0	0	-	no	
+MissionNPC_HashTable.txt	-	-	-	173	0	binary	366	761	1488	None	no	I S S I I I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+MissionOutline.txt	-	-	-	198	0	binary	24	956	128	None	no	I I I I I I I I I I S S S I I I I I I S I S S S
+MissionPet_HashTable.txt	-	-	-	179	0	binary	17	262	80	None	no	I S S I I I I I I I I I I I I I I
+MissionPunish.txt	DBC_MISSION_PUNISH	startup	CDataBaseSystem::OpenAllDataBase	-	-	MISSING	0	0	0	-	no	
+MissionRef.txt	-	-	-	192	0	binary	13	370	88	None	no	I I I I S S I S S I S S S
+MissionReward.txt	DBC_MISSION_REWARD	startup	CDataBaseSystem::OpenAllDataBase	-	-	MISSING	0	0	0	-	no	
+MissionTrack.txt	-	-	-	236	0	binary	2	569	16	None	no	I S
+Model_Parameter.txt	-	-	-	185	-	text	4	269	24	None	no	I S F F
+MonsterAttrExTable.txt	DBC_CREATURE_ATT	startup	CDataBaseSystem::OpenAllDataBase	111	0	text	71	18822	296	None	yes	I S I I I I I I I I I I F I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I F F F S I I I I I I I I I I I I I I I I I I I I
+MonsterPaoPao.txt	DBC_MONSTER_PAOPAO	startup	CDataBaseSystem::OpenAllDataBase	167	0	binary	2	1838	16	None	no	I S
+MonsterRef.txt	-	-	-	193	0	binary	10	216	64	None	no	I I I I S S I S S S
+MovieAttr.txt	-	-	-	307	0	binary	4	23	24	None	no	I I S S
+MsgBall.txt	-	-	-	214	0	binary	8	9	48	None	no	I S S S I I I I
+MsgBallType.txt	-	-	-	235	0	binary	5	126	32	None	no	I I I S S
+MummyShop.txt	-	-	-	385	48	binary	10	12	48	True	no	I I S I I I I I I I
+NewRoleEquipSet.txt	-	-	-	102	-	binary	5	3	32	None	no	I S I I I
+Newserverhm.txt	-	-	-	305	0	binary	38	115	176	None	no	I I I I I I S S S I I I I I I I I I I I I I I I I I I I I I I I S I I I I I
+NewSvrFanLiGift.txt	-	-	-	399	20	binary	5	8	20	True	no	I I I I I
+NewSvrFanLiShop.txt	-	-	-	398	40	binary	10	88	40	True	no	I I I I I I I I I I
+NewZhanLingInfo.txt	-	-	-	361	124	binary	31	320	124	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+NewZhanLingTimeInfo.txt	-	-	-	362	24	binary	6	54	24	True	no	I I I I I I
+Notice_Levelup.txt	-	-	-	195	0	binary	5	100	32	None	no	I I S S S
+Notice_Luoyang.txt	-	-	-	196	0	binary	8	67	48	None	no	I I I I I S S S
+Notice_Scene.txt	-	-	-	197	0	binary	6	227	40	None	no	I I I S S S
+NpcTalk.txt	-	-	-	270	0	binary	7	577	48	None	no	I S S S I I I
+NpcVisible.txt	-	-	-	315	0	binary	5	112	24	None	no	I I I I S
+NumberingFashion.txt	-	-	-	357	24	binary	4	300	24	True	no	I I I S
+OptionalGiftBox.txt	-	-	-	344	0	binary	31	31	136	None	no	I I S S S I I I I I I I I I I I I I I I I I I I I I I I I I I
+ori_RongYuShop.txt	-	-	-	422	16	binary	4	10	16	True	no	I I I I
+ori_songliaobonus.txt	-	-	-	421	100	binary	25	30	100	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I
+OtherRef.txt	-	-	-	194	0	binary	11	107	80	None	no	I I I S I S I S S S S
+paoshang.txt	-	-	-	332	0	binary	20	9	80	None	no	I I I I I I I I I I I I I I I I I I I I
+PetAttrTable.txt	DBC_PET_EX_ATT	startup	CDataBaseSystem::OpenAllDataBase	112	0,216	text	51	4908	216	True	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+PetCollection.txt	-	-	-	402	24	text	4	1230	24	True	no	I I S I
+PetElfSkill.txt	-	-	-	397	184	binary	43	66	184	True	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+PetElfSkillDesc.txt	-	-	-	395	184	binary	23	66	184	True	no	I S I S S S S S S S S S S S S S S S S S S S S
+PetEquipBase.txt	-	-	-	231	0	binary	104	904	440	None	no	I I I I I I I I I I S I S I I I I I S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+PetEquipFuse.txt	-	-	-	240	0	binary	8	6	32	None	no	I I I I I I I I
+PetEquipItemAptRate.txt	-	-	-	234	0	binary	7	255	28	None	no	I I I I I I I
+PetEquipItemEnhance.txt	-	-	-	233	0	binary	12	45	48	None	no	I I I I I I I I I I I I
+PetEquipSetAttr.txt	-	-	-	232	112	binary	20	135	112	True	no	I S I I I I I S I I S I I S I I S I I S
+PetEquipSuitUp.txt	-	-	-	241	0	binary	21	540	88	None	no	I I I I I I I I I I I I I I I I I I I I S
+PetExterior.txt	-	-	-	355	40	binary	7	1	40	True	no	I I S I I S S
+PetHuanhuaTable.txt	-	-	-	253	0	text	5	4011	20	None	no	I I I I I
+PetJL.txt	-	-	-	393	88	binary	18	147	88	True	no	I S I I I I I I I I I I I I I I S I
+PetJLAttr.txt	-	-	-	394	268	binary	67	20	268	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+PetJLLevel.txt	-	-	-	396	48	binary	12	20	48	True	no	I I I I I I I I I I I I
+PetLevelUpTable.txt	DBC_PET_LEVELUP	startup	CDataBaseSystem::OpenAllDataBase	170	0	binary	2	155	8	None	no	I I
+PetLingXing.txt	-	-	-	254	0	text	24	12597	96	None	no	I I I I I I I I I I I I I I I I I I I I I I I I
+PetMedicineHCCompound.txt	-	-	-	227	0	binary	3	90	12	None	no	I I I
+Petpaiqian.txt	-	-	-	390	128	binary	29	15	128	True	no	I S I I I I I I I I I I I I F I I F I I F I I F I I F I S
+Petpaiqianreward.txt	-	-	-	392	20	binary	5	40	20	True	no	I I I I I
+PetpaiqianTask.txt	-	-	-	391	112	binary	15	90	112	True	no	I I I S S S S S S S S S S S S
+PetPaoPaoIndex.txt	-	-	-	328	0	binary	20	9	104	None	no	I I I I S I S S S S I I I I I I I I I I
+PetPaoPaoWord.txt	-	-	-	329	0	binary	32	14	256	None	no	I S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S
+PETPVPExpLevel.txt	-	-	-	389	8	binary	2	15	8	True	no	I I
+PetSkillBook.txt	-	-	-	224	0	binary	2	100	8	None	no	I I
+PetSkillLevelup.txt	-	-	-	226	0	binary	5	198	20	None	no	I I I I I
+PetSoulBase.txt	-	-	-	310	0	binary	28	27	128	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I S S I
+PetSoulExtension.txt	-	-	-	312	0	binary	17	23	80	None	no	I I I I I I I I I I I I I I S S S
+PetSoulLevelCost.txt	-	-	-	313	0	binary	21	100	84	None	no	I I I I I I I I I I I I I I I I I I I I I
+PetSoulLevelupInfo.txt	-	-	-	314	0	binary	8	2700	32	None	no	I I I I I I I I
+PetSoulPossVisualLocator.txt	-	-	-	318	0	binary	2	316	16	None	no	I S
+PetSoulSkill.txt	-	-	-	311	0	binary	56	26	248	None	no	I I I I I I I I I I I I I I I I I I I I I I S I I I I I I I I I I I I I I S S S I I I I I I I I I I I I I I S S
+PetTitle.txt	-	-	-	216	0	binary	8	323	48	None	no	I I I I S I S S
+PetTypeAttr.txt	-	-	-	201	0	text	4	845	24	None	no	I I S I
+Platform.txt	DBC_LIFEABILITY_PLATFORM	startup	CDataBaseSystem::OpenAllDataBase	149	0	binary	5	17	32	None	no	I I S S I
+PlayerExpLevel.txt	DBC_CHARACTER_EXPLEVEL	startup	CDataBaseSystem::OpenAllDataBase	106	-	binary	2	150	8	None	no	I I
+PlayerLableBase.txt	-	-	-	342	0	binary	9	43	48	None	no	I I S S I I S I I
+PlayerQuicklyEnterHide.txt	-	-	-	289	0	text	19	34	120	None	no	I S I I S S S S S S S I I I I S I I I
+QianWuShop.txt	-	-	-	296	0	binary	7	20	40	None	no	I I S S S I I
+QingQiuShop.txt	-	-	-	330	0	binary	10	20	48	None	no	I I I S I I I I I I
+RankingList.txt	-	-	-	325	0	binary	162	215	656	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+RecipeKind.txt	-	-	-	171	0	binary	2	200	16	None	no	I S
+RecycleItem.txt	-	-	-	211	0	binary	4	465	16	None	no	I I I I
+RecycleItemClass.txt	-	-	-	212	0	binary	2	7	16	None	no	I S
+RecycleItemType.txt	-	-	-	213	0	binary	4	41	24	None	no	I I I S
+RepairRate.txt	-	-	-	181	0	binary	4	15	16	None	no	I I F F
+ReputationShop.txt	-	-	-	363	72	binary	15	36	72	True	no	I I I I I S I I I I I I I I I
+ReputationTable.txt	-	-	-	188	0	binary	68	64	288	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S
+ResearchItem.txt	-	-	-	142	0	binary	247	106	988	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+RideCollection.txt	-	-	-	366	24	binary	5	14	24	True	no	I I I I S
+RideCollectionEffect.txt	-	-	-	367	76	binary	19	1	76	True	no	I I I I I I I I I I I I I I I I I I I
+RideSeries.txt	-	-	-	368	72	binary	15	6	72	True	no	I S I I I I I I I I I I I I I
+RideVip.txt	-	-	-	360	8	binary	2	1	8	True	no	I I
+RMBChatAction.txt	-	-	-	257	0	binary	8	25	40	None	no	I I I I I I I S
+RMBChatFace.txt	-	-	-	256	0	binary	6	6	32	None	no	I I I I I S
+RongYuShop.txt	-	-	-	282	0	binary	4	9	16	None	no	I I I I
+SceneAearDefine.txt	-	-	-	180	0	binary	6	235	40	None	no	I S I I I S
+SceneAreaTransfer.txt	-	-	-	269	0	binary	10	410	48	None	no	I I I F F I I I S S
+SceneAttr.txt	-	-	-	184	0	text	24	19093	104	None	no	I S I I I I I I I I I I I I I I I I I I I I I I
+SceneDefineEx.txt	DBC_SCENE_DEFINE	startup	CDataBaseSystem::OpenAllDataBase	136	0,152	text	24	547	152	True	no	I S I I S S S S I I S I I I I I I S S S S S S S
+SceneFacility.txt	-	-	-	221	0	binary	34	22	200	None	no	I I I I I I I I I I I I I S S S S S S I S S S S S S S S I I I I I I
+ScenePosDefine.txt	DBC_SCENE_POS_DEFINE	startup	CDataBaseSystem::OpenAllDataBase	143	0	binary	6	130	40	None	no	I S I I I S
+ScenePosDefineEx.txt	-	-	-	267	0	binary	12	1482	64	None	no	I S I I I S I I I I I I
+SecKillBase.txt	-	-	-	277	304	binary	60	15	304	True	no	I S S I I I I I I I I I I I I I I I S S S S S S S S S S S S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+SectDesc.txt	-	-	-	294	0	binary	12	984	96	None	no	I S S S S S S S S S S I
+SectInfo.txt	-	-	-	295	0	binary	26	984	120	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I S
+ShenBing.txt	-	-	-	350	112	binary	26	21	112	True	no	I I I I I I I I I I I I I I I I I I I I S I I F F F
+ShenBingCommonSkill.txt	-	-	-	352	324	binary	81	21	324	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+ShenBingLevel.txt	-	-	-	351	284	binary	71	50	284	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+ShenBingSkillUp.txt	-	-	-	353	28	binary	7	650	28	True	no	I I I I I I I
+ShenBingVisual.txt	-	-	-	320	-	binary	7	21	28	None	no	I I I I I I I
+shengwangshop.txt	-	-	-	333	0	binary	11	39	56	None	no	I I I S I I I I I I I
+shengwangYBshop.txt	-	-	-	337	0	binary	11	21	56	None	no	I I I S I I I I I I I
+ShopTable.txt	-	-	-	209	0	binary	1227	386	6512	None	no	I I I I I F F I I F I I I S I I I I I I I I I I I I I I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S I I I I I S
+SkillAddImpact.txt	DBC_SKILL_ADDIMPACT	startup	CDataBaseSystem::OpenAllDataBase	127	-	binary	10	2	72	None	no	I S I I S S S S I S
+SkillData_V1.txt	DBC_SKILLDATA_V1_DEPLETE	startup	CDataBaseSystem::OpenAllDataBase	155	0	text	48	16493	320	None	yes	I I S S S I I I I S I I I S I I I S I I I I I I S I S I S I S I S I S I S I S I S I S I S I S I
+SkillDeplete.txt	DBC_SKILL_DEPLETE	startup	CDataBaseSystem::OpenAllDataBase	132	0,28	binary	7	5161	28	True	no	I I I I I I I
+SkillTemplate_V1.txt	DBC_SKILL_DATA	startup	CDataBaseSystem::OpenAllDataBase	131	0,368	text	82	3447	376	False	yes	I I I S S I I I I I I I I I I I I S S S S S I I I I I I I I I I I I I I S I I I F F I I I I I I I I I I F F I I I I I I I I I I I I I I I I I I I I S I F I I I I I
+SlotCost.txt	-	-	-	174	0	binary	7	480	28	None	no	I I I I I I I
+SnowItem.txt	-	-	-	388	40	binary	7	16	40	True	no	I I I S I I I
+songliaobonus.txt	-	-	-	281	0	binary	25	30	100	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I
+SoundInfo.txt	DBC_SOUND_INFO	startup	CDataBaseSystem::OpenAllDataBase	123	-	text	3	859	24	None	no	I S S
+SoundUI.txt	-	-	-	124	-	binary	3	39	16	None	no	I I S
+SpecialDressEffect.txt	-	-	-	292	0	binary	5	14	40	None	no	I S S S S
+SpecialEquipVisiblRule.txt	-	-	-	208	0	binary	11	17	56	None	no	I I I I I I I I S S S
+SpecialMountDisplay.txt	-	-	-	293	0	binary	3	1	16	None	no	I I S
+SpecialObjData.txt	DBC_SPECIAL_OBJ_DATA	startup	CDataBaseSystem::OpenAllDataBase	134	0	binary	64	1352	424	None	no	I S S I I I I I S I S I S I I I I I I I F F I I I I I I I I I S I S I S I S I S I S I S I S I S I S I S I S I S I S I S I S I S
+SpecialSceneName.txt	-	-	-	207	0	binary	7	60	48	None	no	I I S S S S S
+StoreMapItem.txt	DBC_ITEM_STOREMAP	startup	CDataBaseSystem::OpenAllDataBase	119	-	binary	15	1	80	None	no	I I I I I S S S I I F F I I I
+StrDictionary.txt	DBC_STRING_DICT	startup	CDataBaseSystem::OpenAllDataBase	157	-	text	2	77579	16	None	no	S S
+StrFilter.txt	DBC_TALK_FILTER	startup	CDataBaseSystem::OpenAllDataBase	160	-	text	3	0	24	None	yes	I S I
+StrReplace.txt	-	-	-	263	-	binary	3	2264	24	None	no	I S S
+StrTalkTemplateTable.txt	-	-	-	206	-	binary	5	196	40	None	no	I S S S S
+SummerZhanLingInfo.txt	-	-	-	386	120	binary	30	20	120	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+SummerZhanLingInfoCT.txt	-	-	-	387	120	binary	30	20	120	True	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+SummonerAttr.txt	-	-	-	381	0	binary	59	9	384	None	no	I I S I I I I I I I I I F I I I I I I S S S S I I I S I S I S I S I S I S I S I S I S I S I S I S I S I S I S I S I I
+SuperWeaponUp.txt	-	-	-	239	0	binary	22	186	88	None	no	I I I I I I I I I I I I I I I I I I I I I I
+SystemColour.txt	DBC_SYSTEM_COLOR	startup	CDataBaseSystem::OpenAllDataBase	169	0	binary	4	38	32	None	no	I S S S
+TeamBoardGoal.txt	-	-	-	258	0	binary	2	30	16	None	no	I S
+TeSeServer.txt	-	-	-	354	104	binary	15	992	104	True	no	I S I I I I I S S S S S S I S
+TianJianZhengFengShop.txt	-	-	-	343	0	binary	9	6	48	None	no	I I I S I I I I I
+TitleFlash.txt	-	-	-	286	0	binary	4	9	24	None	no	I S I I
+TLCJMapImageInfo.txt	-	-	-	409	-	binary	5	5	20	None	no	I I I I I
+TLCJPlayerExpLevel.txt	-	-	-	408	8	binary	2	150	8	True	no	I I
+TLCJShop.txt	-	-	-	403	56	binary	12	12	56	True	no	I I I S I I I I I I I I
+TLCJSkillTips.txt	-	-	-	404	24	binary	4	84	24	True	no	I I S S
+TransportDefine.txt	-	-	-	268	0	binary	16	1034	88	None	no	I S I S I I I I I I I I S I I I
+TSPhoenixShop.txt	-	-	-	372	48	binary	10	12	48	True	no	I I S I I I I I I I
+UICommandIndex.txt	-	-	-	264	0	text	3	1385	12	None	no	I I I
+VipMotionBlend.txt	-	-	-	186	0	binary	5	0	40	None	no	I S F S S
+WeaponVisualLocator.txt	-	-	-	326	0	binary	5	63	20	None	no	I I I I I
+WeblinkTable.txt	-	-	-	266	0	binary	4	52	32	None	no	I S S S
+Weekactive.txt	-	-	-	287	0,96	binary	18	62	96	True	no	I I I I S S S I I I I I I S I S I I
+WhiteEquipBase.txt	DBC_ITEM_EQUIP_WHITE	startup	CDataBaseSystem::OpenAllDataBase	-	-	binary	93	354	400	-	no	I I I I I I I I I I S I S I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I S S I I I
+WorldAuction.txt	-	-	-	410	24	binary	3	308	24	True	no	I S I
+WR_BossRef.txt	-	-	-	219	0	binary	10	196	64	None	no	I I I S I S S I I S
+WR_MainPage.txt	-	-	-	191	0	binary	8	7	48	None	no	I I I I S S S S
+WuhunWg.txt	-	-	-	283	0	binary	19	6	88	None	no	I S S I I I I I I I I I I I I I I I I
+WuhunWgLevel.txt	-	-	-	284	0	binary	18	660	72	None	no	I I I I I I I I I I I I I I I I I I
+XbwDuanweiTable.txt	-	-	-	300	0	binary	26	51	112	None	no	I S I I I I I I I I I I I I I I I I I I I I I I I I
+XbwHonourShop.txt	-	-	-	375	48	binary	10	9	48	True	no	I I I S I I I I I I
+XbwHonourWall.txt	-	-	-	383	-	binary	8	108	48	None	no	I I I S I I I S
+XbwHonourWall_LM.txt	-	-	-	384	-	binary	8	108	48	None	no	I I I S I I I S
+XbwTimeTable.txt	-	-	-	301	0	binary	10	7	40	None	no	I I I I I I I I I I
+XianluShop.txt	-	-	-	425	24	binary	7	6	32	False	no	I I I I I I S
+XinFa_V1.txt	DBC_SKILL_XINFA	startup	CDataBaseSystem::OpenAllDataBase	126	-	binary	29	128	128	None	no	I I S S S I F I I I F I F I F I F I F I F I F I F I F I F
+XinFaStudySpend_V1.txt	-	-	-	152	0	binary	260	152	1040	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+XiuLianBook.txt	-	-	-	251	0	binary	4	3	32	None	no	I S S S
+XiuLianDetail.txt	-	-	-	249	0	binary	47	1963	188	None	no	I I I I I F F I I F F I I F F I I F F I I F F I I F F I I F F I I F F I I F F I I F F I I F F
+XiuLianMiJi.txt	-	-	-	250	0	binary	5	11	32	None	no	I I S S S
+XiuLianRate.txt	-	-	-	252	0	binary	3	150	12	None	no	I F F
+ZbsShop.txt	-	-	-	382	48	binary	9	69	48	True	no	I I I S I I I I I
+ZdZdPotion.txt	-	-	-	272	0	binary	4	47	24	None	no	I I I S
+ZdZdScene.txt	-	-	-	273	0	binary	4	206	24	None	no	I I I S
+ZdZdSkill.txt	-	-	-	271	0	binary	10	86	48	None	no	I I I I I I I I I S
+ZhanLingInfo.txt	-	-	-	341	0	binary	44	12	176	None	no	I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I I
+ZhanLingTimeInfo.txt	-	-	-	345	0	binary	4	100	16	None	no	I I I I
+ZhenShouDanPreView.txt	-	-	-	319	0	text	3	45	12	None	no	I I I
+zhouchangshop.txt	-	-	-	291	0	binary	16	45	72	None	no	I I I I S I I I I I I I I I I I
+Zhounianshop.txt	-	-	-	415	28	binary	8	20	40	False	no	I I I I I I I S
+zhuanshushop.txt	-	-	-	331	0	binary	14	4	64	None	no	I I S I I I I I I I I I I I
+ZNFCShopItem.txt	-	-	-	411	32	binary	6	4	32	True	no	I S I I I I
+ZXgiftbox.txt	-	-	-	374	24	binary	4	32	24	True	no	I I S I

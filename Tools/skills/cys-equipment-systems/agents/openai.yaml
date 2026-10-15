@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Trang bị và chế tác"
+  short_description: "Tooltip, cường hóa, Thăng Linh và hệ trang bị"
+  default_prompt: "Dùng $cys-equipment-systems để sửa hệ trang bị theo dữ liệu thật và công thức của máy chủ."

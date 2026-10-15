@@ -1,0 +1,13 @@
+#!/usr/bin/expect
+set port [lindex $argv 0]
+spawn ./nc.sh $port
+sleep 0.3
+send "clearcache\n"
+sleep 0.3
+send "call .SceneManager \"reload_scripts\"\n"
+sleep 0.5
+send "call .Copyscenemanager \"reload_scripts\"\n"
+sleep 0.5
+send "call .Dynamicscenemanager \"reload_scripts\"\n"
+sleep 0.3
+expect off

@@ -1,0 +1,69 @@
+table	file	struct	columns	x86	x64	schema	detail
+DBC_CHARACTER_RACE	CharRace.txt	_DBC_CHAR_RACE	10	OK	OK	OK	format=binary
+DBC_CHARACTER_HAIR_GEO	CharHairGeo.txt	_DBC_CHAR_HAIR_GEO	14	OK	OK	OK	format=binary
+DBC_CHARACTER_HEAD_GEO	CharFaceGeo.txt	_DBC_CHAR_HEAD_GEO	12	OK	OK	OK	format=binary
+DBC_CHARACTER_ACTION_SET	CharActionSet.txt	_DBC_CHAR_ACTION_SET_TABLE	10	OK	OK	OK	format=binary
+DBC_CHARACTER_MODEL	CharModelEx.txt	_DBC_CHARACTER_MODEL	21	OK	OK	OK	format=binary
+DBC_ACTION_SET_FILE	ActionSetFile.txt	_DBC_ACTION_SET_FILE	2	OK	OK	OK	format=binary
+DBC_CHARACTER_MOUNT	CharMount.txt	_DBC_CHARACTER_MOUNT	24	OK	OK	OK	format=binary
+DBC_MISSION_LIST	MissionList.txt	_DBC_MISSION_LIST	0	ABSENT	ABSENT	ABSENT	absent from the data set
+DBC_MISSION_DATA	MissionData.txt	_DBC_MISSION_DATA	6	OK	OK	OK	format=binary
+DBC_MISSION_REWARD	MissionReward.txt	_DBC_MISSION_REWARD	0	ABSENT	ABSENT	ABSENT	absent from the data set
+DBC_MISSION_PUNISH	MissionPunish.txt	_DBC_MISSION_PUNISH	0	ABSENT	ABSENT	ABSENT	absent from the data set
+DBC_MISSION_DIALOG	MissionDialog.txt	_DBC_MISSION_DIALOG	0	ABSENT	ABSENT	ABSENT	absent from the data set
+DBC_CHARACTER_EFFECT	CharEffect.txt	_DBC_CHARACTER_EFFECT	6	OK	OK	OK	format=binary
+DBC_CHARACTER_EXPLEVEL	PlayerExpLevel.txt	_DBC_CHARACTER_EXPLEVEL	2	OK	OK	OK	format=binary
+DBC_CHARACTER_FACE	CharacterFace.txt	_DBC_CHAR_FACE	6	OK	OK	OK	format=binary
+DBC_SYSTEM_COLOR	SystemColour.txt	_DBC_SYSTEM_COLOR	4	OK	OK	OK	format=binary
+DBC_CREATURE_ATT	MonsterAttrExTable.txt	_DBC_CREATURE_ATT	73	OK	OK	OK	format=binary
+DBC_PET_EX_ATT	PetAttrTable.txt	_DBC_PET_EX_ATT	54	OK	OK	OK	format=binary
+DBC_CREATURE_SOUND	CreatureSound.txt	_DBC_CREATURE_SOUND	4	OK	OK	OK	format=binary
+DBC_ITEM_VISUAL_CHAR	ItemVisualChar.txt	_DBC_ITEM_VISUAL_CHAR	23	OK	OK	OK	format=binary
+DBC_ITEM_VISUAL_LOCATOR	ItemVisualLocator.txt	_DBC_ITEM_VISUAL_LOCATOR	63	OK	OK	OK	format=binary
+DBC_ITEM_EQUIP_BASE	EquipBase.txt	_DBC_ITEM_EQUIP_BASE	103	OK	OK	OK	format=binary
+DBC_ITEM_EQUIP_WHITE	WhiteEquipBase.txt	_DBC_ITEM_EQUIP_WHITE	93	OK	OK	OK	format=binary
+DBC_ITEM_EQUIP_GREEN	GreenEquipBase.txt	_DBC_ITEM_EQUIP_GREEN	93	OK	OK	OK	format=binary
+DBC_ITEM_EQUIP_BLUE	BlueEquipBase.txt	_DBC_ITEM_EQUIP_BLUE	91	OK	OK	OK	format=binary
+DBC_ITEM_MEDIC	CommonItem.txt	_DBC_ITEM_MEDIC	28	OK	OK	OK	format=binary
+DBC_ITEM_GEM	GemInfo.txt	_DBC_ITEM_GEM	84	OK	OK	OK	format=binary
+DBC_ITEM_STOREMAP	StoreMapItem.txt	_DBC_ITEM_STOREMAP	15	OK	OK	OK	format=binary
+DBC_ITEM_SETATT	EquipSetAttr.txt	_DBC_ITEM_SETATT	37	OK	OK	OK	format=binary
+DBC_SOUND_INFO	SoundInfo.txt	_DBC_SOUND_INFO	3	OK	OK	OK	format=binary
+DBC_EFFECT_DEFINE	EffectDefine.txt	_DBC_EFFECT_DEFINE	4	OK	OK	OK	format=binary
+DBC_SKILL_XINFA	XinFa_V1.txt	_DBC_SKILL_XINFA	37	OK	OK	OK	format=binary
+DBC_SKILL_ADDIMPACT	SkillAddImpact.txt	_DBC_SKILL_ADDIMPACT	10	OK	OK	OK	format=binary
+DBC_BUFF_IMPACT	ImpactSEData_V1.txt	_DBC_BUFF_IMPACT	28	OK	OK	OK	format=binary
+DBC_DIRECTLY_IMPACT	ImpactDirectly.txt	_DBC_DIRECT_IMPACT	25	OK	OK	OK	format=binary
+DBC_BULLET_DATA	Bullet.txt	_DBC_BULLET_DATA	16	OK	OK	OK	format=binary
+DBC_SKILL_DATA	SkillTemplate_V1.txt	_DBC_SKILL_DATA	102	OK	OK	OK	format=binary
+DBC_SKILL_DEPLETE	SkillDeplete.txt	_DBC_SKILL_DEPLETE	6	OK	OK	OK	format=binary
+DBC_SPECIAL_OBJ_DATA	SpecialObjData.txt	_DBC_SPECIAL_OBJ_DATA	63	OK	OK	OK	format=binary
+DBC_SCENE_DEFINE	SceneDefineEx.txt	_DBC_SCENE_DEFINE	25	OK	OK	OK	format=binary
+DBC_SCENE_POS_DEFINE	ScenePosDefine.txt	_DBC_SCENE_POS_DEFINE	6	OK	OK	OK	format=binary
+DBC_UI_LAYOUTDEFINE	InterfaceEx.txt	_DBC_UI_LAYOUTDEFINE	9	PENDING	PENDING	PENDING	x86 slot 8: struct unk_8 num@32 vs column #8:STRING@32 | x64 slot 8: struct unk_8 num@56 vs column #8:STRING@56 | table list schema ISSSISIIIS != data ISSSISIIS | struct OK against the CY 3.71 reference ../../../Tools/DATA NEW/DataCY31-08-26/Config/InterfaceEx.txt (CY 3.71 GUI table; agent cy-gui replaces the client_GL copy in CanonicalCY)
+DBC_LIFEABILITY_GROWPOINT	GrowPoint.txt	_DBC_LIFEABILITY_GROWPOINT	19	OK	OK	OK	format=binary
+DBC_LIFEABILITY_DEFINE	Ability.txt	_DBC_LIFEABILITY_DEFINE	21	OK	OK	OK	format=binary
+DBC_LIFEABILITY_ITEMCOMPOSE	ItemCompound.txt	_DBC_LIFEABILITY_ITEMCOMPOSE	38	OK	OK	OK	format=binary
+DBC_LIFEABILITY_PLATFORM	Platform.txt	_DBC_LIFEABILITY_PLATFORM	5	OK	OK	OK	format=binary
+DBC_CODE_CONVERT	CodeConvert.txt	_DBC_CODE_CONVERT	3	OK	OK	OK	format=binary
+DBC_TITLE_NAME	CharTitle.txt	_DBC_TITLE_NAME	50	OK	OK	OK	format=binary
+DBC_SKILLDATA_V1_DEPLETE	SkillData_V1.txt	_DBC_SKILLDATA_V1_DEPLETE	54	OK	OK	OK	format=binary
+DBC_MISSION_KIND	MissionKind.txt	_DBC_MISSION_KIND	2	OK	OK	OK	format=binary
+DBC_STRING_DICT	StrDictionary.txt	_DBC_STRING_DICT	2	OK	OK	OK	
+DBC_ITEM_RULE	ItemRule.txt	_DBC_ITEM_RULE	15	OK	OK	OK	format=binary
+DBC_TALK_FILTER	StrFilter.txt	_DBC_TALK_FILTER	3	OK	OK	OK	
+DBC_LV_MAXMONEY	LvMaxMoney.txt	_DBC_LV_MAXMONEY	12	OK	OK	OK	format=binary
+DBC_TALK_ACT	ChatMood.txt	_DBC_TALK_ACT	14	OK	OK	OK	format=binary
+DBC_TALK_CONFIG	ChatConfig.txt	_DBC_TALK_CONFIG	11	OK	OK	OK	format=binary
+DBC_MONSTER_PAOPAO	MonsterPaoPao.txt	_DBC_MONSTER_PAOPAO	2	OK	OK	OK	format=binary
+DBC_HAIR_STYLE	HairStyle.txt	_DBC_HAIR_STYLE	0	ABSENT	ABSENT	ABSENT	absent from the data set
+DBC_BUILDING_DEINFE	BuildingDefine.txt	_DBC_BUILDING_DEFINE	8	OK	OK	OK	format=binary
+DBC_CITY_BUILDING	CityBuilding.txt	_DBC_CITY_BUILDING	23	OK	OK	OK	format=binary
+DBC_CAMP_AND_STAND	CampAndStand.txt	_DBC_CAMP_AND_STAND	17	OK	OK	OK	client_GL table kept (CY 3.71 has no camp table; an empty one makes every relation FRIEND): Assets/Canonical/Data/ConfigFolder/CampAndStand.txt; format=binary
+DBC_FULLCMP_FILTER	FullCompareFilter.txt	_DBC_FULLCMP_FILTER	3	OK	OK	OK	format=binary
+DBC_PET_LEVELUP	PetLevelUpTable.txt	_DBC_PET_LEVELUP	2	OK	OK	OK	format=binary
+-other-	ActionSet/ActionSet.txt	-	4	OK	OK	OK	parser Client/WXClient/Action/CysActionSetTable.cpp LoadActionSet | format=binary
+-other-	ActionSet/ActionSetLine.txt	-	20	OK	OK	OK	parser CysActionSetTable.cpp LoadActionSetLine (CY: 16 slots + 3 extras) | format=binary
+-other-	ActionSet/ActionSetKV.txt	-	2	OK	OK	OK	parser CysActionSetTable.cpp LoadActionSetKV | format=binary
+-other-	BeHit.txt	-	20	OK	OK	OK	parser Client/CEGUISystem/CysBeHitConfig.h BeHitTable::load | format=binary
+-other-	CityIdOfChina.txt	-	5	OK	OK	OK	parser Client/LuaApiGen/CysProvinceList.cpp Parse | format=binary

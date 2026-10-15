@@ -1,0 +1,544 @@
+kind	proto	dir	id	name	domain	confidence	decodability	selectors	merged	undecodable	notes
+packet	game	CG	1	CGBankMoney	misc	high	DecFull				
+packet	game	CG	3	CGHeartBeat	core	high	DecFull				
+packet	game	CG	4	CGPetUseEquip	pet	high	DecFull				
+packet	game	CG	5	CGCharAskEquipment	combat	high	DecFull				
+packet	game	CG	6	CGChangePkModeReq	misc	high	DecFull				
+packet	game	GC	7	GCOperateResult	misc	high	DecFull				
+packet	game	CG	8	CGCharAskImpactList	combat	high	DecFull				
+packet	game	GC	15	GCXinfaStudyInfo	misc	high	DecFull				
+packet	game	CG	19	CGBankRemoveItem	misc	high	DecFull				
+packet	game	GC	21	GCNewMonster	movement	high	DecFull				
+packet	game	CG	23	CGRaidInvite	team	high	DecFull				
+packet	game	GC	26	GCPetUseEquipResult	pet	high	DecFull				
+packet	game	CG	27	CGSecKillRemoveItem	shop	high	DecFull				
+packet	game	CG	29	CGGuildJoin	social	high	DecFull				
+packet	game	CG	31	CGBankAddItem	misc	high	DecFull				
+packet	game	CG	32	CGAskItemInfo	misc	high	DecFull				
+packet	game	CG	33	CGBankAcquireList	misc	high	DecFull				
+packet	game	GC	34	GCPackage_SwapItem	misc	high	DecFull				
+packet	game	GC	37	GCShopBuy	shop	high	DecFull				
+packet	game	CG	40	CGLookUpOther	social	high	DecFull				
+packet	game	GC	41	GCPlayerShopOnSale	shop	high	DecFull				
+packet	game	CG	42	CGAskServerTime	misc	high	DecFull				
+packet	game	CG	46	CGMACNotify	core	high	DecFull				
+packet	game	CGW	48	CGWGuildLeagueQuit	city	high	DecFull				
+packet	game	CG	49	CGConnect	core	high	DecFull				
+packet	game	GC	52	GCRemovePet	movement	high	DecFull				
+packet	game	GC	55	GCDetailSkillList	misc	high	DecFull				
+packet	game	CGW	58	CGWGuildLeagueAskEnter	city	high	DecFull				
+packet	game	GC	60	GCAcqStallRemoveItem	shop	high	DecFull				
+packet	game	CG	62	CGAuctionSell	shop	high	DecFull				
+packet	game	GC	63	GCCharAutoRide	core	high	DecFull				
+packet	game	CG	64	CGPlayerShopAcquireItemList	shop	high	DecFull				
+packet	game	CG	65	CGTeamRetInvite	team	high	DecFull				
+packet	game	CG	66	CGOrnamentsOperation	item	high	DecFull				
+packet	game	GC	67	KeyExchange	misc	medium	DecFull				
+packet	game	GC	73	GCStopPedding	core	high	DecFull				
+packet	game	GC	78	GCAddSkill	misc	high	DecFull				
+packet	game	GC	82	GCStallError	shop	high	DecFull				
+packet	game	CG	83	CGCharUseSkill	misc	high	DecFull				
+packet	game	GC	85	GCCooldownUpdate	misc	medium	DecFull				
+packet	game	GC	86	GCBankSwapItem	misc	high	DecFull				
+packet	game	CG	88	CGUnEquip	item	high	DecFull				
+packet	game	CG	96	CGSplitItem	item	high	DecFull				
+packet	game	GC	99	GCMinorPasswd	misc	high	DecFull				
+packet	game	CG	100	CGAuctionBuy	shop	high	DecFull				
+packet	game	GC	102	GCSectDetail	misc	medium	DecFull		L1064		
+packet	game	GC	104	GCTeamAskApply	team	high	DecFull				
+packet	game	CG	107	CGEventRequest	mission	high	DecFull				
+packet	game	GC	109	GCPetUnEquipResult	pet	high	DecFull				
+packet	game	GC	113	GCPickResult	item	high	DecFull				
+packet	game	GC	117	GCUseItemResult	item	high	DecFull				
+packet	game	GC	124	GCRaidList	team	low	DecNone			anon1(cannot parse '[]' (unexpected '[')), member_list(always: member_list is not on the wire here)	
+packet	game	CG	125	CGLogSubmit	core	high	DecFull				
+packet	game	CG	126	CGAskTeamFollow	misc	high	DecFull				
+packet	game	CG	127	CGExteriorCoupleFashion	misc	high	DecFull				
+packet	game	GC	128	GCRetAskQuit	misc	high	DecFull				
+packet	game	CG	134	CGAskDetailXinFaList	misc	high	DecFull				
+packet	game	GC	137	GCStudyXinfa	misc	high	DecFull				
+packet	game	GC	138	GCNotifyMail	misc	high	DecFull				
+packet	game	GC	139	GCCityList	city	high	DecFull				
+packet	game	GC	143	GCBagSizeChange	misc	high	DecFull				
+packet	game	CG	145	CGAskTeamInfo	misc	high	DecFull				
+packet	game	CG	147	CGRongYu	core	high	DecFull				
+packet	game	CG	149	CGRelation	social	high	DecFull				
+packet	game	CG	150	CGChallenge	combat	high	DecFull				
+packet	game	GC	153	GCCharBuff	misc	high	DecFull				
+packet	game	GC	154	GCPlayerShopMoney	shop	high	DecFull				
+packet	game	CG	156	CGAntagonistReq	combat	high	DecFull				
+packet	game	CG	160	CGPlayerShopBuyShop	shop	high	DecFull				
+packet	game	CG	163	CGMissionContinue	combat	high	DecFull				
+packet	game	CG	165	CGAskCampaignCount	misc	high	DecFull				
+packet	game	CG	170	CGAskMyBagList	misc	medium	DecFull				
+packet	game	GC	174	GCAskServerTime	misc	high	DecFull				
+packet	game	GC	176	GCNewPlayer_Move	movement	medium	DecFull				
+packet	game	CG	179	CGLoginAcc	core	medium	DecFull				
+packet	game	CG	183	CGPetUnEquip	pet	high	DecFull				
+packet	game	GC	191	GCJiYuanShopInfo	shop	medium	DecFull				
+packet	game	CG	197	CGRaidRetInvite	team	high	DecFull				
+packet	game	CGW	199	CGWGuildLeagueInfo	city	high	DecFull				
+packet	game	GC	205	GCWGCPacket	city	medium	DecFull				
+packet	game	GC	206	GCDarkResult	pet	high	DecFull				
+packet	game	CG	207	CGAskMyBagSize	misc	high	DecFull				
+packet	game	CG	211	CGMail	social	medium	DecFull				
+packet	game	GC	213	GCAuctionSearch	shop	medium	DecPartial				
+packet	game	CG	214	CGCharStopLogic	misc	high	DecFull				
+packet	game	GC	217	GCStallBuy	shop	high	DecFull				
+packet	game	CG	221	CGRaidCreate	team	medium	DecFull				
+packet	game	GC	222	GCRemoveGemResult	misc	high	DecFull				
+packet	game	GC	226	GCRaidResult	team	high	DecFull				
+packet	game	CG	228	CGPetBankAddPet	pet	high	DecFull				
+packet	game	GC	237	GCGuildError	social	high	DecFull				
+packet	game	CG	238	CGUseEquip	item	high	DecFull				
+packet	game	GC	245	GCRefreshKFSSkill	misc	high	DecFull				
+packet	game	GC	251	GCDetailImpactListUpdate	misc	medium	DecFull				
+packet	game	CG	258	CGTeamRetApply	team	high	DecFull				
+packet	game	CG	261	CGMissionAbandon	combat	high	DecFull				
+packet	game	GC	263	GCMyBagList	misc	medium	DecFull				
+packet	game	CG	264	CGAcqStallSell	shop	high	DecFull				
+packet	game	CG	268	CGAuctionModify	shop	high	DecFull				
+packet	game	GC	269	GCAuctionChangeStatus	shop	medium	DecFull				
+packet	game	GC	273	GCTeamFollowErr	team	high	DecFull				
+packet	game	GC	276	GCPlayerShopBuyShop	shop	high	DecFull				
+packet	game	GC	277	GCGuildReturn	social	high	DecFull				
+packet	game	CG	279	CGAuctionBoxList	shop	high	DecFull				
+packet	game	GC	280	GCRetChangeScene	misc	high	DecFull				
+packet	game	GC	281	GCTeamError	team	high	DecFull				
+packet	game	GC	285	GCDetailBuff	misc	high	DecFull				
+packet	game	CG	287	CGExteriorSharePlan	misc	high	DecFull	is_empty_body(L6299,wire)			
+packet	game	GC	288	GCMissionList	combat	high	DecFull				
+packet	game	GC	290	GCAcqStallOpen	shop	high	DecFull				
+packet	game	GC	291	GCPrivateInfo	social	high	DecFull				
+packet	game	GC	293	GCAcqStallSell	shop	high	DecFull				
+packet	game	CGW	294	CGWGuildLeagueAnswerEnter	city	high	DecFull				
+packet	game	CG	303	CGPlayerShopBuyItem	shop	high	DecFull				
+packet	game	GC	304	GCAuctionError	shop	medium	DecFull				
+packet	game	GC	305	GCShopSell	shop	high	DecFull				
+packet	game	GC	312	GCArrive	misc	high	DecFull				
+packet	game	GC	313	GCPlayerShopUpdatePartners	shop	medium	DecFull				
+packet	game	GC	314	GCPackUpBank	item	high	DecFull				
+packet	game	CG	316	CGAskDetailEquipList	misc	high	DecFull				
+packet	game	GC	320	GCSetDynamicRegion	misc	high	DecFull				
+packet	game	GC	321	GCShopSoldList	shop	medium	DecFull				
+packet	game	CG	322	CGMissionSubmit	combat	high	DecFull				
+packet	game	GC	324	GCCharImpactListUpdate	misc	medium	DecFull				
+packet	game	CG	329	CGTeamApply	team	high	DecFull				
+packet	game	GC	331	GCCharSkill_Send	misc	high	DecFull				
+packet	game	WGC	332	WGCGuildLeagueInfo	city	medium	DecFull				
+packet	game	GC	334	GCMSShopBuyInfo	shop	medium	DecFull				
+packet	game	GC	335	GCChatDecryption	core	high	DecFull				
+packet	game	CG	336	CGTeamChangeOption	team	high	DecFull				
+packet	game	CGW	338	CGWGuildLeagueMemberApplyList	city	high	DecFull				
+packet	game	GC	346	GCRelation	social	medium	DecFull				
+packet	game	CG	347	CGPlayerShopPartner	shop	high	DecFull				
+packet	game	CG	352	CGCharMove	movement	high	DecFull				
+packet	game	CG	356	CGRaidRetApply	team	high	DecFull				
+packet	game	GC	357	GCRetSetting	misc	high	DecFull				
+packet	game	GC	359	GCExchangeCancel	team	high	DecFull				
+packet	game	CG	364	CGExchangeSynchLock	team	high	DecFull				
+packet	game	GC	366	GCPhoenixPlainWarFlagPos	city	high	DecFull				
+packet	game	CG	371	CGSetPetAttrib	misc	medium	DecFull				
+packet	game	CG	372	CGLockTarget	combat	high	DecFull				
+packet	game	GC	375	GCPackUpPacket	item	high	DecFull				
+packet	game	GC	378	GCNewPlatform	misc	medium	DecFull				
+packet	game	GC	382	GCCharModifyAction	misc	high	DecFull				
+packet	game	GC	384	GCNewBus	misc	high	DecFull				
+packet	game	GC	385	GCOrnamentsDataUpdate	item	medium	DecFull				
+packet	game	CG	387	CGBBSApply	social	high	DecFull				
+packet	game	GC	389	GCRefreshDarkSkill	misc	high	DecFull				
+packet	game	GC	395	GCNewPet_Move	movement	high	DecFull				
+packet	game	GC	397	GCScriptCommand	mission	medium	DecFull				L282 patched (codegen_cpp_rules)
+packet	game	CG	400	CGPetSoulXiShuXing	pet	high	DecFull				
+packet	game	CG	402	CGAskSetting	misc	high	DecFull				
+packet	game	CG	404	CGCharAskBaseAttrib	combat	high	DecFull				
+packet	game	GC	408	GCExchangeApplyI	team	high	DecFull				
+packet	game	CG	409	CGModifySetting	misc	high	DecFull				
+packet	game	CG	414	CGAskChangeScene	misc	high	DecFull				
+packet	game	GC	417	GCDiaowenFeatureSkill	misc	high	DecFull				
+packet	game	GC	418	GCRaidAskInvite	team	high	DecFull				
+packet	game	GC	420	GCExchangeSynchII	team	high	DecFull				
+packet	game	CG	421	CGRaidLeave	team	high	DecFull				
+packet	game	GC	422	GCBusRemoveAllPassenger	city	high	DecFull				
+packet	game	GC	423	GCPlayerShopSaleShopInfo	shop	medium	DecFull				
+packet	game	CG	427	CGShopBuy	shop	medium	DecFull				
+packet	game	GC	428	GCBBSMessages	social	medium	DecFull				
+packet	game	GC	431	GCPlayerRelive	misc	high	DecFull				
+packet	game	CG	434	CGFriendGroupName	social	high	DecFull				
+packet	game	CG	435	CGManipulatePet	misc	high	DecFull				
+packet	game	GC	436	GCPlayerShopSaleOut	shop	high	DecFull				
+packet	game	CG	443	CGAcqStallRemoveItem	shop	high	DecFull				
+packet	game	GC	444	GCRetNetDelay	misc	high	DecFull				
+packet	game	CG	447	CGTeamInvite	team	high	DecFull				
+packet	game	CG	449	CGCityAskAttr	city	high	DecFull				
+packet	game	GC	455	GCCharBaseAttrib	combat	medium	DecFull				derive char_base_attrib_flags after new_flags
+packet	game	GC	456	GCConnect	core	high	DecFull				
+packet	game	GC	457	GCReturnTeamFollow	misc	high	DecFull				
+packet	game	GC	459	GCAbilitySucc	misc	medium	DecFull				
+packet	game	CGW	461	CGWGuildLeagueList	city	high	DecFull				
+packet	game	GC	462	GCUseEquipResult	item	high	DecFull				
+packet	game	CG	464	CGPlayerShopType	shop	high	DecFull				
+packet	game	GC	465	GCNewSpecial	misc	high	DecFull				
+packet	game	CG	469	CGAskCheDiFuLuData	misc	high	DecFull				
+packet	game	GC	472	GCWorldTime	core	high	DecFull				
+packet	game	CG	473	CGUseItem	item	medium	DecFull				
+packet	game	CG	474	CGPlayerShopFavorite	shop	high	DecFull				
+packet	game	GC	479	GCDiGongShopInfo	shop	high	DecFull				
+packet	game	GC	480	GCUnEquipResult	item	high	DecFull				
+packet	game	GC	481	GCNewMonster_Move	movement	medium	DecFull				
+packet	game	CG	487	CGExchangeOkIII	team	high	DecFull				
+packet	game	GC	488	GCOpenPlayerShop	misc	high	DecFull				
+packet	game	CG	489	CGCGWPacket	city	medium	DecFull				
+packet	game	GC	494	GCAuctionChangeMoney	shop	high	DecFull				
+packet	game	CG	501	CGAuctionSearch	shop	medium	DecFull				
+packet	game	CG	507	CGUseGem	misc	high	DecFull				
+packet	game	GC	508	GCPlayerDie	misc	medium	DecFull				
+packet	game	GC	512	GCDetailAttrib_Pet	pet_detail_types	medium	DecPartial	extra_data_view(L1036,default=0), has_extra_data(L1035,default=false)			derive detail_attrib_pet_flags after _nf
+packet	game	CG	513	CGRaidApply	team	high	DecFull				
+packet	game	CG	517	CGDisplaceGem	misc	high	DecFull				
+packet	game	WGC	518	WGCGuildLeagueMemberApplyList	city	medium	DecFull				
+packet	game	CG	520	CGDiscardItem	item	high	DecFull				
+packet	game	CG	527	CGByname	social	medium	DecFull				
+packet	game	GC	530	GCExteriorInfo	misc	medium	DecFull				
+packet	game	GC	533	GCShengWangInfo	misc	medium	DecFull				
+packet	game	CG	538	CGPlayerShopOnSale	shop	high	DecFull				
+packet	game	CG	539	CGAskRaidMemberInfo	misc	high	DecFull				
+packet	game	CG	540	CGStallBuy	shop	high	DecFull				
+packet	game	CG	546	CGAskDetailAbilityInfo	misc	high	DecFull				
+packet	game	GC	553	GCExchangeSynchLock	team	high	DecFull				
+packet	game	CG	555	CGAskStudyXinfa	misc	high	DecFull				
+packet	game	CG	557	CGPlayerShopSaleOut	shop	high	DecFull				
+packet	game	CG	560	CGMSShopBuyInfoReq	shop	high	DecFull				
+packet	game	CG	563	CGShopSell	shop	high	DecFull				
+packet	game	GC	564	GCCharMove	movement	medium	DecFull				
+packet	game	CG	565	CGStopPedding	core	high	DecFull				
+packet	game	GC	574	GCSpecialObj_FadeOut	misc	high	DecFull				
+packet	game	CG	579	CGExchangeSynchMoneyII	team	high	DecFull				
+packet	game	CG	581	CGPlayerShopAskForRecord	shop	high	DecFull				
+packet	game	GC	582	GCDelObject	misc	high	DecFull				
+packet	game	GC	584	GCStallClose	shop	high	DecFull				
+packet	game	CG	587	CGPlayerShopAcquireShopList	shop	high	DecFull				
+packet	game	GC	590	GCAskFashionDepotData	misc	medium	DecFull				
+packet	game	GC	591	GCPlayerShopEstablish	shop	high	DecFull				
+packet	game	GC	595	GCCharJump	movement	high	DecFull				
+packet	game	CG	598	CGReqManualAttr	misc	high	DecFull				
+packet	game	CG	602	CGStallRemoveItem	shop	high	DecFull				
+packet	game	GC	603	GCMissionHaveDoneFlag	combat	high	DecFull				
+packet	game	GC	604	GCBankAcquireList	misc	medium	DecFull	present(L4128,rule)			
+packet	game	GC	607	GCDetailXinFaList	misc	high	DecFull				
+packet	game	GC	609	GCCityAttr	city	medium	DecFull				
+packet	game	GC	612	GCAbilityExp	misc	high	DecFull				
+packet	game	GC	613	GCChallenge	combat	high	DecFull				
+packet	game	GC	617	GCJuqingPoint	misc	high	DecFull				
+packet	game	CG	622	CGAuctionGetYB	shop	high	DecFull				
+packet	game	GC	623	GCItemInfo	misc	high	DecFull				
+packet	game	CG	624	CGCTUGabrielCmdRet	core	medium	DecFull				
+packet	game	GC	625	GCNewBus_Move	misc	high	DecFull				
+packet	game	GC	630	GCGuild	social	medium	DecFull				
+packet	game	CG	631	CGStallClose	shop	high	DecFull				
+packet	game	CG	632	CGAskDoubleExp	misc	high	DecFull				
+packet	game	CG	636	CGCharAutoRide	core	high	DecFull				
+packet	game	GC	639	GCRetRaidModifyMemberPosition	misc	high	DecFull				
+packet	game	GC	643	GCDetailAbilityInfo	misc	high	DecFull				
+packet	game	GC	648	GCTeamResult	team	medium	DecFull				
+packet	game	CG	651	CGExchangeReplyI	team	high	DecFull				
+packet	game	CG	656	CGRemoveGem	misc	high	DecFull				
+packet	game	CG	657	CGDispelBuffReq	combat	high	DecFull				
+packet	game	GC	658	GCGameCommond	misc	high	DecFull				
+packet	game	GC	662	GCAbilityLevel	misc	high	DecFull				
+packet	game	CG	663	CGAskDiGongShopInfo	misc	high	DecFull				
+packet	game	CG	664	CGPlayerShopName	shop	high	DecFull				
+packet	game	GC	665	GCExchangeSuccessIII	team	medium	DecFull				
+packet	game	GC	666	GCManipulatePetRet	misc	high	DecFull				
+packet	game	GC	672	GCByname	social	medium	DecFull				
+packet	game	GC	675	GCBoxItemList	misc	medium	DecFull				
+packet	game	GC	676	GCCharDirectImpact	combat	high	DecFull				
+packet	game	CG	678	CGAskDetailAttrib	misc	high	DecFull				
+packet	game	GC	679	GCRMBChatFaceInfo	misc	high	DecFull				
+packet	game	CG	680	CGAskGSChitChatInfo	misc	high	DecFull				
+packet	game	GC	681	GCChallengeListInfo	combat	medium	DecFull				
+packet	game	CG	682	CGMissionCheck	combat	high	DecFull				
+packet	game	GC	684	GCRetSecKillNum	misc	medium	DecFull				
+packet	game	CG	687	CGNetDelay	core	high	DecFull				
+packet	game	CG	690	CGAskJuqingPoint	misc	high	DecFull				
+packet	game	GC	694	GCMsgBall	misc	medium	DecFull				
+packet	game	GC	696	GCCharSkill_Gather	misc	high	DecFull				
+packet	game	CG	699	CGBBSSychMessages	social	medium	DecFull				
+packet	game	CG	703	CGZdZdRequest	misc	high	DecFull				
+packet	game	CG	704	CGCharMoodState	misc	high	DecFull				
+packet	game	GC	708	GCLookUpOther	social	high	DecFull				
+packet	game	CG	712	CGTeamKick	team	high	DecFull				
+packet	game	GC	715	GCItemSynch	item	medium	DecFull				
+packet	game	CG	717	CGTeamAppoint	team	high	DecFull				
+packet	game	CG	720	CGAuctionMultiBuyItem	shop	high	DecFull				
+packet	game	CG	721	CGRemoveDressGem	item	high	DecFull				
+packet	game	GC	724	GCComboSkillOperation	misc	high	DecFull				
+packet	game	GC	727	GCStallApply	shop	high	DecFull				
+packet	game	WGC	728	WGCGuildLeagueList	city	high	DecFull				
+packet	game	GC	732	GCMissionRemove	combat	high	DecFull				
+packet	game	GC	741	GCBankRemoveItem	misc	high	DecFull				
+packet	game	GC	743	GCNotifyGoodBad	misc	high	DecFull				
+packet	game	GC	744	GCPacketStream	item	medium	DecFull		L707		
+packet	game	CG	753	CGChat	social	medium	DecFull				
+packet	game	GC	757	GCPetBankListUPData	pet	medium	DecPartial	present(L93,rule)			L95 patched (codegen_cpp_rules)
+packet	game	GC	758	GCDFengEssenceSynKongWeiData	combat	high	DecFull				
+packet	game	GC	760	GCAbilityResult	misc	high	DecFull				
+packet	game	CG	761	CGEnvRequest	core	high	DecFull				
+packet	game	GC	772	GCUseGemResult	misc	high	DecFull				
+packet	game	GC	782	GCTeamFollowList	team	medium	DecFull				
+packet	game	GC	783	GCLevelUpLock	misc	high	DecFull				
+packet	game	GC	785	GCStallItemPrice	shop	high	DecFull				
+packet	game	CG	787	CGPetExteriorCollectionRequest	pet	high	DecFull				
+packet	game	CG	789	CGPlayerShopSaleShopOpt	shop	high	DecFull				
+packet	game	GC	790	GCChat	social	medium	DecFull				
+packet	game	CG	791	CGTeamLeaderRetInvite	team	high	DecFull				
+packet	game	GC	792	GCExteriorCoupleFashion	misc	medium	DecFull				
+packet	game	CG	795	CGSetMoodToHead	misc	high	DecFull				
+packet	game	GC	797	GCShopMerchandiseList	shop	medium	DecFull				
+packet	game	CG	799	CGMinorPasswd	misc	high	DecFull				
+packet	game	GC	802	GCCharSkill_Missed	misc	high	DecFull				
+packet	game	GC	803	GCVirtualNPCInfo	misc	high	DecFull				
+packet	game	CG	807	CGAskDarkAdjust	misc	high	DecFull				
+packet	game	GC	809	GCNotifyChangeScene	misc	high	DecFull				
+packet	game	CG	812	CGExchangeApplyI	team	high	DecFull				
+packet	game	GC	817	GCCharCharge	misc	high	DecFull				
+packet	game	GC	819	GCRetGSChitChatInfo	misc	high	DecFull				
+packet	game	CG	822	CGTeamDismiss	team	high	DecFull				
+packet	game	CG	824	CGEnterScene	movement	high	DecFull				
+packet	game	GC	843	GCLevelUp	misc	high	DecFull				
+packet	game	GC	844	GCDiscardItemResult	item	high	DecFull				
+packet	game	WGC	845	WGCCTUGabrielCommond	misc	medium	DecFull				
+packet	game	CG	846	CGYuanBaoToBind	misc	high	DecFull				
+packet	game	CG	855	CGAskSecKillData	misc	high	DecFull				
+packet	game	GC	856	GCPhoenixPlainWarCrystalPos	city	high	DecFull				
+packet	game	GC	857	GCGuildApply	social	high	DecFull				
+packet	game	CG	860	CGExecuteScript	mission	medium	DecFull				
+packet	game	CG	861	CGStallOpen	shop	high	DecFull				
+packet	game	CG	863	CGStallApply	shop	high	DecFull				
+packet	game	CG	867	CGAuctionExpireBack	shop	high	DecFull				
+packet	game	GC	868	GCGroupingNameRet	misc	high	DecFull				
+packet	game	GC	869	GCStallEstablish	shop	high	DecFull				
+packet	game	CG	870	CGAutoCreateTeam	misc	high	DecFull				
+packet	game	GC	872	GCBusMove	city	high	DecFull				
+packet	game	GC	873	GCExteriorSharePlan	misc	high	DecFull				
+packet	game	GC	874	GCExchangeSynchConfirmII	team	high	DecFull				
+packet	game	CG	875	CGRaidAppoint	team	high	DecFull				
+packet	game	CG	877	CGPackage_SwapItem	misc	high	DecFull				
+packet	game	GC	878	GCShowMonsterTaps	misc	medium	DecFull				
+packet	game	CG	880	CGPackUpBank	item	medium	DecFull				
+packet	game	CG	884	CGAskMail	misc	high	DecFull				
+packet	game	GC	885	GCExchangeNotifySerial	team	high	DecFull				
+packet	game	GC	887	GCAskTeamFollow	misc	high	DecFull				
+packet	game	GC	889	GCBusAddPassenger	city	high	DecFull				
+packet	game	CG	893	CGGemCompound	item	high	DecFull				
+packet	game	CG	894	CGPlayerShopMoney	shop	high	DecFull				
+packet	game	CG	895	CGRaidModifyMemberPosition	team	high	DecFull				
+packet	game	GC	896	GCMissionModify	combat	high	DecFull				
+packet	game	GC	897	GCPhoenixPlainWarScore	city	high	DecFull				
+packet	game	CG	898	CGGuildApply	social	high	DecFull				
+packet	game	GC	899	GCBankBegin	misc	high	DecFull				
+packet	game	GC	902	GCPlayerShopApply	shop	high	DecFull				
+packet	game	GC	907	GCMissionAdd	combat	high	DecFull				
+packet	game	CG	908	CGKfsOperate	misc	high	DecFull				
+packet	game	GC	909	GCTargetListAndHitFlags	misc	medium	DecFull				
+packet	game	CG	910	CGExchangeSynchItemII	team	high	DecFull				
+packet	game	CG	912	CGWuhunWG	misc	high	DecFull				
+packet	game	GC	913	GCPlayerShopSaleShopOptResult	shop	high	DecFull				
+packet	game	GC	916	GCPlayerShopUpdateFavorite	shop	high	DecFull				
+packet	game	CG	957	CGAskMissionList	mission	high	DecFull				
+packet	game	GC	960	GCRaidError	team	high	DecFull				
+packet	game	GC	961	GCSecKillRemoveItem	shop	high	DecFull				
+packet	game	CG	964	CGAskTeamMemberInfo	misc	high	DecFull				
+packet	game	GC	965	GCObjTeleport	misc	high	DecFull				
+packet	game	GC	966	GCTeamAskInvite	team	medium	DecFull				
+packet	game	GC	968	GCTeamOptionChanged	team	high	DecFull				
+packet	game	CGW	971	CGWAskAladdinToken	misc	high	DecFull				
+packet	game	WGC	972	WGCAladdinToken	misc	high	DecFull				
+packet	game	GC	980	GCPlayerShopAcquireShopList	shop	high	DecFull				
+packet	game	GC	981	GCPlayerShopStallStatus	shop	high	DecFull				
+packet	game	GC	982	GCPhoenixPlainWarCampInfo	city	high	DecFull				
+packet	game	CG	983	CGAskDynamicRegion	movement	high	DecFull				
+packet	game	GC	985	GCBankMoney	misc	high	DecFull				
+packet	game	CG	991	CGSectOper	misc	high	DecFull				
+packet	game	CG	992	CGStallShopName	shop	medium	DecFull				
+packet	game	GC	993	GCPetSoulXiShuXing	pet	medium	DecFull				
+packet	game	GC	994	GCZhouHuoYueInfo	misc	high	DecFull				
+packet	game	GC	999	GCStallRemoveItem	shop	high	DecFull				
+packet	game	WGC	1002	WGCRetQueryXBWRankCharts	city	high	DecFull				
+packet	game	GC	1013	GCNotifyEquip	item	high	DecFull				
+packet	game	GC	1014	GCDetailXiulianList	misc	medium	DecFull				
+packet	game	CG	1016	CGPlayerShopDesc	shop	high	DecFull				
+packet	game	WGC	1021	WGCRetQueryQingRenJieTopList	city	high	DecFull				
+packet	game	GC	1023	GCOpenWorldReference	misc	high	DecFull				
+packet	game	GC	1026	GCLevelUpResult	misc	high	DecFull				
+packet	game	CG	1027	CGExteriorRequest	misc	medium	DecFull				
+packet	game	CG	1030	CGAuctionTakeBack	shop	high	DecFull				
+packet	game	GC	1031	GCManualAttrResult	misc	high	DecFull				
+packet	game	CG	1032	CGShowFashionDepotData	misc	high	DecFull				
+packet	game	GC	1034	GCExchangeError	team	high	DecFull				
+packet	game	CG	1049	CGPlayerShopEstablish	shop	high	DecFull				
+packet	game	GC	1050	GCBankAddItem	misc	high	DecFull				
+packet	game	GC	1064	GCAskDynamicRegionResult	movement	high	DecFull				
+packet	game	GC	1072	GCRetSecKillData	misc	medium	DecFull				
+packet	game	CG	1073	CG_Unknow_0431	misc	high	DecFull				
+packet	game	GC	1076	GCRetCampaignCount	misc	medium	DecFull				
+packet	game	GC	1079	GCRefreshEquipAttr	item	high	DecFull				
+packet	game	GC	1088	unknow_440	misc	high	DecFull				
+packet	game	GC	1090	GCCharMoveResult	movement	high	DecFull				
+packet	game	CG	1092	CGCharJump	movement	high	DecFull				
+packet	game	GC	1093	GCUnknow_1093	misc	high	DecFull				
+packet	game	CG	1095	CGCharDefaultEvent	misc	high	DecFull				
+packet	game	CG	1096	CGPlayerShopSaleShopAskInfo	shop	high	DecFull				
+packet	game	GC	1108	GCStallAddItem	shop	high	DecFull				
+packet	game	GC	1109	GCPlayerShopRecordList	shop	low	DecFull				L1787 patched (codegen_cpp_rules)
+packet	game	CG	1111	CGBankSwapItem	misc	high	DecFull				
+packet	game	GC	1116	GCCharStopAction	misc	high	DecFull				
+packet	game	CG	1117	CGAskTargetESPlan	misc	high	DecFull				
+packet	game	CG	1121	CGItemSynch	item	medium	DecFull				
+packet	game	CG	1133	CGPlayerShopOpenStall	shop	high	DecFull				
+packet	game	GC	1136	GCMail	social	medium	DecFull				
+packet	game	CG	1155	CGPickBoxItem	item	high	DecFull				
+packet	game	CG	1168	CGRaidKick	team	high	DecFull				
+packet	game	GC	1170	GCCharSkill_Lead	misc	high	DecFull				
+packet	game	CG	1191	CGShopClose	shop	high	DecFull				
+packet	game	CG	1192	CGCharUpdateCurTitle	misc	high	DecFull				
+packet	game	GC	1194	GCCharEquipment	misc	high	DecFull				
+packet	game	GC	1200	GCCheDiFuLuData	misc	medium	DecFull				
+packet	game	GC	1205	GCUICommand	core	low	DecFull				L203 patched (codegen_cpp_rules)
+packet	game	CG	1211	CGStallAddItem	shop	high	DecFull				
+packet	game	CG	1215	CGReportWaigua	misc	high	DecFull				
+packet	game	GC	1216	GCNewPet	movement	high	DecFull				
+packet	game	GC	1221	GCAcqStallAddItem	shop	high	DecFull				
+packet	game	CG	1225	CGCharFly	movement	high	DecFull				
+packet	game	GC	1226	GCBankItemInfo	misc	low	DecFull				
+packet	game	GC	1227	GCCharAllTitles	misc	medium	DecFull				
+packet	game	GC	1228	GCDoubleExpInfo	misc	medium	DecFull				
+packet	game	CG	1230	CGCharAllTitles	misc	high	DecFull				
+packet	game	GC	1231	GCPlayerShopType	shop	high	DecFull				
+packet	game	CG	1232	CGMissionAccept	combat	high	DecFull				
+packet	game	CG	1250	CGAskRaiInfo	misc	high	DecFull				
+packet	game	CG	1252	CGAskDetailSkillList	misc	high	DecFull				
+packet	game	CG	1253	CGPlayerShopSize	shop	high	DecFull				
+packet	game	GC	1262	GCCharFly	movement	high	DecFull				
+packet	game	CG	1263	CGStopTeamFollow	misc	high	DecFull				
+packet	game	CG	1266	CGOpenItemBox	misc	high	DecFull				
+packet	game	GC	1267	GCItemList	item	low	DecPartial	item_type_branch(L847,rule)		item_list_1_data(cannot parse '?' (cannot parse condition '?' at 0))	
+packet	game	GC	1270	GCTarExteriorSharePlan	misc	high	DecFull				
+packet	game	GC	1272	GCDetailEquipList	misc	high	DecFull	present(L1585,rule)			
+packet	game	GC	1280	GCTeamList	team	low	DecFull				
+packet	game	GC	1288	GCDetailExp	misc	high	DecFull				
+packet	game	CG	1289	CGStallEstablish	shop	high	DecFull				
+packet	game	CG	1308	CGPlayerShopApply	shop	high	DecFull				
+packet	game	GC	1311	GCTeamMemberInfo	team	high	DecFull				
+packet	game	GC	1312	GCSplitItemResult	item	high	DecFull				
+packet	game	CG	1316	CGAskFashionDepotData	misc	high	DecFull				
+packet	game	GC	1320	GCNpcTalk	mission	high	DecFull				
+packet	game	GC	1327	GCTJCPVPCmnData	misc	high	DecFull				
+packet	game	CG	1338	CGCreateGuildLeague	misc	high	DecFull				
+packet	game	GC	1340	GCNewPlayer	movement	high	DecFull				
+packet	game	GC	1345	GCWuhunWG	misc	medium	DecFull				
+packet	game	CG	1353	CGTeamLeave	team	high	DecFull				
+packet	game	GC	1354	GCAbilityAction	misc	high	DecFull				
+packet	game	CG	1367	CGAcqStallOpen	shop	high	DecFull				
+packet	game	CG	1368	CGGuild	social	high	DecFull				
+packet	game	CG	1369	CGReqLevelUp	misc	high	DecFull				
+packet	game	CG	1372	CGAcqStallAddItem	shop	high	DecFull				
+packet	game	CG	1374	CGUseAbility	combat	high	DecFull				
+packet	game	GC	1375	GCFashionDepotOperation	misc	high	DecFull				
+packet	game	GC	1376	GCSpecialObj_ActNow	misc	medium	DecFull				
+packet	game	CG	1384	CGAskPrivateInfo	misc	high	DecFull				
+packet	game	CG	1385	CGStallItemPrice	shop	high	DecFull				
+packet	game	GC	1388	GCPetSoulRanSe	pet	high	DecFull				
+packet	game	GC	1691	GCRaidAskApply	team	high	DecFull				
+packet	game	GC	1692	GCDetailHealsAndDamages	misc	high	DecFull				
+packet	game	GC	1694	GCNewItemBox	misc	high	DecFull				
+packet	game	GC	1697	GCFinger	social	medium	DecFull				
+packet	game	GC	1698	GCPlayerShopError	shop	high	DecFull				
+packet	game	GC	1705	GCPrescription	misc	high	DecFull				
+packet	game	GC	1706	GCPetBankAddPet	pet	high	DecFull				
+packet	game	GC	1707	GCRefreshSuperAttr	misc	high	DecFull				
+packet	game	GC	1711	GCRaidMemberInfo	team	high	DecFull				
+packet	game	GC	1713	GCTeamLeaderAskInvite	team	high	DecFull				
+packet	game	GC	1714	GCPetExteriorCollectionInfo	pet	high	DecFull				
+packet	game	GC	1717	GCExchangeEstablishI	team	high	DecFull				
+packet	game	GC	1724	GCAuctionBoxList	shop	medium	DecPartial		L2477, L2500		
+packet	game	CG	1725	CGFinger	social	medium	DecFull				
+packet	game	CG	1727	CGAskQuit	misc	high	DecFull				
+packet	game	CGW	1729	CGWNormalRankingList	misc	high	DecFull				
+packet	game	WGC	1730	WGCRetNormalRankList	city	medium	DecPartial			name(name is not on the wire here)	
+packet	game	CG	1738	CGFashionDepotOperation	misc	high	DecFull				
+packet	game	CG	1741	CGAskSecKillNum	misc	high	DecFull				
+packet	game	CG	1745	CGReturnTeamFollow	misc	high	DecFull				
+packet	game	GC	1749	GCSecWeaponAddSkillList	misc	high	DecFull				
+packet	game	GC	1750	GCRMBChatActionInfo	misc	high	DecFull				
+packet	game	CG	1758	CGPackUpPacket	item	high	DecFull				
+packet	game	GC	1763	GCStallOpen	shop	medium	DecFull				
+packet	game	GC	1764	GCEnterScene	movement	high	DecFull				
+packet	game	CG	1765	CGCharPositionWarp	movement	high	DecFull				
+packet	game	GC	1768	GCPlayerShopOpenStall	shop	high	DecFull				
+packet	game	CG	1769	CGExchangeCancel	team	high	DecFull				
+packet	game	CG	1770	CGPlayerDieResult	misc	high	DecFull				
+packet	game	GC	1772	GCDetailAttrib	combat	high	DecFull				
+packet	game	CG	2000	CGEXchangeYuanBaoPiao	team	high	DecFull				
+packet	login	LC	38	LCRetCharLogin	login	high	DecFull				
+packet	login	LC	223	LCRetLogin	login	high	DecFull				
+packet	login	CL	240	CLAskDeleteChar	login	high	DecFull				
+packet	login	CL	296	FGAskLogin	login	medium	DecFull				
+packet	login	CL	299	CLAskLogin	login	medium	DecFull	is_new_format(L237,wire), is_new_format(L267,wire)			
+packet	login	LC	311	LCRetConnect	login	high	DecFull				
+packet	login	LC	319	LCRetCharList	login	medium	DecFull				
+packet	login	CL	355	CLConnect	login	high	DecFull				
+packet	login	CL	426	CLAskCharLogin	login	high	DecFull				
+packet	login	LC	440	LCRetCreateChar	login	high	DecFull				
+packet	login	CL	522	CLAskCreateChar	login	high	DecFull				
+packet	login	LC	554	LCStatus	login	high	DecFull				
+packet	login	LC	707	LCRetDeleteChar	login	high	DecFull				
+packet	login	CL	711	CLAskCharList	login	high	DecFull				
+packet	login	CL	776	CLCheckAllowCreateChar	login	high	DecFull				
+packet	login	LC	777	LCRetCheckAllowCreateChar	login	high	DecFull				
+struct				PlayerShopGUID	guid		DecFull				
+struct				CGAutoMoveItemFromBagToPlayerShop_t	misc		DecFull				
+struct				CGAutoMoveItemFromPlayerShopToBag_t	misc		DecFull				
+struct				CGAutoMovePetFromPlayerShopToBag_t	misc		DecFull				
+struct				CGManuMoveItemFromBagToPlayerShop_t	misc		DecFull				
+struct				CGManuMoveItemFromPlayerShopToBag_t	misc		DecFull				
+struct				CGManuMoveItemFromPlayerShopToPlayerShop_t	misc		DecFull				
+struct				CGWPacket_CityApply	cgw_types		DecFull				
+struct				CGWPacket_GuildWar	cgw_types		DecFull				
+struct				CGWPacket_GuildWildWar	cgw_types		DecFull				
+struct				CommisionShop_bis	misc		DecFull				
+struct				CommisionShop_bos	misc		DecFull	present(L4426,rule)			
+struct				EquipInfo_bis	equip_types		DecFull				
+struct				ItemGUID	guid		DecFull				
+struct				EquipInfo_bos	equip_types		DecFull				
+struct				EquipStream	equip_types		DecFull				L20 patched (codegen_cpp_rules)
+struct				GCExchangeItemFromPlayerShopToBag_t_bis	team		DecFull				
+struct				GCExchangeItemFromPlayerShopToBag_t_bos	team		DecFull				
+struct				GCExchangeItemFromPlayerShopToPlayerShop_t_bis	team		DecFull				
+struct				GCExchangeItemFromPlayerShopToPlayerShop_t_bos	team		DecFull				
+struct				GCExchangePetView_t	item_types		DecFull				
+struct				GCMoveItemFromBagToPlayerShop_t_bis	misc		DecFull				
+struct				GCMoveItemFromBagToPlayerShop_t_bos	misc		DecFull				
+struct				GCMoveItemFromPlayerShopToBag_t_bis	misc		DecFull				
+struct				GCMoveItemFromPlayerShopToBag_t_bos	misc		DecFull				
+struct				GCMovePetFromBagToPlayerShop_t_bis	misc		DecFull				
+struct				GCMovePetFromBagToPlayerShop_t_bos	misc		DecFull				
+struct				GCMovePetFromPlayerShopToBag_t_bis	misc		DecFull				
+struct				GCMovePetFromPlayerShopToBag_t_bos	misc		DecFull				
+struct				GCPlayerShopItemListEachItemForOther_t	shop		DecFull				
+struct				GCPlayerShopItemListEachItemForSelf_t	playershop_types		DecFull				
+struct				GCPlayerShopItemListEachSerialForSelf_t	playershop_types		DecFull				
+struct				GCPlayerShopItemListForOther_t_bis	shop		DecFull				
+struct				GCPlayerShopItemListForOther_t_bos	shop		DecFull				L2098 patched (codegen_cpp_rules)
+struct				GCPlayerShopItemListForSelf_t_bis	playershop_types		DecFull				
+struct				GCPlayerShopItemListForSelf_t_bos	playershop_types		DecFull				L98 patched (codegen_cpp_rules)
+struct				GCStallPetView_t	item_types		DecFull				
+struct				ItemInfo_bis	item_types		DecFull	creator_branch(L152,rule)			
+struct				ItemInfo_bos	item_types		DecFull		L320		
+struct				PetGUID	guid		DecFull				
+struct				TeamMemberInfo_bis	team_types		DecFull				
+struct				TeamMemberInfo_bos	team_types		DecFull				
+struct				WGCGuild	wgc_types		DecFull				
+struct				WGCIntNums	wgc_types		DecFull				
+struct				WGCNoitceBeWar	wgc_types		DecFull				
+struct				WGCZhengTao	wgc_types		DecFull				

@@ -1,0 +1,1448 @@
+// CY-Source post-processing media (Docs/specs/render/02-postfx.md), loaded by WX::CysPostFx::initialiseMedia().
+// One keyword per line, TAB indentation (0.85 line-based MaterialSerializer), no trailing comments.
+// Programs whose source is not in this folder use B's HLSL from client_GL Data\MaterialTemplates.zip (read-only):
+// AntiAlias.hlsl, Bloom.hlsl, CopyFrameBuffer.hlsl, ColorLUT.hlsl, GodRays.hlsl, GaussianBlur.hlsl,
+// DepthOfField.hlsl, HeightFog_vs.hlsl, HeightFog_ps.hlsl. Constants without a default are set per frame in C++.
+
+//==================================================================================================== programs
+vertex_program CysPostFX/QuadVS hlsl
+{
+	source CysPostFx_vs.hlsl
+	entry_point quad_vs
+	target vs_3_0
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program CysPostFX/CopyFP hlsl
+{
+	source CysPostFxCopy.hlsl
+	entry_point copy_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/FinalFP hlsl
+{
+	source CysPostFxCopy.hlsl
+	entry_point final_ps
+	target ps_3_0
+	default_params
+	{
+		param_named ditherAmount float 1
+	}
+}
+
+fragment_program CysPostFX/DepthClearFP hlsl
+{
+	source CysPostFxCopy.hlsl
+	entry_point depthclear_ps
+	target ps_3_0
+	default_params
+	{
+		param_named farValue float 50000
+	}
+}
+
+fragment_program CysPostFX/HDR/LumInitFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point lumInit_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/HDR/LumDownFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point lumDown_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/HDR/LumAdaptFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point lumAdapt_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/HDR/FinalLdrFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point final_ps
+	target ps_3_0
+	preprocessor_defines USE_HDR=0;USE_AUTOEXPOSURE=0
+}
+
+fragment_program CysPostFX/HDR/FinalHdrFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point final_ps
+	target ps_3_0
+	preprocessor_defines USE_HDR=1;USE_AUTOEXPOSURE=0
+}
+
+fragment_program CysPostFX/HDR/FinalHdrAutoFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point final_ps
+	target ps_3_0
+	preprocessor_defines USE_HDR=1;USE_AUTOEXPOSURE=1
+}
+
+fragment_program CysPostFX/HDR/ToLinearClampFP hlsl
+{
+	source CysHdr.hlsl
+	entry_point toLinearClamp_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/SSAO/GenFP hlsl
+{
+	source CysSSAO.hlsl
+	entry_point genAO_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/SSAO/BlurFP hlsl
+{
+	source CysSSAO.hlsl
+	entry_point blur_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/SSAO/ApplyFP hlsl
+{
+	source CysSSAO.hlsl
+	entry_point apply_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/GodRays/MaskFP hlsl
+{
+	source CysGodRays.hlsl
+	entry_point mask_ps
+	target ps_3_0
+}
+
+//---------------------------------------------------------------------------------------- depth node programs
+vertex_program CysPostFX/Depth/VS_W0 hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	preprocessor_defines CYS_WEIGHTS=0;CYS_UV=0
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named_auto worldView worldview_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W0_UV hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	preprocessor_defines CYS_WEIGHTS=0;CYS_UV=1
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named_auto worldView worldview_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W1 hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=1;CYS_UV=0
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W1_UV hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=1;CYS_UV=1
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W2 hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=2;CYS_UV=0
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W2_UV hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=2;CYS_UV=1
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W3 hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=3;CYS_UV=0
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W3_UV hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=3;CYS_UV=1
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W4 hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=4;CYS_UV=0
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+vertex_program CysPostFX/Depth/VS_W4_UV hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_vs
+	target vs_3_0
+	includes_skeletal_animation true
+	preprocessor_defines CYS_WEIGHTS=4;CYS_UV=1
+	default_params
+	{
+		param_named_auto worldMatrix3x4Array[0] world_matrix_array_3x4
+		param_named_auto viewProj viewproj_matrix
+		param_named_auto view view_matrix
+	}
+}
+
+fragment_program CysPostFX/Depth/PS hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_ps
+	target ps_3_0
+}
+
+fragment_program CysPostFX/Depth/PS_AT hlsl
+{
+	source CysDepth.hlsl
+	entry_point depth_at_ps
+	target ps_3_0
+	default_params
+	{
+		param_named alphaRef float 0.5
+	}
+}
+
+//------------------------------------------------------------------------- B programs (MaterialTemplates.zip)
+fragment_program CysPostFX/B/ToLinearFP hlsl
+{
+	source CopyFrameBuffer.hlsl
+	entry_point ConvertToLinearSpace
+	target ps_3_0
+}
+
+fragment_program CysPostFX/B/BrightpassFP hlsl
+{
+	source Bloom.hlsl
+	entry_point DownsampleBrightpassFp
+	target ps_3_0
+	default_params
+	{
+		param_named_auto viewport_size viewport_size
+		param_named threshold float4 1 0.5 1 0.5
+	}
+}
+
+fragment_program CysPostFX/B/DownFP hlsl
+{
+	source Bloom.hlsl
+	entry_point DownsampleFp
+	target ps_3_0
+	default_params
+	{
+		param_named_auto viewport_size viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/UpFP hlsl
+{
+	source Bloom.hlsl
+	entry_point UpsampleFp
+	target ps_3_0
+	default_params
+	{
+		param_named_auto viewport_size viewport_size
+		param_named sampleScale float 1
+	}
+}
+
+fragment_program CysPostFX/B/FXAANoLumaFP hlsl
+{
+	source AntiAlias.hlsl
+	entry_point FXAA_PS_NOLUMA
+	target ps_3_0
+	default_params
+	{
+		param_named_auto viewportSize viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/FXAALumaFP hlsl
+{
+	source AntiAlias.hlsl
+	entry_point FXAA_PS_LUMA
+	target ps_3_0
+}
+
+fragment_program CysPostFX/B/FXAAQualityFP hlsl
+{
+	source AntiAlias.hlsl
+	entry_point FXAA_PS_Quality
+	target ps_3_0
+	default_params
+	{
+		param_named_auto viewportSize viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/DLAAEdgeFP hlsl
+{
+	source AntiAlias.hlsl
+	entry_point DLAA_EdgeDetectionPS
+	target ps_3_0
+	default_params
+	{
+		param_named_auto cTargetSize viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/DLAABlendFP hlsl
+{
+	source AntiAlias.hlsl
+	entry_point DLAA_BlendingColorPS
+	target ps_3_0
+	default_params
+	{
+		param_named_auto cTargetSize viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/ColorLUTFP hlsl
+{
+	source ColorLUT.hlsl
+	entry_point colorLUT_fp
+	target ps_3_0
+	default_params
+	{
+		param_named dest_amount float 1
+	}
+}
+
+vertex_program CysPostFX/B/HeightFogVS hlsl
+{
+	source HeightFog_vs.hlsl
+	entry_point main
+	target vs_3_0
+	column_major_matrices false
+	default_params
+	{
+		param_named_auto worldviewproj_matrix worldviewproj_matrix
+	}
+}
+
+fragment_program CysPostFX/B/HeightFogFP hlsl
+{
+	source HeightFog_ps.hlsl
+	entry_point main
+	target ps_3_0
+	column_major_matrices false
+	default_params
+	{
+		param_named_auto cTargetSize viewport_size
+	}
+}
+
+// CYS-PARITY (L2): CY PostFilters/HeightFog_DSIntZ - HeightFog_ps.hlsl with USE_DSINTZ=1 on the INTZ scene depth
+fragment_program CysPostFX/B/HeightFogFP_DSIntZ hlsl
+{
+	source HeightFog_ps.hlsl
+	entry_point main
+	target ps_3_0
+	column_major_matrices false
+	preprocessor_defines USE_DSINTZ=1
+	default_params
+	{
+		param_named_auto cTargetSize viewport_size
+	}
+}
+
+fragment_program CysPostFX/B/GodRaysGenFP hlsl
+{
+	source GodRays.hlsl
+	entry_point genGodRays_fp
+	target ps_3_0
+}
+
+fragment_program CysPostFX/B/GodRaysAddFP hlsl
+{
+	source GodRays.hlsl
+	entry_point addGodRays_fp
+	target ps_3_0
+}
+
+fragment_program CysPostFX/B/BlurFP hlsl
+{
+	source GaussianBlur.hlsl
+	entry_point psGaussianBlur
+	target ps_3_0
+	default_params
+	{
+		param_named_auto vvp viewport_size
+		param_named offset float2 1 0
+		param_named fStrength float 1
+	}
+}
+
+fragment_program CysPostFX/B/DoFBlurFP hlsl
+{
+	source DepthOfField.hlsl
+	entry_point DoF_Gaussian3x3FP
+	target ps_3_0
+	default_params
+	{
+		param_named pixelSize float 0.001
+	}
+}
+
+fragment_program CysPostFX/B/DoFCombineFP hlsl
+{
+	source DepthOfField.hlsl
+	entry_point DoF_DepthOfFieldFP
+	target ps_3_0
+	default_params
+	{
+		param_named pixelSizeScene float 0.0005
+		param_named pixelSizeBlur float 0.001
+		param_named dofParams float4 0.3 500 1000 0.3
+	}
+}
+
+//==================================================================================================== materials
+material CysPostFX/Final
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/FinalFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/Copy
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/CopyFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/DepthClear
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/DepthClearFP
+			{
+			}
+		}
+	}
+}
+
+//---------------------------------------------------------------------------------------------- NewHDRBloom
+material CysPostFX/HDR/ToLinear
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/ToLinearFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/ToLinearClamp
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/ToLinearClampFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/LumInit
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/LumInitFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/LumDown
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/LumDownFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/LumAdapt
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/LumAdaptFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/Final
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/FinalLdrFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/FinalHDR
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/FinalHdrFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/HDR/FinalHDRAuto
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/HDR/FinalHdrAutoFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/Bloom/Brightpass
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/BrightpassFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/Bloom/Down
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/DownFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/Bloom/Up
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/UpFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+//------------------------------------------------------------------------------------------ anti-aliasing
+material CysPostFX/FXAA
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/FXAANoLumaFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/FXAA/Luma
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/FXAALumaFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/FXAA/Quality
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/FXAAQualityFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/DLAA/Edge
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/DLAAEdgeFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/DLAA/Blend
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/DLAABlendFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------- ColorLUT
+material CysPostFX/ColorLUT
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/ColorLUTFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				texture LUT_00.png
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+//---------------------------------------------------------------------------------------------- HeightFog
+material CysPostFX/HeightFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/B/HeightFogVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/HeightFogFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+// CYS-PARITY (L2): unit 1 = INTZ scene depth (content_type dsintz), linearised in the shader (near/far set per frame)
+material CysPostFX/HeightFog_DSIntZ
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/B/HeightFogVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/HeightFogFP_DSIntZ
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+				content_type dsintz
+			}
+		}
+	}
+}
+
+//------------------------------------------------------------------------------------------------ GodRays
+material CysPostFX/GodRays/Mask
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/GodRays/MaskFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/GodRays/Gen
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/GodRaysGenFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/GodRays/BlurH
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/BlurFP
+			{
+				param_named offset float2 1 0
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/GodRays/BlurV
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/BlurFP
+			{
+				param_named offset float2 0 1
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/GodRays/Add
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/GodRaysAddFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+//---------------------------------------------------------------------------------------------------- DoF
+material CysPostFX/DoF/Blur
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/DoFBlurFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material CysPostFX/DoF/Combine
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/B/DoFCombineFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------------- GenSSAO
+material CysPostFX/SSAO/Gen
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/SSAO/GenFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				texture CysPostFX/SSAONoise
+				tex_address_mode wrap
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/SSAO/Blur
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/SSAO/BlurFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material CysPostFX/SSAO/Apply
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			depth_write off
+			cull_hardware none
+			cull_software none
+			fog_override true
+			vertex_program_ref CysPostFX/QuadVS
+			{
+			}
+			fragment_program_ref CysPostFX/SSAO/ApplyFP
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}

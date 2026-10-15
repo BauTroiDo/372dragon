@@ -1,0 +1,55 @@
+<Object name="trau_den.obj">
+    <Attributes>
+        <Attribute name="MovementType" value="RotateX" hints="" />
+        <Attribute name="Camera_Main" value="57" hints="" />
+        <Attribute name="左眼" value="" hints="SlotCreate" />
+        <Attribute name="右眼" value="" hints="SlotCreate" />
+        <Attribute name="身体中心点" value="" hints="SlotCreate" />
+        <Attribute name="左后蹄" value="" hints="SlotCreate" />
+        <Attribute name="右后蹄" value="" hints="SlotCreate" />
+        <Attribute name="左前蹄" value="" hints="SlotCreate" />
+        <Attribute name="右前蹄" value="" hints="SlotCreate" />
+    </Attributes>
+    <EntityList>
+        <Entity name="trau_den" file="trau_den.mesh" material="trau_den" condition="" />
+    </EntityList>
+    <Locators count="11">
+        <Locator name="BackPoint" bonename="" x="0.000004" y="0.000009" z="-74.470104" qx="0.577350" qy="-0.577350" qz="0.577350" qw="-4.188790" />
+        <Locator name="attach1" bonename="Bip001_Spine1" x="0" y="-134" z="32.5" qx="0.707015" qy="-0.016169" qz="0.707014" qw="-3.173927" />
+        <Locator name="FrontPoint" bonename="" x="-0.000004" y="0.000001" z="108.601763" qx="0.577350" qy="-0.577350" qz="0.577350" qw="-4.188790" />
+        <Locator name="脚下光圈点" bonename="" x="0.000000" y="0.000000" z="0.000000" qx="1.0" qy="0.0" qz="0.0" qw="0.0" transferable="true">
+            <Slot name="脚下光圈点" object="" attribs="" />
+        </Locator>
+        <Locator name="左眼" bonename="Bip001_Head" x="23.920203" y="-8.471620" z="14.331460" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="左眼" object="" attribs="" />
+        </Locator>
+        <Locator name="右眼" bonename="Bip001_Head" x="23.920174" y="-8.471512" z="-14.472871" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="右眼" object="" attribs="" />
+        </Locator>
+        <Locator name="身体中心点" bonename="Bip001_Spine1" x="9.413894" y="19.776103" z="-0.000001" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="身体中心点" object="" attribs="" />
+        </Locator>
+        <Locator name="左后蹄" bonename="Bip001_L_Foot" x="12.176053" y="-0.065043" z="-0.000001" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="左后蹄" object="" attribs="" />
+        </Locator>
+        <Locator name="右后蹄" bonename="Bip001_R_Foot" x="12.176056" y="-0.065045" z="-0.000001" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="右后蹄" object="" attribs="" />
+        </Locator>
+        <Locator name="左前蹄" bonename="Bip001_L_Hand" x="13.428065" y="2.335186" z="-0.294608" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="左前蹄" object="" attribs="" />
+        </Locator>
+        <Locator name="右前蹄" bonename="Bip001_R_Hand" x="13.428060" y="2.335185" z="0.294608" qx="1.000000" qy="0.000000" qz="0.000000" qw="0.000000" translateFirst="true">
+            <Slot name="右前蹄" object="" attribs="" />
+        </Locator>
+    </Locators>
+    <Effects>
+        <Effect name="1" effect="trau_eye" locator="左眼" translateAll="true" />
+        <Effect name="2" effect="trau_eye" locator="右眼" translateAll="true" />
+        <Effect name="3" effect="trau_dragon" locator="身体中心点" translateAll="true" />
+        <Effect name="4" effect="trau_hoof" locator="左后蹄" translateAll="true" />
+        <Effect name="5" effect="trau_hoof" locator="右后蹄" translateAll="true" />
+        <Effect name="6" effect="trau_hoof" locator="左前蹄" translateAll="true" />
+        <Effect name="7" effect="trau_hoof" locator="右前蹄" translateAll="true" />
+        <Effect name="8" effect="vnflag_feet" locator="脚下光圈点" translateAll="true" />
+    </Effects>
+</Object>

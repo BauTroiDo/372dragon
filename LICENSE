@@ -1,0 +1,25 @@
+372DRAGON PROJECT CONTRIBUTIONS — SCOPE OF LICENSE
+
+Original contributions authored for 372dragon (formerly CY-Source), to the extent their authors
+have authority to license them and no pre-existing license requires otherwise,
+are offered under the unmodified PolyForm Noncommercial License 1.0.0:
+
+    LICENSES/PolyForm-Noncommercial-1.0.0.txt
+    https://polyformproject.org/licenses/noncommercial/1.0.0
+
+This grant covers only those contributions. It does not assert ownership of,
+or relicense, the entire repository, inherited TLBB 0.85/CY/GL/HJ code,
+third-party libraries, SDKs, DLLs, fonts, or collected test/game data.
+
+Original third-party copyright notices and license terms remain applicable.
+Changes subject to LGPL/GPL or other pre-existing terms remain subject to
+those terms; no noncommercial restriction is imposed on rights already
+granted by those licenses. No trademark rights are granted here.
+
+Test data linked separately is NOT licensed under this project license.
+Copyright remains with the respective authors/rightsholders. A research or
+testing purpose does not by itself establish permission to redistribute it.
+
+See LICENSING.md, THIRD_PARTY.md, DATA_DOWNLOAD.md, DATA_NOTICE.md, and the scope index in
+Publication/license-scope.json. Files with unresolved provenance are not
+represented as newly owned or freely relicensable project contributions.

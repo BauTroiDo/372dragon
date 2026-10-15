@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Ngoại hình và tài nguyên"
+  short_description: "Võ hồn, huyễn hóa, model và tài nguyên GL/CY"
+  default_prompt: "Dùng $cys-appearance-assets để sửa ngoại hình và ánh xạ tài nguyên CY-Source từ nguồn đã đối chiếu."

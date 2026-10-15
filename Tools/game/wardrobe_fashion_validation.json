@@ -1,0 +1,39 @@
+{
+  "sources": {
+    "ConfigFolder/EquipBase.txt": "bca7f5345e5354f67c7923f22c30f8a1a0bb7bbad604bee3faba16279531a227",
+    "ConfigFolder/EquipDress.txt": "7fca48070c374698b1520e51fe1803c0be0bb9166e0cc3bde2684a2658529ac0",
+    "ConfigFolder/ItemVisualChar.txt": "62699edc6fb6f4d411a158dfa27056a2149cf0ba8db94a93bbaa35acfd9636e6",
+    "MaterialFolder/all.material": "382dbf17ab54610f87550529b39a66d6a1571bac621733ce3d3f74012194c0ea"
+  },
+  "invalid": {
+    "716": {
+      "W": true,
+      "M": false,
+      "why": []
+    },
+    "905": {
+      "W": false,
+      "M": false,
+      "why": [
+        "Visual khong co trong EquipDress"
+      ]
+    },
+    "907": {
+      "W": false,
+      "M": false,
+      "why": [
+        "Visual khong co trong EquipDress"
+      ]
+    },
+    "1007": {
+      "W": true,
+      "M": false,
+      "why": []
+    },
+    "1008": {
+      "W": true,
+      "M": false,
+      "why": []
+    }
+  }
+}

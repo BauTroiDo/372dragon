@@ -1,0 +1,6 @@
+#!/usr/bin/expect
+set port [lindex $argv 0]
+cd .
+spawn nc 127.0.0.1 $port
+send "call .ranking \"close_ranking\"\n"
+expect off

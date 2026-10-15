@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "path": "Game_2/Script/scripts/event/prize/yuanbaoshop.lua",
+      "patch": "yuanbaoshop.patch",
+      "encoding": "utf-8",
+      "before_sha256": "74be55859966e0e28055d01737f6c7d0708ca4e57fee5ee793c5655091764acc",
+      "after_sha256": "f6756edd205e704d1a6520c7b47a7a5dcd04ef5aa1531f7e9b3dcd5c07a6607f",
+      "patch_sha256": "df2f5dda29d787706079ad01de5c9c7b2b22956430042e88af19f7ace14512b9",
+      "patch_base64": "yuanbaoshop.patch.b64"
+    },
+    {
+      "path": "configs/ShopTable.txt",
+      "patch": "ShopTable.patch",
+      "encoding": "gbk",
+      "before_sha256": "2fd426744745bc2a64b58fd735b35e6c3d2445e7391b31e26cff97a72feaa6f0",
+      "after_sha256": "fc162f5d94f5d476504b8c391a5c471cd3b97f32e1423746ab2dbeb0c94e199b",
+      "patch_sha256": "14ae40cc372dd05dbcbafd1567963d65cc87dc0f5b33e981f1119417231198e2",
+      "patch_base64": "ShopTable.patch.b64"
+    }
+  ]
+}

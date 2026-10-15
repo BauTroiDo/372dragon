@@ -1,0 +1,63 @@
+{
+ "dau": "CYS-TANGMEN",
+ "ngay": "2026-09-20",
+ "ten_cot": [
+  "nServerID",
+  "szName",
+  "nXSize",
+  "nZSize",
+  "szWXObjectName",
+  "szRegionFile",
+  "szCollisionfile",
+  "szMiniMap",
+  "nBackSound",
+  "nCol9",
+  "szSceneMap",
+  "wmapX",
+  "wmapY",
+  "nameWmapX",
+  "nameWmapY",
+  "farClip",
+  "nearClip",
+  "szSceneType",
+  "cityNormalSet",
+  "cityNormalImg",
+  "cityHoverSet",
+  "cityHoverImg",
+  "szDisplayName",
+  "szCol23",
+  "unk24"
+ ],
+ "dong": {
+  "2220": {
+   "chep_tu": 615,
+   "o": [
+    2220,
+    "Đường Gia Bảo",
+    192,
+    192,
+    "tangmen.Scene",
+    "tangmen.path",
+    "tangmen.WCollision",
+    "tangmen.jpg",
+    2135,
+    60000,
+    "tangmen",
+    692,
+    520,
+    694,
+    548,
+    15000,
+    10,
+    "Sign10",
+    "MiniMap_Icon5",
+    "Tangmenzi_Normal",
+    "MiniMap_Icon5",
+    "Tangmenzi_Hover",
+    "门派#r唐门总舵",
+    "0.2;0.2",
+    0
+   ]
+  }
+ }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "prototype",
+  "support_slot": 18,
+  "assault_slot": 39,
+  "equip_capacity": 40,
+  "ui_command": 990031,
+  "cooldown_groups": {"6101": 700, "6102": 701, "6103": 702},
+  "selection_extension": {"packet": "LCRetCharList", "field": "anon9", "word_count": 5, "magic": 21316, "version": 1, "words": ["magic", "version", "assault_visual", "assault_item_low_u16", "assault_item_high_u16"]},
+  "support": {"item": 10156901, "name": "Võ hồn Huyền Giáp", "visual": 704, "skills": [6100, 6101]},
+  "assault": {"item": 10156902, "name": "Chiến hồn Xích Diệm", "visual": 699, "skills": [6102, 6103]},
+  "skills": [
+    {"id": 6100, "data": 58000, "source": 1379, "name": "Huyền Giáp Hộ Thể", "description": "Bị động khi đeo Võ hồn Huyền Giáp: tăng 5% phòng thủ nội và ngoại công cơ bản từ mũ, áo, hộ uyển, giày và đai."},
+    {"id": 6101, "data": 58001, "source": 1397, "name": "Cường Thể Hộ Hồn", "description": "Buff bản thân trong 120 giây. Khi tấn công có cơ hội tăng 13 Thể lực trong 10 giây. Hồi chiêu 180 giây."},
+    {"id": 6102, "data": 58002, "source": 1541, "name": "Xích Diệm Trọng Kích", "description": "Tấn công ngoại công một mục tiêu trong 15m. Tiêu hao 14 Khí. Hồi chiêu 60 giây. Sát thương dùng công thức Cương Mãnh Trọng Kích cấp 1 của CY."},
+    {"id": 6103, "data": 58003, "source": 1583, "name": "Xích Diệm Bát Phương", "description": "Tấn công ngoại công mục tiêu và vùng quanh mục tiêu trong 15m, theo giới hạn mục tiêu của CY. Tiêu hao 48 Khí. Hồi chiêu 90 giây."}
+  ],
+  "rules": {
+    "legacy_items": "unchanged; no automatic conversion",
+    "new_items": "fixed level-one prototype; no paid growth until its rules are specified",
+    "swap": "blocked while the owner is fighting or executing an action",
+    "visibility": "independent; no gameplay effect",
+    "cooldown": "owner skill group; persisted through the existing character save pipeline"
+  }
+}

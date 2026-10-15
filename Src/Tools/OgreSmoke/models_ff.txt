@@ -1,0 +1,4 @@
+# CYS: OgreSmoke list - client_GL models with program-less (fixed-function) materials, one per
+# fixed-function feature, for the fixed-function -> ubershader conversion (2026-09-12). UTF-8.
+FF alpha_rej:greater: npc花车_2025周年庆	npc花车_2025周年庆.mesh+npc_ZM_2024恶人谷山魃花车.mesh+npc_ZM_2024恶人谷掌门花车.mesh+npc花车_2025周年庆特效片.mesh
+FF PLAIN: HJ_npc上生台23	HJ_boss古偃甲上生台武器23.mesh+HJ_npc上生台23.mesh+HJ_boss古偃甲上生台23.mesh

@@ -1,0 +1,37 @@
+# kind	arg1	arg2	arg3	label
+weapon	女主角高模少林.obj	wq_九大门派神器少林禅杖01	武器特效点	weapon00
+weapon	女主角高模明教.obj	wq_九大门派神器明教刀01	武器特效点	weapon01
+weapon	女主角丐帮高模.obj	wq_九大门派神器丐帮棍01	武器特效点	weapon02
+weapon	女主角高模武当.obj	wq_九大门派神器武当剑01	武器特效点	weapon03
+weapon	女主角高模峨眉.obj	wq_九大门派神器峨眉01	武器特效点03	weapon04
+weapon	女主角高模星宿.obj	wq_九大门派神器星宿钩01	武器特效点	weapon05
+weapon	女主角大理高模.obj	wq_九大门派神器天龙环01	武器特效点03	weapon06
+weapon	女主角高模天山.obj	wq_九大门派神器天山01	右手武器特效点2	weapon07
+weapon	女主角高模逍遥.obj	wq_九大门派神器逍遥扇子01	武器特效点	weapon08
+weapon	女主角高模姑苏慕容.obj	wq_96新门派神器姑苏	特效点01	weapon09
+weapon	男主角高模少林.obj	wq_九大门派神器少林禅杖01	武器特效点	weapon10
+weapon	男主角高模明教.obj	wq_九大门派神器明教刀01	武器特效点	weapon11
+weapon	男主角丐帮高模.obj	wq_九大门派神器丐帮棍01	武器特效点	weapon12
+weapon	男主角高模武当.obj	wq_九大门派神器武当剑01	武器特效点	weapon13
+weapon	男主角高模峨眉.obj	wq_九大门派神器峨眉01	武器特效点	weapon14
+weapon	男主角高模星宿.obj	wq_九大门派神器星宿钩01	武器特效点	weapon15
+weapon	男主角大理高模.obj	wq_九大门派神器天龙环01	左武器特效点2	weapon16
+weapon	男主角高模天山.obj	wq_九大门派神器天山01	武器特效点2	weapon17
+weapon	男主角高模逍遥.obj	wq_九大门派神器逍遥扇子01	武器特效点	weapon18
+weapon	男主角高模姑苏慕容.obj	wq_96新门派神器姑苏	特效点01	weapon19
+effect	back_2025周年庆剑匣01_休闲_剑			ribbon00
+effect	back_2025周年庆剑匣01_休闲_龙			ribbon01
+effect	back_2025周年庆剑匣_休闲_剑			ribbon02
+effect	back_2025周年庆剑匣_休闲_龙			ribbon03
+effect	back_2025阴阳如意葫芦01_金鱼			ribbon04
+effect	back_2025阴阳如意葫芦_金鱼			ribbon05
+effect	back_2026风云联动万剑归宗_休闲剑身			ribbon06
+effect	back_2026风云联动万剑归宗_休闲剑身金色			ribbon07
+effect	back_2026风云联动万剑归宗_休闲背后法阵_6拖尾			ribbon08
+effect	back_2026风云联动万剑归宗_休闲背后法阵_6拖尾金色			ribbon09
+effect	boss_2025紫禁城殿前司都使_技能2链子连线A			beam00
+effect	boss_2026聚贤庄游骥_技能4_连线			beam01
+effect	boss_2026聚贤庄游骥_技能4_连线_水			beam02
+effect	boss_2026聚贤庄游骥_技能4_连线_火			beam03
+effect	boss_卢俊义_吸星锁链			beam04
+effect	boss_契丹力士_锁链_2021测试			beam05

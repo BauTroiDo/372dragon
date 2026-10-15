@@ -1,0 +1,4 @@
+VERSION 1
+SERVER_BEGIN
+CYS offline,offline (no server),0,10,1,0,0,Khu thử nghiệm 中文,127.0.0.1:14400,127.0.0.1:14400,127.0.0.1:14400,127.0.0.1:14400,0,0
+SERVER_END

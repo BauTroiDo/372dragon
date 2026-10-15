@@ -1,0 +1,133 @@
+kind	item	packet	spec_id	sim_value	status	detail
+const	CL_CONNECT	CLConnect	355	355	OK	
+const	LC_RET_CONNECT	LCRetConnect	311	311	OK	
+const	CL_ASK_LOGIN	CLAskLogin	299	299	OK	
+const	LC_RET_LOGIN	LCRetLogin	223	223	OK	
+const	LC_STATUS	LCStatus	554	554	OK	
+const	CL_ASK_CHARLIST	CLAskCharList	711	711	OK	
+const	LC_RET_CHARLIST	LCRetCharList	319	319	OK	
+const	CL_ASK_CREATE_CHAR	CLAskCreateChar	522	522	OK	
+const	LC_RET_CREATE_CHAR	LCRetCreateChar	440	440	OK	
+const	CL_ASK_CHARLOGIN	CLAskCharLogin	426	426	OK	
+const	LC_RET_CHARLOGIN	LCRetCharLogin	38	38	OK	
+const	GC_SCRIPT_COMMAND	GCScriptCommand	397	397	OK	
+const	CG_CONNECT	CGConnect	49	49	OK	
+const	GC_CONNECT	GCConnect	456	456	OK	
+const	KEY_EXCHANGE	KeyExchange	67	67	OK	
+const	CG_ENTER_SCENE	CGEnterScene	824	824	OK	
+const	GC_ENTER_SCENE	GCEnterScene	1764	1764	OK	
+const	CG_CHARMOVE	CGCharMove	352	352	OK	
+const	GC_CHARMOVE	GCCharMove	564	653	ID_MISMATCH	spec GCCharMove = 564; sim value 653 is not a server packet id
+const	GC_CHAR_MOVE_RESULT	GCCharMoveResult	1090	568	ID_MISMATCH	spec GCCharMoveResult = 1090; sim value 568 is not a server packet id
+const	CG_CHARJUMP	CGCharJump	1092	1092	OK	
+const	CG_CHARFLY	CGCharFly	1225	1225	OK	
+const	CG_CHAT	CGChat	753	753	OK	
+const	GC_CHAT	GCChat	790	790	OK	
+const	CG_LOCK_TARGET	CGLockTarget	372	372	OK	
+const	CG_CHARUSESKILL	CGCharUseSkill	83	83	OK	
+const	CG_CHAR_AUTO_RIDE	CGCharAutoRide	636	636	OK	
+const	GC_CHAR_AUTO_RIDE	GCCharAutoRide	63	63	OK	
+const	CG_ASK_BASE_ATTRIB	CGCharAskBaseAttrib	404	404	OK_OTHER_NAME	no spec packet named like CG_ASK_BASE_ATTRIB; id 404 is CGCharAskBaseAttrib
+const	CG_ASK_IMPACT_LIST	CGCharAskImpactList	8	8	OK_OTHER_NAME	no spec packet named like CG_ASK_IMPACT_LIST; id 8 is CGCharAskImpactList
+const	CG_ASK_EQUIPMENT	CGCharAskEquipment	5	5	OK_OTHER_NAME	no spec packet named like CG_ASK_EQUIPMENT; id 5 is CGCharAskEquipment
+const	CG_CHANGE_PK_MODE	CGChangePkModeReq	6	6	OK_OTHER_NAME	no spec packet named like CG_CHANGE_PK_MODE; id 6 is CGChangePkModeReq
+const	CG_MANIPULATE_PET	CGManipulatePet	435	435	OK	
+const	GC_NEW_PET	GCNewPet	1216	1216	OK	
+const	GC_OPERATE_RESULT	GCOperateResult	7	7	OK	
+const	CG_ASK_QUIT	CGAskQuit	1727	1727	OK	
+const	CG_ANTAGONIST_REQ	CGAntagonistReq	156	156	OK	
+const	CG_HEART_BEAT	CGHeartBeat	3	None	MISSING	sim leaves it None; spec id 3
+const	CG_TEAM_INVITE	CGTeamInvite	447	447	OK	
+const	CG_TEAM_RET_INVITE	CGTeamRetInvite	65	65	OK	
+const	GC_TEAM_ASK_INVITE	GCTeamAskInvite	966	966	OK	
+const	GC_TEAM_LIST	GCTeamList	1280	1280	OK	
+const	GC_TEAM_RESULT	GCTeamResult	648	648	OK	
+const	CG_TEAM_LEAVE	CGTeamLeave	1353	1353	OK	
+const	CG_AUTO_CREATE_TEAM	CGAutoCreateTeam	870	870	OK	
+const	GC_NEW_PLAYER	GCNewPlayer	1340	1340	OK	
+const	GC_NEW_PLAYER_MOVE	GCNewPlayer_Move	176	176	OK	
+const	GC_NEW_MONSTER	GCNewMonster	21	21	OK	
+const	GC_DEL_OBJECT	GCDelObject	582	582	OK	
+const	GC_CHAR_BASE_ATTRIB	GCCharBaseAttrib	455	455	OK	
+const	GC_WORLD_TIME	GCWorldTime	472	472	OK	
+const	CG_CHALLENGE	CGChallenge	150	150	OK	
+const	GC_CHALLENGE	GCChallenge	613	613	OK	
+const	GC_NOTIFY_CHANGE_SCENE	GCNotifyChangeScene	809	809	OK	
+const	CG_ASK_CHANGE_SCENE	CGAskChangeScene	414	414	OK	
+const	GC_RET_CHANGE_SCENE	GCRetChangeScene	280	280	OK	
+const	GC_PLAYER_DIE	GCPlayerDie	508	508	OK	
+const	CG_PLAYER_DIE_RESULT	CGPlayerDieResult	1770	1770	OK	
+const	GC_PLAYER_RELIVE	GCPlayerRelive	431	431	OK	
+const	CG_CHAR_DEFAULT_EVENT	CGCharDefaultEvent	1095	1095	OK	
+const	CG_EVENT_REQUEST	CGEventRequest	107	107	OK	
+builder	CG_CHARMOVE <- cg_char_move	CGCharMove	352	352	OK	34 bytes
+builder	CG_CHAT <- cg_chat	CGChat	753	753	OK	25 bytes
+builder	CG_CHAT <- cg_chat('hi', 3, 'abc')	CGChat	753	753	OK	26 bytes
+builder	CG_CHARJUMP <- cg_char_jump	CGCharJump	1092	1092	OK	4 bytes
+builder	CG_CHAR_AUTO_RIDE <- cg_auto_ride	CGCharAutoRide	636	636	OK	4 bytes
+builder	CG_CHANGE_PK_MODE <- cg_change_pk_mode	CGChangePkModeReq	6	6	OK	32 bytes
+builder	CG_LOCK_TARGET <- cg_lock_target	CGLockTarget	372	372	OK	4 bytes
+builder	CG_ASK_BASE_ATTRIB <- cg_ask_base_attrib	CGCharAskBaseAttrib	404	404	OK	4 bytes
+builder	CG_TEAM_INVITE <- cg_team_invite	CGTeamInvite	447	447	OK	18 bytes
+builder	CG_TEAM_RET_INVITE <- cg_team_ret_invite	CGTeamRetInvite	65	65	OK	41 bytes
+builder	CG_TEAM_LEAVE <- P.Writer().u32(self.guid).get()	CGTeamLeave	1353	1353	OK	4 bytes
+builder	CG_CHARUSESKILL <- cg_use_skill	CGCharUseSkill	83	83	OK	28 bytes
+builder	CG_MANIPULATE_PET <- cg_manipulate_pet	CGManipulatePet	435	435	OK	16 bytes
+builder	CG_CHALLENGE <- cg_challenge	CGChallenge	150	150	OK	5 bytes
+builder	CG_CHALLENGE <- cg_challenge(1, 7)	CGChallenge	150	150	OK	5 bytes
+builder	CG_PLAYER_DIE_RESULT <- cg_player_die_result	CGPlayerDieResult	1770	1770	OK	4 bytes
+builder	CG_CHAR_DEFAULT_EVENT <- cg_char_default_event	CGCharDefaultEvent	1095	1095	OK	8 bytes
+builder	CG_EVENT_REQUEST <- cg_event_request	CGEventRequest	107	107	OK	16 bytes
+builder	CG_ASK_CHANGE_SCENE <- cg_ask_change_scene	CGAskChangeScene	414	414	OK	12 bytes
+builder	CG_ASK_QUIT <- cg_ask_quit	CGAskQuit	1727	1727	OK	13 bytes
+parser	packets.parse_lc_ret_login	LCRetLogin	223	223	OK	2 reads
+parser	packets.parse_lc_ret_charlist	LCRetCharList	319	319	OK	8 reads
+parser	packets.parse_lc_ret_charlogin	LCRetCharLogin	38	38	OK	4 reads
+parser	packets.parse_gc_connect	GCConnect	456	456	OK	4 reads
+parser	packets.parse_gc_enter_scene	GCEnterScene	1764	1764	OK	6 reads
+parser	packets.parse_script_command	GCScriptCommand	397	397	OK	3 reads
+parser	packets.parse_script_dialog	GCScriptCommand	397	397	OK	10 reads
+parser	packets.parse_gc_chat	GCChat	790	790	OK	3 reads
+parser	packets.parse_gc_team_ask_invite	GCTeamAskInvite	966	966	OK	2 reads
+parser	packets.parse_gc_challenge	GCChallenge	613	613	OK	3 reads
+parser	packets.parse_gc_notify_change_scene	GCNotifyChangeScene	809	809	OK	6 reads
+parser	packets.parse_gc_ret_change_scene	GCRetChangeScene	280	280	OK	4 reads
+parser	packets.parse_gc_player_die	GCPlayerDie	508	508	OK	4 reads
+parser	packets.parse_gc_team_list	GCTeamList	1280	1280	OK	13 reads
+parser	perception.parse_new_player	GCNewPlayer	1340	1340	OK	0 reads
+parser	perception.parse_new_monster	GCNewMonster	21	21	OK	0 reads
+parser	perception.parse_new_player_move	GCNewPlayer_Move	176	176	OK	13 reads
+parser	perception.parse_char_move	GCCharMove	564	653	OK	9 reads | dispatched on sim id 653
+parser	perception.parse_char_base_attrib	GCCharBaseAttrib	455	455	OK	19 reads
+parser	perception.parse_del_object	GCDelObject	582	582	OK	0 reads
+doc_id	CLConnect (md:96)	CLConnect	355	355	OK	
+doc_id	LCRetConnect (md:97)	LCRetConnect	311	311	OK	
+doc_id	CLAskLogin (md:98)	CLAskLogin	299	299	OK	
+doc_id	LCRetLogin (md:99)	LCRetLogin	223	223	OK	
+doc_id	LCStatus (md:100)	LCStatus	554	554	OK	
+doc_id	CLAskCharList (md:101)	CLAskCharList	711	711	OK	
+doc_id	LCRetCharList (md:102)	LCRetCharList	319	319	OK	
+doc_id	CLAskCreateChar (md:103)	CLAskCreateChar	522	522	OK	
+doc_id	LCRetCreateChar (md:104)	LCRetCreateChar	440	440	OK	
+doc_id	CLAskCharLogin (md:105)	CLAskCharLogin	426	426	OK	
+doc_id	LCRetCharLogin (md:106)	LCRetCharLogin	38	38	OK	
+doc_id	CGConnect (md:211)	CGConnect	49	49	OK	
+doc_id	GCConnect (md:212)	GCConnect	456	456	OK	
+doc_id	CGEnterScene (md:213)	CGEnterScene	824	824	OK	
+doc_id	GCEnterScene (md:214)	GCEnterScene	1764	1764	OK	
+doc_id	CGCharMove (md:215)	CGCharMove	352	352	OK	
+doc_id	CGCharPositionWarp (md:216)	CGCharPositionWarp	1765	1765	OK	
+doc_id	CGCharJump (md:217)	CGCharJump	1092	1092	OK	
+doc_id	CGChat (md:218)	CGChat	753	753	OK	
+doc_id	CGLockTarget (md:219)	CGLockTarget	372	372	OK	
+doc_id	CGCharUseSkill (md:220)	CGCharUseSkill	83	83	OK	
+doc_id	CGChallenge (md:507)	CGChallenge	150	150	OK	
+doc_id	GCChallenge (md:508)	GCChallenge	613	613	OK	
+doc_id	GCChallengeListInfo (md:509)	GCChallengeListInfo	681	681	OK	
+doc_id	GCCharMove (md:557)	GCCharMove	564	653	ID_MISMATCH	document says 653, server 564
+doc_id	GCNewPlayer_Move (md:558)	GCNewPlayer_Move	176	176	OK	
+doc_off	CLConnect section	CLConnect	355	4	OK	
+doc_off	CLAskLogin section	CLAskLogin	299	20	OK	
+doc_off	CLAskCreateChar section	CLAskCreateChar	522	9	OK	
+doc_off	CGConnect section	CGConnect	49	6	OK	
+doc_off	CGCharMove section	CGCharMove	352	7	OK	

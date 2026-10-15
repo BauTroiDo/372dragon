@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+set port [lindex $argv 0]
+spawn ./nc.sh $port
+sleep 0.3
+send "call .SceneManager \"reload_shop_table\"\n"
+sleep 2
+send "call .Copyscenemanager \"reload_shop_table\"\n"
+sleep 2
+send "call .Dynamicscenemanager \"reload_shop_table\"\n"
+sleep 1
+expect eof

@@ -1,0 +1,25 @@
+# So sach: thu cuoi Trau Den (越南黑水牛) nguoi dung tu lam, dua tu client_GL vao CanonicalCY (ride-finish 18/09).
+# Ngoai le da duyet 17/09 cho tai nguyen GL: chi them, khong de, moi tep co nguon + sha256. Sinh boi Tools/reapply/ride/trau_den_import.py.
+schema: 1
+batch: "2026-09-18-trau-den-cy"
+status: "applied"
+created: "2026-09-18T03:48:42"
+tool: "Tools/reapply/ride/trau_den_import.py (plan|apply|verify|undo)"
+nguon:
+  nhanh: "GL"
+  root: "C:/TLBB/085/client_GL/Data"
+  ghi_chu: "chi doc; Trau Den = model trau JX3 (Tools/DATA NEW/trau) do nguoi dung dung 06-10/09"
+dich:
+  root: "C:/TLBB/085/CY-Source/Assets/CanonicalCY/Data"
+  ghi_chu: "khong ghi de tep/dong CY da co"
+the_nguon: "NGUON=GL (client_GL) - THU CUOI NGUOI DUNG TU LAM, KHONG PHAI CY"
+bang_tra_tung_tep: "Registry/batches/2026-09-18-trau-den-cy.tsv"
+chuoi:
+  ride_server: 1180
+  charmount_cy: 1220
+  charmodelex_cy: 9994
+  obj: "trau_den.obj"
+  mesh: "Model3Folder/trau_den.mesh"
+  skeleton: "Model3Folder/trau_den.skeleton"
+  material: "trau_den (all.material, Mtl_Character_PSLit)"
+  texture: "Material5Folder/tga_trau_den.dds"

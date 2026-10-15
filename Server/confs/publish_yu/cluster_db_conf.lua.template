@@ -1,0 +1,16 @@
+-- CYS: same services, separate ports and only zone 1.
+local c = require "cluster_db_source"
+local enabled = {[2]=true,[6]=true,[8]=true,[9]=true}
+local function remap(t)
+    for k,v in pairs(t) do
+        if k == "port" and type(v) == "number" and v > 0 then t[k] = v + 10000
+        elseif k == "address" then t[k] = "127.0.0.1"
+        elseif type(v) == "table" then remap(v) end
+    end
+end
+for _,h in ipairs(c.host_conf) do h.localip="127.0.0.1"; h.ip="127.0.0.1"; h.domain="127.0.0.1" end
+local p,s={},{}
+for _,v in ipairs(c.process_conf) do if enabled[v.id] then p[#p+1]=v end end
+for _,v in ipairs(c.server_conf) do if enabled[v.processid] then remap(v); s[#s+1]=v end end
+c.process_conf=p; c.server_conf=s
+return c

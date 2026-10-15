@@ -1,0 +1,4 @@
+# CYS-UIEDIT v1 - vi tri/kich thuoc widget do nguoi dung keo tay trong game.
+# Doc luc nap layout (CUIWindowItem::LoadWindow) va ghi de thuoc tinh CEGUI.
+# KHONG sua *.layout.xml: build_canonical_cy.py dung lai ca cay InterfaceFolder tu .axp cua CY.
+# layout	window	prop	value	goc

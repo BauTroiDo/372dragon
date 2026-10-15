@@ -1,0 +1,276 @@
+local class = require "class"
+local define = require "define"
+local script_base = require "script_base"
+local gp_treasuredropper_cangshan = class("gp_treasuredropper_cangshan", script_base)
+gp_treasuredropper_cangshan.g_DropNumTable = {
+    {["num"] = 1, ["odd"] = 0.2},
+    {["num"] = 2, ["odd"] = 0.4},
+    {["num"] = 3, ["odd"] = 0.2},
+    {["num"] = 4, ["odd"] = 0.15},
+    {["num"] = 5, ["odd"] = 0.05}
+}
+
+gp_treasuredropper_cangshan.g_TickCreate_Msg = ""
+gp_treasuredropper_cangshan.g_DropTable = {
+    {
+        ["itemType"] = 1,
+        ["odd"] = 0.293,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 0.2},
+            {["num"] = 2, ["odd"] = 0.4},
+            {["num"] = 3, ["odd"] = 0.2},
+            {["num"] = 4, ["odd"] = 0.15},
+            {["num"] = 5, ["odd"] = 0.05}
+        },
+        ["idx"] = {30001004, 30003005, 30101035}
+    },
+    {
+        ["itemType"] = 2,
+        ["odd"] = 0.294,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 0.2},
+            {["num"] = 2, ["odd"] = 0.4},
+            {["num"] = 3, ["odd"] = 0.2},
+            {["num"] = 4, ["odd"] = 0.15},
+            {["num"] = 5, ["odd"] = 0.05}
+        },
+        ["idx"] = {30002004, 30101045}
+    },
+    {
+        ["itemType"] = 3,
+        ["odd"] = 0.2,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 0.2},
+            {["num"] = 2, ["odd"] = 0.4},
+            {["num"] = 3, ["odd"] = 0.2},
+            {["num"] = 4, ["odd"] = 0.15},
+            {["num"] = 5, ["odd"] = 0.05}
+        },
+        ["idx"] = {30602005, 30603005, 30604005, 30605005}
+    },
+    {
+        ["itemType"] = 4,
+        ["odd"] = 0.1,
+        ["numOdd"] = {
+            {["num"] = 2, ["odd"] = 0.2},
+            {["num"] = 4, ["odd"] = 0.4},
+            {["num"] = 6, ["odd"] = 0.2},
+            {["num"] = 8, ["odd"] = 0.15},
+            {["num"] = 10, ["odd"] = 0.05}
+        },
+        ["idx"] = {20101011, 20101012, 20101013, 20102005, 20102017, 20103005, 20104005, 20105005}
+    },
+    {
+        ["itemType"] = 12,
+        ["odd"] = 0.02,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 0.3},
+            {["num"] = 2, ["odd"] = 0.4},
+            {["num"] = 3, ["odd"] = 0.3}
+        },
+        ["idx"] = {20102029, 20103017, 20103029, 20103041, 20103053, 20105017}
+    },
+    {
+        ["itemType"] = 5,
+        ["odd"] = 0.045,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {10100005, 10101005, 10102005, 10103005, 10104005, 10105005}
+    },
+    {
+        ["itemType"] = 10,
+        ["odd"] = 0,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {10200005, 10201005, 10202005, 10203005, 10204005, 10205005}
+    },
+    {
+        ["itemType"] = 6,
+        ["odd"] = 0.045,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {
+            10110012,
+            10110013,
+            10110014,
+            10111012,
+            10111013,
+            10111014,
+            10112012,
+            10112013,
+            10112014,
+            10113012,
+            10113013,
+            10113014,
+            10120005,
+            10121005,
+            10122005
+        }
+    },
+    {
+        ["itemType"] = 11,
+        ["odd"] = 0,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {10210009, 10211009, 10212009, 10213009, 10220005, 10221005, 10222005}
+    },
+    {
+        ["itemType"] = 7,
+        ["odd"] = 0.001,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {
+            50101001,
+            50101002,
+            50102001,
+            50102002,
+            50102003,
+            50102004,
+            50103001,
+            50104002,
+            50111001,
+            50111002,
+            50112001,
+            50112002,
+            50112003,
+            50112004,
+            50113001,
+            50113002,
+            50113003,
+            50113004,
+            50113005,
+            50114001
+        }
+    },
+    {
+        ["itemType"] = 8,
+        ["odd"] = 0.002,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 1.0}
+        },
+        ["idx"] = {}
+    },
+    {
+        ["itemType"] = 9,
+        ["odd"] = -1.0,
+        ["numOdd"] = {
+            {["num"] = 1, ["odd"] = 0.0}
+        },
+        ["idx"] = {3009, 3019, 3029}
+    }
+}
+
+function gp_treasuredropper_cangshan:GetTableIndexByOdd(tb)
+    local oddNow = math.random()
+    local base = 0.0
+    for i = 1, #(tb) do
+        if (tb[i]["odd"] + base >= oddNow) then
+            return i
+        end
+        base = base + tb[i]["odd"]
+    end
+    return nil
+end
+
+function gp_treasuredropper_cangshan:OnCreate(growPointType, x, y, dur)
+    local ItemBoxId = nil
+    local delDur = dur - 60000
+    local numIdx = self:GetTableIndexByOdd(self.g_DropNumTable)
+    local sceneId = self:get_scene():get_id()
+    if (numIdx) then
+        for i = 1, self.g_DropNumTable[numIdx]["num"] do
+            local showIdx = self:GetTableIndexByOdd(self.g_DropTable)
+            local dropNumIdx = nil
+            local itemId = nil
+            if (showIdx) then
+                dropNumIdx = self:GetTableIndexByOdd(self.g_DropTable[showIdx]["numOdd"])
+                if (dropNumIdx and 9 ~= self.g_DropTable[showIdx]["itemType"]) then
+                    local itemNum = #(self.g_DropTable[showIdx]["idx"])
+                    if (itemNum and 1 <= itemNum) then
+                        local itemIdx = math.floor(math.random(1, itemNum))
+                        itemId = self.g_DropTable[showIdx]["idx"][itemIdx]
+                        for k = 1, self.g_DropTable[showIdx]["numOdd"][dropNumIdx]["num"] do
+                            if (nil == ItemBoxId) then
+                                ItemBoxId =
+                                    self:ItemBoxEnterScene(
+                                    x,
+                                    y,
+                                    growPointType,
+                                    define.QUALITY_MUST_BE_CHANGE,
+                                    1,
+                                    itemId
+                                )
+                                print(
+                                    sceneId ..
+                                        " Số cảnh (" ..
+                                            x ..
+                                                ", " ..
+                                                    y ..
+                                                        ") Chỗ này mọc ra một rương vật phẩm." ..
+                                                            "(" .. self.g_DropNumTable[numIdx]["num"] .. ")"
+                                )
+                            else
+                                self:AddItemToBox(ItemBoxId, define.QUALITY_MUST_BE_CHANGE, 1, itemId)
+                            end
+                        end
+                    end
+                elseif (dropNumIdx and 9 == self.g_DropTable[showIdx]["itemType"]) then
+                    local petIdx = math.floor(math.random(1, #(self.g_DropTable[showIdx]["idx"])))
+                    local petId = self.g_DropTable[showIdx]["idx"][petIdx]
+                    for k = 1, self.g_DropTable[showIdx]["numOdd"][dropNumIdx]["num"] do
+                        local PetObjId = nil
+                        PetObjId = self:CreatePetOnScene(petId, x, y)
+                        self:SetCharacterDieTime(PetObjId, delDur)
+                        print(sceneId .. " Số cảnh (" .. x .. ", " .. y .. ") Chỗ này mọc ra một Trân thú " .. self:GetName(PetObjId) .. "。")
+                    end
+                end
+            end
+            if (showIdx and dropNumIdx and itemId ~= nil) then
+                if (9 ~= self.g_DropTable[showIdx]["itemType"]) then
+                    local itemName = self:GetItemInfoByItemId(itemId)
+                    print(
+                        "Trong rương vật phẩm có (loại" ..
+                            self.g_DropTable[showIdx]["itemType"] ..
+                                ")" ..
+                                    self.g_DropTable[showIdx]["numOdd"][dropNumIdx]["num"] .. "cái[" .. itemName .. "]。"
+                    )
+                    local itemNum = self.g_DropTable[showIdx]["numOdd"][dropNumIdx]["num"]
+                    self:LuaFnAuditItemCreate(-1, itemNum, itemId, itemName, "Được tạo ra từ rương báu")
+                end
+            end
+        end
+        if (ItemBoxId) then
+            self:SetItemBoxMaxGrowTime(ItemBoxId, delDur)
+            return 0
+        end
+    end
+    return -1
+end
+
+function gp_treasuredropper_cangshan:OnTickCreateFinish(growPointType, tickCount)
+    local sceneId = self:get_scene():get_id()
+    if (string.len(self.g_TickCreate_Msg) > 0) then
+        print(sceneId .. " Cảnh số " .. self.g_TickCreate_Msg)
+    end
+end
+
+function gp_treasuredropper_cangshan:OnOpen(selfId, targetId)
+end
+
+function gp_treasuredropper_cangshan:OnRecycle(selfId, targetId)
+    return 1
+end
+
+function gp_treasuredropper_cangshan:OnProcOver(selfId, targetId)
+end
+
+function gp_treasuredropper_cangshan:OpenCheck(selfId, AbilityId, AblityLevel)
+    return define.OPERATE_RESULT.OR_OK
+end
+
+return gp_treasuredropper_cangshan

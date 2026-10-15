@@ -1,0 +1,31 @@
+# So sach dot nhap hai bang tong mon SERVER -> CLIENT (agent host-2, 18/09/2026).
+# Dieu kien dieu phoi dat ra 18/09 (cung dieu kien nguoi dung duyet cho dot nhap canh GL 17/09):
+#   chi THEM MOI (khong sua tep co san), ghi nguon + sha256 o day, cong thuc ap lai o Tools/reapply/host-2/.
+schema: 1
+batch: "2026-09-18-host-2-sect-tables"
+status: "applied"
+created: "2026-09-18T03:55:00"
+tool: "Tools/reapply/host-2/70-sect-tables.py (plan|apply|verify|undo)"
+ly_do: >
+  DataPool:Lua_GetSectDesc (client_GL Game.exe 0x14025a9b0, DBC id 0x126) doc bang SectDesc; ZongMenSkill.lua /
+  ZongMenSkill_Info.lua goi no 112 lan; Assets/CanonicalCY/Data/ConfigFolder khong co SectDesc.txt / SectInfo.txt,
+  hai bang chi nam o server rieng. Ham host CHUA cai (xem Docs/specs/client/host-2_vi.md muc 3: khoa WUDAO_* thieu
+  trong StrDictionary, trang bi cong cap 60) - day la buoc chuan bi du lieu.
+nguon:
+  root: "/home/ubuntu/cys-test-20260913/configs (WSL TLBB, R/configs) - ban chep pinned: Tools/reapply/host-2/data/"
+  dinh_dang: "text GBK, dong 0 kieu cot, dong 1 ten cot; tab thua cuoi dong o 220 dong SectInfo (o rong, da cat)"
+  tep:
+    - { ten: "SectDesc.txt", sha256: "4cc95e8d1c0b6052106f18bd3e91e31b991ec2b310299e70fe4ebf7be75c1caf", byte: 96415, cot: 12, dong: 984 }
+    - { ten: "SectInfo.txt", sha256: "9725f499e14bdf87ec30bd0e35d254bd1c542e39e97f17aba2b82a5dbf300591", byte: 98705, cot: 26, dong: 984 }
+dich:
+  root: "Assets/CanonicalCY/Data/ConfigFolder"
+  dinh_dang: "DBC nhi phan 00CCBBDD (INT=0/FLOAT=1/STRING=2), pool bat dau bang NUL, o STRING GIU NGUYEN BYTE GBK (nhu TalentInfo.txt cung ho)"
+  tep:
+    - { ten: "SectDesc.txt", sha256: "4c7d3a3305c85d7e997d1e2a6a1b60a79ba450291dfd4e9e3c89966b767f2e3e", byte: 111630 }
+    - { ten: "SectInfo.txt", sha256: "780b4c2cc9b91dca7f72141ce0a7ebbbe5ea8d7fe08e08450c811c6c97d3a10d", byte: 122385 }
+the_nguon: "NGUON=SERVER R/configs 29/04 - CHUA DICH (GBK), CHUA CO HAM DOC"
+kiem:
+  - "verify: doc lai bang Tools/game/dbc_inventory.Table -> binary 12x984 / 26x984, id 1..984 khop nguon"
+  - "apply lan hai: BO-QUA (idempotent)"
+  - "khong ghi de tep nao co san (ca hai 'chua-co' truoc khi ghi)"
+hoan_tac: "python -X utf8 Tools/reapply/host-2/70-sect-tables.py undo   (chi xoa khi sha256 dung bang ban script ghi)"

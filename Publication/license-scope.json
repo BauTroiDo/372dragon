@@ -1,0 +1,232 @@
+{
+  "status": "partial_explicit_scope",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "9137208ed289cdf0696b7953201db18f1c8499e76ca6d4d9d73783d3d4e5e340",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "sha256": "cee9201ed2778ab3c81109e3d70505fb909b67cb0e6149330b8cbf282d778f88",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/config.yml",
+      "sha256": "13064e7bea658e01e718b414fbb7b3b244f36411fe25ee2055c151f7b534547a",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/documentation.yml",
+      "sha256": "f396e535e9cf7bf241b48d7259eefa4c0c6784a936712544ddf080a0486db512",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "sha256": "1c2dc04c55238dd15b9702074829813b3ce45d46025d4ad2cedb8d830136c442",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sha256": "e26545987bf58691104b937e95346b19a80af948564c6fa378f83da4da65f60c",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "c8d7a1df7c8e1316dd35c6c41500fc2e68d5cb38816928c94998880bef142cb2",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "ea677f442932535bc93ee04e922f6a3a61e6819964069d9208b958d6c7eb3d03",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "DATA_DOWNLOAD.md",
+      "sha256": "0b1cd0371c8d95218ee9fc147042c3e4b8f4954175ae0afca83f1270a0a30f0a",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "DATA_NOTICE.md",
+      "sha256": "d1a9372034a925e8cf7678641ac8ad09fc9e77e29fce2ea9c1fe7ab5a2efa992",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/assets/372dragon-banner.svg",
+      "sha256": "1e81bcd955c465fea813c60d1dbbf100bdfcc6c7d749a19fe5366222985fab29",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/assets/372dragon-social.png",
+      "sha256": "337fcb5d9031d5494de6da7621d1f48d87f9a8d7442672fe7523f7a737d0fe46",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/README.md",
+      "sha256": "fbe8e0ce46e4a673c6d58a7d7b42a3e6fbb4b5b5b891e2d1ca6fe3bb9019fa7c",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/architecture.md",
+      "sha256": "fbfce497c9e4929dafb27f1cde3d6cbca62d3a93ef4dd2a61737c3fb9c7c4458",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/build-client.md",
+      "sha256": "6f6b93834feae9adc7088113843d0dea129538f783c8b8bd4c05cc65227fedb3",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/getting-started.md",
+      "sha256": "64b2680919d9361e04af9ac22c4d8e48afe26c96e91dbb87901d214370922273",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/repository-map.md",
+      "sha256": "17c7a17f9927cc87478978aed40e29e5e4a59e5b7e11c514fb7eb2976d9e70f7",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/server-setup.md",
+      "sha256": "cc7c0b69591728096de268c00bf6107d1236eb32333125efdb766c9301287781",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/status.md",
+      "sha256": "6450f9c345c29b84fd2f8b3f8d3fa05687cb56e7341d0b1fbca7b753963412ac",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Docs/guide/troubleshooting.md",
+      "sha256": "876b004c223811c8a3e08b35e4ef5e5ef9b192d253d0793a3627b7d201cb393d",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c5aef68545bdca7ac6a4639808ac4f898e5a4f5b00ef2168f992283228ce13c6",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "LICENSING.md",
+      "sha256": "69e26097feae0b4032ed99ef6b004158a835925d6350affc746b5160e5a54dae",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/GITHUB-SETUP.md",
+      "sha256": "659d7cb4077c9f8228d84087153b8f2c3fbdcc59ebb9f840614872c64b721c26",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/INSTALL-NOTES.md",
+      "sha256": "33ee68f1f64a7f46eb47227e49d217e87ae730769bf76af13a96d3c3e3cafc92",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/Setup-Play.ps1",
+      "sha256": "fb7cb9b5bcea2b5a1de4b38307ba540a5b8df81992d19a8b8226482aefed287c",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/init_config.py",
+      "sha256": "f1a907755502e7a4ecee8f70a3f71097416e7b8a19272e4031e42b6a677779a7",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/project.json",
+      "sha256": "b4e7dc9c2a0741b07140afc969545ea5864e04438204e27b21b0c47ef27449b5",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "Publication/verify_test_data.py",
+      "sha256": "a1b021a1ca96febf285cb852cedec0aa450179bb7beea8ac8f8dd265de62378a",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "README.md",
+      "sha256": "7219d3e744c9ce810d48fc7c27b0055e90968b17729332f40585691927d82020",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "3d413cbeb11f1081023860d53be7bb0f4181410e47251c3b1b7f4b2efecd5f8c",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "SUPPORT.md",
+      "sha256": "ce6a8cac622c318ff61265ddfeb5636861319e7eb90927b2a10fb3d675e6ec01",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    },
+    {
+      "path": "THIRD_PARTY.md",
+      "sha256": "b6724bce715e32d52d948501fa26776f55caafa2ce2bd20ad709a96b38018477",
+      "scope": "new original publication tooling/documentation authored in this preparation",
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "excludes": "quoted third-party names, facts, notices and standard license texts"
+    }
+  ],
+  "legacy_cy_contributions": "Not automatically assigned. Extend only after checking provenance and compatibility.",
+  "data": "excluded",
+  "third_party": "original terms apply"
+}

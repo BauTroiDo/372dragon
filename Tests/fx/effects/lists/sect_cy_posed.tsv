@@ -1,0 +1,9 @@
+# id	kind	name	anim  (CY-only sect models, absent from client_GL all.obj; posed with idle 站立)
+S011	model	女主角高模唐门高级100.obj	站立
+S012	model	女主角高模鬼谷高级100.obj	站立
+S013	model	主角时装桃花岛高模女.obj	站立
+S014	model	npcW_cloth_CR_2021gaoji.obj	站立
+S026	model	男主角高模唐门高级100.obj	站立
+S027	model	男主角高模鬼谷高级100.obj	站立
+S028	model	主角时装桃花岛高模男.obj	站立
+S029	model	npcM_cloth_CR_2021gaoji.obj	站立

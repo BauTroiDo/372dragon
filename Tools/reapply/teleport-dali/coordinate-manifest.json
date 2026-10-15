@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "group": "cy4",
+      "path": "Game_2/Script/scripts/obj/cy4/cy4_congren_travel.lua",
+      "old": "destination_scene=2,destination_x=241,destination_z=141",
+      "new": "destination_scene=2,destination_x=253,destination_z=121",
+      "approved_sha256": [
+        "137350a8f7a5f1cb3d8a63129a58aac462e43007a32d9d57afa19168ec6776e2",
+        "416959a7aa2e5bcfdbdfdcc52c7986fca4f78e71182e69e3ec4566426e51c724",
+        "9bd4a1fb3dc2cba0428b65c48cef82b2fc441d92d57c80d5288ceaa6648e6551",
+        "9ec98d7aeab343df717c2c817e83404cb85cc77ccc8d1543d1c9873d2e760056"
+      ],
+      "current_sha256": "9ec98d7aeab343df717c2c817e83404cb85cc77ccc8d1543d1c9873d2e760056",
+      "original_backup_sha256": "416959a7aa2e5bcfdbdfdcc52c7986fca4f78e71182e69e3ec4566426e51c724"
+    },
+    {
+      "group": "cy4",
+      "path": "Game_2/Script/scripts/obj/cy4/cy4_guigu_travel.lua",
+      "old": "destination_scene=2,destination_x=241,destination_z=141",
+      "new": "destination_scene=2,destination_x=253,destination_z=121",
+      "approved_sha256": [
+        "3155429e4964204af7f2b3bab9fbee4975d6bbefbe29276552856086151653d2",
+        "7eff30647f04040ab34a5f143aacc7c3b88cd5d6781088b14c9a308fee2ceac6",
+        "85060cd9b058e5df6930e5f5582852da7a748ad4c58a92e7cb5d673c97c2fdea",
+        "ee9c492aa5a2467d0951743beb11e4eb9c985a576b9ec6ca5e6928afae1896fa"
+      ],
+      "current_sha256": "7eff30647f04040ab34a5f143aacc7c3b88cd5d6781088b14c9a308fee2ceac6",
+      "original_backup_sha256": "3155429e4964204af7f2b3bab9fbee4975d6bbefbe29276552856086151653d2"
+    },
+    {
+      "group": "cy4",
+      "path": "Game_2/Script/scripts/obj/cy4/cy4_taohuadao_travel.lua",
+      "old": "destination_scene=2,destination_x=241,destination_z=141",
+      "new": "destination_scene=2,destination_x=253,destination_z=121",
+      "approved_sha256": [
+        "05d5986defeb6c167ba65689ee059cc835ab9d767ccfcb36fceb0744267332d5",
+        "279f1e32b04af7547f7b3a326b593f4420995ca621976a9a62bd5a7a53cdd3f6",
+        "362b72ecc9c4f21062280c402dfd90796de6f2877a06dde638e6918661c99557",
+        "d4baf99148fafb57c225206f68567cf498133fa66854b5b9be203ecd459dd2e2"
+      ],
+      "current_sha256": "05d5986defeb6c167ba65689ee059cc835ab9d767ccfcb36fceb0744267332d5",
+      "original_backup_sha256": "d4baf99148fafb57c225206f68567cf498133fa66854b5b9be203ecd459dd2e2"
+    },
+    {
+      "group": "cy4",
+      "path": "Game_2/Script/scripts/obj/cy4/cy4_tangmen_travel.lua",
+      "old": "destination_scene=2,destination_x=241,destination_z=141",
+      "new": "destination_scene=2,destination_x=253,destination_z=121",
+      "approved_sha256": [
+        "02e28ff37e8a198c298e0a8eefeec2eac513b82d1bc1d3fc96ce6bfa7a3aa2d7",
+        "547937940c2f952022f415bbd5f6f9d35cf7e47dc2da1b87fa466c7f9d5b6066",
+        "6f86c800460e41d47dee481d84188a32da261944bfdce42d22b46808e402e897",
+        "e737dde7e9ca24db7ef61fe6a999be58089eb5effc83515b2d73d26534749e09"
+      ],
+      "current_sha256": "547937940c2f952022f415bbd5f6f9d35cf7e47dc2da1b87fa466c7f9d5b6066",
+      "original_backup_sha256": "6f86c800460e41d47dee481d84188a32da261944bfdce42d22b46808e402e897"
+    },
+    {
+      "group": "quest",
+      "path": "Game_2/Script/scripts/event/dali/edali_newquest_016.lua",
+      "old": "edali_newquest_016.g_Back_X = 275",
+      "new": "edali_newquest_016.g_Back_X = 276",
+      "approved_sha256": [
+        "8e9c24a89248ae92a08e041bf2e926b5941eddc4b74b77f81e244564af2fa95e",
+        "e4a2bb8c8b267807d80a3307231ad293f037914793a0b211cd5c419d112ed915"
+      ],
+      "current_sha256": "8e9c24a89248ae92a08e041bf2e926b5941eddc4b74b77f81e244564af2fa95e",
+      "original_backup_sha256": "e4a2bb8c8b267807d80a3307231ad293f037914793a0b211cd5c419d112ed915"
+    }
+  ]
+}

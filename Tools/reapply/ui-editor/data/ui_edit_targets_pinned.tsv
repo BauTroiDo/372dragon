@@ -1,0 +1,32 @@
+# CYS-UIEDIT v1 (ui-editor-2, 20/09/2026) — KHUNG GHIM: nhung cho ma CHI keo o moi sua duoc.
+#
+# Vi sao co tep nay: `make_edit_targets.py` xep hang theo SO CHO TRAN do `measure_ui_text.py` dem
+# duoc. Hai nhom duoi day KHONG noi len trong cach xep do — nhom 1 vi bo do chi thay mot o 35 px
+# chu khong thay ca hang 17 the chen nhau, nhom 2 vi no chi con la loi MAU chu khong con mat chu —
+# nhung ca hai deu la ca "khong con cach nao khac ngoai noi o". Ghim de moi lan sinh lai deu con.
+#
+# `make_edit_targets.py --pin <tep nay>` chen cac dong nay NGAY SAU lop DBC, truoc lop layout.
+#
+# window	widget	ghi chu
+
+# --- NHOM 1: hang 17 the, MOI o rong dung 35 px ------------------------------------------------
+# `SelfEquip.layout.xml` co 18 nut `TLBB_ButtonPageDown`; `SelfEquip_Ride` dat Visible=False nen
+# hang hien ra dung 17 the. Do tu `2026-09-19-i18n-scope/leak-table.json`: 15/17 the KHONG du cho
+# cho ban dich day du. Nang nhat la `Chan Nguyen` (can 72,7 px trong o 35 px). Vi khong du cho, ca
+# 15 the dang phai hien chu viet tat kieu `CN` / `TL` / `BK` — day chinh la "hang the kho doc".
+# Cung mot widget mau duoc chep sang 46 khung (`selfequip`, `cangpin_shuxing`, `pet`, `wuhun`,
+# `jingmai`, `zhenyuan`, `targetequip`, ... ), nen noi o o day la mau cho ca 46.
+SelfEquip	SelfEquip_ZhenYuan	hang 17 the: o 35,0 px, "Chan Nguyen" can 72,7 px (+38). 15/17 the khong du cho. Widget mau lap o 46 khung
+SelfEquip	SelfEquip_ShenDing	hang 17 the: o 35,0 px, "Than Dinh" can 59,4 px (+25)
+SelfEquip	SelfEquip_JingMai	hang 17 the: o 35,0 px, "Kinh Mach" can 56,2 px (+22)
+
+# --- NHOM 2: 4 o, moi o lap 16 ban sao trong cung mot khung -------------------------------------
+# Nam dong dich cuoi cung cua `i18n-scope` con lai vi ban day du khong vua o; chung duoc de mo CO
+# CHU Y (dong thu nam la viec DICH, khong phai keo khung). Chi so px lay tu
+# `Tools/pipeline/cys_i18nscope_codefix.py` dong 106-115 va `2026-09-19-i18n-scope/codefix-plan.json`.
+# LUU Y: moi o lap 16 ban sao (`_BK1_` .. `_BK16_`); keo mot o chi sua MOT ban sao — xem muc
+# "nhan ban delta" trong `Tools/reapply/ui-editor/README_vi.md`.
+SeventhFestivalTopList	SeventhFestivalTopList_ExchangeFrame_BK1_Text2	QXLS_150724_103: o 170 px, can 200 px (+30). Lap 16 ban sao _BK1.._BK16
+SeventhFestivalTopList	SeventhFestivalTopList_ExchangeFrame1_BK1_Text2	QXLS_150724_107: o 139 px, can 166 px (+27). Lap 16 ban sao
+ValentineRoseTopList	ValentineRoseTopList_ExchangeFrame_BK1_Text2	MGCQ_151230_103: o 150 px, can 201 px (+51) - nang nhat nhom. Lap 16 ban sao
+ValentineRoseTopList	ValentineRoseTopList_ExchangeFrame1_BK1_Text2	QRPHB_150113_119: o 139 px, can 163 px (+24). Lap 16 ban sao

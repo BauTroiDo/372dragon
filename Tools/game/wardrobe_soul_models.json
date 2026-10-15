@@ -1,0 +1,131 @@
+{
+  "reason": "CY PetPossColourRate references 18 absent CharModelEx IDs. Authored level-five objects exist in all.obj for the same butterfly/wing family and exact colour suffix. Do not reuse GL IDs (2976 is an unrelated NPC in GL).",
+  "repairs": [
+    {
+      "colorRow": 11,
+      "family": 3,
+      "modelId": 2976,
+      "previousModel": "合体蝴蝶级别4.obj",
+      "model": "合体蝴蝶级别5.obj"
+    },
+    {
+      "colorRow": 12,
+      "family": 3,
+      "modelId": 3480,
+      "previousModel": "合体蝴蝶级别4变色3.obj",
+      "model": "合体蝴蝶级别5变色3.obj"
+    },
+    {
+      "colorRow": 13,
+      "family": 3,
+      "modelId": 3484,
+      "previousModel": "合体蝴蝶级别4变色9.obj",
+      "model": "合体蝴蝶级别5变色9.obj"
+    },
+    {
+      "colorRow": 14,
+      "family": 3,
+      "modelId": 3478,
+      "previousModel": "合体蝴蝶级别4变色7.obj",
+      "model": "合体蝴蝶级别5变色7.obj"
+    },
+    {
+      "colorRow": 15,
+      "family": 3,
+      "modelId": 3485,
+      "previousModel": "合体蝴蝶级别4变色8.obj",
+      "model": "合体蝴蝶级别5变色8.obj"
+    },
+    {
+      "colorRow": 16,
+      "family": 3,
+      "modelId": 3479,
+      "previousModel": "合体蝴蝶级别4变色2.obj",
+      "model": "合体蝴蝶级别5变色2.obj"
+    },
+    {
+      "colorRow": 17,
+      "family": 3,
+      "modelId": 3483,
+      "previousModel": "合体蝴蝶级别4变色6.obj",
+      "model": "合体蝴蝶级别5变色6.obj"
+    },
+    {
+      "colorRow": 18,
+      "family": 3,
+      "modelId": 3482,
+      "previousModel": "合体蝴蝶级别4变色5.obj",
+      "model": "合体蝴蝶级别5变色5.obj"
+    },
+    {
+      "colorRow": 19,
+      "family": 3,
+      "modelId": 3481,
+      "previousModel": "合体蝴蝶级别4变色4.obj",
+      "model": "合体蝴蝶级别5变色4.obj"
+    },
+    {
+      "colorRow": 29,
+      "family": 5,
+      "modelId": 3361,
+      "previousModel": "合体翅膀四级120726.obj",
+      "model": "合体翅膀五级120726.obj"
+    },
+    {
+      "colorRow": 30,
+      "family": 5,
+      "modelId": 3393,
+      "previousModel": "合体翅膀四级120726变色4.obj",
+      "model": "合体翅膀五级120726变色4.obj"
+    },
+    {
+      "colorRow": 31,
+      "family": 5,
+      "modelId": 3391,
+      "previousModel": "合体翅膀四级120726变色2.obj",
+      "model": "合体翅膀五级120726变色2.obj"
+    },
+    {
+      "colorRow": 32,
+      "family": 5,
+      "modelId": 3390,
+      "previousModel": "合体翅膀四级120726变色1.obj",
+      "model": "合体翅膀五级120726变色1.obj"
+    },
+    {
+      "colorRow": 33,
+      "family": 5,
+      "modelId": 3397,
+      "previousModel": "合体翅膀四级120726变色8.obj",
+      "model": "合体翅膀五级120726变色8.obj"
+    },
+    {
+      "colorRow": 34,
+      "family": 5,
+      "modelId": 3392,
+      "previousModel": "合体翅膀四级120726变色3.obj",
+      "model": "合体翅膀五级120726变色3.obj"
+    },
+    {
+      "colorRow": 35,
+      "family": 5,
+      "modelId": 3395,
+      "previousModel": "合体翅膀四级120726变色6.obj",
+      "model": "合体翅膀五级120726变色6.obj"
+    },
+    {
+      "colorRow": 36,
+      "family": 5,
+      "modelId": 3394,
+      "previousModel": "合体翅膀四级120726变色5.obj",
+      "model": "合体翅膀五级120726变色5.obj"
+    },
+    {
+      "colorRow": 37,
+      "family": 5,
+      "modelId": 3396,
+      "previousModel": "合体翅膀四级120726变色7.obj",
+      "model": "合体翅膀五级120726变色7.obj"
+    }
+  ]
+}

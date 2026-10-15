@@ -1,0 +1,2 @@
+# Patch payloads retain the reviewed GBK/UTF-8 bytes and mixed source line endings.
+*.patch -text

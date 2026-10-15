@@ -1,0 +1,2812 @@
+khoa	chuoi_ngan	ghi_chu
+INTERFACE_XML_834	Tiền có:	nhan truoc o tien (Shop_BulkBuying)
+INTERFACE_XML_1055	Ngoài chat	AcceSetup: cot phim khi KHONG o che do chat (非聊天模式)
+INTERFACE_XML_1056	Khi chat	AcceSetup: cot phim khi dang chat (聊天模式)
+BDJB_051210_1	Giao tử:	nhan truoc o giao tu
+WH_xml_XX(95)	VH	the 35 px: Võ Hồn (tooltip)
+JXJW_140822_22	HA	the 35 px: Hiệp Ấn
+JXSQ_170829_216	TK	the 35 px: Thần Khí
+MPJJ_XT_XML_01	KM	the 35 px: Kinh Mạch
+WLMJ_130121_54	BK	the 35 px: Bí Kíp
+XLDL_140606_04	TĐ	the 35 px: Thần Đỉnh
+ZNJCS_130825_7	Con	the 35 px: Con Cái
+ZYXT_120528_154	CN	the 35 px: Chân Nguyên
+ZZZB_150811_113	BG	the 35 px: Bảo Giám
+CPSJ_260112_1	TV	the 35 px: Tài Vật (名物)
+NJBZ_220816_11	TB	the 35 px: Tinh Bàn
+INTERFACE_XML_854	Thú	the 35 px: Trân Thú (14 nut 100 px cung hien "Thú")
+INTERFACE_XML_877	T.bị	the 35 px: Trang Bị
+XL_XML_35	TL	the 35 px: Tu Luyện
+INTERFACE_XML_496	Khác	其他 (37/35 - lech 1 px moi ben)
+QXLS_150724_103	#G%s0 #cfff263Đồng Tâm Kết	gia doi: bo "Cần"
+INTERFACE_XML_494	Phổ	the 35 px ActionSkill: ky nang pho thong (普通)
+INTERFACE_XML_635	Sinh	the 35 px ActionSkill: ky nang sinh hoat (生活)
+ZDZD_200724_08	Đấu	the 35 px ActionSkill: chien dau (战斗)
+ZMTF_230628_20	TH	the 35 px ActionSkill: Tuyệt Học (绝学) - tooltip
+SJFH_230425_55	#L%s0 Sơn Thủy	山水画 (bo "Tranh")
+SCGZ_180816_73	#c6a3906Diệt	tieu de cot: so lan tieu diet
+GDWPBH_090507_4	#cff0000Quý	贵重
+XSJNH_180120_239	#cfff263Tốn #G%s0 #cfff263Hào Hiệp	
+XSJNH_180120_243	#cfff263Tốn #G%s0 #cfff263Hào Hiệp	
+CPPH_20260417_47	#G%s0#cfff263 mở phân giải	
+MGCQ_151230_103	#G%s0 #cfff263Tình Nhân Kết	gia doi: bo "Cần"
+QRPHB_150113_119	#G%s0 #cfff263Ngọc Si Tình	
+QXLS_150724_107	#G%s0 #cfff263Định Tình	定情玉 (bo "Ngọc")
+STGZ_150514_447	Đã lĩnh	
+CLDHDB_210510_15	#cfff263Hoa Bích: %s0	玲珑华璧
+INTERFACE_XML_221	Mức: Kính trọng	Reputation: dong mau, Lua khong dung khoa nay
+SXTZ_210510_08	#cfff263Bảo Tiên: %s0	珍宝笺
+XDBS_200417_16	#cfff263Lịch luyện: %s0	历练值
+ZMSD_150811_45	#cfff263Cống hiến: #G	战盟贡献度 trong shop Chien Minh
+INTERFACE_XML_607	Riêng	设为私聊
+YBSD_081225_071	Mục lục & tìm	目录和查找说明
+ZQJL_190725_39	#LCòn trống	暂时空缺
+CPSJ_260112_33	Thăng	进阶
+CZJL_250512_14	#cfff263%s1/%s0	ngay/thang (%s1 = ngay, %s0 = thang)
+FPLS_240715_174	#LLật thẻ: %s0	
+FYPVP_260106_318	#cfff263Bị loại	
+PTLS_200902_35	#LHoa Xuân: %s0	春花佩
+SCGZ_240305_7	#c6a3906Chịu	tieu de cot: sat thuong ganh chiu (承伤)
+SCGZ_240305_8	#c6a3906Hồi	tieu de cot: tri lieu (治疗)
+CPSJ_260112_142	Hiện	重现
+ZSHP_180814_05	H.Linh	幻灵
+BHHB_160516_01	Hồng bao	
+BHJM_140520_03	Liên minh	
+BHJZJS_140526_01	Kiến trúc	建筑物介绍
+MGCQ_151230_21	#cfff263Còn trống	虚位以待
+QXLS_150724_21	Còn trống	虚位以待
+JHS32_181117_68	#c6a3906Còn trống	虚位以待
+TWTM_210506_47	#cfff263Đồng Minh	中都同盟
+FFSDGZ_120615_02	Bỏ xem	取消预览
+FLRK_160608_3	Ký danh	每月签到
+FLRK_160608_4	Ưu đãi	超值回馈
+FLRK_160608_5	Lên cấp	升级奖励 (the phuc loi)
+HLZS_170705_01	Quà trở lại	归来好礼
+INTERFACE_XML_702	Rời	退出
+JBHL_190803_353	CK %s0.%s1	%s0.%s1折 (chiet khau)
+XGJSD_230526_19	#cfff263%s0%	折 = chiet khau, dung ky hieu %
+XMPYRFF_210826_15	%s0%	折
+RCLS_200731_80	#LLinh Sương: #M%s0	银灵霜
+TLZL_190802_01	Hẹn Tu Võ	修武之约
+XSJNH_180523_288	Quà nạp	充值奖励
+XTZY_171213_02	Tìm lại	资源找回
+ZTPVP_260515_262	Chọn thưởng	可选奖励
+BHFLGTMB_210714_15	Mở	开启
+FMQZ_221110_13	#WBán NB ở #GTiền Trang Thiên Hoang	
+INTERFACE_XML_785	Phí sửa	修理费用
+INTERFACE_XML_904	Cao nhất	最大价值
+JBHL_190803_326	#cfff263%s0 ngày: nhận	累计%s0天可领取
+QHNF_190429_23	#M%s0#L NB	
+RXZS_XML_28	L.tính	灵性
+SCGZ_180816_72	#c6a3906Bậc	段位
+TM_20080311_30	Đ.minh:	同盟名称
+YSSJ_140818_15	#cfff263Xuất chiến tăng:	
+YSSJ_140818_16	#cfff263HP max:	血上限
+YSSJ_140818_26	#cfff263Né:	
+YSSJ_140818_28	#cfff263C.xác:	
+YSSJ_140818_34	#cfff263Phụ thể tăng tư chất:	
+YSSJ_140818_5	Chu Tước	
+YSSJ_140818_6	Huyền Võ	
+YSSJ_140818_7	Thanh Long	
+YSSJ_140818_8	Bạch Hổ	
+ZTXT_260511_01	Chiến đoàn	霸者战团
+BSSJ_140816_14	Lên	升级
+INTERFACE_XML_700	OK	同意
+AQZX_130812_144	#cfff263Gỡ LK	解绑
+BSLCYH_130529_126	Khắc	雕琢
+BSLCYH_130529_127	Nung	熔炼
+BSLCYH_130529_128	Trác	琢刻
+BSLCYH_130529_129	Tách	分离
+HYGX_150515_129	#cfff263Độc thân	尚未结婚
+INTERFACE_XML_1053	Tự đặt phím	自定义快捷键
+INTERFACE_XML_150	Loại test	测试类型
+INTERFACE_XML_468	C.xác	命中
+INTERFACE_XML_586	Né:	闪避
+INTERFACE_XML_637	Âm thanh	声音设置
+INTERFACE_XML_706	Ngoại thủ	外功防御
+INTERFACE_XML_707	Ng.công	外功攻击
+INTERFACE_XML_797	Chọn	选择
+INTERFACE_XML_837	Trò chơi	游戏性设置
+INTERFACE_XML_959	Chọn	选择珍兽
+INTERFACE_XML_803	Chọn	选择珍兽
+JBHL_190803_376	#cfff263Han Bảo Hùng	坐骑：憨宝熊
+JJKHD_120808_21	Giác tỉnh: không thể	
+JMQH_230829_7	Đổi KM	切换经脉
+JYSL_160518_54	#cfff263Thức ăn:	消耗食材
+MGCQ_211130_37	#cfff263Tặng đủ #G%s0#cfff263 đóa hoa là được nhận.	
+QXLS_220517_42	#cfff263Tặng đủ #G%s0#cfff263 đóa hoa là được nhận.	
+NJBZ_220816_220	Thiên Mệnh	天命星阵
+NJBZ_220816_221	Thiên Ngự	天御星阵
+NJBZ_220816_222	Thiên Ảnh	天影星阵
+SJRZ_180827_12	#GMỗi tháng xác thực ĐT: nhận thưởng.	
+BWZQ_160623_41	Lễ đường	进入招亲礼堂
+HYCT_20210629_17	Max	最大
+XZJC_200309_82	Max	最大
+IMXZ_20100813_07	Thời trang	炫装商城
+INTERFACE_XML_264	Gửi	发送
+INTERFACE_XML_263	Gửi	发 送
+INTERFACE_XML_272	Nhóm	分组
+INTERFACE_XML_500	TN:	潜能 (tiem nang), o 30-40 px
+MDJH_130507_87	Tải lại	刷新榜单
+PTFB_191228_197	#LTầng cá nhân: #M%s0	
+SHZJ_241220_04	Vân Cẩm	云锦行
+SHZJ_241220_05	Hoa Ngọc	华玉集
+SHZJ_241220_06	Tụ Hiệp	聚侠堂
+SHZJ_241220_07	Thiên Hoang	天荒商行
+XKSD_250110_05	Thiện Ác	善恶堂
+TXLY_240906_3	#cfff263Kỷ lục trang bị	历史最高装评
+VIPZY_141216_02	Chuyển đá	宝石乾坤移
+VIPZY_141216_03	Dời CH	强化转移 (cuong hoa)
+VIPZY_141216_04	Dời văn	雕纹转移
+WCBZ_180128_552	#cfff263Chi tiết đội	查看战队详情
+BWJH_181102_156	Chi tiết đội	查看战队详情
+XMPGG_160524_02	Quỷ	鬼谷 (40 px)
+XMPHM_210604_01	TTC	绝情谷 (50 px)
+XMPTM_130123_02	ĐM	唐门 (40 px)
+XZJC_200309_193	Trước	上页
+XZJC_200309_194	Sau	下页
+HYCT_20210629_104	Trước	上页
+HYCT_20210629_106	Sau	下页
+FMSD_220705_22	#cfff263Trước	上页
+FMSD_220705_23	#cfff263Sau	下页
+XZYX_200309_334	#LQuà: #M%s0#L/%s1	共受礼
+AQZX_130812_08	#GChưa bật Ủy quyền bảo mật (+10đ)	
+BHZB_140521_211	Lên cấp	宝珠升级
+BHZB_140521_212	Khảm	宝珠镶嵌
+BHZB_140521_213	Tháo	宝珠摘除
+BSLCYH_130529_138	Đục	打孔
+BSLCYH_130529_139	Gỡ	摘除
+BSLCYH_130529_56	Gắn	镶嵌 (40 px)
+BSQKY_20110506_06	Hồi	恢复
+BWDH_240315_71	#cfff263Đã lấy	已领取
+BWZQ_160623_270	Đốt#rpháo	点燃#r礼花
+CJPM_220421_31	Xem	预览
+CPSJ_260112_22	#G%s0	阶: chi con so (58 px)
+FQBS_140508_27	#cfff263Mua trả góp: hiệu quả khảm đá có hiệu lực đến	
+GSJC_190801_81	#GGD tại Quỷ Thị - Sâm La Thị - Trần Thị	
+GSJC_190801_85	#GGD tại Quỷ Thị - Sâm La Thị - Trân Các	
+GXHDZ_141121_04	Đổi	更换
+INTERFACE_XML_290	Đổi	更改
+HLJYBC_120813_32	#GKN hồi quy:	回归经验
+INTERFACE_XML_1141	Chủ nhân thú	珍兽主人信息
+INTERFACE_XML_274	Sống	复活
+ZYZC_220213_46	#cfff263Sống	复活
+INTERFACE_XML_335	Mặc định	恢复默认
+INTERFACE_XML_675	Khoá	锁定 (39/36)
+INTERFACE_XML_696	ĐK	条件 (33 px)
+INTERFACE_XML_744	Hiển thị	显示设置
+INTERFACE_XML_775	Đực	雄性
+JBHL_190803_293	#GCấp 70#cfff263: nhận	
+JDLS_120731_01	T.Lâm	少林 (50 px)
+JDLS_120731_02	CBang	丐帮
+JDLS_120731_03	MGiáo	明教
+JDLS_120731_04	VĐang	武当
+JDLS_120731_05	TLong	天龙
+JDLS_120731_06	T.Dao	逍遥
+JDLS_120731_07	NgaMi	峨嵋
+JDLS_120731_08	T.Túc	星宿
+JDLS_120731_09	T.Sơn	天山
+JDLS_120731_10	MD	慕容 (50 px)
+GMGameInterface_Script_DataPool_Info_ERenGu	ANC	恶人谷 (50 px)
+GMGameInterface_Script_DataPool_Info_GuSu	MD	慕容 (40 px)
+JSBZ_141226_01	Đập vỡ	宝珠击碎
+JYSL_160518_21	#GLuyện	开始训练
+JYSL_160518_22	#GTăng thọ	开始延寿
+PFBJ_160106_89	#cfff263Kỷ lục điểm trang bị:	
+PTFB_191228_166	Chưa	未上榜
+QFGS_180807_49	HL %s0/%s1	活跃 (hoat luc)
+SCGZ_180816_26	#gFF0FA0Trận	战况
+SZZH_170111_20	Cắt may	时装裁剪
+SZZH_170111_21	Phụ kiện	配饰点缀
+SZZH_170111_22	Gỡ p.kiện	配饰清除
+SZZH_170111_23	Dời p.kiện	配饰乾坤移
+TSFCL_220210_50	#cfff263Miễn phí	免费领取
+WLMJ_130121_19	#cfff263Tỷ lệ:	激活几率
+XFXB_230823_09	#cfff263Đúc tạo	开炉打造
+XSJNH_180125_260	Ngày 1	第一天
+XSJNH_180125_262	Ngày 3	第三天
+XSJNH_180125_266	Ngày 7	第七天
+ZBSX_130625_40	Dời	转移
+ZSHP_180814_07	Giáp	甲级 (38/34 px - ngoai le)
+ZYPT_081103_044	Bầu	投票
+ZZB_131213_02	#cff0000Chưa liên kết CY+ #G(+40 điểm)	
+AQZX_130812_154	#cfff263Nhập lại:	确认密码
+AQZX_130812_58	#cfff263Bảo mật cao nhất đang dùng:	
+AQZX_130812_59	#cfff263Trạng thái xác minh bảo mật:	
+BDYB_090714_15	NB khóa	绑定元宝商店
+BHHY_200907_99	#LChưa đạt	未达成
+CZJL_250512_44	#L%s2/%s1/%s0	ngay/thang/nam
+FFSDGZ_120615_72	Chí Tôn	至尊商店
+FFSDGZ_120615_90	#gFF0FA0Bí bảo	机缘秘宝
+FHCL_240708_440	Xài	使用 (32 px)
+FJYX_110426_24	#cfff263Đề:	主题
+FJYX_110426_69	#cfff263Phí	收费
+GEHJ_181026_31	#cfff263Món ngon:	拥有佳肴
+HYGX_150515_44	Vợ chồng	夫妻 - 53 px khong du; ban CY cung chi 2 chu, chap nhan tran 17 px de giu nghia
+INTERFACE_XML_149	Loại test	测试的类型
+INTERFACE_XML_160	Chi tiết	查看详细信息
+INTERFACE_XML_177	Tỷ lệ:100%	成功率
+INTERFACE_XML_186	Xuất	出窍
+INTERFACE_XML_285	Cốt:	根骨
+INTERFACE_XML_345	Cấp:99	级别
+INTERFACE_XML_373	Nhận	接受 (41/40)
+INTERFACE_XML_426	Rời	离开
+INTERFACE_XML_450	Cái Bang	门派:丐帮 (cho giu cho)
+INTERFACE_XML_451	Hồng Hưng	cho giu cho (门派:洪兴会)
+INTERFACE_XML_689	TLong	天龙 (74 px, cho giu cho)
+INTERFACE_XML_713	Ăn	喂养 (nut 36 px Pet)
+INTERFACE_XML_731	Ngộ:	悟性
+INTERFACE_XML_776	Nghỉ	休息 (nut 36 px Pet)
+INTERFACE_XML_804	Học	学习
+INTERFACE_XML_807	Dạy	驯养 (nut 36 px Pet)
+INTERFACE_XML_FY_001	Xin vào	申请加队
+JBHL_190803_258	#cfff263Vinh Quy Lệnh	完成获得荣归令
+JBHL_190803_80	Nhắn tin	发起私聊
+JBLC_150528_190	Kết bái	结拜 (56/53)
+JYGZ_160809_432	#cfff263Đã đạt cấp tối đa.	
+JZGSH_210222_46	#LĐộ khó:	难度选择
+LZZHD_130520_45	#cfff263Tiêu #G%s0#cfff263 NB, nhận KN: 	
+LZZZ_150526_47	Nguyên liệu	制作材料
+MPZH_180719_33	Chuyển	确认转换
+PLGM_150306_01	Mua sỉ	批量购买
+SDSD_150514_13	Mua sỉ	批量购买
+FFSDGZ_120615_04	Mua sỉ	批量购买
+PLGM_150306_10	#gFF0FA0Mua sỉ	批量购买 (tieu de 15pt)
+PTFB_191228_58	#M%s0	层: chi con so (60 px @15pt)
+PVPZH_220124_15	Trước	上页
+PVPZH_220124_17	Sau	下页
+TYLW_200616_41	Trước	上页
+TYLW_200616_42	Sau	下页
+CPSD_260119_57	Trước	上一页
+CPSD_260119_58	Sau	下一页
+GS_130923_35	#cfff263Đầu	首页
+GS_130923_36	#cfff263Trước	上一页
+GS_130923_37	#cfff263Sau	下一页
+GS_130923_38	#cfff263Cuối	尾页
+GS_130923_39	#cfff263Xóa	清屏
+QXFB_260529_148	Hạ máu #RHạng Vũ#W còn #G15%#W	
+QXLS_150724_30	#u#c00ccffMua Lam Yêu Cơ#n	点击购买蓝色妖姬
+RCLS_200731_146	Max	最大
+DBZH_220419_40	Max	最大
+DJWH_231201_49	Max	最大
+RCLS_200731_34	Bảo Hạp	珠罗宝匣
+RCLS_200731_36	#LĐã mua #M%s0#L/%s1	
+RCLS_200731_38	#M%s0#L NB	元宝
+SCGZ_240305_1	#cfff263Tổng kết	结算总览
+SCGZ_240305_2	#cfff263Thống kê	伤害统计
+SJRZ_180827_07	#cfff263Lấy mã SMS	获取短信认证码
+SZZH_170111_127	May đồ con	亲子装剪裁
+SZZH_170111_128	Nhuộm	子女时装染色
+SZZH_170111_129	Phục hồi	子女时装还原
+TBSD_130816_8	Hồng Lợi	红利商店
+TDGZ_XML_24	Rời đoàn	离开团队
+WBSS_120727_13	#cfff263Chưa có trang bị	装备位上当前无装备
+WCBZ_180128_515	#cfff263Thành viên: #G%s0/6	战队人数
+WCBZ_230605_35	#cfff263Còn trống	虚位以待
+XCZB_160105_78	Tâm Ý Tệ	心意币商店
+XRZL_250508_58	#c00993325/12#c6a3906 mở	12月25日解锁
+XSJNH_180111_08	Nạp đầu	首充享好礼
+XSJNH_180125_261	Ngày 2	第二天
+XSJNH_180125_263	Ngày 4	第四天
+XSJNH_180125_264	Ngày 5	第五天
+XSJNH_180125_265	Ngày 6	第六天
+XZYX_200309_08	Duyên	羁绊
+YXPY_20131118_44	Nuôi con	子女养成
+YXPY_20131118_45	Hoài bão	英雄志向
+YXPY_20131118_60	T.lực:+%s0	体力
+YXPY_20131118_61	C.xác:+%s0	命中
+YXPY_20131118_62	Thân+%s0	身法
+YXPY_20131118_63	Né:+%s0	闪避
+ZBSCS_120529_18	#cfff263Nộp 1 thiếp	投递1张霸名帖
+ZBSCS_120529_19	#cfff263Nộp tất cả	投递全部霸名帖
+ZDSD_90518_2	#cfff263Quà	赠点 (34 px)
+ZDZD_200724_13	#cfff263Dùng khi máu dưới #G%s0%#cfff263	
+ZDZD_200724_60	Đánh quái từ xa	使用远程打怪
+ZNJCS_130825_139	#cfff263Sách	书：
+ZNJCS_130825_141	#cfff263Nhạc	乐：
+ZSKJT_130428_1	#GNhanh	快捷提升
+ZSKJT_130507_1	#cbbbbbbNhanh	快捷提升
+ZTPVP_260515_15	Chiến đoàn số 1	第一战团
+ZZYB_150911_07	#cfff263Nguyên liệu	制作材料
+AQZX_130812_14	#GĐã xác thực điện thoại (+40 điểm)	
+AQZX_130812_149	#cfff263Kiểm	验证
+AQZX_130812_156	#cfff263Mật khẩu:	输入密码
+AQZX_130812_21	#GĐã đặt mật khẩu cấp 2 (+10 điểm)	
+AQZX_130812_60	#cff0000Không có	无安全措施
+AQZX_130812_61	#cfff263Không cần	无需验证
+AQZX_130812_63	#GĐã duyệt	验证通过
+AQZX_130812_64	#cff0000Chưa	尚未验证
+AQZX_130812_83	#cfff263MK cấp 2	二级密码
+BHHB_160516_07	Lịch sử	查看记录
+BHHB_160516_81	#cfff263Chưa ai trong bang giành hồng bao này.	
+BHHB_160516_91	Trước	上个红包
+BHHB_160516_92	Sau	下个红包
+BHSDZ_150310_52	#gFF0FA0Đội đăng ký	报名队伍信息查看
+BHXZ_150831_09	#cfff263Diệt địch:	杀敌数
+BHYH_140808_61	#cfff263B.chủ	帮主 (60 px)
+BHYH_140808_62	#cfff263Phó BC	副帮主
+BHYH_140808_63	#cfff263Nội vụ	内务使
+BHYH_140808_64	#cfff263C.vụ	工务使
+BHYH_140808_65	#cfff263H.hóa	弘化使
+BHYH_140808_66	#cfff263T.anh	精英
+BHYH_140808_67	#cfff263T.viên	帮众
+BJPM_200804_235	#cfff263Tr.thái	状态
+BJPM_200804_245	#cfff263Giá trả:	您的出价
+BSQKY_20110506_03	#GChuyển hết đá từ trang bị nguồn	
+BTZYH_150629_41	#cfff263Hôm nay còn #G%s0#cfff263 lần	
+BWDH_180804_184	#c6a3906Thí Kiếm Thiên Hạ chưa mở!	
+BWDH_180804_39	#LChuỗi thắng cao nhất mùa:	
+BWDH_240315_50	#LHết mùa: #M%s0 Danh Kiếm Tệ#L	
+BWPH_180815_03	Ưng Dương	鹰扬级
+BWPH_180815_04	Long Đằng	龙腾级
+BWPH_210908_01	Tước Ảnh	雀影级
+BWPH_180815_11	Thắng	累计胜场
+BWPH_180815_14	%s0 TK %s1 sao	%s0神剑%s1星 (TK = Thần Kiếm)
+BWPH_180815_19	Ngoài bảng	未上榜
+BXDZ_240918_254	BXH diệt	击杀排行榜
+BXPWQ_240927_121	#LTừ 5 phút	5分钟以上
+BXPWQ_240927_58	#LThoải mái: #M%s0/1000	
+BXPWQ_240927_59	Thu gọn	折叠界面
+BYFUR_160531_10	Đá lạ	奇石
+BYFUR_160531_101	Cất	存放
+BYFUR_160531_12	Cây	植栽
+BYFUR_160531_13	Đồ chơi	玩物 (57/55)
+BYFUR_160531_14	Màn	床帐
+BYFUR_160531_4	Bàn	庭院桌
+BYFUR_160531_5	Ghế	庭院凳
+BYFUR_160531_6	Phun	喷泉
+BYFUR_160531_7	Bình	影壁
+BYFUR_160531_8	Đèn	风灯
+BYFUR_160531_71	Hủy	摧毁
+BYFUR_160531_75	Xem	预览
+BYFUR_160531_253	#cfff263%s0 nội thất: #G%s1	
+BYFUR_160531_85	#cfff263Hạng gia cụ: #GThường	家具档次：#G普通家具 (ban cu vo markup "#Gia cụ")
+BZTX_220823_23	#cfff263Chia sẻ	分享至聊天
+CHYH_180523_57	Không	无属性
+CJSX_180103_58	Thiên Hỷ	天禧贺岁
+CJSX_180103_59	Giang Hồ	战江湖
+CJXT_100317_02	Chi tiết	详细介绍
+CJXT_100317_09	#cfff263Thành tựu:	已获得的成就
+CLJSJ_150511_14	#cfff263Trùng Lâu	真·重楼肩 (85/80 - ngoai le)
+CPSD_260119_17	Linh Phấn: %s0	百通灵屑
+CPSJ_260112_103	#cfff263T.binh	天兵
+CPSJ_260112_177	#cfff263Tiên phẩm	仙阶品质
+CYJK_101027_09	#cfff263Nhập số serial Thẻ Vàng CY vào ô dưới:	
+CZBJ_250512_31	#c47a7d2Thủ	防守
+CZBJ_250512_38	#cded49cThủ	防守
+CZBJ_250512_32	#caadcd9Cả bang	全帮标记
+CZBJ_250512_33	#ceee6c2Đoàn	本团标记
+CZBJ_250512_35	#cded49cCông	进攻
+DBZH_220419_35	Hái	采撷
+DBZH_220419_38	#gFF0FA0Hái Liên Bồng	采撷莲蓬
+DBZH_220419_39	#LSố lượng:	采撷数量
+DBZH_220419_41	#LHồng Liên:	获得红莲子
+DBZH_220419_42	#LNgọc Liên:	获得玉莲子
+DFSZ_190613_170	Cấp	等级
+DHLS_240611_46	#cffcc88Linh Châu:#G%s0	拥有灵珠
+DHMB_90417_17	Kiểm	验证
+DJWH_231201_39	#LTuyết Ấn:#M%s0	拥有踏雪印
+DJWH_231201_48	#LSL:	数量
+DWSJ_141202_51	#cfff263Chưa đặt đồ	尚未放入装备
+DWSJ_141202_62	#gFF0FA0Cường hóa Điêu Văn	雕纹强化与雕纹快捷强化
+DWSJ_141202_63	#cfff263Cường hóa	雕纹强化
+DWSJ_141202_64	#cfff263CH nhanh	雕纹快捷强化
+DWZY_141216_10	Dời	转移
+ETJHD_180503_244	#gFF0FA0Kỷ lục	历史最高
+ETJHD_180503_46	#cfff263Kết toán lúc 22:10	每日22:10结算
+ETJHD_180503_47	#cfff263Hôm nay đã tính	今日已结算
+FBSD_151123_01	Bỏ tất cả	全部丢弃
+FHCL_240708_219	#cfff263Cách Chiến Hồn: #G%s0	
+FHCL_240708_487	#cfff263Chiến Hồn chưa mở.	
+FJYX_110426_13	Tải	刷新
+FQ_XML_04	#cfff263Điểm tích lũy còn lại:	
+FYPVP_260106_275	BXH	排行榜
+GEHJ_181026_68	#cfff263Thiết Thiếp:	拥有饕餮柬
+GEHJ_181026_88	#cfff263Tốn #G5 #cfff263món	消耗5道佳肴
+GEHJ_181026_89	#cfff263Tốn #G1 #cfff263món	消耗1道佳肴
+GMGameInterface_Script_DataPool_Info_DaLi	TLo	天龙 (40 px)
+GMGameInterface_Script_DataPool_Info_EMei	NM	峨嵋 (40 px)
+GMGameInterface_Script_DataPool_Info_GaiBang	CB	丐帮 (40 px)
+GMGameInterface_Script_DataPool_Info_Mingjiao	MG	明教 (40 px)
+GMGameInterface_Script_DataPool_Info_ShaoLin	TL	少林 (40 px)
+GMGameInterface_Script_DataPool_Info_TianShan	TS	天山 (40 px)
+GMGameInterface_Script_DataPool_Info_WuDang	VĐ	武当 (40 px)
+GMGameInterface_Script_DataPool_Info_XiaoYao	TD	逍遥 (40 px)
+GMGameInterface_Script_DataPool_Info_XingXiu	TT	星宿 (40 px)
+JDLS_120731_11	ĐMôn	唐门 (50 px)
+GQKJ_190722_45	#cfff263%s0 CK	%s0折
+GS_130923_32	#cfff263Tốt	满意
+GS_130923_33	#cfff263Tạm	一般
+GS_130923_34	#cfff263Tệ	不满意
+GXHDZ_141121_33	#GMàu	染色
+HDSW_190322_7	%s0 NB mua 10 Lệnh	%s0元宝购买10个祈福令
+HDSW_190322_8	%s0 NB mua 100 Lệnh	%s0元宝购买100个祈福令
+HDSW_190322_9	#cfff263Nhấp vào màn hình để cầu phúc tiếp.	
+HYGX_150515_168	#cfff263Không	暂无
+HYGX_150515_169	#cfff263Đặt ngày kết hôn trước.	
+INTERFACE_XML_1048	Cấp biến dị	珍兽变异等级列表
+INTERFACE_XML_1149	Tên chức vị	自定义职位名称
+INTERFACE_XML_1152	Khôi phục	恢复按钮
+INTERFACE_XML_1260	Xếp	整理
+INTERFACE_XML_143	Trường	毕业院校
+INTERFACE_XML_173	D.hiệu	称号
+INTERFACE_XML_181	TP:	城市
+INTERFACE_XML_193	S.lập:	创始人
+INTERFACE_XML_196	Gửi	存钱
+INTERFACE_XML_538	Rút	取钱
+INTERFACE_XML_222	Thuần thục:100	当前熟练度
+INTERFACE_XML_348	Cấp:100/100	技能等级
+INTERFACE_XML_398	Tìm	开始查找
+INTERFACE_XML_434	Sáng	亮度
+INTERFACE_XML_458	Mật khẩu	密码设置
+INTERFACE_XML_536	Nhập số seri thẻ tài phú vào ô dưới:	
+INTERFACE_XML_561	Lưu	确认修改
+INTERFACE_XML_569	Cử	任命
+INTERFACE_XML_633	Lên	升级
+INTERFACE_XML_710	Cấp yêu cầu:100	玩家等级要求
+INTERFACE_XML_738	Gỡ	下架
+INTERFACE_XML_767	Thư	信件
+INTERFACE_XML_793	Vật liệu đặc biệt:	需要特殊材料
+INTERFACE_XML_859	Trân thú	珍兽列表
+INTERFACE_XML_878	#gFF0FA0Cường hóa	装备强化
+INTERFACE_XML_899	Tên tối đa 8 chữ	最长道具名八个字
+INTERFACE_XML_976	Truyền	传送
+JBGXW_150526_12	#cfff263Tình nghĩa tuần này:	本周获取情义值
+JBHL_190803_174	#cfff263Bàn Quân Lệnh	完成获得伴君令
+JBHL_190803_269	#cfff263Vinh Quy Lệnh	完成获得荣归令
+JBHL_190803_283	Vinh Quy	荣归好礼
+JBHL_190803_284	Đ.nhập	登录领奖
+JBHL_190803_285	Ưu đãi	限时特惠
+JBHL_190803_286	Song hỷ	双倍惊喜
+JBHL_190803_320	#GĐiểm danh ngày	每日登录领奖
+JBHL_190803_325	#GTích lũy ngày	累计登录领奖
+JBHL_190803_380	#cfff263H.Linh Đan	玄灵丹
+JBHL_190803_394	#GVIP4#cfff263: nhận	VIP4级可领
+JBHL_190803_58	Tìm bạn	寻找结伴
+JFMZ_180801_60	#c6a3906Cẩm Y Túy Họa	锦衣醉画（永久）
+JFMZ_180801_61	#c6a3906Hộp Long Phụng	锦衣醉画龙凤礼盒
+JFMZ_180801_65	Mua đồ	购买时装
+JHS32_181117_70	Ra trận	我要上阵
+JHS32_181117_71	Hủy trận	取消上阵
+JJHC_160620_178	#cfff263Trang trí cần đồ đạc cấp 5:	
+JJHC_160620_179	#cfff263Số đồ đạc cấp 5 cần:	
+JJHC_160620_181	#cfff263Trang trí cần 1 bùa trang trí:	
+JJHC_160620_23	#cfff263Cần 2 món đồ đạc cấp thấp:	
+JJHC_160620_199	Tự hợp	一键合成
+JJHC_160620_30	Hợp	合成
+JJHC_160620_81	Trang trí	装潢 (64/60)
+JXPVP_170814_105	#gFF0FA0Thương Ngô	苍梧秘境
+JYHZ_170824_15	Bật	激活
+JYQY_160810_103	#cfff263Thỏ Trắng: #G	当前捕捉小白兔
+JYQY_160810_104	#cfff263Thỏ Xám: #G	当前捕捉小灰兔
+JYQY_160810_105	#cfff263Thỏ Đen: #G	当前捕捉小黑兔
+JYQY_160810_106	#cfff263Thỏ Hoa: #G	当前捕捉小花兔
+JYSL_160518_89	#cfff263Thực phẩm: #W%s0	庄园食材
+JZSHYH_140214_05	Thu mua	材料收购
+JZSHYH_140214_06	Tìm hàng	商品搜索
+JZSHYH_140214_08	Tìm	查找
+JZSHYH_140214_76	Đi	转到 (33 px)
+KVKBH_140124_50	#cfff263Bản phục	本服帮会
+KVKBH_140124_51	#cfff263Khác sv	跨服帮会
+LLGZ_260330_213	#cfff263Xem tên đội	查看战队名称
+LMLH_180123_06	Nhận biến dị cấp 7	领取7级变异外观
+LSHYH_150210_110	#gFF0FA0Hùng Vương	力战红熊王
+LSHYH_150210_111	#gFF0FA0Cát Vinh	血战葛荣
+LTQH_XML_37	Đến	转到
+LTQH_XML_41	Tải	刷新
+SJBS_240124_69	Tải	刷新
+BHXJ_170607_89	Tải	刷新
+TXLY_240904_15	Tải lại	刷新
+ZYPT_081128_7	Tải lại	刷新
+LTQH_XML_55	Sửa	修改
+LZWZ_120117_118	#c999999K.Phong	乔峰归来
+LZWZ_120117_119	#c999999Tiên Nhân	仙人指路
+LZWZ_120117_120	#c999999Dự Thử	准正式版
+LZWZ_120117_121	#c999999Chúc Tuổi	贺岁版
+LZWZ_120117_122	#c999999Sa Mạc	沙漠迷城
+LZWZ_120117_123	#c999999C.Thần	战神版
+LZWZ_120117_124	#c999999T.Hoàng	秦皇地宫
+LZWZ_120117_125	#c999999Ma Lạt	麻辣国子监
+LZWZ_120117_126	#c999999Võ Vương	功夫之王
+LZWZ_120117_127	#c999999Q.Chiến	大决战
+LZWZ_120117_128	#c999999Ảnh Tử	影子传说
+LZWZ_120117_129	#c999999Côn Lôn	笑傲昆仑
+LZWZ_120117_130	#c999999C.Thức	正式版
+LZWZ_120117_131	#c999999Bách Lạc	新春百乐汇
+LZWZ_120117_132	#c999999Kiếm Ảnh	剑影侠情
+LZWZ_120117_133	#c999999Mộ Dung	慕容世家
+LZWZ_120117_134	#c999999Thiên Cơ	天机奇缘
+LZWZ_120117_135	#c999999Nhạn Môn	血战雁门关
+LZWZ_120117_136	#c999999Bão Tuyết	暴雪狂欢节
+LZWZ_120117_137	#c999999Phi Long	飞龙在天
+LZWZ_120117_138	#c999999Hè Ưu Đãi	给利一夏
+LZWZ_120117_139	#c999999T.Ngoại	天外江湖
+LZWZ_120117_140	#c999999Tuyết Vũ	雪舞燃情
+LZWZ_120117_141	#c999999L.Thăng	龙腾盛世
+LZWZ_120117_211	#cfff263Ma Lạt	麻辣国子监
+MCJC_170727_145	#cfff263Hiệu quả gọi	召出效果
+MCJC_170727_146	#GThoải mái +%s0	庭院舒适度
+MDJH_141014_26	BXH khu	本区名动榜
+MDJH_141014_27	Trọng Lâu	傲世重楼榜
+MDJH_141014_34	Đổi quà	名动值兑换
+MGCQ_151230_137	Lồng Yêu Hổ	九黎妖虎珍兽笼
+MGCQ_151230_138	Lồng Long Hồn	太古龙魂珍兽笼
+MGCQ_211130_94	#cfff263Chưa xếp	未上榜
+QXLS_220517_53	#cfff263Chưa xếp	未上榜
+MPZH_180719_132	#cfff263Nghĩ lại	我再想想
+MZXB_200609_48	#Mx1	1份 (36 px)
+MZXB_200609_80	#MN.Liên: #L%s0	玉莲子
+NJBZ_220816_201	#cfff263%s0★	%s0星
+NJBZ_220816_207	#cfff263%s0★	%s0星
+NJBZ_220816_213	#cfff263%s0★	%s0星
+PFZYYH_160224_2	#cfff263Chọn cấp bảo thạch để tham khảo	
+PKPK_20251021_7	#cfff263Tìm lại KN còn hôm nay:	
+PTFB_191228_117	#cfff263%s0	层: chi con so
+PTFB_191228_287	#L%s0-%s1	层
+PZJY_160722_239	#cfff263Đối thơ: #G	对诗倒计时
+PZJY_160722_308	#cfff263Chờ ra thơ	等待侍女出诗
+PZJY_160722_309	#cfff263Đánh trống	击鼓行酒令
+PZJY_160722_313	#cfff263Thưởng thức	享受美食
+PZJY_160722_314	#cfff263Nguyện ước	祝福许愿
+QKH_20220802_21	#cfff263Cơ bản	基础设置
+QKH_20220802_22	#cfff263Càn Khôn	乾坤壶设置
+QLGCJ_180810_25	#cfff263Online 30 phút	已在线30分钟
+QMCJ_190310_45	#cfff263Tốn #G5#cfff263 giỏ	消耗5个花篮
+QMCJ_190310_46	#cfff263Cơ hội +#G1 Ngọc Linh Cẩm	
+QXLS_220517_83	Trước	前一页
+QXPVE_240522_38	#gFF0FA0Nghỉ ngơi	休息室
+QZN_180322_176	Nạp đầy	填满火药
+QZN_180322_177	Đổ hết	倒空火药
+SCGZ_240305_10	#c6a3906Tỉ lệ	胜率
+SHPLGM_150428_02	#cfff262Hết	全选 (33 px)
+SJBS_240124_80	Trước	上页
+SJBS_240124_82	Sau	下页
+SJBS_240124_86	Hạng	排名
+SJPM_241125_97	#cfff263Nhảy cấp	鲲跃级
+SJSD_180817_61	#c6a3906Hộp Mộng Ảnh	幻饰梦影礼盒
+STGZ_150514_03	QH	关系 (40 px)
+STGZ_150514_394	#cfff263Đan sơ cấp	初级传功丹
+STGZ_150514_395	#cfff263Đan tr.cấp	中级传功丹
+SWZB_190322_42	#cfff263Còn %s0: %s1	剩余
+SZJJ_250801_21	#cfff263Đặt Long Uyên	请放入龙渊玄铁
+SZYG_191126_65	#M%s0#L Chu	金铢
+SZZH_170111_16	Nhuộm	时装染色
+SZZH_170111_17	Phục hồi	时装还原
+TFXC_20220921_91	Mọi	不限 (40 px)
+THDBN_190614_01	ĐHĐ	桃花岛 (50 px)
+TLCJ_20240709_341	Ngân Tệ:	拥有凤武银币
+TLCJ_20240709_364	Kim Tệ:	拥有凤武金币
+TSFCL_220210_39	#M%s0#L NB	元宝
+WCBZ_180128_104	#cfff263Đội phó	任命副队长
+WCBZ_180128_108	#cfff263Giải tán	解散战队
+WCBZ_180128_110	#cfff263Đuổi	请离战队
+WCBZ_180128_112	#cfff263Rời đội	退出战队
+WCBZ_180128_246	#cfff263Tranh Bá	新全球争霸赛
+WCBZ_180128_253	#WKết thúc	比赛结束
+WCBZ_180128_561	Thăng cấp	晋级赛
+WCBZ_180128_71	Lập đội	组建战队
+WCTP_180211_21	Đội của ta	查看我的战队
+WGPF_191106_13	#cffe1b8Thưởng: %s0/%s1	仪赏
+WGTJ_201222_140	#GNgoại quan này dùng vĩnh viễn	
+WGTJ_201222_143	#GNgoại quan này còn dưới 1 giờ	
+WHYH_161121_131	#GNhanh	快捷提升
+WHYH_161121_31	Nhanh	快捷提升
+WHZN_141216_41	Đổi	更换
+WH_xml_XX(107)	#cfff263Thọ:	寿命
+WLMJ_130121_16	#cfff2631 đợt	一段式
+WLMJ_130121_17	#cfff2632 đợt	二段式
+WLMJ_130121_18	#cfff2633 đợt	三段式
+WYXT_20170803_23	#cfff263Chỉ số Võ Ý	武意属性
+WYXT_20170907_419	Tìm giao tử	交子找回
+XFHD_140919_04	Quà lên cấp	升级有好礼
+XGDS_180608_90	#cfff263Kết toán lúc #G21:05	
+XGDS_180608_91	#cfff263Hôm nay đã tính	今日已结算
+XHRYH_170608_22	Sửa đồ	修理装备
+XLDL_140606_25	#cfff263Ngưng	凝丹
+XLDL_140606_32	#cfff263Trợ giúp	查看帮助
+XMPYRFF_210826_85	#L%s0%	折
+XQPVP_260526_172	#cfff263Hạ tướng địch	击败敌方主将
+XRLJ_130717_1	#cfff263Còn	倒计时
+XSJNH_180111_07	Quà 7 ngày	7日献豪礼
+XSJNH_180111_10	Nạp ưu đãi	充值超值赠
+XSJNH_180111_15	Đồng hành	天龙携手行
+XSX_220705_254	#G+%s0đ	+%s0分
+XSX_220705_262	#cfff263Bão	风暴
+XYHE_130805_01	Tăng tốc	网络加速
+XZJC_200309_16	#LTâm quyết đã nhập	心诀编入属性总览
+XZJC_200309_197	#LSL:	数量
+XZJC_200309_230	#LĐã tối đa	已满级
+XZJC_200309_44	Lên	升级 (14pt)
+XZXT_240517_15	Đồ Giám	天勋图鉴
+XZXT_240517_49	Giải đấu	赛事天勋
+XZYX_200309_59	Danh sĩ	前往名士
+YBFQ_XML_3	Phiếu	返券商店
+YBSC_XML_11	Reset	重置
+YBSC_XML_33	Đi	转到 (33 px)
+YBSD_081225_003	Đại Mại	大卖场
+YBSD_081225_004	Bảo thạch	宝石商城
+YBSD_081225_006	Kỳ Hóa	南北奇货
+YBSD_081225_007	Thời trang	形象广场
+YBSD_081225_008	Hoa Vũ	花舞人间
+YBSD_081225_009	Bí kíp	武功秘籍
+YBXD_141218_01	#cfff263Điểm dư đổi phiếu hoàn:	
+YDHD_171206_22	Online 1 giờ được mở	累积在线1小时可开
+YFYW_240806_32	#cfff263Hạng	排名
+YFYW_240806_33	Đội ta	我的队伍
+YJRS_140613_02	Màu	染色 (40 px)
+YJXLZB_20220818_24	Sửa hết	一键修理
+YKJY_231113_34	#LHĐ đã kết thúc.	当前活动已结束
+YLK_120307_19	#cfff263Thời gian KN x2 còn:#G	
+YLK_120307_27	#gFF0FA0Dịch vụ tiện lợi Thẻ Du Long	
+YLK_120307_32	Tiện ích	便捷功能服务
+YLK_120307_33	Tra cứu	查询使用情况
+YWXK_250113_143	#cfff263Phó tướng: chưa	副将奖励：未获得
+YWXK_250113_58	#cfff263Đóng cảnh:	场景关闭
+ZBQH_130521_05	#gFF0FA0Chuyển cường hóa	强化转移
+ZBSX_130625_38	#cfff263Tinh thông trước khi chuyển	
+ZBSX_130625_39	#cfff263Tinh thông sau khi chuyển	
+ZBS_LX_120301_07	Tải lại	刷新界面
+ZDPT_XML_12	Mục đích:	组队目的
+ZDZYH_180418_68	Chọn	选择该坐骑
+ZHHD1_181128_163	Về phòng	返回斋中
+ZMB_241021_31	#cfff263Xong	已选择
+ZMB_241021_7	Chọn	选择
+ZMSD_150811_48	#cfff263Cống hiến có: #G	拥有战盟贡献度
+ZNSZ_140718_113	Mình	角色 (45 px)
+ZNSZ_140718_114	Con	子女
+ZNYR_200302_69	Max	最大
+ZSHP_190716_17	T.thành: %s0	成长率
+ZSLH_230426_35	#cfff263Ngộ tính	悟性
+ZSLH_230426_36	#cfff263L.tính:	灵性
+ZSYH_120503_22	Cất	存放
+ZSYH_120503_47	cấp #Wmang	级#W可携带
+ZTXT_260511_15	Xếp	排序
+ZTXT_260511_28	#cfff263Chưa có trưởng	暂无团长
+ZYFG_171116_05	#cfff263Hạn: #G%s0	有效期
+ZYPT_081103_008	Tài sắc	郎才女貌
+ZYPT_081103_009	Kết bè	拉帮结伙
+ZYPT_081103_010	Sư đồ	拜师寻徒
+ZYPT_081103_011	Kim Lan	义结金兰
+ZYPT_081128_5	Đầu	首页
+ZYPT_081128_6	Cuối	末页
+ZYZC_220213_47	#cfff263Về	回营
+ZZB_131213_05	#cfff263CY+	畅游+
+ZZCX_11119_06	Giám lại	重新鉴定
+ZZZB_150811_30	Tiến	进阶 (40 px)
+AMDCFK_101021_14	#cfff263Nhập số seri Thẻ AMDVIP vào ô:	
+ANYZ_150601_04	Đang chờ	等待验证
+ANYZ_150601_05	#cff0000Mở ứng dụng Changyou+ trên điện thoại để xác thực.	
+AQJJ_160127_13	Thăng	进阶
+AQJJ_160127_135	Sao	升星
+AQJJ_160127_138	Nâng	提升
+AQJJ_160127_186	#GTự tẩy	自动重洗
+AQJJ_160127_187	#GDừng	终止重洗
+AQJJ_160127_41	#cfff263Cần: #G1 Linh Thứu Thạch	
+AQJJ_160127_42	#cfff263Hiệu quả [Thương Minh Ngũ Thức]:	
+AQJJ_160127_45	Tẩy	重洗
+AQJJ_160127_73	Tình Nhân Hoa	淬毒：情人花
+AQJJ_160127_74	Hạc Đỉnh Hồng	淬毒：鹤顶红
+AQJJ_160127_75	Bồ Đề Huyết	淬毒：菩提血
+AQJJ_160127_76	Khổng Tước Đảm	淬毒：孔雀胆
+AQZX_130812_115	#YĐồ	道具栏 (51 px)
+AQZX_130812_116	#YN.liệu	材料栏
+AQZX_130812_150	#cfff263Ép gỡ	强制解除
+AQZX_130812_152	#cfff263MK cũ:	原密码
+AQZX_130812_153	#cfff263MK mới:	新密码
+AQZX_130812_165	#GChưa bật Ủy quyền bảo mật (+20đ)	
+AQZX_130812_172	#GĐã đặt mật khẩu cấp 2 (+20 điểm)	
+AQZX_130812_174	#GĐã liên kết CY+ (+60 điểm)	
+AQZX_130812_175	#cff0000Chưa liên kết CY+ #G(+60 điểm)	
+AQZX_130812_18	#GĐã liên kết bảo mật ĐT (+30 điểm)	
+AQZX_130812_29	#cff0000Đã bật ủy quyền an toàn	
+AQZX_130812_30	#GChưa bật ủy quyền an toàn	
+AQZX_130812_38	#cff0000Chưa xác thực điện thoại	
+AQZX_130812_39	#GĐã xác thực điện thoại	
+AQZX_130812_42	#cfff263An toàn hiện tại:	当前设置的安全时间
+AQZX_130812_44	#cfff263Đặt giờ an toàn mới	设置新安全时间
+AQZX_130812_56	#cff0000Chưa liên kết bảo mật ĐT	
+AQZX_130812_76	#cfff263Điện thoại	电话密保
+AQZX_130812_92	#cff0000Hết lượt xác minh MK cấp 2 hôm nay.	
+AQZX_140306_01	#GĐã liên kết bảo mật ĐT (+50 điểm)	
+BBHL_150228_118	#G4000 NB (-22%): Tố Hoãn Huyên Thường	7.8折 = giam 22%, vinh vien
+BBHL_150228_119	Nhận Tố Hoãn Huyên Thường (30 ngày)	
+BDMB_090417_01	Tải mật bảo	免费下载密保卡
+BDPD_110107_2	#cfff263Còn: #cff0000Vĩnh viễn	剩余安全时间 永久
+BFYH_170209_09	Trong kho	仓库内家具
+BFYH_170209_10	Đã bày	已摆放家具
+BFYH_170209_13	#cfff263Đã bày %s0: #W%s1	
+BGTS_220125_13	Kích hoạt	确认激活
+BGTS_220125_53	#cfff263Đầu:	头饰
+BGTS_220125_55	#cfff263Lưng:	背饰
+BHHB_160516_19	#cfff263%s0 #gFF0FA0Hồng Vận	鸿运红包
+BHHB_160516_39	#cfff263%s0 #gFF0FA0Hồng Phúc	鸿福红包
+BHHB_160516_35	#cc0c0c0 đã vào túi đồ, mở túi để xem	
+BHHB_160516_69	#cfff263Đã nhận thưởng Hồng Vận: #G%s0/3	
+BHHB_160516_70	#cfff263Đã nhận thưởng Hồng Phúc: #G%s0/3	
+BHHB_160516_73	#YHôm nay đã đủ 3 lì xì Hồng Vận	
+BHHB_160516_75	#YChưa may, không có thưởng	
+BHHB_160516_90	#YHôm nay đã đủ 3 lì xì Hồng Phúc	
+BHHY_200907_96	#LHôm nay	今日金错刀
+BHHY_200907_97	#LQuà	奖励
+BHHY_200907_98	#LNhận	领取
+BHJM_140520_08	Xin vào	入帮申请
+BHJM_140520_102	#cfff263Danh sách ứng chiến	本帮征讨应战列表
+BHJM_140520_108	#cfff262Chiến	接战
+BHJM_140520_31	Cử	任命
+BHJM_140520_32	Đuổi	逐出
+BHJM_140520_33	Trao	禅让
+BHJM_140520_34	Rời bang	退出帮会
+BHJM_140520_36	Nhận	接收
+BHJM_140520_40	#cfff263B.chủ:	现任帮主
+BHJM_140520_41	#cfff263Đ.minh:	所属同盟
+BHJM_140520_44	#cfff263Thành:	帮会城市
+BHJM_140520_45	#cfff263Chưa lập thành	尚未建立城市
+BHJM_140520_47	#cfff263Quy mô:	帮会规模
+BHJM_140520_53	#cfff263Quỹ:	帮会资金
+BHJM_140520_55	#cfff263Bảo trì:	维护状态
+BHJM_140520_59	#cfff263Quỹ BT:	维护资金
+BHJM_140520_95	#cfff262Đánh	发起征讨
+BHJS_140515_56	#cfff263Đang xây/nâng cấp kiến trúc	
+BHJS_140515_61	Lên cấp	升级
+BHSDZ_150310_180	#gFF0FA0Trận	战况
+BHSDZ_150310_49	#cfff263Kỷ lục điểm trang bị	历史最高装备评分总和
+BHXJ_170606_24	Đăng ký ứng cử	报名成为候选人
+BHXJ_170704_108	Làm mới ứng cử	刷新候选人
+BHXZ_081103_102	Tôi	个人 (35 px)
+BHXZ_081103_103	Hội	帮会 (35 px)
+BHXZ_081103_104	Xe	战车 (35 px)
+BHXZ_150831_07	#cfff263Tuyên chiến còn: #G%s0	
+BHXZ_150831_11	BXH bang ta	本帮个人战绩榜
+BHXZ_150831_13	BXH bang địch	敌帮个人战绩榜
+BHYH_140808_14	#cfff263Rút/Cất	取出/放入
+NJBZ_220816_386	#cfff263Cơ bản: #c00ffff+%s0#cfff263#rTẩy luyện: #c00ffff+%s0	
+SWZB_190322_66	#G16/5#cfff263 đến #G22/5#cfff263: có thể #Gcầu phúc#cfff263 để lấy vật phẩm trong túi báu #Gvào túi đồ#cfff263.	
+XSJNH_180208_280	#GĐổi#cfff263 và #GTiêu#cfff263 đủ #Gmức chỉ định#cfff263 sẽ nhận #GQuà siêu hạng nạp thẻ#cfff263 tương ứng.	
+BHYH_140808_15	#cfff263Lịch sử	存取记录
+BHYH_140808_16	#cfff263Quyền	权限设置
+BHYH_140808_25	#cfff263Gửi vào: bang chúng+	存入要求：帮众以上
+BHYH_140808_26	#cfff263Rút ra: bang chúng+	取出要求：帮众以上
+BHYH_140808_58	#cfff263Đặt điều kiện rút/gửi cho rương đang chọn	
+BHYH_140808_60	#cfff263Gửi vào:	存入要求
+BHYH_140808_77	#cfff263Trước	前一页
+BHYH_140808_79	#cfff263Sau	后一页
+BHYH_140808_89	#cfff263Rương	银行储物箱
+BHYH_140808_90	Trang 1	第一页
+BHYH_140808_91	Trang 2	第二页
+BHYH_140808_92	Trang 3	第三页
+BHYH_140808_93	Trang 4	第四页
+BHYH_140808_94	Trang 5	第五页
+BHZB_140521_100	#cfff263Đặt lệnh bài vào:	请在此放入令牌
+BHZB_140521_108	Đúc	重铸
+BHZB_140521_185	#cfff263Đặt lệnh bài vào:	请在此处放入令牌装备
+BHZB_140521_228	Đổi	切换
+BHZB_140521_43	Tiến	升阶
+BHZB_140521_65	Lên	升级
+BHZB_140521_66	Gắn	镶嵌
+BHZB_140521_67	Gỡ	摘除
+BHZL_140812_05	Tải lại	刷新评分
+BJKJ_220701_38	#cfff263Nhận biến dị cấp 6	领取6级变异外观
+BJPM_200804_123	#cfff263Ra giá:	出价人
+BPZJ_0801014_006	Góp	捐助
+BQB_XML_4	Gỡ gói	卸载表情包
+BSDJ_170811_01	#cfff263Đặt đá vào	请放入宝石
+BSDJ_170811_34	#cfff263Đặt đá vào	请放入宝石
+BSDJ_170811_02	#cfff263Sau hợp thành	合成后的宝石
+BSQZ_210714_100	#cfff263Phó bản: #G%s0:%s1	副本攻略时间
+BSSCK_251119_14	Xếp	整理
+BSSJ_140816_13	#cfff263Trả bằng NB	元宝支付确认
+BSZK_121012_13	Trác	琢刻
+BSZK_121012_36	Tách	分离
+BSZK_121012_48	#gFF0FA0Tách chạm trổ	琢刻分离
+BTMS_230609_01	#cfff263Thế Mô	替模设置
+BTZYH_150629_04	#gFF0FA0Đồng Bàn	天机铜盘
+BTZYH_150629_05	#gFF0FA0Bí Dược	天机秘钥
+BWDH_240315_54	#L6 trận	6场奖励
+BWDH_240315_55	#L12 trận	12场奖励
+BWDH_240315_66	Giai 1	一阶
+BWDH_240315_67	Giai 2	二阶
+BWDH_240315_68	Giai 3	三阶
+BWDH_240911_21	Tính	开始计算
+BWDH_241114_101	Đội phó	任命副队长
+BWDH_241114_103	Hủy phó	解除副队长
+BWDH_241114_105	Giải tán	解散战队
+BWDH_241114_107	Đuổi	请离战队
+BWDH_241114_109	Rời đội	退出战队
+BWDH_241114_178	Trước	前一页
+BWDH_241114_180	Sau	后一页
+BWDH_241114_199	Chat riêng	设为私聊
+BWJH_181102_168	Chat riêng	设为私聊
+BWDH_241114_202	#cfff263Đi	转到 (33 px)
+BWDH_241114_203	#cfff263Tr.	页 (33 px)
+BWDH_241114_204	Đến	转到
+BWDH_241114_48	Lập đội	组建战队
+BWDH_241114_77	Khóa đội	我要锁定战队
+BWJH_181102_159	Thành viên: %s0/6	战队人数
+DFSZ_190613_84	Thành viên: %s0/6	战队人数
+BWJH_181102_162	Cấp	等级
+DFSZ_190613_87	Cấp	等级
+BWJH_181102_329	Tạo đội	创建战队
+DFSZ_190613_172	Tạo đội	创建战队
+BWJH_181102_385	Tải lại	刷新界面
+BWJH_181102_387	Vào phó bản	进入副本
+BWJH_181102_86	Đuổi	请离战队
+BWJH_181102_87	Giải tán	解散战队
+BWJH_181102_91	Rời đội	退出战队
+DFSZ_190613_192	Đuổi	请离战队
+DFSZ_190613_194	Giải tán	解散战队
+DFSZ_190613_198	Rời đội	退出战队
+BWLYH_220802_02	#cfff263PB	副本 (60 px)
+BWLYH_220802_03	#cfff263Hạn giờ	限时
+BWLYH_220802_04	#cfff263Ngày	日常
+BWQH_211027_105	Bỏ	否 (40 px)
+BWZQ_160623_181	Đ.hôn	订婚
+BWZQ_160623_218	#cfff263Vào sảnh	进入招亲礼堂
+BWZQ_160623_226	#gFF0FA0Lôi Chủ	当前擂主
+BWZQ_160623_231	#gFF0FA0Thách đấu	当前挑战者
+BWZQ_160623_232	#cfff263Người thách đấu:	当前挑战者
+BWZQ_160623_343	#c868686Trống	无（可发起挑战）
+BWZQ_160623_35	#cfff263STT	次序
+BWZQ_160623_36	#cfff263Người mở	招亲发起者
+BWZQ_160623_388	#cfff263Đếm ngược thi đấu: #cff0000%s0:%s1	
+BWZQ_160623_392	#cfff263Mau chiếm lôi đài làm Lôi Chủ!	
+BXDR_20240920_123	Thoát	离开副本
+BXDR_20240920_238	#GChú: dưới 10 điểm cá nhân không có thưởng	
+BXDR_20240920_87	#cfff263Điểm	个人积分
+BXDZ_240918_140	#cfff263Mặc định	默认外观
+BXDZ_240918_147	Đổi	确认变更
+BXDZ_240918_356	#cf2f6ffNhiệm vụ cá nhân	冰雪大作战个人任务
+BXDZ_240918_359	#cfff263Tiến độ cá nhân: #G%s0/%s1	
+BXJD_241118_61	#cfff263Quà giảm tải ngày	每日减负奖励
+BXZP_240911_30	#LT.Linh: #M%s0	唤雪铃
+BXZP_240911_89	#LT.Thu Tuyết 30 ngày	时装：千秋雪（30天）
+BXZP_240911_90	#LThiên Thu Tuyết (VV)	时装：千秋雪（永久）
+BXZP_240911_91	Miễn phí	免费领取
+BYFUR_160531_15	Bàn	居室桌
+BYFUR_160531_19	Đẩu	居室凳
+BYFUR_160531_219	Làm nhiều	批量制造
+BYFUR_160531_23	T.trí	装饰
+BYFUR_160531_73	Cất	存放家具
+BYFUR_170315_304	Max	最大
+BYRACE_170214_116	#GNhấp biểu tượng trên để chọn phong cách	
+BYRACE_170214_117	#cfff263Văn nghệ	清新文艺
+BYRACE_170214_118	#cfff263Ấm cúng	温馨小窝
+BYRACE_170214_119	#cfff263Vườn	最佳花园
+BYRACE_170214_120	#cfff263Xa hoa	绝世壕情
+BYRACE_170214_125	Đặt hộp	放置礼箱
+BYRACE_170214_163	#gFF0FA0Thưởng Quỳnh Lâu Hoa Phủ	
+BYRACE_170214_171	#cfff263Cẩm	康乃馨 (62 px)
+BYRACE_170214_172	#cfff263M.Đơn	蓝牡丹 (62 px)
+BYRACE_170214_34	Ghi tên	报名
+BYRACE_170214_61	Tải	刷新
+BZTX_220705_341	#cfff263Sống	重生
+BZTX_220823_30	#cfff263Báo cáo	生成战报
+BZXX_140915_16	#cfff263Nhập ghi chú:	请输入对该玩家的备注信息
+BZYJ_151123_65	#u#c00ccffP.khắc#n	关于复刻
+BZYJ_151123_66	#gFF0FA0Phục khắc	关于复刻
+CDXT_110503_09	Ghi thù	添加为仇敌
+CDXT_110503_13	Thù	仇敌 (35 px)
+CFSN_220224_15	#c1f941e#uXem thơ xuân#n	
+CFSN_220224_17	Nhận Ánh Xuân	领取枝头映春奖
+CFSN_220224_20	Nhận Sơn Hoa	领取山花烂漫奖
+CFSN_220224_23	Online 30' hôm nay	本日累计在线30分钟
+CFSN_220224_24	Online 1 giờ hôm nay	本日累计在线1小时
+CFSN_220224_25	Online 2 giờ hôm nay	本日累计在线2小时
+CFSN_220224_30	Năng động: %s0/50	本日活跃值
+CFSN_220224_31	Năng động: %s0/150	本日活跃值
+CGBF_20230726_05	Mới nhất	最新动画
+CGBF_20230726_07	Trước đây	过往动画
+CHYH_180523_13	Dùng	使用
+CHYH_180523_55	Xong	已使用
+CJPM_191126_87	#LKết thúc đấu giá, NB của người không trúng sẽ được hoàn lại.	
+CJSX_180103_32	Dán Phúc	贴倒福
+CJYJ_180116_123	Mùng 8	初八
+CJYJ_180116_124	Mùng 9	初九
+CJYJ_180116_125	Mùng 10	初十
+CJYJ_180116_126	Ngày 11	十一
+CJYJ_180116_127	Ngày 12	十二
+CJYJ_180116_129	Ngày 14	十四
+CJYJ_180116_130	Ngày 15	十五
+CJYJ_211203_141	Chế tác	开始制作
+CJYZ_20231214_23	#cfff263Đổi số ĐT	修改认证手机
+DXYZ_20240103_3	#cfff263Đổi số ĐT	修改认证手机
+CJYZ_20231214_6	#cfff263Kiểm	验证
+CJ_20080321_02	Nhập số thẻ vật phẩm Thiên Long:	
+CLDHDB_210510_11	Hoa Bích	华璧坊
+CLDHDB_210510_12	Bạch Ngọc	白玉坊
+CLDHDB_210510_19	#cfff263Trước	上页
+CLDHDB_210510_20	#cfff263Sau	下页
+CLDHDB_210510_22	#gFF0FA0Mua sỉ	批量购买
+CLDHDB_210510_25	#cfff263Max	最大
+CLDHDB_210510_47	#cfff263Dùng nhiều	批量使用
+CLFJ_251104_06	Luyện	精铸
+CLFJ_251104_10	#cfff263Đặt Hàn Thiết	请放入龙溪寒铁
+CLFJ_251104_12	#cfff263Xem trước	效果预览
+CLHC_170824_03	#cfff263Chọn nguyên liệu	请选择要合成的材料
+CLJSJ_150511_08	#cfff263Minh Châu: #cff0000800	需要琉璃明珠
+CLTX_241119_10	T.Lâu · Triệu	重楼·召
+CLTX_241119_11	T.Lâu · Phản	重楼·返
+CLTX_241119_12	T.Lâu · Quy	重楼·归
+CLTX_241119_13	T.Lâu Giáp	真·重楼甲
+CLTX_241119_14	T.Lâu Liễn	真·重楼链
+CLTX_241119_15	T.Lâu Kiên	真·重楼肩
+CLTX_241119_16	T.Lâu Giới	真·重楼戒
+CLTX_241119_17	T.Lâu Ngọc	真·重楼玉
+CLTX_241119_18	Bật	激活
+CLTX_260624_01	Đổi	更换
+CLYH_160607_01	Nhắc nhở	淬炼提醒
+CMCL_210713_64	#gFF0FA0Đổi tên	同盟改名
+CPBT_260115_122	#LMiễn phí (khóa)	免费鉴定（绑定）
+CPBT_260115_123	#LTrả phí (không khóa)	付费鉴定（非绑定）
+CPBT_260115_124	#cfff263Miễn phí	免费鉴定
+CPBT_260115_126	#cfff263Trả phí	付费鉴定
+CPPH_20260417_13	#cfff263Chưa đủ ĐK	未达到要求
+CPPH_20260417_19	#cfff263Thiên Quang	天枢琼林榜
+CPPH_20260417_5	#cfff263T.Quang	天枢琼林榜 (90 px)
+CPPH_20260417_6	#cfff263Địa Hành	地衡琼林榜
+CPPH_20260417_66	Danh vật	名物琼林榜
+CPPH_20260417_49	#cfff263Tuần này còn: #G%s0	本周剩余可领取次数
+CPPH_20260417_69	#cfff263Trước	上一页
+CPPH_20260417_70	#cfff263Sau	下一页
+CPSD_260119_14	Bách Thông	百通集
+CPSD_260119_15	Thiên Biến	千变集
+CPSD_260119_40	Max	最大
+CPSJ_260112_141	Tách	分解
+CPSJ_260112_143	Hiệu quả	品类效果
+CPSJ_260112_175	#cfff263Thiên phẩm	天阶品质
+CPSJ_260112_31	#cfff263Mảnh chung	使用通用碎片
+CQD_210806_71	#LQuế Thỏ Tham Tinh	武器：桂兔参星
+CQD_210806_72	#LPhồn Vân C.Nguyệt	武器：繁云钩月
+CQD_220802_01	#gFF0FA0Mua Ngọc Chùy	购买青玉杵
+CQD_220802_05	#cfff263Max	最大
+CXDT_240306_1	#gFF0FA0Trừng Hung	惩凶打图设置
+CXYH_140813_28	#cfff263Đặt Thần Khí vào	请放入神器
+CXYH_140813_32	#cfff263Sau Luyện Hồn	炼魂后效果
+CXYH_140813_33	#cfff263Hiện tại	神器当前属性
+CXYH_140813_34	#cfff263Sau Luyện Hồn	炼魂后的属性
+CXYH_140813_53	#cfff263Sau tẩy luyện	重洗后效果
+CXYH_140813_54	#cfff263Long Văn hiện tại	龙纹当前属性
+CXYH_140813_55	#cfff263Sau trùng tẩy	重洗后的属性
+CXYH_140813_57	Thay mới	替换重洗属性
+CXYH_140813_71	#cfff263T.Vân Thủy #G%s0	净云水
+CXYH_140813_9	Thay kỹ năng	替换重洗技能
+CY+ZJ_140820_02	#cfff263Quà tuần	畅游+周奖励
+CY+ZJ_140820_07	#cff0000Chưa liên kết CY+ (có quà tuần)	
+CYG_130527_109	Đ.nhập	登录畅易阁
+CYG_130527_77	#cfff263Mã:	输入验证码
+CYG_230524_02	#cfff263Liên kết ĐT	绑定手机号
+CYG_230524_13	#cfff263Xác thực ĐT	认证绑定手机
+CYG_230524_14	#cff0000Chưa xác thực điện thoại	账号尚未认证手机
+CYZJ_150212_21	Đúc	铸金
+CZDYH_161107_01	#cfff263Mua NB	元宝购买确认
+CZDYH_161128_15	#cff0000Chưa đặt đồ tường	尚未放入雕纹图样
+CZJL_250512_08	Chiến công	帮会战功榜
+CZJL_250512_10	Anh hùng	帮会英雄榜
+CZJL_250512_12	Vinh dự	个人荣誉榜
+CZJL_250512_31	Trước	上一页
+CZJL_250512_32	Sau	下一页
+CZJL_250512_37	#cfff263Chiếm cờ trong 10 phút	
+CZJL_250512_39	#cfff263Chiếm cờ 10 giây cuối	
+CZJL_250512_40	#cfff263Tổng hạ gục trên 500	总击杀人数超过500
+CZJL_250512_41	#LHạn: #M%s2/%s1/%s0	ban cu vo placeholder "%s 0"
+CZPH_250430_02	#cfff263Tân Long	新龙赛区
+CZPH_250430_03	#cfff263T.Long	苍龙赛区
+CZPH_250827_01	#cfff263Giao Long	蛟龙赛区
+CZPH_260603_01	Thao Long	螭龙赛区
+CZPH_260603_02	Huyền Long	玄龙赛区
+CommisionStall_3	Rời	离开
+DBZH_220419_17	#L450 điểm HĐ/ngày: nhận	每日达到450活跃可领取
+DBZH_220419_18	#L150 điểm HĐ/ngày: nhận	每日达到150活跃可领取
+DECOW_160126_115	#cfff263Nhận 1 vũ khí: Hồng Hoa Hồng	
+DECOW_160126_116	#cfff263Nhận 1 vũ khí: Phấn Hoa Hồng	
+DECOW_160126_124	#cfff263T.trang:	时装
+DECOW_160126_126	#cfff263H.sức:	幻饰
+DECOW_160126_128	#cfff263Mặt:	脸型
+DECOW_160126_132	Gốc	默认
+DECOW_160126_92	#GLinh Thạch	缀梦灵石
+DECOW_160126_93	Lên	升级
+DECOW_160126_99	#cfff263Danh sách huyễn sức	幻饰武器列表
+DFFX_20240515_33	#GCảnh này không có kênh khác.	当前场景无分线
+DFSZ_190613_10	ID đội	战队ID
+DFSZ_190613_12	Số TV	战队人数
+DFSZ_190613_124	Đông Nam	东南观看点
+DFSZ_190613_125	Tây Bắc	西北观看点
+DFSZ_190613_126	Tây Nam	西南观看点
+DFSZ_190613_127	Đông Bắc	东北观看点
+DFSZ_190613_128	Trung tâm	中心观看点
+DFSZ_190613_41	#gFF0FA0Bảng chỉ huy giải đấu (GM)	
+DFWF_250728_44	#cfff263Người trong Bí Cảnh: #G%s0	秘境人数
+DFXD_250326_111	#cfff263Thông tin	比赛信息
+DFXD_250326_121	#cfff263Thưởng	奖励预览
+DGUH_240911_01	#cfff263Tự duyệt vào đội	自动通过进队申请
+DHEJ_240521_298	#LChuyển hồn	移魂中
+DHMB_90417_4	#cfff263Gỡ LK	解绑
+DHSD_20240522_17	#LKhiên Tâm: #M%s0	倩心玉
+DHSD_20240522_73	#MSánh Bước (90 ngày)	情伴朝夕（90天）
+DHSD_20240522_76	#MNB: 8000	元宝：8000
+DHSD_20240522_77	#cfff263Mua đồ	购买时装
+DWPF_220420_40	#cfff263Mua đồ	购买时装
+DJTS_110509_03	#c000000Phù còn lại	剩余符咒
+DJWH_231201_125	#cfff263Chọn thuộc tính cần chuyển	请选择需要指定转化的属性
+DJWH_231201_166	Đổi hồn	潜灵转换
+DLQR_140505_02	Liên kết CY+	绑定畅游+
+DLRZSJ_170914_01	Bật	激活
+DPPC_150327_3	#cfff263Kim tệ	金币盘出
+DPPC_150327_4	#cfff263Bằng NB	元宝盘出
+DWCJJ_140606_03	#gFF0FA0Tháo gỡ	雕纹拆解
+DWDH_190502_15	#LCần#M%s0#L: %s1/%s2	需要
+DWKC_240514_07	Mua hộp	购买礼盒
+DWKC_260515_07	#LNhận hết	批量领取
+DWKC_260515_17	Max	最大
+DWPF_190428_30	Gói bánh	包粽子
+DWPF_200529_03	#LLễ bao Cẩm Y	锦衣醉画礼包
+DWPF_200529_04	#LHộp Linh Tê Cẩm Y	锦衣醉画灵犀礼盒
+DWSJ_141202_13	CH nhanh	快捷强化
+DWTQK_110216_13	Nhập số seri Thẻ VIP Duowan vào ô:	
+DWZY_141216_03	#gFF0FA0Dời Điêu Văn	雕纹转移
+DXDT_240920_125	#cfff263Đủ #G5#cfff263 điểm: nhận thưởng	
+DXDT_240920_65	#cfff263Điểm trả lời	答题积分
+DXDT_240920_76	#cfff263Thành tích	我的成绩
+DXTZ_130812_05	#GOK	验证 (40 px)
+DXYZ_20240103_11	#G%s0#cfff263s	%s0秒 (49 px)
+DZSY_250611_60	#cfff263C.lực	战力榜
+DZSZ_201203_13	Nữ	女生形象
+DZSZ_201203_14	Nam	男生形象
+DZSZ_201203_4	#cfff263Thời trang động tác	动作时装列表
+ERYR_240701_41	#cfff263Du hiệp bị #Wđuổi#cfff263 đi	
+ERYR_240701_43	#cfff263K.Thác tới #Wdược cục#cfff263	
+ERYR_240701_44	#cfff263Du hiệp #Wở lại#cfff263 Cô Tô	
+ERYR_240701_45	#cfff263#WHung khí#cfff263: trường liêm	
+ERYR_240701_46	#cfff263#WDược thương#cfff263 xem thơ	
+ETDDS_220406_35	#LChọn liên tử và số lượng:	
+CYRM_140825_02	#cfff263Dùng #GKỳ Văn Tiểu Loa Bá#cfff263 để loan tin, danh tính ngài được ẩn:#r#GBằng hữu, phu thê, kết bái#cfff263 sẽ thấy là #Gbằng hữu#cfff263;#r#GKẻ thù/cừu địch#cfff263 sẽ thấy là #GCừu nhân#cfff263;#r#GNgười khác#cfff263 sẽ thấy là #GGiang hồ kỳ văn#cfff263.#rNhập lời muốn nói #G(tối đa 32 chữ)#cfff263	
+CZJL_250512_09	#cfff263Trong #GBá Giả Thiên Hạ#cfff263, bang hội đạt #Gmức yêu cầu#cfff263 là được #Gghi nhận#cfff263 lên bảng công lao bang hội.	
+CZJL_250512_13	#cfff263Trong #GBá Giả Thiên Hạ#cfff263, đạt #Gyêu cầu#cfff263 sẽ được ghi vào #GBảng Danh Vọng Cá Nhân#cfff263.	
+ERWH_240719_429	Xong ủy thác nào thì về #MLạc Dương#{_INFOAIM240,269,0,山流儿}#NSơn Lưu Nhi#L nhận thưởng.	giu nguyen #{_INFOAIM...}
+ETJHD_180503_248	#cfff263Kết toán 14/6 22:10	6月14日22:10结算
+ETJHD_180503_44	#gFF0FA0Top 1	今日第1名
+Equip_UnBind_Title	#gFF0FA0Trừ minh	装备除铭
+FBSD_150126_13	#cfff263Cấp:	参加等级
+FBSD_150126_16	#cfff263Càn quét còn	剩余扫荡次数
+FBSD_150126_17	#cfff263Trạng thái	扫荡状态
+FBSD_201105_2	Linh Phù: mở	天星灵符开启
+FDSJ_XML_8	#cfff263Tiến cử:	引荐人
+FFZQ_220803_31	Truyền	传送
+FHCL_240708_222	Sơ đồ	陵墓地图
+FHCL_240708_234	#cfff263Điểm màn này: #G%s0	本关已获得积分
+FHCL_240708_251	Kỳ này	本期排行榜
+FHCL_240708_252	Kỳ trước	上期排行榜
+FHCL_240708_312	Đổi thưởng	替换奖励
+FHCL_240708_314	Không đổi	放弃替换
+FHCL_240708_365	#cfff263Làm mới còn: %s0	剩余刷新次数
+FHCL_240708_412	#cfff263Hệ số: #G%s0	积分倍率
+FHCL_240708_415	#cfff263Chưa đủ ĐK thưởng	未达成额外奖励条件
+FHCL_240708_491	#cfff263-	无 (40 px)
+FHCL_240708_492	#cfff263Cấp:	奖励等级
+FHCL_240708_493	Thưởng	查看奖励
+FJLB_160114_22	#GChỉ áp dụng cho hảo hữu	该设置仅在友好列表下生效
+FJLB_160817_33	#GChỉ áp dụng cho địch đối	该设置仅在敌对列表下生效
+FJLB_160817_26	#cfff263Bạn	友好
+FJLB_160817_28	#cfff263Địch	敌对
+FJWJ_81006_001	#gFF0FA0Người chơi lân cận	附近玩家列表
+FJYX_110426_185	Bỏ qua	暂不提醒
+FJYX_110426_21	Lùi	回退
+FJYX_110426_39	Hồi	回复
+FJYX_110426_45	#cfff263Hết	全选 (32 px)
+FLJM_170527_02	NV lương	工资任务
+FMPM_220815_03	Đấu giá	凤鸣拍卖
+FMPM_220815_128	#cfff263T.Thạch	星石
+FMPM_220815_163	#cfff263D.Thạch	曜石
+FMPM_220815_23	#cfff263Xem	关注
+FMPM_220815_30	#cfff263Bắt đầu 22:00 thứ 7	竞拍将于周六22:00开始
+FMPM_220815_34	#cfff263Trước	上页
+FMPM_220815_36	#cfff263Sau	下页
+FMPM_220815_41	#cfff263Tải	刷新
+FMPM_220815_73	#cfff263Tải lại	刷新
+FMPM_220815_89	#cfff263Đấu giá mở #G22:00 thứ 7 hàng tuần#cfff263	
+FMPM_220815_90	#cfff263Đấu giá đã kết thúc, xem kết quả	
+FMSD_220705_15	Kỳ Vật	天星奇物
+FMSD_220705_16	Mảnh vỡ	星石碎片
+FMSD_220705_17	Dị Bảo	奇珍异宝
+FMSD_220705_25	#cfff263Mua sỉ	批量购买
+FMSD_220705_31	#cfff263Max	最大
+FPLS_240715_87	#LĐổi được Phúc Tinh Tệ: %s0	可分解兑换福星币
+FPLS_240715_88	#LTổng Phúc Tinh Tệ nhận được:	共可获得福星币
+FQ_XML_07	#cff0000#bĐang kiểm tra điểm...	剩余积分点查询中
+FQ_XML_08	Phiếu	返券商店
+FTHS_120719_39	#GMàu	幻色
+FTHS_120719_41	#gFF0FA0Phong cách phụ thể	附体风格图鉴
+FTHS_120719_42	#cfff263Phong cách	附体风格列表
+FTWX_110511_07	#cfff263Hiệu ứng	附体效果列表
+FTZH_110318_01	Hỗ trợ	登陆在线客服
+FWYJ_210318_1	Nhã Tập	打开风物雅集
+FYBM_260108_57	#cfff263Chưa đăng ký	未参与报名
+FYBM_260108_78	Đăng ký	确认报名
+FYJD_250113_33	#LH.Lân Kiếm 60 ngày	火麟剑（60天）
+FYJD_250113_34	#LHỏa Lân Kiếm (VV)	火麟剑（永久）
+FYJD_250113_35	Miễn phí	免费领取
+FYJD_250113_69	#gFF0FA0Mua sắt	火麟铁购买
+FYPVE_260108_12	#cfff263Tuần này: #G%s0/4	本周参与次数
+FYPVE_260108_137	Đặt lại	重置
+FYPVE_260108_24	#GĐã có %s0	已收集%s0个
+FYPVE_260108_76	#cfff263Nhặt hết	全部拾取
+FYPVP_260106_105	#cfff263K.Phách	剑魄点
+FYPVP_260106_295	#cfff263Tên đội	小队名称
+FYWS_260107_18	#cfff263Đã mở khóa	传记已解锁
+FZK_151230_12	Kiểm	验证
+GCQH_240429_179	#cfff263Trợ chiến	助战成员
+GCQH_240429_180	#cfff263Đơn xin	助战申请
+GCQH_240429_200	#cfff263Bang trợ chiến: #G%s0	我的助战帮会
+GCQH_240429_201	#cfff263Rời trợ chiến	离开助战帮会
+GCQH_240429_202	#cfff263Xin trợ chiến	申请助战帮会
+GCQH_240429_213	#cfff263Tải lại	刷新
+GCQH_240429_226	#cfff263Đối chiếu	成员对比
+GCQH_240429_231	#cfff263Không thuộc biên đội #G%s0#cfff263	
+GCQH_240429_233	#cfff263Biên đội #G%s0#cfff263 ngoài đội	
+GCQH_240429_234	#cfff263Đuổi	移出团队
+GCQH_240429_244	#cfff263Mời nhanh	一键入团
+GCQH_240429_254	#cfff263Đăng ký	申请助战
+GCQH_240429_30	#cfff263Hạng:	当前排名
+GCQH_240429_39	#cfff263Lực chiến	帮会总战斗力
+GCQH_240429_41	Bá Giả	霸者天下
+GCQH_240429_43	#cfff263Tư cách	参与资格
+GCQH_240429_76	Chia nhanh	一键分配名额
+GCQH_240429_85	Hủy nhanh	一键取消名额
+GEHJ_181026_5	#LTầm Vị & Thôi Kim	寻味姑苏与炊金馔玉
+GEHJ_181026_6	#LCửu Yến & Thịnh Yến	九宴长歌与饕餮盛宴
+GJHC_260424_52	#cfff263Đi tiếp	出线
+GJHC_260424_61	#cfff263Thưởng thêm	额外壮士坛嘉奖
+GJYLK_120517_150	#gFF0FA0Nâng cấp	服务升级确认
+GJYLK_120517_72	#Y#e0000ffBách Binh#n#W	百兵精通
+GJYLK_120517_74	Lên Thẻ Du Long Tử Kim	升级至紫金游龙卡便捷服务
+GJYLK_120517_83	Hủy dịch vụ Thẻ Du Long	注销游龙卡便捷服务
+GMGJTX_XML_111128_32	Tốt	满意
+GMGJTX_XML_111128_33	Tạm	一般
+GMGJTX_XML_111128_34	Tệ	不满意
+GMGameInterface_Script_DataPool_Info_Good_Friend	Bạn	好友
+GMT_20100811_18	#cfff263Nhập tên mới:	请输入新的角色名
+GQKJ_190722_102	#LLệnh Mặc Cả: #M%s0	拥有砍价令
+GQKJ_190722_177	#LChọn số lượng:	请选择购买个数
+GQKJ_190722_181	#LChiết Hoa:#M%s0	消耗折花令
+GQKJ_190722_188	#LTiến độ giảm giá toàn server:	本服共享折扣进度
+GQKJ_190722_207	#LHết mua 24h ngày 6/10	10月6日24时结束购买
+GQKJ_190722_208	#cfff263Lệnh giảm: #G%s0	拥有砍价令
+GQKJ_190722_59	#cfff263Chiết Hoa: #G%s0	拥有折花令
+GSDG_190729_113	Nghĩ lại	我再想想
+GSDG_190729_114	Làm thuê	确认务工
+GSHB_190801_24	Trước	上一页
+GSHB_190801_25	Sau	下一页
+GSHB_190801_51	Max	最大
+GWYZ_190925_09	Đang chờ	等待验证
+GWYZ_190925_12	Đã xác thực	验证通过
+GXB_220725_09	#cfff263PB hiệu quả cao: #G%s0	今日高效本
+GXGG_010119_1	Cập nhật	更新公告
+GXGG_010119_2	Xếp hạng	排行榜
+GXHDZ_141121_58	Đổi	更换
+GZSZH_230427_14	Xác thực	前往认证
+G_YuanBao_3	Chọn số tiền muốn ký gửi:	请选择您要寄售的金钱数量
+G_YuanBao_4	Nhập số NB muốn đổi:	请输入您想换取的元宝数量
+GuildLeague_Fire	Trục xuất	开除同盟
+HBF_241219_129	Max	最大
+HBF_241219_42	Max	最大
+HBZHC_210923_2	#cfff263Hợp thành	魂冰珠合成
+HBZHC_210923_5	#cfff263Chọn Hồn Băng Châu	请选择要合成的魂冰珠
+HCYL_150304_07	Mua Đúc Vàng	购买铸金御礼
+HCYL_150304_09	Mua Khắc Tỷ	购买琢刻御礼
+HCYL_150304_35	#gFF0FA0Mở Đúc Vàng Ngự Lễ:	开启铸金御礼可获得
+HCYL_150304_36	#gFF0FA0Mở Khắc Tỷ Ngự Lễ:	开启琢刻御礼可获得
+HCYL_150304_37	#cfff263Giá: 4000 NB	铸金御礼售价4000元宝
+HCYL_150304_38	#cfff263Giá: 4000 NB	琢刻御礼售价4000元宝
+HCYL_160307_01	Mua Tinh Kim	购买精金御礼
+HCYL_160307_04	#gFF0FA0Mở Tinh Kim Ngự Lễ:	开启精金御礼可获得
+HCYL_160307_05	#cfff263Giá: 4000 NB	精金御礼售价4000元宝
+HCYL_160307_18	2 Tử Kim Thạch	获取2个紫金石
+HDRCYH_130118_19	#cfff263Cấp:	参加等级
+HDRCYH_130118_22	#cfff263Trạng thái	活动状态
+HDSZYL_210325_02	#cfabf8fXem màu	染色风格预览
+HLK_110926_08	#cfff263Nhập seri Thẻ Trọng Chiến:	请输入重战天外卡序列号
+HLTQ_160217_22	#GFree#cfff263 Han Bảo Hùng (#G7 ngày#cfff263)	
+HLTQ_160401_104	#LMới	限时上新
+HLYH_160120_107	#GFree#cfff263 #G1#cfff263 giờ #GHuyền Linh Đan	
+HQYZ_180115_11	Hào tình	豪情一掷
+HQYZ_260803_05	Hũ quà	大奖奖池
+HQYZ_260803_06	Tham gia	参与奖池
+HSRL_220214_12	#cfff263Nung	熔炼
+HSRL_220214_34	#cfff263Chưa bật	未激活
+HTQR_XML_2	#cfff263Khóa tư chất	锁定珍兽资质
+HWSJ_201218_05	Linh Thạch	缀梦灵石
+HWSJ_201218_10	Lên	升级
+HXYSJ_141031_161	Đúc	重铸
+HYCT_20210629_07	Vân Cẩm: %s0	拥有素云锦
+HYCT_20210629_09	Văn Ngọc: %s0	拥有寒纹玉
+HYD_141120_11	#cfff263Đổi giới	更改性别
+HYGX_150515_14	Lưu	确认设置
+HYGX_150515_52	#cfff263Hiệu ứng vợ chồng	显示夫妻专属特效
+HYHL_101230_10	#cfff263Lần nhận điểm HĐ:#W	可获得活跃值次数
+HYZ_XML_1	#cfff263Năng động:	累积活跃值
+HZDP_131202_02	Shop hợp tác:	合作商店数量
+HZHB_130712_10	Ngừng hợp tác	解除合作关系
+IMXZ_20100813_05	Bỏ	否
+IMXZ_20100813_09	Bán chạy	热卖炫装
+IMXZ_20100813_10	Hàng mới	新品推荐
+IMXZ_20100813_17	Chưa trả	未付款提醒
+IMXZ_20100813_36	Mua	购买付款
+IMXZ_20100813_44	Trả	付款
+IMXZ_20100813_49	Xóa	删除炫装
+IMXZ_20100813_50	Đóng tủ	关闭衣柜
+IMXZ_20101108_02	Chat bạn bè thu nhỏ	好友聊天界面微缩模式
+INTERFACE_PS_BTN_1	Mua	收购
+INTERFACE_RECYCLE_INPUTBOX_1	QC thu mua	收购广告
+INTERFACE_SELREC_2	Tổng giá thu mua	收购材料总价
+INTERFACE_XML_1046	Mở rương	开启保险箱
+INTERFACE_XML_1047	Khóa rương	锁定保险箱
+INTERFACE_XML_1082	Hiện phím tắt trang 1	显示第一页主技能快捷键
+INTERFACE_XML_1083	Hiện phím tắt trang 2	显示第二页主技能快捷键
+INTERFACE_XML_1084	Hiện phím tắt trang 3	显示第三页主技能快捷键
+INTERFACE_XML_1100	Bản đồ nhỏ hướng Bắc	小地图指北
+INTERFACE_XML_1108	Bật/tắt bản đồ khu vực	区域地图切换关闭
+INTERFACE_XML_1109	Xóa chat trên màn hình	清除屏幕上的聊天信息
+INTERFACE_XML_1114	Rút xong	完成抽奖
+INTERFACE_XML_1136	Quan	官员列表
+INTERFACE_XML_1148	Tìm thú hợp	搜索适合珍兽
+INTERFACE_XML_1161	Lịch HĐ	活动日程
+INTERFACE_XML_1164	Tuyến	商业路线
+INTERFACE_XML_1170	Bật/tắt DS người chơi	打开/关闭玩家列表
+INTERFACE_XML_1171	Địch	敌对
+INTERFACE_XML_1172	Bạn	友好
+INTERFACE_XML_1214	#gFF0FA0Nâng kỹ năng thú	珍兽技能升级
+INTERFACE_XML_1216	Cao nhất trận này	本场个人最高
+INTERFACE_XML_1217	Điểm hiện tại	当前积分
+INTERFACE_XML_1218	Đã đánh lui	当前退敌个数
+INTERFACE_XML_1222	Điểm max	最高积分
+INTERFACE_XML_1223	Đánh lui max	最多退敌个数
+INTERFACE_XML_1228	Điểm phe ta	我方积分
+INTERFACE_XML_1229	Ta đánh lui	我方退敌个数
+INTERFACE_XML_1234	Điểm địch	敌方积分
+INTERFACE_XML_1235	Địch đánh bại	敌方击败个数
+INTERFACE_XML_1246	#gFF0FA0BXH điểm	积分榜
+INTERFACE_XML_1250	#cfff263Sương	显示迷雾
+INTERFACE_XML_1254	#cfff263HƯ model	模型特效
+INTERFACE_XML_139	Bảo Tháp	宝塔镇河妖
+INTERFACE_XML_141	Nhạc	背景音乐
+INTERFACE_XML_151	Xem	查看
+INTERFACE_XML_156	Xem thuộc tính	查看对方属性
+INTERFACE_XML_159	Nhật ký	查看伙伴记录
+INTERFACE_XML_167	Chia	拆分 (36 px)
+INTERFACE_XML_184	Nạp vốn	充入本金
+INTERFACE_XML_194	VSync	垂直同步
+INTERFACE_XML_199	Mở BXH	打开排行榜
+INTERFACE_XML_203	Danh sách thú	打开珍兽列表
+INTERFACE_XML_204	Ép giá	打压市场
+INTERFACE_XML_206	Đóng	打烊
+INTERFACE_XML_211	C.hiến:9999	当前帮贡
+INTERFACE_XML_215	Quầy:#GĐang mở	当前柜台状态
+INTERFACE_XML_259	Đổi phiếu	兑换官票
+INTERFACE_XML_269	Bỏ NV	放弃任务
+INTERFACE_XML_270	Thả	放生
+INTERFACE_XML_277	N.cao	高级查找
+INTERFACE_XML_297	Cống hiến:	贡献度
+INTERFACE_XML_303	Đóng hội thoại này	关闭当前泡泡框
+INTERFACE_XML_306	Q.lý	管理
+INTERFACE_XML_307	Cỡ:	规模
+INTERFACE_XML_31	#gFF0FA0Lập bang	创建帮会
+INTERFACE_XML_312	QG	国家 (35 px)
+INTERFACE_XML_321	Thổi giá	哄抬市价
+INTERFACE_XML_333	Nền	环境音效
+INTERFACE_XML_336	Hồi	回复
+INTERFACE_XML_343	Cơ bản	基础查找
+INTERFACE_XML_350	Thuần thục:	技能熟练度
+INTERFACE_XML_351	Kỹ năng	技能音效
+INTERFACE_XML_353	Yêu thích	收藏名店
+INTERFACE_XML_360	Lập	建立
+INTERFACE_XML_361	Lập tuyến	建立商线
+INTERFACE_XML_377	Mở	解锁
+INTERFACE_XML_380	Chỉ bạn bè thấy	仅好友可见
+INTERFACE_XML_385	C.xác	精确查找
+INTERFACE_XML_387	Từ chối	拒绝
+INTERFACE_XML_39	#gFF0FA0Chỉ Nam	江湖指南
+INTERFACE_XML_390	Từ chối mời vào đội	拒绝队伍邀请
+INTERFACE_XML_399	Mở	开张
+INTERFACE_XML_407	Nhận	可接任务
+INTERFACE_XML_408	Lãnh địa xin được	可申请领地列表
+INTERFACE_XML_417	Nới	扩建
+INTERFACE_XML_42	#gFF0FA0Kết bái	结拜称号
+INTERFACE_XML_423	Loại: Trò chơi	类型:游戏内容
+INTERFACE_XML_435	Độ trong suốt nền chat	聊天背景透明度
+INTERFACE_XML_44	#gFF0FA0Quyết đấu	决斗目标
+INTERFACE_XML_443	Nhận	领取官票
+INTERFACE_XML_475	NB còn lại trên người: A	您身上剩余的元宝数量
+INTERFACE_XML_482	Bán	盘出
+INTERFACE_XML_487	Tên phu thê	cho giu cho
+INTERFACE_XML_524	Nhập tên hoặc ID đối thủ	请输入决斗目标的名字或ID
+INTERFACE_XML_525	Tên lãnh địa	请输入领地名
+INTERFACE_XML_530	Nhập vốn	请输入资金
+INTERFACE_XML_532	Chọn loại tiệm	请选择店铺类型
+INTERFACE_XML_540	Rút	取回
+INTERFACE_XML_545	Hủy tuyến	取消商线
+INTERFACE_XML_551	Làm hết	全部制造
+INTERFACE_XML_553	Bloom	全屏泛光
+INTERFACE_XML_563	Tên người	cho giu cho
+INTERFACE_XML_564	SL:	人数
+INTERFACE_XML_591	Đơn giá:	商品单价
+INTERFACE_XML_597	Phồn thịnh	商业指数
+INTERFACE_XML_598	Chỉ số TN:	商业指数
+INTERFACE_XML_601	Trước	上一间
+INTERFACE_XML_739	Sau	下一间
+INTERFACE_XML_740	Tiếp	下一条
+INTERFACE_XML_609	Cài đặt	设置
+INTERFACE_XML_648	Sự kiện	事件音效
+INTERFACE_XML_649	Phe	势力 (35 px)
+INTERFACE_XML_651	Dọn	收摊
+INTERFACE_XML_657	Số tiền	输入金钱
+INTERFACE_XML_660	Nhập ID bang lập tuyến	输入与之建立商线的帮会ID
+INTERFACE_XML_662	T.thục:1000/1000	熟练度
+INTERFACE_XML_665	Chat riêng	私聊
+INTERFACE_XML_668	Muối	私盐
+INTERFACE_XML_669	Nhỏ	缩减
+INTERFACE_XML_671	Cần: 9999	所需帮贡
+INTERFACE_XML_691	Thiên vương	cho giu cho
+INTERFACE_XML_693	Thêm bạn	添加合作伙伴
+INTERFACE_XML_708	Bảo mật	完全保密
+INTERFACE_XML_709	Công khai	完全公开
+INTERFACE_XML_72	#gFF0FA0Tâm trạng	心情寄语
+INTERFACE_XML_726	Tiệm	物品店
+INTERFACE_XML_730	Vật thể	物体动画
+FHCL_240708_243	Đến #RTượng Đá Phượng Hoàng Lửa#W, xem cơ quan #GThám Hiểm Tìm Bảo#W rồi mở.	
+GQHY_190723_80	#G25/9#cfff263 (sau cập nhật) đến #G24h 10/10#cfff263: bấm vật phẩm trên để cho vào #GBể hoa#cfff263	
+GQHY_190723_81	#G11/10#cfff263 đến #G19/10#cfff263: #Gcầu phúc#cfff263 để lấy vật phẩm trong #Gbể hoa#cfff263 vào túi	ban cu ghi sai ngay (10 thang 11/19)
+GQHY_190723_89	#G22/9#cfff263 đến #G7/10#cfff263: đăng nhập mỗi ngày nhận #G2 Đồng Hoa Thiêm#cfff263.	
+GQHY_190723_90	#G22/9#cfff263 đến #G7/10#cfff263: online #G30 phút#cfff263 mỗi ngày nhận #G2 Ngân Hoa Thiêm#cfff263.	
+GQHY_190723_91	#G22/9#cfff263 đến #G7/10#cfff263: dự #GLộ Hoa Yến#cfff263/#GHí Long Túy Hoa Phong#cfff263: #G2 Kim Hoa Thiêm#cfff263	
+HYGX_150515_167	#cfff263Gặp #GNguyệt Lão#{_INFOAIM139,182,0,月老}#cfff263	giu #{_INFOAIM...}, bo "Lac Duong"
+INTERFACE_XML_748	Sau	向后刷新
+INTERFACE_XML_749	Trước	向前刷新
+INTERFACE_XML_750	Lên	向上 (36 px)
+INTERFACE_XML_752	Hạ	向下 (36 px)
+INTERFACE_XML_758	Hủy	销毁
+INTERFACE_XML_766	Sống tại chỗ	新手原地复活
+INTERFACE_XML_778	Sửa	修改
+INTERFACE_XML_781	Mô tả	修改描述
+INTERFACE_XML_812	D.sinh	养生法
+INTERFACE_XML_822	Dời	移动
+INTERFACE_XML_850	Sổ	帐本
+INTERFACE_XML_858	Thú	珍兽店
+INTERFACE_XML_865	Online	只查在线
+INTERFACE_XML_870	Làm	制造
+INTERFACE_XML_871	Làm	制作
+INTERFACE_XML_93	#gFF0FA0Giám định	资质鉴定
+INTERFACE_XML_923	Đơn đăng ký	申请列表
+INTERFACE_XML_932	AH	英雄 (35 px)
+INTERFACE_XML_933	HN	红颜 (35 px)
+INTERFACE_XML_934	KH	枭雄 (35 px)
+INTERFACE_XML_938	Tuần trước:	上周贡献度
+INTERFACE_XML_960	Đổi tính cách: 1 #GDưỡng Tính Đan	
+INTERFACE_XML_974	Khóa	锁定
+INTERFACE_XML_989	Tỉ lệ:	强化成功率
+INTERFACE_XML_GAIMING_2	#gFF0FA0Đổi tên bang	帮会改名
+INTERFACE_XML_GemCarve_5	Khắc	雕琢
+Interface_FangChenMi_txt1	Bấm để bổ sung	点此完善账号信息
+JBGXW_150526_138	Quy Nguyên	归元阵
+JBGXW_150526_139	Thiên Phúc	天覆阵
+JBGXW_150526_141	Phong Dương	风扬阵
+JBHL_190803_255	#cff0000Chưa có bạn đồng hành	当前尚未与他人结伴
+JBHL_190803_273	Bạn Quân	伴君阁
+JBHL_190803_59	#LĐồng hành: #M%s0	当前结伴
+JBHL_220120_03	Chọn quà	华阁选礼
+JBHL_220120_04	Sổ tay	江湖手记
+JBHL_220120_18	Chọn quà	选择礼物
+JBLC_150528_275	Thứ bậc	位次设置
+JBLC_150528_278	Rời	退出结拜
+JBLC_150528_295	Trận	启阵
+JCLY_160217_97	Mở tiến giai Ám khí	开启暗器进阶之法
+JDQL_230322_08	#gFF0FA0Biên ải	北境边关
+JDQL_230322_22	#gFF0FA0Trạm gác	北境哨所
+JDQL_230322_25	#gFF0FA0Cửa doanh	北境营门
+JDQL_230322_28	#gFF0FA0Trại Liêu	辽兵大营
+JDQL_230322_31	#gFF0FA0Trấn đài	都统将台
+JFLZ_180806_40	#c6a3906Châu Trả Ngọc	拾宝还珠
+JFMZ_200814_134	#c6a3906Phong Lộ Nồng (VV)	枫露浓（永久）
+JFMZ_200814_135	#c6a3906Hộp Long Phụng	枫露浓龙凤礼盒
+JFMZ_200814_140	Mua đồ	购买时装
+JFMZ_220728_09	#cfff263May mắn: #G%s0	当前幸运值
+JFZH_200721_24	#LNgắm lá	秋枫共赏
+JFZH_200721_37	#LNhã Dịch	秋枫雅弈
+JFZH_200721_66	#LThập Thú	枫林拾趣
+JHJN_XML_3	Kết hôn:	结婚日期
+JHSJC_190120_08	32→16	32进16
+JHSJC_190120_12	C.Kết	总决赛
+JJHC_160620_108	Sân vườn	庭院家具
+JJHC_160620_109	Phòng ở	居室家具
+JJHC_160620_115	#cfff263Sân vườn	庭院家具
+JJHC_160620_116	Phòng ở	居室家具
+JJHC_160620_119	Sân vườn	庭院家具
+JJHC_160620_120	Phòng ở	居室家具
+JJHC_160620_132	Sân vườn	庭院家具
+JJHC_160620_133	Phòng ở	居室家具
+JJJH_170302_11	#gFF0FA0Quyền gia cụ	家具权限设置
+JJJH_170302_12	#GKhách được dùng loại gia cụ:	允许客人互动的家具类别
+JJSD_160912_08	#gFF0FA0Nội thất sân vườn	庭院家具商店
+JJSD_160912_09	#gFF0FA0Nội thất phòng ở	居室家具商店
+JJXH_161122_12	#GOnline 30' hôm nay	本日累计在线30分钟
+JJXH_161122_13	#GOnline 1 giờ hôm nay	本日累计在线1小时
+JJXH_161122_14	#GOnline 2 giờ hôm nay	本日累计在线2小时
+JJXH_161122_18	#GNăng động:50/50	今日活跃值
+JJXH_161122_19	#GNăng động:150/150	今日活跃值
+JJXH_161122_20	#GNăng động:300/300	今日活跃值
+JJXH_161122_8	Băng tan	冰雪消融
+JKBS_081021_005	Nung	熔炼
+JKYL_251211_03	#cfff263Nhận mỗi ngày	每日即可领取
+JLQH_101026_03	#cfff263Nhóm	选择群
+JLQH_101026_04	#cfff263OK	允许 (44 px)
+JMQH_230829_36	Đã dùng	已使用
+JMWH_251017_155	Rời trận	离开战场
+JNKJL_121213_01	#cfff263Thanh phím tắt trên	上方新快捷栏
+JNLQ_141103_02	#cfff263Hiện hồi chiêu	显示技能冷却时间
+JQGFC_220115_18	#cfff263Trước	上一页
+JQGFC_220115_19	#cfff263Sau	下一页
+JRHD_170705_03	Tham gia	参加活动
+JRJL_170207_1	Phúc lợi	节日福利
+JSCJYH_121224_02	Bấm để ngẫu nhiên tóc, mặt và trang phục.	
+JSXL_230224_27	#cfff263Phụng lễ	金丝馈礼
+JSXL_230224_5	#cfff263Dâng lễ	金丝献礼
+JTFK_1117_06	#cfff263Đặt trang bị cần phục khắc vào	
+JTFK_1117_07	#gFF0FA1Chọn Tinh Thông muốn phục khắc	
+JTFK_1117_08	#gFF0FA1Chọn Tinh Thông muốn thay thế	
+JTFK_1117_13	Sao	复刻 (40 px)
+JWSD_140821_10	Bảo Trai	战功宝斋
+JWSD_140821_11	T.Phường	元宝商坊
+JXCZ_190213_10	#gFF0FA0Đúc lại trang bị thủ công 9 sao	
+JXCZ_190213_34	Lên	升级
+JXJW_140922_34	#cfff263Điều kiện quân hàm	军衔达成条件
+JXPVP_170814_09	T.Thiên 1	一重天
+JXPVP_170814_10	T.Thiên 2	二重天
+JXPVP_170814_11	T.Thiên 3	三重天
+JXPVP_170814_12	T.Thiên 4	四重天
+JXPVP_170814_13	T.Thiên 5	五重天
+JXPVP_170814_14	T.Thiên 6	六重天
+JXPVP_170814_15	T.Thiên 7	七重天
+JXPVP_170814_16	T.Thiên 8	八重天
+JXPVP_170814_17	Ngũ Phương	五方境
+JXPVP_170814_110	#gFF0FA0Nhất Nguyên	一元境
+JXPVP_170814_215	#c4a2c00Thạch	五方神石 (18pt, 100 px)
+JXPVP_170814_30	Vào cảnh	进入五方境
+JXPVP_170814_80	#cfff263N.Nguyên	一元境 (13pt)
+JXPVP_170814_81	#cfff263Nhị Khí	二气境
+JXPVP_170814_82	#cfff263T.Thanh	三清境
+JXPVP_170814_83	#cfff263Tứ Thần	四神境
+JXPVP_170814_84	#cfff263Ngũ Đế	五帝境
+JXSQ_170804_102	#cfff263Mệnh Hồn: #G%s0	拥有命魂玉
+JXSQ_170804_103	#cfff263Địa Hồn: #G%s0	拥有地魂玉
+JXSQ_170804_104	#cfff263Thiên Hồn: #G%s0	拥有天魂玉
+JXSQ_170804_15	Mở	开蒙
+JXSQ_170804_35	#cfff263Nguyên liệu cần:	所需材料数量
+JXSQ_170804_36	#cfff263NL dục linh:	育灵所需材料
+JXSQ_170804_37	Dục	育灵 (40 px)
+JXSQ_170804_52	#cfff263Đặt thần khí vào	请放入需要铸魂的神器
+JXSQ_170804_66	#cfff263Cần trang bị Thần Khí đã khai mông	
+JXSQ_170829_277	Gỡ	解蒙
+JYGZ_160523_110	#cfff263Nội thất phòng:#W%s0/%s1	居室放置家具
+JYGZ_160523_112	#cfff263Thoải mái sân vườn:#W%s0	庭院舒适度
+JYGZ_160523_113	#cfff263Nội thất vườn:#W%s0/%s1	庭院放置家具
+JYGZ_160523_159	#cfff263Thực phẩm: #W%s0	庄园食材
+JYGZ_160523_161	#cfff263Đá xây dựng: #W%s0	庄园石料
+JYGZ_160523_48	#cfff263Gỗ: #W%s0	庄园木材
+JYGZ_160523_50	#cfff263Thực phẩm: #W%s0	庄园食材
+JYGZ_160523_52	#cfff263Đá: #W%s0	庄园石料
+JYGZ_160613_223	Mời rời	请离庄园
+JYGZ_160707_232	Trước	上一页
+JYGZ_160707_233	Sau	下一页
+JYGZ_160707_235	Chọn hết	全部选中
+JYGZ_160809_282	Tài nguyên	资材获得
+JYGZ_160809_283	Kiến trúc	庄园建筑
+JYGZ_160809_284	Phúc lợi	庄园福利
+JYGZ_160809_285	Nội thất	家具玩法
+JYGZ_160809_427	Bỏ hết	全部取消
+JYGZ_160809_454	Làm vườn	园丁信息
+JYGZ_160809_455	#cfff263Làm vườn	庄园园丁
+JYGZ_160809_456	#cfff263Thuê người	雇佣园丁
+JYGZ_160809_462	Vườn	庄园 (50 px)
+JYGZ_160809_463	Kho	仓库
+JYGZ_160809_464	Ươm	苗圃
+JYGZ_160809_466	Hồ	荷塘
+JYGZ_160809_467	Thú	灵兽坊
+JYGZ_160809_468	Trạng thái	建筑状态
+JYGZ_160809_469	Giới thiệu	建筑介绍
+JYGZ_171114_01	Thú cưng	庄园萌宠
+JYHZ_170824_16	Đổi kiểu	更换风格
+JYHZ_170824_65	#gFF0FA0Bật phong cách	激活庄园风格
+JYHZ_170824_74	#cfff263Thời hạn:	激活后有效期
+JYSL_160518_131	#gFF0FA0Ngân hàng thú	珍兽银行列表
+JYSL_160518_166	Dừng HL	结束训练
+JYSL_160518_168	Dừng	结束延寿
+JYSL_160518_170	Lấy thú	取出珍兽
+JYSL_160518_95	#cfff263Chọn bậc:	请选择训练档次
+JYYC_160622_142	Thường	普通种植
+JYYC_160622_143	Cao cấp	精品种植
+JYYC_160622_303	#cfff263Trồng	精品种植确认
+JYYC_160622_31	Trồng	开始种植
+JYYH_160520_22	Xếp	整理
+JYZSWS_111230_08	#cfff263Nhập số seri Thẻ Võ Thánh Du Cửu:	
+JZFUR_061101_3	#cfff263Loại	家具类型
+JZFUR_061101_4	#cfff263Hạng	家具档次
+JZGSH_210222_12	Kết thúc 24h Chủ nhật.	本周日24时结束挑战
+JZGSH_210222_136	#YVượt thủ quan	通关守关人
+JZGSH_210222_51	#LChờ đội chọn...	等待队员选择
+JZJL_140816_16	C.Nguyên	乾元
+JZJL_140816_26	#cfff263Song Cực	双极雕纹
+JZSHYH_140214_24	Reset	重置 (50 px)
+JZSHYH_140214_78	Trước	前一页
+JZSHYH_140214_79	Sau	后一页
+JZZH_211125_47	#Y#G%s0#Y Kim Câu	拥有金铢
+KJPB_0913_01	Tắt gợi ý phím tắt	关闭快捷栏提示
+KJYH_221116_65	#cfff263Câu tiếp	下一题
+KJYH_221116_67	#cfff263Nhận lễ	领取贺礼
+KPWFS_131112_60	Dời	转移
+KPWFS_131112_73	Học	研习
+KVKBH_140124_16	#cfff263Trước	上一页
+KVKBH_140124_17	#cfff263Sau	下一页
+KVKBH_140124_23	#cfff262Chiến	发起宣战
+KVKGZ_110620_133	Cổ Cảnh	切换至古境
+KVKGZ_110620_135	T.Ngoại	天外搜索
+KVKGZ_110620_136	Server	本服搜索
+KWLZ_151013_5	Truyền	传送
+KXYH_170608_51	#cfff263Chọn kỹ năng cần nâng	
+LDSD_200805_30	Đúc tệ: %s0	中都铸币
+LDSD_200805_34	Mua sỉ	批量购买
+LDSD_200805_39	Max	最大
+LDSD_200805_85	#cfff263Đúc tệ:	中都铸币
+LJDL_170823_02	Đăng nhập	累计登陆
+LJDL_170823_03	Lễ Xuân	迎春好礼
+LJDL_170823_14	#cfff263Cần #G5#cfff263 Nghênh Xuân	需要5个迎春
+LJDL_170823_15	#cfff263Cần #G10#cfff263 Nghênh Xuân	
+LJDL_170823_16	#cfff263Cần #G14#cfff263 Nghênh Xuân	
+LJDL_170823_17	#cfff263Cần #G21#cfff263 Nghênh Xuân	
+LLGZ_260330_36	#cfff263Chi tiết đội	查看战队详情
+LLGZ_260330_61	#cfff263Chi tiết đội	查看战队详情
+LLGZ_260330_39	#cfff263Thành viên: #G%s0/6	战队人数
+LLGZ_260330_45	#cfff263Chat riêng	设为私聊
+LLGZ_260330_46	#cfff263Bỏ phiếu	我要投票
+LLGZ_260330_69	#cfff263Tổ A	A组
+LLGZ_260330_70	#cfff263Tổ B	B组
+LLGZ_260330_71	#cfff263Tổ C	C组
+LLGZ_260330_72	#cfff263Tổ D	D组
+LLKC_240517_129	#cfff263BXH	排行榜
+LMLH_180123_07	Nhận biến dị cấp 8	领取8级变异外观
+LPZDSX_161107_3	#GTự động	自动升星
+LPZDSX_161107_4	#GDừng	终止升星
+LTBS_230508_01	#cfff263Danh	盛名
+LTBS_230508_14	#cfff263Chưa bật	未激活
+LTFP_XML_1	#gFF0FA0Chia màn hình	分屏显示设置
+LTFP_XML_2	Tắt chia màn	关闭分屏显示
+LTQH_XML_100	Ẩn/hiện	显示/隐藏心情
+LTQH_XML_16	Cài đặt	设置
+LTQH_XML_42	Xuất	导出
+LTQH_XML_44	Cơ bản	基本设置
+LTQH_XML_45	Nhóm	分组设置
+LTQH_XML_47	Chặn mọi thư	拒绝所有信件
+LTQH_XML_48	Chặn kết bạn	拒绝加我好友
+LTQH_XML_50	Chặn mọi tin nhắn	拒绝所有聊天消息
+LWDJ_170921_35	#GNhanh	快捷提升
+LW_KVK_XML_21	Giảm kháng Băng	降低目标冰抗性下限
+LW_KVK_XML_22	Giảm kháng Huyền	降低目标玄抗性下限
+LW_KVK_XML_23	Giảm kháng Hỏa	降低目标火抗性下限
+LW_KVK_XML_24	Giảm kháng Độc	降低目标毒抗性下限
+LW_KVK_XML_52	Tấn công Băng	冰属性攻击
+LW_KVK_XML_53	Tấn công Huyền	玄属性攻击
+LW_KVK_XML_54	Tấn công Hỏa	火属性攻击
+LW_KVK_XML_55	Tấn công Độc	毒属性攻击
+LYDL_150327_11	Liên kết CY+	绑定畅游+
+LYDL_150327_7	#cfff263Xác thực CY+	畅游+安全验证
+LYDL_150327_8	Kiểm	验证
+LZWZ_120117_204	#cfff263K.Phong	乔峰归来
+LZWZ_120117_205	#cfff263Tiên Nhân	仙人指路
+LZWZ_120117_206	#cfff263Dự Thử	准正式版
+LZWZ_120117_207	#cfff263Chúc Tết	贺岁版
+LZWZ_120117_208	#cfff263Sa Mạc	沙漠迷城
+LZWZ_120117_209	#cfff263C.Thần	战神版
+LZWZ_120117_210	#cfff263T.Hoàng	秦皇地宫
+LZWZ_120117_212	#cfff263Võ Vương	功夫之王
+LZWZ_120117_213	#cfff263Q.Chiến	大决战
+LZWZ_120117_214	#cfff263Ảnh Tử	影子传说
+LZWZ_120117_215	#cfff263Côn Lôn	笑傲昆仑
+LZWZ_120117_216	#cfff263C.Thức	正式版
+LZWZ_120117_217	#cfff263Bách Lạc	新春百乐汇
+LZWZ_120117_218	#cfff263Kiếm Ảnh	剑影侠情
+LZWZ_120117_219	#cfff263Mộ Dung	慕容世家
+LZWZ_120117_220	#cfff263Thiên Cơ	天机奇缘
+LZWZ_120117_221	#cfff263Nhạn Môn	血战雁门关
+LZWZ_120117_222	#cfff263Bão Tuyết	暴雪狂欢节
+LZWZ_120117_223	#cfff263Phi Long	飞龙在天
+LZWZ_120117_224	#cfff263Hè Ưu Đãi	给利一夏
+LZWZ_120117_225	#cfff263T.Ngoại	天外江湖
+LZWZ_120117_226	#cfff263Tuyết Vũ	雪舞燃情
+LZWZ_120117_227	#cfff263L.Thăng	龙腾盛世
+LZWZ_160223_054	#c999999L.Chiến	龙战九天
+LZWZ_160223_055	#c999999Liệp Mệnh	猎命江湖
+LZWZ_160223_056	#c999999Thần Binh	神兵海域
+LZWZ_160223_057	#c999999Linh Thú	天降灵兽
+LZWZ_160223_058	#c999999Võ Lâm	武林派对
+LZWZ_160223_059	#c999999N.Chiêu	天下第一招
+LZWZ_160223_060	#c999999N.Lôi	天下第一擂
+LZWZ_160223_061	#c999999Đ.Môn	绝世唐门
+LZWZ_160223_063	#c999999C.Chiến	狂战天下
+LZWZ_160223_064	#c999999H.Lệnh	号令天下
+LZWZ_160223_065	#c999999Hùng Bá	雄霸天下
+LZWZ_160223_066	#c999999Duyên Tụ	缘聚天下
+LZWZ_160223_067	#c999999Tình Mãn	情满江湖
+LZWZ_160223_068	#c999999Tứ Hải	纵情四海
+LZWZ_160223_069	#c999999Quân Lâm	君临天下
+LZWZ_160223_070	#c999999K.Thưởng	犒赏群雄
+LZWZ_160223_088	#cfff263L.Chiến	龙战九天
+LZWZ_160223_089	#cfff263Liệp Mệnh	猎命江湖
+LZWZ_160223_090	#cfff263Thần Binh	神兵海域
+LZWZ_160223_091	#cfff263Linh Thú	天降灵兽
+LZWZ_160223_092	#cfff263Võ Lâm	武林派对
+LZWZ_160223_093	#cfff263N.Chiêu	天下第一招
+LZWZ_160223_094	#cfff263N.Lôi	天下第一擂
+LZWZ_160223_095	#cfff263Đ.Môn	绝世唐门
+LZWZ_160223_096	#cfff263C.Chiến	狂战天下
+LZWZ_160223_097	#cfff263H.Lệnh	号令天下
+JYGZ_160523_47	#e000001#WLên cấp còn: #G%s0	升级倒计时
+ZBS_ZJS_120331_01	#gFF0FA0Điểm xem	观看点选择
+DFSZ_190613_122	#gFF0FA0Điểm xem	观看点选择
+GS_130923_16	#gFF0FA0Lịch sử	聊天记录
+GS_130923_17	#gFF0FA0Đ.giá	服务评价
+INTERFACE_XML_5	#e010101#YThú	珍兽 (35 px)
+INTERFACE_XML_7	#e010101#YTT	资料 (35 px)
+JPYD_130415_11	#gFF0FA0Di chuyển	移动方式设置
+XSJNH_230209_15	#gFF0FA0May mắn	江湖幸运星
+AQSJ_XML_090709_25	#gFF0FA0Rèn châm	锻造冰魄神针
+BHCR_xml_XX(06)	#gFF0FA0Kế vị 1	第一继承人
+BHZB_140521_40	#gFF0FA0Lệnh bài	令牌装备升阶
+BWDH_241114_181	#gFF0FA0Thông tin đội	查看战队信息
+BZTX_250811_29	#gFF0FA0C.huân	功勋榜 (ban cu vo markup)
+CMCL_210713_53	#gFF0FA0Đổi tên lãnh địa	帮会领地改名
+DFSZ_190613_81	#gFF0FA0Chi tiết đội	查看战队详情
+ETJHD_180503_243	#gFF0FA0Top 2-10	今日第2名至第10名
+FHCL_240708_381	#gFF0FA0Lăng mộ	凤凰陵墓
+FHCL_240708_410	#gFF0FA0Chiến Hồn	镇陵战魂状态
+FJYX_110426_22	#gFF0FA0Gửi Truyền Thư	发送飞雕传书
+FZCX_90627_7	#gFF0FA0Sinh sản trước	查询上次繁殖等级
+HBZHC_210923_6	#gFF0FA0Băng Châu cấp 2	魂冰珠（2级）
+HBZHC_210923_7	#gFF0FA0Băng Châu cấp 3	魂冰珠（3级）
+HBZHC_210923_8	#gFF0FA0Băng Châu cấp 4	魂冰珠（4级）
+HBZHC_210923_9	#gFF0FA0Băng Châu cấp 5	魂冰珠（5级）
+HJZY_220520_5	#gFF0FA0Chuyển HƯ nhẫn	婚戒特效转移
+INTERFACE_XML_1169	#b#cFF0000#effffffThư	玩家邮件
+INTERFACE_XML_1182	#gFF0FA0Báo giá	商品报价
+INTERFACE_XML_38	#gFF0FA0Thương tuyến	建立商线帮会
+INTERFACE_XML_54	#gFF0FA0Thương lộ	设置商业线路
+INTERFACE_XML_56	#gFF0FA0Xin lãnh địa	申请城市领地
+INTERFACE_XML_64	#gFF0FA0Nâng ngộ tính	提升珍兽悟性
+INTERFACE_XML_9	#e010101Tào Vận	漕运市场
+INTERFACE_XML_90	#gFF0FA0Chức	职位
+JBJZ_090407_11	#gFF0FA0Đổi giao tử	金币兑换交子
+JFHD_180803_34	#gFF0FA0Cược!	请押注！
+JLQX_211206_19	#gFF0FA0Tầng 2	秦皇地宫二层
+JLQX_211206_25	#gFF0FA0Tầng 3	秦皇地宫三层
+JLQX_211206_33	#gFF0FA0Tầng 4	秦皇地宫四层
+JLQX_211206_7	#gFF0FA0Tầng 1	秦皇地宫一层
+JYSL_160518_130	#gFF0FA0Thú mang theo	随身携带的珍兽
+JYTX_090302_10	#gFF0FA0Ký lục	操作记录
+LZWZ_160223_098	#cfff263Hùng Bá	雄霸天下
+LZWZ_160223_099	#cfff263Duyên Tụ	缘聚天下
+LZWZ_160223_100	#cfff263Tình Mãn	情满江湖
+LZWZ_160223_101	#cfff263Tứ Hải	纵情四海
+LZWZ_160223_102	#cfff263Quân Lâm	君临天下
+LZWZ_170210_121	Khung	装帧
+LZWZ_170213_142	#cfff263Càn Khôn	袖里乾坤
+LZWZ_170213_143	#cfff263Trục Lộc	群雄逐鹿
+LZWZ_170213_144	#cfff263Quỷ Cốc	鬼谷奇谋
+LZWZ_170213_145	#cfff263Tỷ võ	比武招亲
+LZZHD_130520_38	#cfff263Cách dùng Tạo Hóa Đan:	请选择造化丹的使用方法
+LZZHD_130520_39	#cfff263Tốn #G%s0#cfff263 giao tử, nhận KN: #G%s1	
+LZZZ_150526_46	Bánh thường	普通粽子
+LZZZ_150526_48	Bánh tinh	精品粽子
+LZZZ_150526_49	Bánh đặc	特级粽子
+LZZZ_150526_62	Gói bánh	包粽子
+MCFZ_20170807_104	Dừng	终止美容
+MCFZ_20170807_23	#gFF0FA0Nhân giống đơn	单人繁殖萌宠
+MCFZ_20170807_90	Tự động	自动美容
+MCFZ_20170807_92	T.điểm	美容
+MCFZ_20170829_121	#cfff263Nguyên liệu làm đẹp:	美容所需材料
+MCJC_170727_105	#cfff263Yếu	虚弱 (40 px)
+MCJC_170727_120	#cfff263KN trưởng thành:	成长经验值
+MCJC_170727_135	#cfff263Biệt danh	萌宠昵称
+MCJC_170727_136	Đổi tên	修改昵称
+MCJC_170727_141	Quý	奇珍宠
+MCJC_170727_15	Bé	幼年 (40 px 15pt)
+MCJC_170727_30	Về kho	收回仓库
+MCJC_170727_49	Xem	预览
+MCJC_170727_61	Gọi	召出
+MCJC_170727_65	Thả	放生
+MCJC_170727_69	Cất	存放
+MCJC_170727_74	#cfff263Đặt thú cưng cần cất:	请放入需要存放的萌宠
+MDJH_140303_08	#gFF0FA0Nhận Thanh Danh	领取声名显赫奖
+MDJH_221102_01	L.Đằng	龙腾榜 (60 px)
+MDJH_221102_02	P.Vũ	凤舞榜
+MDJH_221102_03	Hổ Cứ	虎踞榜
+MDJH_250530_10	Đai T.Lâu	真·重楼带
+MGCQ_151230_136	Lồng L.Mãng	娲皇龙蟒珍兽笼
+MGCQ_211130_01	#gFF0FA0Hoa Hồng	玫瑰传情榜
+MGCQ_211130_02	#gFF0FA0Đổi quà	奖励兑换
+MGCQ_211130_03	#gFF0FA0Tích lũy	累计奖励
+MGCQ_211130_32	#gFF0FA0Si Tình	痴情玉
+MGCQ_211130_33	#gFF0FA0Tình Kết	情人结
+MGCQ_211130_69	#cfff263Đã tặng	送花数量
+MGCQ_211130_72	#cfff263Đã nhận	收花数量
+MGCQ_211130_81	#gFF0FA0Ba Kiếp	三生挚恋榜
+MGCQ_211130_82	#gFF0FA0Diệu Thế	耀世传情榜
+MGCQ_211130_83	#gFF0FA0Sủng Ái	万千宠爱榜
+MGCQ_241219_14	#gFF0FA0Duyên Kết	情缘结
+MHSD_181126_101	Mua NB	元宝购买
+MHSD_181126_102	Giảm giá	折扣购买
+MHSD_181126_136	#M%s0#L NB	元宝
+MHSD_181126_56	#cfff263Kim Châu: #G%s0	拥有金铢
+MHSD_181126_58	#cfff263N.tiêu: #G%s0	拥有元宵
+MHZD_190501_111	#LĐấu giá xong, chờ Hoa Đường Cạnh Bảo công bố kết quả.	
+MHZD_190501_113	#LCòn trống	虚位以待
+MHZD_190501_124	#L#uLịch#n	竞宝日程
+MHZD_190501_15	#LGiá khởi	竞拍底价
+MHZD_190501_18	#LChưa nhận hàng đấu giá trước thì không thể đấu giá mới.	
+MHZD_190501_19	#LHoàn	流拍玉钱
+MHZD_190501_22	#LChưa lấy lại Ngọc Tiền hoàn trả thì không thể đấu giá mới.	
+MHZD_190501_23	#LMax	最高竞价
+MHZD_190501_24	#LNgười	出价人
+MHZD_190501_26	#LĐã đặt	已出底价
+MHZD_190501_27	#LThêm	加价玉钱
+MHZD_190501_88	#LGiá hiện	当前出价
+MHZD_190501_90	#LHết đấu giá hôm nay, tiền người không trúng sẽ hoàn lại.	
+MHZD_190501_91	#LĐấu giá đã kết thúc.	竞拍已全部结束
+MJDH_210511_05	#cfff263Mảnh Thần	神品秘技残页
+MJDH_210511_06	#cfff263Mảnh Trân	珍品秘技残页
+MJDH_210511_09	#cfff263Mảnh Trân: %s0	珍品秘技残页
+MJDH_210511_10	#cfff263Đổi nhiều	批量兑换
+MJDH_210511_22	#cfff263Max	最大
+MJDH_210511_33	#cfff263Trước	前一页
+MJDH_210511_34	#cfff263Sau	后一页
+MPYR_210830_150	Max	最大
+MPZH_180719_93	Chuyển môn phái	我要进行门派转换
+MRQD_210708_110	#LNhận	领取
+MSSD_180529_22	#cfff263Danh vọng: %s0	名仕点
+MYQD_150513_06	Đã ký	已签到
+MYQD_150513_09	#GHôm nay	今日签到
+MYQD_150513_24	5 lần/tháng	本月签到5次
+MYQD_150513_25	10 lần/tháng	本月签到10次
+MYQD_150513_26	15 lần/tháng	本月签到15次
+MYQD_150513_27	20 lần/tháng	本月签到20次
+MYQD_150513_35	25 lần/tháng	本月签到25次
+MYQD_150513_34	Bù ký	补签
+MZXB_200609_100	#LXem trước màu nhuộm	染色风格预览
+MZXB_200609_153	#Mx1	1件 (36 px)
+MZXB_200609_79	Xem	预览
+MZXB_200609_84	Đổi hết	批量兑换
+MZXB_200609_89	#LSL:	数量
+NDSD_20230510_11	#cfff263Hộ Thể	护体元丹
+NDSD_20230510_17	Tinh phẩm: #G%s0	精品元液
+NDSD_20230510_18	Trân phẩm: #G%s0	珍品元液
+NDSD_20230510_19	Thần phẩm: #G%s0	神品元液
+NDSD_20230510_40	#cfff263Tinh	精品元丹
+NDSD_20230510_42	#cfff263Trân	珍品元丹
+NDSD_20230510_44	#cfff263Thần	神品元丹
+NDSD_20230510_46	#cfff263Chế thắng	制胜元丹
+NDSD_20230510_48	#cfff263Cẩm Khố	灵元锦库
+NDSD_20230510_63	#cfff263Cần Thần Phẩm:	需要神品元液
+NDSD_20230510_64	#cfff263Có Thần Phẩm:	拥有神品元液
+NDSD_20230510_65	#cfff263Cần Trân Phẩm:	需要珍品元液
+NDSD_20230510_66	#cfff263Có Trân Phẩm:	拥有珍品元液
+NDSD_20230510_67	#cfff263Cần Tinh Phẩm:	需要精品元液
+NDSD_20230510_68	#cfff263Có Tinh Phẩm:	拥有精品元液
+NDSD_20230510_9	#cfff263Tăng Ích	增益元丹
+NGGZ_230511_2	Tự đánh	自动战斗中
+NJBZ_220816_114	#cfff263Thay thuộc tính	替换属性
+NJBZ_220816_115	#cfff263Thần Sa:	需要辰砂
+NJBZ_220816_129	#cfff263Tinh Thạch:	当前星石
+NJBZ_220816_130	#cfff263Đặt Tinh Thạch:	请放入星石
+NJBZ_220816_308	#cfff263Đặt Tinh Thạch:	请放入星石
+NJBZ_220816_293	#cfff263Hợp	合成
+NJBZ_220816_300	#cfff263Nhận được:	合成后获得
+NJBZ_220816_310	#cfff263Phân giải được:	拆解后获得
+NJBZ_220816_35	#cfff263Đã đạt cực phẩm	星阵已达极品
+NJBZ_220816_68	#cfff263Đã đạt cực phẩm	星阵已达极品
+NJBZ_220816_373	Vào	入阵
+NJBZ_220816_445	#cfff263Phẩm: Cực phẩm	品质：极品
+NJBZ_220816_90	#cfff263Lần chắc chắn thành công còn: #G%s0#cfff263	
+NJBZ_220816_91	#cfff263Đủ 9 sao	星阵已达9星
+NJBZ_220816_95	#cfff263Tỷ lệ: #G%s0	升星成功率
+NJBZ_230703_06	#cfff263Diệu Tinh:	请放入曜星
+NJBZ_230703_07	#cfff263Nhận được:	拆解后获得
+PKPK_20251021_21	#cfff263Cấp cao nhất lịch sử:	历史最高角色等级
+PKPK_20251021_9	#cfff263Tìm	找回
+PTFB_191228_120	#LTầng cao nhất:	历史最高层数
+PTFB_191228_169	#cfff263Tầng đã qua	通关层数
+PTFB_191228_175	#cfff263Điểm	装备评分
+PTFB_191228_211	#LChờ đội chọn...	等待队员选择
+PTFB_191228_212	#LChờ người khác...	等待其他队员选择
+PTFB_191228_229	#cfff263Thưởng tuần còn: #G%s0/3	本周剩余奖励次数
+PTFB_191228_283	Tuần	周结算奖励
+PTFB_191228_284	Hằng ngày	周常奖励
+PTFB_191228_41	#LChọn tầng:	请选择层数
+PTFB_191228_439	#cfff263Điều kiện qua	通关条件
+PTLS_200902_113	#LThưởng hoa: #M%s0/%s1	赏花次数
+QCZJ_220425_10	#cffe1b8Điểm thưởng:	对应仪赏值
+QFGS_180807_50	#LHọa Quyển: %s0	拥有山河绘卷
+QHNF_190429_108	#LMua đến 24h ngày 27/6	购买时间至6月27日24时
+QHNF_190429_74	Hết	售罄
+QKH_20220802_07	#cfff263Cơ bản	基础设置
+QLGCJ_180810_108	#cfff263: #G%s0	：%s0根
+QLGCJ_180810_94	#cfff263: #G%s0#cfff263đ	：%s0点
+QLGCJ_180810_95	#gFF0FA0Nhận Hành Động Lực	行动力获取情况
+QLGCJ_190801_05	#cfff263Chưa thu hôm nay	今日尚未收集月华
+QLGCJ_190801_06	#cfff263Nguyệt Hoa:	今日月华
+QLSX_170620_12	#c1f941e#uXem thơ hạ#n	鉴赏清凉盛夏消暑诗
+QLSX_170620_14	Nhận Đào Hồng	领取桃红柳绿奖
+QLSX_170620_16	Nhận Yến Ngữ	领取燕语莺啼奖
+QLSX_170620_21	Năng động: %s0/50	本日活跃值
+QLSX_170620_22	Năng động: %s0/150	本日活跃值
+QLSX_170620_23	Năng động: %s0/300	本日活跃值
+QLSX_170620_24	Online 30' hôm nay	本日累计在线30分钟
+QLSX_170620_25	Online 1 giờ hôm nay	本日累计在线1小时
+QLSX_170620_26	Online 2 giờ hôm nay	本日累计在线2小时
+QMCJ_190310_40	#cfff263Tốn #G1#cfff263 giỏ	消耗1个花篮
+QMCJ_190310_50	#cfff263Tốn #G1#cfff263 giỏ	消耗1个花篮
+QMCJ_190310_58	Cẩm Linh:	拥有锦灵珠
+QQFW_190620_107	Nhận thư	领取溪娘信
+QQFW_190620_12	Thất Xảo Đình	前往七巧庭
+QQFW_190620_72	Kéo nữa	再拉一下
+QRJJN_221118_23	#LTâm nguyện đã đạt: #M%s0	当前心愿达成次数
+QRJJN_221118_60	#LChưa mở khóa	当前心愿未解锁
+QRPHB_150113_186	#cfff263Đổi Tơ Vàng Lời Ngọt:	痴情玉兑换蜜语金丝
+QXFB_260529_360	#cfff263Màn này còn:	当前关卡剩余时间
+QXFXG_260703_5	#cfff263T.Linh Đan	天灵丹
+QXF_260623_176	#cfff263Chân nguyên	真元成长
+QXF_260623_182	#cfff263Phiêu Miểu	大缥缈峰
+QXHF_190620_150	#LTham gia	参与活动
+QXLS_150724_136	Lồng U.Ương	同心鸳鸯珍兽笼
+QXLS_150724_137	Lồng Yêu Hổ	九黎妖虎珍兽笼
+QXLS_150724_138	Lồng L.Mãng	娲皇龙蟒珍兽笼
+QXLS_220517_01	#cfff263Duyên	缘定今生
+QXLS_220517_02	#cfff263Đổi quà	奖励兑换
+QXLS_220517_03	#cfff263Tích lũy	累计奖励
+QXLS_220517_04	#cfff263Kiếp Này	今生挚恋榜
+QXLS_220517_05	#cfff263K.Trước	前世仙缘榜
+QXLS_220517_06	#cfff263Thuần Ái	七夕纯爱榜
+QXLS_220517_09	#cfff263Đã tặng	送花数量
+QXLS_220517_16	#cfff263Đã nhận	收花数量
+QXLS_220517_38	#cfff263Đồng Tâm	同心结
+QXLS_220517_39	#cfff263Định Tình	定情玉
+QXSD_190615_30	#LTìm Bảo	觅惠坊
+QXSD_190615_31	#LBáu Vật	觅珍坊
+QXSD_190615_51	Tìm báu	金玉环觅宝
+QXSD_220613_41	NB tìm	元宝觅宝
+QXZH_200708_34	#LHoa Phục	华服嘉姻
+QXZH_200708_35	#LÔ Thước	鹊桥相会
+QXZH_200708_36	#LHoa thắm	花好情浓
+QXZH_250528_10	Truy duyên	溯缘进度
+QXZH_250528_139	Max	最大
+QYGN_161130_159	Tắt luôn	狠心地关闭
+QYGN_161130_160	Nghĩ thêm	我再考虑下
+QYXF_230629_2	#LMặc Nhiễm U Hoàng	墨染幽篁（30天）
+QYXF_230629_3	#LHộp Mặc Nhiễm	墨染幽篁礼盒
+QYXF_230629_4	Miễn phí	免费领取
+QZN_180322_178	Đổ trái	倒入左边
+QZN_180322_180	Đổ phải	倒入右边
+QZN_180322_214	#cff0000Đổ thuốc súng qua lại giữa hai thùng để đạt yêu cầu.	
+RACL_181206_549	Nhận đồ	领取时装
+RACL_181206_559	#LHộp Long Phụng	龙凤遥相倚礼盒
+RCLS_200731_158	#gff0fa0Xem trước thưởng Bảo Hạp	珠罗宝匣奖励预览
+RCLS_200731_46	#cfff263#GLinh Sương#cfff263: #G%s0	拥有银灵霜
+RCTX_150129_03	#cfff263Ghi chú	查看备忘
+RCTX_150129_05	#cfff263Thêm ghi chú	添加备忘录
+RCYH_180606_118	Phồn thịnh:	商业指数
+RGPT_231130_217	Phân phối	确认分配
+RGPT_231130_470	Nhanh	一键分配
+RGPT_231130_472	Đặt lại	分配重置
+RHSYH_161104_03	#cfff263Hợp thành	润魂石合成
+RHSYH_161104_05	#cfff263Chọn Nhuận Hồn	请选择要合成的润魂石
+RHZY_190429_20	#LChân Nghĩa trị: #M%s0	当前拥有真义值
+RHZY_190429_36	#cfff263Đủ điều kiện sau: giảm Chân Nghĩa trị cần:	
+RHZY_190429_7	#cfff263Chọn Quà Chân Nguyên Thụy Hạc muốn đổi:	
+RLXZ_241106_7	#cff0000Chưa bật	尚未激活
+RLXZ_241106_8	#GVĩnh viễn	永久激活
+RLYZ_20240516_11	#GĐã kiểm	已认证
+RLYZ_20240516_13	#cfff263Giới: %s0	性别
+RLYZ_20240516_16	#cfff263Xác thực	前往认证
+RXCFK_XML_3	Nhập số thẻ VIP Thụy Tinh vào ô dưới:	
+RXZS_090804_34	Gốc	还原 (40 px)
+RXZS_090804_49	#cfff263Thú cần hoàn nguyên:	需要还原外观的珍兽
+RXZS_XML_14	Hóa	幻化
+RXZS_XML_20	#cfff263Tỉ lệ:	提升成功几率
+RXZS_XML_22	Lên	提升
+SCBHPM_20220815_05	Đấu giá	帮会拍卖
+SCBHPM_20220815_128	T.Thạch	星石
+SCBHPM_20220815_129	#cfff263Xem	关注
+SCBHPM_20220815_144	D.Thạch	曜石
+SCBHPM_20220815_166	#cfff263Bán	上架
+SCBHPM_20220815_180	#cfff263Giữ	保留
+SCBHPM_20220815_221	#cfff263Của ta	我的上架
+SCBHPM_20220815_30	#cfff263Bắt đầu 21:40 thứ 7	竞拍将于周六21:40开始
+SCBHPM_20220815_31	Trước	上页
+SCBHPM_20220815_33	Sau	下页
+SCBHPM_20220815_34	Tải	刷新
+SCGZ_180816_61	#cfff263(chờ xác định)	文字内容待定
+SCGZ_180816_88	#c6a3906Rời cảnh sau %s0 giây	
+SCGZ_xml_02	Tiêu hủy	我想销毁
+SCGZ_xml_03	Không	取消销毁
+SCJMY_150325_19	#GĐã đạt thưởng giới hạn	限时礼馈奖励已达成
+SCJMY_150325_20	#cff0000Quá hạn, chưa đạt	限时礼馈超时未达成
+SDCJ_231026_47	#cfff263Tốn 3 Ngọc Tiễn	消耗三个金玉剪
+SDJF_260113_06	#cfff263Quét PB	副本扫荡
+SDJF_260113_07	#cfff263Quét HĐ	活动扫荡
+SDJF_260113_10	#cfff263Cấp:	参与等级
+SDJF_260113_11	#cfff263Điểm có	拥有点数
+SDJF_260113_12	#cfff263Mỗi lần	单次消耗
+SDJF_260113_13	#cfff263Càn quét còn	剩余扫荡次数
+SDJF_260113_14	#cfff263Trạng thái	扫荡状态
+SDJF_260113_25	#cfff263Quét HĐ: #Gmở đến %s1/%s0	活动扫荡权限
+SDSD_150514_10	Trước	前一页
+SDSD_150514_11	Sau	后一页
+SDSD_150514_35	Có thể mua	当前可购买
+SDSD_150514_36	Cấp tiếp theo	下级预览
+SDS_90511_2	Bật hạn bán	激活盘出限制
+SDXG_20210624_15	#cfff263Điểm đấu: %s0	拥有挑战点
+SDXG_20210624_26	#cfff263Điểm càn quét: %s0	拥有扫荡点
+SFDJ_240117_150	#gFF0FA0Triệu tập	仓吏令召集
+SFDJ_240117_83	#cfff263Số phát:	分发人数
+SHH_211221_12	#YĐã xong #GXuân Hoa Thiên Thụ#Y.	
+SJBS_240124_101	BXH	查看排行
+SJBS_240124_145	Bắc	北复活点
+SJBS_240124_146	Nam	南复活点
+SJBS_240124_147	Đông	东复活点
+SJBS_240124_148	Tây	西复活点
+SJBS_240124_203	Đã rời đội ban đầu, #Gkhông nhận được#W điểm đội.	
+SJBS_240124_225	Tổng điểm	总榜积分
+SJBS_240124_227	#G%s0#W	第%s0名 - chi con so hang
+SJBS_240124_228	Chưa	未上榜
+SJBS_240124_97	#gFF0FA0Chiến sự	战况信息
+SJBW_130823_19	#cfff263Thưởng	悬红金额
+SJBW_130823_20	Treo thưởng	发起悬红比试
+SJBW_130823_21	Nhận đấu	接受悬红比试
+SJCC_191011_18	#LHoành Tảo·Sơ	横扫千军·初
+SJFH_230425_145	#LSL:	数量
+SJFH_230425_146	Max	最大
+SJFL_150608_18	#c6a39062/11	11月2日 (ban cu vo markup)
+SJFL_150608_20	#c6a39063/11	11月3日
+SJPM_241125_04	#cfff263Thách đấu	赛季挑战榜
+SJPM_241125_05	#cfff263Ghi chép	赛季记录榜
+SJPM_241125_09	#cfff263Tước Ảnh	雀影级
+SJPM_241125_46	#cfff263Tước Ảnh	雀影级
+SJPM_241125_10	#cfff263Ưng Dương	鹰扬级
+SJPM_241125_47	#cfff263Ưng Dương	鹰扬级
+SJPM_241125_11	#cfff263Long Đằng	龙腾级
+SJPM_241125_48	#cfff263Long Đằng	龙腾级
+SJPM_241125_12	#cfff263Hạng	排名
+SJPM_241125_14	#cfff263Tổng sao Thần Kiếm	战队参赛成员神剑星数之和
+SJPM_241125_45	#cfff263Thí Kiếm lần 1	第一届拭剑天下
+SJPM_241125_59	#cfff263Tên đội	战队名称
+SJPM_241125_61	Trước	前一页
+SJPM_241125_62	Sau	后一页
+SJPM_241125_67	#YXem đội	查看战队信息
+SJPM_241125_72	Thí Kiếm lần 2	第二届拭剑天下
+SJPM_241125_73	Thí Kiếm lần 3	第三届拭剑天下
+SJPM_241125_74	Thí Kiếm lần 4	第四届拭剑天下
+SJPM_241125_75	Thí Kiếm lần 5	第五届拭剑天下
+SJPM_241125_76	Thí Kiếm lần 6	第六届拭剑天下
+SJPM_241125_77	Thí Kiếm lần 7	第七届拭剑天下
+SJPM_241125_78	Thí Kiếm lần 8	第八届拭剑天下
+SJSD_180817_19	#c6a3906Mịch Huệ	觅惠坊
+SJSD_180817_20	#c6a3906Mịch Trân	觅珍坊
+SJSD_180817_31	Lương Thần	良辰觅宝
+SJSL_110507_12	Tặng	立即赠送
+SJSL_110507_13	Để sau	稍后赠送
+SJXL_120423_14	Về cảnh	返回当前场景
+SJ_XML_01	Cổ điển	经典视距
+SLDZ_100805_181	#cfff263Không thể lên cấp nữa	此装备无法继续升级
+SNS_XML_06	#cfff263Nhập mã hoạt động Changyou.com:	
+SNS_XML_100805_12	T.trạng	心情
+SQSX_120806_50	Thần Khí:	请放入神器
+SQSX_120806_54	Khế hợp:	神器契合度
+SQSX_120806_66	#gFF0FA0Thoái Linh	神器蜕灵
+SQXL_030225_04	#cfff263Cần:	所需材料
+SRDZ_100513_15	#cfff2639	九 (28 px)
+SRDZ_100513_16	#cfff26310	十 (28 px)
+SRDZ_XML_1	1	一 (28 px)
+SRDZ_XML_4	4	四 (28 px)
+SRDZ_XML_5	5	五 (28 px)
+SRDZ_XML_21	Chặn động tác chat	拒绝聊天动作
+SSCK_180821_03	#cfff263Nhấp vật phẩm trong túi/Thiên Cơ Cẩm Nang để cất.	
+SSXDW_140819_38	Hợp	融合
+STGZ_150514_08	Kế hoạch	我的成长计划
+STGZ_150514_10	Truyền công	邀请师父传功
+STGZ_150514_12	Rời môn	脱离师门
+STGZ_150514_192	Sư môn	我的师门
+STGZ_150514_193	Đệ tử	我的徒弟
+STGZ_150514_200	#cfff263Phi ngựa	策马奔腾
+STGZ_150514_204	#cfff263Du ngoạn	游历江湖
+STGZ_150514_390	Đuổi	逐出徒弟
+STGZ_150514_397	#GMời	传功邀请
+STGZ_150514_433	#cfff263Năng động cần: #G%s0/50	邀请传功所需达到今日活跃值
+STGZ_150514_434	#cff0000Thiếu năng động, chưa thể mời	
+STGZ_150514_435	#cfff263Đủ năng động, nhấn nút để báo sư phụ	
+STGZ_150514_436	#cfff263Đã gửi lời mời hôm nay, hãy liên hệ sư phụ	
+STGZ_150514_449	#cff0000Chưa bái sư, không thể mời truyền công	
+STGZ_150514_480	#gFF0FA0Sư đức	历史师德介绍
+STYH_160801_08	Chat riêng	设为私聊
+SWZB_190322_74	#cfff263Cầu phúc nhận #G10 Thúc Trúc Lệnh#cfff263	
+SXJBT_XML_1	Che mờ	遮挡半透
+SXTZ_210510_10	Đổi nhiều	批量兑换
+SXTZ_210510_22	Max	最大
+SYYH_191206_234	#YSắp bắt đầu!	华焰会礼即将开始
+SYYH_191206_237	#YSau	后领取
+SYYH_191206_238	#YTrong	内领取
+SYYR_191204_22	#LHộp Thượng Nguyên	上元清嘉景礼盒
+SYYR_191204_23	Miễn phí	免费领取
+SZBH_240124_26	#gFF0FA0Giải khế	时装解契
+SZBH_240124_31	Giải khế	确定解契
+SZBH_240124_38	#cfff263Nghi Thưởng tương ứng:	对应仪赏值
+SZBSYL_150327_97	Lên cấp	升级
+SZDP_230509_11	#cfff263Sửa	修改
+SZDP_230509_61	Đặt	设置
+SZDP_230509_63	Chia	分享
+SZJJ_250801_126	#cfff263Thuần thục bộ vị: #G%s0	当前部位精淬熟练度
+SZJJ_250801_135	#cfff263Dòng tăng cao:	高增幅词条的区间
+SZJJ_250801_150	Loại bỏ	我要移除
+SZJJ_250801_151	Không bỏ	取消移除
+SZJJ_250801_65	Dời	转移
+SZJJ_250801_79	Tách	拆解
+SZPR_XML_90	Chế	加工
+SZPSZY_160314_05	#cfff263Chuyển hết phụ kiện nguồn	源时装的配饰将会被全部转移
+SZRSYH_120912_06	#cfff263Phong cách	时装风格列表
+SZYG_191126_153	#LNhận:	预购可得
+SZYG_191126_64	#G%s0#cfff263 chu	金铢
+SZYG_191126_84	#cfff263Chiết khấu thấp nhất	当前最低折扣
+SZYL_150626_01	Nữ	女生形象
+SZYL_150626_03	Nam	男生形象
+SZZH_170111_131	Gốc	还原 (40 px)
+SZZH_170111_19	Phục hồi	还原
+SZZH_170111_54	Gắn	点缀
+TCMZ_211027_1	#cfff263Ngẫu	随机
+TFJCGZ_20200817_10	#gFF0FA0Đổi lấy Thổ Linh Châu	昆吾灵珠兑换土灵珠
+TFJCGZ_20200817_14	#cfff263Đổi thành	可兑换为
+TFXC_20220921_54	#cfff263Làm mới	刷新信息
+TFXC_20220921_58	Sau	下一页
+TFXC_20220921_59	Trước	上一页
+TFXC_20220921_62	#gFF0FA0Lọc cấp	显示等级设置
+TFXC_20220921_63	60-69	60-69级
+TFXC_20220921_64	70-79	70-79级
+TFXC_20220921_65	80-89	80-89级
+TFXC_20220921_66	90-99	90-99级
+TFXC_20220921_70	#gFF0FA0Lọc phái	显示门派设置
+TFXC_20220921_88	#cfff263Khu vực này chưa có ai phù hợp	
+TJZF_230525_17	#gFF0FA0Tầng 5	秦皇地宫第五层
+TKH_XML_3	#GGiữ góc	保持视角
+TKH_XML_5	Mô hình	模型显示
+TLBC_090617_08	#cfff263Đạo cụ	道具装备
+TLBC_090617_10	#cfff263Shop	私人商店
+TLCJ_20240709_138	#cfff263Rời trận	离开战场
+TLCJ_20240709_201	#cfff263Diệt địch:	击败敌人功绩
+TLCJ_20240709_205	#cfff263Diệt quái:	讨伐怪物功绩
+TLCJ_20240709_206	#cfff263Mở rương:	开启宝箱功绩
+TLCJ_20240709_209	#cfff263Sống	复活
+TLCJ_20240709_210	#cfff263Về an toàn	返回安全区
+TLCJ_20240709_216	#cfff263Trang bị	凤武装备
+TLCJ_20240709_233	#cfff263KN lên cấp:	升级经验
+TLCJ_20240709_235	#cfff263Cấp:	凤武等级
+TLCJ_20240709_279	#cfff263Chỉ số	凤武属性
+TLCJ_20240709_296	#cfff263Nhặt hết	一键拾取
+TLCJ_20240709_297	#cfff263Hủy hết	一键销毁
+TLCJ_20240709_388	#cfff263Lấy hết	一键取出
+TLHX_260518_16	#cfff263Biến dị #Gcấp 7	领取7级变异外观
+TLHX_260518_17	#cfff263Biến dị #Gcấp 8	领取8级变异外观
+TLTJ_110301_27	Đồ giám	打开图鉴收藏
+TLXS_180427_02	K.nghĩa	结拜
+TLYXT_100707_06	#cfff263Nhập serial thẻ 17173:	
+TLZL_190802_151	Max	最大
+TLZL_190802_156	Bổ sung	补充进度
+TM_20080318_03	Minh chủ:	现任盟主
+TM_20080318_06	ID:	同盟ID
+TM_20080318_07	Thành viên:	同盟人数
+TM_20080318_08	Đơn xin gia nhập	查看同盟申请信息
+TM_20080318_09	Rời minh	退出同盟
+TM_20080318_10	Tuyên ngôn	修改宣言
+TM_20080318_19	Tối đa 3 bang hội kết minh	同盟最多可以允许三个帮会结盟
+TQSD_230201_23	#cfff263Max	最大
+TQSD_230201_42	#cfff263Mặc Ngân	墨银坊
+TQSD_230201_43	#cfff263Bạch Kim	白金坊
+TSFCL_220210_38	#LMiễn phí	免费领取
+TSRS_210316_11	Phong cách	焕染风格列表
+TSRS_210316_15	Nhuộm	确认焕染
+TWDYR_151223_50	Tải lại	刷新
+TWTM_210506_52	S.lập:	创始人
+TWTM_210506_56	#cfff263Tuyên ngôn	中都同盟宣言
+TWTM_210506_57	Tuyên ngôn	修改宣言
+TWZW_150831_66	#cfff263Đầu	首页
+TWZW_150831_67	#cfff263Trước	前一页
+TWZW_150831_69	#cfff263Sau	后一页
+TWZW_150831_70	#cfff263Cuối	末页
+TXJN_250903_15	Diệu pháp	潜习妙法
+TXJN_250903_16	Đặt lại	重置技能
+TXKS_170208_11	Bật	激活
+MGCQ_161223_19	#cfff263Si Tình Ngọc đổi đồ hiếm:	痴情玉兑换稀有家具
+QXF_260623_105	#GMẹo: liên kết CY+, mỗi tuần mở Hòm Báu được 2 Thiên Linh Đan.	
+RHZY_190429_14	Đổi 3 Chân Nguyên Phù cam: Chân Ý Trị -5000.	
+RHZY_190429_15	Đổi 1 Chân Nguyên Chú Kim Phù: Chân Ý Trị -2500.	
+RHZY_190429_16	Đổi 2 Chân Nguyên Chú Kim Phù: Chân Ý Trị -2500.	
+DWPF_200529_05	Miễn phí	免费领取
+LLGZ_260330_147	#c808080Bỏ phiếu	我要投票
+MCFZ_20170807_103	Tự động	自动美容
+STGZ_150514_205	#cfff263Lạc Dương: %s0/1#r#cfff263Đại Lý: %s1/1#r#cfff263Tô Châu: %s2/1	
+TSFCL_220210_37	#LChọn một trong ba thưởng dưới để #Mnhận hoặc mua.#L	
+TWTB_200818_07	Cổ Cảnh	切换至古境
+TXKS_170208_12	Dùng	使用
+TXLY_240904_2	Lục Ngự	六御龙跃榜
+TXLY_240904_3	Thất Tinh	七星龙跃榜
+TXLY_240904_4	Bát Cực	八极龙跃榜
+TXLY_240904_5	Cửu Thiên	九天龙跃榜
+TXLY_240904_6	B.Chiến	百战龙跃榜
+TXLY_240906_1	Chiến ý	战意无双
+TXLY_240906_11	Chưa xếp	未上榜
+TXLY_240906_13	Chưa đủ	未达到要求
+TXLY_240906_2	Vân Giai	云阶竞级
+TYCZ_240513_52	Max	最大
+TYGM_211027_3	#cfff263Ngẫu	随机
+TYLW_200616_05	Quà Lương	良品礼物
+TYLW_200616_07	Quà Tinh	精品礼物
+TYLW_200616_09	Quà Trân	珍品礼物
+TYLW_200616_11	Quà Thần	神品礼物
+TYLW_200616_18	Đổi nhiều	批量兑换
+TYLW_200616_35	Max	最大
+TYQS_170424_08	Yêu Thương	挚爱狂欢 (74 px - giu, tran 17 px)
+TYQS_170424_20	Online 30' hôm nay	本日累计在线30分钟
+TYQS_170424_21	Online 1 giờ hôm nay	本日累计在线1小时
+TYQS_170424_22	Online 2 giờ hôm nay	本日累计在线2小时
+TYQS_170424_26	Năng động: %s0/50	本日活跃值
+TYQS_170424_27	Năng động: %s0/150	本日活跃值
+TYQS_170424_28	Năng động: %s0/300	本日活跃值
+UI_EVALUATE_TEXT004	Ta thấy sư phụ đối với ta bình thường.	
+UI_EVALUATE_TEXT005	Ta thấy sư phụ đối với ta quá tệ.	
+VIPTQ3_120517_01	#u#cfff263Xem đặc quyền cấp sau#n#W	
+VIPTQ3_120517_11	ĐQ VIP	VIP特权介绍
+VIPTQ3_120517_29	#GNH đóng sau:	距离银行关闭
+VIPTQ_110908_71	Đóng	关闭界面
+VIPTQ_150511_1	GM riêng	专属GM服务
+WBSS_120727_19	#cfff263Đủ điều kiện dùng Vạn Bảo Tùy Thân Hoán	
+WCBS_180307_294	#c6a3906Khởi tạo	参赛角色初始化
+WCBS_180307_295	#cfff263Lần đầu vào #Gserver so tài#cfff263, nhân vật sẽ được khởi tạo	
+WCBS_180307_298	#c6a3906Nhận cấu hình	领取基础配置
+WCBS_180307_301	#c6a3906Đúc nhân vật	开始角色打造
+WCBS_180503_332	#cfff263Giao Tử:#G14400#cfff263	交子：14400金
+WCBS_180503_334	#cfff263C.Huân:#G30000	功勋值
+WCBZ_180128_106	#cfff263Hủy phó	解除副队长
+WCBZ_210521_03	Hủy phó	解除副队长
+WCBZ_180128_124	#cfff263OK	同意
+WCBZ_180128_96	Đổi phái dự thi	更改参赛门派
+WCBZ_210521_02	Cử phó	任命副队长
+WCBZ_230605_38	Ra trận	我要上阵
+WCBZ_230605_39	Hủy trận	取消上阵
+WCJS_180307_10	#gFF0FA0Bảng chỉ huy giải đấu (GM)	GM专用比赛指挥界面
+WCJS_180307_12	Khai chiến	确认开战
+WCJS_180307_43	Tải lại	刷新界面
+WCJS_180307_45	Vào PB	进入副本
+WCN_191119_02	Sửa tên thật	修改实名信息
+WCN_191119_04	Liên hệ CSKH	联系在线客服
+WCN_191119_06	Hủy đơn xóa	解除注销申请
+WCTP_180211_23	Đặt	放置宝箱
+WCTP_180211_25	Tải	刷新
+WCTP_180211_79	#u#HQuy tắc bỏ phiếu#n	查看战队投票规则
+WEJR_230303_33	Tải lại	刷新认证
+WGPF_191106_29	#cffe1b8Phân loại: %s0/%s1	分类仪赏
+WGPF_191106_85	#cffe1b8Diêu Hoa: %s0	拥有瑶华璧
+WGPF_210226_20	#cffe1b8Tầng sau: %s0	下一阶
+WGPF_210226_51	#cffe1b8Đã cao nhất	已达最高阶
+WGTJ_201222_134	#cfabf8fNgoại quan - Tọa kỵ	人物外观-坐骑
+WGTJ_201222_138	#cfabf8fNgoại quan - Huyễn sức	人物外观-幻饰武器
+WHCJ_251018_21	#e4d73b2Chờ công bố	等待公示
+WHCJ_251018_76	#cfff263Không nhắc nữa	今日不再提示
+WHTJ_240117_100	#M24h 16/5#L ngừng bán.	5月16日24时截止售卖
+WHTJ_240117_112	#LLấy lại NB	取回元宝
+WHTJ_240117_13	#LTải	刷新
+WHTJ_240117_67	Tải	刷新
+WHTJ_240117_15	#LXem	关注
+WHTJ_240117_16	#LĐồ	物品
+WHTJ_240117_19	#LTr.thái	状态
+WHTJ_240117_21	#LNgười giá	出价人
+WHTJ_240117_29	#GCó người giá	他人已出价
+WHTJ_240117_30	#LĐấu	竞拍
+WHTJ_240117_77	#cfff263Chưa mở, #G6/5#cfff263 bắt đầu đấu giá	
+WHTJ_240117_78	#cfff263Đã kết thúc, xem kết quả đấu giá	
+WHTJ_240117_97	#LChúc Dung	祝融仙铠·华阙
+WHYC_180102_01	#cfff263Võ Hồn	显示武魂
+WHYH_161121_113	Nạp tại: beeknoee.com/billing	
+WHZN_141216_1	#cfff263Đặt V.Hồn	请放入武魂
+WHZN_141216_38	#cfff263K.năng con	当前孩子技能
+WHZN_141216_40	Thay k.năng con	替换更换后孩子技能
+WH_xml_XX(34)	#gFF0FA0Nâng chỉ số mở rộng Võ Hồn	武魂扩展属性升级
+WH_xml_XX(84)	#gFF0FA0Mở cột chỉ số Võ Hồn	武魂开辟属性栏
+WJMM_090427_02	Quản lý TK	账号管理中心
+WJZT_260115_01	#cfff263Ưu tiên trạng thái chính	重要状态优先显示
+WLMJ_130121_15	#GCảnh giới:%s0#G	修为境界
+WMTL_230301_06	#MĐã đổi: %s0/%s1 NB	累计兑换
+WQBC_130415_1	#GĐeo vũ khí sau lưng	开启武器背持
+WSK_110913_10	#cfff263Nhập số seri Thiên Long kim thẻ:	
+WSZH_260408_127	#L%s1/%s0 (BP)	%s0月%s1日(本服)
+WSZH_260408_21	#cfff263Tráng Sĩ: %s0	壮士坛
+WYXT_20170808_97	#cfff263Đóng	冻结
+WYXT_20170811_113	#cfff263Hiệu quả Bí Truyền	查看秘传研习效果
+WYXT_20170811_209	Đoạn	锻脉
+WYXT_20170811_228	Bạt	拔脉
+WYXT_20170811_223	#cfff263Chọn quyết yếu Võ Ý để bạt mạch:	
+WYXT_20170907_332	#GChỉ số Võ Ý	武意属性
+WYXT_20170907_334	#GTôi Luyện	锻脉
+WYXT_20170907_340	#ICấp sau: #G%s0#I Tiềm Linh/#G%s1#I điểm	
+WYXT_20170907_394	Tìm tức	内息找回
+WYXT_20170907_418	Tìm bằng NB	元宝找回
+WYXT_20170907_428	#cfff263Số quái võ ý còn lại hôm qua:	昨日剩余武意杀怪数
+WZPCY_20220419_01	Tách	一键拆解
+WZPCY_20220419_20	Tách	一键拆解
+WZPCY_20220419_09	#LTách ra Tinh Túy:	拆解获得心诀精粹点
+WZPCY_20220419_11	#LTách ra Thông Nguyên:	拆解获得心诀通原点
+XCCJ_201014_11	#cfff263Chọn một trong sáu Tọa kỵ #Ggiới hạn 360 ngày#cfff263 dưới đây, nhận xong không đổi được.	
+XCCJ_201014_12	#cfff263Nhận Hà Thượng	领取坐骑：霞上仙
+XDBS_200417_13	T.trang Phái	门派时装
+XDBS_200417_17	#cfff263Lịch Luyện: #G%s0	拥有历练值
+XDBS_200417_38	#cfff263Đổi nhiều	批量兑换
+XDBS_200417_45	Max	最大
+XDBS_200417_7	Tàn Ấn	心诀残印
+XDHYB_140915_01	#cfff263Điểm dư đổi được NB: %s0	账户剩余点数可兑换元宝
+XFDG_230103_01	Đoạt Kỳ Trân	群雄夺奇珍
+XFD_XML_03	Đến Chỉ Nam	转到江湖指南
+XFHD_140919_05	Nạp đầu	首充超值赠
+XFHD_140919_06	Hào Tình	豪情大派送
+XFHD_140919_07	Trọng Lâu	重楼献英豪
+XFHD_140919_08	Chí Tôn	武林至尊榜
+XFHD_140919_09	Tốc Chiến	副本竞速榜
+XFHD_140919_10	Trừng Phạt	匪首征讨榜
+XFHD_140919_11	Song Hỉ	双倍乐翻天
+XFHD_140919_18	Rút lì xì	抽现金红包
+XFLSJ_160823_1	Ký Sự	新服乐事记
+XFSJ_20250814_7	#GĐiều kiện mở: cấp 120.	解锁条件：等级提升至120级
+XFTQ_240920_01	#cfff263Đồng Đỏ	赤铜坊
+XFXB_230823_36	#cfff263Chọn cấp mang được	请选择装备可携带等级
+XFXB_230823_65	#cfff263Giữ chỉ số cũ	保留原有属性
+XFXB_230823_67	#cfff263Thay chỉ số đúc lại	替换重铸属性
+XGDS_180608_85	#gFF0FA0Top 2-10	今日第2名至第10名
+XGDS_180608_92	#G21:05 24/7#cfff263 kết toán	7月24日21:05结算
+XGHK_111010_07	#cfff263Nhập số thẻ hội quán Chí Tôn:	
+XGJHD_220427_15	#LChọn thưởng cũ muốn bỏ để đổi thưởng mới.	
+XGJSD_230526_63	#LOK làm mới	刷新确认
+XGSD_180608_30	#c6a3906Mịch Huệ	觅惠坊
+XGSD_180608_31	#c6a3906Mịch Trân	觅珍坊
+XGSD_180608_36	#cfff263N.Nhương	玉瓤觅宝
+XGSD_180608_73	#c6a3906Hộp Mặc Vũ	墨羽潜幽金粉礼盒
+XGSD_180608_75	#cfff263Mua đồ	购买时装
+XGSZ_200317_11	Mua đồ	购买时装
+XGSD_200609_58	#LTề Kỵ Ngọc Kinh	缇骑照玉京
+XGSD_200609_59	#LHộp Tề Kỵ	缇骑照玉京盛华礼盒
+XGSD_200609_71	#LMặc định	默认风格
+XGSD_200609_72	#LHồ Băng	玉壶冰风格
+XGSD_200609_73	#LHồng Cừ Ca	红蕖歌风格
+XGSD_200609_74	#LHà Lý	青荷里风格
+XGSZ_200317_37	#G#uT.trang Hoán Tân khác#n	
+XGZH_200628_29	#LT.Thúy	亭风摘翠
+XGZH_200628_30	#LẨm Băng	蒲雪饮冰
+XGZH_200628_31	#LThú Đấu	碧瓜趣斗
+XGZH_200628_33	#LMinh Trà	清泉茗茶
+XHZK_111010_09	#cfff263Nhập số thẻ Võ Thánh 17173:	
+XKJL_110225_1	Phím tắt bên phải	右侧新快捷栏
+XKSD_250110_09	#cfff263Tân Hiệp	新侠柜台
+XKSD_250110_140	#cfff263Tân Hiệp	新侠柜台
+XKSD_250110_11	#cfff263H.Khách	巨侠柜台
+XKSD_250110_148	#cfff263H.Khách	巨侠柜台
+XKSD_250110_138	#cfff263Danh Hiệp	名侠柜台
+XKSD_250110_144	#cfff263D.Hiệp	名侠柜台
+XKSD_250110_107	#cff0000Mở cấp 2	2级解锁
+XKSD_250110_141	#cfff263C.%s0	%s0级 (60 px)
+XKSD_250110_18	#cfff263N.Hành:%s0	义行令
+XKSD_250110_53	Max	最大
+XKSD_250110_97	Max	最大
+XLDL_140606_122	#cfff263Đặt lại	重置
+XLSD_251103_05	Ngày	每日机缘
+MDJH_130507_110	#cfff263Chọn một trong bốn Tọa kỵ Điển Tàng Vĩnh viễn sau.	
+MGCQ_151230_13	#cfff263Còn lại trước khi công bố Bảng tặng hoa và Bảng nhận hoa Diệu Thế Truyền Tình:	
+QFGS_180807_10	#M11/9#L-#M24/9#L: #Monline#L + #Mhoạt bát#L nhận #MTranh Sơn Hà#L.	
+QXFB_260529_80	#cfff263Vong linh chiến địa hiện thế, e gây họa! Mong hiệp sĩ sớm dẹp yên.	
+ZBS16_160511_59	Hủy phó	解除副队长
+ZBS16_160511_58	Cử phó	任命副队长
+ZBS_230606_46	Vào PB	进入副本
+XLSD_251103_06	Tuần	每周机缘
+XLVL_260327_56	#gFF0FA0Lau kiếm, tái chiến quần hùng	拭剑天下·再战群雄
+XQPVP_260526_71	#gFF0FA0Chiến sự	战况信息
+XQPVP_260526_90	#cfff263Chiến công: %s0	我的战功
+XQPVP_260526_91	#cfff263Thưởng:	奖励预览
+XQPVP_260526_94	Rời trận	退出战场
+XQZJ_180831_05	#cfff263Tăng thời hạn:	增加有效期
+XQZJ_180831_06	#cfff263Hạn	续期
+XQZJ_180831_28	30 ng	30天
+XQZJ_180831_32	#cfff263Về	返回
+XRHB_09515_01	#gFF0FA0Tín Nhiệm	信任伙伴
+XRHB_09515_03	Gỡ	解除 (36 px)
+XRHB_09515_05	Thêm	添加 (44/36 - lech nho)
+XRZL_250508_11	#LDấu chân: #M%s0/%s1	旅迹点
+XRZL_250508_12	#M%s0#M ngày nữa kết thúc	天后结束
+XRZL_250508_13	#LDưới #M1#L ngày nữa	不足1天后结束
+XSHLY_150522_169	Nhận Tùng Phong Phiến	获得万壑松风扇
+XSHLY_150522_170	Nhận Ngân Đào Hoàn	获得碧海银涛环
+XSJNH_180111_06	Song Hỉ	双倍乐翻天
+XSJNH_180111_11	Quà lên cấp	升级有好礼
+XSJNH_180111_12	Hào hiệp Thiên Long	天龙豪侠路
+XSJNH_180111_121	Đi đổi thưởng	前往兑换奖励
+XSJNH_180111_13	Túi Báu	英雄百宝囊
+XSJNH_180111_14	Tinh Tú May Mắn	江湖幸运星
+XSJNH_180111_156	#GLần bốc thăm sau: #cfff26300:00	
+XSJNH_180111_85	#cfff263Sau khi HĐ Tân Thủ Gia Niên Hoa #Gkết thúc#cfff263, đến chính điện nhận thưởng.	
+XSJNH_180111_92	Bước vào giang hồ	初出茅庐
+XSJNH_180111_93	Lãng du	仗剑江湖
+XSJNH_180124_249	#cfff263Chọn một trong bốn Danh Sức Điển Tịch chí hướng anh hùng dưới đây.	
+XSJNH_230209_24	#cfff263Nhận được toàn bộ thưởng.	可领取全部奖励
+XSQSJ_160812_16	Lên cấp	升级
+XSSZ_191130_12	Chế độ FPS cao	高帧率模式
+XSTZ_190717_01	#cfff263Ánh sáng động	动态光影
+XST_110831_126	#cfff263KN offline:	离线经验
+XST_110831_20	Quan hệ	江湖关系
+XSX_220705_169	Thưởng	奖励预览
+XSX_220705_171	Hạng	排名
+XSX_220705_173	Nhân quả	通关因果值
+XSX_220705_178	BXH chốt lúc 1:05 sáng thứ Hai sau khi hết tuần phó bản.	
+XSX_220705_277	Nhận #G1000#W Nhân Quả	可获1000因果值
+XSX_220705_283	Ải 2	第二关
+XSX_220705_284	Ải 3	第三关
+XSX_220705_285	Ải 4	第四关
+XSX_220705_304	Nhân quả tích lũy cao nhất: chưa có	最高累计因果值：暂无
+XSYH_XML_11	Hiện Hướng dẫn	显示设置向导
+XSYH_XML_16	#GCách tăng tốc trò chơi, xử lý giật lag nhanh	
+XSYH_XML_25	HDR	HDR效果
+XSYH_XML_7	Ưu tiên tốc độ	速度优先 (107/93)
+XSYH_XML_8	Cân bằng	均衡设置
+XSYH_xml_XX(02)	#cfff263Hạt	粒子效果
+XTZY_171213_21	Tìm bằng NB	元宝找回 (120/102)
+XTZY_171213_91	#cfff263Lần tìm được	可找回次数
+XYBSD_161018_3	Siêu thị Tâm Ý	心意大卖场
+XYBSD_161018_5	Shop hình tượng	心意形象店
+XYBSD_161018_7	Shop kỳ vật	心意奇货店
+XYCSD_230203_4	#cfff263Thiên Giáng	天降福缘
+XYJJ_170216_03	Sân vườn	庭院家具
+XYJJ_170216_04	Phòng ở	居室家具
+XYJJ_170216_06	Nội thất hiếm trong kho	仓库稀有家具列表
+XYJJ_170216_11	#cfff263Xem trước chuyển	家具转换预览
+XYJJ_170216_12	#cfff263Chuyển nội thất hiếm	稀有家具转换列表
+XYJJ_170216_15	Chuyển	转换
+XYSB_20170620_013	#cfff263Đặt vào một vũ khí song hoàn mỹ:	
+XZJC_200309_145	#LHiệu quả nâng bí kỹ	升级秘技效果
+XZJC_200309_179	#LTổng quan sưu tập	收集属性总览
+XZJC_200309_184	Thông Nguyên	通原馆
+XZJC_200309_185	Tinh Túy	精粹馆
+XZJC_200309_27	Cường Hóa	心诀强化
+XZJC_200309_28	Tàn Ấn	心诀残印
+XZJC_200309_335	#LChưa học bí kỹ này	尚未习得该秘技
+XZJC_200309_57	Tiến	升阶
+XZJC_200309_77	Lĩnh Ngộ	领悟心诀
+XZJC_200309_78	Tách Ấn	残印拆解
+XZRW_XML_12	#GCấp 10 mới vào Phái được	10级后方可加入门派
+XZXT_240517_14	Danh hiệu	天勋铭牌
+XZYX_200309_15	Tặng 1 lần	赠礼1次
+XZYX_200309_16	Tặng 10 lần	赠礼10次
+XZYX_200309_325	#LĐã nhận hết thưởng	已领取全部奖励
+XZYX_200309_327	#LTổng kết giao đạt %s0	结交度之和达到
+XZYX_200309_375	#LChỉ số duyên cấp sau	下级羁绊属性
+XZYX_200309_60	#LDanh sĩ	所属名士
+XZYX_200309_61	#LChỉ số duyên	当前羁绊属性
+YBFQ_XML_4	Phiếu mang theo:	携带返券数量
+YBSC_100111_47	Sửa giá	修改售价
+YBSC_100111_52	Lấy lại	取回商品
+YBSC_110329_01	Bán tiếp	继续上架
+YBSC_XML_12	Chợ VP	物品市场
+YBSC_XML_22	Chợ Thú	珍兽市场
+YBSC_XML_82	Chợ T.bị	装备市场
+YBSC_XML_31	Bán Thú	上架珍兽
+YBSC_XML_32	Bán VP	上架物品
+YBSC_XML_34	Tr.	页 (33 px)
+YBSC_XML_38	Cách dùng chợ	市场使用说明
+YBSC_XML_61	Quản lý	管理商品
+YBSC_XML_85	Sao T.bị	装备星级
+YCLB_240911_03	#LHộp Thanh Ảnh	清影飞鸿礼盒
+YCLB_240911_04	#LHộp Tiên Hồ	仙狐醉月礼盒
+YCZJJ_181130_8	Kim Châu	金铢裕年
+YDHD_171206_21	Đủ Anh Hùng Chúc Phúc là mở	集齐英雄祝福可开
+YDHD_171206_23	450 điểm hoạt lực là mở	450点活跃值可开
+YDHD_171206_24	#LThăm một trong ba anh hùng	拜访三位英雄中的任意一位
+YDHD_171206_26	#LHoạt lực hôm nay: #M%s0	今日获得活跃值
+YDHD_171206_98	#LNhận lời chúc %s0: %s1/1	获得%s0的祝福
+YDSS_15018_149	Đấu lại	重新挑战
+YDSS_15018_150	Xong khảo nghiệm	完成考验
+YDTL_130924_06	#cfff263Nhập thẻ vật phẩm Thiên Long để đổi:	
+YFYW_240806_41	#GĐội #cfff263hạng #Gnhất #cfff263điểm ST mới nhận được thưởng	
+YHSQ_210105_31	#G9#cfff263 nhận	9可领 (46 px)
+YJNY_170602_02	#GNgưng nguyên nhanh	快捷一键凝元
+YJNY_170613_12	#cfff2635000 Tinh Hoa	5000真元精粹
+YJRS_140613_04	Tự nhuộm	自动染色
+ZNSZ_140718_138	Tự nhuộm	自动染色
+YJRS_140613_05	#cfff263Dừng nhuộm	终止染色
+ZNSZ_140718_139	Dừng nhuộm	终止染色
+YKJY_231113_10	#cff0000Chưa bật	尚未激活
+YKJY_231113_29	#M%s0#L ngày nữa mua lại được	天后可再次购买
+YKJY_231113_36	#LNhận mỗi ngày:	每日即可领取
+YKJY_231113_5	#LNhận mỗi ngày:	每日即可领取
+YKJY_231113_6	#LMở khóa giới hạn	解锁功能限制
+YSXY_211110_02	#Y#uChính sách bảo mật CY#n	《畅游隐私政策》
+YSXY_211110_09	#W#uChính sách bảo mật CY#n	《畅游隐私政策》
+YWXK_250113_139	#cfff263Linh thảo:	灵草刷新
+YWXK_250113_140	#cfff263Linh thảo: Không	灵草刷新：无
+YWXK_250113_146	#cfff263Thưởng thảo: Chưa	灵草奖励：未获得
+YWXK_250113_51	#cfff263HĐ mở sau:	活动开始倒计时
+YXPY_20131118_115	#cfff263Đồ anh hùng	英雄着装
+YXPY_20131118_26	#cfff263Chí hướng #GKiều Phong	以乔峰为志向培养
+YXPY_20131118_27	#cfff263Chí hướng #GĐoàn Dự	以段誉为志向培养
+YXPY_20131118_28	#cfff263Chí hướng #GHư Trúc	以虚竹为志向培养
+YXPY_20131118_29	#cfff263Chí hướng #GVương Ngữ Yên	以王语嫣为志向培养
+YXSJ_181204_69	#GHơn %s0%	超过%s0%
+YZGN_250114_12	#cfff263Đã hồi âm tin nhắn	我已回复短信
+YZGN_250114_14	#cfff263Liên hệ CS	联系客服处理
+YZGN_250114_9	#cfff263Chưa nhận tin	尚未收到短信
+YuanBao_G_3	Chọn số NB muốn ký gửi:	请选择您要寄售的元宝数量
+YuanBao_G_4	Nhập số tiền muốn đổi:	请输入您想换取的金钱数量
+ZBCZ_140618_12	Giữ chỉ số cũ	保留原有属性
+ZBCZ_140618_13	Thay chỉ số đúc lại	替换重铸属性
+ZBCZ_140618_15	Đúc	重铸
+ZBDW_XML_24	#cfff263Nhập số nguyên liệu tốn để cường hóa:	
+ZBQH_130521_62	#GTự cường hóa	自动强化 (108/90)
+ZBSJL_160826_05	Nhận Long Quân	领取娲皇龙君
+ZBSJL_160826_13	Nhận Long Đế	领取娲皇龙帝
+ZBSX_130625_09	Tách	拆解
+ZBSX_130625_21	Luyện	淬炼
+ZBSX_130625_33	Lên	升级
+ZBS_230606_59	#gFF0FA0Bảng chỉ huy giải đấu (GM)	
+ZBS_230606_69	Khai chiến	确认开战
+ZBZZYH_170526_28	Thay	替换
+ZCSD_20240204_29	#cfff263Thiết Giáp	铁甲阁
+ZCSD_20240204_30	#cfff263Kim Qua	金戈馆
+ZCSD_20240204_31	#cfff263Hạo Khí	浩气馆
+ZCSD_20240204_32	#cfff263Thanh Phong	清风阁
+ZCSD_20240204_35	#cfff263Luân phiên	轮换预览
+ZDGS_90602_03	Tự nhận đi theo đội	自动接受组队跟随
+ZDJB_170517_17	Trộm/lừa ở ngân trang	钱庄小偷和钱庄骗子
+ZDJB_170517_18	Dùng phần mềm ngoài để PK	使用外挂恶意PK
+ZDJB_170517_19	Spam kênh thế giới	公频喊话刷屏
+ZDJB_170517_30	#cfff263Nội dung báo cáo	举报内容填写
+ZDPT_XML_3	Lọc TT	信息筛选
+ZDPT_XML_30	#cfff263Nhập thông tin tìm đội	请输入寻求组队相关信息
+ZDPT_XML_35	Nhập thông tin chiêu mộ đội viên	请输入队员招募相关信息
+ZDPT_XML_4	DS đội	队伍列表
+ZDPT_XML_5	DS người	玩家列表
+ZDPT_XML_6	Tải lại DS	刷新列表
+ZDPT_XML_7	Chiêu mộ	招募人员
+ZDPT_XML_8	Tìm đội	寻求组队
+ZDSD_90518_1	#cfff263Điểm tặng:	拥有赠点
+ZDZDYH_250618_05	#cfff263Chết tự xuất khiếu	死亡自动出窍
+ZDZDYH_250618_09	#cfff263Chuyên tâm hồi	专注回复
+ZDZD_200724_10	#cfff263Dược phẩm	药品设置
+ZDZD_200724_11	#cfff263Hồi phục	回复技能
+ZDZD_200724_12	#cfff263K.năng thú	珍兽技能
+ZDZD_20220815_08	#cfff263Khác	其他设置
+ZDZD_20220815_09	#cfff263Lưu	保存配置
+ZDZD_20220815_16	#cfff263Tự dùng T.Linh Đan	自动使用天灵丹
+ZDZD_20220815_18	#cfff263Tự dùng H.Linh Đan	自动使用玄灵丹
+ZDZYH_180418_69	#LPhi Hoàng Vũ Dực (VV)	飞凰羽翼（永久）
+ZDZYH_180418_70	#LNgây Ngây Mu Mò (VV)	呆呆哞（永久）
+ZHHD1_181128_146	#c6a3906T.trang: Long Phụng	时装：龙凤遥相倚
+ZHHD1_181128_147	#c6a3906Hộp Long Phụng	龙凤遥相倚礼盒
+ZHHD1_181128_191	#cfff263Chọn #Gthủ thế#cfff263 và hô #Gtửu lệnh	
+ZHHD1_181128_292	#LSay rượu đủ mức thì đến #MLạc Dương#L nhận thưởng.	
+ZHHD1_181128_87	Ván nữa	再来一局
+ZHSZQ_250303_01	#cfff263Tự lên Tọa kỵ khi tìm đường	自动寻路时自动上坐骑
+ZJSS_220803_142	#cfff26350 điểm HĐ là nhận	50活跃值可领
+ZJSS_220803_143	#cfff263150 điểm HĐ là nhận	150活跃值可领
+ZJSS_220803_144	#cfff263450 điểm HĐ là nhận	450活跃值可领
+ZJSS_220803_145	#cfff263Dự Trận Trác Lộc nhận Tướng Lệnh	参与涿鹿演阵获取将令
+ZMB_230124_235	#WVào #Gtrong vòng#W thử chiêu với Kiều Phong, né liên tiếp để thắng.	
+ZMB_230124_242	Xem TT người	查看玩家信息
+ZMB_230124_247	#RHuyết mạch#W của #RĐoàn Dự#W loạn, nhấp #GXích Huyết Trận#W để chữa.	
+ZMB_230124_248	#RKinh lạc Thái Âm#W của #RĐoàn Dự#W loạn, nhấp #GThái Âm Trận#W để chữa.	
+ZMB_230124_249	#RHuyệt Thiếu Dương#W của #RĐoàn Dự#W loạn, nhấp #GThiếu Dương Trận#W để chữa.	
+ZMB_230124_253	Theo #Gmàu#W Kim Chung Tráo mà dùng #GTrường Tập#W cho đúng.	
+ZMB_230124_263	Xuất	出窍
+ZMB_241021_4	#cfff263Đếm ngược nhận tăng ích lần sau:	
+ZMCJ_230719_15	Mở Bí Cảnh	打开秘境场景
+ZMCJ_230719_30	Về cảnh Phái	返回门派场景
+ZMHD_230801_93	#MĐã xong	已完成
+ZMPT_230629_51	#cfff263PB: %s0:%s1	副本攻略时间
+ZMSD_150811_73	#cfff263Cống hiến chiến minh:	战盟贡献度
+ZMSD_150811_75	#cfff263Cần cống hiến:	需要战盟贡献度
+ZMSD_150811_76	#cfff263Cống hiến đang có:	拥有战盟贡献度
+ZMSD_230625_93	#cfff263Cống hiến phúc địa:	拥有福地贡献度
+ZMTFBC_230920_06	#cfff263Lưu	保存方案
+ZMTFBC_230920_08	#cfff263Dùng cái này	使用该方案
+ZMTF_230628_121	Học lại	重习绝学
+ZMTF_230628_127	Điều kiện: Bí bảo trấn phái đạt bậc #G%s0#cfff263	
+ZMTF_230628_129	Nâng Tuyệt học	升级绝学
+ZMTF_230628_215	Đã học Tuyệt học	习得绝学
+ZNLSG_230215_130	#LTách ra Vạn Tượng Lệnh: #M%s0	可分解为万象令
+ZNLSG_230215_172	#LVòng của đội: #M%s0	队伍累计圈数
+ZNLSG_230215_173	#LVòng của đội: #MChưa đội#L	队伍累计圈数：未组队
+ZNLSG_230215_226	OK	同意 (40 px)
+ZNLSG_230215_227	Bỏ	拒绝 (40 px)
+ZNLSG_230215_274	#LChưa khoá	未锁定
+ZNLSG_230215_331	Chưa lập	未组建
+ZNSZ_140718_118	#cfff263Kiểu tóc con cái	子女发型列表
+ZNSZ_140718_128	#cfff263T.trang riêng	个性时装
+ZNSZ_140718_164	#gFF0FA0Phong cách T.trang con	子女时装风格
+ZNTZ_190318_63	Tham gia	参与活动
+ZNTZ_190318_67	Thắp lại	重新点亮
+ZNYR_200302_43	Thái Hi	太禧白
+ZPRW_180928_242	#GĐến Tinh Túc Hải gặp #{_INFOAIM142,55,16,丁春秋}#RĐinh Xuân Thu#G.	giu #{_INFOAIM...}
+ZPRW_180928_243	#GĐến Tinh Túc Hải gặp #{_INFOAIM142,55,16,丁春秋}#RĐinh Xuân Thu#G.	giu #{_INFOAIM...}
+ZPRW_180928_244	#GĐến #GLăng Ba Động#{_INFOAIM125,144,14,苏星河}#RTô Tinh Hà#G.	giu #{_INFOAIM...}
+ZPRW_180928_245	#GĐến #GLăng Ba Động#{_INFOAIM125,144,14,苏星河}#RTô Tinh Hà#G.	giu #{_INFOAIM...}
+ZQDC_250326_2	Hoa Ngự	华御录
+ZQDC_250326_24	Tọa kỵ	我的坐骑
+ZQGZ_110512_02	Gọi Tọa kỵ	召唤坐骑
+ZQJL_240422_01	#cfff263Tọa kỵ bay tự hạ cánh khi đăng nhập	飞行坐骑登录默认降落
+ZQQF_190724_102	Nhận hoa đăng	领取花灯
+ZQQF_190724_103	Xong tùy chỉnh	完成订制
+ZQQF_190724_75	N.hình	外形
+ZSDHC_170828_15	Hợp	合成
+ZSGN_101129_13	Nhận đồ	领取炫装
+ZSGN_101129_25	Trả tiền tặng	赠送付款
+ZSHP_180814_132	#cff0000T.thành	成年
+ZSHP_180814_28	H.Linh	幻灵
+ZSHP_180814_30	Gốc	还原
+ZSHP_180814_61	#cfff263Biến dị %s0	%s0级变异
+ZSHP_180814_71	H.Ngọc	化玉
+ZSWG_181211_10	H.Ngọc	化玉
+ZSHP_190716_14	#cFF00FFThức tỉnh: không thể	觉醒：无法觉醒
+ZSWG_181211_110	#cFF00FFThức tỉnh: không thể	觉醒：无法觉醒
+ZSHT_XML_06	Tách	分离 (36 px)
+ZSJX_140707_02	Lên chín sao	直升九星
+ZSKJT_130428_21	#GHoàn đồng	完美还童
+ZSLZ_XML_4	Cấp 5 mang được	5级可携带
+ZSND_230428_111	Đan Chiến Thắng	制胜元丹
+ZSND_230428_112	Đan Hộ Thể	护体元丹
+ZSND_230428_113	Đan Tăng Lực	增益元丹
+ZSND_230428_142	#cfff263Nhận Thần phẩm Nguyên dịch:	
+ZSND_230428_163	Giám	图鉴 (60 px)
+ZSSJ_230509_19	Tiến Đan Tinh Phẩm	升阶精品元丹
+ZSSJ_230509_20	Tiến Đan Trân Phẩm	升阶珍品元丹
+ZSSJ_230509_21	Tiến Đan Thần Phẩm	升阶神品元丹
+ZSSJ_230509_39	Tiến	升阶
+ZSWG_181211_56	Nhuộm	浣染
+ZSWG_181211_70	Phong cách Huyễn Ngọc	幻玉风格列表
+ZSWG_181211_84	#cfff263Đổi mặt	浣颜
+ZSWSK_210312_08	#cfff263Nhập số seri thẻ Võ Thánh Tencent:	
+ZSYB_160108_24	#cfff263Hoàn đồng	还童
+ZSYH_170111_116	Nâng nhanh	快捷提升
+ZSYH_170111_77	#cfff263Thay tư chất	替换资质
+ZZCX_11119_05	Thay tư chất	替换资质
+ZSYSYH_130812_01	Hạn	延寿 (36 px)
+ZSZBSJ_XML_08	#gFF0FA0Tách sáo trang Thú	珍兽套装拆解
+ZSZBSJ_XML_13	Tách sáo	套装拆解
+ZSZB_090211_15	Gỡ nhanh	一键卸装
+ZSZB_090421_16	#gFF0FA0Giám định T.bị Thú	珍兽装备资质鉴定
+ZSZB_XML_3	#cfff263Đặt Nanh Thánh Thú:	放入圣兽牙
+ZSZDJD_130812_01	Cộng điểm	推荐加点
+ZTPVP_260515_119	Truyền	传送
+ZTPVP_260515_135	#LHương vào thành	群传入城符
+ZTXT_260511_111	Thao Long	螭龙赛区
+ZTXT_260511_112	Huyền Long	玄龙赛区
+ZTXT_260511_95	Giao Long	蛟龙赛区
+ZTXT_260511_96	Tân Long	新龙赛区
+ZTXT_260511_97	Thương Long	苍龙赛区
+ZTXT_260511_114	Đối chiếu	成员对比
+ZTXT_260511_119	#cfff263Người trong đội không thuộc chiến đoàn này	
+ZTXT_260511_13	Mời nhanh	一键邀请
+ZTXT_260511_142	Mời nhanh	一键邀请
+ZTXT_260511_130	#cfff263Người của chiến đoàn nhưng ngoài đội hình	
+ZTXT_260511_131	Đuổi khỏi đoàn	移出团队
+ZTXT_260511_137	Loại nhanh	一键移出
+ZTXT_260511_27	#cfff263Đoàn trưởng:%s0	团长
+ZTXT_260511_29	Cử Đoàn trưởng	任命团长
+ZTXT_260511_40	Thêm nhanh	一键添加
+ZWZDH_241024_10	#gFF0FA0Nhàn Thường Trị Vụ	闲常治务设置
+ZXD_20120406_09	Đổi giới	更改性别
+ZXJQ_120516_72	#cfff263Đã ngưng băng: #G%s0#cfff263/6	已凝冰次数
+ZYFG_171116_01	#gFF0FA0Bật phong cách vườn	激活庄园风格
+ZYLY_xml_01	Lời nhắn	玩家留言
+ZYPT_081103_004	Kết bạn	玩家征友
+ZYPT_081103_012	Kết quả	查询结果
+ZYPT_081103_022	Tìm	查找
+ZYPT_081103_065	Chọn điều kiện cá nhân muốn kết giao:	
+ZYPT_081103_105	Người bỏ phiếu cho mục này	本选项投票玩家
+ZYPT_081103_108	Đông người nhất	最旺人气
+ZYPX_200829_77	#LCòn: %s0 giây	剩余时间
+ZYXT_120528_101	#cfff263Có Tinh Túy:	拥有真元精粹
+ZYXT_120528_25	#cfff263Có Tinh Túy:	拥有真元精粹
+ZYXT_120528_99	#cfff263Tốn Tinh Túy:	消耗真元精粹
+ZYXT_120528_162	#GKhai Phong#W	启封 (106/66 - giu nguyen nghia)
+ZYXT_120528_52	Ngưng nguyên	一键凝元
+ZYXT_120528_53	Quế giải	一键淬解
+ZYXT_120528_73	Mở ngưng nguyên	开启一键凝元
+ZYXT_120528_74	#GDừng ngưng nguyên	终止一键凝元
+ZYZH_140618_09	#cfff263Đặt Chân/Hồn Nguyên cần chuyển vào:	
+ZYZH_140618_13	#cfff263Hồn/Chân Nguyên tạo ra sau chuyển:	
+ZZB_131213_03	#GTài khoản đã liên kết CY+	游戏账号已绑定畅游+
+ZZB_131213_04	#cff0000Tài khoản chưa liên kết CY+	游戏账号尚未绑定畅游+
+ZZDY_130131_68	Tải	刷新
+ZZQH_180929_8	Kim	点金
+ZZYB_150911_04	#cfff263Bánh thường	普通月饼
+ZZYB_150911_05	#cfff263Bánh đậu đỏ	豆沙月饼
+ZZYB_150911_06	#cfff263Bánh ngũ quả	五仁月饼
+ZZYB_150911_09	#cfff263Làm bánh	制作月饼
+ZZZB_140910_10	Thăng	升灵
+ZZZB_150811_14	Thăng	升灵
+ZZZB_150811_07	#GChưa thăng linh	尚未升灵
+ZZZB_150811_132	#cfff263Ngũ Hành gia trì: #H%s0%	五行源气加持
+ZZZB_150811_162	Ngưng	凝聚
+ZZZB_150811_172	Giảm k.Băng	减冰抗
+ZZZB_150811_173	Giảm k.Hỏa	减火抗
+ZZZB_150811_174	Giảm k.Huyền	减玄抗
+ZZZB_150811_175	Giảm k.Độc	减毒抗
+ZZZB_150811_182	Xuyên công	穿刺攻击
+ZZZB_150811_183	Xuyên thủ	穿刺防御
+ZZZB_150811_212	#cfff263Nguyên Khí hiện	当前源气分布
+ZZZB_150811_213	#cfff263Nguyên Khí sau tẩy	淬洗后源气分布
+ZZZB_150811_214	#cfff263Gia trì hiện: #H%s0%	当前源气加持
+ZZZB_150811_217	#cfff263Gia trì sau tẩy: #H%s0%	淬洗后源气加持
+ZZZB_150811_219	Thay Ngũ Hành	替换五行源气
+ZZZB_150811_221	Tẩy	淬洗
+ZZZB_150811_285	#cfff263Cơ bản: %s0 +%s1	基础属性
+ZZZB_150811_286	#cfff263Vương Quyền gia trì: #H+%s0%	王权天道加持
+ZZZB_150811_287	#cfff263Chưa bật Vương Quyền Thiên Thụ	尚未激活王权天授效果
+ZZZB_150811_289	#cfff263Chưa bật Thiên Đạo Chí Tôn	尚未激活天道至尊效果
+ZZZB_150811_300	#cfff263Cơ bản: #WChưa ngưng tụ	基础属性：尚未凝聚
+ZZZB_150811_75	#GTử Vi Linh Phách	紫微灵魄
+ZZZB_151105_04	#GTự tôi luyện	自动淬洗
+ZZZB_200805_29	#cfff263Thiên Đạo:	天道进度
+ZZZB_200805_31	#cfff263Tiến Thiên Đạo:	进阶天道
+YXPY_20131118_79	(+%s0)	（+%s0）- bo ngoac toan rong, 51 px
+ZMSD_230625_54	Cống hiến Phúc địa: %s0	拥有福地贡献度
+JJXH_161122_129	#M%s0#L Bích Hàn Châu	碧寒珠
+CFSN_220224_95	#M%s0#L Đoạn Xuân	断春枝
+MHSD_181126_44	#LNB: #M%s0	元宝
+QLSX_170620_82	#M%s0#L Bạc Hà	薄荷叶
+MJDH_210511_08	#cfff263Mảnh Thần: %s0	神品秘技残页
+FMSD_220705_20	#cfff263Cổ Tiền: %s0	天荒古钱
+QMCJ_190310_91	#cff0000%s0/%s1	55 px - giu
+BHZB_140521_57	#cfff263C: %s0	等级
+GEHJ_181026_91	#G%s0/%s1	55 px - giu
+DWSD_180817_42	#cfff263Server còn: #G%s0	本服剩余数量
+BHJM_140520_04	Tuyên chiến/Chinh phạt	帮会宣战/征讨
+MGCQ_151230_23	#cfff263Đã tặng: #G%s0	送花数量
+KJXF_161121_01	#cfff263Mua NB	元宝购买
+WHYH_161121_6	#cfff263Mua NB	元宝购买
+GJYLK_120517_147	#c00ccffCấp mang giảm %d (Bách Binh Tinh Thông)	
+YSSJ_140818_35	#cfff263Cường lực gốc:	初始强力资质
+YSSJ_140818_43	#cfff263Thân pháp gốc:	初始身法资质
+YSSJ_140818_39	#cfff263Thể lực gốc:	初始体力资质
+YSSJ_140818_41	#cfff263Trí lực gốc:	初始智力资质
+YSSJ_140818_37	#cfff263MP gốc:	初始内力资质
+BSJT_130114_03	#W#e385fb9Bách Thú	精通百兽
+FQBS_140508_14	#cfff263Tổng giá đá:	宝石总价
+FQBS_140508_13	#cfff263Tên đá:	宝石名称
+FQBS_140508_20	#cfff263Vị trí đá:	宝石位置
+FQBS_140508_16	#cfff263Mỗi kỳ:	每期金额
+FQBS_140508_26	#cfff263Đã trả:	已付元宝
+FQBS_140508_15	#cfff263Trước:	首付
+FQBS_140508_10	#cfff263Chọn đá mua trả góp:	请选择分期购买的宝石
+FQBS_140508_29	#cfff263Chọn hạn mức:	请选择返还额度
+ZZDY_130131_62	#GXin vào đội	申请入队
+SQSX_120806_48	#HKhế hợp:	契合等级
+YSSJ_140818_18	#cfff263Ng.công:	外功攻击
+YSSJ_140818_22	#cfff263Ng.thủ:	外功防御
+YSSJ_140818_20	#cfff263Nội công:	内功攻击 (71/65)
+YSSJ_140818_30	#cfff263Hội công:	会心攻击 (71/65)
+JYGZ_160714_237	%s c0	%s级0 - 40 px
+JXSQ_170814_179	#HKhí Linh:	器灵 (65/35 - o nho, giu nghia)
+HLZS_170705_36	%s1/%s0	%s0月%s1日
+SJRZ_180827_03	#cfff263Thưởng xác thực ĐT tháng	每月手机认证奖励
+JMQH_230829_37	#Ysau mới đổi được	后可切换
+ZS_CZL	T.thành:	成长率
+XBWDH_130521_240	#cfff263Còn: #G	剩余比赛时间
+XFSJ_250527_24	#G%s0	30 px - giu
+MDJH_141014_36	#cfff263cần #G2000#cfff263 danh động	需2000名动值
+VIPZY_141216_05	Chuyển Tinh thông	精通属性转换
+ZZZB_150811_310	Chuyển Thăng Linh	升灵等级转移
+ZSLZ_XML_7	Cấp 65 mang được	65级可携带
+ZSLZ_XML_8	Cấp 75 mang được	75级可携带
+ZSLZ_XML_6	Cấp 55 mang được	55级可携带
+ZSLZ_XML_5	Cấp 45 mang được	45级可携带
+INTERFACE_XML_774	Giới	性别 - o 28 px
+GEHJ_181026_24	#cfff263Mỗi lần truyền #G1#cfff263 được #G1#cfff263 thưởng.	
+AQZX_130812_22	#cff0000Chưa đặt mật khẩu cấp 2#G (+10 điểm)	
+AQZX_130812_07	#cff0000Đã bật chế độ an toàn ủy quyền#G (tắt sẽ -20 điểm)	
+AQZX_130812_13	#cff0000Chưa xác thực số điện thoại#G (xác thực +40 điểm)	
+AQZX_130812_19	#cff0000Chưa liên kết bảo mật ĐT#G (+30 điểm)	
+JZGSH_210222_40	#LĐộ khó chọn được: 1 đến %s0	
+AQZX_130812_15	#cfff263Điểm bảo mật: %s0#cfff263/40	
+AQZX_130812_20	#cfff263Điểm mật khẩu cấp 2: %s0#cfff263/10	
+AQZX_130812_06	#cfff263Điểm chế độ an toàn: %s0#cfff263/10	
+AQZX_130812_12	#cfff263Điểm xác thực ĐT: %s0#cfff263/40	
+XZYX_200309_381	#LQuà đã tặng đã đạt giới hạn.	
+INTERFACE_XML_1147	Tỉ lệ trưởng thành:	珍兽成长率
+INTERFACE_XML_630	T.chất Thân pháp	身法资质
+INTERFACE_XML_687	T.chất Thể lực	体力资质
+INTERFACE_XML_253	T.chất Trí lực	智力资质
+INTERFACE_XML_440	T.chất MP	内力资质
+XFXB_230823_15	#cfff263Đúc lại	重铸打造
+YSSJ_140818_13	#cfff263Khế linh:	拥有契灵值
+SCJMY_150325_15	#G4000/4000	NB - bo chu NB cho vua 80 px
+DECOW_160126_125	#c383838Chưa mặc	尚未装备
+INTERFACE_XML_1146	Tên:	珍兽名称
+INTERFACE_XML_860	Tên	珍兽名 - 55 px
+PTFB_191228_62	#LChọn tầng: #M1#L đến #M%s0#L	
+PTFB_191228_39	#LChọn tầng: #M1#L đến #M%s0#L	
+SJRZ_180827_05	#cff0000Tài khoản chưa xác thực ĐT	
+INTERFACE_XML_464	Tên: Nguyệt Quang Chiếu	cho giu cho ten nhan vat
+CFSN_220224_26	Online: %s0g %s1p	累计在线
+QLSX_180521_3	Online: %s0g %s1p	累计在线
+XRZL_250508_100	#LGiá giảm: #M%s0#L NB	
+XRZL_250508_57	#LGiá gốc: #M%s0#L NB	
+SWTS_20101029_11	#cfff965Sau khi hồn lìa xác	魂魄离体后
+ZSND_230428_29	#cfff263Tư chất cao nhất:	本珍兽最高资质
+DWYH_161110_1	#cfff263Trả bằng NB khóa/NB	
+ZNJCS_130825_144	#cfff263Hiệu lực k.năng:	技能效果生效
+QMCJ_190310_35	#cfff263Cẩm Linh: #G%s0	拥有锦灵珠
+IMXZ_20100813_19	Hình tượng gốc	基础形象
+YXPY_20131118_67	H.công: +%s0	玄攻
+YXPY_20131118_65	B.công: +%s0	冰攻
+YXPY_20131118_66	Hỏa công: +%s0	火攻
+YXPY_20131118_68	Độc công: +%s0	毒攻
+YXPY_20131118_64	Hội công: +%s0	会攻
+ZNJCS_130825_143	#cfff263Tố chất:	综合素质
+DLJM_XML_15	#GNhấp đúp tạo	双击创建
+XFTG_191206_06	#LGốc: #M%s0 NB	原价
+QMCJ_190310_33	#cfff263Giỏ hoa: #G%s0	拥有花篮
+GEHJ_181026_23	#cfff263Tiệc: #G%s0.	当前宴席
+DWKC_20210508_10	#LSL mua:	购买数量
+BHZB_140521_251	Khoá	锁定 - o 30 px
+ZBSX_130625_54	Khoá	锁定 - o 30 px
+WYXT_20170811_202	#cfff263Khoá	锁定 - o 30 px
+FJYX_110426_25	#cfff263Nội dung:	信件内容
+GEHJ_181026_87	#cfff263Chi tiết:	获得明细
+FJYX_110426_26	#cfff263Kèm:	附件
+FJYX_110426_72	#cfff263Đồ:	道具
+FMSD_220705_24	#cfff263%s0/%s1	60 px - giu
+QLGCJ_180810_97	#G%s0/%s1	60 px - giu
+ZNJCS_130825_131	#cfff263Giới:	性别 - o 39 px
+FFSDGZ_120615_21	#cfff263SL:	购买数量
+INTERFACE_XML_227	Cấp	等级 - o 29,9 px
+SJYH_210426_27	Chịu	承伤 - o 30 px
+SJYH_210426_28	Hồi	治疗 - o 30 px
+JHS32_181117_67	#c6a3906Mỗi người chỉ được thượng trận #c1f941e1#c6a3906 lần.	
+BWDH_180804_27	#c6a3906Mùa giải vào ngày #c1f941e%s0#c6a3906.	
+INTERFACE_XML_319	Hắc Long Giang 2 (mới)	cho giu cho ten server
+JJHC_160620_177	#cfff263Chọn đồ trang trí trong danh sách hiếm	
+JJHC_160620_112	#cfff263Chọn vật muốn chế tạo:	
+ZZZB_150811_307	#cfff263Thăng Linh trước: #H+%s0%	
+ZZZB_150811_308	#cfff263Thăng Linh sau: #H+%s0%	
+ZDZD_200724_21	#cfff263Dùng khi khí dưới #G%s0%#cfff263	
+ZDZD_200724_22	#cfff263Dùng khi máu Thú dưới #G%s0%#cfff263	
+BSQKY_20110506_07	#GT.bị đích phải có #rlỗ trống tương ứng	
+JHJL_160106_28	#cfff263Tọa kỵ Kim Yên Ứng Tuyết (%s0 ngày)	
+JHJL_200722_01	#cfff263Tọa kỵ Cánh Cực Quang (%s0 ngày)	
+TXLY_240904_59	#cfff263Ngày chốt BXH: %s1/%s0	
+PTFB_191228_201	#cfff263Lượt thử tuần này: #G%s0/%s1	
+JBHL_190803_287	#LTái xuất giang hồ còn:	
+JBHL_190803_327	#LĐăng nhập: #M%s0 ngày#L	
+BJPM_200804_160	#cfff263Đấu giá: #GCN 21:00	
+JXSQ_170804_72	#cfff263Khí Linh cấp 10 mở phong ấn	
+JXSQ_170804_70	#cfff263Khí Linh cấp 2 mở phong ấn	
+JXSQ_170804_71	#cfff263Khí Linh cấp 5 mở phong ấn	
+SJRZ_180827_25	#cfff263Đã xác thực (nhận được)	
+SJRZ_180827_26	#cfff263Đã xác thực (đã nhận)	
+HMLZ_171214_202	#KMai đang vẽ: %s0#K/10	
+JHS32_181117_69	#c6a3906Còn #c1f941e%s0#c6a3906 giây tới so tài	
+JBHL_190803_424	#LGiang hồ cấp 2 nhận được	
+YLK_120307_35	Khóa/Mở TG song bội	
+JBHL_190803_420	#LGiang hồ #Mcấp 2#L trở lên	
+PVPZH_220124_13	#cfff263Huyền Giáp Lệnh: #G%s0	
+JXSQ_170829_239	#cfff263Kéo vào thanh k.năng	
+JBLC_150528_280	Nâng Trận Kim Lan	金兰阵法升级
+XSJNH_180120_242	#cfff263Hào hiệp: #G%s0/150#cfff263	
+FBSD_150126_65	Bỏ hết vào hành trang	
+QHTZ_140808_02	#cfffffeThiên Duệ: cấp %s0	
+NJBZ_220816_393	#cfff263Đặt Tinh Thạch nguồn:	
+SWZB_190322_67	#cfff263Chọn một bảo vật	
+XLDL_140606_18	#cfff263Thể lực: +%s0 (#H+%s1#cfff263)	

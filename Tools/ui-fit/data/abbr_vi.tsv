@@ -1,0 +1,80 @@
+muc	day_du	viet_tat	ghi_chu
+1	Kinh nghiệm	KN	tien le: ActionSkillsStudy "KN có:" (ui-fit 17/09), ActionSkill "KN cần:" (skills-ui)
+1	Nguyên bảo	NB	tien le: shop NB (client_GL)
+1	Nguyên Bảo	NB	
+1	Số lượng	SL	
+1	Hoạt động	HĐ	
+1	Bang hội	Bang	
+1	Môn phái	Phái	tien le: INTERFACE_XML_448 "Phái"
+1	Cấp độ	Cấp	
+1	Đẳng cấp	Cấp	
+1	Trân thú	Thú	
+1	Bằng hữu	Bạn	
+1	Tổ đội	Đội	
+1	Phần thưởng	Thưởng	
+1	Yêu cầu	Cần	
+1	Tiêu hao	Tốn	
+1	Sở hữu	Có	
+1	Hiện tại	Hiện	
+1	Hiển thị	Hiện	
+1	Tiêu diệt	Diệt	
+1	Số lần	Lần	
+1	Hủy bỏ	Hủy	tien le: INTERFACE_XML_1059
+1	Mở/Đóng	Bật/tắt	
+1	Mở/đóng	Bật/tắt	
+1	Đóng/mở	Bật/tắt	
+1	Tối đa	Max	
+1	Tối thiểu	Min	
+2	Xác nhận	OK	tien le: INTERFACE_XML_1058 "OK"
+2	Nhiệm vụ	NV	quen thuoc voi nguoi choi VN ("NV chính tuyến")
+2	Vật phẩm	VP	
+2	Thời gian	TG	
+2	Sát thương	ST	
+2	Tâm pháp	TP	tien le: DBXF_XML_1 "Điểm TP:"
+2	Tu luyện	TL	tien le: DBXF_XML_2 "Điểm TL:"
+2	Trang bị	T.bị	
+2	Kỹ năng	K.năng	KN da dung cho Kinh nghiem
+2	Thông tin	TT	
+2	Chiến đấu	Đấu	
+2	Tấn công	Công	
+2	Phòng ngự	Thủ	
+2	Sinh lực	HP	
+2	Nội lực	MP	
+2	Thành viên	TV	
+2	Giao dịch	GD	
+2	Nhận thưởng	Nhận	
+2	Lĩnh thưởng	Nhận	
+3	Người chơi	Người	
+3	Danh vọng	DV	
+3	Cống hiến	CH	
+3	Thành công	OK	
+2	Cửa hàng	Shop	
+1	Lớn nhất	Max	ui-fit-2 vong 2: nut "最大" 40-60 px, lap 20+ lan
+1	Trang trước	Trước	上页/前一页
+1	Trang sau	Sau	下页/后一页
+1	Trang đầu	Đầu	首页
+1	Trang cuối	Cuối	末页
+1	Làm mới	Tải lại	刷新
+1	Thời Trang	T.trang	时装
+1	Thuộc tính	Chỉ số	属性 - "chi so" ngan hon va dung nghia trong game VN
+1	Sử dụng	Dùng	使用
+1	Tích lũy online	Online	累计在线
+1	Điểm năng động	Năng động	活跃值
+1	Bãi miễn	Hủy	解除
+1	Bãi bỏ	Hủy	解除
+1	Bổ nhiệm	Cử	任命
+1	Tháo dỡ	Tách	拆解
+1	Tự động	Tự	自动
+1	Miễn phí lĩnh thưởng	Miễn phí	免费领取
+1	Miễn phí nhận	Miễn phí	免费领取
+1	Đóng giao diện	Đóng	关闭界面
+1	Quà Tặng Hạng	Quà	礼物
+1	Chưa lên bảng	Chưa xếp	未上榜
+1	Long Dược Bảng	BXH	龙跃榜
+1	Bảng xếp hạng	BXH	排行榜
+2	Chuyển sang	Sang	切换至
+2	Giao diện	GD	界面
+2	Hài tử	Con	孩子
+2	Hoạt động	HĐ	活动
+2	Nhận được	Nhận	获得
+2	Đặc quyền	ĐQ	特权

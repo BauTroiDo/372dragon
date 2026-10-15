@@ -1,0 +1,10284 @@
+local pet_rules = require "cy_pet_rules"
+local inventory_guard = require "cys_inventory_guard"
+local skynet = require "skynet"
+local server_conf = require "server_conf"
+local datacenter = require "skynet.datacenter"
+local profile = require "skynet.profile"
+local crypt = require "skynet.crypt"
+local mc = require "skynet.multicast"
+local gbk = require "wire_charset"
+require "skynet.manager"
+local define = require "define"
+local utils = require "utils"
+local scriptenginer = require "scriptenginer"
+local AOI = require "scene.sceneaoi":getinstance()
+local skillenginer = require "skillenginer"
+local actionenginer = require "actionenginer"
+local eventenginer = require "eventenginer"
+local impactenginer = require "impactenginer":getinstance()
+local talentenginer = require "talentenginer":getinstance()
+local configenginer = require "configenginer":getinstance()
+local abilityenginer = require "abilityenginer":getinstance()
+local growpointenginer = require "growpointenginer":getinstance()
+local exterior_bonus = require "exterior_bonus"
+local equip_dress_bonus = require "equip_dress_bonus"
+local MF_TradeCard = 754  -- 交易卡/交易令激活标记，与ScriptGlobal.MF_TradeCard一致
+local shopenginer = require "shopenginer":getinstance()
+local playershopmanager = require "playershopmanager":getinstance()
+local commisionshopmanager = require "commisionshopmanager":getinstance()
+-- local ranking_core = require "ranking_core":getinstance()
+
+local petmanager = require "petmanager":getinstance()
+local gametable = require "gametable":getinstance()
+local itemdropmanager = require "itemdropmanager"
+local human_item_logic = require "human_item_logic"
+local GMCommand = require "GMCommand"
+local item_operator = require "item_operator":getinstance()
+local item_cls = require "item"
+local item_guid = require "guid"
+local pet_guid = require "pet_guid"
+local ai_human = require "scene.obj.human"
+local ai_pet = require "scene.obj.pet"
+local cls_pet_detail = require "pet_detail"
+local ai_monster = require "scene.obj.monster"
+local obj_itembox = require "scene.obj.itembox"
+local obj_special = require "scene.obj.special"
+local event_area = require "scene.obj.event_area"
+local platform = require "scene.obj.platform"
+local bus = require "scene.obj.bus"
+local packet_def = require "game.packet"
+local class = require "class"
+local scenecore = class("scenecore")
+
+
+function scenecore:getinstance()
+    if scenecore.instance == nil then scenecore.instance = scenecore.new() end
+    return scenecore.instance
+end
+
+local map = require "nav_adapter"
+function scenecore:ctor()
+    self.objs_count = {}
+    self.objs = {}
+	self.guid2objs = setmetatable({}, {__mode = "v"})
+    self.running_activitys = {}
+    self.timers = {}
+    self.id = nil
+    self.now_obj_id = 1
+    self.scriptenginer = scriptenginer:getinstance()
+    self.scriptenginer:set_scene(self)
+    self.skillenginer = skillenginer:getinstance()
+    self.skillenginer:set_scene(self)
+    self.actionenginer = actionenginer:getinstance()
+    self.actionenginer:set_scene(self)
+    self.eventenginer = eventenginer:getinstance()
+    self.eventenginer:set_scene(self)
+    self.impactenginer = impactenginer:getinstance()
+    self.impactenginer:set_scene(self)
+    self.talentenginer = talentenginer:getinstance()
+    self.talentenginer:set_scene(self)
+    self.configenginer = configenginer:getinstance()
+    self.configenginer:set_scene(self)
+    self.growpointenginer = growpointenginer:getinstance()
+    self.growpointenginer:set_scene(self)
+    self.itemdropmanager = itemdropmanager:getinstance()
+    self.itemdropmanager:set_scene(self)
+    shopenginer:set_scene(self)
+    petmanager:set_scene(self)
+    item_operator:set_scene(self)
+    self.delta_time = 7
+    self._last_message_update_time = skynet.now()
+    self.obj_update_tick = 0
+    self.objs_move_use_time = 0
+    self._obj_skip_counter = 0
+	local curtime = os.time()
+    self.check_new_day_timestamp = curtime
+	self.humansectick = 0
+    self._timex = os.date("*t")
+    self._timex_accum = 0
+    skynet.timeout(self.delta_time, function()
+        self:safe_message_update()
+    end)
+end
+
+function scenecore:load(conf)
+    self.world_id = conf.world_id
+    self.conf = { params = {} }
+    local reader = require"inireader".new()
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local r, scn = pcall(reader.load, reader, string.format("%s/%s", scene_config_env, conf.file))
+    if not r then
+        skynet.loge(string.format("[SCENE_LOAD_FAIL] 场景 %s(id=%s) .scn 配置加载失败: %s", tostring(conf.name or "?"), tostring(conf.id), tostring(scn)))
+        self.scn = nil
+        self.id = conf.id
+        self.client_res = conf.clientres
+        self.pvp_rule = conf.PvpRuler
+        self:init_conf(conf)
+        playershopmanager:init(self)
+        commisionshopmanager:init(self)
+        if define.MAIN_CITY[self.id] then
+            self.delta_time = 8
+        end
+        self:register(conf)
+        self.load_failed = true
+        collectgarbage("collect")
+        return false
+    end
+    self.scn = scn
+    self.id = conf.id
+    self.client_res = conf.clientres
+    self.pvp_rule = conf.PvpRuler
+    self:init_conf(conf)
+    playershopmanager:init(self)
+    commisionshopmanager:init(self)
+    if define.MAIN_CITY[self.id] then
+        self.delta_time = 8
+    end
+    self:register(conf)
+    if self.scn.System.navmapname then
+        if not self:init_navmap(self.scn.System.navmapname) then
+            skynet.error(string.format("[W] 场景 %s navmap加载失败: %s", tostring(conf.name or self.id), self.scn.System.navmapname))
+        end
+    end
+    if self.scn.System.patrolpoint then self:init_patrol_point(self.scn.System.patrolpoint) end
+    if self.scn.System.monsterfile then self:init_monster(self.scn.System.monsterfile) end
+    if self.scn.System.eventfile then self:init_event_area(self.scn.System.eventfile) end
+    if self.scn.System.platformfile then self:init_platform(self.scn.System.platformfile) end
+    if self.scn.System.busfile then self:init_bus(self.scn.System.busfile) end
+    if self.scn.System.stallinfodata then self:init_stall_info(self.scn.System.stallinfodata) end
+    self.scn = nil
+    collectgarbage("collect")
+    return true
+end
+
+function scenecore:get_frame_time()
+	return self.delta_time * 10
+end
+
+function scenecore:set_auto_revive_or_escape(value)
+	self.auto_revive_or_escape = value
+end
+
+function scenecore:get_auto_revive_or_escape()
+	return self.auto_revive_or_escape
+end
+
+function scenecore:reset_dmg_top_monid(objId)
+	local obj = self.objs[objId]
+	if obj and obj:get_obj_type() == "monster" then
+		self.dmg_top_list = {}
+		if self.dmg_top_id then
+			local old_obj = self.objs[self.dmg_top_id]
+			if old_obj then
+				old_obj:empty_top_monster()
+			end
+		end
+		self.dmg_top_id = objId
+		obj:set_top_monster()
+	end
+end
+function scenecore:empty_dmg_top_monid()
+	if self.dmg_top_id then
+		local old_obj = self.objs[self.dmg_top_id]
+		if old_obj then
+			old_obj:empty_top_monster()
+		end
+	end
+	self.dmg_top_id = nil
+end
+function scenecore:get_dmg_top_monid()
+	return self.dmg_top_id
+end
+
+function scenecore:get_scene_exp_rate()
+	return self.scene_exp_rate or 0
+end
+
+function scenecore:set_scene_exp_rate(rate)
+	self.scene_exp_rate = rate
+end
+
+function scenecore:set_dmg_top_list(objId,dmgs)
+	if objId and objId == self.dmg_top_id then
+		self.dmg_top_list = {}
+		for guid, damage in pairs(dmgs) do
+			self.dmg_top_list[#self.dmg_top_list + 1] = { guid = guid, damage = damage * 5 }
+		end
+		table.sort(self.dmg_top_list, function(a, b) return a.damage > b.damage end)
+	end
+end
+
+function scenecore:get_dmg_top_list(top_num)
+	if self.dmg_top_list then
+		return { table.unpack(self.dmg_top_list, 1, top_num) }
+	end
+	return {}
+end
+
+
+function scenecore:char_ranking_lists(selfId)
+    local ret = packet_def.WGCRetNormalRankList.new()
+	self:send2client(selfId, ret)
+end
+
+function scenecore:get_pvp_rule()
+    return self.pvp_rule
+end
+
+function scenecore:get_world_id()
+    return self.world_id
+end
+
+function scenecore:get_param(index)
+    return self.conf.params[index] or 0
+end
+
+function scenecore:set_param(i, v)
+    self.conf.params[i] = v
+end
+
+function scenecore:get_scn()
+    return self.scn
+end
+
+function scenecore:get_name()
+    if self.attr == nil then
+        return "未知场景"
+    else
+        return  self.attr.name or "未知场景"
+    end
+end
+
+function scenecore:init_conf(conf)
+    self:init_multicast()
+    -- 不再 loadall，依赖 get_config 按需自动加载
+    require("cy_four_combat.startup").configure()
+    self.skillenginer:loadall()
+    self.impactenginer:loadall()
+    self.talentenginer:loadall()
+    -- self.jingmaienginer:loadall()
+    self.growpointenginer:loadall()
+    -- abilityenginer 延迟到首次访问时加载
+    -- shopenginer 改为按需初始化
+    gametable:init()
+    AOI:init(self, conf)
+    self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnInitScene")
+end
+
+function scenecore:get_id()
+    return self.id
+end
+
+function scenecore:get_delta_time() return self.delta_time end
+
+function scenecore:get_script_engienr() return self.scriptenginer end
+
+function scenecore:get_skill_enginer() return self.skillenginer end
+
+function scenecore:get_action_enginer() return self.actionenginer end
+
+function scenecore:get_event_enginer() return self.eventenginer end
+
+function scenecore:get_impact_enginer() return self.impactenginer end
+
+function scenecore:get_config_enginer() return self.configenginer end
+
+function scenecore:get_item_drop_manager() return self.itemdropmanager end
+
+function scenecore:get_grow_point_enginer() return self.growpointenginer end
+
+function scenecore:get_obj_by_id(id) return self.objs[id] end
+
+function scenecore:get_obj_by_guid(guid)
+	if guid then
+		local obj_id = self.guid2objs[guid]
+		if obj_id then
+			local obj = self:get_obj_by_id(obj_id)
+			if obj and obj:get_guid() == guid then
+				return obj
+			end
+			self.guid2objs[guid] = nil
+		end
+	end
+end
+
+function scenecore:get_objs()
+    return self.objs
+end
+
+function scenecore:init_multicast()
+    self.multicast_channel = mc.new()  -- 创建一个频道，成功创建后，.channel 是这个频道的 id 。
+end
+
+function scenecore:get_multicast_channel()
+    return self.multicast_channel.channel
+end
+
+function scenecore:init_navmap(navmapname)
+    self.navmapname = navmapname
+    self.map = map.new()
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, navmapname)
+    local r = self.map:load(fullname)
+    -- Ban do CHAN theo o (tuy chon): chi cac canh CO file nay moi bi kiem tra,
+    -- nen khong dong den bat ky ban do goc nao. Xem lualib/blockmap.lua.
+    local bmname = navmapname:gsub("%.path$", "") .. "_block.bin"
+    local ok, bm = pcall(function()
+        return require"blockmap".load(string.format("%s/%s", scene_config_env, bmname))
+    end)
+    if ok and bm then
+        self.blockmap = bm
+        skynet.logi("[BLOCKMAP] scene", self.id, "nap", bmname, bm.xs .. "x" .. bm.zs)
+    end
+    return r
+end
+
+-- true neu doan duong tu  toi  di xuyen qua o bi chan.
+function scenecore:move_blocked(start, pos)
+    local bm = self.blockmap
+    if not bm or not pos then return false end
+    if start and start.x and start.y then
+        return bm:segment_blocked(start.x, start.y, pos.x, pos.y)
+    end
+    return bm:is_blocked(pos.x, pos.y)
+end
+
+function scenecore:get_navmapname()
+    return self.navmapname
+end
+
+function scenecore:init_monster(monsterfile)
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, monsterfile)
+    local reader = require"inireader".new()
+    local r, monster_file = pcall(reader.load, reader, fullname)
+    if not r then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 怪物配置加载失败: %s -> %s", tostring(self.id), tostring(monsterfile), tostring(monster_file)))
+        return
+    end
+    self.monster_conf = monster_file
+    local cr, cerr = pcall(self.create_monsters, self)
+    if not cr then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 怪物生成异常: %s", tostring(self.id), tostring(cerr)))
+    end
+    self.monster_conf = nil
+end
+
+function scenecore:init_event_area(eventfile)
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, eventfile)
+    local reader = require"inireader".new()
+    local r, event_conf = pcall(reader.load, reader, fullname)
+    if not r then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 事件区配置加载失败: %s -> %s", tostring(self.id), tostring(eventfile), tostring(event_conf)))
+        return
+    end
+    self.event_conf = event_conf
+    local cr, cerr = pcall(self.create_event_areas, self)
+    if not cr then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 事件区创建异常: %s", tostring(self.id), tostring(cerr)))
+    end
+    self.event_conf = nil
+end
+
+function scenecore:init_platform(platformfile)
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, platformfile)
+    local reader = require"inireader".new()
+    local r, platformf_conf = pcall(reader.load, reader, fullname)
+    if not r then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 平台配置加载失败: %s -> %s", tostring(self.id), tostring(platformfile), tostring(platformf_conf)))
+        return
+    end
+    self.platformf_conf = platformf_conf
+    local cr, cerr = pcall(self.create_platforms, self)
+    if not cr then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 平台创建异常: %s", tostring(self.id), tostring(cerr)))
+    end
+    self.platformf_conf = nil
+end
+
+function scenecore:init_bus(busfile)
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, busfile)
+    local reader = require"inireader".new()
+    local r, bus_conf = pcall(reader.load, reader, fullname)
+    if not r then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 公交配置加载失败: %s -> %s", tostring(self.id), tostring(busfile), tostring(bus_conf)))
+        return
+    end
+    self.bus_conf = bus_conf
+    local cr, cerr = pcall(self.create_buss, self)
+    if not cr then
+        skynet.loge(string.format("[SCENE_INIT_FAIL] 场景 %s 公交创建异常: %s", tostring(self.id), tostring(cerr)))
+    end
+    self.bus_conf = nil
+end
+
+function scenecore:init_stall_info(stallinfofile)
+    --[[
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, stallinfofile)
+    print("fullname =", fullname)
+    local reader = require"stallinforeader".new()
+    local r, stallinfo = xpcall(reader.load, debug.traceback, reader, fullname)
+    print("r =", r, ";stallinfo =", stallinfo)
+    if r then
+        self.stallinfo = stallinfo
+    else
+        print("stallinfo", stallinfo)
+    end
+    ]]
+    self.stallinfo = { map = {} }
+end
+
+function scenecore:get_type()
+    return 0
+end
+
+function scenecore:init_patrol_point(patrolfile)
+    local scene_config_env = skynet.getenv"scene_config_env"
+    local fullname = string.format("%s/%s", scene_config_env, patrolfile)
+    local reader = require"inireader".new()
+    local r, patrol_file = pcall(reader.load, reader, fullname)
+    if r then
+        self.patrols = {}
+        for i = 1, patrol_file.INFO.PATROLNUMBER do
+            local pkey = string.format("PATROL%d", i - 1)
+            local config = patrol_file[pkey]
+            local patrol = { path = {} }
+            for j = 1, config.PATROLPOINTNUM do
+                local xk = string.format("POSX%d", j - 1)
+                local yk = string.format("POSZ%d", j - 1)
+                local zk = string.format("POSY%d", j - 1)
+                local pos = { x = config[xk], y = config[yk], z = config[zk]}
+                table.insert(patrol.path, pos)
+            end
+            patrol.is_turn_back = true
+            if config.isturnback == 0 then
+                patrol.is_turn_back = false
+            end
+            patrol.is_teleport_to_respawn_pos = config.isTeleportToRespawnPos == 1
+            table.insert(self.patrols, patrol)
+        end
+    end
+end
+
+function scenecore:get_patrols()
+    return self.patrols
+end
+
+function scenecore:get_patrol_path_by_index(index)
+    index = index + 1
+    local patorl = self.patrols[index]
+    return patorl
+end
+
+function scenecore:is_allow_add_pk_value()
+    local pvp_rule = configenginer:get_config("pvp_rule")
+    pvp_rule = pvp_rule[self.pvp_rule]
+    return pvp_rule.allow_add_pk_value
+end
+
+function scenecore:safe_message_update()
+    if self._message_update_running then
+        self._message_update_skip_count = (self._message_update_skip_count or 0) + 1
+        local now = skynet.now()
+        if not self._message_update_skip_log_time or now - self._message_update_skip_log_time >= 500 then
+            self._message_update_skip_log_time = now
+            skynet.logw("[SCENE_TICK] skip reentrant update, sceneid =", tostring(self.id),
+                " skip_count =", tostring(self._message_update_skip_count))
+        end
+        skynet.timeout(self.delta_time, function() self:safe_message_update() end)
+        return
+    end
+    self._message_update_running = true
+    -- [audit 2026-09-03] delta thuc te (ms) thay vi hang so 70, de nhip thua cho scene trong van dung timer
+    local now_tick = skynet.now()
+    local elapsed = (now_tick - (self._last_tick_now or now_tick)) * 10
+    if elapsed <= 0 or elapsed > 5000 then elapsed = self.delta_time * 10 end
+    self._last_tick_now = now_tick
+    local r, err = pcall(self.message_update, self, elapsed)
+    self._message_update_running = false
+    if not r then
+        skynet.logw("scenecore:safe_message_update error =", err)
+    end
+    skynet.timeout(self:idle_tick_delay(), function() self:safe_message_update() end)
+end
+
+-- [audit 2026-09-03] scene khong co nguoi choi qua 5 giay -> tick 500 ms thay vi 70 ms (giam CPU nen ~85%)
+function scenecore:idle_tick_delay()
+    local humans = (self.objs_count and self.objs_count.human) or 0
+    if humans > 0 then
+        self._idle_since = nil
+        return self.delta_time
+    end
+    local now = skynet.now()
+    self._idle_since = self._idle_since or now
+    if now - self._idle_since < 500 then
+        return self.delta_time
+    end
+    return 50
+end
+
+function scenecore:obj_update(obj)
+    -- [audit 2026-09-10] xpcall + traceback o loi dau tien cua chuoi loi de tim duoc noi nem (vd "error = 97")
+    local r, err = xpcall(function()
+        obj:update_time()
+        local logic_time = obj:get_logic_time()
+        obj:update(logic_time)
+    end, function(e)
+        if (obj._error_count or 0) == 0 then
+            return debug.traceback(tostring(e), 2)
+        end
+        return e
+    end)
+    if not r then
+        obj._error_count = (obj._error_count or 0) + 1
+        local obj_type = obj.get_obj_type and obj:get_obj_type() or "unknown"
+        if obj._error_count == 1 or obj._error_count == 10 or obj._error_count % 100 == 0 then
+            skynet.loge("[OBJ_UPDATE] scene =", tostring(self.id),
+                " obj_id =", tostring(obj.get_obj_id and obj:get_obj_id() or 0),
+                " type =", tostring(obj_type), " count =", tostring(obj._error_count),
+                " error =", tostring(err))
+        end
+
+        if obj_type ~= "human" and obj._error_count > 100 then
+            -- 非玩家异常对象也必须通过统一删除路径清理 AOI 和对象计数。
+            pcall(self.delete_obj, self, obj)
+        end
+    else
+        obj._error_count = 0
+    end
+end
+
+function scenecore:objs_update()
+	self._obj_skip_counter = self._obj_skip_counter + 1
+    local skip_idle = self._obj_skip_counter % 15 ~= 0
+    for obj_id, obj in pairs(self.objs) do
+        if type(obj) == "table" then
+            local ok, should_skip = pcall(function()
+                if skip_idle and obj.is_character_logic_stopped and obj:is_character_logic_stopped()
+                    and obj.get_impact_list and (#obj:get_impact_list() == 0 or obj:get_character_logic() == nil) then
+                    return true
+                end
+                return false
+            end)
+            if ok and not should_skip then
+                self:obj_update(obj)
+            end
+        else
+            self.objs[obj_id] = nil
+        end
+    end
+    
+end
+
+function scenecore:inc_move_use_time(time)
+    self.objs_move_use_time = self.objs_move_use_time + time
+end
+
+function scenecore:message_update(delta_time)
+    self._last_message_update_time = skynet.now()
+    self._timex_accum = self._timex_accum + delta_time
+	if self._timex_accum >= 1000 then
+		self._timex_accum = 0
+		self._timex = os.date("*t")
+	end
+	local timex = self._timex
+	local hour = timex.hour
+	local minute = timex.min
+	local hour_minute = hour * 60 + minute
+    self:objs_update()
+    AOI:message_update()
+    self:update_weather(delta_time)
+    self._slow_tick = (self._slow_tick or 0) + delta_time
+    if self._slow_tick >= 500 then
+        self._slow_tick = 0
+        self:update_timers(delta_time)
+        self:running_activitys_tick(delta_time,timex.sec,minute,hour_minute,hour)
+        playershopmanager:heart_beat(delta_time)
+        commisionshopmanager:heart_beat(delta_time)
+        self.growpointenginer:heart_beat(delta_time)
+        -- self:check_new_day()
+    end
+    self._log_tick = (self._log_tick or 0) + delta_time
+    if self._log_tick >= 1000 then
+        self._log_tick = 0
+        self:log_objs_count(delta_time)
+        self:log_status(delta_time)
+        self:save_human_count_to_data_center()
+    end
+end
+
+function scenecore:get_scene_health()
+    local now = skynet.now()
+    return {
+        sceneid = self.id,
+        loaded = not self.load_failed,
+        last_tick = self._last_message_update_time or 0,
+        tick_age = now - (self._last_message_update_time or now),
+        mqlen = skynet.stat("mqlen"),
+        message = skynet.stat("message"),
+        human_count = self.objs_count.human or 0,
+        monster_count = self.objs_count.monster or 0,
+    }
+end
+
+function scenecore:save_human_count_to_data_center()
+    datacenter.set("scene_human_count", tostring(self:get_id()), self.objs_count.human or 0)
+end
+
+function scenecore:check_new_day()
+    local now = os.time()
+    local day_diff = os.cal_day_diff_0(now, self.check_new_day_timestamp)
+    self.check_new_day_timestamp = now
+    if day_diff ~= 0 then
+        self:on_new_day()
+    end
+end
+
+function scenecore:on_new_day()
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "human" then
+            self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnNewDay", obj:get_obj_id())
+        end
+    end
+end
+
+function scenecore:update_weather(delta_time)
+    if self.weather then
+        self.weather.time = self.weather.time - delta_time
+        if self.weather.time < 0 then
+            self:set_weather(define.INVAILD_ID)
+        end
+    end
+end
+
+function scenecore:create_monsters()
+    local count = self.monster_conf.info.monstercount
+    for i = 0, count - 1 do
+        local key = string.format("monster%d", i)
+        local conf = self.monster_conf[key]
+        if conf then
+            self:create_monster(conf)
+        end
+    end
+end
+
+function scenecore:create_event_areas()
+    local count = self.event_conf.area_info.area_count
+    for i = 0, count - 1 do
+        local key = string.format("area%d", i)
+        local conf = self.event_conf[key]
+        self:create_event_area(conf)
+    end
+end
+
+function scenecore:create_platforms()
+    local count = self.platformf_conf.info.platformcount
+    for i = 0, count - 1 do
+        local key = string.format("platform%d", i)
+        local conf = self.platformf_conf[key]
+        self:create_platform(conf)
+    end
+end
+
+function scenecore:create_buss()
+    local count = self.bus_conf.info.buscount
+    for i = 0, count - 1 do
+        local key = string.format("bus%d", i)
+        local conf = self.bus_conf[key]
+        local bus = self:create_bus(conf)
+        bus:start()
+    end
+end
+
+function scenecore:create_pet_data(conf, owner_obj_id, pos)
+    conf.db:set_db_attrib({ world_pos = pos})
+    conf.owner_obj_id = owner_obj_id
+    return ai_pet.new(conf, self)
+end
+
+function scenecore:create_monster_data(conf)
+    local monster_attr_ex = configenginer:get_config("monster_attr_ex")
+    local conf_ex = monster_attr_ex[conf.type]
+    if not conf_ex then
+        skynet.loge(string.format("[MONSTER_CFG_FAIL] 场景 %s 怪物 type=%s 在 monster_attr_ex 中找不到配置，跳过该怪物", tostring(self.id), tostring(conf.type)))
+        return nil
+    end
+    local ai_type = conf.base_ai or conf_ex.base_ai
+    local world_pos = {x = conf.pos_x or conf.x, y = conf.pos_z or conf.z}
+    local db_attribs = table.clone(conf_ex)
+    db_attribs.model = conf.type
+    db_attribs.guid = conf.guid
+    db_attribs.base_ai = ai_type
+    db_attribs.ai_type = ai_type
+    db_attribs.dir = utils.idir2fdir(conf.dir)
+    db_attribs.world_pos = world_pos
+    db_attribs.name = conf.name or conf_ex.name
+    db_attribs.title = { str = conf.title }
+    db_attribs.camp_id = conf.camp_id or conf_ex.camp_id
+    db_attribs.is_npc = conf_ex.is_npc
+    db_attribs.sceneid = self:get_id()
+    local data = {
+		dataid = conf_ex.id,
+        obj_id = conf.obj_id,
+        db_attribs = db_attribs,
+        script_id = conf.script_id,
+        patrol_id = conf.patrol_id,
+        respawn_time = conf.respawn_time,
+        group_id = conf.group_id,
+        ai_script = conf.ai_script or conf.ai_file or conf_ex.ai_script,
+        active_time = conf_ex.active_time or 0,
+		interaction_type = conf_ex.interaction_type,
+		need_skill = conf_ex.need_skill
+    }
+    return ai_monster.new(data, self)
+end
+
+function scenecore:create_bus_data(conf)
+    local bus_info = configenginer:get_config("bus_info")
+    bus_info = bus_info[conf.dataId]
+    local data = {}
+    data.guid = conf.guid
+    data.athwart = conf.athwart
+    data.data_id = conf.dataId
+    data.patrol_id = conf.patrolPathID
+    data.name = bus_info["名称"]
+    data.speed = bus_info["行驶速度"]
+    data.stop_time = bus_info["停站时间(毫秒)"]
+    data.can_carry_passenger_count = bus_info["准乘人数"]
+    data.script_id = bus_info["脚本ID"]
+    local patrol = self:get_patrol_path_by_index(data.patrol_id)
+    if data.athwart == 0 then
+        data.world_pos = table.clone(patrol.path[1])
+    else
+        local n = #patrol.path
+        data.world_pos = table.clone(patrol.path[n])
+    end
+    assert(data.world_pos, data.name)
+    return data
+end
+
+function scenecore:create_event_area(conf)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+    local obj = event_area.new(conf, self)
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+end
+
+function scenecore:create_platform(conf)
+    if conf.class == 10 then
+        return
+    end
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+    local obj = platform.new(conf, self)
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+end
+
+function scenecore:create_bus(conf)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    local data = self:create_bus_data(conf)
+    data.obj_id = obj_id
+    local obj = bus.new(data, self)
+    self.objs[obj_id] = obj
+    -- self.guid2objs[data.guid] = obj_id
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pcall(AOI.enter, AOI, obj)
+    return obj
+end
+
+function scenecore:create_pet(conf, owner_obj_id, pos)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+    local obj = self:create_pet_data(conf, owner_obj_id, pos)
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    obj:init()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+    return obj
+end
+
+function scenecore:create_special_obj(initer)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    local data = { world_pos = initer.world_pos, obj_id = obj_id}
+    local obj = obj_special.new(data, self)
+    obj:init(initer)
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+    return obj
+end
+
+function scenecore:create_monster(conf,param_dir)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+	local cur_dir = conf.dir
+	conf.dir = param_dir or cur_dir
+    local obj = self:create_monster_data(conf)
+    if not obj then
+        -- 2026-09-11: quái không có cấu hình -> bỏ qua; chưa đăng ký obj nào nên KHÔNG gọi on_obj_id_release(nil)
+        return
+    end
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    obj:init()
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+end
+
+function scenecore:create_temp_monster(monster_id, x, y, base_ai, ai_script, script_id, param_dir)
+    local conf = { type = monster_id, pos_x = x, pos_z = y, script_id = script_id, base_ai = base_ai, ai_script = ai_script, dir = param_dir or 0}
+	-- skynet.logi("conf.base_ai = ",conf.base_ai)
+	conf.type = monster_id
+    conf.guid = define.INVAILD_ID
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+    local obj = self:create_monster_data(conf)
+    if not obj then
+        -- 2026-09-11: on_obj_id_release nhận obj, không nhận obj_id; chưa có obj nào được đăng ký -> chỉ return
+        return
+    end
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    obj:init()
+    obj:set_create_time(skynet.now() * 10)
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    pcall(AOI.enter, AOI, obj)
+    return obj_id
+end
+
+function scenecore:create_bus_with_patrol_id(data_id, patorl_id, athwart)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    local conf = {}
+    conf.guid = define.INVAILD_ID
+    conf.athwart = athwart
+    conf.dataId = data_id
+    conf.patrolPathID = patorl_id
+    local data = self:create_bus_data(conf)
+    data.obj_id = obj_id
+    local obj = bus.new(data, self)
+    self.objs[obj_id] = obj
+    -- self.guid2objs[data.guid] = obj_id
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pcall(AOI.enter, AOI, obj)
+    return obj
+end
+
+function scenecore:create_item_box_data(conf)
+    local data = {}
+    data.world_pos = conf.world_pos
+    data.monster_id = conf.monster_id
+    data.owner_guid = conf.owner_guid
+    data.obj_id = conf.obj_id
+    data.create_time = os.time()
+    data.item_box_type = conf.item_box_type or define.ITEMBOX_TYPE.ITYPE_DROPBOX
+    if data.item_box_type == define.ITEMBOX_TYPE.ITYPE_DROPBOX then
+        data.recycle_time = data.create_time + 30
+    end
+    return obj_itembox.new(data, self)
+end
+
+function scenecore:create_item_box(conf)
+    local obj_id = self:gen_obj_id()
+    assert(obj_id, "gen_obj_id fail")
+    conf.obj_id = obj_id
+    local obj = self:create_item_box_data(conf)
+    self.objs[obj_id] = obj
+    obj:set_drop_items(conf.drop_items)
+    self:on_obj_id_occupated(obj)
+    local pos = obj:get_world_pos()
+    pos.z = 0
+    AOI:enter(obj)
+    return obj_id
+end
+
+function scenecore:register(...)
+    self.attr = ...
+    local name = string.format(".SCENE_%d", self.attr.id)
+    skynet.register(name)
+end
+
+function scenecore:gen_obj_id()
+	local reset_num = 0
+    while true do
+        self.now_obj_id = self.now_obj_id + 1
+        local now = self.now_obj_id
+        if now >= define.MAX_OBJ_ID then
+            self.now_obj_id = 1
+			reset_num = reset_num + 1
+			if reset_num > 1 then
+				return
+			end
+        elseif not self.objs[now] then
+            return now
+        end
+    end
+end
+
+function scenecore:create_human(...) return 
+    ai_human.new(..., self) 
+end
+
+function scenecore:check_before_enter(guid,save_true,fun_sceneid)
+    local human = self:get_obj_by_guid(guid)
+    if human then
+		local data = self:leave(guid,false)
+		if data then
+			data.game_flag.save_true = data.game_flag.save_true or 0
+		else
+			data = {game_flag = {save_true = -99}}
+		end
+		if data.game_flag.save_true >= save_true then
+			return data.game_flag.save_true,self:get_type(),data
+		end
+		return -99
+    end
+	return -98,self:get_type()
+end
+
+-- 按 gem_list 实际内容重算单件装备的 gem_count，避免计数器与真实宝石状态不一致
+local function sync_equip_gem_count(item, log_prefix)
+    if not item or item:get_serial_class() ~= define.ITEM_CLASS.ICLASS_EQUIP then
+        return
+    end
+    local equip_data = item:get_equip_data()
+    if not equip_data then
+        return
+    end
+    local gem_list = equip_data:get_gem_list()
+    local real_count = 0
+    for j = 1, 4 do
+        if gem_list[j] and gem_list[j] ~= 0 then
+            real_count = real_count + 1
+        end
+    end
+    local old_count = equip_data:get_gem_count()
+    if old_count ~= real_count then
+        equip_data:set_gem_count(real_count)
+    end
+end
+
+-- 玩家进场时全量修正所有装备的 gem_count，覆盖背包、衣柜和已穿戴装备
+local function fix_equip_gem_counts(obj)
+    -- 1. 修正背包中的装备
+    local bag = obj:get_prop_bag_container()
+    if bag then
+        local item_list = bag:get_item_data()
+        local bag_size = tonumber(bag:get_size()) or 0 -- [FIX] get_size()可能返回table，强制转number
+        for i = 0, bag_size do
+            local item = item_list[i]
+            if item and item:get_serial_class() == define.ITEM_CLASS.ICLASS_EQUIP then
+                sync_equip_gem_count(item, "[fix_gem_count] bag slot " .. tostring(i))
+            end
+        end
+    end
+
+    -- 2. 修正衣柜中的时装装备
+    local fashion_bag = obj:get_fasion_bag_container()
+    if fashion_bag then
+        local item_list = fashion_bag:get_item_data()
+        local fashion_size = tonumber(fashion_bag:get_size()) or 0 -- [FIX] 同上，防御性转number
+        for i = 0, fashion_size do
+            local item = item_list[i]
+            if item and item:get_serial_class() == define.ITEM_CLASS.ICLASS_EQUIP then
+                sync_equip_gem_count(item, "[fix_gem_count] fashion slot " .. tostring(i))
+            end
+        end
+    end
+
+    -- 3. 修正装备栏上的装备
+    for i = define.HUMAN_EQUIP.HEQUIP_WEAPON, define.HUMAN_EQUIP.HEQUIP_CAPACITY-1 do
+        local item = obj:get_equip_container():get_item(i)
+        if item and item:get_serial_class() == define.ITEM_CLASS.ICLASS_EQUIP then
+            sync_equip_gem_count(item, "[fix_gem_count] equip slot " .. tostring(i))
+        end
+    end
+end
+
+
+function scenecore:player_enter_scene(player_data, agent, teaminfo, guildinfo, is_first_login)
+    -- print("scenecore:player_enter_scene")
+	local guid = player_data.attrib.guid
+    local old_obj = self:get_obj_by_guid(guid)
+	if old_obj then
+		return
+	end
+    -- assert(old_obj == nil, player_data.attrib.guid)
+    local obj_id = self:gen_obj_id()
+	if not obj_id then
+		return
+	end
+    -- assert(obj_id, "gen_obj_id fail")
+    player_data.obj_id = obj_id
+    player_data.agent = agent
+    player_data.guid = guid
+    local obj = self:create_human(player_data)
+    -- 玩家进场首包下发前，先全量同步 gem_count，避免客户端读取到历史脏数据
+    fix_equip_gem_counts(obj)
+    obj:set_is_first_login(is_first_login)
+    obj:set_enter_scene_time()
+    obj:set_server_id(player_data.server_id)
+    self.objs[obj_id] = obj
+    self:on_obj_id_occupated(obj)
+    self.guid2objs[guid] = obj_id
+    pcall(AOI.enter, AOI, obj)
+    self:send_enter_scene(obj_id, obj_id, is_first_login)
+    local r, err = pcall(self.init_human, self, obj, player_data, teaminfo, guildinfo, obj_id)
+    if not r then
+        skynet.loge("[SCENE_ENTER] init_human failed, scene =", tostring(self.id),
+            " guid =", tostring(guid), " error =", tostring(err))
+        self:delete_obj(obj)
+        return
+    end
+    -- print("return obj_id =", obj_id)
+    return obj_id, self.client_res
+end
+
+function scenecore:init_human(obj, player_data, teaminfo, guildinfo, obj_id)
+    obj:init()
+    obj:get_team_info():set_my_guid(player_data.guid)
+    obj:get_team_info():set_my_scene_id(self:get_id())
+    obj:get_team_info():set_team_id(teaminfo.id)
+    obj:get_team_info():set_team_leader(teaminfo.leader)
+    guildinfo = guildinfo or { id = define.INVAILD_ID, confederate_id = define.INVAILD_ID, confederate_name = ""}
+    obj:set_guild_id(guildinfo.id)
+    obj:set_confederate_id(guildinfo.confederate_id or define.INVAILD_ID)
+    obj:set_confederate_name(guildinfo.confederate_name or "")
+    self:set_player_pvp_rule(obj)
+    obj:on_register_to_scene()
+    self:on_player_enter_scene(obj_id)
+    self:send_weather(obj)
+    -- obj:send_rmb_chat_face_info()  -- DISABLED: client has no GCRMBChatFaceInfo(679), Lua Only packet
+    obj:send_rmb_chat_action_info()
+    obj:send_mystery_shop_info()
+    obj:send_digong_shop_info()
+    obj:send_exterior_info()      -- 发送基础外观（发型/发色/脸型）
+    obj:send_exterior_info(6)    -- 发送装饰外观数据
+	
+end
+
+function scenecore:set_player_pvp_rule(obj)
+    local pvp_rule = configenginer:get_config("pvp_rule")
+    pvp_rule = pvp_rule[self.pvp_rule]
+    obj:set_pvp_rule(pvp_rule)
+end
+
+function scenecore:set_weather(id, time)
+    local msg = packet_def.GCGameCommond.new()
+    if id > 0 then
+        self.weather = { id = id, time = time}
+        msg.effect = id
+        self:broadcastall(msg)
+    else
+        self.weather = nil
+        msg.effect = id
+        self:broadcastall(msg)
+    end
+end
+
+function scenecore:send_weather(obj_me)
+    if self.weather then
+        local msg = packet_def.GCGameCommond.new()
+        msg.effect = self.weather.id
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:get_weather()
+    return self.weather
+end
+
+function scenecore:on_player_enter_scene(obj_id)
+    skynet.fork(function()
+        self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnScenePlayerEnter", obj_id)
+    end)
+end
+
+function scenecore:on_player_die(obj_id, killer)
+    self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnSceneHumanDie", obj_id, killer)
+	local auto_revive = self:get_auto_revive_or_escape()
+	if not auto_revive or auto_revive < 1 then
+		return
+	else
+		auto_revive = auto_revive * 100
+	end
+	local obj = self.objs[obj_id]
+	if not obj or not obj:is_die() then
+		return
+	end
+	skynet.timeout(auto_revive, function()
+		local obj = self.objs[obj_id]
+		if obj and obj:is_die() then
+			local can_relive = obj:is_can_relive()
+			local resultcode = can_relive and 1 or 0
+			obj:get_ai():push_command_die_result(resultcode)
+		end
+	end)
+end
+
+function scenecore:on_player_leave_scene(obj_id)
+    self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnScenePlayerLeave", obj_id)
+end
+
+function scenecore:ask_detail_attrib(to, ask)
+    local whos = ask.m_objID
+    local obj = self.objs[whos]
+    local who = self.objs[to]
+	-- if who then
+		-- skynet.logi("type = ",who:get_obj_type())
+	-- end
+	
+    if obj and obj:get_obj_type() == "human" then
+	-- and who and who:get_obj_type() == "human" then
+	
+		-- skynet.logi("ask_detail_attrib whos = ",whos,obj:get_name(),"type = ",obj:get_obj_type())
+		-- local obj_to = self.objs[to]
+		-- if obj_to then
+			-- skynet.logi("ask_detail_attrib to = ",to,obj_to:get_name(),"type = ",obj_to:get_obj_type())
+		-- else
+			-- skynet.logi("ask_detail_attrib to = ",to,"not obj")
+		-- end
+		local ret = packet_def.GCDetailAttrib.new()
+		ret.m_objID = obj:get_obj_id()
+        if whos == to then
+			local obj_attrib = obj:get_detail_attribs()
+			ret.flags = { 
+			255, 255, 255, 255, 255,
+			255, 255, 244, 255, 250,
+			255, 255, 246, 255, 247,
+			247, 239, 0, 0, 0, 0, 0}	--flags[16]=247(0xF7): 关闭bit0x08(兽魂ID)避免发0导致华赏阁兽魂UI隐藏
+			
+			--补22个
+            -- ret.flags[18] = ret.flags[18] & ~0x40			--flagwg
+			
+			for k, v in pairs(obj_attrib) do ret[k] = v end
+			ret:set_exp(nil)
+			ret:set_guild_id(obj_attrib.guild_id or define.INVAILD_ID)
+			ret:set_confederate_id(obj_attrib.confederate_id or define.INVAILD_ID)
+			ret:set_attackers_list(obj:get_attackers():get_list())
+			ret:set_pk_declaration_list(obj:get_pk_declaration_list():get_list())
+			ret:set_menghui(obj:get_meng_hui())
+			ret:set_Features_list(obj:get_dw_jinjie_features())
+			self:send2client(to, ret)
+			obj:send_pets_detail(who)
+			
+            self:send_char_detail_impact_list(whos, whos)
+            self:send_cool_down_time(whos, whos)
+            obj:on_enter_scene()
+            self:send_world(obj, "lua", "char_enter_scene", obj:get_guid())
+        else
+			local look_tar_equip = {
+				level = true,
+				ride = true,
+				menpai = true,
+				exterior_face_style_index = true,
+				exterior_hair_style_index = true,
+				exterior_portrait_index = true,
+				fashion_depot_index = true,
+				exterior_weapon_visual_id = true,
+				exterior_weapon_selcet_level = true,
+				wuhun_yy_flag = true,
+				huanhun_qian_index = true,
+				huanhun_kun_index = true,
+				exterior_pet_soul_id = true,
+				exterior_head_id = true,
+				exterior_head_pos = true,
+				exterior_back_id = true,
+				exterior_back_pos = true,
+			}
+			for key,_ in pairs(look_tar_equip) do
+				local value = obj:get_attrib(key)
+				-- skynet.logi(key," = ",value)
+				local fn = string.format("set_%s",key)
+				local f = ret[fn]
+				if f then
+					f(ret,value)
+				end
+			end
+			ret:set_Features_list(obj:get_dw_jinjie_features())
+			self:send2client(to, ret)
+			obj:send_pets_detail(who,4)
+		
+            local asker = self:get_obj_by_id(to)
+            local asker_name = asker:get_name()
+            local str = string.format("#{_INFOUSR@0014%s}#Y đang hiếu kỳ xem xét thông tin Trang bị và Trân thú của ngươi", asker_name)
+            local msg = packet_def.GCChat.new()
+            msg.ChatType = 4
+            msg.Sourceid = selfId
+            msg.SourceName = gbk.fromutf8(obj:get_name())
+            msg.unknow_2 = 1
+            str = gbk.fromutf8(str)
+            msg:set_content(str)
+            self:send2client(whos, msg)
+        end
+    end
+end
+
+function scenecore:ask_base_attrib(whos, to)
+    -- print("ask_base_attrib whos =", whos, ";to =", to)
+	
+	-- local tarobj = self.objs[to]
+	-- if tarobj then
+		-- skynet.logi("type = ",tarobj:get_obj_type())
+	-- end
+	
+    local obj = self.objs[whos]
+    if obj and obj:is_character_obj() then
+		-- skynet.logi("ask_base_attrib whos = ",whos,obj:get_name(),"type = ",obj:get_obj_type())
+		-- local obj_to = self.objs[to]
+		-- if obj_to then
+			-- skynet.logi("ask_base_attrib to = ",to,obj_to:get_name(),"type = ",obj_to:get_obj_type())
+		-- else
+			-- skynet.logi("ask_base_attrib to = ",to,"not obj")
+		-- end
+	
+        local obj_base_attr = obj:get_base_attribs()
+        local ret = packet_def.GCCharBaseAttrib.new()
+        if obj:get_obj_type() == "human" then
+            ret.m_objID = whos
+            ret.m_uFlags = {
+			255, 191, 175, 247, 255,
+			143, 255, 5, 0, 0, 0, 0, 0, 0}  -- 14 flags for client compatibility
+			ret.m_uFlags[10] = ret.m_uFlags[10] | 0x4
+			ret.m_uFlags[10] = ret.m_uFlags[10] | 0x8
+			-- 实际写入 exterior 值，而不只是设置 flag
+			local back_id, back_pos = obj:get_exterior_back_visual_id()
+			local head_id, head_pos = obj:get_exterior_head_visual_id()
+			ret:set_exterior_back_id(back_id)
+			ret:set_exterior_back_pos(back_pos)
+			ret:set_exterior_head_id(head_id)
+			ret:set_exterior_head_pos(head_pos)
+		-- skynet.logi("scenecore:ask_base_attrib whos = ",whos,"to = ",to)
+			--flagwg
+            for k, v in pairs(obj_base_attr) do ret[k] = v end
+            ret:set_speed(obj:get_attrib("speed"))
+            ret:set_name(obj:get_attrib("name"))
+            ret:set_new_player_set(obj:get_attrib("new_player_set"))
+            ret:set_server_id(obj:get_attrib("server_id"))
+            ret:set_title(obj:get_attrib("title"))
+            ret:set_ride_model(obj:get_attrib("ride_model"))
+            ret:set_portrait_id(obj:get_attrib("portrait_id"))
+            ret:set_model_id(obj:get_attrib("model_id"))
+            ret:set_stealth_level(obj:get_attrib("stealth_level"))
+            ret:set_hp_percent(math.ceil(obj:get_hp() / obj:get_max_hp()* 100))
+            ret:set_mp_percent(math.ceil(obj:get_mp() / obj:get_max_mp()* 100))
+            ret:set_rage(obj:get_attrib("rage"))
+            ret:set_is_sit(obj:get_attrib("is_sit"))
+            ret:set_attack_speed(obj:get_attrib("attack_speed"))
+            ret:set_pk_mode(obj:get_attrib("pk_mode"))
+            ret:set_reputation(obj:get_attrib("reputation"))
+            ret:set_is_in_team(obj:get_attrib("is_in_team"))
+            ret:set_is_team_leader(obj:get_attrib("is_team_leader"))
+            ret:set_team_id(obj:get_team_id())
+            ret:set_camp_id(obj:get_attrib("camp_id"))
+            ret:set_attackers_list(obj:get_attackers():get_list())
+            ret:set_pk_declaration_list(obj:get_pk_declaration_list():get_list())
+            ret:set_wild_war_guilds(obj:get_wild_war_guilds():get_list())
+			
+            ret:set_raid_id(obj_base_attr.raid_id)
+            ret:set_raid_position(obj_base_attr.raid_position)
+            ret:set_raid_is_full(obj_base_attr.raid_is_full)
+			
+            local stall_box = obj:get_stall_box()
+            ret:set_stall_is_open(stall_box:get_stall_is_open())
+            if stall_box:get_stall_is_open() then
+                ret:set_stall_name(stall_box:get_stall_name())
+            end
+            -- DFeng 基础属性填充
+            if (obj:get_mission_data_by_script_id(965) or 0) >= 1 then
+                -- DFeng核心MD若残留负值，视野同步756包按0下发，避免uint溢出。
+                local cur_level = math.max(0, obj:get_mission_data_by_script_id(961) or 0)
+                local cur_exp = math.max(0, obj:get_mission_data_by_script_id(960) or 0)
+                local cur_levelup_data = math.max(0, obj:get_mission_data_by_script_id(962) or 0)
+
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x1
+                ret.dfeng_base_levelup_data = cur_exp
+
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x2
+                ret.dfeng_base_level = cur_levelup_data
+
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x8
+                ret.dfeng_base_exp = cur_level
+
+                local atk1_data = math.max(0, obj:get_mission_data_by_script_id(963) or 0)
+                local def1_data = math.max(0, obj:get_mission_data_by_script_id(964) or 0)
+                local atk2_data = math.max(0, obj:get_mission_data_by_script_id(966) or 0)
+                local def2_data = math.max(0, obj:get_mission_data_by_script_id(967) or 0)
+                local atk3_data = math.max(0, obj:get_mission_data_by_script_id(968) or 0)
+                local def3_data = math.max(0, obj:get_mission_data_by_script_id(969) or 0)
+
+                -- IDA确认bit映射: Attack直传(bit 0x20/0x80/f2 0x02), Defence交叉打包(bit 0x10/0x40/f2 0x01)
+                -- 解包Defence MDs（school + xdd*100）
+                local def1_school = def1_data % 100
+                local def1_xdd   = math.floor(def1_data / 100)
+                local def2_school = def2_data % 100
+                local def2_xdd   = math.floor(def2_data / 100)
+                local def3_school = def3_data % 100
+                local def3_xdd   = math.floor(def3_data / 100)
+                -- Defence交叉打包
+                local def_cross_bit10  = def3_xdd   + def1_school * 100
+                local def_cross_bit40  = def1_xdd   + def2_school * 100
+                local def_cross_f2bit01= def2_xdd   + def3_school * 100
+
+                -- bit 0x10 → Defence交叉 (DefXDD3+DefSchool1*100)
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x10
+                ret.dfeng_base_attack_defence1 = def_cross_bit10
+                -- bit 0x20 → Attack1 直传
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x20
+                ret.dfeng_base_attack_defence2 = atk1_data
+                -- bit 0x40 → Defence交叉 (DefXDD1+DefSchool2*100)
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x40
+                ret.dfeng_base_attack_defence3 = def_cross_bit40
+                -- bit 0x80 → Attack2 直传
+                ret.dfeng_base_flags = (ret.dfeng_base_flags or 0) | 0x80
+                ret.dfeng_base_attack_defence4 = atk2_data
+
+                -- f2 bit 0x01 → Defence交叉 (DefXDD2+DefSchool3*100)
+                ret.dfeng_base_flags2 = (ret.dfeng_base_flags2 or 0) | 0x01
+                ret.dfeng_base_attack_defence5 = def_cross_f2bit01
+                -- f2 bit 0x02 → Attack3 直传
+                ret.dfeng_base_flags2 = (ret.dfeng_base_flags2 or 0) | 0x02
+                ret.dfeng_base_attack_defence6 = atk3_data
+                -- f2 bit 0x04 → EssenceLevel
+                ret.dfeng_base_flags2 = (ret.dfeng_base_flags2 or 0) | 0x04
+                ret.dfeng_base_attack_defence7 = cur_levelup_data  -- f2 0x04 -> CData[10656] -> GetDFengEssenceLevel = tongmai level
+
+                -- f2 bit 0x08 → CData[10708-10720] 心络攻击加成(冰/火/玄/毒)
+                local kw_info = configenginer:get_config("dfeng_essence_kw_info")
+                if kw_info then
+                    local kw_element_attack = {0, 0, 0, 0}
+                    local kw_total_level = 0
+                    local bonus_fields = { "attr_bonus", "attr_value1", "attr_value2", "attr_value3" }
+                    for i = 1, 20 do
+                        local level = obj:get_dfeng_kw_slot_level(i)
+                        kw_total_level = kw_total_level + level
+                        local active = obj:get_dfeng_kw_slot_active(i)
+                        if level > 0 and active >= 1 and active <= 4 and kw_info[i] then
+                            local cfg = kw_info[i][level]
+                            local bonus_field = bonus_fields[active]
+                            if cfg and bonus_field and cfg[bonus_field] then
+                                local bonus = cfg[bonus_field]
+                                local sel1, sel2, sel3 = obj:get_dfeng_kw_slot_attrs(i)
+                                if active == 1 then
+                                    if sel1 >= 1 and sel1 <= 4 then kw_element_attack[sel1] = kw_element_attack[sel1] + bonus end
+                                elseif active == 2 then
+                                    if sel1 >= 1 and sel1 <= 4 then kw_element_attack[sel1] = kw_element_attack[sel1] + bonus end
+                                    if sel2 >= 1 and sel2 <= 4 then kw_element_attack[sel2] = kw_element_attack[sel2] + bonus end
+                                elseif active == 3 then
+                                    if sel1 >= 1 and sel1 <= 4 then kw_element_attack[sel1] = kw_element_attack[sel1] + bonus end
+                                    if sel2 >= 1 and sel2 <= 4 then kw_element_attack[sel2] = kw_element_attack[sel2] + bonus end
+                                    if sel3 >= 1 and sel3 <= 4 then kw_element_attack[sel3] = kw_element_attack[sel3] + bonus end
+                                elseif active == 4 then
+                                    for e = 1, 4 do kw_element_attack[e] = kw_element_attack[e] + bonus end
+                                end
+                            end
+                        end
+                    end
+                    ret.dfeng_base_flags2 = (ret.dfeng_base_flags2 or 0) | 0x08
+                    ret.dfeng_base_kw_data1 = kw_element_attack[1]
+                    ret.dfeng_base_kw_data2 = kw_element_attack[2]
+                    ret.dfeng_base_kw_data3 = kw_element_attack[3]
+                    ret.dfeng_base_kw_data4 = kw_element_attack[4]
+                    ret.dfeng_base_flags2 = (ret.dfeng_base_flags2 or 0) | 0x10
+                    ret.dfeng_base_kw_total_level = kw_total_level
+                end
+
+                -- 758包(心络孔位数据)在on_enter_scene中发送
+            end
+            self:send2client(to, ret)
+            require("cys_mount_flight").sync(self,obj,to)
+            skynet.timeout(5,function()
+                ret = packet_def.GCCharBaseAttrib.new()
+                ret.m_objID = whos
+                ret:set_pk_value(obj:get_pk_value())
+                ret:set_pet_soul_melting_model(obj:get_attrib("pet_soul_melting_model"))
+                self:send2client(to, ret)
+            end)
+        elseif obj:get_obj_type() == "pet" then
+            local hp_percent =  math.ceil(obj:get_hp() / obj:get_max_hp() * 100)
+            ret.m_objID = whos
+            ret.m_uFlags = { 251, 54, 96, 16, 100, 96, 0, 192, 0, 0, 0, 0, 0, 0 }  -- 14 flags for client compatibility
+            ret:set_name(obj_base_attr.name)
+            ret:set_title(obj_base_attr.title)
+            ret:set_current_title(obj_base_attr.current_title)
+    
+            ret.model = obj:get_model()
+            ret.ride_model = define.INVAILD_ID
+            ret.hp_percent = hp_percent
+            ret.mp_percent = 0
+            ret.speed = obj:get_speed()
+            ret.data_id = obj:get_data_id()
+            ret.level = obj:get_level()
+            ret.stealth_level = obj:get_stealth_level()
+			ret.occupant_guid = obj:get_occupant_guid()
+            ret.attack_speed = 100
+            ret.guid = -1
+            ret.model_id = -1
+            ret.owner_id = obj:get_owner_obj_id()
+            ret.rage = 0
+            ret.reputation = -1
+            ret.rider_model = -1
+            ret.unknow_43 = -1
+            ret.unknow_50 = 2
+            ret.unknow_51 = -1
+            ret.pet_soul_item_index = -1
+			
+			ret.team_occipant_guid = define.INVAILD_ID
+
+            ret.unknow_62 = 0
+            self:send2client(to, ret)
+        else
+            -- local other = self:get_obj_by_id(to)
+            local hp_percent = math.ceil(obj:get_hp() / obj:get_max_hp() * 100)
+            ret.m_objID = whos
+            ret.m_uFlags = {255, 119, 48, 16, 100, 0, 0, 48, 0, 0, 0, 0, 0, 0}  -- 14 flags for client compatibility
+            ret:set_name(obj_base_attr.name)
+            ret:set_title(obj_base_attr.title)
+            ret:set_occupant_guid(obj:get_occupant_guid())
+            ret:set_team_occipant_guid(obj:get_team_occipant_guid())
+            ret:set_raid_occipant_guid(obj:get_raid_occipant_guid())
+            local camp_id = obj:get_camp_id()
+            if camp_id <= 15 then
+                camp_id = define.INVAILD_ID
+            end
+            ret:set_camp_id(camp_id)
+            ret.model = obj_base_attr.model
+            ret.ride_model = define.INVAILD_ID
+            ret.speed = obj:get_speed()
+            ret.data_id = obj:get_data_id()
+            ret.is_sit = -1
+            ret.attack_speed = 100
+            ret.model_id = -1
+            if obj:is_npc() then
+                ret.ai_type = 1 -- NPC始终为被动，客户端显示对话而非攻击
+            else
+                ret.ai_type = obj:get_ai():is_active_attack() and 0 or 1
+            end
+            ret.owner_id = -1
+            ret.guid = obj:get_guid()
+            ret.unknow_43 = -1
+            ret.reputation = obj:get_reputation()
+            ret.level = obj:get_level()
+            ret.unknow_56 = 65535
+            ret.unknow_57 = 4294967295
+            ret.mp_percent = obj:is_npc() and 100 or 0
+            ret.hp_percent = hp_percent
+            ret.rage = 0
+            ret.stealth_level = obj:get_stealth_level()
+            -- ret.occupant_guid = obj:get_occupant_guid()
+    
+            self:send2client(to, ret)
+        end
+    end
+end
+
+
+function scenecore:char_ask_chedifulu_data(my_obj_id)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    obj_me:send_chedifulu_data()
+end
+
+function scenecore:char_ask_target_es_plan(my_obj_id, request)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then
+        return
+    end
+
+    local target_id = request.m_objID or 0
+    local obj_target = self:get_obj_by_id(target_id)
+
+    local msg = packet_def.GCTarExteriorSharePlan.new()
+    msg.type_code = 2    -- 全量数据
+    msg.m_objID = target_id
+
+    if obj_target and obj_target.get_share_plan then
+        local plan = obj_target:get_share_plan()
+        -- IDA确认: 1270 Execute将plan_id(a1+32)存到共享结构610116(int4),
+        -- 873 type=20 Execute对610116执行++作为点赞计数器,
+        -- 因此plan_id字段实际承载的是"已收到的点赞总数", 不是方案ID
+        msg.plan_id = obj_target.es_zan_count or 0
+        -- IDA确认: 1270 Execute将zan_count低字节(a1+36)存到610120(byte1),
+        -- 873 type=20 Execute对610120执行--作为"剩余可点赞次数"
+        msg.zan_count = 10
+        if plan.tag then
+            msg.tag = plan.tag
+        end
+        -- 填充时装数据: dress_b=外观ID, dress_a=槽位索引
+        if plan.dress_b and plan.dress_a then
+            for i = 1, 6 do
+                msg.dress[i].id = plan.dress_b[i] or -1
+                msg.dress[i].slot = plan.dress_a[i] or -1
+            end
+        end
+        -- IDA确认: 客户端UpdateOtherProfileAvatarObj(sub_140089F60)中
+        -- ride和weapon的plan struct偏移互换:
+        --   客户端读"坐骑"用plan+277(bos的weapon段), 读"幻饰"用plan+205(bos的ride段)
+        -- 因此: ride段填weapon_a数据, weapon段填ride_a数据
+        if plan.weapon_a then
+            for i = 1, 6 do
+                msg.ride[i].id_short = plan.weapon_a[i] or -1
+                msg.ride[i].extra_id = plan.weapon_a[i] or -1
+            end
+        end
+        if plan.ride_a then
+            for i = 1, 6 do
+                msg.weapon[i].id_short = plan.ride_a[i] or -1
+                msg.weapon[i].extra_id = plan.ride_a[i] or -1
+            end
+        end
+    end
+
+    self:send2client(obj_me, msg)
+end
+
+-- 点赞目标玩家珍藏
+function scenecore:char_dianzan_es_plan(my_obj_id, target_obj_id)
+    -- 不能点赞自己
+    if my_obj_id == target_obj_id then return false end
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then return false end
+    local obj_target = self:get_obj_by_id(target_obj_id)
+    -- 目标必须存在且是玩家角色(有get_share_plan方法)
+    if not obj_target or not obj_target.get_share_plan then return false end
+    -- 每日点赞去重: 每人每天对同一目标只能点赞1次
+    local today = os.date("%Y%m%d")
+    if not obj_me.es_zan_given or obj_me.es_zan_given_day ~= today then
+        obj_me.es_zan_given = {}
+        obj_me.es_zan_given_day = today
+    end
+    if obj_me.es_zan_given[target_obj_id] then return false end
+    obj_me.es_zan_given[target_obj_id] = true
+    -- 累加目标的点赞计数
+    obj_target.es_zan_count = (obj_target.es_zan_count or 0) + 1
+    -- 发送更新后的珍藏数据给请求者
+    local msg = packet_def.GCTarExteriorSharePlan.new()
+    msg.type_code = 2
+    msg.m_objID = target_obj_id
+    local plan = obj_target:get_share_plan()
+    -- plan_id字段承载点赞计数: 减1是因为随后的873 type=20会对610116执行++
+    msg.plan_id = (obj_target.es_zan_count or 1) - 1
+    msg.zan_count = 10
+    if plan.tag then msg.tag = plan.tag end
+    if plan.dress_b and plan.dress_a then
+        for i = 1, 6 do
+            msg.dress[i].id = plan.dress_b[i] or -1
+            msg.dress[i].slot = plan.dress_a[i] or -1
+        end
+    end
+    -- ride/weapon互换(同char_ask_target_es_plan)
+    if plan.weapon_a then
+        for i = 1, 6 do
+            msg.ride[i].id_short = plan.weapon_a[i] or -1
+            msg.ride[i].extra_id = plan.weapon_a[i] or -1
+        end
+    end
+    if plan.ride_a then
+        for i = 1, 6 do
+            msg.weapon[i].id_short = plan.ride_a[i] or -1
+            msg.weapon[i].extra_id = plan.ride_a[i] or -1
+        end
+    end
+    self:send2client(obj_me, msg)
+    -- 通知被点赞方: 发送873 type=20触发目标客户端event 1191
+    local target_zan_msg = packet_def.GCExteriorSharePlan.new()
+    target_zan_msg.type_code = 20
+    target_zan_msg.zan_result = 1
+    self:send2client(obj_target, target_zan_msg)
+    return true
+end
+
+-- 获取自己的珍藏/外观分享方案数据
+function scenecore:char_get_share_plan(my_obj_id)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then
+        return {
+            plan_id = 0,
+            tag = {-1,-1,-1,-1,-1,-1},
+            dress_a = {-1,-1,-1,-1,-1,-1}, dress_b = {-1,-1,-1,-1,-1,-1},
+            weapon_a = {-1,-1,-1,-1,-1,-1}, weapon_b = {-1,-1,-1,-1,-1,-1},
+            ride_a = {-1,-1,-1,-1,-1,-1}, ride_b = {-1,-1,-1,-1,-1,-1},
+        }
+    end
+    local plan = obj_me:get_share_plan()
+    -- IDA确认: 873 type=2 Execute将plan_id写入shared+610116,
+    -- 873 type=20 Execute对610116执行++作为点赞计数器,
+    -- 因此自查方案时plan_id必须返回当前赞数, 否则type=2会覆盖为0
+    plan.plan_id = obj_me.es_zan_count or 0
+    return plan
+end
+
+-- 保存珍藏/外观分享方案数据
+function scenecore:char_save_share_plan(my_obj_id, category, data)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then
+        return
+    end
+    obj_me:save_share_plan(category, data)
+end
+
+-- 保存资料页时装数据
+function scenecore:char_save_profile_dress(my_obj_id, idx_list, id_list)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then return end
+    obj_me:save_profile_dress(idx_list, id_list)
+end
+
+-- 获取资料页时装数据
+function scenecore:char_get_profile_dress(my_obj_id)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    if not obj_me then
+        return { idx = {-1,-1,-1,-1,-1,-1}, id = {-1,-1,-1,-1,-1,-1} }
+    end
+    return obj_me:get_profile_dress()
+end
+
+function scenecore:char_exterior_couple_fashion(my_obj_id)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    obj_me:send_exterior_ranse(2)
+end
+
+function scenecore:get_my_bag_size(whos)
+    local human = self:get_obj_by_id(whos)
+    return human:get_bag_size()
+end
+
+function scenecore:ask_impact_list(whos, to)
+    local obj = self.objs[whos]
+    if obj and obj:is_character_obj() then
+        local ret = packet_def.GCCharImpactListUpdate.new()
+        local impact_list = obj:get_impact_list() or {}
+        for i, imp in ipairs(impact_list) do
+            local aimp = {}
+            aimp.index = i - 1
+            aimp.sender = obj:get_obj_id()
+            aimp.buffer_id = imp:get_impact_id()
+            table.insert(ret.m_aImpact, aimp)
+        end
+        ret.m_nOwnerID = whos
+        ret.size = #ret.m_aImpact
+        ret.unknow_1 = 0
+        ret.unknow_2 = 65535
+        self:send2client(to, ret)
+    end
+end
+
+function scenecore:ask_detail_ability_info(whos, to)
+    local human = self:get_obj_by_id(whos)
+    human:send_ability_list()
+end
+
+function scenecore:ask_detail_xinfa_list(whos)
+    local ret = packet_def.GCDetailXinFaList.new()
+    local obj_me = self.objs[whos]
+    local xinfa_list = obj_me:get_xinfa_list()
+    ret.m_aXinFa = xinfa_list
+    ret.m_objID = whos
+    ret.m_wNumXinFa = #xinfa_list
+    ret.unknow = 26
+    self:send2client(obj_me, ret)
+
+    obj_me:send_xiulian_list()
+    obj_me:send_talent(show_type)
+    obj_me:send_default_skill_combo_operation()
+end
+
+function scenecore:ask_detail_equip_list(who, ask)
+    local obj = self.objs[ask.m_objID]
+    if obj and obj:get_obj_type() == "human" then
+        local ret = packet_def.GCDetailEquipList.new()
+        ret.m_mode = ret.ASK_EQUIP_MODE.ASK_EQUIP_ALL
+        ret.m_objID = obj:get_obj_id()
+        ret.itemList = {}
+        for i = define.HUMAN_EQUIP.HEQUIP_WEAPON, define.HUMAN_EQUIP.HEQUIP_CAPACITY-1 do
+            local item = obj:get_equip_container():get_item(i)
+            if item then
+                ret.itemList[i] = item:copy_raw_data()
+            end
+        end
+        self:send2client(who, ret)
+    end
+end
+
+function scenecore:ask_my_bag_list(whos)
+    local obj = self.objs[whos]
+    return obj:get_prop_bag_container():get_item_data()
+end
+
+function scenecore:ask_fashion_depot_data(whos, open_editor)
+    local obj = self.objs[whos]
+	if not obj then return end
+    self:send_char_fashion_depot_data(obj, open_editor)
+end
+
+function scenecore:send_char_impact_list(who)
+    local obj = self.objs[who]
+    local ret = packet_def.GCCharImpactListUpdate.new()
+    local impact_list = obj:get_impact_list() or {}
+    ret.m_aImpact = table.clone(impact_list)
+    for i, imp in ipairs(ret.m_aImpact) do
+        imp.index = i - 1
+        imp.sender = obj:get_obj_id()
+        imp.buffer_id = imp:get_impact_id()
+    end
+    ret.m_nOwnerID = who
+    ret.size = #ret.m_aImpact
+    ret.unknow_1 = 0
+    ret.unknow_2 = 65535
+    self:send2client(who, ret)
+end
+
+function scenecore:send_char_detail_impact_list(who, to)
+    local obj = self.objs[who]
+    if not obj then return end
+    local ret = packet_def.GCDetailImpactListUpdate.new()
+    local impact_list = obj:get_impact_list() or {}
+    for _, imp in ipairs(impact_list) do
+        local impact = {}
+        impact.sender = imp.caster_obj_id
+        impact.buffer_id = imp.impact_id
+        impact.skill_id = imp.skill_id
+        impact.sn = imp.sn
+        impact.continuance = imp.continuance
+        table.insert(ret.list, impact)
+    end
+    ret.m_objID = who
+    ret.size = #ret.list
+    self:send2client(to, ret)
+end
+
+function scenecore:send_char_fashion_depot_data(obj, open_editor)
+	-- skynet.logi("send_char_fashion_depot_data",obj:get_fashion_depot_index())
+    local my_fasion_list = obj:get_fasion_bag_list()
+    local fashion_depot_index = obj:get_fashion_depot_index()
+    local ret = packet_def.GCAskFashionDepotData.new()
+    ret.size = 100
+    ret.list = {}
+    for i = 1, ret.size do
+        local index = i - 1
+        local fasion = my_fasion_list[index]
+        if fasion then
+            table.insert(ret.list, fasion:copy_raw_data())
+        else
+            if index == fashion_depot_index then
+                fasion = obj:get_equip_container():get_item(define.HUMAN_EQUIP.HEQUIP_FASHION)
+                if not fasion then
+                    fasion = item_cls.new()
+                end
+                table.insert(ret.list, fasion:copy_raw_data())
+            else
+                table.insert(ret.list, {
+                    unknow_4 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    guid = {
+                        series = 0,
+                        server = 0,
+                        world = 0,
+                        mask = 0
+                    },
+                    item_index = 0,
+                    visual = 0,
+                    quality = 0
+                })
+            end
+        end
+    end
+    ret.unknow_1 = 0
+    ret.unknow_2 = 99
+    ret.open_editor = open_editor and 1 or 0
+    self:send2client(obj, ret)
+end
+
+-- 坐骑编辑器: 发送GCExteriorInfo(type=4, unknow_2=5) 触发OPEN_EXTERIOR_RIDECHOOSE (event 1143)
+function scenecore:send_exterior_ride_editor(who)
+    local obj = self.objs[who]
+    if not obj then return end
+    local now = os.time()
+    local my_rides = obj.exterior.rides
+    local msg = packet_def.GCExteriorInfo.new()
+    msg.type = 4       -- type=4 → category 3 (Ride)
+    msg.unknow_2 = 5   -- sub_type=5 触发编辑器事件
+    msg.extrior_list = {}
+    for i = #my_rides, 1, -1 do
+        local ride = my_rides[i]
+        if ride.term == -1 or ride.term > now then
+            table.insert(msg.extrior_list, {
+                id = ride.id,
+                remindtime = -1,
+                unknow_3 = 0
+            })
+        end
+    end
+    msg.extrior_count = #msg.extrior_list
+    self:send2client(obj, msg)
+end
+
+-- 幻饰编辑器: 发送GCExteriorInfo(type=8, unknow_2=5) 触发OPEN_EXTERIOR_WEAPONCHOOSE (event 1144)
+function scenecore:send_exterior_weapon_editor(who)
+    local obj = self.objs[who]
+    if not obj then return end
+    local my_weapon_visuals = obj.exterior.weapon_visuals or {}
+    local msg = packet_def.GCExteriorInfo.new()
+    msg.type = 8       -- type=8 武器外观
+    msg.unknow_2 = 5   -- sub_type=5 触发编辑器事件
+    msg.weapon_visual_count = #my_weapon_visuals
+    msg.weapon_visuals = {}
+    for i = 1, msg.weapon_visual_count do
+        local visual = my_weapon_visuals[i] or {id = 0, term = -1, level = 0}
+        table.insert(msg.weapon_visuals, visual)
+    end
+    self:send2client(obj, msg)
+end
+--整理，移动
+function scenecore:char_pack_up_packet(who, request)
+    local human = self.objs[who]
+    if not human then return end
+    local bag = human:get_prop_bag_container()
+    if inventory_guard.pack(bag, request.unknow) then
+        local first = request.unknow * 100
+        local kind = ({"prop", "material", "task"})[request.unknow + 1]
+        -- Explicit empty-slot updates clear old actions as well as moved items.
+        for i = first, first + bag:get_size()[kind] - 1 do
+            local item = bag:get_item(i)
+            if item then
+                local notice = packet_def.GCNotifyEquip.new()
+                notice.bag_index, notice.item = i, item:copy_raw_data()
+                self:send2client(human, notice)
+            end
+            local msg = packet_def.GCItemInfo.new()
+            msg.bagIndex = i
+            msg.unknow_1 = item and 0 or 1
+            msg.item = item and item:copy_raw_data() or item_cls.new():copy_raw_data()
+            self:send2client(human, msg)
+        end
+    else
+        human:notify_tips("Tui co vat pham bi khoa hoac yeu cau khong hop le.")
+    end
+    local ret = packet_def.GCPackUpPacket.new()
+    ret.unknow = request.unknow
+    self:send2client(human, ret)
+end
+
+function scenecore:package_swap_item(who, request)
+    -- CYS-INV swap boundaries; revalidate after config lookup yields.
+    local human = self.objs[who]
+    if not human then return end
+    local bag = human:get_prop_bag_container()
+    local source_pos, dest_pos = request.index_from, request.index_to
+    if not inventory_guard.swap_ok(bag, source_pos, dest_pos) then return end
+    local source, dest = bag:get_item(source_pos), bag:get_item(dest_pos)
+    local source_count, dest_count = source:get_lay_count(), dest and dest:get_lay_count() or 0
+    -- get_max_tile_count/can_lay can yield while .CfgDB is first loading. A
+    -- second packet may finish first; never resurrect its consumed source.
+    local stackable = inventory_guard.stackable(source, dest)
+    local limit = stackable and dest:get_max_tile_count() or 1
+    if bag:get_item(source_pos) ~= source or bag:get_item(dest_pos) ~= dest
+        or source:get_lay_count() ~= source_count or (dest and dest:get_lay_count() ~= dest_count)
+        or not inventory_guard.swap_ok(bag, source_pos, dest_pos) then return end
+    if stackable and dest_count < limit then
+        local moved = math.min(source_count, limit - dest_count)
+        if moved <= 0 then return end
+        local remaining = source_count - moved
+        dest:set_lay_count(dest_count + moved)
+        if remaining == 0 then bag:set_item(source_pos, nil) else source:set_lay_count(remaining) end
+    else
+        bag:set_item(source_pos, dest)
+        bag:set_item(dest_pos, source)
+    end
+    -- Notify identity before full instance data. GCItemInfo alone can update an
+    -- old object in a now-empty cell; never rely on a client-side blind swap.
+    for _, pos in ipairs({source_pos, dest_pos}) do
+        local item = bag:get_item(pos)
+        if item then
+            local identity = packet_def.GCNotifyEquip.new()
+            identity.bag_index = pos
+            identity.item = item:copy_raw_data()
+            self:send2client(human, identity)
+        end
+        local detail = packet_def.GCItemInfo.new()
+        detail.bagIndex = pos
+        detail.unknow_1 = item and 0 or 1
+        detail.item = item and item:copy_raw_data() or item_cls.new():copy_raw_data()
+        self:send2client(human, detail)
+    end
+end
+
+function scenecore:char_split_item(whos, split)
+    local obj = self.objs[whos]
+    obj:split_item(split)
+end
+
+function scenecore:ask_item_info(whos, ask)
+    local ret = packet_def.GCItemInfo.new()
+    ret.askid = ask.askid
+    ret.bagIndex = ask.bagIndex
+    ret.unknow_1 = 0
+    ret.unknow_2 = 0
+    local obj = self.objs[whos]
+    local bag_index = ask.bagIndex
+    local item = obj:get_prop_bag():get_item(bag_index) or item_cls.new()
+    local raw_data = item:copy_raw_data()
+    ret.item = raw_data
+    if item:get_index() == define.INVAILD_ID then
+        ret.unknow_1 = define.INVAILD_ID
+    end
+    self:send2client(obj, ret)
+end
+
+function scenecore:ask_detail_skill_list(whos, to)
+    local obj = self.objs[whos]
+    local skill_list = obj:get_total_skills_list()
+    local ret = packet_def.GCDetailSkillList.new()
+    ret.m_aSkill = skill_list
+    ret.m_objID = whos
+    ret.m_wNumSkill = #skill_list
+    self:send2client(to, ret)
+end
+
+function scenecore:ask_wuhun_wg(who, ask)
+    local obj = self.objs[who]
+    if obj and obj:get_obj_type() == "human" then
+		local id
+		local ntype = ask.type
+        if ntype == 1 then
+            -- local m_objID = obj:get_locked_target()
+            -- if m_objID and m_objID ~= define.INVAILD_ID then
+                -- obj = self.objs[m_objID]
+            -- end
+			if ask.targetId == who then
+				ntype = 2
+			else
+				obj = self.objs[ask.targetId]
+				if not obj or obj:get_obj_type() ~= "human" then
+					return
+				end
+				id = obj:get_wuhun_visual()
+				-- Keep type 1 so the client stores the data in CachedTarget.
+				ntype = 1
+			end
+        elseif ntype == 2 then
+            -- CY's skill 3238 is not the GL soul-cast contract. Validate the
+            -- same equip request, then use GL's authoritative slot operation.
+            self.scriptenginer:call(888800,'CysFill',who,ask.qiankun,ask.huanhun_id)
+            return
+        end
+		obj:send_wuhun_wg(who,ntype,id)
+    end
+end
+
+function scenecore:get_is_t_server()
+    return 0
+end
+
+function scenecore:send_enter_scene(whos, to, is_first_login)
+    local obj = self.objs[whos]
+    local ret = packet_def.GCEnterScene.new()
+    ret.m_byEnterType = 0
+    ret.m_objID = whos
+    ret.m_posWorld = obj:get_world_pos()
+    ret.client_res = self.client_res
+    ret.server_time = os.time()
+    ret.sceneid = self.id
+    ret.is_city = 0
+    ret.unknow_5 = 0
+    ret.unknow_6 = is_first_login and 0 or 1
+    ret.is_t_server = self:get_is_t_server()
+    ret.server_id = self.world_id
+    local enter_pos = ret.m_posWorld or {}
+    skynet.logi("[AUTO_ROUTE_ENTER] guid=", tostring(obj:get_guid()),
+        " obj=", tostring(whos), " scene=", tostring(ret.sceneid),
+        " x=", tostring(enter_pos.x), " y=", tostring(enter_pos.y),
+        " client_res=", tostring(ret.client_res),
+        " enter_type=", tostring(ret.m_byEnterType),
+        " enter_flag=", tostring(ret.unknow_6),
+        " first_login=", tostring(is_first_login))
+    self:send2client(to, ret)
+
+    ret = packet_def.GCChatDecryption.new()
+    ret.key = 25179465
+    self:send2client(to, ret)
+end
+
+function scenecore:ask_char_equipment(whos, to)
+    local obj = self.objs[whos]
+    if obj and obj:get_obj_type() == "human" then
+        local ret = packet_def.GCCharEquipment.new()
+        ret.m_objID = whos
+        ret.flag = 0
+		if whos == to then
+			local equip_container = obj:get_equip_container()
+			local equip,gems
+			local visual,item_index,gemid = obj:get_cur_weapon_visual(self:get_id())
+			ret:set_weapon(item_index,gemid,visual)
+			local equip_visuals = function(equip_point,gem_3)
+				local index,wgid,gem = -1,0,{-1,-1,-1}
+				equip = equip_container:get_item(equip_point)
+				if equip then
+					index = equip:get_index()
+					local equip_data = equip:get_equip_data()
+					local id
+					if gem_3 then
+						for i = 1,3 do
+							id = equip_data:get_slot_gem(i)
+							if id > 0 then
+								gem[i] = id
+							end
+						end
+					else
+						id = equip_data:get_slot_gem(1)
+						if id > 0 then
+							gem[1] = id
+						end
+					end
+					wgid = equip_data:get_visual()
+				end
+				return wgid,index,gem
+			end
+			local save_wg = {}
+			local key = string.format("equip_%d_visual",define.HUMAN_EQUIP.HEQUIP_CAP)
+			visual,item_index,gems = equip_visuals(define.HUMAN_EQUIP.HEQUIP_CAP)
+			save_wg[key] = {
+				[define.WG_KEY_A] = item_index,
+				[define.WG_KEY_B] = gems[1],
+				[define.WG_KEY_C] = visual
+			}
+			ret:set_cap(item_index,gems[1],visual)
+			key = string.format("equip_%d_visual",define.HUMAN_EQUIP.HEQUIP_ARMOR)
+			visual,item_index,gems = equip_visuals(define.HUMAN_EQUIP.HEQUIP_ARMOR)
+			save_wg[key] = {
+				[define.WG_KEY_A] = item_index,
+				[define.WG_KEY_B] = gems[1],
+				[define.WG_KEY_C] = visual
+			}
+			ret:set_armour(item_index,gems[1],visual)
+			key = string.format("equip_%d_visual",define.HUMAN_EQUIP.HEQUIP_GLOVE)
+			visual,item_index,gems = equip_visuals(define.HUMAN_EQUIP.HEQUIP_GLOVE)
+			save_wg[key] = {
+				[define.WG_KEY_A] = item_index,
+				[define.WG_KEY_B] = gems[1],
+				[define.WG_KEY_C] = visual
+			}
+			ret:set_cuff(item_index,gems[1],visual)
+			key = string.format("equip_%d_visual",define.HUMAN_EQUIP.HEQUIP_BOOT)
+			visual,item_index,gems = equip_visuals(define.HUMAN_EQUIP.HEQUIP_BOOT)
+			save_wg[key] = {
+				[define.WG_KEY_A] = item_index,
+				[define.WG_KEY_B] = gems[1],
+				[define.WG_KEY_C] = visual
+			}
+			ret:set_unknow_6(item_index,gems[1],visual)
+			key = string.format("equip_%d_visual",define.HUMAN_EQUIP.HEQUIP_FASHION)
+			visual,item_index,gems = equip_visuals(define.HUMAN_EQUIP.HEQUIP_FASHION,true)
+			save_wg[key] = {
+				[define.WG_KEY_A] = item_index,
+				[define.WG_KEY_D] = gems[1],
+				[define.WG_KEY_E] = gems[2],
+				[define.WG_KEY_F] = gems[3],
+				[define.WG_KEY_C] = visual
+			}
+			ret:set_fasion(item_index,gems[1],gems[2],gems[3],visual)
+			visual,item_index = obj:get_wuhun_visual()
+			ret:set_wuhun(item_index,visual)
+			obj:set_game_flag_keys(save_wg)
+		else
+			local visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_WEAPON)
+			ret:set_weapon(visuals[define.WG_KEY_A],visuals[define.WG_KEY_B],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_CAP)
+			ret:set_cap(visuals[define.WG_KEY_A],visuals[define.WG_KEY_B],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_ARMOR)
+			ret:set_armour(visuals[define.WG_KEY_A],visuals[define.WG_KEY_B],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_GLOVE)
+			ret:set_cuff(visuals[define.WG_KEY_A],visuals[define.WG_KEY_B],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_BOOT)
+			ret:set_unknow_6(visuals[define.WG_KEY_A],visuals[define.WG_KEY_B],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_FASHION)
+			ret:set_fasion(visuals[define.WG_KEY_A],visuals[define.WG_KEY_D],visuals[define.WG_KEY_E],visuals[define.WG_KEY_F],visuals[define.WG_KEY_C])
+			visuals = obj:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_WUHUN)
+			ret:set_wuhun(visuals[define.WG_KEY_A],visuals[define.WG_KEY_C])
+		end
+		ret.flag = ret.flag | 0x80000000
+		self:send2client(to, ret)
+        require('cys_dual_souls').snapshot(self,obj,to)
+    end
+end
+
+
+function scenecore:send_cool_down_time(whos)
+    local human = self:get_obj_by_id(whos)
+    human:send_cool_down_time()
+end
+
+function scenecore:char_move(my_obj_id, move)
+    -- CYS-MOUNT-FLIGHT
+    local h=self.objs[my_obj_id];local f=require 'cys_mount_flight'
+    if f.changing(h) then return define.OPERATE_RESULT.OR_BUSY end
+    if f.active(h) then
+        if not f.bounds(self,move.posWorld) then return define.OPERATE_RESULT.OR_ERROR end
+        for _,pos in ipairs(move.targetPos or {})do if not f.bounds(self,pos)then return define.OPERATE_RESULT.OR_ERROR end end
+    end
+    local obj = self:get_obj_by_id(my_obj_id)
+    if not obj then return define.OPERATE_RESULT.OR_ERROR end
+    if move.m_objID ~= 0 and move.m_objID ~= my_obj_id then
+        return define.OPERATE_RESULT.OR_ERROR
+    end
+    if not move.targetPos or #move.targetPos == 0 or #move.targetPos > 0x10 then
+        return define.OPERATE_RESULT.OR_ERROR
+    end
+    -- 控制状态检查：被眩晕/定身/禁锢等控制时禁止移动
+    if obj:is_limit_move() then
+        return define.OPERATE_RESULT.OR_LIMIT_MOVE
+    end
+    -- 跟随队员的移动由服务端 AI 驱动。客户端残留点击包必须直接拒绝，
+    -- 不能再改 _client_world_pos 或 logic_count。
+    if obj:get_team_follow_flag() and not obj:get_is_team_leader() then
+        local now = skynet.now()
+        if not obj._team_follow_reject_move_log_time
+            or now - obj._team_follow_reject_move_log_time >= 500 then
+            obj._team_follow_reject_move_log_time = now
+            skynet.logw("[TEAM_FOLLOW_MOVE_REJECT] guid=", obj:get_guid(), "obj=", my_obj_id,
+                "scene=", self:get_id(), "client_handle=", move.handleID,
+                "server_handle=", obj:get_logic_count())
+        end
+        return define.OPERATE_RESULT.OR_BUSY
+    end
+    local start = move.posWorld
+    -- 2026-08-26: BO phan server keo nguoc nhan vat khi di vao o bi chan.
+    -- No lam nhan vat GIAT LIEN TUC (server teleport ve, client lai di tiep).
+    -- Viec chan tuong da tra lai cho CLIENT, giong het moi ban do goc: navmesh
+    -- .path cua ban do tu sinh nay nay da co du CANH RANG BUOC + danh sach thu
+    -- hai cua o luoi -- do la thu ma PathLib.dll dung de kiem doan duong khi
+    -- nhan vat di lien tuc. self.blockmap van duoc nap de ghi log/kiem tra.
+    -- Muon bat lai: xem scenecore.lua.navbak2-2026-08-26.
+    obj._client_world_pos = start
+    local result = obj:get_ai():push_command_move(move.handleID, move.targetPos, true)
+    if result ~= define.OPERATE_RESULT.OR_OK then
+        obj._client_world_pos = nil
+    end
+    -- do_move() 是 logic_count 的唯一所有者，禁止在这里二次修改 handle。
+    return result
+end
+
+function scenecore:char_position_warp(wrap)
+    local obj_id = wrap.m_objID
+    local obj = self.objs[obj_id]
+    local world_pos = obj:get_world_pos()
+    local fServerLen = math.abs(wrap.server_pos.x - world_pos.x) + math.abs(wrap.server_pos.y - world_pos.y)
+    if fServerLen > 0.1 then
+        return
+    end
+    local pos1 = wrap.server_pos
+    local pos2 = wrap.client_pos
+    local dist = math.sqrt( (pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y))
+    if dist > define.DEF_SERVER_ADJUST_POS_WARP_DIST then
+        return
+    end
+    local action_time = obj:get_action_time()
+    if action_time > 0 then
+        return
+    end
+    obj:on_teleport(pos2)
+end
+
+function scenecore:cys_gm_valid_destination(pos)
+    if type(pos) ~= "table" or type(pos.x) ~= "number" or type(pos.y) ~= "number" or not self.map then return false end
+    if self:move_blocked(nil,pos) then return false end
+    -- GetPath(pos,pos) accepts even out-of-bounds points. Use the exact client
+    -- triangle mesh already used to validate mount landings, including bounds.
+    local mesh=require("cys_flight_nav").for_scene(self)
+    return mesh ~= nil and mesh:walkable(pos.x,pos.y)
+end
+
+function scenecore:is_can_go(start, target)
+    if not self.map then return false end
+    local path = self.map:findpath(start, target)
+    return path ~= nil and #path > 0
+end
+
+function scenecore:get_map()
+    return self.map
+end
+function scenecore:char_use_skill(me, use)
+    local obj_me = self.objs[use.m_objID]
+    if obj_me then
+		local sceneId = self:get_id()
+		for _,sid in ipairs(define.SIWANG) do
+			if sceneId == sid then
+				obj_me:notify_tips("地府不能使用技能")
+				return
+			end
+		end
+        local skill_id = use.skillID
+		-- skynet.logi("skill_id = ",skill_id)
+		--超出距离也是-1
+		-- if skill_id == -1 then
+            -- obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_INVALID_SKILL)
+            -- return
+        -- end
+        local id_tar = use.targetObjID
+        local pos_tar = use.posTarget
+        local dir = use.dir
+        local obj_tar = self.objs[id_tar]
+		if define.SHENBING_CHANGE_SKILL[skill_id] then
+			local shenbing = obj_me:get_equip_container():get_item(define.HUMAN_EQUIP.SHENBING)
+			if not shenbing then
+				obj_me:notify_tips("未装备神兵")
+				return
+			elseif skill_id == 4566 then
+				if not obj_tar or obj_tar == obj_me then
+					obj_me:notify_tips("未选中角色目标")
+					return
+				end
+			end
+		elseif skill_id ~= 4435 then
+			if obj_me:get_game_flag_key("sb_change") > 0 then
+				if skill_id == -1 then
+					return
+				end
+				if not self.skillenginer:get_skill_template(skill_id,"is_shenbing_skill")
+				and not self.skillenginer:is_skill_in_collection(skill_id, 354) then
+					obj_me:notify_tips("当前状态该技能不可用")
+					return
+				end
+			else
+				if self.skillenginer:get_skill_template(skill_id,"is_shenbing_skill") then
+					obj_me:notify_tips("未切换神兵不可使用神兵技能")
+					return
+				end
+			end
+		end
+        local guid_tar = -1
+        if not obj_tar then
+            id_tar = obj_me:get_obj_id()
+            guid_tar = obj_me:get_guid()
+        end
+        if obj_me:get_obj_type() == "monster" then
+            obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_WARNING)
+            return
+        end
+        if obj_me:get_obj_type() == "pet" then
+            local pet_owner = obj_me:get_owner()
+            local owner = self:get_obj_by_id(me)
+            if owner ~= pet_owner then
+                owner:send_operate_result_msg(define.OPERATE_RESULT.OR_WARNING)
+                return
+            end
+        end
+        if obj_me:get_obj_type() == "human" then
+            if obj_me:get_obj_id() ~= me then
+                local me_obj = self:get_obj_by_id(me)
+				if me_obj then
+					me_obj:send_operate_result_msg(define.OPERATE_RESULT.OR_WARNING)
+				end
+                return
+            end
+            -- if not obj_me:have_skill(skill_id) and skill_id ~= define.INVAILD_ID then
+                -- obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_NEED_LEARN_SKILL_FIRST)
+                -- return
+            -- end
+        end
+		if skill_id == 21 then
+            local imp = obj_me:impact_get_first_impact_of_specific_class_id(define.RIDE_IMPACT_ID)
+            if imp then
+				obj_me:on_impact_fade_out(imp)
+				obj_me:remove_impact(imp)
+                obj_me:send_refresh_attrib()
+				return
+			end
+		end
+        -- if skill_id == 21 and obj_me:impact_get_first_impact_of_specific_class_id(define.RIDE_IMPACT_ID) then
+            -- local imp = obj_me:impact_get_first_impact_of_specific_class_id(define.RIDE_IMPACT_ID)
+            -- if imp then
+				-- obj_me:on_impact_fade_out(imp)
+				-- obj_me:remove_impact(imp)
+			-- end
+        -- else
+            if sceneId == 181 and define.QIANZHUANG_BAN_SKILLS[skill_id] then
+                obj_me:notify_tips("#{YBBT_110407_1}")
+                return
+            end
+            if sceneId == define.JIANYU_SCENE_ID and define.JIANYU_BAN_SKILL == skill_id then
+                obj_me:notify_tips("监狱不能使用回城技能")
+                return
+            end
+            if self:get_pvp_rule() == 0 and define.PVP_RULE_0_BAN_SKILL[skill_id] then
+                obj_me:notify_tips("当前地图不能使用该技能")
+                return
+            end
+			-- local script_arg_1 = id_tar
+			-- local script_arg_2 = skill_id
+			-- local script_arg_3 = -1
+            -- local result = obj_me:get_ai():push_command_use_skill(skill_id, id_tar, pos_tar.x, pos_tar.y, dir, guid_tar,script_arg_1,script_arg_2,script_arg_3)
+            local result = obj_me:get_ai():push_command_use_skill(skill_id, id_tar, pos_tar.x, pos_tar.y, dir, guid_tar)
+            result = result or define.OPERATE_RESULT.OR_OK
+            if result ~= define.OPERATE_RESULT.OR_OK then
+                if obj_me:get_obj_type() == "pet" then
+                    obj_me = obj_me:get_owner()
+                    obj_me:send_operate_result_msg(result)
+                else
+                    obj_me:send_operate_result_msg(result)
+                end
+            end
+        -- end
+    else
+        skynet.loge("char_use_skill error me =", me)
+    end
+end
+
+function scenecore:char_lock_target(me, lock)
+    local obj_me = self.objs[me]
+    if obj_me then
+        local target_id = lock.target_id
+        obj_me:set_locked_target(target_id)
+    end
+end
+
+function scenecore:char_open_box_item(me, box_item)
+    -- CYS-INV loot object type
+    local box = self.objs[box_item.m_objID]
+    if not self.objs[me] or not box or box:get_obj_type() ~= "itembox" then return end
+    local obj_box = self.objs[box_item.m_objID]
+    if obj_box then
+        assert(obj_box:get_obj_type() == "itembox", box_item.m_objID)
+        local msg = packet_def.GCBoxItemList.new()
+        local container = obj_box:get_container()
+        local list = {}
+        local item_list = container:get_item_data()
+        for i = 0, container:get_size() do
+            local item = item_list[i]
+            if item then
+                table.insert(list, item:copy_raw_data())
+            end
+        end
+        msg.m_objID = box_item.m_objID
+        msg.size = #list
+        msg.item_list = list
+        msg.item_box_type = obj_box:get_item_box_type()
+        self:send2client(me, msg)
+    end
+end
+
+function scenecore:char_pick_box_item(me, pick)
+    -- CYS-INV whole loot stack
+
+    local item_box_id = pick.m_objID
+    local obj_box = self.objs[item_box_id]
+    local obj_me = self.objs[me]
+    if not obj_box or obj_box:get_obj_type() ~= "itembox" then return end 
+    if obj_box and obj_me then
+        local msg = packet_def.GCPickResult.new()
+        local item_list = obj_box:get_container():get_item_data()
+        local chage_item = false
+        msg.m_objID = pick.m_objID
+    
+        msg.item_box_type = obj_box:get_item_box_type()
+        msg.result = 1
+        if msg.item_box_type ~= define.ITEMBOX_TYPE.ITYPE_DROPBOX then
+            if obj_box:get_open_flag() then
+                for index, item in pairs(item_list) do
+                    local guid = item:get_guid()
+                    if guid == pick.item_guid then
+                    if item:is_lock() then return end
+                        local bag_container = obj_me:get_prop_bag()
+                        local can_lay = item:can_lay()
+                        local no_full_index = inventory_guard.pick_stack_index(bag_container, item)
+                        local bag = item:get_place_bag()
+                        local bag_index = bag_container:get_empty_item_index(bag)
+                        if can_lay and no_full_index ~= define.INVAILD_ID then
+                            bag_index = no_full_index
+                            if item_operator:move_item(obj_box:get_container(), index, bag_container, bag_index) < 0 then return end
+                            self:pick_notify(obj_box, obj_me, item)
+                            chage_item = true
+                        else
+                            if bag_index ~= define.INVAILD_ID then
+                                if item_operator:move_item(obj_box:get_container(), index, bag_container, bag_index) < 0 then return end
+                                self:pick_notify(obj_box, obj_me, item)
+                            end
+                        end
+                        if bag_index ~= define.INVAILD_ID then
+                            msg.result = 0
+                            msg.item_guid = guid
+                            msg.item_box_guid = guid
+                            msg.bag_index = bag_index
+                            if obj_box:get_container():get_count() == 0 then
+                                obj_box:set_open_flag(false)
+                                local item_box_type = obj_box:get_type()
+                                local grow_point = configenginer:get_config("grow_point")
+                                grow_point = grow_point[item_box_type]
+                                assert(grow_point, item_box_type)
+                                local script_id = grow_point["脚本ID"] or define.INVAILD_ID
+                                if script_id ~= define.INVAILD_ID then
+                                    local ret = self:get_grow_point_enginer():call_script_recycle_func(script_id, obj_me:get_obj_id(), obj_box:get_obj_id())
+                                    if ret == 1 then
+                                        obj_box:recycle()
+                                    end
+                                end
+                            end
+                            local item = bag_container:get_item(bag_index)
+                            if chage_item then
+                                local change = packet_def.GCItemInfo.new()
+                                change.askid = 0
+                                change.bagIndex = msg.bag_index
+                                change.unknow_1 = 0
+                                change.unknow_2 = 0
+            
+                                local raw_data = item:copy_raw_data()
+                                change.item = raw_data
+                                -- Keep the source GUID so the client clears the right loot row.
+                                self:send2client(obj_me, change)
+                            end
+                            obj_me:on_pick_up_item(item, bag_index)
+                            break
+                        else
+                            msg.result = 2
+                            msg.bag_index = 0
+                            msg.item_box_guid = item_guid.new()
+                            msg.item_guid = item_guid.new()
+                        end
+                    end
+                end
+            end
+        else
+            local chage_item = false
+            for index, item in pairs(item_list) do
+                local guid = item:get_guid()
+                if guid == pick.item_guid then
+                    if item:is_lock() then return end
+                    local bag_container = obj_me:get_prop_bag()
+                    local can_lay = item:can_lay()
+                    local no_full_index = inventory_guard.pick_stack_index(bag_container, item)
+                    local bag = item:get_place_bag()
+                    local bag_index = bag_container:get_empty_item_index(bag)
+                    if can_lay and no_full_index ~= define.INVAILD_ID then
+                        bag_index = no_full_index
+                        if item_operator:move_item(obj_box:get_container(), index, bag_container, bag_index) < 0 then return end
+                            self:pick_notify(obj_box, obj_me, item)
+                        chage_item = true
+                    else
+                        if bag_index ~= define.INVAILD_ID then
+                            if item_operator:move_item(obj_box:get_container(), index, bag_container, bag_index) < 0 then return end
+                                self:pick_notify(obj_box, obj_me, item)
+                        end
+                    end
+                    if bag_index ~= define.INVAILD_ID then
+                        msg.result = 0
+                        msg.item_guid = guid
+                        msg.item_box_guid = guid
+                        msg.bag_index = bag_index
+                        if obj_box:get_container():get_count() == 0 then
+                            obj_box:recycle()
+                        end
+                        local item = bag_container:get_item(bag_index)
+                        if chage_item then
+                            local change = packet_def.GCItemInfo.new()
+                            change.askid = 0
+                            change.bagIndex = msg.bag_index
+                            change.unknow_1 = 0
+                            change.unknow_2 = 0
+        
+                            local raw_data = item:copy_raw_data()
+                            change.item = raw_data
+                            -- Keep the source GUID so the client clears the right loot row.
+                            self:send2client(obj_me, change)
+                        end
+                        obj_me:on_pick_up_item(item, bag_index)
+                        break
+                    else
+                        msg.result = 2
+                        msg.bag_index = 0
+                        msg.item_box_guid = item_guid.new()
+                        msg.item_guid = item_guid.new()
+                    end
+                end
+            end
+        end
+        self:send2client(obj_me, msg)
+    else
+        skynet.loge("item_box_id =", item_box_id, ", obj_box =", obj_box, ", me =", me, ", obj_me =", obj_me)
+    end
+end
+
+function scenecore:pick_notify(item_box, human, item)
+    local broad_cast = item:get_base_config().broad_cast
+    if not broad_cast then
+        return
+    end
+    local data = item_box:get_drop_item(item:get_index())
+	if not data then
+		return
+	end
+    local drop_class = data.drop_class
+    local drop_notify = configenginer:get_config("drop_notify")
+    local notifys = drop_notify[drop_class]
+    if notifys then
+        local notify = notifys[math.random(#notifys)]
+        local content = notify.content
+        local channel = notify.channel
+        local player_name = human:get_name()
+        content = string.gsub(content, "&U", string.format("#W#{_INFOUSR%s}", player_name))
+        content = string.gsub(content, "&S", self:get_name())
+        content = gbk.fromutf8(content)
+        content = string.gsub(content, "&I", string.format("#{_INFOMSG%s}", item:get_transfer()))
+        local msg = packet_def.GCChat.new()
+        msg.ChatType = channel
+        msg.unknow_2 = 1
+        msg:set_content(content)
+
+        local svrtype = skynet.getenv "svrtype"
+        if svrtype == "Span" then
+            local cluster = require "skynet.cluster"
+            local nodes = utils.get_cluster_specific_server_by_server_alias(".world")
+            for _, N in ipairs(nodes) do
+                cluster.send(N, ".world", "multicast", msg)
+            end
+        else
+            skynet.send(".world", "lua", "multicast", msg)
+        end
+    end
+end
+
+function scenecore:char_study_xinfa(me, req)
+    return require("cy_xinfa_study").handle(self, me, req, configenginer, packet_def)
+end
+
+function scenecore:char_req_level_up(me)
+    local obj_me = self.objs[me]
+    local level = obj_me:get_level()
+    local min_xinfa_level = obj_me:get_min_xinfa_level()
+    if obj_me:get_menpai() == define.MENPAI_ATTRIBUTE.MATTRIBUTE_WUMENPAI then
+        if level >= 10 then
+            obj_me:notify_tips("未加入门派, 不能手动升级")
+            return
+        end
+    end
+    if level == 89 and min_xinfa_level < 80 then
+        obj_me:notify_tips("门派前六本心法到达80级，才能升90级")
+        return
+    end
+    if level == 99 and min_xinfa_level < 90 then
+        obj_me:notify_tips("门派前六本心法到达90级，才能升100级")
+        return
+    end
+    if level == 109 and min_xinfa_level < 100 then
+        obj_me:notify_tips("门派前六本心法到达100级，才能升110级")
+        return
+    end
+    local exp = obj_me:get_exp()
+    local player_exp_level = configenginer:get_config("player_exp_level")
+    local msg = packet_def.GCLevelUpResult.new()
+    msg.result = 1
+    msg.remind_exp = exp
+    local level_exp = player_exp_level[level]
+    if exp >= level_exp then
+        if level + 1 >= define.HUMAN_MAX_LEVEL then
+            obj_me:notify_tips("已经升级到最高等级！")
+            return
+        else
+            exp = exp - level_exp
+            level = level + 1
+            obj_me:set_level(level)
+            obj_me:set_exp(exp)
+            obj_me:on_level_up(level)
+    
+            msg.remind_exp = exp
+            msg.result = 0
+    
+            local broad_msg = packet_def.GCLevelUp.new()
+            broad_msg.m_objID = obj_me:get_obj_id()
+            broad_msg.level = level
+            self:broadcast(obj_me, broad_msg, true)
+        end
+    end
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_remove_gem(me, removetab)
+    local msg = packet_def.GCRemoveGemResult.new()
+    local obj_me = self.objs[me]
+    local equip_index = removetab.equip_index
+    local mat_index = removetab.mat_index
+    local gem_location = removetab.gem_index + 1
+    local equip = obj_me:get_prop_bag_container():get_item(equip_index)
+    local mat = obj_me:get_prop_bag_container():get_item(mat_index)
+    local gem_id = equip:get_equip_data():get_gem_list()[gem_location]
+    assert(mat)
+    assert(equip)
+	if not gem_id or gem_id < 50000000 then
+		obj_me:notify_tips("宝石位置异常。")
+		return
+	end
+	local gemlv = gem_id // 100000
+	gemlv = gemlv - 500
+	local needitem = 30900035 + gemlv
+	local itemid = mat:get_index()
+	if itemid < needitem or itemid > 30900044 then
+		obj_me:notify_tips("请放入合适的宝石摘除符。")
+		return
+	end
+	local mspace = obj_me:get_prop_bag_container():get_empty_index_count("material")
+	if mspace < 1 then
+		obj_me:notify_tips("请给材料栏预留一空位。")
+		return
+	end
+	local e_pointx = equip:get_base_config().equip_point
+	if e_pointx == define.HUMAN_EQUIP.HEQUIP_RIDER
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_UNKNOW1
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_UNKNOW2
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_FASHION
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_TOTAL
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_JING
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_CHI
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_JIA
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_GOU
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_DAI
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_DI
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_ALL then
+		obj_me:notify_tips("该装备不开放此功能哦。")
+		return
+	end
+	local logparam = removetab
+	logparam.me = me
+	logparam.reason = "宝石摘除"
+	local del = human_item_logic:dec_item_lay_count(logparam, obj_me, mat_index, 1)
+	if not del then
+		obj_me:notify_tips("宝石摘除符扣除失败。")
+		return
+	end
+	equip:get_equip_data():remove_gem(gem_location)
+	-- 摘除后按 gem_list 实际内容回写 gem_count，避免计数器残留脏值
+	sync_equip_gem_count(equip)
+	local newgemid = equip:get_equip_data():get_gem_list()[gem_location]
+	if newgemid == 0 then
+		local is_bind = true--equip:is_bind()
+		logparam = { reason = "宝石摘除", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+		 local _, gem_index = human_item_logic:create_multi_item_to_bag(logparam, obj_me, gem_id, 1, is_bind, 0)
+		local gem_item = obj_me:get_prop_bag_container():get_item(gem_index)
+		if gem_item == nil or gem_item:get_index() ~= gem_id then
+			msg.result = 7
+			msg.gem_index = 0
+		else
+			msg.result = 0
+			msg.gem_index = gem_item:get_index()
+			local notice = packet_def.GCItemInfo.new()
+			notice.bagIndex = equip_index
+			notice.item = equip:copy_raw_data()
+			self:send2client(obj_me, notice)
+		end
+		self:send2client(obj_me, msg)
+	else
+		obj_me:notify_tips("宝石摘除失败。")
+	end
+    -- local is_bind = true--equip:is_bind()
+    -- local logparam = { reason = "宝石摘除", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+    -- local _, gem_index = human_item_logic:create_multi_item_to_bag(logparam, obj_me, gem_id, 1, is_bind, 0)
+    -- local gem_item = obj_me:get_prop_bag_container():get_item(gem_index)
+    -- if gem_item == nil or gem_item:get_index() ~= gem_id then
+        -- msg.result = 7
+        -- msg.gem_index = 0
+    -- else
+        -- equip:get_equip_data():remove_gem(gem_location)
+		-- local newgemid = equip:get_equip_data():get_gem_list()[gem_location]
+		-- if newgemid == 0 then
+        -- logparam = {}
+        -- human_item_logic:dec_item_lay_count(logparam, obj_me, mat_index, 1)
+        -- msg.result = 0
+        -- msg.gem_index = gem_item:get_index()
+
+        -- local notice = packet_def.GCItemInfo.new()
+        -- notice.bagIndex = equip_index
+        -- notice.item = equip:copy_raw_data()
+        -- self:send2client(obj_me, notice)
+    -- end
+    -- self:send2client(obj_me, msg)
+end
+
+function scenecore:char_remove_dress_gem(me, remove)
+    local msg = packet_def.GCRemoveGemResult.new()
+    local obj_me = self.objs[me]
+    if not obj_me then return end
+    local equip_index = remove.equip_index
+    local gem_location = remove.gem_index + 1
+    local equip = obj_me:get_prop_bag_container():get_item(equip_index)
+    if not equip then
+        obj_me:notify_tips("未找到时装装备")
+        return
+    end
+    local gem_list = equip:get_equip_data():get_gem_list()
+    local gem_id = gem_list[gem_location]
+    if not gem_id or gem_id <= 0 then
+        obj_me:notify_tips("该位置没有配饰")
+        return
+    end
+	local e_pointx = equip:get_base_config().equip_point
+	if e_pointx ~= define.HUMAN_EQUIP.HEQUIP_FASHION then
+		obj_me:notify_tips("该装备不开放此功能哦")
+		return
+	end
+    -- 自动从背包查找并扣除分离符(30503136)，不再依赖客户端传入mat_index
+    local MAT_SPLIT_ID = 30503136
+    local logparam = { reason = "时装装饰摘除", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+    local del_ok = human_item_logic:del_available_item(logparam, obj_me, MAT_SPLIT_ID, 1)
+    if not del_ok then
+        obj_me:notify_tips("分离符不足，无法摘除配饰")
+        return
+    end
+    local is_bind = false
+    local _, gem_index = human_item_logic:create_multi_item_to_bag(logparam, obj_me, gem_id, 1, is_bind, 0)
+    local gem_item = obj_me:get_prop_bag_container():get_item(gem_index)
+
+    if gem_item == nil or gem_item:get_index() ~= gem_id then
+        msg.result = 1
+        msg.gem_index = 0
+    else
+        equip:get_equip_data():remove_gem(gem_location)
+        -- 时装摘除路径也要回写 gem_count，避免重新登录前客户端残留脏数据
+        sync_equip_gem_count(equip)
+        msg.result = 0
+        msg.gem_index = gem_item:get_index()
+
+        local notice = packet_def.GCItemInfo.new()
+        notice.bagIndex = equip_index
+        notice.item = equip:copy_raw_data()
+        self:send2client(obj_me, notice)
+    end
+    self:send2client(obj_me, msg)
+end
+
+
+function scenecore:char_gem_compound(me, compound)
+    local obj_me = self.objs[me]
+	if not obj_me then
+		return
+	end
+    local item_index = compound.gem_id
+	if not item_index or item_index < 0 or item_index // 10000000 ~= 5 then
+		return
+	end
+    local mat_index = compound.mat_index
+	local item_mat_index = obj_me:get_prop_bag_container():get_item(mat_index)
+	if not item_mat_index then
+		return
+	end
+	local item_mat_index_id = item_mat_index:get_index()
+	if item_mat_index_id ~= 30900015 and item_mat_index_id ~= 30900016 and item_mat_index_id ~= 30900128 then
+		return
+	end
+	local method = compound.method
+    local need
+	local success_rate
+    if method == 0 then
+        need = 5
+		success_rate = 100
+    elseif method == 1 then
+        need = 4
+		success_rate = 75
+    elseif method == 2 then
+        need = 3
+		success_rate = 50
+	else
+		obj_me:notify_tips("请选择宝石合成数量。")
+		return
+    end
+	local material_space = obj_me:get_prop_bag_container():get_empty_index_count("material")
+	if material_space < 1 then
+		obj_me:notify_tips("请给材料栏预留一空位。")
+		return
+    end
+    local bag_indexs,isbind = human_item_logic:get_items_in_need(obj_me, item_index, need)
+    if bag_indexs then
+        -- 检查消耗物品是否有锁定物品
+        for _, bi in pairs(bag_indexs) do
+            local chk_item = obj_me:get_prop_bag_container():get_item(bi.bag_index)
+            if chk_item and chk_item:is_lock() then
+                obj_me:notify_tips("交易中的道具无法合成")
+                return
+            end
+        end
+        if item_mat_index:is_lock() then
+            obj_me:notify_tips("交易中的道具无法合成")
+            return
+        end
+        local new_item_index,curlv = human_item_logic:gem_compound_item_index(item_index)
+        -- CYS 23/09: arithmetic IDs are not proof that the next gem exists.
+        -- Reject before dec_item_lay_count/cost_money, preserving every input.
+        local gems = configenginer:get_config("gem_info")
+		if new_item_index == 0 or not gems[item_index] or not gems[new_item_index] then
+			obj_me:notify_tips("更高等级的宝石尚未开放。")
+			return
+		end
+		if curlv >= 8 then
+			if item_mat_index_id ~= 30900128 then
+				obj_me:notify_tips("宝石合成符不匹配。")
+				return
+			end
+		end
+		if not isbind then
+			isbind = item_mat_index:is_bind()
+		end
+        local param = {}
+		local needmoney = curlv * 10000 + 40000
+		local myjz = obj_me:get_attrib("jiaozi") or 0
+		local mymon = obj_me:get_attrib("money") or 0
+		if mymon + myjz < needmoney then
+			obj_me:notify_tips("金钱不足"..tostring(needmoney // 10000).."金。")
+			return
+		end
+		local logparam = { reason = "宝石合成", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+		for _, bi in pairs(bag_indexs) do
+			human_item_logic:dec_item_lay_count(logparam, obj_me, bi.bag_index, bi.count, item_index)
+		end
+		human_item_logic:dec_item_lay_count(logparam, obj_me, mat_index, 1, item_mat_index_id)
+		local del = obj_me:cost_money_with_priority(needmoney,"宝石合成")
+		if not del then
+			obj_me:notify_tips("金钱扣除失败。")
+			return
+		end
+        local is_success = true
+        if method == 1 or method == 2 then
+            is_success = math.random(100) <= success_rate
+        end
+        if is_success then
+            local _, bag_index = human_item_logic:create_multi_item_to_bag(param, obj_me, new_item_index, 1, isbind, 0)
+            if bag_index ~= define.INVAILD_ID then
+                obj_me:notify_tips("合成成功。")
+				local selfId = obj_me:get_obj_id()
+				obj_me:show_buff_effect(selfId,selfId,-1,obj_me:get_logic_count(),18)
+                local new_item = obj_me:get_prop_bag_container():get_item(bag_index)
+                if new_item and new_item:get_base_config().quality >= 4 then
+                    local szTransferItem = new_item:get_transfer()
+                    local strText = string.format("#W#{_INFOUSR%s}#HSau một phen nỗ lực, cuối cùng đã hợp thành ra#W#{_INFOMSG%%s}#H。", obj_me:get_name())
+                    strText = gbk.fromutf8(strText)
+                    strText = string.format(strText, szTransferItem)
+                    local msg = packet_def.GCChat.new()
+                    msg.ChatType = 4
+                    msg.Sourceid = obj_me:get_obj_id()
+                    msg.unknow_2 = 1
+                    msg:set_content(strText)
+                    self:send_world(obj_me, "lua", "multicast", msg)
+                end
+            else
+                obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_BAG_OUT_OF_SPACE)
+            end
+        else
+            obj_me:notify_tips("合成失败。")
+        end
+    else
+        obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_STUFF_LACK)
+    end
+end
+
+function scenecore:char_modify_setting(me, modify)
+    local obj_me = self.objs[me]
+    if obj_me:get_enter_scene_time_diff() < 3 then
+        return
+    end
+    local submitted = require("cy_four_combat.phase3").setting(obj_me, modify)
+    local all_setting = obj_me:get_setting()
+    local type = modify.type
+    local setting_key = tostring(type + 1)
+    local guard = obj_me.menpai_quick_setting_guard
+    if guard then
+        if skynet.now() <= guard.expires_at then
+            local expected_skill = guard.skills[setting_key]
+            if expected_skill and (submitted.type ~= 1 or submitted.data ~= expected_skill) then
+                return
+            end
+        else
+            obj_me.menpai_quick_setting_guard = nil
+        end
+    end
+    local setting = table.clone(all_setting[type]) or {
+        data = define.INVAILD_ID,
+        type = 0
+    }
+    setting.type = submitted.type
+    setting.data = submitted.data
+    all_setting[setting_key] = setting
+    if modify.type == define.SETTING_TYPE.SETTING_TYPE_GAME then obj_me:send_setting() end
+
+    if modify.type == define.SETTING_TYPE.SETTING_TYPE_SHOW_OR_HIDE_TITLE then
+        if setting.data == 1 then
+            obj_me:notify_tips("#{XCHXT_180428_68}")
+        else
+            obj_me:notify_tips("#{XCHXT_180428_66}")
+        end
+        obj_me:set_current_title(obj_me:get_current_title())
+        obj_me:send_setting()
+    end
+end
+
+function scenecore:ring_or_amulet_select_slot(equip_container, slots)
+    -- Empty slots first, stable first slot when both are occupied. table.sort's
+    -- comparator must return a boolean; the old numeric return corrupted this.
+    for _,point in ipairs(slots) do
+        if not equip_container:get_item(point) then return point end
+    end
+    return slots[1]
+end
+
+
+function scenecore:char_use_item(me, use)
+    local obj_me = self.objs[me]
+	if not obj_me then
+		return
+	end
+	local sceneId = self:get_id()
+	for _,sid in ipairs(define.SIWANG) do
+		if sceneId == sid then
+			obj_me:notify_tips("地府不可使用道具。")
+			return
+		end
+	end
+    -- print("me =", me, ";obj_me =",obj_me)
+    local item = obj_me:get_prop_bag_container():get_item(use.bagIndex)
+    if item then
+        if item:is_lock() then
+            obj_me:notify_tips("交易中的道具无法使用")
+            return
+        end
+        local item_index = item:get_index()
+        if item_index == use.item_index then
+            assert(item:get_lay_count() > 0)
+            local config = item:get_base_config()
+            local script_id = config.script_id
+            local result
+            if require('cys_gift_boxes').supported(item_index) then
+                local gift=require('cys_gift_boxes')
+                result=gift.open(self.scriptenginer:try_load(990031),obj_me,use.bagIndex) and 0 or 1
+            elseif require('cy_lingpai').is_book(item_index) then
+                result=obj_me:cy_lingpai_operation('learn',use.bagIndex) and define.USEITEM_RESULT.USEITEM_SUCCESS or 1
+            elseif script_id ~= define.INVAILD_ID then
+                if not self.scriptenginer:have_function(script_id,"OnDefaultEvent") and not self.scriptenginer:have_function(script_id,"OnActivateOnce") then
+                    obj_me:notify_tips("Vật phẩm chưa có nội dung sử dụng trên máy chủ (ID "..item_index.."). Vật phẩm vẫn được giữ trong Túi.")
+                    return
+                end
+                if not self.scriptenginer:item_is_skill_like_script(obj_me, script_id) then
+                    result = self.scriptenginer:item_call_default_event(obj_me, script_id, use.bagIndex)
+                elseif not self.scriptenginer:script_cancle_impacts(obj_me, script_id) then
+                    local guid = pet_guid.new()
+                    guid:set(use.pet_guid.m_uHighSection, use.pet_guid.m_uLowSection)
+                    result = obj_me:get_ai():push_command_use_item(use.bagIndex, use.target_obj_id, use.target_pos, guid, use.target_bag_index)
+                else
+                    result = define.USEITEM_RESULT.USEITEM_SUCCESS
+                end
+            else
+                if item:get_serial_quality() == define.COMMON_ITEM_QUAL.COMITEM_QUAL_MIS
+                and (item:get_serial_type() == define.COMMON_ITEM_TYPE.COMITEM_COIDENT
+                or item:get_serial_type() == define.COMMON_ITEM_TYPE.COMITEM_WPIDENT
+                or item:get_serial_type() == define.COMMON_ITEM_TYPE.COMITEM_ARIDENT
+                or item:get_serial_type() == define.COMMON_ITEM_TYPE.COMITEM_NCIDENT) then
+                    result = obj_me:use_ident_scroll(use.bagIndex, use.target_bag_index)
+                end
+                if item:get_index() == define.YUANBAO_PIAO then
+                    result = obj_me:use_yuanbao_piao(use.bagIndex)
+                end
+            end
+            local msg = packet_def.GCUseItemResult.new()
+            msg.result = result or define.OPERATE_RESULT.OR_OK
+            self:send2client(obj_me, msg)
+        else
+            skynet.loge( string.format("item.index = %s, use.bagIndex = %s", tostring(item_index), tostring(use.bagIndex)))
+        end
+    else
+        -- skynet.loge(string.format("char_use_item fail use.bagIndex = %s", tostring(use.bagIndex)))
+    end
+end
+
+function scenecore:update_fashion_buff(obj_me, equipid, isflag )
+end
+
+function scenecore:char_use_bag_fashion_equip(obj_me, use)
+    local bag_container = obj_me:get_prop_bag()
+    local bag_index = use.bagIndex
+    local item = bag_container:get_item(bag_index)
+	if not item then
+		obj_me:notify_tips("error，背包位置["..tostring(bag_index).."]不存在时装。")
+		return
+	end
+	local point = item:get_item_point()
+	if point ~= define.HUMAN_EQUIP.HEQUIP_FASHION then
+		obj_me:notify_tips("装备点异常。")
+		return
+	end
+    local fashion = obj_me:get_equip_container():get_item(define.HUMAN_EQUIP.HEQUIP_FASHION)
+    if not fashion then
+        obj_me:set_fashion_depot_index(define.INVAILD_ID)
+    end
+	local select_pos = obj_me:get_fashion_depot_index()
+    local fashion_depot = obj_me:get_fasion_bag_container()
+	local dest_index = fashion_depot:get_empty_item_index_expect_index(select_pos)
+    if dest_index == define.INVAILD_ID then
+		obj_me:notify_tips("衣柜已满，请请出一件时装再来装备。")
+        return
+    end
+	local itemid = item:get_index()
+    bag_container:erase_item(bag_index)
+    fashion_depot:set_item(dest_index,item)
+	obj_me:update_fasion_buff(itemid,true)
+	local msg = packet_def.GCItemInfo.new()
+	msg.askid = 0
+	msg.bagIndex = bag_index
+	msg.unknow_1 = 1
+	msg.unknow_2 = 0
+	item = item_cls.new()
+	local raw_data = item:copy_raw_data()
+	msg.item = raw_data
+	self:send2client(obj_me, msg)
+	return dest_index
+end
+
+function scenecore:char_use_fashion_equip(obj_me, use, ret)
+    local bag_index = use.bagIndex
+    local equip_point = use.equipPoint
+	if equip_point ~= define.HUMAN_EQUIP.HEQUIP_FASHION then
+		obj_me:notify_tips("装备点异常。")
+		return
+	end
+    local source_container = obj_me:get_fasion_bag_container()
+    local item = source_container:get_item(bag_index)
+	if not item then
+		local msg = "error，衣柜位置["..tostring(bag_index).."]不存在时装。"
+		obj_me:notify_tips(msg)
+		return
+	end
+	local point = item:get_item_point()
+	if point ~= equip_point then
+		obj_me:notify_tips("装备点异常。")
+		return
+	end
+	local equip_container = obj_me:get_equip_container()
+	local equip = equip_container:get_item(equip_point)
+	if equip then
+		local select_index = obj_me:get_fashion_depot_index()
+		if select_index == define.INVAILD_ID or source_container:get_item(select_index) then
+			select_index = source_container:get_empty_item_index_expect_index(select_index)
+			if select_index == define.INVAILD_ID then
+				obj_me:notify_tips("衣柜空间已满，请从衣柜中先取出一件时装再尝试。")
+				return
+			end
+		end
+		local isok = item_operator:exchange_item(equip_container,equip_point, source_container,select_index)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("身上时装放回衣柜失败。")
+			return
+		end
+		local notice = packet_def.GCFashionDepotOperation.new()
+		notice.flag = 7
+		notice.unknow_2 = select_index
+		notice.fashion = item_cls.new():copy_raw_data()
+		self:send2client(obj_me, notice)
+		-- equip = equip_container:get_item(equip_point)
+	end
+	local dest_index = item_operator:exchange_item(source_container, bag_index, equip_container, equip_point)
+	if dest_index ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+		obj_me:notify_tips("穿戴失败。")
+		return
+	end
+	local equip = equip_container:get_item(equip_point)
+    ret.bagIndex = 255
+    ret.equipPoint = equip_point
+	
+	ret.equip_guid = equip and equip.guid or
+						 {server = 0, world = 0, mask = 0, series = 0}
+	ret.item_guid = item.guid
+	ret.equipTableIndex = equip and equip.item_index or 0
+	ret.item_index = item.item_index
+	ret.unknow = 1
+	ret.result = define.UseEquipResultCode.USEEQUIP_SUCCESS
+
+	local notice = packet_def.GCFashionDepotOperation.new()
+	notice.flag = 6
+	notice.unknow_2 = bag_index
+	notice.fashion = item:copy_raw_data()
+	self:send2client(obj_me, notice)
+	obj_me:set_fashion_depot_index(bag_index)
+	return equip
+end
+
+function scenecore:char_bind_equip(obj_me, use)
+    local bag = obj_me:get_prop_bag_container()
+    local item = bag:get_item(use.bagIndex)
+    if not item or item:is_lock() then return false end
+    if item:is_equip() then
+        local base = configenginer:get_config("equip_base")[item:get_index()]
+        local rule = base and configenginer:get_config("item_ruler")[base.rule]
+        -- Config lookups can yield; never bind a replaced or locked item.
+        if bag:get_item(use.bagIndex) ~= item or item:is_lock() then return false end
+        if not rule then return false end
+        if rule.need_ident and not item:is_identd() then
+            obj_me:notify_tips("Trang bị chưa được giám định.")
+            return false
+        end
+    end
+    item:set_is_bind(true)
+    return true
+end
+
+function scenecore:get_all_equip_gemscore(obj_me, use)
+
+
+
+end
+function scenecore:char_use_bag_equip(obj_me, use, ret)
+    local bag = obj_me:get_prop_bag()
+    local bag_index = use.bagIndex
+    local item = bag:get_item(bag_index)
+	if not item then
+		obj_me:notify_tips("error，背包位置["..tostring(bag_index).."]不存在装备。")
+		return
+	end
+    local equipPoint = use.equipPoint
+	local point = item:get_item_point()
+	local equipid = item:get_index()
+	if equipPoint == define.HUMAN_EQUIP.SHENBING then
+		if equipPoint ~= point then
+			obj_me:notify_tips("装备点异常。")
+			return
+		elseif obj_me:get_game_flag_key("sb_change") > 0 then
+			obj_me:notify_tips("请取消神兵状态再更换装备。")
+			return
+		end
+		local shenbing = configenginer:get_config("shenbing")
+		shenbing = shenbing[equipid]
+		if not shenbing then
+			obj_me:notify_tips("未开放神兵ID。")
+			return
+		elseif item:get_equip_data():get_fwq_change_skill() == -1 then
+			obj_me:notify_tips("神兵数据过旧，请前往大理[232,104]欧冶菡处修正数据。")
+			return
+		end
+	elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_RING_1
+	or equipPoint == define.HUMAN_EQUIP.HEQUIP_RING_2 then
+		if point ~= define.HUMAN_EQUIP.HEQUIP_RING_1 and point ~= define.HUMAN_EQUIP.HEQUIP_RING_2 then
+			obj_me:notify_tips("装备点异常。。")
+			return
+		end
+	elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_AMULET_1
+	or equipPoint == define.HUMAN_EQUIP.HEQUIP_AMULET_2 then
+		if point ~= define.HUMAN_EQUIP.HEQUIP_AMULET_1 and point ~= define.HUMAN_EQUIP.HEQUIP_AMULET_2 then
+			obj_me:notify_tips("装备点异常。。。")
+			return
+		end
+	elseif equipPoint ~= point then
+		obj_me:notify_tips("装备点异常。")
+		return
+	end
+	local equip_base = configenginer:get_config("equip_base")
+	local base_config = equip_base[equipid]
+	if not base_config then
+		obj_me:notify_tips("装备异常。")
+		return
+	end
+    ret.bagIndex = use.bagIndex
+    ret.equipPoint = equipPoint
+	local sublv = 0
+	local bbtime = obj_me:get_mission_data_by_script_id(534)
+	if os.time() > bbtime then
+		obj_me:set_mission_data_by_script_id(534,0)
+	else
+		sublv = 10
+	end
+	local baselevel = base_config.level - sublv
+	if obj_me:get_level() < baselevel then
+		obj_me:notify_tips("等级不足。")
+		return
+	end
+	local equip_container = obj_me:get_equip_container()
+    if equipPoint == define.HUMAN_EQUIP.HEQUIP_RING_1 then
+        equipPoint = self:ring_or_amulet_select_slot(equip_container, {define.HUMAN_EQUIP.HEQUIP_RING_1,define.HUMAN_EQUIP.HEQUIP_RING_2})
+    elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_AMULET_1 then
+        equipPoint = self:ring_or_amulet_select_slot(equip_container, {define.HUMAN_EQUIP.HEQUIP_AMULET_1,define.HUMAN_EQUIP.HEQUIP_AMULET_2})
+    end
+    ret.equipPoint = equipPoint
+	local equip = equip_container:get_item(equipPoint)
+	if equip then
+		if equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW1 then
+			local curequipid = equip:get_index()
+			local cursize = equip_base[curequipid]["行囊"]
+			if not cursize or cursize < 1 then
+				return
+			end
+			local usesize = equip_base[equipid]["行囊"]
+			if not usesize or usesize < 1 then
+				return
+			end
+			local subsize = 0 -- CYS-ROUND2 23/09 Capacity stays 100 when bag equipment changes.
+			if not bag:test_can_change_size("prop", subsize) or bag_index >= bag:get_size().prop + subsize then
+				obj_me:notify_tips("无法更换行囊，更换后空间不足")
+				return
+			end
+		elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW2 then
+			local curequipid = equip:get_index()
+			local cursize = equip_base[curequipid]["格箱"]
+			if not cursize or cursize < 1 then
+				return
+			end
+			local usesize = equip_base[equipid]["格箱"]
+			if not usesize or usesize < 1 then
+				return
+			end
+			local subsize = 0 -- CYS-ROUND2 23/09 Capacity stays 100 when bag equipment changes.
+			if not bag:test_can_change_size("material", subsize) then
+				obj_me:notify_tips("无法更换格箱，更换后空间不足")
+				return
+			end
+
+		end
+		local isok = item_operator:exchange_item(bag, bag_index, equip_container, ret.equipPoint)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("装备更换失败。")
+			return
+		end
+		-- item = equip_container:get_item(ret.equipPoint)
+		-- if not item then
+			-- obj_me:notify_tips("装备更换失败。")
+			-- return
+		-- end
+		obj_me:impact_clean_when_unequip(equip)
+	else
+		local isok = item_operator:exchange_item(bag, bag_index, equip_container, ret.equipPoint)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("装备更换失败。")
+			return
+		end
+		-- item = equip_container:get_item(ret.equipPoint)
+		-- if not item then
+			-- obj_me:notify_tips("装备更换失败。")
+			-- return
+		-- end
+	end
+	-- equip = bag:get_item(bag_index)
+	ret.equip_guid = equip and equip.guid or
+						 {server = 0, world = 0, mask = 0, series = 0}
+	ret.item_guid = item.guid
+	ret.equipTableIndex = equip and equip.item_index or -1
+	ret.item_index = item.item_index
+	ret.unknow = 0
+	ret.result = define.UseEquipResultCode.USEEQUIP_SUCCESS
+	if equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW1 or equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW2 then
+		obj_me:on_bag_size_changed()
+	end
+    return equip_container:get_item(equipPoint)
+end
+
+function scenecore:broad_char_equioment(obj,equip_point)
+    if equip_point==18 or equip_point==39 then require('cys_dual_souls').snapshot(self,obj,nil,true) end
+	-- skynet.logi("scenecore:broad_char_equioment")
+    local ret = packet_def.GCCharEquipment.new()
+    ret.m_objID = obj:get_obj_id()
+    ret.flag = 0
+	local equip_container = obj:get_equip_container()
+	local item_index = define.INVAILD_ID
+	local gem = {define.INVAILD_ID,define.INVAILD_ID,define.INVAILD_ID}
+	local visual = 0
+	local equip
+	if equip_point == define.HUMAN_EQUIP.HEQUIP_WEAPON then
+		local gemid
+		visual,item_index,gemid = obj:get_cur_weapon_visual(self:get_id())
+		ret:set_weapon(item_index,gemid,visual)
+	else
+		equip = equip_container:get_item(equip_point)
+		if equip then
+			item_index = equip:get_index()
+			local equip_data = equip:get_equip_data()
+			local id
+			for i = 1,3 do
+				id = equip_data:get_slot_gem(i)
+				if id > 0 then
+					gem[i] = id
+				end
+			end
+			visual = equip_data:get_visual()
+		end
+		if equip_point == define.HUMAN_EQUIP.HEQUIP_CAP then
+			obj:set_game_flag_keys_visual(equip_point,
+			{
+			[define.WG_KEY_A] = item_index,
+			[define.WG_KEY_B] = gem[1],
+			[define.WG_KEY_C] = visual
+			})
+			ret:set_cap(item_index,gem[1],visual)
+		elseif equip_point == define.HUMAN_EQUIP.HEQUIP_ARMOR then
+			obj:set_game_flag_keys_visual(equip_point,
+			{
+			[define.WG_KEY_A] = item_index,
+			[define.WG_KEY_B] = gem[1],
+			[define.WG_KEY_C] = visual
+			})
+			ret:set_armour(item_index,gem[1],visual)
+		elseif equip_point == define.HUMAN_EQUIP.HEQUIP_GLOVE then
+			obj:set_game_flag_keys_visual(equip_point,
+			{
+			[define.WG_KEY_A] = item_index,
+			[define.WG_KEY_B] = gem[1],
+			[define.WG_KEY_C] = visual
+			})
+			ret:set_cuff(item_index,gem[1],visual)
+		elseif equip_point == define.HUMAN_EQUIP.HEQUIP_BOOT then
+			obj:set_game_flag_keys_visual(equip_point,
+			{
+			[define.WG_KEY_A] = item_index,
+			[define.WG_KEY_B] = gem[1],
+			[define.WG_KEY_C] = visual
+			})
+			ret:set_unknow_6(item_index,gem[1],visual)
+		elseif equip_point == define.HUMAN_EQUIP.HEQUIP_FASHION then
+			obj:set_game_flag_keys_visual(equip_point,
+			{
+			[define.WG_KEY_A] = item_index,
+			[define.WG_KEY_D] = gem[1],
+			[define.WG_KEY_E] = gem[2],
+			[define.WG_KEY_F] = gem[3],
+			[define.WG_KEY_C] = visual
+			})
+			ret:set_fasion(item_index,gem[1],gem[2],gem[3],visual)
+		elseif equip_point == define.HUMAN_EQUIP.HEQUIP_WUHUN then
+			local wuhun_visual, wuhun_item_id = obj:get_wuhun_visual()
+			ret:set_wuhun(wuhun_item_id, wuhun_visual)
+		end
+	end
+    -- ret.flag = ret.flag | 0x80000000
+    self:send2client(obj, ret)
+	self:broadcast(obj, ret, true)
+end
+
+
+function scenecore:char_use_equip(obj_id, use)
+    local obj_me = self.objs[obj_id]
+	if not obj_me then
+		return
+	end
+	local sceneId = self:get_id()
+	for _,sid in ipairs(define.SIWANG) do
+		if sceneId == sid then
+			obj_me:notify_tips("地府不可操作装备。")
+			return
+		end
+	end
+    local item
+	-- local istrue = self:char_bind_equip(obj_me, use)
+    -- if use.type == 1 then
+        -- istrue = self:char_bind_equip(obj_me, use)
+    -- end
+    local ret = packet_def.GCUseEquipResult.new()
+    local equipPoint = use.equipPoint
+    if not require('cys_dual_souls').can_swap(obj_me,equipPoint) then obj_me:notify_tips('Hãy rời giao tranh 10 giây trước khi đổi hồn.');return end
+    if equipPoint == define.HUMAN_EQUIP.HEQUIP_FASHION then
+        if use.type ~= 2 then
+			if not self:char_bind_equip(obj_me, use) then
+				return
+			end
+            local dest_index = self:char_use_bag_fashion_equip(obj_me, use)
+			if not dest_index then return end
+			use.bagIndex = dest_index
+        end
+        item = self:char_use_fashion_equip(obj_me, use, ret)
+		if not item then return end
+        self:send_char_fashion_depot_data(obj_me)
+    -- elseif equipPoint == define.HUMAN_EQUIP.SHENBING then
+		-- if not self:char_bind_equip(obj_me, use) then
+			-- return
+		-- end
+        -- item = self:char_use_bag_equip(obj_me, use, ret)
+		-- if not item then return end
+	else
+		if not self:char_bind_equip(obj_me, use) then
+			return
+		end
+        item = self:char_use_bag_equip(obj_me, use, ret)
+		if not item then return end
+    end
+    equipPoint = ret.equipPoint -- use the authoritative destination throughout notifications
+    self:send2client(obj_me, ret)
+	local deltime = item:get_item_record_data_forindex("deltime")
+	if not deltime then
+		item:set_validity_period_start_time(1)
+	end
+	local item_index = item:get_index()
+    -- if equipPoint == define.HUMAN_EQUIP.HEQUIP_WUHUN then
+        -- obj_me:send_skill_list()
+    -- end
+	local equip_data = item:get_equip_data()
+    -- local msg = packet_def.GCCharEquipment.new()
+    -- msg.unknow_1 = 0
+    -- msg.m_objID = obj_me:get_obj_id()
+	
+	if equipPoint == define.HUMAN_EQUIP.HEQUIP_CAP then
+		local env = skynet.getenv("env")
+		if define.ADD_EQUIP_BUFF[env] then
+			for _,dy_info in ipairs(define.ADD_EQUIP_BUFF[env]) do
+				if dy_info[define.HUMAN_EQUIP.HEQUIP_CAP] then
+					if item_index >= dy_info[define.HUMAN_EQUIP.HEQUIP_CAP].MINID and item_index == dy_info[define.HUMAN_EQUIP.HEQUIP_CAP].MAXID then
+						impactenginer:send_impact_to_unit(obj_me,dy_info[define.HUMAN_EQUIP.HEQUIP_CAP].BUFFID, obj_me, 100, false, 0)
+					end
+				end
+			end
+		end
+	elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_WUHUN
+	or equipPoint == define.HUMAN_EQUIP.SHENBING then
+		obj_me:send_skill_list()
+	end
+	self:broad_char_equioment(obj_me,equipPoint)
+	
+	
+	
+    -- if equipPoint == define.HUMAN_EQUIP.HEQUIP_WEAPON then
+		-- local visual,item_index,gemid = obj:get_cur_weapon_visual(self:get_id())
+		-- ret:set_weapon(item_index,gemid,visual)
+	-- -- elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_CAP then
+        -- -- local visual = equip_data:get_visual()
+		-- -- local gem1 = equip_data:get_slot_gem(1)
+		-- -- gem1 = gem1 > 0 and gem1 or -1
+		-- -- msg:set_cap(item_index,gem1,visual)
+    -- elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_FASHION then
+        -- local visual = equip_data:get_visual()
+		-- local gem1 = equip_data:get_slot_gem(1)
+		-- local gem2 = equip_data:get_slot_gem(2)
+		-- local gem3 = equip_data:get_slot_gem(3)
+		-- gem1 = gem1 > 0 and gem1 or -1
+		-- gem2 = gem2 > 0 and gem2 or -1
+		-- gem3 = gem3 > 0 and gem3 or -1
+        -- msg:set_fasion(item_index,gem1,gem2,gem3,visual)
+    -- elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_WUHUN then
+		-- obj_me:send_skill_list()
+        -- local visual = obj_me:get_wuhun_visual()
+        -- msg:set_wuhun(item_index, visual)
+    -- end
+    -- self:broadcast(obj_me, msg, true)
+    local notice_detail_equip = packet_def.GCDetailEquipList.new()
+    notice_detail_equip.m_objID = obj_me:get_obj_id()
+    notice_detail_equip.m_mode = 1
+    local raw_data = item:copy_raw_data()
+    notice_detail_equip.itemList = {
+        [ret.equipPoint] = raw_data
+    }
+    -- self:send2client(obj_me, notice_detail_equip)
+    obj_me:item_flush()
+    obj_me:send_skill_list() -- cy-equipment-skills
+    if equipPoint == define.HUMAN_EQUIP.HEQUIP_FASHION then
+        exterior_bonus.refresh_bonus(obj_me)
+        equip_dress_bonus.refresh_bonus(obj_me)
+    end
+end
+
+function scenecore:char_un_equip(obj_id, unequip)
+    local ret = packet_def.GCUnEquipResult.new()
+    local obj_me = self.objs[obj_id]
+    local equipPoint = unequip.equipPoint
+    if not obj_me or not require('cys_dual_souls').can_swap(obj_me,equipPoint) then return end
+	local equip_container = obj_me:get_equip_container()
+    local equip = equip_container:get_item(equipPoint)
+    ret.equipPoint = equipPoint
+    if equip then
+        local dest_container
+        if equipPoint == define.HUMAN_EQUIP.HEQUIP_FASHION then
+            dest_container = obj_me:get_fasion_bag_container()
+            local empty_index = obj_me:get_fashion_depot_index()
+            if dest_container:get_item(empty_index) then
+                empty_index = dest_container:get_empty_item_index_expect_index(empty_index)
+            end
+			if empty_index == define.INVAILD_ID then
+				obj_me:notify_tips("易容阁衣柜已满，请取出一个件时装再尝试。")
+				return
+			end
+			local cur_index = item_operator:move_item(equip_container,equipPoint,dest_container,empty_index)
+			ret.item_guid = equip.guid
+			ret.item_index = equip.item_index
+			ret.bagIndex = 255
+			if cur_index == empty_index then
+				local fashion = item_cls.new():copy_raw_data()
+				local notice = packet_def.GCFashionDepotOperation.new()
+				notice.flag = 7
+				notice.unknow_2 = empty_index
+				notice.fashion = fashion
+				self:send2client(obj_me, notice)
+				obj_me:set_fashion_depot_index(define.INVAILD_ID)
+				ret.result = 1
+				-- ret.item_guid = equip.guid
+				-- ret.item_index = equip.item_index
+				-- ret.bagIndex = 255
+			else
+				ret.result = 3
+			end
+        else
+		
+            dest_container = obj_me:get_prop_bag()
+            local bag = equip:get_place_bag()
+            local empty_index = dest_container:get_empty_item_index(bag)
+			if empty_index == define.INVAILD_ID then
+				obj_me:notify_tips("背包空间不足。")
+				return
+			end
+            if equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW1 then
+                local base = equip:get_base_config()
+                local size = base["行囊"]
+				if not size or size < 1 then
+					return
+				end
+                if not dest_container:test_can_change_size("prop", 0) or empty_index >= dest_container:get_size().prop then
+                    obj_me:notify_tips("无法卸下行囊，卸下后空间不足")
+                    return
+                end
+            elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW2 then
+                local base = equip:get_base_config()
+                local size = base["格箱"]
+				if not size or size < 1 then
+					return
+				end
+                if not dest_container:test_can_change_size("material", 0) then
+                    obj_me:notify_tips("无法卸下格箱，卸下后空间不足")
+                    return
+                end
+			elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_CAP then
+				if equip:get_index() == 10410034 then
+					obj_me:impact_cancel_impact_in_specific_data_index(5979)
+				end
+			elseif equipPoint == define.HUMAN_EQUIP.SHENBING then
+				if obj_me:get_game_flag_key("sb_change") > 0 then
+					obj_me:notify_tips("请取消神兵状态再更卸下装备。")
+					return
+				end
+            end
+            -- local empty_index = dest_container:get_empty_item_index(bag)
+            -- if empty_index ~= define.INVAILD_ID then
+                item_operator:exchange_item(equip_container, equipPoint, dest_container, empty_index)
+                ret.result = 1
+                ret.item_guid = equip.guid
+                ret.item_index = equip.item_index
+                ret.bagIndex = empty_index
+                obj_me:impact_clean_when_unequip(equip)
+                obj_me:item_flush()
+    obj_me:send_skill_list() -- cy-equipment-skills
+                if equipPoint == define.HUMAN_EQUIP.HEQUIP_ANQI then
+                    obj_me:impact_clean_all_impact_when_unequip_dark()
+				elseif equipPoint == define.HUMAN_EQUIP.HEQUIP_WUHUN
+				or equipPoint == define.HUMAN_EQUIP.SHENBING then
+                    obj_me:send_skill_list()
+                end
+            -- else
+                -- ret.result = 3
+            -- end
+        end
+		self:broad_char_equioment(obj_me,equipPoint)
+		self:send2client(obj_me, ret)
+		if equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW1 or equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW2 then
+			obj_me:on_bag_size_changed()
+		end
+		if equipPoint == define.HUMAN_EQUIP.HEQUIP_FASHION then
+			exterior_bonus.refresh_bonus(obj_me)
+			equip_dress_bonus.refresh_bonus(obj_me)
+		end
+	else
+		obj_me:notify_tips("该装备点没有装备。")
+        -- ret.result = 2
+    end
+    -- self:broad_char_equioment(obj_me,equipPoint)
+    -- self:send2client(obj_me, ret)
+    -- if equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW1 or equipPoint == define.HUMAN_EQUIP.HEQUIP_UNKNOW2 then
+        -- obj_me:on_bag_size_changed()
+    -- end
+end
+
+function scenecore:char_diepel_buff(obj_id, req)
+    -- CYS-MOUNT-FLIGHT
+    local f=require 'cys_mount_flight';local h=self.objs[obj_id]
+    if f.active(h) then f.refuse(self,h,'Hãy hạ cánh trước khi hủy trạng thái kỹ năng.');return end
+    local obj_me = self.objs[obj_id]
+    obj_me:unregister_impact_by_sn(req.sn)
+end
+
+function scenecore:char_set_mood_to_head(who, smth)
+    local obj_me = self:get_obj_by_id(who)
+    local show = smth.show == 1
+    if show  then
+        local mood = obj_me:get_mood()
+        obj_me:set_title(define.TITILE.MOOD, mood)
+    else
+        obj_me:set_title(0, "")
+    end
+end
+function scenecore:char_headwear_backwear_sync_request(who, request)
+    local human = self.objs[who]
+	if not human then return end
+    local ret = packet_def.GCOrnamentsDataUpdate.new()
+	local op_target = request.op_target
+	local op_code = request.op_code
+	ret.op_target = op_target
+	if op_target == 0 then
+		if op_code == 1 then
+			ret.op_code = 2
+			ret.OrnamentsBackUnit = human:get_exterior_back_info()
+			ret.OrnamentsBackUnitNum = #ret.OrnamentsBackUnit
+			ret.CurOrnamentsBackId,ret.CurOrnamentsBackPos = human:get_exterior_back_visual_id()
+			ret.CurOrnamentsHeadId,ret.CurOrnamentsHeadPos = human:get_exterior_head_visual_id()
+		elseif op_code == 4 then
+			human:set_exterior_back_visual_id(0,0)
+		end
+	elseif op_target == 1 then
+		if op_code == 1 then
+			ret.op_code = 3
+			ret.OrnamentsHeadUnit = human:get_exterior_head_info()
+			ret.OrnamentsHeadUnitNum = #ret.OrnamentsHeadUnit
+			ret.CurOrnamentsBackId,ret.CurOrnamentsBackPos = human:get_exterior_back_visual_id()
+			ret.CurOrnamentsHeadId,ret.CurOrnamentsHeadPos = human:get_exterior_head_visual_id()
+		elseif op_code == 4 then
+			human:set_exterior_head_visual_id(0,0)
+		end
+	elseif op_target == 2 then
+		ret.op_code = 1
+		ret.OrnamentsBackUnit = human:get_exterior_back_info()
+		ret.OrnamentsBackUnitNum = #ret.OrnamentsBackUnit
+		ret.OrnamentsHeadUnit = human:get_exterior_head_info()
+		ret.OrnamentsHeadUnitNum = #ret.OrnamentsHeadUnit
+		ret.CurOrnamentsBackId,ret.CurOrnamentsBackPos = human:get_exterior_back_visual_id()
+		ret.CurOrnamentsHeadId,ret.CurOrnamentsHeadPos = human:get_exterior_head_visual_id()
+	end
+	self:send2client(human, ret)
+	-- 同步GCExteriorInfo(type=6)回填CurrentExteriorSetInfo缓存
+	if op_code == 1 then
+		local backid,backpos = human:get_exterior_back_visual_id()
+		local headid,headpos = human:get_exterior_head_visual_id()
+		local visual_id,visual_level = human:get_exterior_weapon_visual_id()
+		local soul_ranse = -1
+		local exterior_pet_soul_id = human:get_exterior_pet_soul_id()
+		if exterior_pet_soul_id and exterior_pet_soul_id > 0 then
+			soul_ranse = exterior_pet_soul_id * 10 + (human:get_exterior_ranse_select() or 0)
+		end
+		local ext_ret = {
+			sub_2_unknow_1 = -1,
+			sub_2_unknow_2 = -1,
+			sub_2_unknow_3 = -1,
+			sub_2_unknow_4 = -1,
+			sub_2_unknow_5 = -1,
+			sub_2_unknow_6 = -1,
+			sub_2_unknow_7 = -1,
+			extrior_weapon_visual_id = visual_id,
+			extrior_weapon_visual_level = visual_level,
+			extrior_soul_ranse = soul_ranse,
+			exterior_back_id = backid,
+			exterior_head_id = headid,
+			exterior_back_pos = backpos,
+			exterior_head_pos = headpos,
+			type = 6,
+			unknow_2 = 0,
+		}
+		setmetatable(ext_ret, { __index = packet_def.GCExteriorInfo })
+		self:send2client(human, ext_ret)
+	end
+end
+
+function scenecore:char_exterior_request(who, request)
+	--flagwg
+    local obj_me = self.objs[who]
+	
+    -- local obj_me = self.objs[who]
+    local ret = packet_def.GCExteriorInfo.new()
+    if request.type == 0 then
+        obj_me:send_exterior_info()
+    elseif request.type == 1 then
+        obj_me:send_exterior_info(4)
+    elseif request.type == 2 then
+		if request.unknow_8 == 3 then
+		
+		elseif request.unknow_8 == 4 then
+			obj_me:set_exterior_pet_soul_id(0)
+			obj_me:set_exterior_equip_pet_soul_id(0)
+			obj_me:set_exterior_ranse_model_level(0)
+			obj_me:set_pet_soul_melting_model(define.INVAILD_ID)
+		end
+    elseif request.type == 7 then
+        local option = request.list[1]
+        if option then
+            local index = option.unknow_2
+            if option.unknow_1 == 0 then
+                local exterior_face = configenginer:get_config("exterior_face")
+                local sex = obj_me:get_attrib("model")
+                local this_face = exterior_face[index]
+                local this_sex_face = this_face[sex]
+                local face_style = this_sex_face
+                obj_me:set_exterior_face_style_index(index)
+                obj_me:set_face_style(face_style)
+                -- 同步推送 GCDetailAttrib，确保客户端立即感知新脸型
+                obj_me:send_refresh_attrib()
+            elseif option.unknow_1 == 1 then
+                local exterior_hair = configenginer:get_config("exterior_hair")
+                local sex = obj_me:get_attrib("model")
+                local this_hair = exterior_hair[index]
+                local this_sex_hair = this_hair[sex]
+                local hair_style = this_sex_hair
+                obj_me:set_exterior_hair_style_index(index)
+                obj_me:set_hair_style(hair_style)
+                local hair_color_index = obj_me:get_hair_color_index_by_color_value(option.unknow_3)
+                if hair_color_index then
+                    obj_me:set_hair_color(hair_color_index)
+                end
+                -- 同步推送 GCDetailAttrib，确保客户端立即感知新发型
+                obj_me:send_refresh_attrib()
+                -- 客户端按当前发型刷新发色面板；发型属性生效后再同步全局发色方案。
+                obj_me:send_exterior_info(5)
+            elseif option.unknow_1 == 2 then
+                local exterior_head = configenginer:get_config("exterior_head")
+                local sex = obj_me:get_attrib("model")
+                local this_head = exterior_head[index]
+                local this_sex_head = this_head[sex]
+                local portrait_id = this_sex_head
+                obj_me:set_exterior_portrait_index(index)
+                obj_me:set_portrait_id(portrait_id)
+                -- 同步推送 GCDetailAttrib，确保客户端立即感知新头像
+                obj_me:send_refresh_attrib()
+            elseif option.unknow_1 == 3 then
+                -- CYS-RIDE-FINISH: chi cho CHON thu da SO HUU (hoac -1 = bo chon); khong thi bao va giu nguyen
+                if index == define.INVAILD_ID or obj_me:have_this_ride(index) then
+                    obj_me:set_ride(index)
+                else
+                    skynet.logi("[DIAG_RIDE_PK] SELECT_ABORT ly do=KHONG SO HUU ride=", tostring(index))
+                    obj_me:notify_tips("#{ZQGZ_110512_25}")
+                end
+            elseif option.unknow_1 == 4 then
+                local level = obj_me:get_pet_soul_melting_level()
+                if level ~= define.INVAILD_ID then
+                    local exterior_poss = configenginer:get_config("exterior_poss")
+                    exterior_poss = exterior_poss[index]
+                    local max_model_level = level // 3 + 1
+                    local model_level = max_model_level
+                    local select_model_level
+                    local ranse_id = 0
+                    local save_value = option.unknow_3 or 0
+                    if save_value >= 10 then
+                        select_model_level = (save_value % 10) + 1
+                        ranse_id = save_value // 10
+                    else
+                        ranse_id = save_value
+                    end
+                    if select_model_level and select_model_level > 0 and select_model_level <= max_model_level then
+                        model_level = select_model_level
+                    elseif obj_me:get_exterior_pet_soul_id() == index then
+                        local old_model_level = obj_me:get_exterior_ranse_model_level()
+                        if old_model_level and old_model_level > 0 and old_model_level <= max_model_level then
+                            model_level = old_model_level
+                        end
+                    end
+                    obj_me:set_exterior_pet_soul_id(index)
+                    obj_me:set_exterior_equip_pet_soul_id(0)
+                    if ranse_id ~= 0 then
+                        local plan_index = obj_me:get_exterior_ranse_plan_index(index, ranse_id)
+                        if not obj_me:is_exterior_ranse_plan_unlocked(plan_index) then
+                            if plan_index == 4 then
+                                obj_me:notify_tips("#{SZTJ_251014_79}")
+                            elseif plan_index == 5 then
+                                obj_me:notify_tips("#{SZTJ_251014_80}")
+                            else
+                                obj_me:notify_tips("#{SHRS_230621_35}")
+                            end
+                            return
+                        end
+                    end
+                    obj_me:set_exterior_ranse_id(ranse_id)
+                    obj_me:set_exterior_ranse_model_level(model_level)
+                    if exterior_poss == nil then
+                        obj_me:notify_tips("配置不存在，请联系客服")
+                        return
+                    end
+                    local model = exterior_poss["外观"][model_level]
+                    if ranse_id ~= 0 then
+                        local exterior_ranse = configenginer:get_config("exterior_ranse")
+                        exterior_ranse = exterior_ranse[index]
+                        model = exterior_ranse[ranse_id].ColorModel[model_level]
+                    end
+                    obj_me:set_exterior_ranse_select_by_ranse_id(index, ranse_id)
+                    obj_me:set_pet_soul_melting_model(model)
+                    obj_me:send_exterior_ranse(2)
+                    obj_me:send_exterior_info(6)
+                    obj_me:send_refresh_attrib()
+                end
+            end
+        elseif request.OrnamentsBackExteriorId > 0 then
+			local haveback = obj_me:get_exterior_back_by_id(request.OrnamentsBackExteriorId)
+			if haveback then
+				local exterior_pos = request.OrnamentsBackPos
+				if exterior_pos < define.Exterior_Tbpos_Min or exterior_pos > define.Exterior_Tbpos_Max then
+					exterior_pos = (haveback.z << 16) | (haveback.y << 8) | haveback.x
+				else
+					local datapos = (haveback.z << 16) | (haveback.y << 8) | haveback.x
+					if datapos ~= exterior_pos then
+						local nBackPosX = exterior_pos & 0xFF
+						local nBackPosY = (exterior_pos >> 8) & 0xFF
+						local nBackPosZ = (exterior_pos >> 16) & 0xFF
+						obj_me:set_exterior_back_pos(request.OrnamentsBackExteriorId,nBackPosX,nBackPosY,nBackPosZ)
+					end
+				end
+				obj_me:set_exterior_back_visual_id(request.OrnamentsBackExteriorId,exterior_pos)
+			end
+        elseif request.OrnamentsHeadExteriorId > 0 then
+			local haveback = obj_me:get_exterior_head_by_id(request.OrnamentsHeadExteriorId)
+			if haveback then
+				local exterior_pos = request.OrnamentsHeadPos
+				if exterior_pos < define.Exterior_Tbpos_Min or exterior_pos > define.Exterior_Tbpos_Max then
+					exterior_pos = (haveback.z << 16) | (haveback.y << 8) | haveback.x
+				else
+					local datapos = (haveback.z << 16) | (haveback.y << 8) | haveback.x
+					if datapos ~= exterior_pos then
+						local nBackPosX = exterior_pos & 0xFF
+						local nBackPosY = (exterior_pos >> 8) & 0xFF
+						local nBackPosZ = (exterior_pos >> 16) & 0xFF
+						obj_me:set_exterior_head_pos(request.OrnamentsHeadExteriorId,nBackPosX,nBackPosY,nBackPosZ)
+					end
+				end
+				obj_me:set_exterior_head_visual_id(request.OrnamentsHeadExteriorId,exterior_pos)
+			end
+		elseif request.unknow_4 > 0 then
+			local isok = request.unknow_3
+            local id = request.unknow_4
+			local haveweapon = obj_me:get_exterior_weapon_visual_data(id)
+			if haveweapon then
+				local level = request.unknow_5
+				if haveweapon.level >= level then
+					obj_me:set_exterior_weapon_visual_id(id,level)
+				end
+			end
+        end
+		
+		obj_me:send_refresh_attrib()
+		local backid,backpos = obj_me:get_exterior_back_visual_id()
+		local headid,headpos = obj_me:get_exterior_head_visual_id()
+		local visual_id,visual_level = obj_me:get_exterior_weapon_visual_id()
+		ret = {
+            sub_2_unknow_1 = -1,
+            sub_2_unknow_2 = -1,
+            sub_2_unknow_3 =  -1,
+            sub_2_unknow_4 =  -1,
+            sub_2_unknow_5 =  -1,
+            sub_2_unknow_6 =  -1,
+            sub_2_unknow_7 =  -1,
+            extrior_weapon_visual_id = visual_id,
+            extrior_weapon_visual_level = visual_level,
+			exterior_back_id = backid,
+			exterior_head_id = headid,
+			exterior_back_pos = backpos,
+			exterior_head_pos = headpos,
+            type = 6,
+            unknow_2 = 0,
+           }
+        setmetatable(ret, { __index = packet_def.GCExteriorInfo} )
+        self:send2client(obj_me, ret)
+    elseif request.type == 8 then
+        obj_me:send_exterior_info(8)
+    elseif request.type == 10 then
+        obj_me:set_exterior_weapon_visual_id(0,0)
+		obj_me:send_refresh_attrib()
+		local backid,backpos = obj_me:get_exterior_back_visual_id()
+		local headid,headpos = obj_me:get_exterior_head_visual_id()
+		local visual_id,visual_level = obj_me:get_exterior_weapon_visual_id()
+		ret = {
+            sub_2_unknow_1 = -1,
+            sub_2_unknow_2 = -1,
+            sub_2_unknow_3 =  -1,
+            sub_2_unknow_4 =  -1,
+            sub_2_unknow_5 =  -1,
+            sub_2_unknow_6 =  -1,
+            sub_2_unknow_7 =  -1,
+            extrior_weapon_visual_id = visual_id,
+            extrior_weapon_visual_level = visual_level,
+			exterior_back_id = backid,	
+			exterior_head_id = headid,
+			exterior_back_pos = backpos,
+			exterior_head_pos = headpos,
+            type = 6,
+            unknow_2 = 0,
+           }
+        setmetatable(ret, { __index = packet_def.GCExteriorInfo} )
+        self:send2client(obj_me, ret)
+    end
+end
+
+function scenecore:char_ask_mission_list(who)
+    local obj_me = self.objs[who]
+    obj_me:send_mission_list()
+end
+
+function scenecore:char_ask_setting(who)
+    local obj_me = self.objs[who]
+    obj_me:send_setting()
+end
+
+function scenecore:char_player_shop_establish(who, pse)
+    local obj_me = self.objs[who]
+    local com_factor = playershopmanager:get_com_factor()
+    local cost = 300000 * com_factor * 2 * 1.03
+    local msg = packet_def.GCPlayerShopError.new()
+    if pse.name == nil then
+        msg.error_code = define.PLAYER_SHOP_ERR.ERR_ERR
+        self:send2client(obj_me, msg)
+        return
+    end
+    if obj_me:get_money() < cost then
+        msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_MONEY_TO_NEW
+        self:send2client(obj_me, msg)
+        return
+    end
+    local item_index = 30008053
+    local item_count = human_item_logic:calc_bag_item_count(obj_me, item_index)
+    if item_count <= 0 then
+        obj_me:notify_tips("没有掌柜要诀!")
+        return
+    end
+    if pse.type == define.PLAYER_SHOP_TYPE.TYPE_PET then
+        obj_me:notify_tips("暂时不能创建宠物店")
+        return
+    end
+    local title_id
+    local shop_guids = obj_me:get_shop_guids()
+    if pse.type == define.PLAYER_SHOP_TYPE.TYPE_ITEM then
+        if shop_guids[1] and not shop_guids[1]:is_null() then
+            msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_ALREADY_EXIST
+            self:send2client(obj_me, msg)
+            return
+        end
+        title_id = define.TITILE.SHOP_1
+    elseif pse.type == define.PLAYER_SHOP_TYPE.TYPE_PET then
+        if shop_guids[2] and not shop_guids[2]:is_null() then
+            msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_ALREADY_EXIST
+            self:send2client(obj_me, msg)
+            return
+        end
+        title_id = define.TITILE.SHOP_2
+    else
+        assert(false, pse.type)
+    end
+    local player_shops = playershopmanager:get_player_shops()
+    for _, shop in ipairs(player_shops) do
+        if shop:get_name() == pse.name then
+            msg.error_code = define.PLAYER_SHOP_ERR.ERR_NAME_ALREADY_EXISTED
+            self:send2client(obj_me, msg)
+            return
+        end
+    end
+    local shop = playershopmanager:new_player_shop(self)
+    if shop == nil then
+        msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_SHOP_IN_POOL
+        self:send2client(obj_me, msg)
+        return
+    end
+    shop:set_status(shop.STATUS.STATUS_PLAYER_SHOP_OPEN)
+    if pse.type == define.PLAYER_SHOP_TYPE.TYPE_ITEM then
+        shop:set_type(shop.TYPE.ITEM)
+        obj_me:set_shop_guid(1, shop:get_guid())
+    else
+        shop:set_type(shop.TYPE.PET)
+        obj_me:set_shop_guid(2, shop:get_guid())
+    end
+    shop:set_base_money(cost / 2)
+    shop:set_max_base_money(cost / 2)
+    shop:set_profit_money(cost / 2)
+    shop:set_name(pse.name)
+    shop:set_desc("")
+    shop:set_owner_name(obj_me:get_name())
+    shop:set_owner_guid(obj_me:get_guid())
+    local date_table = os.date("*t")
+    local datestr = string.format("%2d%02d%02d%02d%02d", date_table.year % 100, date_table.month, date_table.day, date_table.hour, date_table.min)
+    shop:set_founded_day(tonumber(datestr))
+    shop:set_stall_opend_num(1)
+    shop:set_stall_on_sale(0)
+    shop:set_partner_list()
+
+    local stall_box = shop:get_stall_box_by_index(1)
+    stall_box:set_status(stall_box.STATUS_STALL.STALL_CLOSE)
+
+    obj_me:set_money(obj_me:get_money() - cost, "开始摆摊-摊位费")
+    local logparam = {}
+    human_item_logic:del_available_item(logparam, obj_me, item_index, 1)
+    local content = string.format("@*;SrvMsg;CHAT_PS_OPEN;%s;%s", shop:get_name(), obj_me:get_name())
+    content = gbk.fromutf8(content)
+    msg = packet_def.GCChat.new()
+    msg.ChatType = define.ENUM_CHAT_TYPE.CHAT_TYPE_SYSTEM
+    msg:set_content(content)
+    self:send_world(obj_me, "lua", "multicast", msg)
+    local title_str = string.format("%s大掌柜", shop:get_name())
+    obj_me:set_title(title_id, title_str)
+    obj_me:update_titles_to_client()
+
+    msg = packet_def.GCPlayerShopEstablish.new()
+    msg.shop_id = shop:get_guid()
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_player_shop_money(who, request)
+    return require('cys_player_shop').money(self, who, request)
+end
+
+function scenecore:char_player_shop_buy_item(who, request)
+    return require('cys_player_shop').buy(self, who, request)
+end
+
+function scenecore:char_player_shop_open_stall(who, sos)
+    local obj_me = self.objs[who]
+    local playershop = playershopmanager:get_player_shop_by_guid(sos.shop_id)
+    assert(playershop, table.tostr(sos.shop_id))
+    if playershop:get_status() == playershop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = playershop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = playershop:is_partner(obj_me:get_guid())
+    if not is_mine and not can_manager then
+        return
+    end
+    if sos.serial ~= playershop:get_serial() then
+        local msg = packet_def.GCPlayerShopError.new()
+        msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+        self:send2client(obj_me, msg)
+        return
+    end
+    local stall_box = playershop:get_stall_box_by_index(sos.stall_index + 1)
+    local refreshd = false
+    if stall_box:get_status() == stall_box.STATUS_STALL.STALL_CLOSE and sos.open == 1 then
+        refreshd = true
+        stall_box:set_status(stall_box.STATUS_STALL.STALL_OPEN)
+        local num = playershop:get_stall_on_sale()
+        playershop:set_stall_on_sale(num + 1)
+        playershop:record(playershop.OPT_RECORD.REC_OPEN,playershop:get_manager_record(), obj_me:get_name(), sos.stall_index)
+    elseif stall_box:get_status() == stall_box.STATUS_STALL.STALL_OPEN and sos.open == 0 then
+        refreshd = true
+        stall_box:set_status(stall_box.STATUS_STALL.STALL_CLOSE)
+        local num = playershop:get_stall_on_sale()
+        playershop:set_stall_on_sale(num - 1)
+        playershop:record(playershop.OPT_RECORD.REC_CLOSE,playershop:get_manager_record(), obj_me:get_name(), sos.stall_index)
+    end
+    if refreshd then
+        local msg = packet_def.GCPlayerShopOpenStall.new()
+        msg.shop_id = playershop:get_guid()
+        msg.stall_index = sos.stall_index
+        msg.open = sos.open
+        msg.serial = playershop:inc_serial()
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:char_player_shop_desc(who, psd)
+    local obj_me = self.objs[who]
+    local playershop = playershopmanager:get_player_shop_by_guid(psd.shop_id)
+    assert(playershop, table.tostr(psd.shop_id))
+    if playershop:get_status() == playershop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = playershop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = playershop:is_partner(obj_me:get_guid())
+    if not is_mine and not can_manager then
+        return
+    end
+    playershop:set_desc(psd.desc)
+    local msg = packet_def.GCPlayerShopError.new()
+    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SUCCESS_CHANGE_DESC
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_player_shop_name(who, psn)
+    local obj_me = self.objs[who]
+    local playershop = playershopmanager:get_player_shop_by_guid(psn.shop_id)
+    assert(playershop, table.tostr(psn.shop_id))
+    if playershop:get_status() == playershop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = playershop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = playershop:is_partner(obj_me:get_guid())
+    if not is_mine and not can_manager then
+        return
+    end
+    playershop:set_name(psn.name)
+    local msg = packet_def.GCPlayerShopError.new()
+    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SUCCESS_CHANGE_NAME
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_player_shop_partner(who, psp)
+    local obj_me = self.objs[who]
+    local playershop = playershopmanager:get_player_shop_by_guid(psp.shop_id)
+    assert(playershop, table.tostr(psp.shop_id))
+    if playershop:get_status() == playershop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = playershop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = playershop:is_partner(obj_me:get_guid())
+    if not is_mine then
+        return
+    end
+    if psp.opt == packet_def.CGPlayerShopPartner.OPT.OPT_ADD_PARTNER then
+        local result = playershop:add_partner(psp.partner_guid)
+        if result == define.RET_TYPE_PARTNER.RET_TYPE_SUCCESS then
+            local msg = packet_def.GCPlayerShopUpdatePartners.new()
+            msg.shop_id = playershop:get_guid()
+            msg.partner_list = playershop:get_partner_list()
+            self:send2client(obj_me, msg)
+        else
+            local msg = packet_def.GCPlayerShopError.new()
+            if result == define.RET_TYPE_PARTNER.RET_TYPE_LIST_FULL then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_LIST_FULL
+            elseif result == define.RET_TYPE_PARTNER.RET_TYPE_ALREADY_IN_LIST then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_ALREADY_IN_LIST
+            elseif result == define.RET_TYPE_PARTNER.RET_TYPE_NOT_FIND_IN_WORLD then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_NOT_FIND_IN_WORLD
+            elseif result == define.RET_TYPE_PARTNER.RET_TYPE_INVALID then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_INVALID
+            end
+            self:send2client(obj_me, msg)
+        end
+    elseif psp.opt == packet_def.CGPlayerShopPartner.OPT.OPT_DEL_PARTNER then
+        local result = playershop:remove_partner(psp.partner_guid)
+        if result == define.RET_TYPE_PARTNER.RET_TYPE_SUCCESS then
+            local msg = packet_def.GCPlayerShopUpdatePartners.new()
+            msg.shop_id = playershop:get_guid()
+            msg.partner_list = playershop:get_partner_list()
+            self:send2client(obj_me, msg)
+        else
+            local msg = packet_def.GCPlayerShopError.new()
+            if result == define.RET_TYPE_PARTNER.RET_TYPE_LIST_EMPTY then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_LIST_EMPTY
+            elseif result == define.RET_TYPE_PARTNER.RET_TYPE_NOT_FIND_IN_LIST then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_NOT_FIND_IN_LIST
+            elseif result == define.RET_TYPE_PARTNER.RET_TYPE_INVALID then
+                msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_PARTNER_INVALID
+            end
+            self:send2client(obj_me, msg)
+        end
+    end
+end
+
+function scenecore:char_player_shop_ask_for_record(who, saf)
+    local obj_me = self.objs[who]
+    local playershop = playershopmanager:get_player_shop_by_guid(saf.shop_id)
+    assert(playershop, table.tostr(saf.shop_id))
+    if playershop:get_status() == playershop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = playershop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = playershop:is_partner(obj_me:get_guid())
+    if not is_mine and not can_manager then
+        return
+    end
+    local container
+    if saf.type == packet_def.CGPlayerShopAskForRecord.TYPE.TYPE_EXCHANGE_RECORD then
+        container = playershop:get_exchange_record()
+    elseif saf.type == packet_def.CGPlayerShopAskForRecord.TYPE.TYPE_MANAGER_RECORD then
+        container = playershop:get_manager_record()
+    end
+    local msg = packet_def.GCPlayerShopRecordList.new()
+    msg.shop_id = playershop:get_guid()
+    msg.entrys = container
+    msg.page = saf.page
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_player_shop_acquire_shop_list(who, psa)
+    local obj_me = self.objs[who]
+    local playershops = playershopmanager:get_shop_infos()
+    local msg = packet_def.GCPlayerShopAcquireShopList.new()
+    msg.npc_id = define.INVAILD_ID
+    msg.com_factor = playershopmanager:get_com_factor()
+    msg.shop_infos = playershops
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_player_shop_acquire_item_list(who, psa)
+    local obj_me = self:get_obj_by_id(who)
+    local shop = playershopmanager:get_player_shop_by_guid(psa.shop_id)
+    if not shop or not obj_me then return end
+    local is_manager = psa.is_manager == 1
+    shop:send_item_list(obj_me, psa.stall_index + 1, psa.sign, is_manager)
+end
+
+function scenecore:char_player_shop_on_sale(who, request)
+    return require('cys_player_shop').on_sale(self, who, request)
+end
+
+function scenecore:char_player_shop_size(who, pss)
+    local obj_me = self.objs[who]
+    local shop = playershopmanager:get_player_shop_by_guid(pss.shop_id)
+    assert(shop, table.tostr(pss.shop_id))
+    if shop:get_status() == shop.STATUS.STATUS_PLAYER_SHOP_ON_SALE then
+        return
+    end
+    local is_mine = shop:get_owner_guid() == obj_me:get_guid()
+    local can_manager = shop:is_partner(obj_me:get_guid())
+    if not is_mine and not can_manager then
+        return
+    end
+    local need_money = 0
+    local OPT = packet_def.CGPlayerShopSize.OPT
+    if pss.opt == OPT.TYPE_EXPAND then
+        playershopmanager:clamp_com_factor()
+        need_money = math.ceil(300000 * playershopmanager:get_com_factor() * 2 * 1.03)
+		assert(need_money >= 1,need_money)
+        if obj_me:get_money() < need_money then
+            local msg = packet_def.GCPlayerShopError.new()
+            msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_NOT_ENOUTH_MONEY_TO_EXPAND
+            self:send2client(obj_me, msg)
+            return
+        end
+    end
+    local cur_stall_num = shop:get_stall_opend_num()
+    local new_stall_index = 0
+
+    local msg = packet_def.GCPlayerShopStallStatus.new()
+    if pss.opt == OPT.TYPE_EXPAND then
+        if cur_stall_num == define.MAX_STALL_NUM_PER_SHOP then
+            return
+        end
+        shop:set_stall_opend_num(cur_stall_num + 1)
+        local stall_box = shop:get_stall_box_by_index(cur_stall_num + 1)
+        stall_box:reset()
+        stall_box:set_status(stall_box.STATUS_STALL.STALL_CLOSE)
+        new_stall_index = cur_stall_num
+
+        msg.shop_id = shop:get_guid()
+        msg.stall_index = new_stall_index
+        msg.status = stall_box.STATUS_STALL.STALL_CLOSE
+        msg.final_stall_num = cur_stall_num + 1
+    elseif pss.opt == OPT.TYPE_SHRINK then
+        if cur_stall_num == 0 then
+            return
+        end
+        local stall_box = shop:get_stall_box_by_index(cur_stall_num)
+        if stall_box:get_item_container():get_count() > 0 or stall_box:get_pet_container():get_count() > 0 then
+            obj_me:notify_tips("要关闭的店面内存在道具|宠物,无法关闭店面")
+            return
+        end
+        shop:set_stall_opend_num(cur_stall_num - 1)
+        stall_box:set_status(stall_box.STATUS_STALL.STALL_INVALID)
+        new_stall_index = cur_stall_num - 1
+
+        msg.shop_id = shop:get_guid()
+        msg.stall_index = new_stall_index
+        msg.status = stall_box.STATUS_STALL.STALL_INVALID
+        msg.final_stall_num = cur_stall_num - 1
+    end
+    if need_money > 0 then
+        obj_me:set_money(obj_me:get_money() - need_money, "九州商会-扩充店面")
+        shop:set_base_money(shop:get_base_money() + math.floor(need_money / 2))
+    end
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_item_sync(who, cis)
+    if cis.from_type == 2 or cis.from_type == 5 then
+        return require('cys_player_shop').move_pet(self, who, cis)
+    end
+	-- skynet.logi("char_item_sync:",who,"cis:",table.tostr(cis))
+	-- skynet.logi("cis.opt:",cis.opt,"cis.from_type:",cis.from_type,"cis.to_type:",cis.to_type)
+    local obj_me = self.objs[who]
+	if not obj_me then
+		return
+	end
+    if self:check_item_limit_exchange(who) then
+        obj_me:notify_tips("暂时不能存入物品")
+        return
+    end
+    if cis.opt == packet_def.CGItemSynch.OPT.OPT_MOVE_ITEM_AUTO then
+        if cis.from_type == packet_def.CGItemSynch.POS.POS_BAG then
+            if cis.to_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOP then
+                local extra_data = packet_def.CGAutoMoveItemFromBagToPlayerShop_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local shop_serial = extra_data.shop_serial
+                -- print("CGAutoMoveItemFromBagToPlayerShop_t extra_data =", table.tostr(extra_data))
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.PET then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                -- print("shop_serial =", shop_serial)
+                if shop:get_serial() ~= shop_serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local bag_container = obj_me:get_prop_bag_container()
+                local ig = item_guid.new()
+                ig:set_guid(cis.item_guid)
+                local source_index = bag_container:get_index_by_guid(ig)
+				if not source_index then
+					obj_me:notify_tips("没有该道具。。")
+					return
+				end
+                local dest_index = item_container:get_empty_item_index()
+                if dest_index == define.INVAILD_ID then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM_IN_STALL
+                    self:send2client(obj_me, msg)
+                    return
+                else
+                    local source_item = bag_container:get_item(source_index)
+                    if source_item then
+						if source_item:is_bind() then
+							local msg = packet_def.GCPlayerShopError.new()
+							msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+							self:send2client(obj_me, msg)
+							return
+						end
+					else
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+						self:send2client(obj_me, msg)
+						return
+                    end
+					local p_name = obj_me:get_name()
+					local p_guid = obj_me:get_guid()
+					local itemid = source_item:get_index()
+					
+					if itemid == 30501036 then --元宝票
+						obj_me:notify_tips("此道具无法存入商会。")
+						return
+					end
+					local itemcount = source_item:get_lay_count()
+					local fun_name = "scenecore:char_item_sync"
+					local act_name = "商会右键存入道具扣除失败"
+                    bag_container:erase_item(source_index)
+					local delitem = bag_container:get_item(source_index)
+					if delitem then
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+						self:send2client(obj_me, msg)
+						return
+					end
+                    -- item_container:set_item(dest_index, bag_container:get_item(source_index))
+                    item_container:set_item(dest_index,source_item)
+                    local item = item_container:get_item(dest_index)
+                    if item then
+						if item:get_index() ~= itemid then
+							act_name = "商会右键存入道具入库不符"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,item:get_index(),shop_guid)
+						else
+							act_name = "商会右键存入道具"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						end
+                        local final_serial = stall_box:inc_serial_by_index(dest_index)
+                        shop:record(shop.OPT_RECORD.REC_ADDITEM,shop:get_manager_record(),p_name,itemid,itemcount)
+                        local msg = packet_def.GCItemSynch.new()
+                        msg.opt = msg.OPT.OPT_MOVE_ITEM
+                        msg.from_type = msg.POS.POS_BAG
+                        msg.to_type = msg.POS.POS_PLAYERSHOP
+                        msg.to_index = dest_index
+                        msg.item_guid = item:get_guid()
+
+                        local extra = packet_def.GCMoveItemFromBagToPlayerShop_t.new()
+                        extra.shop_guid = shop:get_guid()
+                        extra.stall_index = stall_index
+                        extra.serial = final_serial
+                        extra.shop_serial = shop:inc_serial()
+                        msg.extra_data = extra:bos()
+                        -- print("GCMoveItemFromBagToPlayerShop_t extra_data =", table.tostr(extra))
+                        self:send2client(obj_me, msg)
+                    else
+						act_name = "商会右键存入道具入库失败"
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+                        assert(false, dest_index)
+                    end
+                end
+            end
+        elseif cis.from_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOP then
+            if cis.to_type == packet_def.CGItemSynch.POS.POS_BAG then
+                local extra_data = packet_def.CGAutoMoveItemFromPlayerShopToBag_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial = extra_data.serial
+                local shop_serial = extra_data.shop_serial
+                -- print("CGAutoMoveItemFromPlayerShopToBag_t extra_data =", table.tostr(extra_data))
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.PET then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                if shop:get_serial() ~= shop_serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local bag_container = obj_me:get_prop_bag_container()
+                local ig = item_guid.new()
+                ig:set_guid(cis.item_guid)
+                local source_index = item_container:get_index_by_guid(ig)
+				if not source_index then
+					obj_me:notify_tips("没有该道具。。")
+					return
+				end
+                local source_item = item_container:get_item(source_index)
+				if not source_item then
+                    local msg = packet_def.GCPlayerShopError.new()
+					msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+				end
+                local dest_index = bag_container:get_empty_item_index(source_item:get_place_bag())
+                if dest_index == define.INVAILD_ID then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM
+                    self:send2client(obj_me, msg)
+                    return
+                else
+					if source_item:is_bind() then
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+						self:send2client(obj_me, msg)
+						return
+					end
+					if stall_box:get_is_on_sale_by_index(source_index) == 1 then
+						obj_me:notify_tips("该道具当前上架状态。")
+						return
+					end
+					local p_name = obj_me:get_name()
+					local p_guid = obj_me:get_guid()
+					local itemid = source_item:get_index()
+					local itemcount = source_item:get_lay_count()
+					local fun_name = "scenecore:char_item_sync"
+					local act_name = "商会右键取出道具扣除失败"
+                    item_container:erase_item(source_index)
+					local delitem = item_container:get_item(source_index)
+					if delitem then
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+						self:send2client(obj_me, msg)
+						return
+					end
+                    bag_container:set_item(dest_index,source_item)
+                    local item = bag_container:get_item(dest_index)
+                    if item then
+						if item:get_index() ~= itemid then
+							act_name = "商会右键取出与道具入包不符"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,item:get_index(),shop_guid)
+						else
+							act_name = "商会右键取出道具"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						end
+                        local final_serial = stall_box:inc_serial_by_index(source_index)
+                        shop:record(shop.OPT_RECORD.REC_DELITEM, shop:get_manager_record(),p_name,itemid,itemcount)
+                        local msg = packet_def.GCItemSynch.new()
+                        msg.opt = msg.OPT.OPT_MOVE_ITEM
+                        msg.from_type = msg.POS.POS_PLAYERSHOP
+                        msg.to_type = msg.POS.POS_BAG
+                        msg.to_index = dest_index
+                        msg.item_guid = item:get_guid()
+
+                        local extra = packet_def.GCMoveItemFromPlayerShopToBag_t.new()
+                        extra.shop_guid = shop:get_guid()
+                        extra.stall_index = stall_index
+                        extra.flag = 1
+                        extra.serial = final_serial
+                        extra.shop_serial = shop:inc_serial()
+                        msg.extra_data = extra:bos()
+                        -- skynet.logi("GCMoveItemFromPlayerShopToBag_t extra_data =", table.tostr(extra))
+                        -- print("GCMoveItemFromPlayerShopToBag_t extra_data =", table.tostr(extra))
+                        self:send2client(obj_me, msg)
+                    else
+						act_name = "商会右键取出道具入包失败"
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+                        assert(false, dest_index)
+                    end
+                end
+            end
+        elseif cis.from_type == packet_def.CGItemSynch.POS.POS_PET then
+            if 0 == 0 then return end
+			if cis.to_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOPPET then
+                local extra_data = packet_def.CGAutoMovePetFromBagToPlayerShop_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial = extra_data.serial
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.ITEM then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                if shop:get_serial() ~= serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local pet_container = obj_me:get_pet_bag_container()
+                local pg = pet_guid.new()
+                pg:set_guid(cis.pet_guid.m_uHighSection, cis.pet_guid.m_uLowSection)
+                local source_index = pet_container:get_index_by_pet_guid(pg)
+				if not source_index then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM_IN_STALL
+                    self:send2client(obj_me, msg)
+                    return
+				end
+                local dest_index = item_container:get_empty_item_index()
+                if dest_index == define.INVAILD_ID then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM_IN_STALL
+                    self:send2client(obj_me, msg)
+                    return
+                else
+					local source_pet = pet_container:get_item(source_index)
+                    -- item_container:set_item(dest_index, pet_container:get_item(source_index))
+                    item_container:set_item(dest_index,source_pet)
+                    pet_container:erase_item(source_index)
+                    local pet = item_container:get_item(dest_index)
+                    local final_serial = stall_box:inc_serial_by_index(dest_index)
+                    shop:record(shop.OPT_RECORD.REC_ADDPET, shop:get_manager_record(), obj_me:get_name(), pet:get_name(), 1)
+
+                    local msg = packet_def.GCItemSynch.new()
+                    msg.opt = msg.OPT.OPT_MOVE_ITEM
+                    msg.from_type = msg.POS.POS_PET
+                    msg.to_type = msg.POS.POS_PLAYERSHOPPET
+                    msg.to_index = dest_index
+                    msg.pet_guid = pet:get_guid()
+
+                    local extra = packet_def.GCMovePetFromBagToPlayerShop_t.new()
+                    extra.shop_guid = shop:get_guid()
+                    extra.stall_index = stall_index
+                    extra.serial = final_serial
+                    extra.shop_serial = shop:inc_serial()
+                    msg.extra_data = extra:bos()
+
+                    self:send2client(obj_me, msg)
+                end
+            end
+        elseif cis.from_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOPPET then
+            if 0 == 0 then return end
+			if cis.to_type == packet_def.CGItemSynch.POS.POS_PET then
+                local extra_data = packet_def.CGAutoMovePetFromPlayerShopToBag_t.new()
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial = extra_data.serial
+                local shop_serial = extra_data.shop_serial
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.ITEM then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                if shop:get_serial() ~= shop_serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local pet_container = obj_me:get_pet_bag_container()
+                local pg = pet_guid.new()
+                pg:set_guid(cis.pet_guid.m_uHighSection, cis.pet_guid.m_uLowSection)
+                local source_index = item_container:get_index_by_pet_guid(pg)
+				if not source_index then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM
+                    self:send2client(obj_me, msg)
+                    return
+				end
+                local dest_index = pet_container:get_empty_item_index()
+                if dest_index == define.INVAILD_ID then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM
+                    self:send2client(obj_me, msg)
+                    return
+                else
+					local source_pet = item_container:get_item(source_index)
+                    -- pet_container:set_item(dest_index, item_container:get_item(source_index))
+                    pet_container:set_item(dest_index,source_pet)
+                    item_container:erase_item(source_index)
+					local delitem = item_container:get_item(source_index)
+					if delitem then
+						local my_guid = obj_me:get_guid()
+						local my_name = obj_me:get_name()
+						local doc = { 
+							logfun = "scenecore:char_item_sync",
+							logname = "商会取出珍兽扣除失败",
+							logparamx = source_pet,
+							logparamz = cis,
+							name = my_name,
+							guid = my_guid,
+							date_time = os.date("%y-%m-%d %H:%M:%S")
+						}
+						skynet.send(".logdb", "lua", "insert", { collection = "log_shanghui_and_shichang", doc = doc})
+					end
+                    local pet = pet_container:get_item(dest_index)
+                    if pet then
+                        local final_serial = stall_box:inc_serial_by_index(dest_index)
+                        shop:record(shop.OPT_RECORD.REC_DELPET, shop:get_manager_record(), obj_me:get_name(), pet:get_name(), 1)
+                        local msg = packet_def.GCItemSynch.new()
+                        msg.opt = msg.OPT.OPT_MOVE_ITEM
+                        msg.from_type = msg.POS.POS_PLAYERSHOPPET
+                        msg.to_type = msg.POS.POS_PET
+                        msg.to_index = dest_index
+                        msg.pet_guid = pet:get_guid()
+
+                        local extra = packet_def.GCMovePetFromPlayerShopToBag_t.new()
+                        extra.shop_guid = shop:get_guid()
+                        extra.stall_index = stall_index
+                        extra.flag = 1
+                        extra.serial = final_serial
+                        extra.shop_serial = shop:inc_serial()
+                        msg.extra_data = extra:bos()
+
+                        self:send2client(obj_me, msg)
+                    else
+                        assert(false, dest_index)
+                    end
+                end
+            end
+        end
+    else
+        if cis.from_type == packet_def.CGItemSynch.POS.POS_BAG then
+            if cis.to_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOP then
+                local extra_data = packet_def.CGManuMoveItemFromBagToPlayerShop_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial = extra_data.serial
+
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.PET then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                -- print("serial =", serial)
+                if shop:get_serial() ~= serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local bag_container = obj_me:get_prop_bag_container()
+                local ig = item_guid.new()
+                ig:set_guid(cis.item_guid)
+                local source_index = bag_container:get_index_by_guid(ig)
+				if not source_index then
+					obj_me:notify_tips("没有该道具。。")
+					return
+				end
+                local dest_index = cis.to_index
+                if dest_index == define.INVAILD_ID then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local dest_item = item_container:get_item(dest_index)
+                if dest_item then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_NOT_ENOUGH_ROOM_IN_STALL
+                    self:send2client(obj_me, msg)
+                else
+                    local source_item = bag_container:get_item(source_index)
+                    if source_item then
+						if source_item:is_bind() then
+							local msg = packet_def.GCPlayerShopError.new()
+							msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+							self:send2client(obj_me, msg)
+							return
+						end
+					else
+                        local msg = packet_def.GCPlayerShopError.new()
+                        msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                        self:send2client(obj_me, msg)
+                        return
+					end
+					local p_name = obj_me:get_name()
+					local p_guid = obj_me:get_guid()
+					local itemid = source_item:get_index()
+					local itemcount = source_item:get_lay_count()
+					local fun_name = "scenecore:char_item_sync"
+					local act_name = "商会拖动存入道具扣除失败"
+                    bag_container:erase_item(source_index)
+					local delitem = bag_container:get_item(source_index)
+					if delitem then
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+						self:send2client(obj_me, msg)
+						return
+					end
+                    item_container:set_item(dest_index,source_item)
+                    local item = item_container:get_item(dest_index)
+                    if item then
+						if item:get_index() ~= itemid then
+							act_name = "商会拖动存入道具入库不符"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,item:get_index(),shop_guid)
+						else
+							act_name = "商会拖动存入道具"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						end
+                        local final_serial = stall_box:inc_serial_by_index(dest_index)
+                        shop:record(shop.OPT_RECORD.REC_ADDITEM,shop:get_manager_record(),p_name,itemid,itemcount)
+                        local msg = packet_def.GCItemSynch.new()
+                        msg.opt = msg.OPT.OPT_MOVE_ITEM
+                        msg.from_type = msg.POS.POS_BAG
+                        msg.to_type = msg.POS.POS_PLAYERSHOP
+                        msg.to_index = dest_index
+                        msg.item_guid = item:get_guid()
+
+                        local extra = packet_def.GCMoveItemFromBagToPlayerShop_t.new()
+                        extra.shop_guid = shop:get_guid()
+                        extra.stall_index = stall_index
+                        extra.serial = final_serial
+                        extra.shop_serial = shop:get_serial()
+                        msg.extra_data = extra:bos()
+
+                        self:send2client(obj_me, msg)
+                    else
+						act_name = "商会拖动存入道具入库失败"
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+                        assert(false, dest_index)
+                    end
+                end
+            end
+        elseif cis.from_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOP then
+            if cis.to_type == packet_def.CGItemSynch.POS.POS_BAG then
+                local extra_data = packet_def.CGManuMoveItemFromPlayerShopToBag_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial = extra_data.serial
+                local shop_serial = extra_data.shop_serial
+
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.PET then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                if shop:get_serial() ~= shop_serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                local bag_container = obj_me:get_prop_bag_container()
+                local ig = item_guid.new()
+                ig:set_guid(cis.item_guid)
+                local source_index = item_container:get_index_by_guid(ig)
+				if not source_index then
+					obj_me:notify_tips("没有该道具。。")
+					return
+				end
+                local source_item = item_container:get_item(source_index)
+				if not source_item then
+                    local msg = packet_def.GCPlayerShopError.new()
+					msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+				end
+                local dest_index = cis.to_index
+                local dest_item = bag_container:get_item(dest_index)
+                if dest_item then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                else
+					if source_item:is_bind() then
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+						self:send2client(obj_me, msg)
+						return
+					end
+					if stall_box:get_is_on_sale_by_index(source_index) == 1 then
+						obj_me:notify_tips("该道具当前上架状态。")
+						return
+					end
+					local p_name = obj_me:get_name()
+					local p_guid = obj_me:get_guid()
+					local itemid = source_item:get_index()
+					local itemcount = source_item:get_lay_count()
+					local fun_name = "scenecore:char_item_sync"
+					local act_name = "商会拖动取出道具扣除失败"
+                    item_container:erase_item(source_index)
+					local delitem = item_container:get_item(source_index)
+					if delitem then
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						local msg = packet_def.GCPlayerShopError.new()
+						msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+						self:send2client(obj_me, msg)
+						return
+					end
+                    bag_container:set_item(dest_index,source_item)
+                    local item = bag_container:get_item(dest_index)
+                    if item then
+						if item:get_index() ~= itemid then
+							act_name = "商会拖动取出与道具入包不符"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,item:get_index(),shop_guid)
+						else
+							act_name = "商会拖动取出道具"
+							self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+						end
+                        local final_serial = stall_box:inc_serial_by_index(source_index)
+                        shop:record(shop.OPT_RECORD.REC_DELITEM, shop:get_manager_record(),p_name,itemid,itemcount)
+                        local msg = packet_def.GCItemSynch.new()
+                        msg.opt = msg.OPT.OPT_MOVE_ITEM
+                        msg.from_type = msg.POS.POS_PLAYERSHOP
+                        msg.to_type = msg.POS.POS_BAG
+                        msg.to_index = dest_index
+                        msg.item_guid = item:get_guid()
+
+                        local extra = packet_def.GCExchangeItemFromPlayerShopToBag_t.new()
+                        extra.shop_guid = shop:get_guid()
+                        extra.stall_index = stall_index
+                        extra.flag = 1
+                        extra.serial = final_serial
+                        extra.shop_serial = shop:inc_serial()
+                        msg.extra_data = extra:bos()
+
+                        self:send2client(obj_me, msg)
+                    else
+						act_name = "商会拖动取出道具入包失败"
+						self:log_debug_ex(p_name,p_guid,fun_name,act_name,itemid,itemcount,shop_guid)
+                        assert(false, dest_index)
+                    end
+                end
+            elseif cis.to_type == packet_def.CGItemSynch.POS.POS_PLAYERSHOP then
+                local extra_data = packet_def.CGManuMoveItemFromPlayerShopToPlayerShop_t.new()
+                extra_data:bis(cis.extra_data)
+                local shop_guid = extra_data.shop_guid
+                local stall_index = extra_data.stall_index
+                local serial_source = extra_data.serial_source
+                local serial_dest = extra_data.serial_dest
+                local shop_serial = extra_data.shop_serial
+                local shop = playershopmanager:get_player_shop_by_guid(shop_guid)
+                if shop:get_type() == shop.TYPE.PET then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                if shop:get_serial() ~= shop_serial then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local is_mine = obj_me:get_guid() == shop:get_owner_guid()
+                local can_manager = shop:is_partner(obj_me:get_guid())
+                if not is_mine and not can_manager then
+                    return
+                end
+                local stall_box = shop:get_stall_box_by_index(stall_index + 1)
+                local item_container = stall_box:get_item_container()
+                -- local bag_container = obj_me:get_prop_bag_container()
+                local ig = item_guid.new()
+                ig:set_guid(cis.item_guid)
+                local source_index = item_container:get_index_by_guid(ig)
+				if not source_index then
+					obj_me:notify_tips("没有该道具。。")
+					return
+				end
+                local item = item_container:get_item(source_index)
+				if not item then
+                    local msg = packet_def.GCPlayerShopError.new()
+					msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+				end
+                local dest_index = cis.to_index
+                if stall_box:get_serial_by_index(source_index) ~= serial_source 
+                    or stall_box:get_serial_by_index(dest_index) ~= serial_dest then
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_SHOP_SALE_OUT_SERIAL_IS_CHANGED
+                    self:send2client(obj_me, msg)
+                    return
+                end
+				if stall_box:get_is_on_sale_by_index(source_index) == 1 then
+					obj_me:notify_tips("该道具当前上架状态。")
+					return
+				elseif  stall_box:get_is_on_sale_by_index(serial_dest) == 1 then
+					obj_me:notify_tips("该道具当前上架状态。")
+					return
+				end
+				if source_index < 0 or source_index > 19 then
+					local collection = "log_shanghui_move"
+					local doc = { 
+					name = p_name,
+					guid = p_guid,
+					param_fun = "scenecore:char_item_sync",
+					param_act = "商会拖动交换道具异常位置source_index",
+					sender_pos = source_index,
+					sender_index = 0,
+					sender_count = 0,
+					reciver_pos = dest_index,
+					reciver_index = 0,
+					reciver_count = 0,
+					date_time = utils.get_day_time()
+					}
+					skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+					obj_me:notify_tips("异常位置。")
+					return
+				elseif dest_index < 0 or dest_index > 19 then
+					local collection = "log_shanghui_move"
+					local doc = { 
+					name = p_name,
+					guid = p_guid,
+					param_fun = "scenecore:char_item_sync",
+					param_act = "商会拖动交换道具异常位置dest_index",
+					sender_pos = source_index,
+					sender_index = 0,
+					sender_count = 0,
+					reciver_pos = dest_index,
+					reciver_index = 0,
+					reciver_count = 0,
+					date_time = utils.get_day_time()
+					}
+					skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+					obj_me:notify_tips("异常位置。")
+					return
+				end
+				local p_name = obj_me:get_name()
+				local p_guid = obj_me:get_guid()
+				local param_act = "商会拖动交换道具开始"
+				local sender_index = item:get_index()
+				local sender_count = item:get_lay_count()
+				local reciver_index = 0
+				local reciver_count = 0
+                local item_dest = item_container:get_item(dest_index)
+				if item_dest then
+					reciver_index = item_dest:get_index()
+					reciver_count = item_dest:get_lay_count()
+				end
+				local collection = "log_shanghui_move"
+				local doc = { 
+				name = p_name,
+				guid = p_guid,
+				param_fun = "scenecore:char_item_sync",
+				param_act = param_act,
+				sender_pos = source_index,
+				sender_index = sender_index,
+				sender_count = sender_count,
+				reciver_pos = dest_index,
+				reciver_index = reciver_index,
+				reciver_count = reciver_count,
+				date_time = utils.get_day_time()
+				}
+				skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+                local result = item_operator:exchange_item(item_container, source_index, item_container, dest_index)
+                if result == define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+                    local final_source_serial = stall_box:inc_serial_by_index(source_index)
+                    local final_dest_serial = stall_box:inc_serial_by_index(dest_index)
+
+                    local msg = packet_def.GCItemSynch.new()
+                    msg.opt = msg.OPT.OPT_EXCHANGE_ITEM
+                    msg.from_type = msg.POS.POS_PLAYERSHOP
+                    msg.to_type = msg.POS.POS_PLAYERSHOP
+                    msg.to_index = dest_index
+                    msg.item_guid = item:get_guid()
+
+                    local extra = packet_def.GCExchangeItemFromPlayerShopToPlayerShop_t.new()
+                    extra.shop_guid = shop:get_guid()
+                    extra.stall_index = stall_index
+                    extra.source_serial = final_source_serial
+                    extra.dest_serial = final_dest_serial
+                    extra.shop_serial = shop:inc_serial()
+                    msg.extra_data = extra:bos()
+                    self:send2client(obj_me, msg)
+					param_act = "商会拖动交换道具成功"
+                else
+					param_act = "商会拖动交换道具失败"
+                    local msg = packet_def.GCPlayerShopError.new()
+                    msg.error_code = define.PLAYER_SHOP_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                end
+				sender_index = 0
+				sender_count = 0
+				reciver_index = 0
+				reciver_count = 0
+				item = item_container:get_item(source_index)
+				if item then
+					sender_index = item:get_index()
+					sender_count = item:get_lay_count()
+				end
+				item_dest = item_container:get_item(dest_index)
+				if item_dest then
+					reciver_index = item_dest:get_index()
+					reciver_count = item_dest:get_lay_count()
+				end
+				local collection = "log_shanghui_move"
+				local doc = { 
+				name = p_name,
+				guid = p_guid,
+				param_fun = "scenecore:char_item_sync",
+				param_act = param_act,
+				sender_pos = source_index,
+				sender_index = sender_index,
+				sender_count = sender_count,
+				reciver_pos = dest_index,
+				reciver_index = reciver_index,
+				reciver_count = reciver_count,
+				date_time = utils.get_day_time()
+				}
+				skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+            end
+        end
+    end
+end
+
+function scenecore:char_all_titles(who)
+    local obj_me = self:get_obj_by_id(who)
+    obj_me:update_titles_to_client()
+end
+
+function scenecore:char_exchange_yuanbao_piao(who, ceys)
+    local obj_me = self:get_obj_by_id(who)
+    if self:check_point_limit(who) then
+        obj_me:notify_tips("充值点数小于10000点，禁止兑换元宝票。")
+        return
+    end
+    local yuanbao = obj_me:get_yuanbao()
+    local count = ceys.count
+	if count > 50000 then
+		local log_msg = "兑换元宝票:"..tostring(count)
+		obj_me:cost_yuanbao(yuanbao,log_msg,nil,true )
+        -- obj_me:notify_tips("每次最多可兑换50000元宝")
+        return
+    elseif count > yuanbao then
+        obj_me:notify_tips("可兑换元宝数量不足")
+        return
+    end
+    local logparam = {}
+    local r, bag_index = human_item_logic:create_multi_item_to_bag(logparam, obj_me, define.YUANBAO_PIAO, 1, false)
+    if not r then
+        obj_me:notify_tips("背包空间不足")
+        return
+    end
+    local bag_container = obj_me:get_prop_bag_container()
+    local item = bag_container:get_item(bag_index)
+	if item:get_index() == define.YUANBAO_PIAO then
+		local delflag = obj_me:cost_yuanbao(count, "元宝兑换元宝票",nil,true)
+		if delflag then
+			local change_name = obj_me:get_name()
+			local change_guid = obj_me:get_guid()
+			local change_time = os.date("%y-%m-%d %H:%M:%S")
+			item:set_item_record_data_forindex("change_name",change_name)
+			item:set_item_record_data_forindex("change_guid",change_guid)
+			item:set_item_record_data_forindex("change_time",change_time)
+			item:set_item_record_data_forindex("count",count)
+			skynet.send(".logdb", "lua", "update", {
+				collection = "log_yuanbaopiao_value",
+				selector = {guid = change_guid},
+				update = {["$inc"] = {change_yuanbao = count}},
+				upsert = true,
+				multi = false,
+			})
+			item:set_param(0, count, "uint")
+			local doc = { 
+				logname = "兑换元宝票",
+				change_name = change_name,
+				change_guid = change_guid,
+				-- use_name = "未使用",
+				-- use_guid = "未使用",
+				yuanbao = count,
+				change_time = change_time,
+			}
+			skynet.send(".logdb", "lua", "insert", { collection = "log_yuanbaopiao", doc = doc})
+			obj_me:notify_tips("你兑换一张面值为"..tostring(count).."元宝的元宝票。")
+		else
+			item:set_param(0, 0, "uint")
+		end
+	end
+    local msg = packet_def.GCItemInfo.new()
+    msg.bagIndex = bag_index
+    msg.item = item:copy_raw_data()
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_default_event(who, args)
+    local obj_id = args.m_objID
+    local obj = self.objs[obj_id]
+    local obj_me = self:get_obj_by_id(who)
+    if obj_me:is_moving() then
+        obj_me:get_ai():stop()
+    end
+    if not obj_me:is_alive() then
+        obj_me:notify_tips("死亡状态无法进行此操作")
+        return
+    end
+    if obj then
+        obj:default_event(who)
+    end
+end
+
+function scenecore:char_event_request(who, args)
+    local obj_me = self:get_obj_by_id(who)
+    if not obj_me:is_alive() then
+        obj_me:notify_tips("死亡状态无法进行此操作")
+        return
+    end
+    local obj_id = args.arg
+    local me_pos = obj_me:get_world_pos() or {}
+    local target = obj_id ~= define.INVAILD_ID and self:get_obj_by_id(obj_id) or nil
+    local target_name, target_script, target_pos = nil, nil, {}
+    if target then
+        local ok
+        ok, target_name = pcall(target.get_name, target)
+        if not ok then target_name = "<get_name failed>" end
+        if target.get_script_id then
+            ok, target_script = pcall(target.get_script_id, target)
+            if not ok then target_script = "<get_script_id failed>" end
+        end
+        ok, target_pos = pcall(target.get_world_pos, target)
+        if not ok or not target_pos then target_pos = {} end
+    end
+    skynet.logi("[AUTO_ROUTE_DISPATCH] scene=", tostring(self.id),
+        " guid=", tostring(obj_me:get_guid()), " who=", tostring(who),
+        " player_x=", tostring(me_pos.x), " player_y=", tostring(me_pos.y),
+        " script=", tostring(args.m_objID), " index=", tostring(args.index),
+        " target=", tostring(obj_id), " extra=", tostring(args.unknow),
+        " target_name=", tostring(target_name),
+        " target_script=", tostring(target_script),
+        " target_x=", tostring(target_pos.x), " target_y=", tostring(target_pos.y))
+    if obj_id == define.INVAILD_ID then
+        self.scriptenginer:call(args.m_objID, "OnEventRequest", who, define.INVAILD_ID, args.m_objID, args.index)
+    else
+        local obj = self:get_obj_by_id(obj_id)
+        if obj then
+            obj:event_request(who, args.m_objID, args.index)
+        end
+    end
+end
+
+function scenecore:char_excute_Script(script_id, func, ...)
+    return self.scriptenginer:raw_call(script_id, func, ...)
+end
+
+function scenecore:char_shop_buy(who, request)
+    local human = self.objs[who]
+    if request.index >= define.BUY_BACK_INDEX then
+        human:buy_back(request)
+    else
+        human:do_shop(request.index + 1, request.buy_num)
+    end
+end
+
+function scenecore:char_displace_gem(who, request)
+    local human = self.objs[who]
+	if not human then return end
+	local guid = human:get_guid()
+    local from_item = human:get_prop_bag_container():get_item(request.from_bag_index)
+    local to_item = human:get_prop_bag_container():get_item(request.to_bag_index)
+    assert(from_item, request.from_bag_index)
+    assert(to_item, request.to_bag_index)
+    if from_item:is_lock() or to_item:is_lock() then
+        human:notify_tips("该道具当前无法操作")
+        return
+    end
+	local e_pointx = from_item:get_base_config().equip_point
+	local e_pointz = to_item:get_base_config().equip_point
+	if e_pointx ~= e_pointz then
+		if e_pointx == define.HUMAN_EQUIP.HEQUIP_RING_1
+		or e_pointx == define.HUMAN_EQUIP.HEQUIP_RING_2 then
+			if e_pointz ~= define.HUMAN_EQUIP.HEQUIP_RING_1
+			and e_pointz ~= define.HUMAN_EQUIP.HEQUIP_RING_2 then
+				human:notify_tips("请把宝石转移到相同类型的装备上")
+				return
+			end
+		elseif e_pointx == define.HUMAN_EQUIP.HEQUIP_AMULET_1
+		or e_pointx == define.HUMAN_EQUIP.HEQUIP_AMULET_2 then
+			if e_pointz ~= define.HUMAN_EQUIP.HEQUIP_AMULET_1
+			and e_pointz ~= define.HUMAN_EQUIP.HEQUIP_AMULET_2 then
+				human:notify_tips("请把宝石转移到相同类型的装备上")
+				return
+			end
+		else
+			human:notify_tips("请把宝石转移到相同类型的装备上")
+			return
+		end
+	elseif e_pointx == define.HUMAN_EQUIP.HEQUIP_RIDER
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_UNKNOW1
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_UNKNOW2
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_FASHION
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_TOTAL
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_JING
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_CHI
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_JIA
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_GOU
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_DAI
+	or e_pointx == define.HUMAN_EQUIP.LINGWU_DI
+	or e_pointx == define.HUMAN_EQUIP.HEQUIP_ALL then
+		human:notify_tips("该装备不开放此功能哦")
+		return
+	elseif e_pointz == define.HUMAN_EQUIP.HEQUIP_RIDER
+	or e_pointz == define.HUMAN_EQUIP.HEQUIP_UNKNOW1
+	or e_pointz == define.HUMAN_EQUIP.HEQUIP_UNKNOW2
+	or e_pointz == define.HUMAN_EQUIP.HEQUIP_FASHION
+	or e_pointz == define.HUMAN_EQUIP.HEQUIP_TOTAL
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_JING
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_CHI
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_JIA
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_GOU
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_DAI
+	or e_pointz == define.HUMAN_EQUIP.LINGWU_DI
+	or e_pointz == define.HUMAN_EQUIP.HEQUIP_ALL then
+		human:notify_tips("该装备不开放此功能哦")
+		return
+	end
+    local from_item_gem_list = from_item:get_equip_data():get_gem_list()
+    local to_item_gem_list = to_item:get_equip_data():get_gem_list()
+    local gem_count = 0
+    for i, gem in ipairs(from_item_gem_list) do
+        assert(gem >= 0)
+        if gem > 0 then
+            assert(to_item_gem_list[i] == 0)
+            gem_count = gem_count + 1
+        end
+    end
+    assert(to_item:get_equip_data():get_slot_count() >= gem_count)
+    for i, gem in ipairs(from_item_gem_list) do
+        assert(gem >= 0)
+        if gem > 0 then
+            from_item:get_equip_data():remove_gem(i)
+            to_item:get_equip_data():gem_embed(i, gem)
+        end
+    end
+    to_item:set_is_bind(true)
+    local msg = packet_def.GCItemInfo.new()
+    msg.bagIndex = request.from_bag_index
+    msg.item = from_item:copy_raw_data()
+    self:send2client(human, msg)
+
+    msg = packet_def.GCItemInfo.new()
+    msg.bagIndex = request.to_bag_index
+    msg.item = to_item:copy_raw_data()
+    self:send2client(human, msg)
+    impactenginer:send_impact_to_unit(human, 49, human, 0, false, 0)
+    human:send_operate_result_msg(define.OPERATE_RESULT.OR_OK)
+
+    local msg = packet_def.GCUICommand.new()
+    msg.m_Param = {}
+    msg.m_Param.m_IntCount = 0
+    msg.m_Param.m_StrCount = 0
+    msg.m_nUIIndex = 20110509
+    self:send2client(human, msg)
+end
+
+function scenecore:char_use_ability(who, use)
+    local human = self.objs[who]
+    if not human:is_alive() then
+        local msg = packet_def.GCAbilityResult.new()
+        msg.ability = use.ability
+        msg.prescription = use.prescription
+        msg.result = define.OPERATE_RESULT.OR_DIE
+        assert(msg.result)
+        self:send2client(human, msg)
+        return
+    end
+    if not human:can_action_flag_1() or not human:can_action_flag_2() then
+        local msg = packet_def.GCAbilityResult.new()
+        msg.ability = use.ability
+        msg.prescription = use.prescription
+        msg.result = define.OPERATE_RESULT.OR_U_CANNT_DO_THIS_RIGHT_NOW
+        assert(msg.result)
+        self:send2client(human, msg)
+        return
+    end
+    if not self.actionenginer:can_do_next_action(human) then
+        local msg = packet_def.GCAbilityResult.new()
+        msg.ability = use.ability
+        msg.prescription = use.prescription
+        msg.result = define.OPERATE_RESULT.OR_BUSY
+        assert(msg.result)
+        self:send2client(human, msg)
+        return
+    end
+    if human:get_character_logic() == define.ENUM_CHARACTER_LOGIC.CHARACTER_LOGIC_USE_ABILITY then
+        local msg = packet_def.GCAbilityResult.new()
+        msg.ability = use.ability
+        msg.prescription = use.prescription
+        msg.result = define.OPERATE_RESULT.OR_BUSY
+        assert(msg.result)
+        self:send2client(human, msg)
+        return
+    end
+    local abilitys_config = configenginer:get_config("ability")
+    local ability = abilitys_config[use.ability]
+    if ability == nil then
+        return
+    end
+    human:reset_ability_opera()
+    local ability_opera = human:get_ability_opera()
+    ability_opera.ability_id = use.ability
+    ability_opera.pres_id = use.prescription
+    ability_opera.obj = use.platform
+    ability_opera.max_time = ability["操作时间基数"]
+    ability_opera.mat_bag_index = use.mat_index
+
+    local res = human:get_ai():push_command_use_ability()
+    local msg = packet_def.GCAbilityResult.new()
+    msg.ability = use.ability
+    msg.prescription = use.prescription
+    msg.result = res
+    assert(msg.result)
+    self:send2client(human, msg)
+end
+
+function scenecore:char_discard_item(who, discard)
+    local obj = self.objs[who]
+    if discard.opt == packet_def.CGDiscardItem.OPT.FromBag then
+        local container = obj:get_prop_bag_container()
+        local item = container:get_item(discard.bag_index)
+        if item then
+            if item:is_lock() then
+                obj:notify_tips("交易中的道具无法丢弃")
+                return
+            end
+            local can_discard = item:can_discard()
+            if not can_discard then
+                obj:notify_tips(string.format("%s不能丢弃", item:get_name()))
+                return
+            end
+            local msg = packet_def.GCDiscardItemResult.new()
+            msg.item_index = item:get_index()
+            msg.opt = discard.opt
+            msg.bag_index = discard.bag_index
+            if item:is_ruler(define.ITEM_RULER_LIST.IRL_DISCARD) then
+                local logparam = { reason = "丢弃道具"}
+                local ret = human_item_logic:erase_item_by_bag_index(logparam, obj, discard.bag_index)
+                if ret then
+                end
+                msg.result = define.DISCARDITEM_RESULT.DISCARDITEM_SUCCESS
+            else
+                msg.result = define.DISCARDITEM_RESULT.DISCARDITEM_FAIL
+            end
+            self:send2client(obj, msg)
+        end
+    end
+end
+
+function scenecore:char_bank_acquire_list(who)
+    local obj = self.objs[who]
+    local bank_bag_container = obj:get_bank_bag_container()
+    local bank_item_list = bank_bag_container:copy_raw_data()
+    local msg = packet_def.GCBankAcquireList.new()
+    msg.all_space = bank_bag_container:get_size()
+    msg.save_money = obj:get_bank_save_money()
+    msg.used_space = table.nums(bank_item_list)
+    for i = 0, msg.all_space - 1 do
+        local bank_item = {}
+        local item = bank_item_list[i]
+        if item then
+            bank_item.item = item
+            bank_item.bag_index = i
+            bank_item.unknow_2 = 1
+            bank_item.count = item.count
+            table.insert(msg.bank_items, bank_item)
+        end
+    end
+    self:send2client(obj, msg)
+end
+
+function scenecore:char_bank_add_item(who, add)
+    local human = self.objs[who]
+	if not human then return end
+    local bank_bag_container = human:get_bank_bag_container()
+    local prop_bag_container = human:get_prop_bag_container()
+    local msg = packet_def.GCBankAddItem.new()
+    local from_index = add.from_index
+    local to_index = add.to_index
+    local from_item = prop_bag_container:get_item(from_index)
+    if not from_item then
+        human:notify_tips("道具不存在")
+        return
+    end
+    if from_item:is_lock() then
+        human:notify_tips("交易中的道具无法存入仓库")
+        return
+    end
+    to_index = to_index < bank_bag_container:get_size() and to_index or bank_bag_container:get_empty_item_index()
+    local result
+    if to_index == define.INVAILD_ID then
+        result = false
+    else
+        local to_item = bank_bag_container:get_item(to_index)
+        assert(to_item == nil)
+        local logparam = {}
+        result = human_item_logic:move_item_from_bag_to_container_with_index(logparam, human, bank_bag_container, from_index, to_index)
+    end
+    msg.from_bag = add.from_bag
+    msg.from_index = from_index
+    msg.to_index = to_index == define.INVAILD_ID and 255 or to_index
+    msg.result = result and 1 or 0
+    self:send2client(human, msg)
+end
+
+function scenecore:char_bank_remove_item(who, remove)
+    local human = self.objs[who]
+	if not human then return end
+    local bank_bag_container = human:get_bank_bag_container()
+    local prop_bag_container = human:get_prop_bag_container()
+    local msg = packet_def.GCBankRemoveItem.new()
+    local from_index = remove.from_index
+    local to_index = remove.to_index
+    local from_item = bank_bag_container:get_item(from_index)
+    assert(from_item)
+    if from_item:is_lock() then
+        human:notify_tips("该道具当前无法操作")
+        return
+    end
+    if to_index == define.UCHAR_MAX then
+        to_index = prop_bag_container:get_empty_item_index(from_item:get_place_bag())
+    end
+    if to_index == define.INVAILD_ID then
+        human:notify_tips("背包空间不足")
+        return
+    end
+    if not prop_bag_container:check_place_index_legally(to_index, from_item:get_place_bag()) then
+        human:notify_tips("无法移动到目标位置")
+        return
+    end
+    local to_item = prop_bag_container:get_item(to_index)
+    assert(to_item == nil)
+    local logparam = {}
+    local result
+    result = human_item_logic:move_item_from_container_to_bag_with_index(logparam, human, bank_bag_container, from_index, to_index)
+    msg.to_bag = remove.to_bag
+    msg.from_index = from_index
+    msg.to_index = to_index
+    msg.result = result and 1 or 0
+    self:send2client(human, msg)
+end
+
+function scenecore:char_bank_swap_item(who, swap)
+    local human = self.objs[who]
+    local bank_bag_container = human:get_bank_bag_container()
+    local from_index = swap.from_index
+    local to_index = swap.to_index
+
+    -- 禁止可叠加物品与不可叠加物品交换位置
+    local from_item = bank_bag_container:get_item(from_index)
+    local to_item = bank_bag_container:get_item(to_index)
+    if from_item and to_item then
+        local from_stackable = from_item:get_max_tile_count() > 1
+        local to_stackable = to_item:get_max_tile_count() > 1
+        if from_stackable ~= to_stackable then
+            return
+        end
+    end
+    if (from_item and from_item:is_lock()) or (to_item and to_item:is_lock()) then
+        return
+    end
+
+    local msg = packet_def.GCBankSwapItem.new()
+    msg.from_bag = swap.from_bag
+    msg.to_bag = swap.to_bag
+    msg.from_index = from_index
+    msg.to_index = to_index
+    item_operator:exchange_item(bank_bag_container, from_index, bank_bag_container, to_index)
+    self:send2client(human, msg)
+end
+
+function scenecore:char_bank_pack_up(who, pack_up)
+    local human = self.objs[who]
+    local bank_bag_container = human:get_bank_bag_container()
+    local froms = pack_up.froms
+    local tos = pack_up.tos
+    local msg = packet_def.GCPackUpBank.new()
+    -- 检查仓库中是否有锁定物品，有则拒绝整理
+    for i = 0, bank_bag_container:get_size() - 1 do
+        local item = bank_bag_container:get_item(i)
+        if item and item:is_lock() then
+            return
+        end
+    end
+    for i = 1, pack_up.size do
+        local from_index = froms[i]
+        local to_index = tos[i]
+        item_operator:exchange_item(bank_bag_container, from_index, bank_bag_container, to_index)
+        local swap = packet_def.GCBankSwapItem.new()
+        swap.from_bag = 2
+        swap.to_bag = 2
+        swap.from_index = from_index
+        swap.to_index = to_index
+        self:send2client(human, swap)
+    end
+    msg.unknow_1 = 1
+    self:send2client(human, msg)
+end
+
+function scenecore:char_die_result(who, result)
+    local human = self.objs[who]
+    human:get_ai():push_command_die_result(result.code)
+end
+
+function scenecore:char_pet_bank_add_pet(who, request)
+    return require('cys_pet_bank').handle(self, who, request)
+end
+
+function scenecore:char_shop_sell(who, sell)
+    local human = self:get_obj_by_id(who)
+    human:shop_sell(sell.bag_index)
+end
+
+function scenecore:char_chat(who, chat)
+    local obj = self.objs[who]
+	if not obj then
+		return
+	end
+	local obj_guid = obj:get_guid()
+	if skynet.call(".gamed","lua","check_chat_ban",obj_guid) then
+		obj:notify_tips("你已被禁言。")
+		return
+	end
+    local msg = packet_def.GCChat.new()
+    msg.ChatType = chat.ChatType
+    for i = 1, 4 do
+        local ut = chat.uts[i]
+        if ut == 1 then
+            local guid = chat.item_guids[i]
+            local item = human_item_logic:get_item_by_guid(obj, guid)
+            if item then
+                local transfer = item:get_transfer()
+                local s = string.format("#{_INFOMSG%s}", transfer)
+                s = crypt.hexencode(s)
+                chat.Contex = string.gsub(crypt.hexencode(chat.Contex), crypt.hexencode("#{_INFOSER}"), s, 1)
+                chat.Contex = crypt.hexdecode(chat.Contex)
+            end
+        elseif ut == 2 then
+            local guid = chat.pet_guids[i]
+            local pet = obj:get_pet_bag_container():get_pet_by_guid(guid)
+            if pet then
+                local transfer = pet:get_transfer()
+                local s = string.format("#{_INFOMSG%s}", transfer)
+                s = crypt.hexencode(s)
+                chat.Contex = string.gsub(crypt.hexencode(chat.Contex), crypt.hexencode("#{_INFOSER}"), s, 1)
+                chat.Contex = crypt.hexdecode(chat.Contex)
+            end
+        elseif ut == 6 then
+            local data = chat.exterior_data and chat.exterior_data[i]
+            if data and #data == 67 then
+                -- 构建95字节v9序列化缓冲区(客户端ExteriorShareHyperLinkElement解析格式)
+                -- 67字节原始数据需去掉前2字节(offset176-177)和67b[50](offset226),
+                -- headgear(67b[33-38])与ride(67b[26-32])位置互换,
+                -- 67b[51-54]移至末尾, 并追加model_id和玩家名字
+                local d = data
+                -- 玩家名字(UTF-8→GBK), 截断29字节, 补齐30字节null
+                local pname = gbk.fromutf8(obj:get_name() or "")
+                if #pname > 29 then pname = string.sub(pname, 1, 29) end
+                local name_pad = pname .. string.rep(string.char(0), 30 - #pname)
+                -- model_id低字节
+                local mid = obj:get_attrib("model_id") or 0
+                local mbyte = string.char(mid % 256)
+                -- 按客户端解析器字段顺序打包v9
+                local v9 = string.sub(d, 3, 26)    -- 67b[2..25]  24B dress/body
+                         .. string.sub(d, 34, 39)   -- 67b[33..38] 6B  headgear
+                         .. string.sub(d, 27, 33)   -- 67b[26..32] 7B  ride
+                         .. string.sub(d, 40, 50)   -- 67b[39..49] 11B face/hair
+                         .. string.sub(d, 56, 67)   -- 67b[55..66] 12B weapon/colors
+                         .. mbyte                    -- model_id    1B
+                         .. name_pad                 -- name        30B
+                         .. string.sub(d, 52, 55)   -- 67b[51..54] 4B  additional
+                -- 转义: 先\→\\, 再null→\0
+                local es = string.gsub(v9, string.char(0x5C), string.char(0x5C) .. string.char(0x5C))
+                es = string.gsub(es, string.char(0), "\\0")
+                es = "e" .. es
+                local transfer = string.format("%03d%s", string.len(es), es)
+                local s = crypt.hexencode(string.format("#{_INFOMSG%s}", transfer))
+                chat.Contex = string.gsub(crypt.hexencode(chat.Contex), crypt.hexencode("#{_INFOSER}"), s, 1)
+                chat.Contex = crypt.hexdecode(chat.Contex)
+            end
+        end
+    end
+    msg:set_content(chat.Contex)
+    local name = obj and obj:get_name() or ""
+    msg:set_source_name(obj:get_name())
+    msg.Sourceid = obj:get_obj_id()
+    msg.unknow_3 = 1
+    local day_active = obj:get_week_active_day()
+    if chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_NORMAL then
+        self:broadcast(obj, msg, true)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_TEAM then
+        msg.xy_id = packet_def.GCChat.xy_id
+        self:send_world(obj, "lua", "team_chat", obj_guid, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_RAID then
+        msg.xy_id = packet_def.GCChat.xy_id
+        self:send_world(obj, "lua", "raid_chat", obj_guid, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_RAID_TEAM then
+        msg.xy_id = packet_def.GCChat.xy_id
+        self:send_world(obj, "lua", "raid_chat_team", obj_guid, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_TELL then
+		if chat.TargetName ~= "GM" and scenecore:check_limit_chat(obj) then
+			obj:notify_tips("等级不足50。")
+			return
+		end
+        local name = chat.TargetName
+        msg.xy_id = packet_def.GCChat.xy_id
+        msg:set_dest_name(name)
+        if chat.TargetName == "GM" then
+            GMCommand:process(obj, chat.Contex)
+        else
+            self:send_world(obj, "lua", "tell_chat", name, msg)
+        end
+        msg.ChatType = define.ENUM_CHAT_TYPE.CHAT_TYPE_TELL_RET
+        msg.unknow_3 = 0
+        self:send2client(obj, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_SCENE then
+		if scenecore:check_limit_chat(obj) then
+			obj:notify_tips("等级不足50。")
+			return
+		end
+        self:send_world(obj, "lua", "multicast", msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_CITY then
+		if scenecore:check_limit_chat(obj) then
+			obj:notify_tips("等级不足50。")
+			return
+		end
+		self:send_world(obj, "lua", "multicast", msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_GUILD then
+        local guild_id = obj:get_guild_id()
+        self:send_guild(obj, "lua", "multicast", guild_id, msg.xy_id, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_LEAGUE then
+        local league_id = obj:get_confederate_id()
+        self:send_guild(obj, "lua", "league_multicast", league_id, msg.xy_id, msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_SPEAKER then
+        if self.scriptenginer:call(define.SPEAKER_SCRIPT_ID, "OnConditionCheck", obj:get_obj_id()) == 1 then
+            local isok = self.scriptenginer:call(define.SPEAKER_SCRIPT_ID, "CallBackSpeakerAfter", obj:get_obj_id())
+			if isok then
+				self:send_world(obj, "lua", "multicast", msg)
+			end
+            -- self.scriptenginer:call(define.SPEAKER_SCRIPT_ID, "CallBackSpeakerAfter", obj:get_obj_id())
+        end
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_MENPAI then
+        self:send_world(obj, "lua", "menpai_multicast", chat.unknow_5,  msg)
+    elseif chat.ChatType == define.ENUM_CHAT_TYPE.CHAT_TYPE_MAIL then
+        msg.Sourceid = obj_guid
+        msg.ChatType = define.ENUM_CHAT_TYPE.CHAT_TYPE_MAIL_RET
+        msg.mood = "还没想好！"
+        msg.Destid = chat.dest_guid
+        msg.unknow_3 = 0
+        msg.unknow_4 = 0
+        self:send2client(obj, msg)
+
+        local portrait_id = obj:get_attrib("portrait_id")
+        chat.ChatType = define.ENUM_CHAT_TYPE.CHAT_TYPE_MAIL
+        chat.mood = "还没想好！"
+        chat.Sourceid = obj_guid
+        chat.Destid = chat.dest_guid
+        chat.SourceName = obj:get_name()
+        chat.SourceName = gbk.fromutf8(chat.SourceName)
+        chat.unknow_4 = -1
+        self:send_world(obj, "lua", "mail_chat", obj_guid, obj:get_name(), portrait_id, chat)
+    end
+end
+
+function scenecore:char_fly(who, fly)
+    local obj_me = self.objs[who]
+    local skill_id = fly.skill_id
+    if not self:is_qinggong_skill(skill_id) then
+        obj_me:notify_tips("不能使用该技能")
+        return
+    end
+    local pos_tar = fly.to
+    local pos_from = obj_me:get_world_pos()
+    local dist_limit = 15
+    local dist = self:cal_dist(pos_tar, pos_from)
+    if dist > dist_limit then
+        obj_me:notify_tips("超出距离")
+        return
+    end
+    local guid_tar = obj_me:get_guid()
+    local id_tar = obj_me:get_obj_id()
+    local dir = obj_me:get_dir()
+    local result = obj_me:get_ai():push_command_use_skill(skill_id, id_tar, pos_tar.x, pos_tar.y, dir, guid_tar)
+    result = result or define.OPERATE_RESULT.OR_OK
+    if result ~= define.OPERATE_RESULT.OR_OK then
+        obj_me:send_operate_result_msg(result)
+    end
+end
+
+-- 自动寻路上坐骑
+function scenecore:mount_flight_operation(who,req)
+    return require("cys_mount_flight").request(self,who,req)
+end
+
+function scenecore:char_auto_ride(who, flag)
+    -- CYS-MOUNT-FLIGHT
+    local flight=require 'cys_mount_flight'
+    if flight.active(self.objs[who]) then flight.refuse(self,self.objs[who],'Hãy hạ cánh trước khi xuống thú cưỡi.');return end
+    local obj_me = self.objs[who]
+    -- [DIAG_RIDE_PK] packet cuoi thu da toi server
+    skynet.logi("[DIAG_RIDE_PK] RIDE_REQ who=", tostring(who),
+        " flag=", tostring(flag),
+        " obj=", tostring(obj_me ~= nil))
+    if not obj_me or obj_me:get_obj_type() ~= "human" then
+        skynet.logi("[DIAG_RIDE_PK] RIDE_ABORT ly do=khong phai human hoac obj nil")
+        return
+    end
+
+    -- 已经在坐骑上则直接回复
+    local ride_model = obj_me:get_ride_model() or define.INVAILD_ID  -- [audit 2026-09-03] ride_model chua bao gio duoc ghi -> nil
+    if ride_model ~= define.INVAILD_ID then
+        -- CYS-RIDE-FINISH: dang cuoi ma bam lai = XUONG THU. Client CY goi cung mot ham host cho ca
+        -- "召唤(1)" lan "收回(0)" (Ride.lua:425 CallInOutRide), va ky nang 21 cua 0.85 von la nut bat/tat:
+        -- skill_14:start_charging gap ride_model ~= -1 thi go impact 99. Truoc day nhanh nay chi ack.
+        skynet.logi("[DIAG_RIDE_PK] RIDE_DISMOUNT ride_model=", tostring(ride_model))
+        local imp_ride = obj_me:impact_get_first_impact_of_specific_class_id(define.RIDE_IMPACT_ID)
+        if imp_ride then
+            obj_me:on_impact_fade_out(imp_ride)
+            obj_me:remove_impact(imp_ride)
+            obj_me:send_refresh_attrib()
+        else
+            local pos_d = obj_me:get_world_pos()
+            obj_me:get_ai():push_command_use_skill(21, obj_me:get_obj_id(), pos_d.x, pos_d.y, obj_me:get_dir(), obj_me:get_guid())
+        end
+        local function wait_dismount(retry)
+            local rm = obj_me:get_ride_model() or define.INVAILD_ID
+            if rm == define.INVAILD_ID then
+                local ret = packet_def.GCCharAutoRide.new()
+                ret.flag = flag
+                self:send2client(obj_me, ret)
+            elseif retry < 20 then
+                skynet.timeout(10, function() wait_dismount(retry + 1) end)
+            else
+                skynet.logi("[DIAG_RIDE_PK] RIDE_DISMOUNT_TIMEOUT ride_model van la ", tostring(rm))
+            end
+        end
+        skynet.timeout(10, function() wait_dismount(0) end)
+        return
+    end
+
+    -- 必须有选中的坐骑
+    local ride = obj_me:get_ride()
+    skynet.logi("[DIAG_RIDE_PK] RIDE_STATE ride_model=", tostring(obj_me:get_ride_model()),
+        " ride_da_chon=", tostring(ride),
+        " INVAILD_ID=", tostring(define.INVAILD_ID))
+    if ride == define.INVAILD_ID then
+        skynet.logi("[DIAG_RIDE_PK] RIDE_ABORT ly do=CHUA CHON/KICH HOAT THU (get_ride vo hieu)")
+        obj_me:notify_tips("#{WGTJ_201222_106}")    -- CYS-RIDE-FINISH: bao nguoi choi thay vi im lang
+        return
+    end
+    -- CYS-RIDE-FINISH: phai SO HUU (exterior.rides), khong chi CHON (attrib.ride). Khong so huu thi
+    -- get_riders_max_speed_up() = 0 => impacts[0] nil => ky nang 21 khong tao impact => truoc day IM LANG.
+    if not obj_me:have_this_ride(ride) then
+        skynet.logi("[DIAG_RIDE_PK] RIDE_ABORT ly do=KHONG SO HUU ride=", tostring(ride))
+        obj_me:notify_tips("#{ZQGZ_110512_25}")
+        return
+    end
+    local ride_conf = configenginer:get_config("exterior_ride")[ride]
+    local max_speed_up = obj_me:get_riders_max_speed_up()
+    local ride_imp = ride_conf and ride_conf.impacts and ride_conf.impacts[max_speed_up]
+    if not ride_imp or ride_imp == define.INVAILD_ID then
+        skynet.logi("[DIAG_RIDE_PK] RIDE_ABORT ly do=KHONG CO IMPACT ride=", tostring(ride), " bac=", tostring(max_speed_up))
+        obj_me:notify_tips("#{ZQGZ_110512_20}")
+        return
+    end
+
+    -- CYS-RIDE-FINISH: ky nang 21 con hoi (冷却 3000 ms) => bao OR_COOL_DOWNING ngay, khong doi 4,6 s roi bao sai
+    if obj_me.is_skill_cool_down and not obj_me:is_skill_cool_down(21) then
+        skynet.logi("[DIAG_RIDE_PK] RIDE_ABORT ly do=KY NANG 21 CON HOI (3000 ms)")
+        obj_me:send_operate_result_msg(define.OPERATE_RESULT.OR_COOL_DOWNING)
+        return
+    end
+    -- 通过技能系统触发骑乘技能(skill 21)
+    local id_tar = obj_me:get_obj_id()
+    local pos = obj_me:get_world_pos()
+    local dir = obj_me:get_dir()
+    local guid = obj_me:get_guid()
+    obj_me:get_ai():push_command_use_skill(21, id_tar, pos.x, pos.y, dir, guid)
+
+    -- 轮询等待骑乘 impact 生效后再回复客户端
+    local function wait_ride_ready(retry)
+        if retry > 45 then    -- CYS-RIDE: 15 (1600 ms) < 3000 ms niem cua ky nang 21
+            skynet.logi("[DIAG_RIDE_PK] RIDE_TIMEOUT skill 21 khong tao ra impact cuoi thu sau ", tostring(retry), " lan cho")    -- CYS-RIDE-FINISH
+            obj_me:notify_tips("#{ZQGZ_110512_20}")
+            return
+        end
+        local rm = obj_me:get_ride_model() or define.INVAILD_ID  -- [audit 2026-09-03]
+        if rm ~= define.INVAILD_ID then
+            local ret = packet_def.GCCharAutoRide.new()
+            ret.flag = flag
+            self:send2client(obj_me, ret)
+        else
+            skynet.timeout(10, function() wait_ride_ready(retry + 1) end)
+        end
+    end
+    skynet.timeout(10, function() wait_ride_ready(0) end)
+end
+
+function scenecore:is_qinggong_skill(skill_id)
+    for _, skill in pairs(define.QINGGONG_SKILL) do
+        if skill == skill_id then
+            return true
+        end
+    end
+    return skill_id == 34
+end
+--时装移动
+function scenecore:char_fashion_depot_operation(who, operation)
+    local obj_me = self.objs[who]
+	if not obj_me then
+		return
+	end
+	local go_index = operation.from_index
+	if go_index == define.INVAILD_ID then
+		return
+	end
+	local cur_eqpos = define.INVAILD_ID
+    local equip_container = obj_me:get_equip_container()
+    local equip = equip_container:get_item(define.HUMAN_EQUIP.HEQUIP_FASHION)
+	if equip then
+		local fasion_bag_container = obj_me:get_fasion_bag_container()
+		cur_eqpos = obj_me:get_fashion_depot_index()
+		if cur_eqpos == define.INVAILD_ID or fasion_bag_container:get_item(cur_eqpos) then
+			cur_eqpos = fasion_bag_container:get_empty_item_index_expect_index(cur_eqpos)
+			if cur_eqpos == define.INVAILD_ID then
+				obj_me:notify_tips("衣柜空间已满，请从衣柜中先取出一件时装再尝试。")
+				return
+			end
+			-- obj_me:set_fashion_depot_index(cur_eqpos)
+		end
+	end
+    local dest_container
+    local source_continer
+    local to_index = operation.dest_index
+	
+    if operation.dest_container == 1 then
+        source_continer = obj_me:get_prop_bag_container()
+        dest_container = obj_me:get_fasion_bag_container()
+		
+		local go_item = source_continer:get_item(go_index)
+		if go_item then
+			local point = go_item:get_item_point()
+			if point ~= define.HUMAN_EQUIP.HEQUIP_FASHION then
+				obj_me:notify_tips("衣柜仅可放入时装。")
+				return
+			end
+			go_item:set_is_bind(true)
+		else
+			return
+		end
+		if to_index ~= define.INVAILD_ID then
+			if to_index == cur_eqpos then
+				to_index = dest_container:get_empty_item_index_expect_index(cur_eqpos)
+				if to_index == define.INVAILD_ID then
+					obj_me:notify_tips("衣柜空间不足，可先取出一件时装再进行操作。")
+					return
+				end
+			end
+		else
+			to_index = dest_container:get_empty_item_index_expect_index(cur_eqpos)
+			if to_index == define.INVAILD_ID then
+				obj_me:notify_tips("衣柜空间不足，可先取出一件时装再进行操作。")
+				return
+			end
+		end
+		local isok = item_operator:exchange_item(source_continer, go_index, dest_container, to_index)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("时装移动失败。")
+			return
+		end
+		local empty_item = item_cls.new()
+		local from = source_continer:get_item(go_index)
+		local to = dest_container:get_item(to_index) or empty_item
+		obj_me:update_fasion_buff(to:get_index(),true)
+		-- 时装放入华商阁收藏，刷新外观属性加成
+		exterior_bonus.refresh_bonus(obj_me)
+		equip_dress_bonus.refresh_bonus(obj_me)
+        
+		local msg = packet_def.GCFashionDepotOperation.new()
+        msg.flag = 2
+        msg.unknow_2 = to_index
+        msg.fashion = to:copy_raw_data()
+        self:send2client(obj_me, msg)
+
+		if from then
+			msg = packet_def.GCNotifyEquip.new()
+			msg.bag_index = go_index
+			msg.item = from:copy_raw_data()
+			self:send2client(obj_me, msg)
+
+			msg = packet_def.GCItemInfo.new()
+			msg.bagIndex = go_index
+			msg.item = from:copy_raw_data()
+			self:send2client(obj_me, msg)
+		else
+			msg = packet_def.GCItemInfo.new()
+			msg.unknow_1 = 1
+			msg.bagIndex = go_index
+			msg.item = empty_item:copy_raw_data()
+			self:send2client(obj_me, msg)
+		end
+		
+		
+		
+		
+    elseif operation.dest_container == 2 then
+        source_continer = obj_me:get_fasion_bag_container()
+        dest_container = obj_me:get_prop_bag_container()
+		local go_item = source_continer:get_item(go_index)
+		if not go_item then return end
+		if go_index == cur_eqpos then
+			obj_me:notify_tips("装备中的时装不可直接取出到背包，请先放回衣柜再取出。")
+			return
+		end
+		if to_index ~= define.INVAILD_ID then
+			local to_item = dest_container:get_item(to_index)
+			if to_item then
+				local point = to_item:get_item_point()
+				if point ~= define.HUMAN_EQUIP.HEQUIP_FASHION then
+					obj_me:notify_tips("衣柜仅可放入时装。")
+					return
+				end
+			end
+		else
+			to_index = dest_container:get_empty_item_index("prop")
+			if to_index == define.INVAILD_ID then
+				obj_me:notify_tips("背包空间不足。")
+				return
+			end
+		end
+		local isok = item_operator:exchange_item(source_continer, go_index, dest_container, to_index)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("时装移动失败。")
+			return
+		end
+		local empty_item = item_cls.new()
+		local from = source_continer:get_item(go_index) or empty_item
+		local to = dest_container:get_item(to_index) or empty_item
+		obj_me:update_fasion_buff(to:get_index(),false)
+		-- 时装从华商阁收藏取出，刷新外观属性加成
+		exterior_bonus.refresh_bonus(obj_me)
+		equip_dress_bonus.refresh_bonus(obj_me)
+		
+        local msg = packet_def.GCFashionDepotOperation.new()
+        msg.flag = 2
+        msg.unknow_2 = go_index
+        msg.fashion = from:copy_raw_data()
+        self:send2client(obj_me, msg)
+
+        msg = packet_def.GCNotifyEquip.new()
+        msg.bag_index = to_index
+        msg.item = to:copy_raw_data()
+        self:send2client(obj_me, msg)
+
+        msg = packet_def.GCItemInfo.new()
+        msg.bagIndex = to_index
+        msg.item = to:copy_raw_data()
+        self:send2client(obj_me, msg)
+		
+    elseif operation.dest_container == 3 or operation.dest_container == 4 then
+        source_continer = obj_me:get_fasion_bag_container()
+        dest_container = obj_me:get_fasion_bag_container()
+		
+		local flag = 0
+		if to_index == define.INVAILD_ID then
+			obj_me:notify_tips("移动参数异常。")
+			return
+		elseif go_index == cur_eqpos then
+			cur_eqpos = to_index
+			flag = 1
+		elseif to_index == cur_eqpos then
+			cur_eqpos = go_index
+			flag = 2
+		end
+		local isok = item_operator:exchange_item(source_continer, go_index, dest_container, to_index, true)
+		if isok ~= define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS then
+			obj_me:notify_tips("时装移动失败。")
+			return
+		end
+		local empty_item = item_cls.new()
+		if flag == 1 then
+			local from = source_continer:get_item(go_index) or empty_item
+			local to = equip_container:get_item(define.HUMAN_EQUIP.HEQUIP_FASHION)
+			if not to then
+				obj_me:notify_tips("时装移动失败。")
+				return
+			end
+			local msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 2
+			msg.unknow_2 = go_index
+			msg.fashion = from:copy_raw_data()
+			self:send2client(obj_me, msg)
+			
+			msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 6
+			msg.unknow_2 = cur_eqpos
+			msg.fashion = to:copy_raw_data()
+			self:send2client(obj_me, msg)
+			obj_me:set_fashion_depot_index(cur_eqpos)
+			self:send_char_fashion_depot_data(obj_me)
+		elseif flag == 2 then
+			local from = equip_container:get_item(define.HUMAN_EQUIP.HEQUIP_FASHION)
+			if not from then
+				obj_me:notify_tips("时装移动失败。")
+				return
+			end
+			local to = dest_container:get_item(to_index) or empty_item
+			local msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 6
+			msg.unknow_2 = cur_eqpos
+			msg.fashion = from:copy_raw_data()
+			self:send2client(obj_me, msg)
+			msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 2
+			msg.unknow_2 = to_index
+			msg.fashion = to:copy_raw_data()
+			self:send2client(obj_me, msg)
+			obj_me:set_fashion_depot_index(cur_eqpos)
+			-- self:send_char_fashion_depot_data(obj_me)
+		else
+			local from = source_continer:get_item(go_index) or empty_item
+			local to = dest_container:get_item(to_index) or empty_item
+			local msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 2
+			msg.unknow_2 = go_index
+			msg.fashion = from:copy_raw_data()
+			self:send2client(obj_me, msg)
+
+			msg = packet_def.GCFashionDepotOperation.new()
+			msg.flag = 2
+			msg.unknow_2 = to_index
+			msg.fashion = to:copy_raw_data()
+			self:send2client(obj_me, msg)
+		end
+	else
+			-----4
+		-- assert(false,operation.dest_container)
+		obj_me:notify_tips("未开放参数:"..tostring(operation.dest_container))
+		return
+    end
+end
+
+function scenecore:char_manual_attr(who, manual)
+    local obj = self.objs[who]
+    local result = obj:manual_attr(manual)
+    local msg = packet_def.GCManualAttrResult.new()
+    msg.result = result
+    self:send2client(obj, msg)
+end
+
+function scenecore:char_ask_double_exp_info(who)
+    local obj = self.objs[who]
+    obj:send_double_exp_info()
+end
+
+function scenecore:char_manipulate_pet(who, manipulate)
+    local obj = self.objs[who]
+    local guid = pet_guid.new()
+    guid:set(manipulate.pet_guid.m_uHighSection, manipulate.pet_guid.m_uLowSection)
+    local mtype = manipulate.type
+    if mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_CREATEPET then
+        local result = obj:test_call_up_pet(guid)
+        if result >= 0 then
+            local ai = obj:get_ai()
+            local skill = define.CALL_UP_PET
+            result = ai:push_command_use_skill(skill, -1, -1, 0, define.INVALID_GUID)
+        end
+        if result < 0 then
+            local msg = packet_def.GCManipulatePetRet.new()
+            msg.guid = guid
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_CALLUPFALID
+            self:send2client(obj, msg)
+
+            obj:send_operate_result_msg(result)
+            return
+        end
+        obj:recall_pet()
+        obj:set_guid_of_call_up_pet(guid)
+    elseif mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_DELETEPET then
+        local result = obj:recall_pet()
+        local msg = packet_def.GCManipulatePetRet.new()
+        msg.guid = guid
+        if result < 0 then
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_RECALLFALID
+        else
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_RECALLSUCC
+        end
+        self:send2client(obj, msg)
+    elseif mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_FREEPET then
+        local logparam = {}
+        local result = obj:free_pet_to_nature(logparam, guid)
+        local msg = packet_def.GCManipulatePetRet.new()
+        msg.guid = guid
+        if result < 0 then
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_FREEFALID
+        else
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_FREESUCC
+        end
+        self:send2client(obj, msg)
+    elseif mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_SOUL_MELTING then
+        local result = obj:test_pet_soul_melting(guid)
+        if result >= 0 then
+            -- local ai = obj:get_ai()
+            -- local skill = define.PET_SOUL_MELTING
+            -- result = ai:push_command_use_skill(skill, -1, -1, 0, define.INVALID_GUID)
+            obj:remelting_pet_soul()
+            obj:set_guid_of_soul_melting_pet(guid)
+            result = obj:pet_soul_melting()
+        end
+        local msg = packet_def.GCManipulatePetRet.new()
+        msg.guid = guid
+        if result < 0 then
+            -- local msg = packet_def.GCManipulatePetRet.new()
+            -- msg.guid = guid
+            -- msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_CALLUPFALID
+            -- self:send2client(obj, msg)
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_SOULMELTINGFAILED
+            obj:send_operate_result_msg(result)
+            --return
+        else
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_SOULMELTINGSUCC
+        end
+        --obj:remelting_pet_soul()
+        --obj:set_guid_of_soul_melting_pet(guid)
+        self:send2client(obj, msg)
+    elseif mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_SOUL_SEPARATE then
+        local result = obj:remelting_pet_soul()
+        local msg = packet_def.GCManipulatePetRet.new()
+        msg.guid = guid
+        if result < 0 then
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_RECALLFALID
+        else
+            msg.ret = define.ENUM_MANIPULATEPET_RET.MANIPULATEPET_RET_RECALLSUCC
+        end
+        self:send2client(obj, msg)
+    elseif mtype == define.ENUM_MANIPULATE_TYPE.MANIPULATE_ASKOTHERPETINFO then
+        local pet = self.objs[manipulate.m_objID]
+        pet:other_ask_info(obj)
+    end
+end
+
+function scenecore:char_set_pet_attrib(who, set)
+	-- skynet.logi("char_set_pet_attrib",who,set)
+    local obj = self.objs[who]
+    if not obj or type(set.guid) ~= "table"
+        or not pet_rules.integer(set.guid.m_uHighSection, 0, 4294967295)
+        or not pet_rules.integer(set.guid.m_uLowSection, 0, 4294967295) then return end
+    local guid = pet_guid.new()
+    guid:set(set.guid.m_uHighSection, set.guid.m_uLowSection)
+    local container = obj:get_pet_bag_container()
+    local pet_detail = container:get_pet_by_guid(guid)
+    -- CYS-PET valid owned pet
+    if not pet_detail or pet_detail:is_lock() or pet_detail:is_in_exchange() then return end
+    pet_detail:manual_attr(set)
+    if obj:get_current_pet_guid() == guid then
+        local pet = obj:get_pet()
+        if pet then pet:item_flush() end
+    end
+end
+
+function scenecore:char_adjust_dark(who, adjust)
+    local obj = self.objs[who]
+    local container = obj:get_prop_bag_container()
+    local anqi = container:get_item(adjust.bag_index)
+    assert(anqi, adjust.bag_index)
+    local equip_base = configenginer:get_config("equip_base")
+    equip_base = equip_base[anqi:get_index()]
+    assert(equip_base.equip_point == define.HUMAN_EQUIP.HEQUIP_ANQI, equip_base.equip_point)
+    if adjust.type == 0 then
+        self.scriptenginer:call(define.DARK_ITEM_SCRIPT, "DarkAttrAdjustForBagItem", obj:get_obj_id(), adjust.bag_index, adjust.unknow_1)
+    elseif adjust.type == 2 then
+        self.scriptenginer:call(define.DARK_ITEM_SCRIPT, "DarkResetForBagItem", obj:get_obj_id(), adjust.bag_index, adjust.unknow_2)
+    elseif adjust.type == 3 then
+        self.scriptenginer:call(define.DARK_ITEM_SCRIPT, "DarkResetQualityForBagItem", obj:get_obj_id(), adjust.bag_index, adjust.unknow_2)
+    end
+end
+
+function scenecore:char_use_pet_equip(who, use)
+    if not require("cys_petsoul").can_equip(self,who,use,false) then return end
+    local obj = self.objs[who]
+    local bag_pos = use.from
+    local bag_container = obj:get_prop_bag_container()
+    local pet_equip = bag_container:get_item(bag_pos)
+    assert(pet_equip, bag_pos)
+    pet_equip:set_is_bind(true)
+    local guid = pet_guid.new()
+    guid:set(use.pet_guid.m_uHighSection, use.pet_guid.m_uLowSection)
+    assert(guid ~= obj:get_current_pet_guid())
+    local pet_container = obj:get_pet_bag_container()
+    local pet_detail = pet_container:get_pet_by_guid(guid)
+    assert(pet_detail, table.tostr(guid))
+    local pet_equip_container = pet_detail:get_equip_container()
+    local logparam = {}
+    local dest_index = pet_equip:get_base_config().equip_point
+    local isok = item_operator:exchange_item(bag_container, bag_pos, pet_equip_container, dest_index)
+    assert(isok == define.ITEM_OPERATOR_ERROR.ITEMOE_SUCCESS,"scenecore:char_use_pet_equip  道具交换失败")
+	local msg = packet_def.GCPetUseEquipResult.new()
+    msg.pet_guid = guid
+    msg.bag_index = bag_pos
+    msg.equip_point = dest_index
+    local equip = bag_container:get_item(bag_pos)
+    msg.equip_guid = equip and equip.guid or{server = 0, world = 0, mask = 0, series = 0}
+    msg.item_guid = pet_equip.guid
+    msg.result = define.UseEquipResultCode.USEEQUIP_SUCCESS
+    self:send2client(obj, msg)
+    pet_detail:item_flush()
+    obj:send_pet_detail(pet_detail, obj)
+end
+
+function scenecore:char_un_pet_equip(who, un)
+    if not require("cys_petsoul").can_equip(self,who,un,true) then return end
+    local obj = self.objs[who]
+    local msg = packet_def.GCPetUnEquipResult.new()
+    local slot = un.from
+    local pet_container = obj:get_pet_bag_container()
+    local guid = pet_guid.new()
+    guid:set(un.pet_guid.m_uHighSection, un.pet_guid.m_uLowSection)
+    assert(guid ~= obj:get_current_pet_guid())
+    local pet_detail = pet_container:get_pet_by_guid(guid)
+    local equip = pet_detail:get_equip_container():get_item(slot)
+    assert(equip, slot)
+    msg.pet_guid = guid
+    msg.equip_point = slot
+    local dest_container = obj:get_prop_bag()
+    local bag = equip:get_place_bag()
+    local empty_index = dest_container:get_empty_item_index(bag)
+    if empty_index ~= -1 then
+        item_operator:move_item(pet_detail:get_equip_container(), slot, dest_container, empty_index)
+        msg.result = 1
+        msg.item_guid = equip.guid
+        msg.item_index = equip.item_index
+        msg.bag_index = empty_index
+        pet_detail:item_flush()
+    else
+        msg.result = 3
+    end
+    self:send2client(obj, msg)
+    pet_detail:item_flush()
+    obj:send_pet_detail(pet_detail, obj)
+end
+
+function scenecore:char_mission_submit(who, submit)
+    return require("cys_mission_request").call(self,who,submit.npc_id,submit.script_id,"OnMissionSubmit",submit.select_radio_id)
+end
+
+function scenecore:char_req_change_pk_mode(who, req)
+    local human = self.objs[who]
+    -- [DIAG_RIDE_PK] packet doi che do PK da toi server
+    skynet.logi("[DIAG_RIDE_PK] PK_REQ who=", tostring(who),
+        " mode=", tostring(req and req.pk_mode),
+        " human=", tostring(human ~= nil))
+    if not human then
+        skynet.logi("[DIAG_RIDE_PK] PK_ABORT ly do=khong tim thay human trong scene")
+        return
+    end
+    human:change_pk_mode(req.pk_mode)
+end
+
+function scenecore:char_jump(who)
+    local human = self.objs[who]
+    local result = human:get_ai():push_command_jump()
+    if result < 0 then
+        human:send_operate_result_msg(result)
+    end
+end
+
+function scenecore:char_kfs_operate(who, operate)
+    local obj = self.objs[who]
+    assert(obj, who)
+    self.scriptenginer:call(809270, "OnAction", who, operate.operate, operate.arg_1, operate.arg_2, operate.arg_3)
+end
+
+function scenecore:char_ask_private_info(who, ask)
+    local obj = self.objs[ask.m_objID]
+    local msg = packet_def.GCPrivateInfo.new()
+    msg.unknow_1 = ask.m_objID == who and 1 or 0
+    msg.guid = obj:get_guid()
+    self:send2client(who, msg)
+end
+
+function scenecore:char_pet_xishuxing(who, xi)
+    local obj = self.objs[who]
+    assert(obj, who)
+    if xi.type == 1 then
+        self.scriptenginer:call(800127, "DoRefreshPetSoulAttr", who)
+    else
+        obj:set_temp_pet_soul_attr_data(nil)
+    end
+end
+
+function scenecore:get_team_challenge_members(obj)
+    local near_team_members = { obj }
+    if obj:get_team_id() == define.INVAILD_ID then
+        return near_team_members
+    end
+    local config_info = configenginer:get_config("config_info")
+    local position = obj:get_world_pos()
+    local operate = {obj = obj, x = position.x, y = position.y, radious = config_info.Human.CanGetExpRange}
+    local nearbys = self:scan(operate)
+    for _, n in ipairs(nearbys) do
+        if n:get_obj_type() == "human" then
+            if #near_team_members < 6 and n:get_team_id() == obj:get_team_id() and n ~= obj
+                and n:is_alive() and n:get_mission_data_by_script_id(define.MD_ENUM.MD_TIAOZHAN_SCRIPT)
+                    == obj:get_mission_data_by_script_id(define.MD_ENUM.MD_TIAOZHAN_SCRIPT) then
+                table.insert(near_team_members, n)
+            end
+        end
+    end
+    return near_team_members
+end
+
+function scenecore:make_challenge_member(member)
+    local mb = {}
+    local equip_container = member:get_equip_container()
+    mb.name = member:get_name()
+    mb.menpai = member:get_menpai()
+    mb.level = member:get_level()
+    mb.model = member:get_model()
+	local backid,backpos = member:get_exterior_back_visual_id()
+	local headid,headpos = member:get_exterior_head_visual_id()
+	mb.backid = backid
+	mb.headid = headid
+	mb.backpos = backpos
+	mb.headpos = headpos
+	mb.weapon_visual,mb.weapon,mb.weapon_gem = member:get_cur_weapon_visual(member:get_scene_id())
+	local tbl = member:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_CAP)
+	mb.cap = tbl[define.WG_KEY_A]
+	mb.cap_gem = tbl[define.WG_KEY_B]
+	mb.cap_visual = tbl[define.WG_KEY_C]
+	tbl = member:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_ARMOR)
+	mb.armor = tbl[define.WG_KEY_A]
+	mb.armor_gem = tbl[define.WG_KEY_B]
+	mb.armor_visual = tbl[define.WG_KEY_C]
+	tbl = member:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_GLOVE)
+	mb.glove = tbl[define.WG_KEY_A]
+	mb.glove_gem = tbl[define.WG_KEY_B]
+	mb.glove_visual = tbl[define.WG_KEY_C]
+	tbl = member:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_BOOT)
+	mb.shoe = tbl[define.WG_KEY_A]
+	mb.shoe_gem = tbl[define.WG_KEY_B]
+	mb.shoe_visual = tbl[define.WG_KEY_C]
+	tbl = member:get_game_flag_keys_visual(define.HUMAN_EQUIP.HEQUIP_FASHION)
+	mb.fashion = tbl[define.WG_KEY_A]
+	mb.fashion_gem_1 = tbl[define.WG_KEY_D]
+	mb.fashion_gem_2 = tbl[define.WG_KEY_E]
+	mb.fashion_gem_3 = tbl[define.WG_KEY_F]
+	mb.fashion_visual = tbl[define.WG_KEY_C]
+    mb.face_style = member:get_face_style()
+    mb.hair_style = member:get_hair_style()
+    mb.hair_color = member:get_hair_color()
+    mb.server_id = 1
+    return mb
+end
+
+function scenecore:char_challenge(who, ch)
+    return require('cy_pvp').challenge(self, who, ch)
+end
+
+function scenecore:char_stall(who)
+    local me = self.objs[who]
+    assert(me, who)
+	-- 交易权限检查
+	local trade_flag = me:get_mission_flag_by_script_id(MF_TradeCard)
+	if not trade_flag or trade_flag == 0 then
+		me:notify_tips("你没有交易权限，无法摆摊。")
+		return
+	end
+	local sceneId = self:get_id()
+	local stall_info = configenginer:get_config("stall_info")
+	stall_info = stall_info[sceneId]
+	if not stall_info then
+		me:notify_tips("#{GCStallApplyHandler_Info_Stall_Err}")
+		return
+	end
+	local pos = me:get_world_pos()
+	local me_posx = pos.x
+	local me_posz = pos.y
+    local pos_tax,trade_tax
+	local is_yuanbao_stall = false
+	for _,info in ipairs(stall_info) do
+		if me_posx >= info.pos_left
+		and me_posx <= info.pos_right
+		and me_posz >= info.pos_top
+		and me_posz <= info.pos_bottom then
+			pos_tax = info.pos_tax
+			trade_tax = info.trade_tax
+			is_yuanbao_stall = info.ntype == 1
+			break
+		end
+	end
+	if not pos_tax or not trade_tax then
+		me:notify_tips("#{GCStallApplyHandler_Info_Stall_Err}..")
+		return
+	end
+	
+    if self:check_item_limit_exchange(who) then
+        me:notify_tips("暂时不能摆摊")
+        return
+    end
+    -- 交易卡权限检查
+    local trade_flag = me:get_mission_flag_by_script_id(MF_TradeCard)
+    if not trade_flag or trade_flag == 0 then
+        me:notify_tips("你没有交易权限，无法摆摊。请使用交易卡获取权限。")
+        return
+    end
+    local can_stall = false
+    -- local trade_tax = 0
+    -- local pos_tax = 0
+    if me:get_level() >= 30 then
+        if self.stallinfo then
+            local m = self.stallinfo.map
+            local world_pos = me:get_world_pos()
+            local x = math.ceil(world_pos.x)
+            local y = math.ceil(world_pos.y)
+            m[x] = m[x] or {}
+            m[x][y] = m[x][y] or { can_stall = true, trade_tax = trade_tax, pos_tax = pos_tax}
+            local d = m[x][y]
+            if d.can_stall then
+                can_stall = true
+                trade_tax = d.trade_tax
+                pos_tax= d.pos_tax
+            end
+            local stall_box = me:get_stall_box()
+            stall_box:clean_up()
+            stall_box:set_stall_status(stall_box.STALL_STATUS.STALL_READY)
+        end
+	else
+        me:notify_tips("等级不足30级。")
+        return
+    end
+    local msg = packet_def.GCStallApply.new()
+    msg.is_can_stall = can_stall and 1 or 0
+    msg.pos_tax = pos_tax
+    msg.trade_tax = trade_tax
+    msg.is_yuanbao_stall = is_yuanbao_stall and 1 or 0
+    self:send2client(me, msg)
+end
+
+function scenecore:char_stall_establish(who)
+	-- skynet.logi("scenecore:char_stall_establish")
+    local me = self.objs[who]
+    assert(me, who)
+	local sceneId = self:get_id()
+	local stall_info = configenginer:get_config("stall_info")
+	stall_info = stall_info[sceneId]
+	if not stall_info then
+		me:notify_tips("#{GCStallApplyHandler_Info_Stall_Err}")
+		return
+	end
+	local pos = me:get_world_pos()
+	local me_posx = pos.x
+	local me_posz = pos.y
+    local pos_tax,trade_tax
+	local is_yuanbao_stall = false
+	for _,info in ipairs(stall_info) do
+		if me_posx >= info.pos_left
+		and me_posx <= info.pos_right
+		and me_posz >= info.pos_top
+		and me_posz <= info.pos_bottom then
+			pos_tax = info.pos_tax
+			trade_tax = info.trade_tax
+			is_yuanbao_stall = info.ntype == 1
+			break
+		end
+	end
+	if not pos_tax or not trade_tax then
+		me:notify_tips("#{GCStallApplyHandler_Info_Stall_Err}..")
+		return
+	end
+    if self:check_item_limit_exchange(who) then
+        me:notify_tips("暂时不能摆摊")
+        return
+    end
+	if sceneId == 181 then
+		if skynet.getenv("env") == "publish_xhz" then
+			me:notify_tips("未开放元宝摆摊。")
+			return
+		end
+	end
+    local stall_box = me:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_READY  then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(me, msg)
+        stall_box:clean_up()
+        return
+    end
+    local oresult = me:get_ai():push_command_stall()
+    if oresult ~= define.OPERATE_RESULT.OR_OK then
+        me:send_operate_result_msg(oresult)
+        return
+    end
+    if me:get_money() + (me:get_attrib("jiaozi") or 0) < pos_tax then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_MONEY_TO_OPEN
+        self:send2client(me, msg)
+        return
+    end
+    --me:set_money(me:get_money() - pos_tax, "摆摊交易-税费")
+    me:cost_money_with_priority(pos_tax, "摆摊交易-税费")
+    stall_box:set_stall_status(stall_box.STALL_STATUS.STALL_OPEN)
+    stall_box:set_stall_is_open(true)
+    stall_box:set_pos_tax(pos_tax)
+    stall_box:set_trade_tax(trade_tax)
+    stall_box:set_is_yuanbao_stall(is_yuanbao_stall)
+    local world_pos = me:get_world_pos()
+    self:set_pos_can_stall(world_pos.x, world_pos.y, false)
+    stall_box:set_stall_pos(world_pos.x, world_pos.y)
+    me:get_ai():change_state("stall")
+
+    local msg = packet_def.GCStallEstablish.new()
+    self:send2client(me, msg)
+end
+
+function scenecore:char_stall_open(who, so)
+	-- skynet.logi("char_stall_open",who,so)
+    local obj = self.objs[so.m_objID]
+    local msg = packet_def.GCStallOpen.new()
+    local stall_box = obj:get_stall_box()
+    msg.m_StallItemList = {}
+    msg.is_yuanbao_stall = stall_box:get_is_yuanbao_stall() and 1 or 0
+    local item_container = stall_box:get_container()
+    for i = 0, item_container:get_size() - 1 do
+        local item = item_container:get_item(i)
+        if item then
+            local stall_item = {}
+            stall_item.is_pet = 0
+            stall_item.index = i
+            stall_item.price = stall_box:get_price_by_index(i)
+            stall_item.serial = stall_box:get_serial_by_index(i)
+            stall_item.item = item:get_stream()
+            stall_item.pet_guid = pet_guid.new()
+            table.insert(msg.m_StallItemList, stall_item)
+        end
+    end
+    
+    if who == obj:get_obj_id() then
+        local pet_container = stall_box:get_pet_box_container()
+        for i = 0, pet_container:get_size() - 1 do
+            local item = pet_container:get_item(i)
+            if item then
+                local stall_item = {}
+                stall_item.is_pet = 1
+                stall_item.index = i
+                stall_item.price = stall_box:get_pet_price_by_index(i)
+                stall_item.serial = stall_box:get_pet_serial_by_index(i)
+                stall_item.item = item_cls.new():get_stream()
+                stall_item.pet_guid = item:get_guid()
+                table.insert(msg.m_StallItemList, stall_item)
+            end
+        end    
+        msg.m_nStallItemNum = #msg.m_StallItemList
+        msg.stall_name = stall_box:get_stall_name()
+        msg.m_nFirstPage = 0
+        msg.m_OwnerObjId = obj:get_obj_id()
+        msg.m_OwnerGuid = obj:get_guid()
+        self:send2client(who, msg)
+    else
+        msg.m_nStallItemNum = #msg.m_StallItemList
+        msg.stall_name = stall_box:get_stall_name()
+        msg.m_nFirstPage = 0
+        msg.m_OwnerObjId = obj:get_obj_id()
+        msg.m_OwnerGuid = obj:get_guid()
+        self:send2client(who, msg)
+        local pet_container = stall_box:get_pet_box_container()
+        for i = 0, pet_container:get_size() - 1 do
+            local item = pet_container:get_item(i)
+            if item then
+                local PetMsgDetail = packet_def.GCDetailAttrib_Pet.new()
+                item:calculate_pet_detail_attrib(PetMsgDetail)
+                PetMsgDetail.m_nTradeIndex = i
+            
+                local stall_view = packet_def.GCStallPetView_t.new()
+                stall_view.flag = PetMsgDetail.TYPE.TYPE_STALL
+                stall_view.price = stall_box:get_pet_price_by_index(i)
+                stall_view.serial = stall_box:get_pet_serial_by_index(i)
+                PetMsgDetail:set_extra_data(stall_view)
+                self:send2client(who, PetMsgDetail)
+            end
+        end    
+    end
+end
+
+function scenecore:char_stall_add_item(who, sai)
+    local msg = packet_def.GCStallAddItem.new()
+    msg.from_type = sai.from_type
+    local obj = self.objs[who]
+	if not obj then return end
+    local stall_box = obj:get_stall_box()
+    local iid = item_guid.new()
+    iid:set_guid(sai.item_guid)
+    if iid:vaild() then
+        local item_container = obj:get_prop_bag_container()
+        local bag_index = item_container:get_index_by_guid(iid)
+        if bag_index then
+            if human_item_logic:is_item_can_exchange(obj, item_container, bag_index) then
+                local stall_bax_item_container = stall_box:get_container()
+                local item = item_container:get_item(bag_index)
+				if item:is_lock() then
+					obj:notify_tips("该道具当前无法上架")
+					return
+				end
+				if item:is_bind() then
+					obj:notify_tips("绑定道具不能交易")
+					return
+				end
+                assert(not item:is_bind(), "绑定道具不能交易")
+                if not item:can_exchange() then
+                    obj:notify_tips(string.format("%s不能交易", item:get_name()))
+                    return
+                end
+                local index = stall_bax_item_container:get_empty_item_index()
+				if index == define.INVAILD_ID then
+					obj:notify_tips("摊位道具空间不足。")
+					return
+				end
+                stall_bax_item_container:set_item(index, item)
+                item_operator:lock_item(item_container, bag_index)
+                stall_box:set_price_by_index(index, sai.price)
+                stall_box:inc_serial_by_index(index)
+                msg.item_guid = sai.item_guid
+                msg.to_index = index
+                msg.price = sai.price
+                msg.serial = stall_box:get_serial_by_index(index)
+            end
+        end
+    end
+    local pid = pet_guid.new()
+    pid:set(sai.pet_guid.m_uHighSection, sai.pet_guid.m_uLowSection)
+    if not pid:is_null() then
+        local pet_container = obj:get_pet_bag_container()
+        local bag_index = pet_container:get_index_by_pet_guid(pid)
+        if bag_index then
+            if human_item_logic:is_pet_can_exchange(obj, pet_container, bag_index) then
+                local stall_box_pet_container = stall_box:get_pet_box_container()
+                local index = stall_box_pet_container:get_empty_item_index()
+				if index == define.INVAILD_ID then
+					obj:notify_tips("摊位珍兽空间不足。")
+					return
+				end
+				local pet = pet_container:get_item(bag_index)
+				if not pet then
+					obj:notify_tips("该珍兽不存在")
+					return
+				end
+				if pet:is_lock() then
+					obj:notify_tips("该道具当前无法上架")
+					return
+				end
+				stall_box_pet_container:set_item(index, pet)
+				item_operator:lock_item(pet_container, bag_index)
+				stall_box:set_pet_price_by_index(index, sai.price)
+				stall_box:inc_pet_serial_by_index(index)
+				msg.pet_guid = sai.pet_guid
+				msg.to_index = index
+				msg.price = sai.price
+				msg.serial = stall_box:get_pet_serial_by_index(index)
+            end
+        end
+    end
+    self:send2client(who, msg)
+end
+
+function scenecore:char_stall_item_price(who, sip)
+    local obj = self.objs[who]
+    local stall_box = obj:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(obj, msg)
+        return
+    end
+    local msg = packet_def.GCStallItemPrice.new()
+    local iid = item_guid.new()
+    iid:set_guid(sip.item_guid)
+    if iid:vaild() then
+        local index = stall_box:get_container():get_index_by_guid(iid)
+        if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sip.serial < stall_box:get_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        stall_box:set_price_by_index(index, sip.price)
+        stall_box:inc_serial_by_index(index)
+
+        msg.item_guid = sip.item_guid
+        msg.pet_guid = sip.pet_guid
+        msg.price = sip.price
+        msg.serial = stall_box:get_serial_by_index(iid)
+        self:send2client(obj, msg)
+        return
+    end
+    local pid = pet_guid.new()
+    pid:set(sip.pet_guid.m_uHighSection, sip.pet_guid.m_uLowSection)
+    if not pid:is_null() then
+        local index = stall_box:get_pet_box_container():get_index_by_pet_guid(pid)
+        if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sip.serial < stall_box:get_pet_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        stall_box:set_pet_price_by_index(index, sip.price)
+        stall_box:inc_pet_serial_by_index(index)
+
+        msg.item_guid = sip.item_guid
+        msg.pet_guid = sip.pet_guid
+        msg.price = sip.price
+        msg.serial = stall_box:get_pet_serial_by_index(index)
+        self:send2client(obj, msg)
+        return
+    end
+end
+
+function scenecore:char_stall_remove_item(who, sri)
+    local obj = self.objs[who]
+    local stall_box = obj:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(obj, msg)
+        return
+    end
+    local msg = packet_def.GCStallRemoveItem.new()
+    msg.to_type = sri.to_type
+    local iid = item_guid.new()
+    iid:set_guid(sri.item_guid)
+    if iid:vaild() then
+        local index = stall_box:get_container():get_index_by_guid(iid)
+        if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sri.serial < stall_box:get_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        local prop_bag_container = obj:get_prop_bag_container()
+        local bag_index = prop_bag_container:get_item_by_guid(iid)
+        if bag_index == define.INVAILD_ID then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+        end
+        item_operator:unlock_item(prop_bag_container, bag_index)
+        stall_box:inc_serial_by_index(index)
+        stall_box:set_price_by_index(index, 0)
+
+        stall_box:get_container():erase_item(index)
+        msg.item_guid = sri.item_guid
+        msg.pet_guid = sri.pet_guid
+        msg.serial = stall_box:get_serial_by_index(index)
+        self:send2client(obj, msg)
+        return
+    end
+    local pid = pet_guid.new()
+    pid:set(sri.pet_guid.m_uHighSection, sri.pet_guid.m_uLowSection)
+    if not pid:is_null() then
+        local index = stall_box:get_pet_box_container():get_index_by_guid(iid)
+        if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sri.serial < stall_box:get_pet_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        local pet_container = obj:get_pet_bag_container()
+        local bag_index = pet_container:get_index_by_pet_guid(pid)
+		if not bag_index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+			return
+        end
+        item_operator:unlock_item(pet_container, bag_index)
+        stall_box:inc_serial_by_index(index)
+        stall_box:set_price_by_index(index, 0)
+
+        stall_box:get_pet_bag_container():erase_item(index)
+        msg.item_guid = sri.item_guid
+        msg.pet_guid = sri.pet_guid
+        msg.serial = stall_box:get_pet_serial_by_index(index)
+        self:send2client(obj, msg)
+        return
+    end
+end
+
+function scenecore:char_close_stall(who)
+    local obj = self.objs[who]
+    local stall_box = obj:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(obj, msg)
+        return
+    end
+    stall_box:clean_up()
+    obj:get_ai():push_command_idle()
+    obj:get_ai():change_state("idle")
+    local msg = packet_def.GCStallClose.new()
+    self:send2client(obj, msg)
+end
+
+function scenecore:char_stall_buy(who, sb)
+    local obj = self.objs[who]
+	-- 交易权限检查
+	local trade_flag = obj:get_mission_flag_by_script_id(MF_TradeCard)
+	if not trade_flag or trade_flag == 0 then
+		obj:notify_tips("你没有交易权限，无法购买摊位物品。")
+		return
+	end
+    if self:check_item_limit_exchange(who) then
+        obj:notify_tips("购买失败")
+        return
+    end
+    local stall_human = self.objs[sb.m_objID]
+    local stall_box = stall_human:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(obj, msg)
+        return
+    end
+    local msg = packet_def.GCStallBuy.new()
+    msg.m_objID = stall_human:get_obj_id()
+    local iid = item_guid.new()
+    iid:set_guid(sb.item_guid)
+    local ex_items_in_me = {}
+    local ex_items_in_tar = {}
+    local ex_pets_in_me = {}
+    local ex_pets_in_tar = {}
+    if iid:vaild() then
+        local index = stall_box:get_container():get_index_by_guid(iid)
+        if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sb.serial < stall_box:get_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        local my_prop_bag_container = obj:get_prop_bag_container()
+        local stall_prop_bag_container = stall_human:get_prop_bag_container()
+        local bag_index = stall_prop_bag_container:get_index_by_guid(iid)
+		if not bag_index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+        end
+        local item = stall_prop_bag_container:get_item(bag_index)
+        if item:is_bind() then
+            return
+        end
+        local item_table_index = item:get_index()
+        local item_num = item:get_lay_count()
+        local ok = human_item_logic:calc_item_space(obj, item_table_index, item_num, false)
+        if not ok then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_ROOM
+            self:send2client(obj, msg)
+            return
+        end
+        local need_money = stall_box:get_price_by_index(index)
+        local my_money
+        if stall_box:get_is_yuanbao_stall() then
+            my_money = obj:get_yuanbao()
+        else
+            my_money = obj:get_money() 
+        end
+        if need_money > my_money then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_MONEY
+            self:send2client(obj, msg)
+            return
+        end
+        local dest_index = my_prop_bag_container:get_empty_item_index(item:get_place_bag())
+        if dest_index == define.INVAILD_ID then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_ROOM
+            self:send2client(obj, msg)
+            return
+        end
+        local logparam = {}
+        item_operator:unlock_item(stall_prop_bag_container, bag_index)
+        local result = human_item_logic:move_item_from_container_to_bag_with_index(logparam, obj, stall_prop_bag_container, bag_index, dest_index, true)
+        if result then
+            if stall_box:get_is_yuanbao_stall() then
+                obj:set_yuanbao(obj:get_yuanbao() - need_money, "元宝摊位-购买消费", { item = item and item:copy_raw_data() },true)
+            else
+                obj:set_money(obj:get_money() - need_money, "金币摊位-购买消费", { item = item and item:copy_raw_data() })
+            end
+            local trade_tax = stall_box:get_trade_tax()
+            trade_tax = trade_tax > 100 and 100 or trade_tax
+
+            local profit = need_money * (1 - trade_tax / 100)
+            profit = math.floor(profit)
+            if stall_box:get_is_yuanbao_stall() then
+                stall_human:set_yuanbao(stall_human:get_yuanbao() + profit, "元宝摊位-卖出道具", { item = item and item:copy_raw_data() })
+            else
+                stall_human:set_money(stall_human:get_money() + profit, "金币摊位-卖出道具", { item = item and item:copy_raw_data() })
+            end
+            stall_box:inc_serial_by_index(index)
+            stall_box:set_price_by_index(index, 0)
+            stall_box:get_container():erase_item(index)
+
+            msg.to_type = 1
+            msg.item_guid = sb.item_guid
+            msg.pet_guid = sb.pet_guid
+            msg.serial = stall_box:get_serial_by_index(index)
+            msg.to_index = dest_index
+            msg.cost = need_money
+            msg.profit = profit
+            self:send2client(obj, msg)
+            self:send2client(stall_human, msg)
+
+            local message
+            local author
+            if stall_box:get_is_yuanbao_stall() then
+                message   = string.format("#{_INFOUSR%s} mua #{_INFOMSG%%s} X %d, tổng tốn %d nguyên bảo", obj:get_name(), item_num, need_money)
+                author = "_SYSTEM"
+            else
+                local Gold	    = math.floor((need_money/10000))
+                local Silver	= math.floor(((need_money%10000)/100))
+                local copper	= (need_money%100)
+                message   = string.format("#{_INFOUSR%s} mua #{_INFOMSG%%s} X %d, tổng tốn %d Võ Thạch thượng phẩm %d trung phẩm %d hạ phẩm", obj:get_name(), item_num, Gold, Silver, copper)
+                author = "_SYSTEM"
+            end
+            local bbs = stall_box:get_bbs()
+            local new_id = bbs:new_message_id()
+            local transfer = item:get_transfer()
+            bbs:add_new_message_by_id(new_id, message, transfer, author)
+            table.insert(ex_items_in_me, item:copy_raw_data())
+        else
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+        end
+        self:log_exchange_prop_or_pet("玩家间交易", "摆摊出售", ex_items_in_me, ex_items_in_tar, ex_pets_in_me, ex_pets_in_tar, stall_human, obj)
+        return
+    end
+    local pid = pet_guid.new()
+    pid:set(sb.pet_guid.m_uHighSection, sb.pet_guid.m_uLowSection)
+    if not pid:is_null() then
+        local index = stall_box:get_pet_box_container():get_index_by_pet_guid(pid)
+		if not index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        if sb.serial < stall_box:get_pet_serial_by_index(index) then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NEED_NEW_COPY
+            self:send2client(obj, msg)
+            return
+        end
+        local pet_container = stall_human:get_pet_bag_container()
+        local bag_index = pet_container:get_index_by_pet_guid(pid)
+		if not bag_index then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+			return
+        end
+        local pet = pet_container:get_item(bag_index)
+        if not pet then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+			return
+        end
+        if pet:have_equip() then
+            obj:notify_tips("有宠物装备或者兽魂的宠物无法购买")
+            return
+        end
+        local my_pet_container = obj:get_pet_bag_container()
+        local dest_index = my_pet_container:get_empty_item_index()
+        if dest_index == define.INVAILD_ID then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_ROOM
+            self:send2client(obj, msg)
+            return
+        end
+        local need_money = stall_box:get_pet_price_by_index(index)
+        local my_money
+        if stall_box:get_is_yuanbao_stall() then
+            my_money = obj:get_yuanbao()
+        else
+            my_money = obj:get_money() 
+        end
+        if need_money > my_money then
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_NOT_ENOUGH_MONEY
+            self:send2client(obj, msg)
+            return
+        end
+        local logparam = {}
+        item_operator:unlock_item(pet_container, bag_index)
+        local result = item_operator:move_item(pet_container, bag_index, my_pet_container, dest_index)
+        if result >= 0 then
+            if stall_box:get_is_yuanbao_stall() then
+                obj:set_yuanbao(obj:get_yuanbao() - need_money, "元宝摊位-购买宠物", { pet = pet and pet:copy_raw_data() },true)
+            else
+                obj:set_money(obj:get_money() - need_money, "金币摊位-购买宠物", { pet = pet and pet:copy_raw_data() })
+            end
+            local trade_tax = stall_box:get_trade_tax()
+            trade_tax = trade_tax > 100 and 100 or trade_tax
+
+            local profit = need_money * (1 - trade_tax / 100)
+            profit = math.floor(profit)
+            if stall_box:get_is_yuanbao_stall() then
+                stall_human:set_yuanbao(stall_human:get_yuanbao() + profit, "元宝摊位-卖出宠物", { pet = pet and pet:copy_raw_data() })
+            else
+                stall_human:set_money(stall_human:get_money() + profit, "金币摊位-购买宠物", { pet = pet and pet:copy_raw_data() })
+            end
+            stall_box:inc_pet_serial_by_index(index)
+            stall_box:set_pet_price_by_index(index, 0)
+            stall_box:get_pet_box_container():erase_item(index)
+
+            msg.to_type = 3
+            msg.item_guid = sb.item_guid
+            msg.pet_guid = sb.pet_guid
+            msg.serial = stall_box:get_pet_serial_by_index(index)
+            msg.to_index = dest_index
+            msg.cost = need_money
+            msg.profit = profit
+            self:send2client(obj, msg)
+            self:send2client(stall_human, msg)
+
+            local message
+            local author
+            if stall_box:get_is_yuanbao_stall() then
+                message   = string.format("%s mua #{_INFOMSG%%s}, tổng tốn %d nguyên bảo", obj:get_name(), need_money)
+                author = "_SYSTEM"
+            else
+                local Gold	    = math.floor((need_money/10000))
+                local Silver	= math.floor(((need_money%10000)/100))
+                local copper	= (need_money%100)
+                message   = string.format("%s mua #{_INFOMSG%%s}, tổng tốn %d Võ Thạch thượng phẩm %d trung phẩm %d hạ phẩm", obj:get_name(), Gold, Silver, copper)
+                author = "_SYSTEM"
+            end
+            local bbs = stall_box:get_bbs()
+            local new_id = bbs:new_message_id()
+            local transfer  = pet:get_transfer()
+            bbs:add_new_message_by_id(new_id, message, transfer, "_SYSTEM")
+            table.insert(ex_pets_in_me, pet:copy_raw_data())
+        else
+            msg = packet_def.GCStallError.new()
+            msg.result = msg.STALL_MSG.ERR_ILLEGAL
+            self:send2client(obj, msg)
+        end
+        self:log_exchange_prop_or_pet("玩家间交易", "摆摊出售", ex_items_in_me, ex_items_in_tar, ex_pets_in_me, ex_pets_in_tar, stall_human, obj)
+        return
+    end
+end
+
+function scenecore:char_stall_shop_name(who, ssn)
+    local obj = self.objs[who]
+    local stall_box = obj:get_stall_box()
+    stall_box:set_stall_name(ssn.stall_name)
+end
+
+function scenecore:char_antagonist_req(who, ar)
+    local obj = self.objs[who]
+    local tar = self.objs[ar.m_objID]
+    assert(tar:get_obj_type() == "human")
+    local list = obj:get_pk_declaration_list()
+    local exist_count = list:get_exist_count()
+    if exist_count >= 6 then
+        obj:notify_tips("#{ResultText_143}")
+        return
+    end
+    list:add(tar:get_guid())
+    -- [FIX] 宣战双方系统提示
+    local tar_name = tar:get_name()
+    local obj_name = obj:get_name()
+    obj:notify_tips(string.format("已对 %s 发起宣战", tar_name))
+    tar:notify_tips(string.format("%s 对你发起了宣战！", obj_name))
+end
+
+function scenecore:char_bbs_apply(who, ba)
+    local tar = self.objs[ba.m_objID]
+    local stall_box = tar:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(who, msg)
+        return
+    end
+    local msg = packet_def.GCBBSMessages.new()
+    local bbs = stall_box:get_bbs()
+    msg.m_objID = tar:get_obj_id()
+    msg.serial = bbs:get_serial()
+    if ba.serial == bbs:get_serial() then
+    else
+        local cur_index = bbs:get_final_index()
+        for i = 0, bbs.MAX_BBS_MESSAGE_NUM - 1 do
+            local entry = bbs:get_message_by_index(cur_index)
+            if entry then
+                table.insert(msg.messages, entry)
+            end
+            cur_index = cur_index + 1
+            if cur_index == bbs.MAX_BBS_MESSAGE_NUM then
+                cur_index = 0
+            end
+        end
+        msg.title = bbs:get_bbs_title()
+        msg.num = #msg.messages
+    end
+    self:send2client(who, msg)
+end
+
+function scenecore:char_bbs_sync_messages(who, bsm)
+    local me = self.objs[who]
+    local tar = self.objs[bsm.m_objID]
+    local stall_box = tar:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(me, msg)
+        return
+    end
+    local bbs = stall_box:get_bbs()
+    if bsm.opt == packet_def.CGBBSSychMessages.OPTS.OPT_NEW_MESSAGE then
+        local disply_name = string.format("%s(%X)", me:get_name(), me:get_guid())
+        local new_id = bbs:new_message_id()
+        bbs:add_new_message_by_id(new_id, bsm.message_data, nil, disply_name)
+    elseif bsm.opt == packet_def.CGBBSSychMessages.OPTS.OPT_REPLY_MESSAGE then
+        bbs:reply_message_by_id(bsm.id, bsm.message_data)
+    elseif bsm.opt == packet_def.CGBBSSychMessages.OPTS.OPT_DEL_MESSAGE then
+
+    elseif bsm.opt == packet_def.CGBBSSychMessages.OPTS.OPT_SET_TITLE then
+        bbs:set_bbs_title(self.message_data)
+    end
+    local ba = {}
+    ba.m_objID = bsm.m_objID
+    ba.serial = 0
+    self:char_bbs_apply(who, ba)
+end
+
+-- 打开收购摊位（查看收购列表）
+function scenecore:char_acq_stall_open(who, pkt)
+    local tar = self.objs[pkt.m_objID]
+    if not tar then return end
+    local viewer = self.objs[who]
+    if not viewer then return end
+    local stall_box = tar:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(who, msg)
+        return
+    end
+    local msg = packet_def.GCAcqStallOpen.new()
+    msg.m_objID = tar:get_obj_id()
+    msg.npcId = viewer:get_obj_id()
+    local acq_items = stall_box:get_acq_items()
+    msg.items = {}
+    for i = 0, 19 do
+        msg.items[i + 1] = acq_items[i] or { itemId = 0, count = 0, price = 0, flag = 0 }
+    end
+    self:send2client(who, msg)
+end
+
+-- 摊主添加收购物品
+function scenecore:char_acq_stall_add_item(who, pkt)
+    local me = self.objs[who]
+    if not me then return end
+    local stall_box = me:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        return
+    end
+    local index = stall_box:add_acq_item(pkt.itemId, pkt.count, pkt.price)
+    if index then
+        local msg = packet_def.GCAcqStallAddItem.new()
+        msg.itemId = pkt.itemId
+        msg.count = pkt.count
+        msg.price = pkt.price
+        msg.index = index
+        self:send2client(who, msg)
+    end
+end
+
+-- 摊主移除收购物品
+function scenecore:char_acq_stall_remove_item(who, pkt)
+    local me = self.objs[who]
+    if not me then return end
+    local stall_box = me:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        return
+    end
+    local removed_index = stall_box:remove_acq_item_by_serial(pkt.serial)
+    if removed_index then
+        local msg = packet_def.GCAcqStallRemoveItem.new()
+        msg.serial = pkt.serial
+        self:send2client(who, msg)
+    end
+end
+
+-- 其他玩家向收购摊出售物品
+function scenecore:char_acq_stall_sell(who, pkt)
+    local me = self.objs[who]
+    if not me then return end
+    local tar = self.objs[pkt.m_objID]
+    if not tar then return end
+    local stall_box = tar:get_stall_box()
+    if stall_box:get_stall_status() ~= stall_box.STALL_STATUS.STALL_OPEN then
+        local msg = packet_def.GCStallError.new()
+        msg.result = msg.STALL_MSG.ERR_ILLEGAL
+        self:send2client(who, msg)
+        return
+    end
+
+    -- 1. 查找收购条目，获取单价和剩余需求数量（不修改）
+    local remaining, unit_price = stall_box:get_acq_item_info(pkt.itemId)
+    if not remaining then return end
+
+    -- 实际可出售数量 = min(客户端传来的数量, 还需要的数量)
+    local actual_count = math.min(pkt.count, remaining)
+    if actual_count <= 0 then return end
+
+    -- 计算交易金额（单价 × 实际数量）
+    local total_price = unit_price * actual_count
+
+    -- 2. 校验摊主金币是否足够支付
+    local tar_money = tar:get_money()
+    if tar_money < total_price then
+        return
+    end
+
+    -- 3. 校验并扣除卖家背包物品
+    local logparam = {}
+    -- 检查卖家背包中该物品是否有锁定状态的道具（锁定道具不能出售）
+    local bag_container = me:get_prop_bag_container()
+    for i = 0, bag_container:get_size() - 1 do
+        local chk_item = bag_container:get_item(i)
+        if chk_item and chk_item:get_index() == pkt.itemId and chk_item:is_lock() then
+            return
+        end
+    end
+    local success = human_item_logic:del_available_item(logparam, me, pkt.itemId, actual_count)
+    if not success then
+        return
+    end
+
+    -- 4. 金币转移：摊主扣钱，卖家收钱
+    tar:set_money(tar_money - total_price, "收购摊位-支付收购", {itemId = pkt.itemId, count = actual_count})
+    me:add_money(total_price, "收购摊位-出售所得", {itemId = pkt.itemId, count = actual_count})
+
+    -- 5. 更新收购条目 flag（物品已扣除，此步不再会失败回滚）
+    stall_box:sell_to_acq_item(pkt.itemId, actual_count)
+
+    -- 6. 给摊主背包添加物品
+    human_item_logic:create_multi_item_to_bag(logparam, tar, pkt.itemId, actual_count, false)
+
+    -- 7. 返回更新后的收购列表
+    local msg = packet_def.GCAcqStallSell.new()
+    msg.m_objID = tar:get_obj_id()
+    local acq_items = stall_box:get_acq_items()
+    msg.items = {}
+    for i = 0, 19 do
+        msg.items[i + 1] = acq_items[i] or { itemId = 0, count = 0, price = 0, flag = 0 }
+    end
+    self:send2client(who, msg)
+end
+
+function scenecore:char_mission_abandon(who, ma)
+    local me = self.objs[who]
+    local result = me:get_ai():push_command_mission_abandon(ma.index)
+    if result < 0 then
+        me:send_operate_result_msg(result)
+    end
+end
+
+function scenecore:char_mission_accept(who, ma)
+    return require("cys_mission_request").call(self,who,ma.m_idNPC,ma.m_idScript,"OnMissionAccept")
+end
+
+function scenecore:char_mission_check(who, mc)
+    local list=mc.m_ItemIndexList or {}
+    return require("cys_mission_request").call(self,who,mc.m_idNPC,mc.m_idScript,"OnMissionCheck",list[1],list[2],list[3],mc.pet_index)
+end
+
+function scenecore:char_enter_team_follow(who, followd_members, sync_generation, expected_guid)
+    local obj_me = self.objs[who]
+	if not obj_me then
+		return false
+	end
+    if expected_guid and obj_me:get_guid() ~= expected_guid then
+        return false
+    end
+    local last_generation = obj_me._team_follow_sync_generation or 0
+    if sync_generation and sync_generation < last_generation then
+        return false
+    end
+    if sync_generation then
+        obj_me._team_follow_sync_generation = sync_generation
+    end
+    skynet.logi("[TEAM_FOLLOW_SCENE] enter guid=", obj_me:get_guid(), "obj=", who,
+        "scene=", self:get_id(), "generation=", sync_generation or 0,
+        "members=", #(followd_members or {}))
+    local teaminfo = obj_me:get_team_info()
+    if not teaminfo then
+		return false
+	end
+	teaminfo:clear_followed_members()
+    for _, guid in ipairs(followd_members or {}) do
+        local followd_member = { guid = guid }
+        teaminfo:add_followd_member(followd_member)
+    end
+    obj_me:set_team_follow_flag(true)
+
+    -- 457/return_type=3 是客户端确认支持的静默恢复模式。必须先让
+    -- 客户端进入跟随状态，再下发服务端 AI 产生的移动包。
+    local state_msg = packet_def.GCReturnTeamFollow.new()
+    state_msg.return_type = define.TEAM_FOLLOW_RESULT.TF_RESULT_FOLLOW_FLAG
+    state_msg.guid = obj_me:get_guid()
+    self:send2client(obj_me, state_msg)
+
+    if obj_me:get_is_team_leader() then
+        obj_me:get_ai():push_command_team_follow_leader()
+    else
+        obj_me:get_ai():push_command_team_follow()
+    end
+    local leader_info = teaminfo:leader()
+     if leader_info then
+        local leader_guid = leader_info.guid
+        local team_leader = self:get_obj_by_guid(leader_guid)
+        if team_leader then
+            local msg = packet_def.GCTeamFollowList.new()
+            msg.m_objID = team_leader:get_obj_id()
+            local follow_member_count = team_leader:get_team_info():get_followed_members_count()
+            for i = 1, follow_member_count do
+                local followd_member = team_leader:get_team_info():get_followed_member(i)
+                table.insert(msg.guids, followd_member.guid)
+            end
+            self:broadcast(obj_me, msg, true)
+        else
+            local msg = packet_def.GCTeamFollowList.new()
+            msg.m_objID = obj_me:get_obj_id()
+            local follow_member_count = teaminfo:get_followed_members_count()
+            for i = 1, follow_member_count do
+                local followd_member = teaminfo:get_followed_member(i)
+                table.insert(msg.guids, followd_member.guid)
+            end
+            self:broadcast(obj_me, msg, true)
+        end
+    end
+    return true
+end
+
+function scenecore:char_ask_team_follow(who)
+    local obj_me = self.objs[who]
+	if not obj_me then
+		return
+	-- elseif obj_me:get_raid_id() ~= -1 then
+		-- return
+	end
+    if not obj_me:get_is_team_leader() then
+        return
+    end
+    if not obj_me:get_team_follow_flag() then
+        local followd_team_member = {}
+        followd_team_member.guid = obj_me:get_guid()
+        obj_me:get_ai():push_command_team_follow_leader()
+
+        obj_me:set_team_follow_flag(true)
+        obj_me:add_team_follow_member(followd_team_member)
+
+        local msg = packet_def.GCReturnTeamFollow.new()
+        msg.return_type = define.TEAM_FOLLOW_RESULT.TF_RESULT_FOLLOW_FLAG
+        msg.guid = obj_me:get_guid()
+        self:send2client(obj_me, msg)
+        self:send_world(obj_me, "lua", "enter_team_follow", obj_me:get_guid())
+    end
+    local config_info = configenginer:get_config("config_info")
+    local position = obj_me:get_world_pos()
+    local radious = config_info.Team.AvailableFollowDist
+    local operate = {obj = obj_me, x = position.x, y = position.y, radious = radious, target_logic_by_stand = 2}
+    local nearbys = self:scan(operate)
+    for _, nb in ipairs(nearbys) do
+        if not nb:get_team_follow_flag() then
+            if not nb:get_stall_box():get_stall_is_open() then
+                self:on_ask_team_follow(nb)
+            end
+        end
+    end
+end
+
+function scenecore:on_ask_team_follow(obj_me)
+    -- CYS-MOUNT-FLIGHT
+    if require('cys_mount_flight').active(obj_me) then obj_me:notify_tips('Hãy hạ cánh trước khi tập hợp đội.');return end
+    local is = obj_me:setting_flag_is_true(define.SETTING_TYPE.SETTING_TYPE_GAME, define.GAME_SETTING_FLAG.GSF_AUTO_ACCEPT_TEAM_FOLLOW)
+    if is then
+        self:char_return_team_follow(obj_me:get_obj_id(), { return_type = 1})
+    else
+        local msg = packet_def.GCAskTeamFollow.new()
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:char_return_team_follow(who, tf)
+    local obj_me = self.objs[who]
+    local teaminfo = obj_me:get_team_info()
+    if not teaminfo:has_team() then
+        return
+    end
+    local team_leader_guid = teaminfo:get_team_leader()
+	local team_leader = self:get_obj_by_guid(team_leader_guid)
+    if not team_leader then
+        return
+    end
+    if obj_me:get_stall_box():get_stall_is_open() then
+        local msg = packet_def.GCTeamFollowErr.new()
+        msg.error = define.TEAM_FOLLOW_ERROR.TF_ERROR_STALL_OPEN
+        self:send2client(obj_me, msg)
+        return
+    end
+    if tf.return_type == 1 then
+        local config_info = configenginer:get_config("config_info")
+        local dist_limit = config_info.Team.AvailableFollowDist
+        local dist = self:cal_dist(obj_me:get_world_pos(), team_leader:get_world_pos())
+        if dist > dist_limit then
+            local msg = packet_def.GCTeamFollowErr.new()
+            msg.error = define.TEAM_FOLLOW_ERROR.TF_ERROR_TOO_FAR
+            self:send2client(obj_me, msg)
+            return
+        end
+        if not team_leader:get_team_follow_flag() then
+            local msg = packet_def.GCTeamFollowErr.new()
+            msg.error = define.TEAM_FOLLOW_ERROR.TF_ERROR_NOT_IN_FOLLOW_MODE
+            self:send2client(obj_me, msg)
+            return
+        end
+        if obj_me:get_team_follow_flag() then
+            local msg = packet_def.GCTeamFollowErr.new()
+            msg.error = define.TEAM_FOLLOW_ERROR.TF_ERROR_IN_TEAM_FOLLOW
+            self:send2client(obj_me, msg)
+            return
+        end
+        obj_me:set_team_follow_flag(true)
+
+        local msg = packet_def.GCTeamFollowList.new()
+        msg.m_objID = team_leader:get_obj_id()
+
+        local my_follow_info = { guid = obj_me:get_guid() }
+        local follow_member_count = team_leader:get_team_info():get_followed_members_count()
+        for i = 1, follow_member_count do
+            local followd_member = team_leader:get_team_info():get_followed_member(i)
+			local other = self:get_obj_by_guid(followd_member.guid)
+            if other then
+                other:get_team_info():add_followd_member(my_follow_info)
+            end
+            obj_me:get_team_info():add_followd_member(followd_member)
+            table.insert(msg.guids, followd_member.guid)
+        end
+        obj_me:get_team_info():add_followd_member(my_follow_info)
+        table.insert(msg.guids, my_follow_info.guid)
+
+        local state_msg = packet_def.GCReturnTeamFollow.new()
+        state_msg.return_type = define.TEAM_FOLLOW_RESULT.TF_RESULT_ENTER_FOLLOW
+        state_msg.guid = obj_me:get_guid()
+        self:send2client(team_leader, state_msg)
+        self:send2client(obj_me, state_msg)
+
+        obj_me:get_ai():push_command_team_follow()
+        self:broadcast(obj_me, msg, true)
+
+        self:send_world(obj_me, "lua", "enter_team_follow", obj_me:get_guid())
+    else
+        local msg = packet_def.GCReturnTeamFollow.new()
+        msg.return_type = define.TEAM_FOLLOW_RESULT.TF_RESULT_REFUSE_FOLLOW
+        msg.guid = obj_me:get_guid()
+        self:send2client(team_leader, msg)
+    end
+end
+
+function scenecore:char_stop_team_follow(who)
+    local obj_me = self.objs[who]
+	if not obj_me then
+        return
+    end
+    obj_me:stop_team_follow()
+end
+
+function scenecore:char_stop_team_follow_self(who, sync_generation, expected_guid)
+    local obj_me = self.objs[who]
+	if not obj_me then
+        return false
+    end
+    if expected_guid and obj_me:get_guid() ~= expected_guid then
+        return false
+    end
+    local last_generation = obj_me._team_follow_sync_generation or 0
+    if sync_generation and sync_generation < last_generation then
+        return false
+    end
+    if sync_generation then
+        obj_me._team_follow_sync_generation = sync_generation
+    end
+    skynet.logi("[TEAM_FOLLOW_SCENE] stop guid=", obj_me:get_guid(), "obj=", who,
+        "scene=", self:get_id(), "generation=", sync_generation or 0)
+    obj_me:stop_team_follow_self()
+    return true
+end
+
+function scenecore:char_del_team_follow_member(who, del_guid)
+    local obj_me = self.objs[who]
+	if not obj_me then
+        return false
+    end
+    local teaminfo = obj_me:get_team_info()
+    if teaminfo and teaminfo:has_team() then
+        teaminfo:del_followd_member(del_guid)
+    end
+    local msg = packet_def.GCReturnTeamFollow.new()
+    msg.return_type = define.TEAM_FOLLOW_RESULT.TF_RESULT_STOP_FOLLOW
+    msg.guid = del_guid
+    self:send2client(obj_me, msg)
+    return true
+end
+
+function scenecore:cal_dist(p1, p2)
+    return math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
+end
+
+function scenecore:char_mission_continue(who, ma)
+    return require("cys_mission_request").call(self,who,ma.m_idNPC,ma.m_idScript,"OnMissionContinue")
+end
+
+function scenecore:check_exchange_vaild(obj_me, obj_tar)
+    if obj_me:get_server_id() == obj_tar:get_server_id() then
+        return true
+    end
+    local my_exchange_box = obj_me:get_exchange_box()
+    local tar_exchange_box = obj_tar:get_exchange_box()
+    local my_exchange_item_container = my_exchange_box:get_item_container()
+    local my_exchange_pet_container = my_exchange_box:get_pet_container()
+    local tar_exchange_item_container = tar_exchange_box:get_item_container()
+    local tar_exchange_pet_container = tar_exchange_box:get_pet_container()
+    if my_exchange_box:get_money() > 0 then
+        obj_me:notify_tips("天外只能交易天外币")
+        return false
+    end
+    if tar_exchange_box:get_money() > 0 then
+        obj_tar:notify_tips("天外只能交易天外币")
+        return false
+    end
+    for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+        do
+            local item = my_exchange_item_container:get_item(i)
+            if item then
+                if item:get_index() ~= define.TIANWAI_COIN_1 and item:get_index() ~= define.TIANWAI_COIN_10 then
+                    obj_me:notify_tips("天外只能交易天外币")
+                    return false
+                end
+            end
+        end
+        do
+            local item = tar_exchange_item_container:get_item(i)
+            if item then
+                if item:get_index() ~= define.TIANWAI_COIN_1 and item:get_index() ~= define.TIANWAI_COIN_10 then
+                    obj_tar:notify_tips("天外只能交易天外币")
+                    return false
+                end
+            end
+        end
+        do
+            local pet = my_exchange_pet_container:get_item(i)
+            if pet then
+                obj_me:notify_tips("天外不能交易宠物")
+                return false
+            end
+        end
+        do
+            local pet = tar_exchange_pet_container:get_item(i)
+            if pet then
+                obj_tar:notify_tips("天外不能交易宠物")
+                return false
+            end
+        end
+    end
+    return true
+end
+
+function scenecore:char_exchange_apply_I(who, ea)
+    local obj_me = self:get_obj_by_id(who)
+	if not obj_me then
+		return
+	end
+	local sceneId = self:get_id()
+	for _,sid in ipairs(define.SIWANG) do
+		if sceneId == sid then
+			obj_me:notify_tips("地府不可交易。")
+			return
+		end
+	end
+    local obj_tar = self:get_obj_by_id(ea.m_objID)
+    if not self:check_exchange_vaild(obj_me, obj_tar) then
+        return
+    end
+    -- 交易卡权限检查
+    local my_trade_flag = obj_me:get_mission_flag_by_script_id(MF_TradeCard)
+    if not my_trade_flag or my_trade_flag == 0 then
+        obj_me:notify_tips("你没有交易权限，请使用交易卡获取权限。")
+        return
+    end
+    local tar_trade_flag = obj_tar:get_mission_flag_by_script_id(MF_TradeCard)
+    if not tar_trade_flag or tar_trade_flag == 0 then
+        obj_me:notify_tips("对方没有交易权限。")
+        return
+    end
+    if obj_tar:setting_flag_is_true(define.SETTING_TYPE.SETTING_TYPE_GAME, define.GAME_SETTING_FLAG.GSF_REFUSE_TRADE) then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_REFUSE_TRADE
+        self:send2client(obj_me, msg)
+        return
+    end
+    local exchange_box = obj_me:get_exchange_box()
+    if exchange_box:get_status() >= exchange_box.STATUS.EXCHANGE_SYNCH_DATA then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_SELF_IN_EXCHANGE
+        self:send2client(obj_me, msg)
+        return
+    end
+    exchange_box = obj_tar:get_exchange_box() 
+    if exchange_box:get_status() >= exchange_box.STATUS.EXCHANGE_SYNCH_DATA then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_TARGET_IN_EXCHANGE
+        self:send2client(obj_me, msg)
+        return
+    end
+    local msg = packet_def.GCExchangeApplyI.new()
+    msg.source_oid = obj_me:get_obj_id()
+    msg.source_guid = obj_me:get_guid()
+    msg.source_name = obj_me:get_name()
+    msg.source_level = obj_me:get_level()
+    self:send2client(obj_tar, msg)
+end
+
+function scenecore:char_sect_oper(who, so)
+    local obj_me = self:get_obj_by_id(who)
+    obj_me:study_sect(so.val)
+end
+
+function scenecore:char_bank_money(who, bm)
+    local obj_me = self:get_obj_by_id(who)
+	if not obj_me then return end
+    local money = bm.money
+    -- assert(money >= 0, money)
+	if money and money > 0 then
+		local my_money = obj_me:get_money()
+		local my_bank_money = obj_me:get_bank_save_money()
+		if bm.op == 0 then
+			if money > my_money then
+				return
+			end
+			obj_me:set_money(my_money - money, "银行存钱-人物扣钱")
+			obj_me:set_bank_save_money(my_bank_money + money, "银行存钱-银行加钱")
+		elseif bm.op == 1 then
+			if money > my_bank_money then
+				return
+			end
+			obj_me:set_money(my_money + money, "银行取钱-人物加钱")
+			obj_me:set_bank_save_money(my_bank_money - money, "银行取钱-银行扣钱")
+		end
+	end
+    local msg = packet_def.GCBankMoney.new()
+    msg.op = bm.op
+    msg.bank_save_money = obj_me:get_bank_save_money()
+    msg.result = 0
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_exchange_reply_I(who, er)
+    local source_oid = er.source_oid
+    local source_guid = er.source_guid
+    local source = self:get_obj_by_id(source_oid)
+    if source == nil then
+        return
+    end
+    --assert(source:get_guid() == source_guid, source:get_guid())
+    local obj_me = self:get_obj_by_id(who)
+	if not obj_me then
+		return
+	end
+	local sceneId = self:get_id()
+	for _,sid in ipairs(define.SIWANG) do
+		if sceneId == sid then
+			obj_me:notify_tips("地府不可交易。")
+			return
+		end
+	end
+    local source_exchange_box = source:get_exchange_box()
+    if source_exchange_box:get_status() >= source_exchange_box.STATUS.EXCHANGE_SYNCH_DATA then
+        local dest = source_exchange_box:get_dest()
+        if dest == who then
+            return
+        else
+            local msg = packet_def.GCExchangeError.new()
+            msg.error_code = define.EXCHANGE_ERR.ERR_TARGET_IN_EXCHANGE
+            self:send2client(obj_me, msg)
+            return
+        end
+    end
+    local my_exchange_box = obj_me:get_exchange_box()
+    if my_exchange_box:get_status() >= my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA then
+        local dest = my_exchange_box:get_dest()
+        if dest == source_oid then
+            return
+        else
+            local msg = packet_def.GCExchangeError.new()
+            msg.error_code = define.EXCHANGE_ERR.ERR_SELF_IN_EXCHANGE
+            self:send2client(obj_me, msg)
+            return
+        end
+    end
+    local dist = self:cal_dist(obj_me:get_world_pos(), source:get_world_pos())
+    if dist > 30 then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_TOO_FAR
+        self:send2client(obj_me, msg)
+        return
+    end
+    my_exchange_box:reset()
+    source_exchange_box:reset()
+    my_exchange_box:set_dest(source_oid)
+    source_exchange_box:set_dest(who)
+    my_exchange_box:set_status(my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA)
+    source_exchange_box:set_status(source_exchange_box.STATUS.EXCHANGE_SYNCH_DATA)
+
+    local msg = packet_def.GCExchangeEstablishI.new()
+    msg.m_objID = source_exchange_box:get_dest()
+    self:send2client(source, msg)
+    msg = packet_def.GCExchangeNotifySerial.new()
+    msg.serial = my_exchange_box:get_serial()
+    self:send2client(source, msg)
+
+    local msg = packet_def.GCExchangeEstablishI.new()
+    msg.m_objID = my_exchange_box:get_dest()
+    self:send2client(obj_me, msg)
+    msg = packet_def.GCExchangeNotifySerial.new()
+    msg.serial = source_exchange_box:get_serial()
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:exchange_certify_each_other(obj_me)
+	local sceneId = self:get_id()
+	for _,sid in ipairs(define.SIWANG) do
+		if sceneId == sid then
+			obj_me:notify_tips("地府不可交易。")
+			return false
+		end
+	end
+    local my_exchange_box = obj_me:get_exchange_box()
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+    if obj_tar == nil then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_DROP
+        self:send2client(obj_me, msg)
+        my_exchange_box:reset()
+        return false
+    end
+    local tar_exchange_box = obj_tar:get_exchange_box()
+    local tar_exchange_box_dest = tar_exchange_box:get_dest()
+    if tar_exchange_box_dest ~= obj_me:get_obj_id() then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+        self:send2client(obj_me, msg)
+        my_exchange_box:reset()
+        return false
+    end
+    return true
+end
+
+function scenecore:exchange_certify_is_lock(obj_me)
+    local my_exchange_box = obj_me:get_exchange_box()
+    if my_exchange_box:get_is_lock() then
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_ALREADY_LOCKED
+        self:send2client(obj_me, msg)
+        return false
+    end
+    return true
+end
+
+function scenecore:exchange_certify_status(obj_me, status)
+    local my_exchange_box = obj_me:get_exchange_box()
+    if my_exchange_box:get_status() ~= status() then
+        local dest = my_exchange_box:get_dest()
+        local obj_tar = self:get_obj_by_id(dest)
+        local dest_exchange_box = obj_tar:get_exchange_box()
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+        self:send2client(obj_me, msg)
+        my_exchange_box:reset()
+        dest_exchange_box:reset()
+        return false
+    end
+    return true
+end
+
+function scenecore:char_exchange_sync_item_II(who, ei)
+	-- skynet.logi("char_exchange_sync_item_II",who,ei)
+    local obj_me = self:get_obj_by_id(who)
+    if self:check_item_limit_exchange(who) then
+        obj_me:notify_tips("交易失败")
+        return
+    end
+    local my_exchange_box = obj_me:get_exchange_box()
+    if self:check_item_limit_exchange(my_exchange_box:get_dest()) then
+        obj_me:notify_tips("交易失败")
+        return
+    end
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+    if not self:exchange_certify_each_other(obj_me) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_me) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_me, my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_tar, my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA) then
+        return
+    end
+    local my_item_container = my_exchange_box:get_item_container()
+    local my_pet_container = my_exchange_box:get_pet_container()
+
+    if ei.opt == packet_def.CGExchangeSynchItemII.OPT.OPT_ADDITEM then
+        if ei.from_type == packet_def.CGExchangeSynchItemII.POS.POS_BAG then
+            local item = human_item_logic:get_item(obj_me, ei.from_index)
+            if item then
+                for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                    local exchange_item = my_item_container:get_item(i)
+                    if exchange_item and exchange_item:get_guid() == item:get_guid() then
+                        return
+                    end
+                end
+                if item:is_bind() then
+                    local msg = packet_def.GCExchangeError.new()
+                    msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                if item:is_lock() then
+                    local msg = packet_def.GCExchangeError.new()
+                    msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                    return
+                end
+                local empty_index = my_item_container:get_empty_item_index()
+                if empty_index ~= define.INVAILD_ID then
+                    my_item_container:set_item(empty_index, item)
+                    if my_item_container:get_item(empty_index) then
+                        item_operator:lock_item(obj_me:get_prop_bag_container(), ei.from_index)
+                        item:set_in_exchange(true)
+
+                        local msg = packet_def.GCExchangeSynchII.new()
+                        msg.is_my_self = 1
+                        msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_ADDITEM 
+                        msg.from_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                        msg.from_index = ei.from_index
+                        msg.to_index = empty_index
+                        self:send2client(obj_me, msg)
+
+                        msg = packet_def.GCExchangeSynchII.new()
+                        msg.is_my_self = 0
+                        msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_ADDITEM 
+                        msg.to_index = empty_index
+                        msg.is_blue_equip = 1
+                        msg.by_number = item:get_lay_count()
+                        msg.item_data = item:get_stream()
+                        self:send2client(obj_tar, msg)
+                        return
+                    else
+                        local msg = packet_def.GCExchangeError.new()
+                        msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                        self:send2client(obj_me, msg)
+                        return
+                    end
+                else
+                    local msg = packet_def.GCExchangeError.new()
+                    msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_EXROOM
+                    self:send2client(obj_me, msg)
+                end
+            end
+        end
+    elseif ei.opt == packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEITEM then
+        if ei.to_type == packet_def.CGExchangeSynchItemII.POS.POS_BAG then
+            local item = my_item_container:get_item(ei.from_index)
+            local prop_bag_container = obj_me:get_prop_bag_container()
+            local bag_index = prop_bag_container:get_index_by_guid(item:get_guid())
+			if not bag_index then
+				local msg = packet_def.GCExchangeError.new()
+				msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+				self:send2client(obj_me, msg)
+				return
+			end
+            if item then
+                my_item_container:erase_item(ei.from_index)
+                item_operator:unlock_item(prop_bag_container, bag_index)
+                item:set_in_exchange(false)
+                if bag_index ~= define.INVAILD_ID then
+                    local msg = packet_def.GCExchangeSynchII.new()
+                    msg.is_my_self = 1
+                    msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEITEM 
+                    msg.to_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                    msg.to_index = bag_index
+                    msg.from_index = ei.from_index
+                    self:send2client(obj_me, msg)
+
+                    msg = packet_def.GCExchangeSynchII.new()
+                    msg.is_my_self = 0
+                    msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEITEM 
+                    msg.from_index = ei.from_index
+                    self:send2client(obj_tar, msg)
+                    return
+                else
+                    local msg = packet_def.GCExchangeError.new()
+                    msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                    self:send2client(obj_me, msg)
+                end
+            else
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                self:send2client(obj_me, msg)
+            end
+        end
+    elseif ei.opt == packet_def.CGExchangeSynchItemII.OPT.OPT_ADDPET then
+        local pet_bag_container = obj_me:get_pet_bag_container()
+        local from_index = pet_bag_container:get_index_by_pet_guid(ei.pet_guid)
+		if not from_index then
+            local msg = packet_def.GCExchangeError.new()
+            msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_EXROOM
+            self:send2client(obj_me, msg)
+			return
+        end
+        for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+            local pet = my_pet_container:get_item(i)
+            if pet and pet:get_guid() == ei.pet_guid then
+                return
+            end
+        end
+        local empty_index = my_pet_container:get_empty_item_index()
+        if empty_index ~= define.INVAILD_ID then
+            local pet = pet_bag_container:get_item(from_index)
+            if not pet then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                self:send2client(obj_me, msg)
+                return
+            end
+            if pet:is_lock() then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+                self:send2client(obj_me, msg)
+                return
+            end
+            my_pet_container:set_item(empty_index, pet)
+            item_operator:lock_item(pet_bag_container, from_index)
+            pet:set_in_exchange(true)
+
+            local msg = packet_def.GCExchangeSynchII.new()
+            msg.is_my_self = 1
+            msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_ADDPET 
+            msg.to_index = empty_index
+            msg.pet_guid = ei.pet_guid
+            self:send2client(obj_me, msg)
+
+            local PetMsgDetail = packet_def.GCDetailAttrib_Pet.new()
+            pet:calculate_pet_detail_attrib(PetMsgDetail)
+            PetMsgDetail.m_nTradeIndex = empty_index
+            local exchange_view = packet_def.GCExchangePetView_t.new()
+            exchange_view.flag = PetMsgDetail.TYPE.TYPE_EXCHANGE
+            PetMsgDetail:set_extra_data(exchange_view)
+            self:send2client(obj_tar, PetMsgDetail)
+        else
+            local msg = packet_def.GCExchangeError.new()
+            msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_EXROOM
+            self:send2client(obj_me, msg)
+        end
+    elseif ei.opt == packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEPET then
+        local pet_bag_continer = obj_me:get_pet_bag_container()
+        local index = pet_bag_continer:get_index_by_pet_guid(ei.pet_guid)
+        local from_index = my_pet_container:get_index_by_pet_guid(ei.pet_guid)
+		if from_index then
+			local pet = my_pet_container:get_item(from_index)
+			if pet then
+				my_pet_container:erase_item(from_index)
+				item_operator:unlock_item(pet_bag_continer, index)
+				pet:set_in_exchange(false)
+				if index then
+					local msg = packet_def.GCExchangeSynchII.new()
+					msg.is_my_self = 1
+					msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEPET 
+					msg.pet_guid = ei.pet_guid
+					self:send2client(obj_me, msg)
+
+					msg = packet_def.GCExchangeSynchII.new()
+					msg.is_my_self = 0
+					msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_REMOVEPET 
+					msg.pet_guid = ei.pet_guid
+					self:send2client(obj_tar, msg)
+					return
+				else
+					local msg = packet_def.GCExchangeError.new()
+					msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+					self:send2client(obj_me, msg)
+				end
+			else
+				local msg = packet_def.GCExchangeError.new()
+				msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+				self:send2client(obj_me, msg)
+			end
+		else
+			local msg = packet_def.GCExchangeError.new()
+			msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+			self:send2client(obj_me, msg)
+		end
+    end
+end
+
+function scenecore:char_exchange_sync_money_II(who, es)
+    local obj_me = self:get_obj_by_id(who)
+	if not obj_me then return end
+    if self:check_item_limit_exchange(who) then
+        obj_me:notify_tips("交易失败")
+        return
+    end
+    local my_exchange_box = obj_me:get_exchange_box()
+    if self:check_item_limit_exchange(my_exchange_box:get_dest()) then
+        obj_me:notify_tips("交易失败")
+        return
+    end
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+	if not obj_tar then
+        obj_me:notify_tips("交易目标异常。")
+        return
+    end
+    if not self:exchange_certify_each_other(obj_me) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_me) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_me, my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA) then
+        return
+    end
+    if not self:exchange_certify_is_lock(obj_tar, my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA) then
+        return
+    end
+    local money = es.money
+    if obj_me:get_money() >= money then
+        my_exchange_box:set_money(money)
+
+        local msg = packet_def.GCExchangeSynchII.new()
+        msg.is_my_self = 1
+        msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_MONEY
+        msg.money = money
+        self:send2client(obj_me, msg)
+
+        local msg = packet_def.GCExchangeSynchII.new()
+        msg.is_my_self = 0
+        msg.opt = packet_def.CGExchangeSynchItemII.OPT.OPT_MONEY
+        msg.money = money
+        self:send2client(obj_tar, msg)
+    else
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:char_exchange_synch_lock(who, es)
+    local obj_me = self:get_obj_by_id(who)
+    local my_exchange_box = obj_me:get_exchange_box()
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+    local tar_exchange_box = obj_tar:get_exchange_box()
+    if not self:exchange_certify_each_other(obj_me) then
+        return
+    end
+    if es.lock_my_self == 1 then
+        my_exchange_box:lock()
+        if tar_exchange_box:get_is_lock() then
+            my_exchange_box:set_can_conform(true)
+            tar_exchange_box:set_can_conform(true)
+
+            my_exchange_box:set_status(my_exchange_box.STATUS.EXCHANGE_WAIT_FOR_CONFIRM)
+            tar_exchange_box:set_status(tar_exchange_box.STATUS.EXCHANGE_WAIT_FOR_CONFIRM)
+
+            local msg = packet_def.GCExchangeSynchLock.new()
+            msg.is_both = 1
+            msg.is_my_self = 0
+            msg.is_lockd = 1
+            self:send2client(obj_tar, msg)
+
+            msg = packet_def.GCExchangeSynchConfirmII.new()
+            msg.is_enable = 1
+            self:send2client(obj_me, msg)
+            self:send2client(obj_tar, msg)
+        else
+            local msg = packet_def.GCExchangeSynchLock.new()
+            msg.is_both = 0
+            msg.is_my_self = 0
+            msg.is_lockd = 1
+            self:send2client(obj_tar, msg)
+        end
+    else
+        my_exchange_box:unlock()
+        if tar_exchange_box:get_is_lock() then
+            tar_exchange_box:unlock()
+
+            local msg = packet_def.GCExchangeSynchLock.new()
+            msg.is_both = 1
+            msg.is_my_self = 0
+            msg.is_lockd = 0
+            self:send2client(obj_tar, msg)
+
+            msg = packet_def.GCExchangeSynchLock.new()
+            msg.is_both = 0
+            msg.is_my_self = 0
+            msg.is_lockd = 0
+            self:send2client(obj_me, msg)
+        else
+            local msg = packet_def.GCExchangeSynchLock.new()
+            msg.is_both = 0
+            msg.is_my_self = 0
+            msg.is_lockd = 0
+            self:send2client(obj_tar, msg)
+        end
+        my_exchange_box:set_status(my_exchange_box.STATUS.EXCHANGE_SYNCH_DATA)
+        tar_exchange_box:set_status(tar_exchange_box.STATUS.EXCHANGE_SYNCH_DATA)
+        if my_exchange_box:get_can_conform() then
+            my_exchange_box:set_can_conform(false)
+            local msg = packet_def.GCExchangeSynchConfirmII.new()
+            msg.is_enable = 0
+            self:send2client(obj_me, msg)
+        end
+        if tar_exchange_box:get_can_conform() then
+            tar_exchange_box:set_can_conform(false)
+            local msg = packet_def.GCExchangeSynchConfirmII.new()
+            msg.is_enable = 0
+            self:send2client(obj_tar, msg)
+        end
+    end
+end
+
+function scenecore:char_exchange_cancel(who, ec)
+    local obj_me = self:get_obj_by_id(who)
+    local my_exchange_box = obj_me:get_exchange_box()
+    if not self:exchange_certify_each_other(obj_me) then
+        return
+    end
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+    local tar_exchange_box = obj_tar:get_exchange_box()
+
+    my_exchange_box:reset()
+    tar_exchange_box:reset()
+
+    local msg = packet_def.GCExchangeCancel.new()
+    self:send2client(obj_me, msg)
+    self:send2client(obj_tar, msg)
+end
+
+function scenecore:char_exchange_ok_III(who, eo)
+    local obj_me = self:get_obj_by_id(who)
+    local my_exchange_box = obj_me:get_exchange_box()
+    if not self:exchange_certify_each_other(obj_me) then
+        return
+    end
+    local obj_tar = self:get_obj_by_id(my_exchange_box:get_dest())
+    if not self:check_exchange_vaild(obj_me, obj_tar) then
+        return
+    end
+    local tar_exchange_box = obj_tar:get_exchange_box()
+    if my_exchange_box:get_status() == my_exchange_box.STATUS.EXCHANGE_WAIT_FOR_CONFIRM then
+        my_exchange_box:set_status(my_exchange_box.STATUS.EXCHANGE_CONFIRM_READY)
+        if tar_exchange_box:get_status() == my_exchange_box.STATUS.EXCHANGE_CONFIRM_READY then
+            local item_list_to_tar = {}
+            local item_list_to_me = {}
+            local pet_list_to_tar = {}
+            local pet_list_to_me = {}
+
+            local my_exchange_item_container = my_exchange_box:get_item_container()
+            local my_exchange_pet_container = my_exchange_box:get_pet_container()
+            local tar_exchange_item_container = tar_exchange_box:get_item_container()
+            local tar_exchange_pet_container = tar_exchange_box:get_pet_container()
+
+            for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                do
+                    local item = my_exchange_item_container:get_item(i)
+                    if item then
+                        table.insert(item_list_to_tar, item)
+                    end
+                end
+                do
+                    local item = tar_exchange_item_container:get_item(i)
+                    if item then
+                        table.insert(item_list_to_me, item)
+                    end
+                end
+            end
+            for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                do
+                    local pet = my_exchange_pet_container:get_item(i)
+                    if pet then
+                        table.insert(pet_list_to_tar, pet)
+                    end
+                end
+                do
+                    local pet = tar_exchange_pet_container:get_item(i)
+                    if pet then
+                        table.insert(pet_list_to_me, pet)
+                    end
+                end
+            end
+            if not human_item_logic:can_recive_exchange_item_list(obj_me, item_list_to_me, pet_list_to_me) then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_ROOM_SELF
+                self:send2client(obj_me, msg)
+
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_ROOM_OTHER
+                self:send2client(obj_tar, msg)
+                my_exchange_box:reset()
+                tar_exchange_box:reset()
+                return  
+            end
+            if not human_item_logic:can_recive_exchange_item_list(obj_tar, item_list_to_tar, pet_list_to_tar) then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_ROOM_SELF
+                self:send2client(obj_tar, msg)
+
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_ROOM_OTHER
+                self:send2client(obj_me, msg)
+                my_exchange_box:reset()
+                tar_exchange_box:reset()
+                return
+            end
+            if my_exchange_box:get_money() > obj_me:get_money() then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_MONEY_SELF
+                self:send2client(obj_me, msg)
+
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_MONEY_OTHER
+                self:send2client(obj_tar, msg)
+                my_exchange_box:reset()
+                tar_exchange_box:reset()
+                return
+            end
+            if tar_exchange_box:get_money() > obj_tar:get_money() then
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_MONEY_SELF
+                self:send2client(obj_tar, msg)
+
+                local msg = packet_def.GCExchangeError.new()
+                msg.error_code = define.EXCHANGE_ERR.ERR_NOT_ENOUGHT_MONEY_OTHER
+                self:send2client(obj_me, msg)
+                my_exchange_box:reset()
+                tar_exchange_box:reset()
+                return
+            end
+            local my_pet_guid = obj_me:get_current_pet_guid()
+            local tar_pet_guid = obj_tar:get_current_pet_guid()
+            for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                do
+                    local pet = my_exchange_pet_container:get_item(i)
+                    if pet then
+                        local pet_level = pet:get_level()
+                        local human_level = obj_tar:get_level()
+                        if pet_level > human_level then
+                            local msg = packet_def.GCExchangeError.new()
+                            msg.error_code = define.EXCHANGE_ERR.ERR_PET_LEVEL_TOO_HIGH
+                            self:send2client(obj_me, msg)
+                            self:send2client(obj_tar, msg)
+                            my_exchange_box:reset()
+                            tar_exchange_box:reset()
+                            return
+                        end
+                        if pet:get_guid() == my_pet_guid then
+                            obj_me:recall_pet()
+                        end
+                    end
+                end
+                do
+                    local pet = tar_exchange_pet_container:get_item(i)
+                    if pet then
+                        local pet_level = pet:get_level()
+                        local human_level = obj_me:get_level()
+                        if pet_level > human_level then
+                            local msg = packet_def.GCExchangeError.new()
+                            msg.error_code = define.EXCHANGE_ERR.ERR_PET_LEVEL_TOO_HIGH
+                            self:send2client(obj_me, msg)
+                            self:send2client(obj_tar, msg)
+                            my_exchange_box:reset()
+                            tar_exchange_box:reset()
+                            return
+                        end
+                        if pet:get_guid() == tar_pet_guid then
+                            obj_tar:recall_pet()
+                        end
+                    end
+                end
+            end
+            local msg_exchange_succ_to_me = packet_def.GCExchangeSuccessIII.new()
+            local msg_exchange_succ_to_tar = packet_def.GCExchangeSuccessIII.new()
+            msg_exchange_succ_to_me.guid = obj_tar:get_guid()
+            msg_exchange_succ_to_tar.guid = obj_me:get_guid()
+            local ex_item_index_in_me = {}
+            local ex_item_index_in_tar = {}
+            local ex_pet_index_in_me = {}
+            local ex_pet_index_in_tar = {}
+            local ex_items_in_me = {}
+            local ex_pets_in_me = {}
+            local ex_items_in_tar = {}
+            local ex_pets_in_tar = {}
+            local my_prop_bag_container = obj_me:get_prop_bag_container()
+            local tar_prop_bag_container = obj_tar:get_prop_bag_container()
+            local my_pet_bag_container = obj_me:get_pet_bag_container()
+            local tar_pet_bag_container = obj_tar:get_pet_bag_container()
+            for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                do
+                    local item = my_exchange_item_container:get_item(i)
+                    if item then
+                        if item:is_bind() then
+                            obj_me:notify_tips("绑定道具无法交易")
+                            return
+                        end
+                        local bag_index = my_prop_bag_container:get_index_by_guid(item:get_guid())
+						if not bag_index then
+                            obj_me:notify_tips("没有该道具。")
+                            return
+                        end
+						
+                        item:set_in_exchange(false)
+                        item_operator:unlock_item(my_prop_bag_container, bag_index)
+                        local empty_index = tar_prop_bag_container:get_empty_item_index(item:get_place_bag())
+                        my_prop_bag_container:erase_item(bag_index)
+                        tar_prop_bag_container:set_item(empty_index, item)
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:char_exchange_ok_III","玩家交易:扣除",item:get_index(),item:get_lay_count(),item:is_bind())
+			self:log_record_item_to_bag(obj_tar:get_name(),obj_tar:get_guid(),"scenecore:char_exchange_ok_III","玩家交易:得到",item:get_index(),item:get_lay_count(),item:is_bind())
+                        local it = {}
+                        it.from_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                        it.from_index = i
+                        it.to_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                        it.to_index = empty_index
+                        table.insert(msg_exchange_succ_to_tar.item_list, it)
+                        table.insert(ex_items_in_me, item:copy_raw_data())
+                    end
+                end
+                do
+                    local item = tar_exchange_item_container:get_item(i)
+                    if item then
+                        if item:is_bind() then
+                            obj_tar:notify_tips("绑定道具无法交易")
+                            return
+                        end
+                        local bag_index = tar_prop_bag_container:get_index_by_guid(item:get_guid())
+						if not bag_index then
+                            obj_tar:notify_tips("没有该道具。")
+                            return
+                        end
+                        item:set_in_exchange(false)
+                        item_operator:unlock_item(tar_prop_bag_container, bag_index)
+                        local empty_index = my_prop_bag_container:get_empty_item_index(item:get_place_bag())
+                        tar_prop_bag_container:erase_item(bag_index)
+                        my_prop_bag_container:set_item(empty_index, item)
+			self:log_record_item_to_bag(obj_tar:get_name(),obj_tar:get_guid(),"scenecore:char_exchange_ok_III","玩家交易:扣除",item:get_index(),item:get_lay_count(),item:is_bind())
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:char_exchange_ok_III","玩家交易:得到",item:get_index(),item:get_lay_count(),item:is_bind())
+                        local it = {}
+                        it.from_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                        it.from_index = i
+                        it.to_type = packet_def.CGExchangeSynchItemII.POS.POS_BAG
+                        it.to_index = empty_index
+                        table.insert(msg_exchange_succ_to_me.item_list, it)
+                        table.insert(ex_items_in_tar, item:copy_raw_data())
+                    end
+                end
+            end
+            for i = 0, define.EXCHANGE_BOX_SIZE - 1 do
+                do
+                    local pet = my_exchange_pet_container:get_item(i)
+                    if pet then
+                        if pet:have_equip() then
+                            obj_me:notify_tips("有宠物装备或者兽魂的宠物不能交易")
+                            return
+                        end
+                        local bag_index = my_pet_bag_container:get_index_by_pet_guid(pet:get_guid())
+						if not bag_index then
+                            obj_me:notify_tips("珍兽不存在")
+                            return
+                        end
+						pet:set_in_exchange(false)
+                        item_operator:unlock_item(my_pet_bag_container, bag_index)
+                        local empty_index = tar_pet_bag_container:get_empty_item_index()
+                        my_pet_bag_container:erase_item(bag_index)
+                        tar_pet_bag_container:set_item(empty_index, pet)
+
+                        local it = {}
+                        it.from_type = packet_def.CGExchangeSynchItemII.POS.POS_PET
+                        it.from_index = i
+                        it.to_type = packet_def.CGExchangeSynchItemII.POS.POS_PET
+                        it.to_index = empty_index
+                        table.insert(msg_exchange_succ_to_tar.item_list, it)
+                        table.insert(ex_pets_in_me, pet:copy_raw_data())
+                    end
+                end
+                do
+                    local pet = tar_exchange_pet_container:get_item(i)
+                    if pet then
+                        if pet:have_equip() then
+                            obj_tar:notify_tips("有宠物装备或者兽魂的宠物不能交易")
+                            return
+                        end
+                        local bag_index = tar_pet_bag_container:get_index_by_pet_guid(pet:get_guid())
+                        if not bag_index then
+                            obj_tar:notify_tips("珍兽不存在")
+                            return
+                        end
+						pet:set_in_exchange(false)
+                        item_operator:unlock_item(tar_pet_bag_container, bag_index)
+                        local empty_index = my_pet_bag_container:get_empty_item_index()
+                        tar_pet_bag_container:erase_item(bag_index)
+                        my_pet_bag_container:set_item(empty_index, pet)
+
+                        local it = {}
+                        it.from_type = packet_def.CGExchangeSynchItemII.POS.POS_PET
+                        it.from_index = i
+                        it.to_type = packet_def.CGExchangeSynchItemII.POS.POS_PET
+                        it.to_index = empty_index
+                        table.insert(msg_exchange_succ_to_me.item_list, it)
+                        table.insert(ex_pets_in_tar, pet:copy_raw_data())
+                    end
+                end
+            end
+            if my_exchange_box:get_money() > 0 and my_exchange_box:get_money() <= obj_me:get_money() then
+                obj_me:set_money(obj_me:get_money() - my_exchange_box:get_money(), "交易成功-玩家扣钱")
+                obj_tar:set_money(obj_tar:get_money() + my_exchange_box:get_money(), "交易成功-对方加钱")
+            end
+            if tar_exchange_box:get_money() > 0 and tar_exchange_box:get_money() <= obj_tar:get_money() then
+                obj_tar:set_money(obj_tar:get_money() - tar_exchange_box:get_money(), "交易成功-玩家扣钱")
+                obj_me:set_money(obj_me:get_money() + tar_exchange_box:get_money(), "交易成功-对方加钱")
+            end
+            self:send2client(obj_me, msg_exchange_succ_to_me)
+            self:send2client(obj_tar, msg_exchange_succ_to_tar)
+            my_exchange_box:reset()
+            tar_exchange_box:reset()
+            self:log_exchange_prop_or_pet("玩家间交易", "交易", ex_items_in_me, ex_items_in_tar, ex_pets_in_me, ex_pets_in_tar, obj_me, obj_tar)
+        end
+    else
+        local msg = packet_def.GCExchangeError.new()
+        msg.error_code = define.EXCHANGE_ERR.ERR_ILLEGAL
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:get_my_league_id(who)
+    local obj_me = self:get_obj_by_id(who)
+    return obj_me:get_confederate_id()
+end
+
+function scenecore:char_ask_campaign_count(who)
+    local obj_me = self:get_obj_by_id(who)
+    obj_me:send_campaign_count()
+end
+
+function scenecore:char_ask_sec_kill_num(who)
+    local obj_me = self:get_obj_by_id(who)
+    local msg = packet_def.GCRetSecKillNum.new()
+    msg.list = obj_me:get_sweep_counts()
+    self:send2client(obj_me, msg)
+end
+
+function scenecore:char_ask_sec_kill_data(who)
+    local obj_me = self:get_obj_by_id(who)
+    obj_me:send_sec_kill_data()
+end
+
+function scenecore:char_update_cur_title(who, uct)
+    local h=self:get_obj_by_id(who)
+    if not h or type(uct)~='table' then return end
+    if uct.id==0 and uct.id_title_id==0 then
+        h:set_current_title({id=0,str=''})
+    elseif uct.id~=0 then
+        h:set_cur_title_by_id(uct.id)
+    else
+        h:set_cur_title_by_id_title(uct.id_title_id)
+    end
+    h:update_titles_to_client()
+end
+
+function scenecore:char_by_name(who, cbn)
+    local obj_me = self:get_obj_by_id(who)
+    if cbn.type == 0x11 then
+        obj_me:set_jiebai_name(cbn.str)
+        local member_count = obj_me:get_team_info():get_scene_member_count()
+        for i = 1, member_count do
+            local mem_id = obj_me:get_team_info():get_scene_member_obj_id(i)
+            local mem = self:get_obj_by_id(mem_id)
+            if mem then
+                mem:set_jiebai_name(cbn.str)
+            end
+        end
+    elseif cbn.type == 0x13 then
+        local title_index = define.TITILE.JIEBAI
+        local title_str = cbn.str
+        obj_me:set_title(title_index, title_str)
+    elseif cbn.type == 0x14 then
+        local check = self.scriptenginer:call(define.CHANGE_NAME_SCRIPT_ID, "CallBackChangeUserNameBefore", obj_me:get_obj_id())
+        if check == 0 then
+            obj_me:notify_tips("无法改名")
+            return
+        end
+        local name = cbn.str
+        local ok = skynet.call(".Playermanager", "lua", "check_change_name", name)
+        if not ok then
+            obj_me:notify_tips("名称已存在")
+            return
+        end
+		local old_name = obj_me:get_name()
+        skynet.call(".Playermanager", "lua", "change_player_name", obj_me:get_guid(), name,old_name)
+        local old_name = obj_me:get_name()
+        obj_me:set_name(name)
+        self.scriptenginer:call(define.CHANGE_NAME_SCRIPT_ID, "CallBackChangeUserNameAfter", obj_me:get_obj_id(), 0, old_name)
+    end
+end
+
+function scenecore:char_zdzd_request(who, czr)
+    local obj_me = self:get_obj_by_id(who)
+    if not obj_me then
+        return
+    end
+    local args_log = {}
+    if czr.args then
+        for i = 1, #czr.args do
+            args_log[i] = tostring(czr.args[i])
+        end
+    end
+    skynet.error("[DBG_ZDZD_SCENE] sceneid=", tostring(self.id), " who=", tostring(who),
+        " type=", tostring(czr.type), " args=", table.concat(args_log, ","),
+        " unknow_7=", tostring(czr.unknow_7), " zdzd_enabled=", tostring(obj_me and obj_me.zdzd_enabled))
+
+    if czr.type == 1 then
+        for i = 1, 7 do
+            local mission_id = define.ZDZD_MISSION_ID[i]
+            obj_me:set_mission_data_by_script_id(mission_id, czr.args[i] or 0)
+        end
+
+        -- 客户端实际还会多发两个 DWORD，先保留，别丢
+        obj_me.zdzd_arg8 = czr.args[8] or 0
+        obj_me.zdzd_arg9 = czr.args[9] or 0
+        local mission_log = {}
+        for i = 1, 7 do
+            local mission_id = define.ZDZD_MISSION_ID[i]
+            mission_log[i] = tostring(mission_id) .. "=" .. tostring(obj_me:get_mission_data_by_script_id(mission_id) or 0)
+        end
+        skynet.error("[DBG_ZDZD_SCENE_APPLY] sceneid=", tostring(self.id), " who=", tostring(who),
+            " missions=", table.concat(mission_log, ","), " arg8=", tostring(obj_me.zdzd_arg8),
+            " arg9=", tostring(obj_me.zdzd_arg9), " zdzd_enabled=", tostring(obj_me.zdzd_enabled))
+    elseif czr.type == 2 then
+        obj_me.zdzd_enabled = true
+        skynet.error("[ZDZD_STATE] enable sceneid=", tostring(self.id), " who=", tostring(who))
+    elseif czr.type == 3 then
+        obj_me.zdzd_enabled = nil
+        local ai = obj_me:get_ai()
+        if ai then
+            ai.param_ai_use_skill.auto_use_skill = define.INVAILD_ID
+            ai.param_ai_use_skill.queued_skill = define.INVAILD_ID
+            ai.param_ai_use_skill.auto_shoot_target_obj_id = define.INVAILD_ID
+        end
+        obj_me:set_locked_target(define.INVAILD_ID)
+        skynet.error("[ZDZD_STATE] disable sceneid=", tostring(self.id), " who=", tostring(who))
+    end
+end
+
+function scenecore:char_sec_kill_remove_item(who, skri)
+    local obj_me = self:get_obj_by_id(who)
+    if not obj_me then
+        return
+    end
+    local is_discard = skri.is_discard == 1
+    local is_all = skri.is_all == 1
+    local index = skri.index
+    if is_discard then
+        if is_all then
+            local count = obj_me:get_sec_kill_item_count()
+            for i = count, 1, -1 do
+                local item = obj_me:get_sec_kill_item_by_i(i)
+                if item then
+                    obj_me:remove_sec_kill_item(item.index, skri.is_discard)
+                end
+            end
+        else
+            local item = obj_me:get_sec_kill_item_by_index(index)
+            if item then
+                obj_me:remove_sec_kill_item(index, skri.is_discard)
+            end
+        end
+    else
+        if is_all then
+            local count = obj_me:get_sec_kill_item_count()
+            local items = {}
+            for i = 1, count do
+                local item = obj_me:get_sec_kill_item_by_i(i)
+                if item then
+                    items[#items + 1] = {
+                        id = item.id,
+                        count = item.count,
+                        index = item.index,
+                    }
+                end
+            end
+
+            local item_counts = {}
+            for _, item in ipairs(items) do
+                item_counts[item.id] = (item_counts[item.id] or 0) + item.count
+            end
+            local needed_space = { prop = 0, material = 0, task = 0 }
+            for item_id, item_count in pairs(item_counts) do
+                local ok, empty_count = human_item_logic:calc_item_space(
+                    obj_me, item_id, item_count, true)
+                if not ok then
+                    obj_me:notify_tips("空间不足")
+                    return
+                end
+                local temp_item = item_cls.new()
+                temp_item:set_index(item_id)
+                local bag = temp_item:get_place_bag()
+                needed_space[bag] = needed_space[bag] + (empty_count or 0)
+            end
+            local prop_bag_container = obj_me:get_prop_bag_container()
+            for bag, empty_count in pairs(needed_space) do
+                if empty_count > prop_bag_container:get_empty_index_count(bag) then
+                    obj_me:notify_tips("空间不足")
+                    return
+                end
+            end
+
+            for i = #items, 1, -1 do
+                local item = items[i]
+                local logparam = { reason = "扫荡", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+                local is_bind = true
+                local ok = human_item_logic:create_multi_item_to_bag(
+                    logparam, obj_me, item.id, item.count, is_bind, 0, nil, {})
+                if not ok then
+                    obj_me:notify_tips("奖励放入背包失败，请重试")
+                    return
+                end
+                obj_me:remove_sec_kill_item(item.index, skri.is_discard)
+            end
+        else
+            local item = obj_me:get_sec_kill_item_by_index(index)
+            if item then
+                if not human_item_logic:calc_item_space(obj_me, item.id, item.count, true) then
+                    obj_me:notify_tips("空间不足")
+                    return
+                end
+                local logparam = { reason = "扫荡", user_name = obj_me:get_name(), user_guid = obj_me:get_guid() }
+                local is_bind = true
+                local ok = human_item_logic:create_multi_item_to_bag(
+                    logparam, obj_me, item.id, item.count, is_bind, 0, nil, {})
+                if not ok then
+                    obj_me:notify_tips("奖励放入背包失败，请重试")
+                    return
+                end
+                obj_me:remove_sec_kill_item(index, skri.is_discard)
+            end
+        end
+    end
+end
+
+function scenecore:set_pos_can_stall(x, y, can)
+    self.stallinfo.map[x] = self.stallinfo.map[x] or {}
+    self.stallinfo.map[x][y] = self.stallinfo.map[x][y] or { can_stall = can, trade_tax = trade_tax, pos_tax = 10000}
+    self.stallinfo.map[x][y].can_stall = can 
+end
+
+function scenecore:on_notify_raid_result(who, result)
+    local human = self.objs[who]
+    if human and human:get_obj_type() == "human" then
+        return human:update_raid_info(result)
+    end
+end
+
+function scenecore:on_notify_raid_list(who, result)
+    local human = self.objs[who]
+    if human and human:get_obj_type() == "human" then
+        return human:update_raid_info_by_raid_list(result)
+    end
+end
+
+function scenecore:on_notify_team_result(who, result)
+    local human = self.objs[who]
+    if human and human:get_obj_type() == "human" then
+        return human:update_team_info(result)
+    end
+end
+
+function scenecore:on_notify_team_list(who, list)
+    local human = self.objs[who]
+    if human and human:get_obj_type() == "human" then
+        return human:update_team_info_by_team_list(list)
+    end
+end
+
+function scenecore:on_notify_team_option_changed(who, option)
+    local human = self.objs[who]
+    if human and human:get_obj_type() == "human" then
+        human:update_team_option(option)
+    end
+end
+
+function scenecore:ask_team_member_info(who, ask)
+    local human = self:get_obj_by_id(ask.m_objID)
+    if human and human:get_obj_type() == "human" then
+        local attrib = human:get_base_attribs()
+        local equip_visuals = human:get_equip_visuals()
+        if attrib.guid == ask.guid then
+            return attrib, equip_visuals,human:is_die()
+        end
+    end
+end
+
+function scenecore:get_specifi_scene_client_res(dest_scene_id)
+    local scene_info = configenginer:get_config("scene_info")
+    local key = string.format("scene%d", dest_scene_id)
+    if scene_info[key] then
+        return scene_info[key].clientres
+    end
+end
+
+function scenecore:notify_change_scene(obj_id, sceneid, x, y, client_res)
+	local obj = self.objs[obj_id]
+	if not obj or obj:get_obj_type() ~= "human" then
+		return
+	elseif obj:is_die() then
+		obj:notify_tips("你已死亡。")
+		return
+	elseif sceneid == self.id then
+		obj:notify_tips("传送失败。")
+		return
+	end
+    -- local dest_scene_name = string.format(".SCENE_%d", sceneid)
+    client_res = client_res or self:get_specifi_scene_client_res(sceneid)
+    local ret = packet_def.GCNotifyChangeScene.new()
+    ret.scene_from = self.id
+    ret.scene_to = sceneid
+    ret.world_pos.x = x
+    ret.world_pos.y = y
+    ret.client_res = client_res or sceneid
+    skynet.logi("[AUTO_ROUTE_NOTIFY] guid=", tostring(obj:get_guid()),
+        " obj=", tostring(obj_id), " from=", tostring(ret.scene_from),
+        " to=", tostring(ret.scene_to), " x=", tostring(ret.world_pos.x),
+        " y=", tostring(ret.world_pos.y),
+        " enter_type=", tostring(ret.unknow_3),
+        " client_res=", tostring(ret.client_res))
+    self:send2client(obj_id, ret)
+end
+
+function scenecore:set_switch_scene_info(my_obj_id,my_obj_guid,sceneid,world_pos)
+    local obj = self:get_obj_by_id(my_obj_id)
+	if obj and obj:get_obj_type() == "human" then
+		obj:set_switch_scene_info(sceneid,world_pos)
+	end
+end
+
+-- function ma_func:set_login_user(my_obj_id,login_user)
+    -- local obj = self:get_obj_by_id(my_obj_id)
+	-- if obj and obj:get_obj_type() == "human" then
+		-- obj:set_login_user(login_user)
+	-- end
+-- end
+
+function scenecore:get_my_save_data(guid,del_obj_flag)
+	local obj = self:get_obj_by_guid(guid)
+	if not obj then
+		return
+	elseif obj:get_obj_type() ~= "human" then
+		return
+	end
+	return obj:get_save_data()
+end
+
+function scenecore:_detach_human(obj, guid, run_leave_script)
+    if not obj or obj:get_obj_type() ~= "human" then
+        return nil, false
+    end
+    if obj._scene_detached then
+        return obj._leave_save_data, true
+    end
+
+    -- 先冻结旧场景发包并取得存档快照。即使离场脚本阻塞，force_leave 也能使用该快照完成解绑。
+    -- CYS-FORGE 23/09 settle before the leave snapshot; no refund or lock survives logout.
+    require("cys_forge").finish(obj,false,true)
+    obj._leaving = true
+    if not obj._leave_save_data then
+        local save_ok, save_data = pcall(obj.get_save_data, obj)
+        if save_ok then
+            obj._leave_save_data = save_data
+        else
+            skynet.loge("[SCENE_LEAVE] get_save_data failed, scene =", tostring(self.id),
+                " guid =", tostring(guid), " error =", tostring(save_data))
+        end
+    end
+
+    pcall(obj.set_logout_time, obj, os.time())
+    local obj_id = obj:get_obj_id()
+    if run_leave_script and not obj._leave_script_started then
+        obj._leave_script_started = true
+        local script_ok, script_err = pcall(self.on_player_leave_scene, self, obj_id)
+        if not script_ok then
+            skynet.loge("[SCENE_LEAVE] leave script failed, scene =", tostring(self.id),
+                " guid =", tostring(guid), " error =", tostring(script_err))
+        end
+    end
+
+    -- 离场脚本执行期间 force_leave 可能已经完成解绑。
+    if obj._scene_detached then
+        return obj._leave_save_data, true
+    end
+
+    local pet_ok, pet = pcall(obj.get_pet, obj)
+    if pet_ok and pet then
+        pcall(petmanager.remove_pet, petmanager, pet:get_obj_id())
+    end
+
+    local others_ok, others = pcall(obj.get_view_by_others, obj)
+    if others_ok and others then
+        for o in pairs(others) do
+            pcall(self.delaoiobj, self, o, obj)
+        end
+    end
+    local view_ok, view = pcall(obj.get_view, obj)
+    if view_ok and view then
+        for o in pairs(view) do
+            pcall(self.delaoiobj, self, o, obj)
+            pcall(self.delaoiobj, self, obj, o)
+        end
+    end
+    pcall(AOI.leave, AOI, obj)
+
+    obj._scene_detached = true
+    if self.objs[obj_id] == obj then
+        self.objs[obj_id] = nil
+    end
+    if self.guid2objs[guid] == obj_id then
+        self.guid2objs[guid] = nil
+    end
+    pcall(self.on_obj_id_release, self, obj)
+    self._recent_leave_data = self._recent_leave_data or {}
+    local leave_record = { data = obj._leave_save_data }
+    self._recent_leave_data[guid] = leave_record
+    skynet.timeout(1000, function()
+        if self._recent_leave_data and self._recent_leave_data[guid] == leave_record then
+            self._recent_leave_data[guid] = nil
+        end
+    end)
+    return obj._leave_save_data, true
+end
+
+function scenecore:force_leave(guid)
+    local obj = self:get_obj_by_guid(guid)
+    if not obj then
+        local recent = self._recent_leave_data and self._recent_leave_data[guid]
+        if recent then
+            return recent.data, true
+        end
+        return nil, true
+    end
+    return self:_detach_human(obj, guid, false)
+end
+
+function scenecore:leave(guid,del_obj_flag)
+	local obj = self:get_obj_by_guid(guid)
+	if not obj then
+		if not del_obj_flag then
+			local collection = "log_get_new_save_data"
+			local doc = {
+				fun_name = "leave",
+				error_msg = "找不到OBJ",
+				guid = guid,
+				date_time = utils.get_day_time()
+			}
+			skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+		end
+		return
+	elseif obj:get_obj_type() ~= "human" then
+		if not del_obj_flag then
+			local collection = "log_get_new_save_data"
+			local doc = {
+				fun_name = "leave",
+				error_msg = "OBJ非角色",
+				guid = guid,
+				date_time = utils.get_day_time()
+			}
+			skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+		end
+		return
+	end
+	local save_data = self:_detach_human(obj, guid, true)
+	return save_data
+end
+
+
+function scenecore:char_world_pos_changed(obj)
+    local r, err = pcall(AOI.enter, AOI, obj)
+    if not r then
+        skynet.logw("char_world_pos_changed error =", err)
+    end
+end
+
+function scenecore:on_new_obj_enter_view(my, other)
+    local msg = other:create_new_obj_packet()
+    if msg then
+        self:send2client(my, msg)
+    end
+end
+
+function scenecore:addaoiobj(my, other)
+    --print("addaoiobj my =", my, ";other =", other)
+    local my_obj = self.objs[my]
+    local other_obj = self.objs[other]
+    my_obj:on_add_aoi_obj(other_obj)
+end
+
+function scenecore:delaoiobj(my, other)
+    --print("delaoiobj my =", my, ";other =", other)
+    my:on_obj_leave_view(other)
+end
+
+function scenecore:broadcast(own, packet, sendself)
+    local view = own:get_view_by_others()
+    if sendself then
+        self:send2client(own, packet)
+    end
+    for o in pairs(view) do
+        self:send2client(o, packet)
+    end
+end
+
+function scenecore:send2client(obj_id, packet)
+    local obj
+    if type(obj_id) == "number" then
+        obj = self.objs[obj_id]
+    else
+        obj = obj_id
+    end
+    if obj and not obj._leaving and not obj._scene_detached
+        and self:get_obj_by_id(obj:get_obj_id()) == obj then
+        local agent = obj:get_agent()
+        if agent then
+            -- print("send2client xy_id =", packet.xy_id)
+			-- local objinfo = self:get_obj_by_id(obj:get_obj_id())
+			-- if scenecoreflag then
+				-- if type(obj_id) == "number" then
+					-- skynet.logi("agent=",agent,"obj_id=",obj_id,";xy_id =", packet.xy_id, ";tbl =", table.tostr(packet))
+				-- else
+					-- skynet.logi("agent=",agent,"obj_id=",obj:get_obj_id(),";xy_id =", packet.xy_id, ";tbl =", table.tostr(packet))
+				-- end
+			-- end
+			-- skynet.logi("agent=",agent,"obj_id=",objid,";xy_id =", packet.xy_id, ";tbl =", table.tostr(packet))
+            skynet.send(agent, "lua", "send2client", packet.xy_id, packet)
+            return true
+        end
+    end
+end
+
+function scenecore:broadcastall(packet)
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "human" then
+            self:send2client(obj, packet)
+        end
+    end
+end
+
+function scenecore:broadcast_to_objs(objs, packet)
+    for _, obj in ipairs(objs) do
+        if obj:get_obj_type() == "human" then
+            self:send2client(obj, packet)
+        end
+    end
+end
+
+function scenecore:calculate_dist_sq(p1, p2)
+    local dx = p2.x - p1.x
+    local dy = p2.y - p1.y
+    return dx * dx + dy * dy
+end
+
+function scenecore:scan_target_check_by_obj_type(obj, target_check_by_obj_type)
+	if not obj then
+		return false
+	end
+    if target_check_by_obj_type == 0 and obj:get_obj_type() ~= "human" then
+        return false
+    end
+    if target_check_by_obj_type == 1 and obj:get_obj_type() ~= "pet" then
+        return false
+    end
+    if target_check_by_obj_type == 2 and obj:get_obj_type() ~= "monster" then
+        return false
+    end
+    return true
+end
+
+function scenecore:scan_target_logic_by_stand(obj, o, target_logic_by_stand)
+	if not obj then
+		return false
+	end
+    if target_logic_by_stand and not obj:is_character_obj() then
+        return false
+    end
+    if (target_logic_by_stand == 0 and not obj:is_friend(o)) then
+        return false
+    end
+    if (target_logic_by_stand == 1 and not obj:is_enemy(o))  then
+        return false
+    end
+    if (target_logic_by_stand == 2 and not obj:is_teammate(o))  then
+        return false
+    end
+    return true
+end
+
+function scenecore:scan_target_must_be_teammate(obj, o, target_must_be_teammate)
+	if not obj then
+		return false
+	end
+    if not target_must_be_teammate then
+        return true
+    end
+    if obj:get_obj_type() ~= "human" then
+        return false
+    end
+    if o:get_obj_type() ~= "human" and o:get_obj_type() ~= "pet"  then
+        return false
+    end
+    if o:get_obj_type() == "pet" then
+        if o:get_owner() == obj then
+            return true
+        end
+    end
+	local raid_id = obj:get_raid_id() or define.INVAILD_ID
+	if raid_id ~= define.INVAILD_ID then
+		return raid_id == o:get_raid_id()
+	else
+		local team_id = obj:get_team_id() or define.INVAILD_ID
+		if team_id == define.INVAILD_ID then 
+			return false
+		end
+		return team_id == o:get_team_id()
+	end
+end
+
+function scenecore:scan_in_objs(operate, obj, scaner, objs, outer)
+    local target_logic_by_stand = operate.target_logic_by_stand
+    local target_check_by_obj_type = operate.target_check_by_obj_type
+    local target_must_be_teammate = operate.target_must_be_teammate
+    local check_can_view = operate.check_can_view
+    local need_delete_objs = {}
+    for o in pairs(objs) do
+        local pos = o:get_world_pos()
+        local distsq = self:calculate_dist_sq(pos, {x = operate.x, y = operate.y})
+        local radioussq = operate.radious * operate.radious
+        if distsq >= define.MAX_VIEW_DIST_SQ then
+            table.insert(need_delete_objs, o)
+        end
+        if distsq <= radioussq then
+            if o:is_character_obj() and o:is_alive() then
+                local condition_ok = true
+                if not self:scan_target_check_by_obj_type(o, target_check_by_obj_type) then
+                    condition_ok = false
+                end
+                if not self:scan_target_logic_by_stand(obj, o, target_logic_by_stand) then
+                    condition_ok = false
+                end
+                if not self:scan_target_must_be_teammate(obj, o, target_must_be_teammate) then
+                    condition_ok = false
+                end
+                if check_can_view then
+                    condition_ok = condition_ok and obj:is_can_view(o)
+                end
+                if condition_ok then
+                    if outer.objs[o] == nil then
+                        outer.objs[o] = true
+                        outer.count = outer.count + 1
+                        if operate.count then
+                            if outer.count >= operate.count then
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    if not target_logic_by_stand or target_logic_by_stand == 0 then
+        if outer.objs[obj] == nil then
+            outer.objs[obj] = true
+            outer.count = outer.count + 1
+        end
+    end
+    for _, o in ipairs(need_delete_objs) do
+        self:delaoiobj(o, scaner)
+        self:delaoiobj(scaner, o)
+    end
+end
+
+function scenecore:scan(operate)
+    local obj = operate.obj
+	if not obj then
+		return {}
+	end
+    local scaner = operate.scaner or obj
+    local view = scaner:get_view()
+    local stealth_objs = scaner:get_obj_can_not_view()
+    local outer = { count = 0, objs = {} }
+    self:scan_in_objs(operate, obj, scaner, view, outer)
+    self:scan_in_objs(operate, obj, scaner, stealth_objs, outer)
+    local objs = {}
+    for obj in pairs(outer.objs) do
+        table.insert(objs, obj)
+    end
+    return objs
+end
+
+function scenecore:after_monster_die(monster)
+    local config_info = self.configenginer:get_config("config_info")
+    local monster_ex_attr = configenginer:get_config("monster_attr_ex")
+    local model = monster:get_model()
+    local ex_attr = monster_ex_attr[model]
+    local is_boss = ex_attr.is_boss
+    local remove_time_ms = config_info.Monster.DefaultBodyTime
+    if is_boss then
+        remove_time_ms = config_info.Monster.DefaultRefuseScanTime
+    end
+    skynet.timeout(remove_time_ms / 10, function()
+        self:remove_monster_die_body(monster)
+    end)
+end
+
+function scenecore:remove_monster_die_body(obj)
+    pcall(AOI.leave, AOI, obj)
+    local others = obj:get_view_by_others()
+    for o in pairs(others) do
+        self:delaoiobj(o, obj)
+    end
+    local respawn_time = obj:get_respawn_time() or define.INVAILD_ID
+    if respawn_time ~= define.INVAILD_ID then
+        skynet.timeout(obj:get_respawn_time() / 10, function()
+            self:monster_respawn(obj)
+        end)
+    end
+end
+
+function scenecore:monster_respawn(obj)
+    obj:respawn()
+    pcall(AOI.enter, AOI, obj)
+end
+
+function scenecore:delete_obj(obj)
+	if not obj then return end
+	local obj_type = obj:get_obj_type()
+    local obj_id = obj:get_obj_id()
+	if obj_type == "monster" then
+		if obj_id == self:get_dmg_top_monid() then
+			self:empty_dmg_top_monid()
+		end
+	elseif obj_type == "human" then
+		local objguid = obj:get_guid()
+		-- self:leave(obj_id,"scenecore:delete_obj",objguid)
+		-- return
+		local objname = obj:get_name()
+		local collection = "log_delete_obj_is_player"
+		local doc = { 
+		name = objname,
+		guid = objguid,
+		logmsg = {param1 = "触发删除场景角色数据"},
+		date_time = utils.get_day_time()
+		}
+		skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+		self.guid2objs[objguid] = nil
+	end
+	
+	
+    -- print("delete_obj obj_id =", obj_id)
+    local others = obj:get_view_by_others()
+    for o in pairs(others) do
+        self:delaoiobj(o, obj)
+    end
+    pcall(AOI.leave, AOI, obj)
+    self.objs[obj_id] = nil
+	--先打个点吧
+    self:on_obj_id_release(obj)
+end
+
+function scenecore:delete_temp_monster(obj)
+    self:delete_obj(obj)
+end
+
+function scenecore:delete_temp_bus(obj)
+    self:delete_obj(obj)
+end
+
+function scenecore:multicast(...)
+    self.multicast_channel:publish(...)
+end
+
+function scenecore:get_obj_world_pos(oid)
+    local obj = self.objs[oid]
+    if obj then
+        return obj:get_world_pos()
+    end
+end
+
+function scenecore:get_obj_guild_id(oid)
+    local obj = self.objs[oid]
+    if obj then
+        return obj:get_guild_id()
+    end
+end
+
+function scenecore:update_confederate_id(oid, confederate_id, confederate_name)
+    local human = self:get_obj_by_id(oid)
+    if human then
+        human:set_confederate_id(confederate_id)
+        human:set_confederate_name(confederate_name)
+    end
+end
+
+function scenecore:on_user_guild_position_changed(oid, updater)
+    local human = self:get_obj_by_id(oid)
+    if human then
+        local title_id = 23
+        local position = updater.position
+        local title_str = string.format("%s%s", updater.guild_name, define.GUILD_POISTION_NAME[position])
+        if position == define.GUILD_POISTION.CHEIF then
+            title_str = string.format("#-08 %s%s", updater.guild_name, define.GUILD_POISTION_NAME[position])
+        end
+        human:set_title(title_id, title_str)
+        human:update_titles_to_client()
+        return true
+    end
+end
+
+function scenecore:get_user_guild_id(oid, updater)
+    local obj = self.objs[oid]
+    if obj then
+        return obj:get_guild_id()
+    end
+    assert(false)
+end
+
+function scenecore:activity_open(activity)
+    local scriptid = activity.scriptid or define.INVAILD_ID
+    if scriptid ~= define.INVAILD_ID then
+        local param6 = self.scriptenginer:call(scriptid, "GetDataValidator", 0, 0)
+		-- if scenecoreflag then
+			-- skynet.logi("activity_open:param6如果为nil(应该是无脚本或脚本漏掉)", param6,"scriptid", scriptid)
+		-- end
+		if param6 then
+			local id = activity.id
+			local param1 = activity.slow_broad or -1
+			local param2 = activity.reserve1 or -1
+			local param3 = activity.reserve2 or -1
+			local param4 = activity.reserve3 or -1
+			local param5 = activity.reserve4 or -1
+			-- local param6 = activity.reserve5 or -1
+			self.scriptenginer:call(scriptid, "OnDefaultEvent", id, param1, param2, param3, param4, param5, param6)
+        else
+			-- 脚本不存在则跳过
+		end
+		-- self.scriptenginer:call(scriptid, "OnDefaultEvent", id, activity.slow_broad, activity.reserve1, activity.reserve2, activity.reserve3, activity.reserve4, activity.reserve5)
+    end
+end
+
+function scenecore:activity_close(activity)
+    
+end
+
+function scenecore:add_activity(actid,on_time,second,minute,hour)
+    local activity_notice = configenginer:get_config("activity_notice")
+    activity_notice = activity_notice[actid]
+    if activity_notice then
+        self.running_activitys[actid] = { 
+			scriptid = activity_notice.scriptid,
+			tick_time = 0,
+			params = {},
+			scene_params = {},
+			tsec = second,
+			tmin = minute,
+			thour = hour,
+			on_time = on_time
+		}
+    end
+end
+
+
+function scenecore:get_activity_scene_param(actid)
+	if self.running_activitys[actid] then
+        return self.running_activitys[actid].scene_params
+    end
+end
+function scenecore:get_activity_scene_param_on_key(actid,key)
+	if self.running_activitys[actid] then
+        return self.running_activitys[actid].scene_params[key] or 0
+    end
+	return 0
+end
+function scenecore:set_activity_scene_param_on_key(actid,key,value)
+	if self.running_activitys[actid] then
+		self.running_activitys[actid].scene_params[key] = value
+    end
+end
+
+
+function scenecore:set_activity_param(actid, index, value)
+	if self.running_activitys[actid] then
+		self.running_activitys[actid].params[index] = value
+	end
+end
+
+function scenecore:get_activity_param(actid, index)
+    local activity = self.running_activitys[actid]
+    if activity then
+        return activity.params[index] or 0
+    end
+    return 0
+end
+
+
+
+function scenecore:running_activitys_tick(deltatime,tsec,tmin,hour_minute,thour)
+    for actid, data in pairs(self.running_activitys) do
+		-- if actid == 365 then
+			-- skynet.logi("OnTimer ")
+		-- end
+        data.tick_time = data.tick_time + deltatime
+		local is_ontime = true
+		if data.tsec then
+			is_update = false
+			if data.tsec ~= tsec then
+				data.tsec = tsec
+				self.scriptenginer:call(data.scriptid, "OnTimer_Second",-1 * actid,tmin,hour_minute,thour,tsec)
+			end
+		end
+		if data.tmin then
+			is_update = false
+			if data.tmin ~= tmin then
+				data.tmin = tmin
+				self.scriptenginer:call(data.scriptid, "OnTimer_Minute",-1 * actid,tmin,hour_minute,thour)
+			end
+		end
+		if data.thour then
+			is_update = false
+			if data.thour ~= thour then
+				data.thour = thour
+				self.scriptenginer:call(data.scriptid, "OnTimer_Hour",-1 * actid,tmin,hour_minute,thour)
+			end
+		end
+		if is_ontime then
+			self.scriptenginer:call(data.scriptid, "OnTimer", actid, deltatime, deltatime)
+		end
+    end
+end
+
+function scenecore:get_monster_count()
+    local count = 0
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "monster" and obj:is_alive() then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+function scenecore:get_monster_obj_id(i)
+	local idx = 0
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "monster" and obj:is_alive() then
+            idx = idx + 1
+            if idx == i then
+                return obj:get_obj_id()
+            end
+        end
+    end
+    return -1
+end
+
+function scenecore:get_human_count()
+     local count = 0
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "human" then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+function scenecore:get_human_obj_id(i)
+	local idx = 0
+    for _, obj in pairs(self.objs) do
+        if obj:get_obj_type() == "human" then
+            idx = idx + 1
+            if idx == i then
+                return obj:get_obj_id()
+            end
+        end
+    end
+    return -1
+end
+
+function scenecore:create_wild_pet(data_id, x, y)
+    local guid = pet_guid.new()
+    local spouse_guid = pet_guid.new()
+    guid:set(-1, skynet.now() * 10 + math.random(10) % 10)
+    local attrib = { guid = guid, spouse_guid = spouse_guid, data_id = data_id}
+    local lv1_attrib = {}
+    local pet_detail = cls_pet_detail.new()
+    pet_detail:init_from_data({ skills = {activate = {}, positive = {}}, equips = {}, lv1_attrib = lv1_attrib, attrib = attrib}, nil)
+    petmanager:make_capture_pet_attrib(pet_detail, false, nil, false, true)
+    local conf = pet_detail:get_obj_data()
+    local pet = self:create_pet(conf, define.INVAILD_ID, {x = x, y = y})
+    pet:set_detail(pet_detail)
+    return pet:get_obj_id()
+end
+
+function scenecore:check_timer(index)
+    return self.timers[index + 1] ~= nil
+end
+
+function scenecore:set_timer(playerId, ScriptId, func_name, delta_time)
+    assert(delta_time)
+    for _, t in ipairs(self.timers) do
+        if t.script_id == ScriptId and t.func == func_name and t.oid == playerId then
+            return
+        end
+    end
+    local timer = { oid = playerId, script_id = ScriptId, func = func_name, delta_time = delta_time, counter = 0}
+    table.insert(self.timers, timer)
+end
+
+function scenecore:remove_timer(playerId, ScriptId, func_name)
+    for i = #self.timers, 1, -1 do
+        local t = self.timers[i]
+        if t.script_id == ScriptId and t.func == func_name and t.oid == playerId then
+            table.remove(self.timers, i)
+            return
+        end
+    end
+end
+
+function scenecore:update_timers(delta_time)
+    for i = #self.timers, 1, -1 do
+        local t = self.timers[i]
+        if t.oid and t.oid ~= 0 and not self.objs[t.oid] then
+            table.remove(self.timers, i)
+        else
+            t.counter = t.counter + delta_time
+            if t.counter > t.delta_time then
+                t.counter = 0
+                self.scriptenginer:call(t.script_id, t.func, t.oid, t.delta_time)
+            end
+        end
+    end
+end
+
+
+function scenecore:on_obj_id_occupated(obj)
+    local obj_type = obj:get_obj_type()
+    self.objs_count[obj_type] = self.objs_count[obj_type] or 0
+    self.objs_count[obj_type] = self.objs_count[obj_type] + 1
+    -- local name = self:get_name()
+	-- if scenecoreflag then
+		-- skynet.logi("场景", name, "on_obj_id_occupated obj =", obj, "obj_id =", obj:get_obj_id(), "obj_name =", obj:get_name(), "obj_type =", obj:get_obj_type())
+	-- end
+end
+
+function scenecore:on_obj_id_release(obj)
+    local obj_type = obj:get_obj_type()
+    self.objs_count[obj_type] = self.objs_count[obj_type] or 0
+	if self.objs_count[obj_type] > 0 then
+    -- assert(self.objs_count[obj_type] > 0)
+		self.objs_count[obj_type] = self.objs_count[obj_type] - 1
+	end
+end
+
+function scenecore:log_objs_count(delta_time)
+    self.log_objs_tick = self.log_objs_tick or 0
+    if self.log_objs_tick >= 60 * 1000 then
+        local name = self:get_name()
+        self.log_objs_tick = 0
+    end
+    self.log_objs_tick = self.log_objs_tick + delta_time
+end
+
+function scenecore:get_type_of_obj_count(type)
+    return self.objs_count[type] or 0
+end
+
+function scenecore:log_status(delta_time)
+    self.log_status_tick = self.log_status_tick or 0
+    if self.log_status_tick >= 60 * 1000 then
+        local name = self:get_name()
+        local tbl = {}
+        tbl.endless = skynet.stat("endless")
+        tbl.mqlen = skynet.stat("mqlen")
+        tbl.message = skynet.stat("message")
+        tbl.cpu = skynet.stat("cpu")
+        self.log_status_tick = 0
+        self.objs_move_use_time = 0
+    end
+    self.log_status_tick = self.log_status_tick + delta_time
+end
+
+function scenecore:get_type()
+    return 0
+end
+
+function scenecore:squeeze_out(who)
+    local human = self:get_obj_by_id(who)
+    if human then
+        human:notify_tips("账号他人登录，您被挤下线了，如果不是您本人登录，请尽快修改密码！")
+    end
+end
+
+function scenecore:maintenance(who)
+    local human = self:get_obj_by_id(who)
+    if human then
+        human:notify_tips("服务器即将开始维护，您被踢下线了")
+    end
+end
+
+function scenecore:reload_scripts()
+    local ok, err = xpcall(function()
+        configenginer:clear_cache()
+        self.scriptenginer:reload_scripts()
+    end, debug.traceback)
+    if not ok then
+        skynet.logw("[SCENE_RELOAD] reload_scripts error, sceneid =", self.id, " err =", err)
+    end
+end
+
+function scenecore:reload_shop_table()
+    local shopenginer = require "shopenginer":getinstance()
+    shopenginer:reload()
+end
+
+function scenecore:reload_std_impact()
+    local impactenginer = require "impactenginer":getinstance()
+    impactenginer:reload()
+end
+
+function scenecore:reload_drop_rate()
+    local sharetable = require "skynet.sharetable"
+    local configenginer = require "configenginer":getinstance()
+    -- 从 CfgDB 获取最新的两张表，由场景侧发布到 sharetable
+    local new_boxs = skynet.call(".CfgDB", "lua", "get_monster_drop_boxs")
+    local new_content = skynet.call(".CfgDB", "lua", "get_drop_box_content")
+    if new_boxs then sharetable.loadtable("monster_drop_boxs", new_boxs) end
+    if new_content then sharetable.loadtable("drop_box_content", new_content) end
+    configenginer:invalidate_config("monster_drop_boxs")
+    configenginer:invalidate_config("drop_box_content")
+    -- 重新加载到缓存，后续 itemdropmanager 自动拿到新数据
+    configenginer:get_config("monster_drop_boxs")
+    configenginer:get_config("drop_box_content")
+    -- 验证：统计记录数
+    local verify_boxs = configenginer:get_config("monster_drop_boxs")
+    local verify_content = configenginer:get_config("drop_box_content")
+    local bcount, ccount = 0, 0
+    if verify_boxs then for _ in pairs(verify_boxs) do bcount = bcount + 1 end end
+    if verify_content then for _ in pairs(verify_content) do ccount = ccount + 1 end end
+end
+
+function scenecore:reload_equip_base()
+    local configenginer = require "configenginer":getinstance()
+    configenginer:invalidate_config("equip_base")
+    configenginer:get_config("equip_base")
+end
+
+function scenecore:reload_monster_attr_ex()
+    local configenginer = require "configenginer":getinstance()
+    configenginer:invalidate_config("monster_attr_ex")
+    configenginer:get_config("monster_attr_ex")
+end
+
+function scenecore:execute_script_mail(who, mail)
+    self.scriptenginer:call(define.MAIL_SCRIPT_ID, "ExecuteMail", who, mail.param_1, mail.param_2, mail.param_3, mail.param_4, mail.param_5)
+end
+
+function scenecore:check_human_occupy_city(who)
+    local human = self:get_obj_by_id(who)
+	if not human then return end
+    local money = human:get_money()
+    local jiaozi = human:get_jiaozi()
+    local item_index = 30008013
+    local item_count = human_item_logic:calc_bag_item_count(human, item_index)
+    local result = (item_count > 0) or ((money + jiaozi) >= (1000 * 10000))
+    if not result then
+        human:notify_tips("创建帮会领地失败，需要1000交子或者建城令牌")
+    end
+    return result
+end
+
+function scenecore:cost_human_occupy_city(who)
+    local human = self:get_obj_by_id(who)
+    if not human then return false end
+    local item_index = 30008013
+    local item_count = human_item_logic:calc_bag_item_count(human, item_index)
+    if item_count > 0 then
+        local result = human_item_logic:del_available_item({}, human, item_index, 1)
+        if not result then
+            human:notify_tips("创建帮会领地失败，建城令牌扣除失败")
+            return false
+        end
+    else
+        local cost = 1000 * 10000
+        if (human:get_money() + human:get_jiaozi()) < cost then
+            human:notify_tips("创建帮会领地失败，需要1000交子或者建城令牌")
+            return false
+        end
+        human:cost_money_with_priority(cost, "创建帮会领地")
+    end
+    human:notify_tips("创建帮会领地成功!")
+    return true
+end
+
+function scenecore:auction_sell_before_check(who, auction_sell)
+    local ret_args
+    local human = self:get_obj_by_id(who)
+	if not human then return end
+    if self:check_item_limit_exchange(who) then
+        human:notify_tips("操作失败")
+        return
+    end
+    if auction_sell.type == 1 then
+        local pet_bag_container = human:get_pet_bag_container()
+        local index = pet_bag_container:get_index_by_pet_guid(auction_sell.pet_guid)
+		if not index then
+            human:notify_tips("宠物不存在")
+            return
+        end
+        local pet = pet_bag_container:get_item(index)
+        if pet then
+            if pet:have_equip() then
+                human:notify_tips("有装备的宠物不能上架")
+                return
+            end
+            local base_config = pet:get_base_config()
+            ret_args = { pet:copy_raw_data(), base_config.name, base_config.take_level }
+        end
+    elseif auction_sell.type == 2 then
+        local prop_bag_container = human:get_prop_bag_container()
+        local index = prop_bag_container:get_index_by_guid(auction_sell.item_guid)
+		if not index then
+            human:notify_tips("道具不存在")
+            return
+        end
+        local item = prop_bag_container:get_item(index)
+        if item then
+            local base_config = item:get_base_config()
+            ret_args = { item:copy_raw_data(), base_config.name }
+        end
+        if item:is_bind() then
+            human:notify_tips("绑定道具不能上架")
+            return
+        end
+    else
+        assert(false, auction_sell.type)
+    end
+    local money = human:get_money() + human:get_jiaozi()
+    if money < auction_sell.price * 30 then
+        human:notify_tips("手续费不足，上架失败")
+        return
+    end
+    return table.unpack(ret_args)
+end
+
+function scenecore:auction_sell_after_remove(who, auction_sell)
+    local human = self:get_obj_by_id(who)
+    local index
+    if auction_sell.type == 1 then
+        local pet_bag_container = human:get_pet_bag_container()
+        index = pet_bag_container:get_index_by_pet_guid(auction_sell.pet_guid)
+		if not index then
+            return
+        end
+        local pet = pet_bag_container:get_item(index)
+        pet_bag_container:erase_item(index)
+        local msg = packet_def.GCRemovePet.new()
+        msg.guid = pet:get_guid()
+        self:send2client(human, msg)
+    elseif auction_sell.type == 2 then
+        local prop_bag_container = human:get_prop_bag_container()
+        index = prop_bag_container:get_index_by_guid(auction_sell.item_guid)
+        if not index then
+			
+			local doc = { 
+				logparam = "human_item_logic:dec_item_lay_count",
+				logname = "没有找到道具",
+				name = human:get_name(),
+				guid = human:get_guid(),
+				item_index = "auction_sell.type",
+				count = 2,
+				date_time = utils.get_day_time()
+			}
+			skynet.send(".logdb", "lua", "insert", { collection = "log_shanghui_and_shichang", doc = doc})
+		
+		
+		
+            return
+        end
+        prop_bag_container:erase_item(index)
+        local msg = packet_def.GCItemInfo.new()
+        msg.bagIndex = index
+        msg.unknow_1 = item and 0 or 1
+        msg.item = item and item:copy_raw_data() or item_cls.new():copy_raw_data()
+        self:send2client(human, msg)
+    else
+        assert(false, auction_sell.type)
+    end
+    human:cost_money_with_priority(auction_sell.price * 30, "交易行寄售上架手续")
+    return index
+end
+
+function scenecore:auction_buy_before_check(who, merchadise)
+    local obj_me = self:get_obj_by_id(who)
+    if self:check_item_limit_exchange(who) then
+        obj_me:notify_tips("购买失败")
+        return
+    end
+    assert(obj_me, who)
+    local price = merchadise.price
+    local item_data = merchadise.item
+    if merchadise.type == 1 then
+        local pet_detail = cls_pet_detail.new()
+        pet_detail:init_from_data(item_data)
+        local data_id = pet_detail:get_data_index()
+        local pet_attr_table = configenginer:get_config("pet_attr_table")
+        pet_attr_table = pet_attr_table[data_id]
+        assert(pet_attr_table, data_id)
+        local take_level = pet_attr_table.take_level
+        if obj_me:get_level() < take_level then
+            return false, "宠物携带等级不足"
+        end
+        local pet_bag_container = obj_me:get_pet_bag_container()
+        local empty_index = pet_bag_container:get_empty_item_index()
+        if empty_index == define.INVAILD_ID then
+            return false, "宠物栏空间不足"
+        end
+    else
+        local item = item_cls.new()
+        item:init_from_data(item_data)
+        local prop_bag_container = obj_me:get_prop_bag_container()
+        local place_bag = item:get_place_bag()
+        local empty_index = prop_bag_container:get_empty_item_index(place_bag)
+        if empty_index == define.INVAILD_ID then
+            return false, "道具栏空间不足"
+        end
+    end
+    local money = obj_me:get_yuanbao()
+    if money < merchadise.price then
+        return false, "元宝不足"
+    end
+    return true
+end
+
+function scenecore:auction_buy_after_do(who, merchadise)
+    local obj_me = self:get_obj_by_id(who)
+    if self:check_item_limit_exchange(who) then
+        obj_me:notify_tips("购买失败")
+        return
+    end
+    local money = obj_me:get_yuanbao()
+    local cost = merchadise.price
+	assert(cost >= 1, cost)
+    local item_data = merchadise.item
+    obj_me:set_yuanbao(money - cost, "元宝交易市场-消费",nil,true)
+    if merchadise.type == 1 then
+        local pet_detail = cls_pet_detail.new()
+        pet_detail:init_from_data(item_data)
+        obj_me:add_pet(pet_detail)
+    else
+        local item = item_cls.new()
+        item:init_from_data(item_data)
+        local prop_bag_container = obj_me:get_prop_bag_container()
+        local place_bag = item:get_place_bag()
+        local empty_index = prop_bag_container:get_empty_item_index(place_bag)
+        assert(empty_index ~= define.INVAILD_ID)
+        prop_bag_container:set_item(empty_index, item)
+        item = prop_bag_container:get_item(empty_index)
+		if item then
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:auction_buy_after_do","元宝市场",item:get_index(),item:get_lay_count(),item:is_bind())
+        else
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:auction_buy_after_do","元宝市场",0,0,false)
+		end
+		local msg = packet_def.GCNotifyEquip.new()
+        msg.bag_index = empty_index
+        msg.item = item:copy_raw_data()
+        self:send2client(obj_me, msg)
+
+        local msg = packet_def.GCItemInfo.new()
+        msg.bagIndex = empty_index
+        msg.unknow_1 = item == nil and 1 or 0
+        msg.item = item == nil and item_cls.new():copy_raw_data() or item:copy_raw_data()
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:auction_get_yb_after_do(who, item_name, yuanbao)
+    assert(yuanbao >= 1,yuanbao)
+    local obj_me = self:get_obj_by_id(who)
+    yuanbao = math.floor(yuanbao * 0.98)
+    local msg = string.contact_args("#{YBSC_MAIL_3", item_name, yuanbao)
+    msg = msg .. "}"
+    local mail = {}
+    mail.guid = define.INVAILD_ID
+    mail.source = ""
+    mail.portrait_id = define.INVAILD_ID
+    mail.dest_guid = obj_me:get_guid()
+    mail.content = msg
+    mail.flag = define.MAIL_TYPE.MAIL_TYPE_SYSTEM
+    mail.create_time = os.time()
+    self:send_world(obj_me, "lua", "send_mail_to_guid", mail)
+    obj_me:set_yuanbao(obj_me:get_yuanbao() + yuanbao, "元宝交易市场-出售商品")
+end
+
+function scenecore:auction_merchadise_take_back_before_check(who, merchadise)
+    local obj_me = self:get_obj_by_id(who)
+    assert(obj_me, who)
+    local item_data = merchadise.item
+    if merchadise.type == 1 then
+        local pet_detail = cls_pet_detail.new()
+        pet_detail:init_from_data(item_data)
+        local data_id = pet_detail:get_data_index()
+        local pet_attr_table = configenginer:get_config("pet_attr_table")
+        pet_attr_table = pet_attr_table[data_id]
+        assert(pet_attr_table, data_id)
+        local take_level = pet_attr_table.take_level
+        if obj_me:get_level() < take_level then
+            return false, "宠物携带等级不足"
+        end
+        local pet_bag_container = obj_me:get_pet_bag_container()
+        local empty_index = pet_bag_container:get_empty_item_index()
+        if empty_index == define.INVAILD_ID then
+            return false, "宠物栏空间不足"
+        end
+    else
+        local item = item_cls.new()
+        item:init_from_data(item_data)
+        local prop_bag_container = obj_me:get_prop_bag_container()
+        local place_bag = item:get_place_bag()
+        local empty_index = prop_bag_container:get_empty_item_index(place_bag)
+        if empty_index == define.INVAILD_ID then
+            return false, "道具栏空间不足"
+        end
+    end
+    return true
+end
+
+function scenecore:auction_take_back_after_do(who, merchadise)
+    local obj_me = self:get_obj_by_id(who)
+    local money = obj_me:get_yuanbao()
+    local cost = merchadise.price
+    local item_data = merchadise.item
+    if merchadise.type == 1 then
+        local pet_detail = cls_pet_detail.new()
+        pet_detail:init_from_data(item_data)
+        obj_me:add_pet(pet_detail)
+    else
+        local item = item_cls.new()
+        item:init_from_data(item_data)
+        local prop_bag_container = obj_me:get_prop_bag_container()
+        local place_bag = item:get_place_bag()
+        local empty_index = prop_bag_container:get_empty_item_index(place_bag)
+        assert(empty_index ~= define.INVAILD_ID)
+        prop_bag_container:set_item(empty_index, item)
+        item = prop_bag_container:get_item(empty_index)
+		if item then
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:auction_take_back_after_do","元宝市场",item:get_index(),item:get_lay_count(),item:is_bind())
+        else
+			self:log_record_item_to_bag(obj_me:get_name(),obj_me:get_guid(),"scenecore:auction_buy_after_do","元宝市场",0,0,false)
+		end
+        local msg = packet_def.GCNotifyEquip.new()
+        msg.bag_index = empty_index
+        msg.item = item:copy_raw_data()
+        self:send2client(obj_me, msg)
+
+        local msg = packet_def.GCItemInfo.new()
+        msg.bagIndex = empty_index
+        msg.unknow_1 = item == nil and 1 or 0
+        msg.item = item == nil and item_cls.new():copy_raw_data() or item:copy_raw_data()
+        self:send2client(obj_me, msg)
+    end
+end
+
+function scenecore:auction_modify_after_do(who, old_price, new_price)
+    local human = self:get_obj_by_id(who)
+    local diff = new_price - old_price
+    if diff <= 0 then
+        return
+    end
+    human:cost_money_with_priority(diff * 30, "交易行寄售上架手续")
+end
+
+function scenecore:call_human_function(who, func, ...)
+    local human = self:get_obj_by_id(who)
+    local f = human[func]
+    assert(f, func)
+    return f(human, ...)
+end
+--道具限制交易接口
+function scenecore:check_item_limit_exchange(who)
+    local human = self:get_obj_by_id(who)
+	if not human then
+		return true
+	end
+	if human:get_game_flag_key("zhu_bo_flag") ~= 0 then
+		return true
+	end
+	local npflag = human:get_game_flag_key("def_player_flag") or 0
+	if npflag == 189 then
+		npflag = 0
+	end
+	if npflag ~= 0 then
+		return true
+	end
+    local point = human:get_mission_data_by_script_id(388) or 0
+    -- local enddate = human:get_mission_data_by_script_id(533) or 0
+    -- local nowdate = tonumber(os.date("%y%m%d%H%M"))
+	-- local env = skynet.getenv("env")
+	-- if env == "publish_xrx" or env == "publish_xws" then
+        -- return false
+	-- end
+    -- if enddate > nowdate or point >= 200000 then
+    if point >= 0 then
+        return false
+    end
+    return true
+end
+--元宝票兑换限制接口
+function scenecore:check_point_limit(who)
+	if self:check_item_limit_exchange(who) then
+		return true
+	end
+    local human = self:get_obj_by_id(who)
+    local point = human:get_mission_data_by_script_id(388) or 0
+    if  point >= 25000000 then --5000W
+        return false
+    end
+    return true
+end
+--聊天频道等级限制
+function scenecore:check_limit_chat(obj)
+    local level = obj:get_level()
+    if level > 49  then
+        return false
+    end
+    return true
+end
+function scenecore:send_world(_, ...)
+    skynet.send(".world", ...)
+end
+
+function scenecore:send_guild(_, ...)
+    skynet.send(".Guildmanager", ...)
+end
+
+function scenecore:on_human_login(who)
+    local human = self:get_obj_by_id(who)
+    human:on_login()
+end
+
+function scenecore:world_timer_update(timer)
+    local msg = packet_def.GCWorldTime.new()
+    msg.counter = timer.counter
+    msg.m_Time = timer.time
+    self:broadcastall(msg)
+end
+
+function scenecore:get_quit_tick()
+    -- if self.pvp_rule == 0 or self.pvp_rule == 1 then
+        -- return 3
+    -- end
+    if self.pvp_rule == 0 then
+        return 3
+    end
+    return 10
+end
+
+function scenecore:get_last_partrol_point(index)
+    local path = self.patrols[index + 1].path
+    local point = path[#path]
+    return point
+end
+
+function scenecore:agent_command_award_item(who, item_id, item_count, is_bind)
+    local human = self:get_obj_by_id(who)
+    local item = item_cls.new()
+    item:set_index(item_id)
+    local base_config = item:get_base_config()
+    if base_config == nil then
+        return "道具发放失败, 无法找到道具配置"
+    end
+    local logparam = { reason = "网页GM工具发放", user_name = human:get_name(), user_guid = human:get_guid() }
+    local _, bag_index = human_item_logic:create_multi_item_to_bag(logparam, human, item_id, item_count, is_bind, 0)
+    if bag_index == define.INVAILD_ID then
+        return "道具发放失败, 背包空间不足"
+    end
+    return "道具发放成功"
+end
+
+function scenecore:agent_command_resource_update(who, resource_id, update_count)
+    local human = self:get_obj_by_id(who)
+    local item = item_cls.new()
+    item:set_index(item_id)
+    local base_config = item:get_base_config()
+    if base_config == nil then
+        return { result = false, reason = "更新失败，资源配置不存在"}
+    end
+    if update_count == 0 then
+        return { result = false, reason = "更新失败，更新数量不能未0"}
+    end
+    local response = {}
+    response.before_count = human_item_logic:calc_bag_item_count(human, item_id)
+    local logparam = { reason = "mqtt更新资源", user_name = human:get_name(), user_guid = human:get_guid() }
+    if update_count > 0 then
+        local _, bag_index = human_item_logic:create_multi_item_to_bag(logparam, human, resource_id, update_count, is_bind, 0)
+        if bag_index == define.INVAILD_ID then
+            return { result = false, reason = "更新失败, 背包空间不足"} 
+        end
+        response.result = true
+        response.update_count = update_count
+    else
+        update_count = math.abs(update_count)
+        local _, ref_count = human_item_logic:del_available_item(ogparam, human, item_id, update_count)
+        response.result = true
+        response.update_count = -1 * (update_count - ref_count)
+    end
+    response.current_count = human_item_logic:calc_bag_item_count(human, item_id)
+    return response
+end
+
+function scenecore:agent_command_change_user_nickname(who, name)
+    local human = self:get_obj_by_id(who)
+    local ok = skynet.call(".Playermanager", "lua", "check_change_name", name)
+    if not ok then
+        return "名称已存在"
+    end
+	local old_name = human:get_name()
+    skynet.call(".Playermanager", "lua", "change_player_name", human:get_guid(), name, old_name)
+    human:set_name(name)
+    return "改名成功"
+end
+
+function scenecore:agent_command_change_user_level(who, level)
+    if type(level) ~= "number" then
+        return "等级需要是数字"
+    end
+    level = math.ceil(level)
+    if level < 1 or level > 200 then
+        return "等级不合法,等级需要是1-200的"
+    end
+    local human = self:get_obj_by_id(who)
+    human:set_level(level)
+    human:change_menpai_points()
+end
+
+function scenecore:agent_command_call_script(script_id, func, ...)
+    local args = {...}
+    local ok, result = pcall(function()
+        return self.scriptenginer:call(script_id, func, table.unpack(args))
+    end)
+    if not ok then
+        return nil
+    end
+    return result
+end
+
+function scenecore:ban(my_obj_id)
+    local obj_me = self:get_obj_by_id(my_obj_id)
+    obj_me:notify_tips("账号封禁 22")
+end
+
+function scenecore:log_exchange_prop_or_pet(reason, exchange_type, ex_items_in_me, ex_items_in_tar, ex_pets_in_me, ex_pets_in_tar, obj_me, obj_tar, extra)
+    extra = extra or {}
+    local collection = "log_prop_or_pet_exchange_rec"
+    local doc = {
+        exchange_type = exchange_type,
+        ex_items_in_me = ex_items_in_me,
+        ex_pets_in_me = ex_pets_in_me,
+        ex_items_in_tar = ex_items_in_tar,
+        ex_pets_in_tar = ex_pets_in_tar,
+        me_guid = obj_me:get_guid(),
+        tar_guid = obj_tar:get_guid(),
+        me_name = obj_me:get_name(),
+        tar_name = obj_tar:get_name(),
+        day_time = utils.get_day_time(),
+        reason = reason,
+        extra = extra,
+        process_id = tonumber(skynet.getenv "process_id"),
+        scene_id = self:get_id(),
+    }
+    skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc})
+end
+
+function scenecore:on_copy_scene_ready(script_id, copy_scene_id)
+    self.scriptenginer:call(script_id, "OnCopySceneReady", copy_scene_id)
+end
+
+function scenecore:on_scene_maintenance(reason)
+    self.scriptenginer:call(define.SCENE_SCRIPT_ID, "OnSceneMainTenance")
+end
+
+function scenecore:start_profile()
+    local lua_profile = require "luaprofile"
+    lua_profile.start()
+end
+
+function scenecore:stop_profile()
+    local lua_profile = require "luaprofile"
+    local result = lua_profile.stop()
+    local collection = "lua_profile"
+    local doc = {
+        address = skynet.self(),
+        process_id = tonumber(skynet.getenv "process_id"),
+        unix_time = os.time(),
+        date_time = utils.get_day_time(),
+        result = table.tostr(result),
+        name = self:get_name()
+    }
+    skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc})
+end
+function scenecore:log_record_item_to_bag(name,guid,fun_name,act_name,ID,count,is_bind)
+	local collection = "new_create_item_to_bag_rec"
+	local doc = { 
+	name = name,
+	guid = guid,
+	param = {act_name = act_name,fun_name = fun_name},
+	item_index = ID,
+	item_count = count,
+	is_bind = is_bind,
+	date_time = utils.get_day_time()
+	}
+	skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+end
+function scenecore:log_debug_ex(name,guid,fun_name,act_name,ID,count,shop_guid)
+	local collection = "log_shanghui_and_shichang"
+	local doc = { 
+	name = name,
+	guid = guid,
+	param_fun = fun_name,
+	param_act = act_name,
+	item_index = ID,
+	item_num_id = count,
+	shop_guid = shop_guid,
+	date_time = utils.get_day_time()
+	}
+	skynet.send(".logdb", "lua", "insert", { collection = collection, doc = doc })
+end
+
+function scenecore:is_profiling()
+    local lua_profile = require "luaprofile"
+    return lua_profile.is_profiling()
+end
+
+-- [MEM_OPT] 场景对象数和 Lua 内存统计接口
+function scenecore:get_mem_stat()
+    local stat = { total_objs = 0, human = 0, monster = 0, pet = 0, itembox = 0 }
+    for _, obj in pairs(self.objs) do
+        stat.total_objs = stat.total_objs + 1
+        local t = obj:get_obj_type()
+        if t then
+            stat[t] = (stat[t] or 0) + 1
+        end
+    end
+    stat.lua_mem = collectgarbage("count")
+    stat.scene_id = self.id
+    return stat
+end
+
+return scenecore

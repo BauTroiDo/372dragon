@@ -1,0 +1,141 @@
+local define = require "define"
+local char = {
+    ability_list = {{exp = 0.0, id = 1.0, level = 1.0}},
+    prescriptions = {},
+    attrib = {
+        attack_speed = 3,
+        bind_yuanbao = 0,
+        camp_id = 0,
+        can_action_1 = 1,
+        can_action_2 = 1,
+        can_ignore_disturb = 0,
+        can_move = 1,
+        datura_flower = 6,
+        detect_level = 0,
+        dir = 0,
+        exp = 0,
+        exterior_face_style_index = -1,
+        exterior_hair_style_index = -1,
+        exterior_portrait_index = -1,
+        exterior_hair_color_index = 1,
+        face_style = 0,
+        fashion_depot_index = -1,
+        guid = 0,
+        hair_color = 0,
+        hair_style = 112,
+        hp = 10000,
+        is_sit = -1,
+        level = 15,
+        menpai = 9,
+        model = 0,
+        model_id = -1,
+        money = 0,
+        bank_save_money = 0,
+        jiaozi = 0,
+        mp = 10000,
+        name = "",
+        owner_id = -1,
+        pet_guid = {m_uHighSection = 0, m_uLowSection = 0},
+        portrait_id = 0,
+        rage = 1000,
+        rage_max = 1000,
+        reputation = 12, -- MENPAI_REPUTATIONS[WUMENPAI]
+        ride = -1,
+        ride_model = -1,
+        sceneid = 2,--{ 2, 71, 72, 1320, 1321 },
+        soul_melting_pet_guid = {m_uHighSection = 0, m_uLowSection = 0},
+        speed = 4.2,
+        stamina = 50,
+        stamina_max = 50,
+        stealth_level = 0,
+        strike_point = 5,
+        strike_point_max = 5,
+        unbreakable = 0,
+        vigor = 60,
+        vigor_max = 60,
+        world_pos = {x = 165, y = 170},
+        yuanbao = 0,
+        zengdian = 0,
+        xiulian_str = 0,
+        xiulian_spr = 0,
+        xiulian_con = 0,
+        xiulian_int = 0,
+        xiulian_dex = 0,
+        xiulian_attrib_att_physics = 0,
+        xiulian_attrib_att_magic = 0,
+        xiulian_attrib_def_physics = 0,
+        xiulian_attrib_def_magic = 0,
+        xiulian_attrib_hit = 0,
+        xiulian_attrib_miss = 0,
+        gongli = 100,
+        today_kill_monster_count = 0,
+        bank_bag_size = 20,
+        new_player_set = 0,
+    },
+    bank_bag_list = {},
+    chedifulu_data = {},
+    double_exp_info = {available_hour = 5, free_time = 0, is_lock = false, money_time = 0, rtime = 1671433746},
+    equip_list = {},
+    exterior = {
+        faces = {{id = 1.0, term = -1.0}},
+        hairs = {{id = 1.0, term = -1.0}},
+        heads = {{id = 9.0, term = -1.0}},
+        rides = {},
+        poss = {},
+        hair_colors = { {  value = 0 } },
+        weapon_visuals = {}
+    },
+    fashion_bag_list = {},
+    impact_list = {},
+    lv1_attrib = {con = 20, dex = 20, int = 20, point_remain = 0, spr = 20, str = 20},
+    material_bag_list = {},
+    pet_bag_list = {},
+    prop_bag_list = {},
+    prop_bag_size = {material = 80.0, pet = 4.0, prop = 80.0, task = 20.0},
+    sceneid = 2,
+    setting = {
+        ["3"] = {
+            type = 1,
+            data = 0
+        },
+        ["10"] = {
+            type = 1,
+            data = 35
+        },
+        ["11"] = {
+            type = 1,
+            data = 22
+        },
+        ["12"] = {
+            type = 1,
+            data = 21
+        },
+    },
+    skill_list = {0, 1, 2, 3, 21, 22, 34, 35, 3238},
+    sold_out_list = {},
+    xinfa_list = {},
+    mission_data = { char_missions = {}, mission_have_done_flags = {}, mission_datas = {} },
+    relation = { friends = {}, black = {}, enemies = {}, temp = {}, mood = "还没想好哦"}
+}
+
+for i = 1, define.MAX_CHAR_MISSION_FLAG_LEN do
+    char.mission_data.mission_have_done_flags[i] = 0
+end
+
+for i = 1, define.MAX_CHAR_MISSION_DATA_NUM do
+    char.mission_data.mission_datas[i] = 0
+end
+
+do
+    local id_mission = 2169
+    local index = (id_mission >> 5) + 1
+    char.mission_data.mission_have_done_flags[index] = (char.mission_data.mission_have_done_flags[index] or 0) | (0x00000001 << (id_mission & 0x0000001F))
+end
+
+do
+    local id_mission = 2025
+    local index = (id_mission >> 5) + 1
+    char.mission_data.mission_have_done_flags[index] = (char.mission_data.mission_have_done_flags[index] or 0) | (0x00000001 << (id_mission & 0x0000001F))
+end
+
+return char

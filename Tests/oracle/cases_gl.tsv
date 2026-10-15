@@ -1,0 +1,154 @@
+﻿id	kind	name	group	info
+M01	model	dweapon_2025情人节银狼伞开男主角1级.obj	player	verts=1919 anims=2 tex=512
+M02	model	dweapon_2025情人节银狼伞开女主角1级.obj	player	verts=1919 anims=2 tex=512
+M03	model	dweapon_2025情人节银狼伞开女主角3级.obj	player	verts=1919 anims=2 tex=512
+M04	model	dweapon_2025情人节银狼伞开女主角2级.obj	player	verts=1919 anims=2 tex=512
+M05	model	dweapon_2025情人节银狼伞开男主角3级.obj	player	verts=1919 anims=2 tex=512
+M06	model	dweapon_2025情人节银狼伞开男主角2级.obj	player	verts=1919 anims=2 tex=512
+M07	model	npc女主角曼陀套装高模展示.obj	player	verts=26354 anims=2 tex=1024
+M08	model	npc男主角曼陀套装高模展示.obj	player	verts=17141 anims=2 tex=1024
+M09	model	pet_2026狐狸小萝莉五级.obj	pet	verts=11719 anims=9 tex=1024
+M10	model	pet_2026狐狸小萝莉五级01.obj	pet	verts=11719 anims=9 tex=1024
+M11	model	pet_2026狐狸小萝莉五级02.obj	pet	verts=11719 anims=9 tex=1024
+M12	model	pet_2026狐狸小萝莉三级01.obj	pet	verts=11202 anims=9 tex=1024
+M13	model	pet_2026狐狸小萝莉三级.obj	pet	verts=11202 anims=9 tex=1024
+M14	model	pet_2026情人节丘比特五级02.obj	pet	verts=10753 anims=10 tex=1024
+M15	model	pet_2026情人节丘比特五级01.obj	pet	verts=10753 anims=10 tex=1024
+M16	model	pet_2026情人节丘比特五级.obj	pet	verts=10753 anims=10 tex=1024
+M17	model	pet_2026狐狸小萝莉四级.obj	pet	verts=10676 anims=9 tex=1024
+M18	model	pet_2026狐狸小萝莉四级01.obj	pet	verts=10676 anims=9 tex=1024
+M19	model	骑乘230417花轿三级.obj	mount	verts=16930 anims=3 tex=1024
+M20	model	骑乘230706比武招亲花轿高级.obj	mount	verts=13161 anims=3 tex=1024
+M21	model	骑乘230417花轿二级.obj	mount	verts=12655 anims=3 tex=1024
+M22	model	骑乘230417花轿一级.obj	mount	verts=9624 anims=3 tex=1024
+M23	model	骑乘230706比武招亲花轿低级.obj	mount	verts=9312 anims=3 tex=1024
+M24	model	骑乘230417马车活动.obj	mount	verts=9169 anims=3 tex=1024
+M25	model	W_cloth_ERG_2024高模.obj	costume	verts=25443 anims=2 tex=1024
+M26	model	M_cloth_ERG_2024高模.obj	costume	verts=14625 anims=2 tex=1024
+M27	model	W_cloth_2024白晶晶npc.obj	costume	verts=11570 anims=1 tex=1024
+M28	model	W_cloth_ERG_2024全集_雕塑.obj	costume	verts=9320 anims=1 tex=1024
+M29	model	M_cloth_ERG_2024全集_雕塑.obj	costume	verts=8037 anims=1 tex=1024
+M30	model	dweapon_2026夏日海洋法杖.obj	weapon	verts=4458 anims=1 tex=1024
+M31	model	dweapon_2026夏日海洋法杖五级.obj	weapon	verts=4458 anims=1 tex=1024
+M32	model	dweapon_2026夏日海洋法杖三级.obj	weapon	verts=4458 anims=1 tex=1024
+M33	model	dweapon_2026夏日海洋法杖二级.obj	weapon	verts=4458 anims=1 tex=1024
+M34	model	dweapon_2026七夕项羽战旗五级.obj	weapon	verts=3695 anims=1 tex=1024
+M35	model	dweapon_hj2026七夕项羽战旗四级.obj	weapon	verts=3695 anims=1 tex=1024
+M36	model	dweapon_2026七夕项羽战旗三级.obj	weapon	verts=3695 anims=1 tex=1024
+M37	model	dweapon_hj2026七夕项羽战旗二级.obj	weapon	verts=3695 anims=1 tex=1024
+M38	model	npc花车_2026十二生肖.obj	boss_npc	verts=27553 anims=3 tex=1024
+M39	model	npc怪_2026七夕副本弩机和人.obj	boss_npc	verts=18265 anims=4 tex=1024
+M40	model	npc_2026夏日预热盈霜花树五态.obj	boss_npc	verts=16564 anims=1 tex=1024
+M41	model	npc怪_2026七夕副本弩机.obj	boss_npc	verts=16132 anims=4 tex=1024
+M42	model	npc_2026象棋pvp车汉.obj	boss_npc	verts=16132 anims=5 tex=1024
+M43	model	npc_2026象棋pvp车楚.obj	boss_npc	verts=16132 anims=5 tex=1024
+E001	effect	qc_2026大天使翅膀_自身拖尾	NewRibbonTrail	NewRibbonTrail
+E002	effect	qc_2026大天使翅膀_展示A_10拖尾	NewRibbonTrail	Box,ColourFading,Ellipsoid,LinearForce,NewRibbonTrail,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E003	effect	back_2026风云联动万剑归宗_休闲龙	NewRibbonTrail	ColourFading,LinearForce,NewRibbonTrail,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E004	effect	back_2026风云联动万剑归宗_休闲背后法阵_9拖尾	NewRibbonTrail	Box,ColourFading,NewRibbonTrail,Particle,Ring,Rotator,ScaleInterpolator
+E005	effect	npc_2026夏日稳活蝴蝶高_拖尾	NewRibbonTrail	NewRibbonTrail
+E006	effect	qc_2026大天使翅膀_展示A_10拖尾紫色	NewRibbonTrail	Box,ColourFading,Ellipsoid,LinearForce,NewRibbonTrail,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E007	effect	qc_2026骨龙02_自身D	NewRibbonTrail	NewRibbonTrail
+E008	effect	npc_2026夏日稳活蝴蝶高_B	NewRibbonTrail	Box,ColourFading,LinearForce,Movement,NewRibbonTrail,Particle,Point,Ring,Rotator,ScaleInterpolator
+E009	effect	boss_2026聚贤庄游骥_技能4_buff_水火相容_B	NewRibbonTrail	ColourFading,NewRibbonTrail,Particle,Ring,Rotator,ScaleInterpolator
+E010	effect	qc_2026骨龙02_自身H	NewRibbonTrail	NewRibbonTrail
+E011	effect	qc_2026大天使翅膀03_自身拖尾	NewRibbonTrail	NewRibbonTrail
+E012	effect	qc_2026大天使翅膀02_自身拖尾	NewRibbonTrail	NewRibbonTrail
+E013	effect	UI_xuannan_fg	UIParticle	ColourFading,RevoluMove,Ring,Rotator,ScaleInterpolator,UIParticle
+E014	effect	UI_CBT_2024	UIParticle	ColourFading,RevoluMove,Ring,Rotator,ScaleInterpolator,UIParticle
+E015	effect	UI_pm_yanwu	UIParticle	ColourFading,RevoluMove,Ring,Rotator,UIParticle
+E016	effect	UI_pm_yanwu_rchangben	UIParticle	ColourFading,RevoluMove,Ring,Rotator,ScaleInterpolator,UIParticle
+E017	effect	UI_PVE_2024	UIParticle	ColourFading,Point,RevoluMove,Ring,Rotator,ScaleInterpolator,UIParticle
+E018	effect	npc_2026风云打卡凤舞_C	RevoluMove	Box,ColourFading,Ellipsoid,LinearForce,MeshRotator,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E019	effect	cw_2026情人节丘比特五级_远程攻击	RevoluMove	Box,ColourFading,MeshRotator,Particle,RevoluMove,ScaleInterpolator
+E020	effect	npc怪_2026萧阿刺落石_技能3_A	RevoluMove	Box,ColourFading,LinearForce,MeshRotator,Particle,Point,RevoluMove,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E021	effect	boss_2026聚贤庄玄难_大般若掌发招	RevoluMove	Box,ColourFading,Dissolve,MeshRotator,Particle,Point,RevoluMove,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E022	effect	wq_hj2026冰元素环右一级	RevoluMove	ColourFading,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E023	effect	boss_2026月常李秋水_剑舞_剑气_毒	RevoluMove	Box,ColourFading,Particle,RevoluMove,ScaleInterpolator
+E024	effect	npc_2026夏日稳活蝴蝶高_C_子	RevoluMove	ColourFading,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E025	effect	boss_2026聚贤庄玄难_大悲降魔诀陷阱	RevoluMove	Box,ColourFading,MeshRotator,Particle,Point,RevoluMove,Revolution,Ring,ScaleInterpolator
+E026	effect	m01_2026风云pve主角技能_排云掌发招2	RevoluMove	Box,ColourFading,MeshRotator,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E027	effect	qc_2026争霸赛龙第三名_眼睛	RevoluMove	Box,ColourFading,Particle,PolarEmitter,RevoluMove,Rotator,ScaleInterpolator
+E028	effect	qc_2026争霸赛龙第三名_翅膀	RevoluMove	ColourFading,Particle,RevoluMove,Ring,ScaleInterpolator,SequenceFrame
+E029	effect	cj_2026夏日主城氛围烟花_全景烟花_A	RevoluMove	Box,ColourFading,HollowEllipsoid,Particle,RevoluMove,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E030	effect	qc_2026大天使翅膀_右翅2	SequenceFrame	ColourFading,Cylinder,LinearForce,Particle,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E031	effect	wq_hj2026霸王枪一级_A	SequenceFrame	Box,ColourFading,MeshRotator,Particle,Point,Revolution,Rotator,ScaleInterpolator,SequenceFrame
+E032	effect	qc_2026呆呆牛_头顶_烟花棒A	SequenceFrame	Box,ColourFading,Cylinder,Particle,Rotator,ScaleInterpolator,SequenceFrame
+E033	effect	boss_2026风云pvp二阶绝世好剑剑灵_技能2	SequenceFrame	Box,ColourFading,HollowEllipsoid,LinearForce,MeshRotator,Particle,Point,PolarEmitter,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E034	effect	boss_2026野外秘境乌衣巷_技能3蓄力_B	SequenceFrame	Box,ColourFading,MeshRotator,Particle,Point,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E035	effect	npc_2026月常鸠摩智柔_爆炸	SequenceFrame	Box,ColourFading,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator,Scaler,SequenceFrame
+E036	effect	cw_2026狐狸小萝莉a四级_自身A	SequenceFrame	ColourFading,LinearForce,Movement,Particle,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E037	effect	wq_2026霸王枪五级_A	SequenceFrame	Box,ColourFading,MeshRotator,Movement,Particle,Point,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E038	effect	boss_2026月常鸠摩智_大金刚拳等级1预警	SequenceFrame	Box,ColourFading,LinearForce,Particle,Point,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E039	effect	dweapon_2026上元节提灯_展示01A花灯拖尾	SequenceFrame	Box,ColourFading,LinearForce,Particle,Ring,ScaleInterpolator,SequenceFrame
+E040	effect	npc变身_2026慕容打卡_火焰刀_A	SequenceFrame	Box,ColourFading,Dissolve,MeshAnimationAffector,MeshRotator,Movement,Particle,Point,PolarEmitter,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E041	effect	npc_2026风云联动_凌霄困_陷阱	SequenceFrame	Box,ColourFading,MeshRotator,Particle,RevoluMove,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E042	effect	npc_2026月常桑土公沙坑_站立	Dissolve	Box,ColourFading,Dissolve,LinearForce,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator
+E043	effect	npc怪_2026萧阿刺巨钟_震响	Dissolve	ColourFading,Dissolve,LinearForce,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E044	effect	boss_2026月常鸠摩智_大金刚拳等级1释放	Dissolve	Box,ColourFading,DeflectorPlane,Dissolve,LinearForce,MeshRotator,Particle,Point,RevoluMove,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E045	effect	wq_2026火麟剑展示_B	Dissolve	ColourFading,Dissolve,MeshRotator,Particle,Point,ScaleInterpolator
+E046	effect	cw_2026情人节丘比特_同护发招A	Dissolve	ColourFading,Dissolve,LinearForce,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E047	effect	npc_2026风云联动_凌霄索_发招	Dissolve	Box,ColourFading,Dissolve,MeshRotator,Particle,Point,PolarEmitter,RevoluMove,Ring,Rotator,ScaleInterpolator
+E048	effect	npc_2026风云打卡凤舞_B	Dissolve	Box,ColourFading,Dissolve,LinearForce,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator
+E049	effect	npc_2026风云联动_凌霄怒_3级_发招_大刀2	Dissolve	Box,ColourFading,Dissolve,MeshRotator,Particle,Point,ScaleInterpolator
+E050	effect	wq_2026冰元素双环_展示A	Dissolve	Box,ColourFading,Dissolve,LinearForce,MeshRotator,Particle,RevoluMove,Ring,Rotator,ScaleInterpolator
+E051	effect	npc_2026风云联动_凌霄怒_2级_发招	Dissolve	Box,ColourFading,Dissolve,MeshRotator,Movement,Particle,Point,PolarEmitter,Rotator,ScaleInterpolator,SequenceFrame
+E052	effect	npc_2026风云联动_凌霄怒_3级_发招	Dissolve	Box,ColourFading,Dissolve,MeshRotator,Movement,Particle,Point,PolarEmitter,Rotator,ScaleInterpolator,SequenceFrame
+E053	effect	boss_2026慕容打卡慕容博_发招B	Dissolve	ColourFading,Dissolve,MeshRotator,Particle,Point,ScaleInterpolator
+E054	effect	qc_2026呆呆牛_头顶_火苗	RotationCurve	ColourFading,Particle,PolarEmitter,RevoluMove,RotationCurve,Rotator,ScaleInterpolator,SequenceFrame
+E055	effect	npc_2026夏日版本预热_冰冰凉_头	RotationCurve	Box,ColourFading,Movement,Particle,Point,PolarEmitter,RevoluMove,RotationCurve,Rotator,ScaleInterpolator
+E056	effect	npc_2026风云联动_凌霄怒_3级_发招_大刀	RotationCurve	Box,ColourFading,Particle,RotationCurve,ScaleInterpolator
+E057	effect	npc_2026金瓯争夺赛罗盘_自身	RotationCurve	Box,ColourFading,LinearForce,Particle,Point,PolarEmitter,Ring,RotationCurve,Rotator,ScaleInterpolator
+E058	effect	buff_2025吃鸡杀人_求救	RotationCurve	Box,ColourFading,Particle,RevoluMove,RotationCurve,Rotator,ScaleInterpolator
+E059	effect	wq_hj2025七夕毛笔四级_A	RotationCurve	Box,ColourFading,MeshAnimationAffector,Movement,Particle,Point,PolarEmitter,RevoluMove,Ring,RotationCurve,Rotator,ScaleInterpolator
+E060	effect	wq_2025冰元素镰刀_展示_挥刀第2下	RotationCurve	Box,ColourFading,Dissolve,LinearForce,MeshRotator,Movement,Particle,Point,PolarEmitter,RotationCurve,Rotator,ScaleInterpolator
+E061	effect	buff_2025灯柱	RotationCurve	ColourFading,Particle,Point,RotationCurve
+E062	effect	wq_hj2025七夕毛笔三级_A	RotationCurve	Box,ColourFading,Movement,Particle,Point,Ring,RotationCurve,Rotator,ScaleInterpolator
+E063	effect	wq_2025冰元素镰刀_展示_挥刀	RotationCurve	Box,ColourFading,Dissolve,MeshRotator,Movement,Particle,Point,PolarEmitter,RotationCurve,Rotator,ScaleInterpolator
+E064	effect	wq_2025冰元素镰刀_展示_挥刀最后	RotationCurve	Box,ColourFading,Dissolve,MeshRotator,Particle,Point,RotationCurve,ScaleInterpolator
+E065	effect	wq_2025镇国剑_展示	RotationCurve	Box,ColourFading,LinearForce,MeshAnimationAffector,MeshRotator,Particle,Point,PolarEmitter,RevoluMove,Revolution,Ring,RotationCurve,Rotator,ScaleInterpolator,SequenceFrame
+E066	effect	npc_2026夏日稳活_透明蝴蝶	PolarMove	Box,ColourFading,LinearForce,MeshAnimationAffector,Particle,Point,PolarMove,RevoluMove,Revolution,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E067	effect	cj_2025冰雪舞会_地表动态光斑01	PolarMove	ColourFading,Particle,Point,PolarMove
+E068	effect	cj_2025冰雪舞会_地表动态光斑03	PolarMove	ColourFading,Particle,Point,PolarMove
+E069	effect	cj_2025冰雪舞会_地表动态光斑02	PolarMove	ColourFading,Particle,Point,PolarMove
+E070	effect	wq_2025冰元素镰刀_展示	PolarMove	ColourFading,DirectionRandomiser,Dissolve,HollowEllipsoid,LinearForce,MeshRotator,Particle,Point,PolarEmitter,PolarMove,RevoluMove,Ring,Rotator,ScaleInterpolator,SequenceFrame
+E071	effect	buff_新重楼龙头_霸体	PolarMove	Particle,Point,PolarMove
+E072	effect	buff_新重楼龙头_腰带	PolarMove	Particle,Point,PolarMove
+E073	effect	buff_新重楼龙头_望月	PolarMove	Particle,Point,PolarMove
+E074	effect	buff_新重楼龙头_逆天	PolarMove	Particle,Point,PolarMove
+E075	effect	buff_新重楼龙头_遁甲	PolarMove	Particle,Point,PolarMove
+E076	effect	buff_新重楼龙头_项链	PolarMove	Particle,Point,PolarMove
+E077	effect	g01_gb_shenlongbaiwei	classic	Box,ColourFading,Particle,PolarEmitter,Revolution,ScaleInterpolator
+E078	effect	cw_宠物螃蟹07	classic	Box,ColourFading,Movement,Particle,Rotator,ScaleInterpolator
+E079	effect	HJ_boss_天山_远程攻击A	classic	Box,ColourFading,Particle,Revolution,Ring,Rotator,ScaleInterpolator
+E080	effect	buff_新杀星_煞浪涌起陷阱	classic	Box,ColourFading,MeshRotator,Particle,Point,Ring,Rotator,ScaleInterpolator
+E081	effect	wq_唐门92神器_mo01	classic	Box,ColourFading,Particle,Rotator,ScaleInterpolator
+E082	effect	残影_武当_两仪剑B_峨嵋红	classic	ColourFading,Particle,Point,ScaleInterpolator
+E083	effect	wq_danduan_wu01	classic	Box,ColourFading,Particle,ScaleInterpolator
+E084	effect	珍兽100412章鱼_02	classic	Box,ColourFading,Movement,Particle,ScaleInterpolator
+E085	effect	cy4_map_e_7ff26d89b67c8e33	classic	Box,ColourFading,MeshAnimationAffector,MeshRotator,Movement,Particle,Rotator,ScaleInterpolator
+E086	effect	兽魂附体_兽魂211223蝴蝶二级染色1_B	classic	ColourFading,Particle,PolarEmitter,Rotator,ScaleInterpolator
+E087	effect	yanhuo15	classic	Box,ColourFading,Movement,Particle,Revolution,Rotator
+E088	effect	g01_ts_zdo_yihuajiemu	classic	Box,ColourFading,MeshRotator,Particle,Revolution,Rotator,ScaleInterpolator
+E089	effect	wq_九大门派神器桃花岛剑箫_mu01	classic	Box,ColourFading,Particle,Rotator,ScaleInterpolator
+E090	effect	wq_九大门派神器星宿钩_wu	classic	Box,ColourFading,Particle,Rotator,ScaleInterpolator
+E091	effect	g01_taxuewuhen_01	classic	ColourFading,Movement,Particle,Point,ScaleInterpolator
+E092	effect	wq_双短10E_mo	classic	ColourFading,Particle,Ring,Rotator
+E093	effect	qc_2024争霸赛第一名_10	classic	Box,ColourFading,Movement,Particle,Revolution,Ring,Rotator,ScaleInterpolator
+E094	effect	boss_夏日地宫_龙胤浮屠_执斧三式预警A	classic	Box,ColourFading,Particle,Rotator,ScaleInterpolator
+E095	effect	珍兽_yy熊_06	classic	Box,ColourFading,Movement,Particle,Revolution,Rotator,ScaleInterpolator
+E096	effect	cw_珍兽220518七夕女神五级02F	classic	Box,ColourFading,Particle,Revolution,Ring,Rotator,ScaleInterpolator
+E097	effect	hj_boss云飘飘17_攻击	classic	Box,ColourFading,MeshRotator,Particle,Rotator,ScaleInterpolator
+E098	effect	boss_夏日地宫_龙胤浮屠_冲锋点名	classic	Box,ColourFading,Particle,Rotator,ScaleInterpolator
+E099	effect	npc_orenleishouling_4	classic	ColourFading,Particle,PolarEmitter,ScaleInterpolator
+E100	effect	boss_进阶_大司命_自身	classic	Box,ColourFading,MeshRotator,Particle,Point,Rotator,ScaleInterpolator
+S01	scene	SceneFolder\suzhou.Scene	^suzhou	.skysphere,.hdr,.newhdrbloom
+S02	scene	SceneFolder\luoyang.Scene	^luoyang	.skysphere,.newhdrbloom
+S03	scene	SceneFolder\dali.Scene	^dali	.skysphere,.newhdrbloom
+S04	scene	SceneFolder\xuanren.Scene	xuanren	.skysphere,.newhdrbloom
+S05	scene	SceneFolder\chuangjian.Scene	chuangjian	.skysphere,.newhdrbloom
+S06	scene	SceneFolder\tlbb_login.Scene	login	.newhdrbloom
+S07	scene	SceneFolder\sr_rift.Scene	rift|lol	.enscene,.skysphere,.newhdrbloom
+S08	scene	SceneFolder\cy4_guigu.Scene	cy4_guigu	.enscene,.hfog,.hdr,.newhdrbloom
+S09	scene	SceneFolder\FengYun_lingxiaocheng.Scene	fengyun_lingxiaocheng	.enscene,.hfog,.hdr,.newhdrbloom
+S10	scene	SceneFolder\cy4_tangmen.Scene	cy4_tangmen	.enscene,.hfog,.hdr,.newhdrbloom

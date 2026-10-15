@@ -1,0 +1,30 @@
+# scope	key	status	evidence   (only parsed-but-ignored keys listed; others in dicts = USED)
+element:Beam	BindElement	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	CurveType	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	IsSinPlay	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	IsSubEleActive	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	IsVisable	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	ParentSpaceLock	IGNORED	base key stored; element type does not use parent-space lock
+element:Beam	SpLineEditor	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	SubElementFrequency	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	TexRepeat	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveExtent-y	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveExtent-z	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveFrequency	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveShade-y	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveShade-z	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:Beam	WaveVelocity	IGNORED	parsed + stored; consumed only by CurveType 3-7 / spline 2,4 which no shipped beam selects (all are CurveType 0/1, WaveShade always 0)
+element:BillboardSet	ParentSpaceLock	IGNORED	base key stored; element type does not use parent-space lock
+element:Particle	ParentSpaceLock	IGNORED	base key stored; the sub-effects follow the node instead (needs the OGRE setLogicParentTrans export B has); true in only 8/6635 uses
+element:Particle	use_energy_wave	IGNORED	stored, never read; B registers it in the screen-distortion mask (render pipeline FUN_1801aae40), not an effect-element feature
+element:PointLight	ParentSpaceLock	IGNORED	base key stored; element type does not use parent-space lock
+element:Projector	ParentSpaceLock	IGNORED	base key stored; element type does not use parent-space lock
+element:UIParticle	ColEffectName	IGNORED	stored, never read
+element:UIParticle	ParEffectName	IGNORED	stored, never read (UIParticle has no sub-effect system in B either)
+element:UIParticle	ParentSpaceLock	IGNORED	base key stored; element type does not use parent-space lock
+element:UIParticle	legacy_pos_for_sub_effect	IGNORED	stored, never read
+element:UIParticle	pass_rotation_to_sub_effect	IGNORED	stored, never read
+element:UIParticle	use_energy_wave	IGNORED	stored, never read
+element:UIParticle	use_particle_collision	IGNORED	stored, never read
+element:UIParticle	use_particle_effect	IGNORED	stored, never read
+skill	Removedirectly	IGNORED	stored mRemoveDirectly, never applied at skill teardown (WXSkill.cpp)

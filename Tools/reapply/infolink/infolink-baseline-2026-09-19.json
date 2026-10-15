@@ -1,0 +1,20 @@
+{
+  "families": {
+    "_GETITEM": 14,
+    "_GETPET": 1,
+    "_INFO2CITY": 5,
+    "_INFO2HOME": 0,
+    "_INFO2LINE": 5,
+    "_INFO2WYXZ": 0,
+    "_INFOAIM": 11432,
+    "_INFOCITY": 110,
+    "_INFOHOME": 292,
+    "_INFOKILL": 127,
+    "_INFOMAP": 153,
+    "_INFOUSEITEM": 69
+  },
+  "malformed": 5,
+  "rows_with_tags": 8011,
+  "source": "C:\\TLBB\\085\\CY-Source\\Assets\\CanonicalCY\\Data\\ConfigFolder\\StrDictionary.txt",
+  "total": 12208
+}

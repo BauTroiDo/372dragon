@@ -1,0 +1,57 @@
+{
+  "server_factory": "GameServer/lualib/item.lua:2259-2273 class5 => gem_info; cfghelper.lua:1985-2008 => GemInfo.txt",
+  "client_factory": "Src/Client/WXClient/Object/Item/Obj_Item.cpp:181-187 => DBC_ITEM_GEM, missing => NULL",
+  "cy_source": "C:\\TLBB\\085\\Tools\\DATA NEW\\CYHJ091026\\Config\\ShopTable.txt",
+  "source_sha256": "0ee1e85dd848d8f593f8d81709687360efaea88ac269adfc965c6279c8119088",
+  "invalid_groups_in_reference": [],
+  "invalid_groups_in_clone": [
+    [
+      63,
+      "50131008",
+      "400"
+    ],
+    [
+      64,
+      "50132008",
+      "400"
+    ],
+    [
+      65,
+      "50133008",
+      "400"
+    ],
+    [
+      66,
+      "50131007",
+      "400"
+    ],
+    [
+      67,
+      "50132007",
+      "400"
+    ],
+    [
+      68,
+      "50133007",
+      "400"
+    ],
+    [
+      72,
+      "50131006",
+      "400"
+    ],
+    [
+      73,
+      "50132006",
+      "400"
+    ],
+    [
+      74,
+      "50133006",
+      "400"
+    ]
+  ],
+  "old_count": "195",
+  "new_valid_count": 102,
+  "retained_groups_identical": true
+}

@@ -1,0 +1,498 @@
+id	name	dir	proto	domain	source	codec	other_codec	other_agrees	leaf_fields	unknow_fields	size_min	size_max	has_if	has_array	confidence	notes
+38	LCRetCharLogin	LC	login	login	services/login/packet.lua:587	bos			11	7	55	59	True	False	high	
+223	LCRetLogin	LC	login	login	services/login/packet.lua:275	bos			8	5	78	83	True	False	high	
+240	CLAskDeleteChar	CL	login	login	services/login/packet.lua:668	bis			1	0	4	4	False	False	high	
+296	FGAskLogin	CL	login	login	services/login/packet.lua:98	bis			13	5	408		False	True	medium	length/count without an upper bound; direction CL inferred from the codecs (no CG/GC prefix in the name)
+299	CLAskLogin	CL	login	login	services/login/packet.lua:162	bis			19	2	936		True	True	medium	length/count without an upper bound
+311	LCRetConnect	LC	login	login	services/login/packet.lua:57	bos	bis	sign-only	6	2	64	64	False	False	high	class prefix LC but id constant XYID_CLRETCONNECT
+319	LCRetCharList	LC	login	login	services/login/packet.lua:352	bos	bis	False	40	2	12		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+355	CLConnect	CL	login	login	services/login/packet.lua:26	bis	bos	True	4	1	110	110	False	False	high	
+426	CLAskCharLogin	CL	login	login	services/login/packet.lua:565	bis			2	0	6	6	False	False	high	
+440	LCRetCreateChar	LC	login	login	services/login/packet.lua:547	bos			1	0	4	4	False	False	high	
+522	CLAskCreateChar	CL	login	login	services/login/packet.lua:513	bis			9	3	53	53	False	False	high	
+554	LCStatus	LC	login	login	services/login/packet.lua:314	bos			2	2	6	6	False	False	high	
+707	LCRetDeleteChar	LC	login	login	services/login/packet.lua:685	bos	bis	True	1	0	4	4	False	False	high	
+711	CLAskCharList	CL	login	login	services/login/packet.lua:334	bis			1	0	50	50	False	False	high	
+776	CLCheckAllowCreateChar	CL	login	login	services/login/packet.lua:629	bis			0	0	0	0	False	False	high	
+777	LCRetCheckAllowCreateChar	LC	login	login	services/login/packet.lua:645	bos	bis	True	1	0	4	4	False	False	high	
+1	CGBankMoney	CG	game	misc	services/game/packet_domains/misc.lua:642	bis			2	0	5	5	False	False	high	
+3	CGHeartBeat	CG	game	core	services/game/packet_domains/core.lua:399	bis	bos		0	0	0	0	False	False	high	
+4	CGPetUseEquip	CG	game	pet	services/game/packet_domains/pet.lua:138	bis			3	0	10	10	False	False	high	
+5	CGCharAskEquipment	CG	game	combat	services/game/packet_domains/combat.lua:129	bis			1	0	4	4	False	False	high	
+6	CGChangePkModeReq	CG	game	misc	services/game/packet_domains/misc.lua:270	bis			2	1	32	32	False	False	high	
+7	GCOperateResult	GC	game	misc	services/game/packet_domains/misc.lua:3620	bos	bis	True	2	0	8	8	False	False	high	
+8	CGCharAskImpactList	CG	game	combat	services/game/packet_domains/combat.lua:91	bis			1	0	4	4	False	False	high	
+15	GCXinfaStudyInfo	GC	game	misc	services/game/packet_domains/misc.lua:3647	bos	bis		2	0	6	6	False	False	high	
+19	CGBankRemoveItem	CG	game	misc	services/game/packet_domains/misc.lua:4267	bis			3	0	3	3	False	False	high	
+21	GCNewMonster	GC	game	movement	services/game/packet_domains/movement.lua:260	bos	bis	True	28	22	116	116	False	True	high	
+23	CGRaidInvite	CG	game	team	services/game/packet_domains/team.lua:774	bis	bos		3	0	7	36	False	False	high	
+26	GCPetUseEquipResult	GC	game	pet	services/game/packet_domains/pet.lua:159	bos	bis	True	6	0	27	27	False	False	high	
+27	CGSecKillRemoveItem	CG	game	shop	services/game/packet_domains/shop.lua:2706	bis			3	0	3	3	False	False	high	
+29	CGGuildJoin	CG	game	social	services/game/packet_domains/social.lua:2252	bis			1	0	2	2	False	False	high	
+31	CGBankAddItem	CG	game	misc	services/game/packet_domains/misc.lua:4218	bis			3	0	3	3	False	False	high	
+32	CGAskItemInfo	CG	game	misc	services/game/packet_domains/misc.lua:2794	bis	bos	True	2	0	6	6	False	False	high	
+33	CGBankAcquireList	CG	game	misc	services/game/packet_domains/misc.lua:4069	bis			1	0	1	1	False	False	high	
+34	GCPackage_SwapItem	GC	game	misc	services/game/packet_domains/misc.lua:2766	bos	bis	True	4	0	4	4	False	False	high	
+37	GCShopBuy	GC	game	shop	services/game/packet_domains/shop.lua:265	bos	bis	True	12	4	14	39	True	False	high	
+40	CGLookUpOther	CG	game	social	services/game/packet_domains/social.lua:1299	bis			1	0	30	30	False	False	high	
+41	GCPlayerShopOnSale	GC	game	shop	services/game/packet_domains/shop.lua:2160	bos	bis	True	8	0	39	39	False	False	high	
+42	CGAskServerTime	CG	game	misc	services/game/packet_domains/misc.lua:539	bis			2	2	8	8	False	False	high	
+46	CGMACNotify	CG	game	core	services/game/packet_domains/core.lua:314	bis	bos	True	1	0	8	8	False	True	high	
+48	CGWGuildLeagueQuit	CGW	game	city	services/game/packet_domains/city.lua:302	bis			1	1	4	4	False	False	high	
+49	CGConnect	CG	game	core	services/game/packet_domains/core.lua:7	bis			9	6	108	108	False	False	high	
+52	GCRemovePet	GC	game	movement	services/game/packet_domains/movement.lua:764	bos	bis	True	1	0	8	8	False	False	high	
+55	GCDetailSkillList	GC	game	misc	services/game/packet_domains/misc.lua:1129	bos	bis	True	3	0	6	514	True	True	high	
+58	CGWGuildLeagueAskEnter	CGW	game	city	services/game/packet_domains/city.lua:283	bis			2	1	6	6	False	False	high	
+60	GCAcqStallRemoveItem	GC	game	shop	services/game/packet_domains/shop.lua:949	bos	bis	True	1	0	4	4	False	False	high	
+62	CGAuctionSell	CG	game	shop	services/game/packet_domains/shop.lua:2298	bis			6	1	7	15	True	False	high	
+63	GCCharAutoRide	GC	game	core	services/game/packet_domains/core.lua:441	bos			1	0	4	4	False	False	high	
+64	CGPlayerShopAcquireItemList	CG	game	shop	services/game/packet_domains/shop.lua:1990	bis			4	0	15	15	False	False	high	
+65	CGTeamRetInvite	CG	game	team	services/game/packet_domains/team.lua:1152	bis			4	1	41	41	False	True	high	
+66	CGOrnamentsOperation	CG	game	item	services/game/packet_domains/item.lua:164	bis	bos		3	0	2	4	True	False	high	
+67	KeyExchange	GC	game	misc	services/game/packet_domains/misc.lua:173	bos	bis	True	2	0	2		False	True	medium	length/count without an upper bound; direction GC from annotations.py
+73	GCStopPedding	GC	game	core	services/game/packet_domains/core.lua:294	bos	bis		0	0	0	0	False	False	high	
+78	GCAddSkill	GC	game	misc	services/game/packet_domains/misc.lua:3728	bos	bis	True	2	1	6	6	False	False	high	
+82	GCStallError	GC	game	shop	services/game/packet_domains/shop.lua:1035	bos			1	0	1	1	False	False	high	
+83	CGCharUseSkill	CG	game	misc	services/game/packet_domains/misc.lua:291	bis			7	0	28	28	False	False	high	
+85	GCCooldownUpdate	GC	game	misc	services/game/packet_domains/misc.lua:859	bos	bis		6	0	10		False	True	medium	length/count without an upper bound
+86	GCBankSwapItem	GC	game	misc	services/game/packet_domains/misc.lua:4189	bos	bis	True	4	0	4	4	False	False	high	
+88	CGUnEquip	CG	game	item	services/game/packet_domains/item.lua:258	bis	bos	True	4	3	4	4	False	False	high	
+96	CGSplitItem	CG	game	item	services/game/packet_domains/item.lua:518	bis			3	0	12	12	False	False	high	
+99	GCMinorPasswd	GC	game	misc	services/game/packet_domains/misc.lua:1490	bos	bis	True	4	1	1	6	True	False	high	
+100	CGAuctionBuy	CG	game	shop	services/game/packet_domains/shop.lua:2529	bis			6	0	10	18	True	False	high	
+102	GCSectDetail	GC	game	misc	services/game/packet_domains/misc.lua:1031	bos	bis	False	8	1	106	106	True	True	medium	bis() and bos() differ structurally
+104	GCTeamAskApply	GC	game	team	services/game/packet_domains/team.lua:1672	bos			14	3	33	91	True	False	high	
+107	CGEventRequest	CG	game	mission	services/game/packet_domains/mission.lua:329	bis			4	1	16	16	False	False	high	
+109	GCPetUnEquipResult	GC	game	pet	services/game/packet_domains/pet.lua:216	bos	bis	True	6	0	23	23	False	False	high	
+113	GCPickResult	GC	game	item	services/game/packet_domains/item.lua:416	bos	bis	sign-only	6	0	24	24	False	False	high	
+117	GCUseItemResult	GC	game	item	services/game/packet_domains/item.lua:394	bos	bis	sign-only	1	0	4	4	False	False	high	
+124	GCRaidList	GC	game	team	services/game/packet_domains/team.lua:429	bos	bis		19	0	13		False	True	low	an array count is not on the wire
+125	CGLogSubmit	CG	game	core	services/game/packet_domains/core.lua:102	bis			1	0	4	3003	False	False	high	
+126	CGAskTeamFollow	CG	game	misc	services/game/packet_domains/misc.lua:4973	bis			0	0	0	0	False	False	high	
+127	CGExteriorCoupleFashion	CG	game	misc	services/game/packet_domains/misc.lua:5615	bis			2	2	3	3	False	False	high	
+128	GCRetAskQuit	GC	game	misc	services/game/packet_domains/misc.lua:2604	bos	bis	True	1	0	1	1	False	False	high	
+134	CGAskDetailXinFaList	CG	game	misc	services/game/packet_domains/misc.lua:1971	bis	bos	True	1	0	4	4	False	False	high	
+137	GCStudyXinfa	GC	game	misc	services/game/packet_domains/misc.lua:3672	bos	bis	True	4	0	12	12	False	False	high	
+138	GCNotifyMail	GC	game	misc	services/game/packet_domains/misc.lua:393	bos	bis	True	1	0	1	1	False	False	high	
+139	GCCityList	GC	game	city	services/game/packet_domains/city.lua:536	bos	bis	True	1	0	54	54	False	True	high	
+143	GCBagSizeChange	GC	game	misc	services/game/packet_domains/misc.lua:1595	bos	bis	True	2	0	2	2	False	False	high	
+145	CGAskTeamInfo	CG	game	misc	services/game/packet_domains/misc.lua:1993	bis	bos	True	1	0	4	4	False	False	high	
+147	CGRongYu	CG	game	core	services/game/packet_domains/core.lua:77	bis			3	3	4	12	True	False	high	
+149	CGRelation	CG	game	social	services/game/packet_domains/social.lua:403	bis			22	7	1	39	True	False	high	
+150	CGChallenge	CG	game	combat	services/game/packet_domains/combat.lua:2354	bis			2	0	5	5	False	False	high	
+153	GCCharBuff	GC	game	misc	services/game/packet_domains/misc.lua:3057	bos	bis		9	2	26	32	True	False	high	
+154	GCPlayerShopMoney	GC	game	shop	services/game/packet_domains/shop.lua:1647	bos	bis	True	4	0	18	18	False	False	high	
+156	CGAntagonistReq	CG	game	combat	services/game/packet_domains/combat.lua:108	bis			2	1	5	5	False	False	high	
+160	CGPlayerShopBuyShop	CG	game	shop	services/game/packet_domains/shop.lua:1402	bis			2	0	13	13	False	False	high	
+163	CGMissionContinue	CG	game	combat	services/game/packet_domains/combat.lua:2452	bis			3	1	12	12	False	False	high	
+165	CGAskCampaignCount	CG	game	misc	services/game/packet_domains/misc.lua:5403	bis			1	0	4	4	False	False	high	
+170	CGAskMyBagList	CG	game	misc	services/game/packet_domains/misc.lua:2198	bis	bos	True	3	1	5		False	True	medium	length/count without an upper bound
+174	GCAskServerTime	GC	game	misc	services/game/packet_domains/misc.lua:1444	bos	bis	True	8	0	15	15	False	False	high	
+176	GCNewPlayer_Move	GC	game	movement	services/game/packet_domains/movement.lua:397	bos	bis	False	13	2	38		False	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+179	CGLoginAcc	CG	game	core	services/game/packet_domains/core.lua:244	bis			2	0	1		False	False	medium	length/count without an upper bound
+183	CGPetUnEquip	CG	game	pet	services/game/packet_domains/pet.lua:195	bis			3	0	10	10	False	False	high	
+191	GCJiYuanShopInfo	GC	game	shop	services/game/packet_domains/shop.lua:2751	bos	bis	False	5	0	1604	1604	False	False	medium	bis() and bos() differ structurally
+197	CGRaidRetInvite	CG	game	team	services/game/packet_domains/team.lua:637	bis	bos		3	0	9	9	False	False	high	
+199	CGWGuildLeagueInfo	CGW	game	city	services/game/packet_domains/city.lua:197	bis			1	0	4	4	False	False	high	
+205	GCWGCPacket	GC	game	city	services/game/packet_domains/city.lua:756	bos	bis	False	2	0	5		False	False	medium	length/count without an upper bound; bis() and bos() differ structurally
+206	GCDarkResult	GC	game	pet	services/game/packet_domains/pet.lua:103	bos	bis	sign-only	4	4	3	4	True	False	high	
+207	CGAskMyBagSize	CG	game	misc	services/game/packet_domains/misc.lua:610	bis			0	0	0	0	False	False	high	
+211	CGMail	CG	game	social	services/game/packet_domains/social.lua:1526	bis			14	2	28		True	False	medium	length/count without an upper bound
+213	GCAuctionSearch	GC	game	shop	services/game/packet_domains/shop.lua:2200	bos	bis	False	16	2	10		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+214	CGCharStopLogic	CG	game	misc	services/game/packet_domains/misc.lua:2520	bis	bos	True	1	0	4	4	False	False	high	
+217	GCStallBuy	GC	game	shop	services/game/packet_domains/shop.lua:751	bos	bis	sign-only	9	0	35	35	False	False	high	
+221	CGRaidCreate	CG	game	team	services/game/packet_domains/team.lua:710	bis	bos		5	0	14		False	True	medium	length/count without an upper bound
+222	GCRemoveGemResult	GC	game	misc	services/game/packet_domains/misc.lua:222	bos	bis	True	2	0	8	8	False	False	high	
+226	GCRaidResult	GC	game	team	services/game/packet_domains/team.lua:98	bos	bis		18	0	48	109	False	False	high	
+228	CGPetBankAddPet	CG	game	pet	services/game/packet_domains/pet.lua:7	bis			3	0	17	17	False	False	high	
+237	GCGuildError	GC	game	social	services/game/packet_domains/social.lua:2324	bos			1	0	1	1	False	False	high	
+238	CGUseEquip	CG	game	item	services/game/packet_domains/item.lua:191	bis	bos	True	3	0	6	6	False	False	high	
+245	GCRefreshKFSSkill	GC	game	misc	services/game/packet_domains/misc.lua:4809	bos	bis	sign-only	2	0	10	10	False	True	high	
+251	GCDetailImpactListUpdate	GC	game	misc	services/game/packet_domains/misc.lua:2626	bos	bis	True	8	1	8		False	True	medium	length/count without an upper bound
+258	CGTeamRetApply	CG	game	team	services/game/packet_domains/team.lua:1619	bis			4	0	41	41	False	True	high	
+261	CGMissionAbandon	CG	game	combat	services/game/packet_domains/combat.lua:2373	bis			1	0	4	4	False	False	high	
+263	GCMyBagList	GC	game	misc	services/game/packet_domains/misc.lua:1622	bos	bis		8	2	5		False	True	medium	length/count without an upper bound
+264	CGAcqStallSell	CG	game	shop	services/game/packet_domains/shop.lua:973	bis			4	0	16	16	False	False	high	
+268	CGAuctionModify	CG	game	shop	services/game/packet_domains/shop.lua:2606	bis			3	0	6	6	False	False	high	
+269	GCAuctionChangeStatus	GC	game	shop	services/game/packet_domains/shop.lua:2362	bos	bis	False	8	3	7		False	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+273	GCTeamFollowErr	GC	game	team	services/game/packet_domains/team.lua:1557	bos			1	0	1	1	False	False	high	
+276	GCPlayerShopBuyShop	GC	game	shop	services/game/packet_domains/shop.lua:1732	bos	bis	True	1	0	12	12	False	False	high	
+277	GCGuildReturn	GC	game	social	services/game/packet_domains/social.lua:1660	bos			61	0	1	155	True	False	high	
+279	CGAuctionBoxList	CG	game	shop	services/game/packet_domains/shop.lua:2326	bis			0	0	0	0	False	False	high	
+280	GCRetChangeScene	GC	game	misc	services/game/packet_domains/misc.lua:2951	bos	bis	True	4	0	5	31	True	False	high	
+281	GCTeamError	GC	game	team	services/game/packet_domains/team.lua:802	bos	bis	True	1	0	1	1	False	False	high	
+285	GCDetailBuff	GC	game	misc	services/game/packet_domains/misc.lua:3092	bos	bis		9	1	10	32	True	False	high	
+287	CGExteriorSharePlan	CG	game	misc	services/game/packet_domains/misc.lua:6283	bis			8	0	0	126	True	True	high	
+288	GCMissionList	GC	game	combat	services/game/packet_domains/combat.lua:2183	bos	bis		11	0	2368	2368	False	True	high	
+290	GCAcqStallOpen	GC	game	shop	services/game/packet_domains/shop.lua:833	bos	bis	True	6	0	328	328	False	True	high	
+291	GCPrivateInfo	GC	game	social	services/game/packet_domains/social.lua:1042	bos	bis	sign-only	22	16	26	226	True	False	high	
+293	GCAcqStallSell	GC	game	shop	services/game/packet_domains/shop.lua:994	bos	bis	True	5	0	324	324	False	True	high	
+294	CGWGuildLeagueAnswerEnter	CGW	game	city	services/game/packet_domains/city.lua:374	bis			3	1	10	10	False	False	high	
+303	CGPlayerShopBuyItem	CG	game	shop	services/game/packet_domains/shop.lua:1284	bis			5	0	33	33	False	False	high	
+304	GCAuctionError	GC	game	shop	services/game/packet_domains/shop.lua:2674	bos	bis	True	2	0	3		False	False	medium	length/count without an upper bound
+305	GCShopSell	GC	game	shop	services/game/packet_domains/shop.lua:344	bos	bis	True	1	0	1	1	False	False	high	
+312	GCArrive	GC	game	misc	services/game/packet_domains/misc.lua:3587	bos	bis	True	5	1	17	17	False	False	high	
+313	GCPlayerShopUpdatePartners	GC	game	shop	services/game/packet_domains/shop.lua:1798	bos	bis	True	4	0	13		False	True	medium	length/count without an upper bound
+314	GCPackUpBank	GC	game	item	services/game/packet_domains/item.lua:660	bos	bis	True	1	1	4	4	False	False	high	
+316	CGAskDetailEquipList	CG	game	misc	services/game/packet_domains/misc.lua:593	bis			1	0	4	4	False	False	high	
+320	GCSetDynamicRegion	GC	game	misc	services/game/packet_domains/misc.lua:5754	bos	bis	True	6	0	22	22	False	False	high	
+321	GCShopSoldList	GC	game	shop	services/game/packet_domains/shop.lua:202	bos	bis		3	0	1		False	True	medium	length/count without an upper bound
+322	CGMissionSubmit	CG	game	combat	services/game/packet_domains/combat.lua:2333	bis			4	1	16	16	False	False	high	
+324	GCCharImpactListUpdate	GC	game	misc	services/game/packet_domains/misc.lua:710	bos	bis	sign-only	7	2	12		True	True	medium	length/count without an upper bound
+329	CGTeamApply	CG	game	team	services/game/packet_domains/team.lua:1594	bis			4	2	11	40	False	False	high	
+331	GCCharSkill_Send	GC	game	misc	services/game/packet_domains/misc.lua:3028	bos	bis		8	2	26	26	False	False	high	
+332	WGCGuildLeagueInfo	WGC	game	city	services/game/packet_domains/city.lua:215	bos	bis	True	16	1	176		False	True	medium	length/count without an upper bound
+334	GCMSShopBuyInfo	GC	game	shop	services/game/packet_domains/shop.lua:39	bos	bis	True	3	2	4		True	True	medium	length/count without an upper bound
+335	GCChatDecryption	GC	game	core	services/game/packet_domains/core.lua:125	bos	bis	True	1	0	4	4	False	False	high	
+336	CGTeamChangeOption	CG	game	team	services/game/packet_domains/team.lua:2397	bis			2	1	12	12	False	False	high	
+338	CGWGuildLeagueMemberApplyList	CGW	game	city	services/game/packet_domains/city.lua:320	bis			1	1	4	4	False	False	high	
+346	GCRelation	GC	game	social	services/game/packet_domains/social.lua:479	bos	bis	False	95	14	1	7974	True	True	medium	bis() and bos() differ structurally
+347	CGPlayerShopPartner	CG	game	shop	services/game/packet_domains/shop.lua:1422	bis			3	0	17	17	False	False	high	
+352	CGCharMove	CG	game	movement	services/game/packet_domains/movement.lua:32	bis			8	1	18	146	True	True	high	
+356	CGRaidRetApply	CG	game	team	services/game/packet_domains/team.lua:44	bis			3	0	9	9	False	False	high	
+357	GCRetSetting	GC	game	misc	services/game/packet_domains/misc.lua:3161	bos	bis	True	3	0	546	546	False	True	high	
+359	GCExchangeCancel	GC	game	team	services/game/packet_domains/team.lua:2171	bos	bis		0	0	0	0	False	False	high	
+364	CGExchangeSynchLock	CG	game	team	services/game/packet_domains/team.lua:2018	bis			2	0	5	5	False	False	high	
+366	GCPhoenixPlainWarFlagPos	GC	game	city	services/game/packet_domains/city.lua:629	bos	bis	True	4	0	66	66	False	False	high	
+371	CGSetPetAttrib	CG	game	misc	services/game/packet_domains/misc.lua:4554	bis			10	0	10		True	True	medium	length/count without an upper bound
+372	CGLockTarget	CG	game	combat	services/game/packet_domains/combat.lua:57	bis			1	0	4	4	False	False	high	
+375	GCPackUpPacket	GC	game	item	services/game/packet_domains/item.lua:339	bos	bis	True	1	1	4	4	False	False	high	
+378	GCNewPlatform	GC	game	misc	services/game/packet_domains/misc.lua:345	bos	bis	True	6	0	18		False	False	medium	length/count without an upper bound
+382	GCCharModifyAction	GC	game	misc	services/game/packet_domains/misc.lua:4953	bos			3	0	12	12	False	False	high	
+384	GCNewBus	GC	game	misc	services/game/packet_domains/misc.lua:5930	bos	bis		8	0	24	88	True	True	high	
+385	GCOrnamentsDataUpdate	GC	game	item	services/game/packet_domains/item.lua:9	bos	bis		46	0	2		True	True	medium	length/count without an upper bound
+387	CGBBSApply	CG	game	social	services/game/packet_domains/social.lua:1377	bis			2	0	8	8	False	False	high	
+389	GCRefreshDarkSkill	GC	game	misc	services/game/packet_domains/misc.lua:4602	bos	bis	True	2	0	10	10	False	True	high	
+395	GCNewPet_Move	GC	game	movement	services/game/packet_domains/movement.lua:460	bos	bis	True	12	6	34	154	True	True	high	
+397	GCScriptCommand	GC	game	mission	services/game/packet_domains/mission.lua:57	bos	bis	False	42	0	4		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+400	CGPetSoulXiShuXing	CG	game	pet	services/game/packet_domains/pet.lua:283	bis			4	0	56	56	False	True	high	
+402	CGAskSetting	CG	game	misc	services/game/packet_domains/misc.lua:626	bis			0	0	0	0	False	False	high	
+404	CGCharAskBaseAttrib	CG	game	combat	services/game/packet_domains/combat.lua:74	bis			1	0	4	4	False	False	high	
+408	GCExchangeApplyI	GC	game	team	services/game/packet_domains/team.lua:1833	bos	bis	True	4	0	16	45	False	False	high	
+409	CGModifySetting	CG	game	misc	services/game/packet_domains/misc.lua:2542	bis	bos	True	3	0	6	6	False	False	high	
+414	CGAskChangeScene	CG	game	misc	services/game/packet_domains/misc.lua:2925	bis	bos		4	2	12	12	False	False	high	
+417	GCDiaowenFeatureSkill	GC	game	misc	services/game/packet_domains/misc.lua:117	bos	bis		2	0	8	8	False	False	high	
+418	GCRaidAskInvite	GC	game	team	services/game/packet_domains/team.lua:14	bos	bis		6	0	46	46	False	False	high	
+420	GCExchangeSynchII	GC	game	team	services/game/packet_domains/team.lua:2192	bos	bis		21	1	4		True	False	high	
+421	CGRaidLeave	CG	game	team	services/game/packet_domains/team.lua:66	bis			1	0	4	4	False	False	high	
+422	GCBusRemoveAllPassenger	GC	game	city	services/game/packet_domains/city.lua:513	bos	bis	True	1	0	4	4	False	False	high	
+423	GCPlayerShopSaleShopInfo	GC	game	shop	services/game/packet_domains/shop.lua:1920	bos	bis	False	1	0	12	12	False	False	medium	bis() and bos() differ structurally
+427	CGShopBuy	CG	game	shop	services/game/packet_domains/shop.lua:229	bis	bos	False	9	4	34	34	False	False	medium	bis() and bos() differ structurally
+428	GCBBSMessages	GC	game	social	services/game/packet_domains/social.lua:1396	bos	bis	sign-only	14	0	10		True	True	medium	length/count without an upper bound
+431	GCPlayerRelive	GC	game	misc	services/game/packet_domains/misc.lua:4362	bos	bis		0	0	0	0	False	False	high	
+434	CGFriendGroupName	CG	game	social	services/game/packet_domains/social.lua:386	bis			1	1	4	4	False	False	high	
+435	CGManipulatePet	CG	game	misc	services/game/packet_domains/misc.lua:4504	bis			3	0	16	16	False	False	high	
+436	GCPlayerShopSaleOut	GC	game	shop	services/game/packet_domains/shop.lua:1707	bos	bis	True	2	0	2	2	False	False	high	
+443	CGAcqStallRemoveItem	CG	game	shop	services/game/packet_domains/shop.lua:931	bis			1	0	4	4	False	False	high	
+444	GCRetNetDelay	GC	game	misc	services/game/packet_domains/misc.lua:2500	bos	bis		0	0	0	0	False	False	high	
+447	CGTeamInvite	CG	game	team	services/game/packet_domains/team.lua:907	bis			5	2	15	44	False	False	high	
+449	CGCityAskAttr	CG	game	city	services/game/packet_domains/city.lua:74	bis			0	0	0	0	False	False	high	
+455	GCCharBaseAttrib	GC	game	combat	services/game/packet_domains/combat.lua:170	bos	bis		111	19	19		True	True	medium	length/count without an upper bound
+456	GCConnect	GC	game	core	services/game/packet_domains/core.lua:42	bos	bis	True	5	1	14	14	False	False	high	
+457	GCReturnTeamFollow	GC	game	misc	services/game/packet_domains/misc.lua:4990	bos			2	0	5	5	False	False	high	
+459	GCAbilitySucc	GC	game	misc	services/game/packet_domains/misc.lua:3990	bos	bis	False	5	0	12	12	False	False	medium	bis() and bos() differ structurally
+461	CGWGuildLeagueList	CGW	game	city	services/game/packet_domains/city.lua:124	bis			1	1	4	4	False	False	high	
+462	GCUseEquipResult	GC	game	item	services/game/packet_domains/item.lua:217	bos	bis	True	8	1	29	29	False	False	high	
+464	CGPlayerShopType	CG	game	shop	services/game/packet_domains/shop.lua:1498	bis			2	0	13	13	False	False	high	
+465	GCNewSpecial	GC	game	misc	services/game/packet_domains/misc.lua:4733	bos	bis	True	5	0	20	20	False	False	high	
+469	CGAskCheDiFuLuData	CG	game	misc	services/game/packet_domains/misc.lua:6191	bis			2	2	2	2	False	False	high	
+472	GCWorldTime	GC	game	core	services/game/packet_domains/core.lua:266	bos	bis	True	3	1	12	12	False	False	high	
+473	CGUseItem	CG	game	item	services/game/packet_domains/item.lua:361	bis	bos	False	9	0	38	38	False	False	medium	bis() and bos() differ structurally
+474	CGPlayerShopFavorite	CG	game	shop	services/game/packet_domains/shop.lua:1518	bis			2	0	13	13	False	False	high	
+479	GCDiGongShopInfo	GC	game	shop	services/game/packet_domains/shop.lua:81	bos	bis	True	1	1	128	128	False	False	high	
+480	GCUnEquipResult	GC	game	item	services/game/packet_domains/item.lua:286	bos	bis	sign-only	5	0	15	15	False	False	high	
+481	GCNewMonster_Move	GC	game	movement	services/game/packet_domains/movement.lua:595	bos	bis	False	12	2	34		False	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+487	CGExchangeOkIII	CG	game	team	services/game/packet_domains/team.lua:2037	bis			1	0	4	4	False	False	high	
+488	GCOpenPlayerShop	GC	game	misc	services/game/packet_domains/misc.lua:5061	bos	bis	True	1	1	4	4	False	False	high	
+489	CGCGWPacket	CG	game	city	services/game/packet_domains/city.lua:90	bis			6	0	5		True	True	medium	length/count without an upper bound
+494	GCAuctionChangeMoney	GC	game	shop	services/game/packet_domains/shop.lua:2645	bos	bis	True	4	0	7	7	False	False	high	
+501	CGAuctionSearch	CG	game	shop	services/game/packet_domains/shop.lua:2274	bis			5	0	12		False	False	medium	length/count without an upper bound
+507	CGUseGem	CG	game	misc	services/game/packet_domains/misc.lua:3818	bis			6	4	9	9	False	False	high	
+508	GCPlayerDie	GC	game	misc	services/game/packet_domains/misc.lua:4316	bos	bis	False	4	0	16	16	False	False	medium	bis() and bos() differ structurally
+512	GCDetailAttrib_Pet	GC	game	pet_detail_types	services/game/packet_types/pet_detail_types.lua:13	bos	bis	False	112	9	26		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+513	CGRaidApply	CG	game	team	services/game/packet_domains/team.lua:745	bis	bos		3	0	7	36	False	False	high	
+517	CGDisplaceGem	CG	game	misc	services/game/packet_domains/misc.lua:3861	bis			2	0	2	2	False	False	high	
+518	WGCGuildLeagueMemberApplyList	WGC	game	city	services/game/packet_domains/city.lua:338	bos			10	0	6		False	True	medium	length/count without an upper bound
+520	CGDiscardItem	CG	game	item	services/game/packet_domains/item.lua:581	bis			2	0	2	2	False	False	high	
+527	CGByname	CG	game	social	services/game/packet_domains/social.lua:2296	bis			3	0	2		True	False	medium	length/count without an upper bound
+530	GCExteriorInfo	GC	game	misc	services/game/packet_domains/misc.lua:1248	bos	bis		56	16	8		True	True	medium	length/count without an upper bound
+533	GCShengWangInfo	GC	game	misc	services/game/packet_domains/misc.lua:5851	bos	bis	False	14	6	884	884	False	True	medium	bis() and bos() differ structurally
+538	CGPlayerShopOnSale	CG	game	shop	services/game/packet_domains/shop.lua:1225	bis			8	0	39	39	False	False	high	
+539	CGAskRaidMemberInfo	CG	game	misc	services/game/packet_domains/misc.lua:7	bis			3	0	10	10	False	False	high	
+540	CGStallBuy	CG	game	shop	services/game/packet_domains/shop.lua:728	bis			4	0	24	24	False	False	high	
+546	CGAskDetailAbilityInfo	CG	game	misc	services/game/packet_domains/misc.lua:446	bis			1	0	4	4	False	False	high	
+553	GCExchangeSynchLock	GC	game	team	services/game/packet_domains/team.lua:2074	bos	bis	True	4	1	5	5	False	False	high	
+555	CGAskStudyXinfa	CG	game	misc	services/game/packet_domains/misc.lua:3701	bis	bos	True	3	0	6	6	False	False	high	
+557	CGPlayerShopSaleOut	CG	game	shop	services/game/packet_domains/shop.lua:1379	bis			5	1	19	19	False	False	high	
+560	CGMSShopBuyInfoReq	CG	game	shop	services/game/packet_domains/shop.lua:23	bis			0	0	0	0	False	False	high	
+563	CGShopSell	CG	game	shop	services/game/packet_domains/shop.lua:324	bis			3	2	6	6	False	False	high	
+564	GCCharMove	GC	game	movement	services/game/packet_domains/movement.lua:653	bos	bis	True	11	1	14		True	True	medium	length/count without an upper bound
+565	CGStopPedding	CG	game	core	services/game/packet_domains/core.lua:228	bis			0	0	0	0	False	False	high	
+574	GCSpecialObj_FadeOut	GC	game	misc	services/game/packet_domains/misc.lua:4765	bos	bis	True	1	0	4	4	False	False	high	
+579	CGExchangeSynchMoneyII	CG	game	team	services/game/packet_domains/team.lua:2055	bis			2	0	8	8	False	False	high	
+581	CGPlayerShopAskForRecord	CG	game	shop	services/game/packet_domains/shop.lua:1448	bis			3	0	14	14	False	False	high	
+582	GCDelObject	GC	game	misc	services/game/packet_domains/misc.lua:1880	bos	bis	True	2	0	6	6	False	False	high	
+584	GCStallClose	GC	game	shop	services/game/packet_domains/shop.lua:707	bos	bis		0	0	0	0	False	False	high	
+587	CGPlayerShopAcquireShopList	CG	game	shop	services/game/packet_domains/shop.lua:1606	bis			0	0	0	0	False	False	high	
+590	GCAskFashionDepotData	GC	game	misc	services/game/packet_domains/misc.lua:1397	bos	bis		11	2	13		True	True	medium	length/count without an upper bound
+591	GCPlayerShopEstablish	GC	game	shop	services/game/packet_domains/shop.lua:1623	bos	bis	True	1	0	12	12	False	False	high	
+595	GCCharJump	GC	game	movement	services/game/packet_domains/movement.lua:788	bos	bis	True	1	0	4	4	False	False	high	
+598	CGReqManualAttr	CG	game	misc	services/game/packet_domains/misc.lua:4439	bis			5	0	20	20	False	False	high	
+602	CGStallRemoveItem	CG	game	shop	services/game/packet_domains/shop.lua:634	bis			4	0	21	21	False	False	high	
+603	GCMissionHaveDoneFlag	GC	game	combat	services/game/packet_domains/combat.lua:2622	bos	bis	True	2	0	8	8	False	False	high	
+604	GCBankAcquireList	GC	game	misc	services/game/packet_domains/misc.lua:4087	bos	bis	False	9	3	7		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+607	GCDetailXinFaList	GC	game	misc	services/game/packet_domains/misc.lua:950	bos	bis	True	5	1	10	130	True	True	high	
+609	GCCityAttr	GC	game	city	services/game/packet_domains/city.lua:839	bos	bis	False	7	0	4	2146	True	False	medium	bis() and bos() differ structurally
+612	GCAbilityExp	GC	game	misc	services/game/packet_domains/misc.lua:6238	bos	bis		3	0	10	10	False	False	high	
+613	GCChallenge	GC	game	combat	services/game/packet_domains/combat.lua:2539	bos	bis		38	2	1	846	True	True	high	
+617	GCJuqingPoint	GC	game	misc	services/game/packet_domains/misc.lua:837	bos	bis	True	1	1	4	4	False	False	high	
+622	CGAuctionGetYB	CG	game	shop	services/game/packet_domains/shop.lua:2587	bis			2	0	2	2	False	False	high	
+623	GCItemInfo	GC	game	misc	services/game/packet_domains/misc.lua:2818	bos	bis	sign-only	5	1	46		False	False	high	
+624	CGCTUGabrielCmdRet	CG	game	core	services/game/packet_domains/core.lua:366	bis	bos	True	3	2	10		False	False	medium	length/count without an upper bound
+625	GCNewBus_Move	GC	game	misc	services/game/packet_domains/misc.lua:5962	bos	bis		12	0	40	104	True	True	high	
+630	GCGuild	GC	game	social	services/game/packet_domains/social.lua:1840	bos	bis	False	115	21	5		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+631	CGStallClose	CG	game	shop	services/game/packet_domains/shop.lua:690	bis			0	0	0	0	False	False	high	
+632	CGAskDoubleExp	CG	game	misc	services/game/packet_domains/misc.lua:1907	bis	bos		0	0	0	0	False	False	high	
+636	CGCharAutoRide	CG	game	core	services/game/packet_domains/core.lua:421	bis			1	0	4	4	False	False	high	
+639	GCRetRaidModifyMemberPosition	GC	game	misc	services/game/packet_domains/misc.lua:28	bos	bis		7	0	19	19	False	False	high	
+643	GCDetailAbilityInfo	GC	game	misc	services/game/packet_domains/misc.lua:898	bos	bis	True	6	0	261	828	True	True	high	
+648	GCTeamResult	GC	game	team	services/game/packet_domains/team.lua:949	bos	bis		11	0	24		True	False	medium	length/count without an upper bound
+651	CGExchangeReplyI	CG	game	team	services/game/packet_domains/team.lua:1917	bis			2	0	8	8	False	False	high	
+656	CGRemoveGem	CG	game	misc	services/game/packet_domains/misc.lua:3841	bis			3	0	3	3	False	False	high	
+657	CGDispelBuffReq	CG	game	combat	services/game/packet_domains/combat.lua:2309	bis	bos		3	0	10	10	False	False	high	
+658	GCGameCommond	GC	game	misc	services/game/packet_domains/misc.lua:4884	bos	bis	True	3	0	8	12	True	False	high	
+662	GCAbilityLevel	GC	game	misc	services/game/packet_domains/misc.lua:3880	bos	bis	True	2	0	6	6	False	False	high	
+663	CGAskDiGongShopInfo	CG	game	misc	services/game/packet_domains/misc.lua:2070	bis	bos		0	0	0	0	False	False	high	
+664	CGPlayerShopName	CG	game	shop	services/game/packet_domains/shop.lua:1355	bis			2	0	13	25	False	False	high	
+665	GCExchangeSuccessIII	GC	game	team	services/game/packet_domains/team.lua:2126	bos	bis	False	6	0	5	41	True	True	medium	bis() and bos() differ structurally
+666	GCManipulatePetRet	GC	game	misc	services/game/packet_domains/misc.lua:4525	bos	bis	True	3	0	16	16	False	False	high	
+672	GCByname	GC	game	social	services/game/packet_domains/social.lua:2270	bos			3	0	1		True	False	medium	length/count without an upper bound
+675	GCBoxItemList	GC	game	misc	services/game/packet_domains/misc.lua:3468	bos	bis	False	4	0	7		False	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+676	GCCharDirectImpact	GC	game	combat	services/game/packet_domains/combat.lua:2278	bos	bis	sign-only	5	0	18	18	False	False	high	
+678	CGAskDetailAttrib	CG	game	misc	services/game/packet_domains/misc.lua:1949	bis	bos	True	1	0	4	4	False	False	high	
+679	GCRMBChatFaceInfo	GC	game	misc	services/game/packet_domains/misc.lua:767	bos	bis	True	2	0	20	20	False	True	high	
+680	CGAskGSChitChatInfo	CG	game	misc	services/game/packet_domains/misc.lua:2229	bis	bos	True	1	1	1	1	False	False	high	
+681	GCChallengeListInfo	GC	game	combat	services/game/packet_domains/combat.lua:2499	bos	bis	False	0	0	0	0	False	False	medium	bis() and bos() differ structurally
+682	CGMissionCheck	CG	game	combat	services/game/packet_domains/combat.lua:2472	bis			7	3	24	24	False	True	high	
+684	GCRetSecKillNum	GC	game	misc	services/game/packet_domains/misc.lua:5585	bos	bis	False	2	0	36	36	False	True	medium	bis() and bos() differ structurally
+687	CGNetDelay	CG	game	core	services/game/packet_domains/core.lua:336	bis	bos	True	3	3	10	10	False	False	high	
+690	CGAskJuqingPoint	CG	game	misc	services/game/packet_domains/misc.lua:1927	bis	bos	True	1	1	4	4	False	False	high	
+694	GCMsgBall	GC	game	misc	services/game/packet_domains/misc.lua:6431	bos	bis		7	2	13		False	False	medium	length/count without an upper bound
+696	GCCharSkill_Gather	GC	game	misc	services/game/packet_domains/misc.lua:2985	bos	bis	True	10	0	40	40	False	False	high	
+699	CGBBSSychMessages	CG	game	social	services/game/packet_domains/social.lua:1488	bis			6	0	5		True	False	medium	length/count without an upper bound
+703	CGZdZdRequest	CG	game	misc	services/game/packet_domains/misc.lua:5789	bis			3	1	4	32	True	True	high	
+704	CGCharMoodState	CG	game	misc	services/game/packet_domains/misc.lua:249	bis			2	0	5	5	False	False	high	
+708	GCLookUpOther	GC	game	social	services/game/packet_domains/social.lua:1319	bos	bis		20	2	42	187	True	False	high	
+712	CGTeamKick	CG	game	team	services/game/packet_domains/team.lua:1575	bis			2	0	8	8	False	False	high	
+715	GCItemSynch	GC	game	item	services/game/packet_domains/item.lua:988	bos	bis	False	15	0	2		True	False	medium	length/count without an upper bound; bis() and bos() differ structurally
+717	CGTeamAppoint	CG	game	team	services/game/packet_domains/team.lua:1777	bis			2	0	8	8	False	False	high	
+720	CGAuctionMultiBuyItem	CG	game	shop	services/game/packet_domains/shop.lua:2557	bis			5	0	1		True	True	high	
+721	CGRemoveDressGem	CG	game	item	services/game/packet_domains/item.lua:729	bis			0	0	0	0	False	False	high	operations on 1 stream(s) that are never sent
+724	GCComboSkillOperation	GC	game	misc	services/game/packet_domains/misc.lua:4658	bos	bis	True	5	1	36	36	False	True	high	
+727	GCStallApply	GC	game	shop	services/game/packet_domains/shop.lua:388	bos	bis	True	4	0	7	7	False	False	high	
+728	WGCGuildLeagueList	WGC	game	city	services/game/packet_domains/city.lua:142	bos	bis	True	9	1	6	71686	True	True	high	
+732	GCMissionRemove	GC	game	combat	services/game/packet_domains/combat.lua:2391	bos			1	0	4	4	False	False	high	
+741	GCBankRemoveItem	GC	game	misc	services/game/packet_domains/misc.lua:4287	bos	bis	sign-only	4	0	4	4	False	False	high	
+743	GCNotifyGoodBad	GC	game	misc	services/game/packet_domains/misc.lua:5998	bos			2	0	5	5	False	False	high	
+744	GCPacketStream	GC	game	item	services/game/packet_domains/item.lua:683	bos	bis	False	6	0	4		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+753	CGChat	CG	game	social	services/game/packet_domains/social.lua:7	bis			24	10	18		True	True	medium	length/count without an upper bound
+757	GCPetBankListUPData	GC	game	pet	services/game/packet_domains/pet.lua:58	bos	bis	False	2	0	2		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+758	GCDFengEssenceSynKongWeiData	GC	game	combat	services/game/packet_domains/combat.lua:2662	bos			11	0	244	244	False	True	high	
+760	GCAbilityResult	GC	game	misc	services/game/packet_domains/misc.lua:3930	bos	bis	sign-only	3	0	10	10	False	False	high	
+761	CGEnvRequest	CG	game	core	services/game/packet_domains/core.lua:212	bis			0	0	0	0	False	False	high	
+772	GCUseGemResult	GC	game	misc	services/game/packet_domains/misc.lua:200	bos	bis	True	1	0	4	4	False	False	high	
+782	GCTeamFollowList	GC	game	team	services/game/packet_domains/team.lua:1533	bos			3	0	5		False	True	medium	length/count without an upper bound
+783	GCLevelUpLock	GC	game	misc	services/game/packet_domains/misc.lua:1805	bos	bis	True	3	3	12	12	False	False	high	
+785	GCStallItemPrice	GC	game	shop	services/game/packet_domains/shop.lua:601	bos	bis	True	4	0	24	24	False	False	high	
+787	CGPetExteriorCollectionRequest	CG	game	pet	services/game/packet_domains/pet.lua:354	bis			3	0	4	12	True	False	high	
+789	CGPlayerShopSaleShopOpt	CG	game	shop	services/game/packet_domains/shop.lua:1538	bis			9	8	45	116	False	False	high	
+790	GCChat	GC	game	social	services/game/packet_domains/social.lua:120	bos	bis	True	19	11	39		True	False	medium	length/count without an upper bound
+791	CGTeamLeaderRetInvite	CG	game	team	services/game/packet_domains/team.lua:1644	bis			5	0	73	73	False	True	high	
+792	GCExteriorCoupleFashion	GC	game	misc	services/game/packet_domains/misc.lua:5634	bos	bis	sign-only	16	7	4		True	True	medium	length/count without an upper bound
+795	CGSetMoodToHead	CG	game	misc	services/game/packet_domains/misc.lua:6115	bis			1	0	1	1	False	False	high	
+797	GCShopMerchandiseList	GC	game	shop	services/game/packet_domains/shop.lua:103	bos	bis	sign-only	27	12	56		False	True	medium	length/count without an upper bound
+799	CGMinorPasswd	CG	game	misc	services/game/packet_domains/misc.lua:560	bis			4	0	1	35	True	False	high	
+802	GCCharSkill_Missed	GC	game	misc	services/game/packet_domains/misc.lua:3236	bos	bis	sign-only	5	0	17	17	False	False	high	
+803	GCVirtualNPCInfo	GC	game	misc	services/game/packet_domains/misc.lua:1835	bos	bis	True	6	5	12	17	True	True	high	
+807	CGAskDarkAdjust	CG	game	misc	services/game/packet_domains/misc.lua:4633	bis			5	3	9	13	True	False	high	
+809	GCNotifyChangeScene	GC	game	misc	services/game/packet_domains/misc.lua:2875	bos	bis	True	8	3	65	65	False	True	high	
+812	CGExchangeApplyI	CG	game	team	services/game/packet_domains/team.lua:1796	bis			2	1	8	8	False	False	high	
+817	GCCharCharge	GC	game	misc	services/game/packet_domains/misc.lua:4857	bos	bis		8	1	32	32	False	False	high	
+819	GCRetGSChitChatInfo	GC	game	misc	services/game/packet_domains/misc.lua:1778	bos	bis	True	2	2	2	2	False	False	high	
+822	CGTeamDismiss	CG	game	team	services/game/packet_domains/team.lua:932	bis			1	0	4	4	False	False	high	
+824	CGEnterScene	CG	game	movement	services/game/packet_domains/movement.lua:113	bis			4	0	11	11	False	False	high	
+843	GCLevelUp	GC	game	misc	services/game/packet_domains/misc.lua:3562	bos	bis	True	2	0	8	8	False	False	high	
+844	GCDiscardItemResult	GC	game	item	services/game/packet_domains/item.lua:604	bos	bis	True	4	0	7	7	False	False	high	
+845	WGCCTUGabrielCommond	WGC	game	misc	services/game/packet_domains/misc.lua:416	bos	bis	True	2	1	4		False	False	medium	length/count without an upper bound
+846	CGYuanBaoToBind	CG	game	misc	services/game/packet_domains/misc.lua:6475	bis	bos		1	0	4	4	False	False	high	
+855	CGAskSecKillData	CG	game	misc	services/game/packet_domains/misc.lua:5438	bis			0	0	0	0	False	False	high	
+856	GCPhoenixPlainWarCrystalPos	GC	game	city	services/game/packet_domains/city.lua:661	bos	bis	sign-only	6	0	168	168	False	True	high	
+857	GCGuildApply	GC	game	social	services/game/packet_domains/social.lua:1615	bos			1	0	4	4	False	False	high	
+860	CGExecuteScript	CG	game	mission	services/game/packet_domains/mission.lua:7	bis			4	0	6		True	True	medium	length/count without an upper bound
+861	CGStallOpen	CG	game	shop	services/game/packet_domains/shop.lua:456	bis			1	0	4	4	False	False	high	
+863	CGStallApply	CG	game	shop	services/game/packet_domains/shop.lua:371	bis			0	0	0	0	False	False	high	
+867	CGAuctionExpireBack	CG	game	shop	services/game/packet_domains/shop.lua:2626	bis			2	0	2	2	False	False	high	
+868	GCGroupingNameRet	GC	game	misc	services/game/packet_domains/misc.lua:1656	bos	bis	True	2	1	20	100	False	True	high	
+869	GCStallEstablish	GC	game	shop	services/game/packet_domains/shop.lua:435	bos	bis		0	0	0	0	False	False	high	
+870	CGAutoCreateTeam	CG	game	misc	services/game/packet_domains/misc.lua:505	bis			1	1	4	4	False	False	high	
+872	GCBusMove	GC	game	city	services/game/packet_domains/city.lua:460	bos	bis		7	0	28	28	False	False	high	
+873	GCExteriorSharePlan	GC	game	misc	services/game/packet_domains/misc.lua:6361	bos			19	0	1	173	True	True	high	
+874	GCExchangeSynchConfirmII	GC	game	team	services/game/packet_domains/team.lua:2103	bos	bis	True	1	0	1	1	False	False	high	
+875	CGRaidAppoint	CG	game	team	services/game/packet_domains/team.lua:685	bis	bos		3	0	9	9	False	False	high	
+877	CGPackage_SwapItem	CG	game	misc	services/game/packet_domains/misc.lua:2740	bis	bos	True	3	0	3	3	False	False	high	
+878	GCShowMonsterTaps	GC	game	misc	services/game/packet_domains/misc.lua:2700	bos	bis	False	5	0	2		False	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+880	CGPackUpBank	CG	game	item	services/game/packet_domains/item.lua:633	bis			4	1	4		False	True	medium	length/count without an upper bound
+884	CGAskMail	CG	game	misc	services/game/packet_domains/misc.lua:660	bis			1	0	1	1	False	False	high	
+885	GCExchangeNotifySerial	GC	game	team	services/game/packet_domains/team.lua:1894	bos	bis	True	1	0	4	4	False	False	high	
+887	GCAskTeamFollow	GC	game	misc	services/game/packet_domains/misc.lua:5009	bos			0	0	0	0	False	False	high	
+889	GCBusAddPassenger	GC	game	city	services/game/packet_domains/city.lua:486	bos	bis	True	3	0	12	12	False	False	high	
+893	CGGemCompound	CG	game	item	services/game/packet_domains/item.lua:498	bis			3	0	12	12	False	False	high	
+894	CGPlayerShopMoney	CG	game	shop	services/game/packet_domains/shop.lua:1253	bis			5	0	19	19	False	False	high	
+895	CGRaidModifyMemberPosition	CG	game	team	services/game/packet_domains/team.lua:604	bis	bos		6	0	18	18	False	False	high	
+896	GCMissionModify	GC	game	combat	services/game/packet_domains/combat.lua:2228	bos	bis	sign-only	7	0	7	42	True	True	high	
+897	GCPhoenixPlainWarScore	GC	game	city	services/game/packet_domains/city.lua:564	bos	bis	True	11	0	1444	1444	False	True	high	
+898	CGGuildApply	CG	game	social	services/game/packet_domains/social.lua:1633	bis			2	0	2	86	False	False	high	
+899	GCBankBegin	GC	game	misc	services/game/packet_domains/misc.lua:4040	bos	bis	True	3	1	6	6	False	False	high	
+902	GCPlayerShopApply	GC	game	shop	services/game/packet_domains/shop.lua:1163	bos	bis	sign-only	5	1	14	14	False	False	high	
+907	GCMissionAdd	GC	game	combat	services/game/packet_domains/combat.lua:2429	bos			4	0	41	41	False	True	high	
+908	CGKfsOperate	CG	game	misc	services/game/packet_domains/misc.lua:4788	bis			4	0	7	7	False	False	high	
+909	GCTargetListAndHitFlags	GC	game	misc	services/game/packet_domains/misc.lua:3123	bos	bis		10	1	25		False	True	medium	length/count without an upper bound
+910	CGExchangeSynchItemII	CG	game	team	services/game/packet_domains/team.lua:1936	bis			10	0	1	13	True	False	high	
+912	CGWuhunWG	CG	game	misc	services/game/packet_domains/misc.lua:463	bis			5	1	4	10	True	False	high	
+913	GCPlayerShopSaleShopOptResult	GC	game	shop	services/game/packet_domains/shop.lua:1962	bos	bis	True	3	2	14	14	False	False	high	
+916	GCPlayerShopUpdateFavorite	GC	game	shop	services/game/packet_domains/shop.lua:1837	bos	bis	True	2	0	13	13	False	False	high	
+957	CGAskMissionList	CG	game	mission	services/game/packet_domains/mission.lua:40	bis			1	0	4	4	False	False	high	
+960	GCRaidError	GC	game	team	services/game/packet_domains/team.lua:201	bos	bis		1	0	1	1	False	False	high	
+961	GCSecKillRemoveItem	GC	game	shop	services/game/packet_domains/shop.lua:2726	bos	bis	True	2	0	2	2	False	False	high	
+964	CGAskTeamMemberInfo	CG	game	misc	services/game/packet_domains/misc.lua:4020	bis			3	0	10	10	False	False	high	
+965	GCObjTeleport	GC	game	misc	services/game/packet_domains/misc.lua:3507	bos	bis	True	4	0	16	16	False	False	high	
+966	GCTeamAskInvite	GC	game	team	services/game/packet_domains/team.lua:998	bos	bis	False	13	2	41		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+968	GCTeamOptionChanged	GC	game	team	services/game/packet_domains/team.lua:2416	bos	bis	True	2	1	12	12	False	False	high	
+971	CGWAskAladdinToken	CGW	game	misc	services/game/packet_domains/misc.lua:677	bis			1	1	4	4	False	False	high	
+972	WGCAladdinToken	WGC	game	misc	services/game/packet_domains/misc.lua:2467	bos	bis	True	4	4	26	26	False	False	high	
+980	GCPlayerShopAcquireShopList	GC	game	shop	services/game/packet_domains/shop.lua:1066	bos	bis	True	18	3	13	131085	True	True	high	
+981	GCPlayerShopStallStatus	GC	game	shop	services/game/packet_domains/shop.lua:1890	bos	bis	True	4	0	15	15	False	False	high	
+982	GCPhoenixPlainWarCampInfo	GC	game	city	services/game/packet_domains/city.lua:708	bos	bis	sign-only	4	0	4	13604	True	True	high	
+983	CGAskDynamicRegion	CG	game	movement	services/game/packet_domains/movement.lua:193	bis			1	1	2	2	False	False	high	
+985	GCBankMoney	GC	game	misc	services/game/packet_domains/misc.lua:1696	bos	bis	True	7	3	14	1180	True	True	high	
+991	CGSectOper	CG	game	misc	services/game/packet_domains/misc.lua:5384	bis			2	0	8	8	False	False	high	
+992	CGStallShopName	CG	game	shop	services/game/packet_domains/shop.lua:794	bis			1	0	1		False	False	medium	length/count without an upper bound
+993	GCPetSoulXiShuXing	GC	game	pet	services/game/packet_domains/pet.lua:250	bos	bis	False	3	0	52	52	False	True	medium	bis() and bos() differ structurally
+994	GCZhouHuoYueInfo	GC	game	misc	services/game/packet_domains/misc.lua:5815	bos	bis		7	1	356	356	False	True	high	
+999	GCStallRemoveItem	GC	game	shop	services/game/packet_domains/shop.lua:657	bos	bis	True	4	0	21	21	False	False	high	
+1002	WGCRetQueryXBWRankCharts	WGC	game	city	services/game/packet_domains/city.lua:394	bos	bis	sign-only	15	2	13	12015	True	True	high	
+1013	GCNotifyEquip	GC	game	item	services/game/packet_domains/item.lua:477	bos	bis		2	0	190	190	False	False	high	
+1014	GCDetailXiulianList	GC	game	misc	services/game/packet_domains/misc.lua:997	bos	bis	False	3	1	48	48	False	True	medium	bis() and bos() differ structurally
+1016	CGPlayerShopDesc	CG	game	shop	services/game/packet_domains/shop.lua:1331	bis			2	0	13	51	False	False	high	
+1021	WGCRetQueryQingRenJieTopList	WGC	game	city	services/game/packet_domains/city.lua:890	bos	bis	True	19	11	4574	4574	False	True	high	
+1023	GCOpenWorldReference	GC	game	misc	services/game/packet_domains/misc.lua:1756	bos	bis	True	1	1	32	32	False	False	high	
+1026	GCLevelUpResult	GC	game	misc	services/game/packet_domains/misc.lua:3537	bos	bis	True	2	0	8	8	False	False	high	
+1027	CGExteriorRequest	CG	game	misc	services/game/packet_domains/misc.lua:2090	bis	bos		20	13	9		True	True	medium	length/count without an upper bound
+1030	CGAuctionTakeBack	CG	game	shop	services/game/packet_domains/shop.lua:2343	bis			2	0	2	2	False	False	high	
+1031	GCManualAttrResult	GC	game	misc	services/game/packet_domains/misc.lua:4461	bos	bis	True	1	0	4	4	False	False	high	
+1032	CGShowFashionDepotData	CG	game	misc	services/game/packet_domains/misc.lua:2853	bis	bos	True	1	1	1	1	False	False	high	class prefix CG but id constant XYID_GC_YUAN_BAO
+1034	GCExchangeError	GC	game	team	services/game/packet_domains/team.lua:1815	bos			1	0	1	1	False	False	high	
+1049	CGPlayerShopEstablish	CG	game	shop	services/game/packet_domains/shop.lua:1201	bis			4	1	3	15	True	False	high	
+1050	GCBankAddItem	GC	game	misc	services/game/packet_domains/misc.lua:4238	bos	bis	True	4	0	4	4	False	False	high	
+1064	GCAskDynamicRegionResult	GC	game	movement	services/game/packet_domains/movement.lua:210	bos	bis	True	5	4	4	1028	True	True	high	
+1072	GCRetSecKillData	GC	game	misc	services/game/packet_domains/misc.lua:5455	bos	bis	False	19	11	1		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+1073	CG_Unknow_0431	CG	game	misc	services/game/packet_domains/misc.lua:694	bis			0	0	0	0	False	False	high	
+1076	GCRetCampaignCount	GC	game	misc	services/game/packet_domains/misc.lua:5533	bos	bis	False	4	1	4	508	True	True	medium	bis() and bos() differ structurally
+1079	GCRefreshEquipAttr	GC	game	item	services/game/packet_domains/item.lua:1096	bos			5	0	49	49	False	True	high	
+1088	unknow_440	GC	game	misc	services/game/packet_domains/misc.lua:2445	bos	bis	True	1	1	2	2	False	False	high	direction GC from annotations.py
+1090	GCCharMoveResult	GC	game	movement	services/game/packet_domains/movement.lua:568	bos	bis	True	3	0	12	12	False	False	high	
+1092	CGCharJump	CG	game	movement	services/game/packet_domains/movement.lua:69	bis			1	0	4	4	False	False	high	
+1093	GCUnknow_1093	GC	game	misc	services/game/packet_domains/misc.lua:2678	bos	bis	True	1	1	1	1	False	False	high	
+1095	CGCharDefaultEvent	CG	game	misc	services/game/packet_domains/misc.lua:321	bis			2	0	8	8	False	False	high	
+1096	CGPlayerShopSaleShopAskInfo	CG	game	shop	services/game/packet_domains/shop.lua:1569	bis			2	1	13	13	False	False	high	
+1108	GCStallAddItem	GC	game	shop	services/game/packet_domains/shop.lua:497	bos	bis	True	6	0	26	26	False	False	high	
+1109	GCPlayerShopRecordList	GC	game	shop	services/game/packet_domains/shop.lua:1756	bos	bis	True	5	1	18		False	True	low	an array count is not on the wire
+1111	CGBankSwapItem	CG	game	misc	services/game/packet_domains/misc.lua:4168	bis			4	0	4	4	False	False	high	
+1116	GCCharStopAction	GC	game	misc	services/game/packet_domains/misc.lua:3418	bos	bis	True	3	0	12	12	False	False	high	
+1117	CGAskTargetESPlan	CG	game	misc	services/game/packet_domains/misc.lua:6017	bis			1	0	4	4	False	False	high	
+1121	CGItemSynch	CG	game	item	services/game/packet_domains/item.lua:912	bis			19	0	3		True	False	medium	length/count without an upper bound
+1133	CGPlayerShopOpenStall	CG	game	shop	services/game/packet_domains/shop.lua:1309	bis			4	0	15	15	False	False	high	
+1136	GCMail	GC	game	social	services/game/packet_domains/social.lua:1565	bos			15	0	2		True	True	medium	length/count without an upper bound
+1155	CGPickBoxItem	CG	game	item	services/game/packet_domains/item.lua:451	bis	bos	True	2	0	12	12	False	False	high	
+1168	CGRaidKick	CG	game	team	services/game/packet_domains/team.lua:662	bis	bos		2	0	8	8	False	False	high	
+1170	GCCharSkill_Lead	GC	game	misc	services/game/packet_domains/misc.lua:3775	bos	bis	True	10	0	40	40	False	False	high	
+1191	CGShopClose	CG	game	shop	services/game/packet_domains/shop.lua:7	bis			0	0	0	0	False	False	high	
+1192	CGCharUpdateCurTitle	CG	game	misc	services/game/packet_domains/misc.lua:5911	bis			2	0	6	6	False	False	high	
+1194	GCCharEquipment	GC	game	misc	services/game/packet_domains/misc.lua:2253	bos	bis		25	7	12	86	True	False	high	
+1200	GCCheDiFuLuData	GC	game	misc	services/game/packet_domains/misc.lua:2015	bos	bis	False	6	1	2		True	True	medium	length/count without an upper bound; bis() and bos() differ structurally
+1205	GCUICommand	GC	game	core	services/game/packet_domains/core.lua:147	bos	bis	False	7	1	10		True	True	low	a byte length is not on the wire; bis() and bos() differ structurally
+1211	CGStallAddItem	CG	game	shop	services/game/packet_domains/shop.lua:474	bis			4	0	21	21	False	False	high	
+1215	CGReportWaigua	CG	game	misc	services/game/packet_domains/misc.lua:6261	bis			3	0	31	35	True	False	high	
+1216	GCNewPet	GC	game	movement	services/game/packet_domains/movement.lua:529	bos	bis	True	7	3	28	28	False	False	high	
+1221	GCAcqStallAddItem	GC	game	shop	services/game/packet_domains/shop.lua:898	bos	bis	True	4	0	13	13	False	False	high	
+1225	CGCharFly	CG	game	movement	services/game/packet_domains/movement.lua:86	bis			6	0	24	24	False	False	high	
+1226	GCBankItemInfo	GC	game	misc	services/game/packet_domains/misc.lua:4144	bis			3	2	38		False	False	low	authoritative bos() missing; server has no bos() for this GC packet; layout taken from bis()
+1227	GCCharAllTitles	GC	game	misc	services/game/packet_domains/misc.lua:1168	bos	bis	True	11	0	6		True	True	medium	length/count without an upper bound
+1228	GCDoubleExpInfo	GC	game	misc	services/game/packet_domains/misc.lua:795	bos	bis	False	11	0	44	44	False	False	medium	bis() and bos() differ structurally
+1230	CGCharAllTitles	CG	game	misc	services/game/packet_domains/misc.lua:522	bis			1	0	4	4	False	False	high	
+1231	GCPlayerShopType	GC	game	shop	services/game/packet_domains/shop.lua:1864	bos	bis	True	2	0	13	13	False	False	high	
+1232	CGMissionAccept	CG	game	combat	services/game/packet_domains/combat.lua:2409	bis			3	1	12	12	False	False	high	
+1250	CGAskRaiInfo	CG	game	misc	services/game/packet_domains/misc.lua:65	bis	bos		1	0	4	4	False	False	high	
+1252	CGAskDetailSkillList	CG	game	misc	services/game/packet_domains/misc.lua:488	bis			1	0	4	4	False	False	high	
+1253	CGPlayerShopSize	CG	game	shop	services/game/packet_domains/shop.lua:1473	bis			3	1	14	14	False	False	high	
+1262	GCCharFly	GC	game	movement	services/game/packet_domains/movement.lua:717	bos	bis	True	11	2	44	44	False	False	high	
+1263	CGStopTeamFollow	CG	game	misc	services/game/packet_domains/misc.lua:5026	bis			0	0	0	0	False	False	high	
+1266	CGOpenItemBox	CG	game	misc	services/game/packet_domains/misc.lua:3445	bis	bos	True	1	0	4	4	False	False	high	
+1267	GCItemList	GC	game	item	services/game/packet_domains/item.lua:751	bos	bis	False	19	0	2		True	True	low	a byte length is not on the wire; length/count without an upper bound; bis() and bos() differ structurally
+1270	GCTarExteriorSharePlan	GC	game	misc	services/game/packet_domains/misc.lua:6044	bos			19	3	265	265	False	True	high	
+1272	GCDetailEquipList	GC	game	misc	services/game/packet_domains/misc.lua:1530	bos	bis	True	5	1	24		True	True	high	
+1280	GCTeamList	GC	game	team	services/game/packet_domains/team.lua:824	bos	bis		23	0	20		True	True	low	length/count without an upper bound; a byte length is not on the wire
+1288	GCDetailExp	GC	game	misc	services/game/packet_domains/misc.lua:3367	bos	bis	True	11	1	44	44	False	False	high	
+1289	CGStallEstablish	CG	game	shop	services/game/packet_domains/shop.lua:418	bis			0	0	0	0	False	False	high	
+1308	CGPlayerShopApply	CG	game	shop	services/game/packet_domains/shop.lua:1589	bis			0	0	0	0	False	False	high	
+1311	GCTeamMemberInfo	GC	game	team	services/game/packet_domains/team.lua:1176	bos	bis		45	6	13	155	True	False	high	
+1312	GCSplitItemResult	GC	game	item	services/game/packet_domains/item.lua:542	bos	bis	True	5	0	43		False	False	high	
+1316	CGAskFashionDepotData	CG	game	misc	services/game/packet_domains/misc.lua:2166	bis	bos	True	4	4	10	10	False	False	high	
+1320	GCNpcTalk	GC	game	mission	services/game/packet_domains/mission.lua:349	bos	bis	True	2	0	6	261	False	False	high	
+1327	GCTJCPVPCmnData	GC	game	misc	services/game/packet_domains/misc.lua:6209	bos	bis	sign-only	2	0	28	28	False	True	high	
+1338	CGCreateGuildLeague	CG	game	misc	services/game/packet_domains/misc.lua:5363	bis			2	0	96	96	False	False	high	
+1340	GCNewPlayer	GC	game	movement	services/game/packet_domains/movement.lua:339	bos	bis	True	8	2	32	32	False	False	high	
+1345	GCWuhunWG	GC	game	misc	services/game/packet_domains/misc.lua:1077	bos	bis	True	8	0	10		True	True	medium	length/count without an upper bound
+1353	CGTeamLeave	CG	game	team	services/game/packet_domains/team.lua:1515	bis			1	0	4	4	False	False	high	
+1354	GCAbilityAction	GC	game	misc	services/game/packet_domains/misc.lua:3957	bos	bis	sign-only	6	0	19	19	False	False	high	
+1367	CGAcqStallOpen	CG	game	shop	services/game/packet_domains/shop.lua:815	bis			1	0	4	4	False	False	high	
+1368	CGGuild	CG	game	social	services/game/packet_domains/social.lua:252	bis			11	1	5	66	True	False	high	
+1369	CGReqLevelUp	CG	game	misc	services/game/packet_domains/misc.lua:3754	bis	bos		0	0	0	0	False	False	high	
+1372	CGAcqStallAddItem	CG	game	shop	services/game/packet_domains/shop.lua:878	bis			3	0	12	12	False	False	high	
+1374	CGUseAbility	CG	game	combat	services/game/packet_domains/combat.lua:145	bis			4	0	11	11	False	False	high	
+1375	GCFashionDepotOperation	GC	game	misc	services/game/packet_domains/misc.lua:3306	bos	bis	sign-only	10	5	10	34	True	True	high	
+1376	GCSpecialObj_ActNow	GC	game	misc	services/game/packet_domains/misc.lua:4696	bos	bis	True	4	0	12		False	True	medium	length/count without an upper bound
+1384	CGAskPrivateInfo	CG	game	misc	services/game/packet_domains/misc.lua:4839	bis			1	0	4	4	False	False	high	
+1385	CGStallItemPrice	CG	game	shop	services/game/packet_domains/shop.lua:578	bis			4	0	24	24	False	False	high	
+1388	GCPetSoulRanSe	GC	game	pet	services/game/packet_domains/pet.lua:309	bos	bis	sign-only	8	0	262	262	False	True	high	
+1691	GCRaidAskApply	GC	game	team	services/game/packet_domains/team.lua:503	bos	bis		42	0	34	200	True	False	high	
+1692	GCDetailHealsAndDamages	GC	game	misc	services/game/packet_domains/misc.lua:3199	bos	bis		9	0	14	30	True	False	high	
+1694	GCNewItemBox	GC	game	misc	services/game/packet_domains/misc.lua:3268	bos	bis	sign-only	7	1	28	28	False	False	high	
+1697	GCFinger	GC	game	social	services/game/packet_domains/social.lua:1209	bos	bis	True	17	0	1		True	True	medium	length/count without an upper bound
+1698	GCPlayerShopError	GC	game	shop	services/game/packet_domains/shop.lua:1146	bos			1	0	1	1	False	False	high	
+1705	GCPrescription	GC	game	misc	services/game/packet_domains/misc.lua:3905	bos	bis	True	2	0	8	8	False	False	high	
+1706	GCPetBankAddPet	GC	game	pet	services/game/packet_domains/pet.lua:29	bos	bis	True	3	0	17	17	False	False	high	
+1707	GCRefreshSuperAttr	GC	game	misc	services/game/packet_domains/misc.lua:4917	bos	bis	True	5	0	52	52	False	True	high	
+1711	GCRaidMemberInfo	GC	game	team	services/game/packet_domains/team.lua:221	bos	bis		40	0	14	140	True	False	high	
+1713	GCTeamLeaderAskInvite	GC	game	team	services/game/packet_domains/team.lua:2320	bos	bis	True	10	4	22	82	True	False	high	
+1714	GCPetExteriorCollectionInfo	GC	game	pet	services/game/packet_domains/pet.lua:377	bos	bis	True	11	4	4	1716	True	True	high	
+1717	GCExchangeEstablishI	GC	game	team	services/game/packet_domains/team.lua:1871	bos	bis	True	1	0	4	4	False	False	high	
+1724	GCAuctionBoxList	GC	game	shop	services/game/packet_domains/shop.lua:2408	bos	bis	False	23	8	2		True	True	medium	bis() and bos() differ structurally
+1725	CGFinger	CG	game	social	services/game/packet_domains/social.lua:1152	bis			15	0	4		True	False	medium	length/count without an upper bound
+1727	CGAskQuit	CG	game	misc	services/game/packet_domains/misc.lua:2571	bis	bos	True	4	4	13	13	False	False	high	
+1729	CGWNormalRankingList	CGW	game	misc	services/game/packet_domains/misc.lua:85	bis	bos		1	0	4	4	False	False	high	
+1730	WGCRetNormalRankList	WGC	game	city	services/game/packet_domains/city.lua:7	bos	bis		21	0	795		False	True	medium	length/count without an upper bound
+1738	CGFashionDepotOperation	CG	game	misc	services/game/packet_domains/misc.lua:4484	bis			3	0	9	9	False	False	high	
+1741	CGAskSecKillNum	CG	game	misc	services/game/packet_domains/misc.lua:5421	bis			0	0	0	0	False	False	high	
+1745	CGReturnTeamFollow	CG	game	misc	services/game/packet_domains/misc.lua:5043	bis			1	0	1	1	False	False	high	
+1749	GCSecWeaponAddSkillList	GC	game	misc	services/game/packet_domains/misc.lua:140	bos	bis		6	0	38	38	False	True	high	
+1750	GCRMBChatActionInfo	GC	game	misc	services/game/packet_domains/misc.lua:6133	bos	bis	True	9	0	116	116	False	True	high	
+1758	CGPackUpPacket	CG	game	item	services/game/packet_domains/item.lua:317	bis	bos	True	1	1	4	4	False	False	high	
+1763	GCStallOpen	GC	game	shop	services/game/packet_domains/shop.lua:535	bos	bis		13	0	50		False	True	medium	length/count without an upper bound
+1764	GCEnterScene	GC	game	movement	services/game/packet_domains/movement.lua:137	bos	bis	True	12	2	33	33	False	False	high	
+1765	CGCharPositionWarp	CG	game	movement	services/game/packet_domains/movement.lua:7	bis			5	0	20	20	False	False	high	
+1768	GCPlayerShopOpenStall	GC	game	shop	services/game/packet_domains/shop.lua:1677	bos	bis	True	4	0	15	15	False	False	high	
+1769	CGExchangeCancel	CG	game	team	services/game/packet_domains/team.lua:2001	bis			0	0	0	0	False	False	high	
+1770	CGPlayerDieResult	CG	game	misc	services/game/packet_domains/misc.lua:4344	bis			1	0	4	4	False	False	high	
+1772	GCDetailAttrib	GC	game	combat	services/game/packet_domains/combat.lua:915	bos	bis		177	34	26	1579	True	True	high	
+2000	CGEXchangeYuanBaoPiao	CG	game	team	services/game/packet_domains/team.lua:2373	bis			2	0	44	44	False	False	high	

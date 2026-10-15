@@ -1,0 +1,16 @@
+# fx-audit: keys the runtime dictionary ACCEPTS but no code reads (parsed but ignored).
+# CYS-FX (fx-cy, 14/09/2026): refreshed after fx-effects (13/09) made the Particle sub-effect / collision keys USED
+# (WXParticleElement::_updateParticleEffects / _updateCollisionEffects) and CreateLevel USED (EffectElement::update
+# level gate). Remaining ignored keys: use_energy_wave (B/C register it in the screen-distortion mask of the render
+# pipeline, not in the effect element), the UIParticle sub-effect keys (no sub-effect system for UI particles in
+# B/C either) and ParentSpaceLock on Particle (B/C use setLogicParentTrans; true in 8/5896 CY uses).
+# scope	type	key	evidence	no-op values (comma separated; occurrences with these values are not counted)
+element	particle	use_energy_wave	WXParticleElement.cpp mUseEnergyWave stored, never read (render-pipeline mask in B/C FUN_1801aae40 / C FUN_1801b6990)	false,0
+element	particle	ParentSpaceLock	WXEffectElement base key stored; Particle sub-effects follow the node (needs OGRE setLogicParentTrans as B/C)	false,0
+element	uiparticle	ParEffectName	WXUIParticleElement stores the Particle members; no sub-effect system for UI particles	NullEffect,
+element	uiparticle	ColEffectName	same	NullEffect,
+element	uiparticle	use_particle_effect	same	false,0
+element	uiparticle	use_particle_collision	same	false,0
+element	uiparticle	use_energy_wave	same	false,0
+element	uiparticle	legacy_pos_for_sub_effect	same	true,1
+element	uiparticle	pass_rotation_to_sub_effect	same	false,0

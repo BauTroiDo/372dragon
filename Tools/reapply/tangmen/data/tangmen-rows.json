@@ -1,0 +1,14 @@
+{
+ "dau": "CYS-TANGMEN",
+ "ngay": "2026-09-20",
+ "mo_ta": "Canh 2220 (唐门 Duong Mon) thieu dong SceneDefineEx phia client: dot maps-cy4 17/09 chi them 2221/2222/2223 (chep tu 678/731/824), BO SOT 2220.",
+ "chep": {"2220": 615},
+ "vi_sao_615": [
+  "Server: [scene2220] file=cy4_tangmen.scn -> navmapname=cy4_tangmen.path (Game_2/Scene).",
+  "sha256(cy4_tangmen.path) = 23976721f2e3547c867cb85209fff59298141d2595272d0a48706fa37966543d (305709 B)",
+  "Quet 391 tep .path trong Assets/CanonicalCY/Data/SceneFolder theo HASH (khong theo ten): dung 4 tep khop, deu la ban sao byte cua nhau: tangmen.path / tangmenjj.path / tangmensg.path / tangmentx.path.",
+  "Dong DBC CY tro toi tangmen.path VA co toa do ban do the gioi (wmapX/Y = 692/520) la 615; 628 cung tro tangmen.path nhung dung szSceneMap=tangmen_s va wmap 0/0 (ban do phu).",
+  "Hieu chuan: cung phep do tren 3 canh DANG CHAY hom nay ra dung 3 cap ma maps-cy4 da chon - cy4_guigu.path=guigu.path (2221<-678), cy4_taohuadao.path=taohuadao.path (2222<-731), cy4_congren.path=congren.path (2223<-824). 3/3.",
+  "Dong 495 (唐家堡, maps-sect) la ban sao cua 615, giong 615 tung o tru cot 0 - chep tu 615 de giu dung goc CY nhu maps-cy4 da lam."
+ ]
+}

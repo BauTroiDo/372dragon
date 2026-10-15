@@ -1,0 +1,17 @@
+storage:
+  dbPath: /home/ubuntu/cys-test-20260913/db
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 0.5
+systemLog:
+  destination: file
+  path: /home/ubuntu/cys-test-20260913/log/mongod.log
+  logAppend: true
+net:
+  bindIp: 127.0.0.1
+  port: 27018
+security:
+  authorization: enabled
+processManagement:
+  fork: true
+  pidFilePath: /home/ubuntu/cys-test-20260913/mongod.pid

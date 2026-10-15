@@ -1,0 +1,24 @@
+local class = require "class"
+local define = require "define"
+local skillenginer = require "skillenginer":getinstance()
+local impactenginer = require "impactenginer":getinstance()
+local base = require "scene.skill.talent_logic.base"
+local std_talent_550 = class("std_talent_550", base)
+function std_talent_550:is_specific_impact(impact_data_index)
+    return impact_data_index >= 2144 and impact_data_index <= 2155
+end
+
+function std_talent_550:get_refix_value(talent, level)
+    local params = talent.params[level]
+    return params[1] or 0
+end
+
+function std_talent_550:refix_impact(talent, level, imp, sender, reciver)
+    if self:is_specific_impact(imp:get_data_index()) then
+        local value = self:get_refix_value(talent, level)
+        local continuance = imp:get_continuance()
+        imp:set_continuance(continuance + value * 1000)
+    end
+end
+
+return std_talent_550

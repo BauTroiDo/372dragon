@@ -1,0 +1,20 @@
+# CyReDump xref keys for the .dynbone loader / parser (exact matches)
+=.dynbone
+=DynamicBones
+=DynamicBone
+=CapsuleCollider
+=Colliders
+=CurveParams
+=UpdateRate
+=ElasticityACParam
+=DampingACParam
+=StiffnessACParam
+=InertACParam
+=FrictionACParam
+=Stiffness
+=Elasticity
+=Damping
+=Inert
+=Friction
+=Force
+=Invert

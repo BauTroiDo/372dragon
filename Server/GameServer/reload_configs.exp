@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+set port [lindex $argv 0]
+set group [lindex $argv 1]
+spawn ./nc.sh $port
+sleep 0.3
+# 2026-09-11: skynet cache chunk toan tien trinh -> phai clearcache truoc, neu khong require lai van ra file cu
+send "clearcache\n"
+sleep 0.5
+send "call .SceneManager \"reload_${group}\"\n"
+sleep 2
+send "call .Copyscenemanager \"reload_${group}\"\n"
+sleep 2
+send "call .Dynamicscenemanager \"reload_${group}\"\n"
+sleep 1
+expect off

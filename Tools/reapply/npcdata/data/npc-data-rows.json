@@ -1,0 +1,848 @@
+{
+ "schema": 1,
+ "dot": "npc-data 19/09/2026",
+ "bang": "Assets/CanonicalCY/Data/ConfigFolder/MonsterAttrExTable.txt",
+ "vi_sao": "84 race NPC doi thoai cua server khong co dong DBC phia client => m_pCreatureInfo=NULL => OnDataChanged_RaceID tat OSF_RAY_QUERY => khong bam duoc bang bat ky cach nao (npc-interact.md muc 7.4a). Nguon goc: dot cs3c-tables 14/09 gop 1.015 dong chi-GL vao BANG SERVER nhung KHONG gop vao DBC CLIENT.",
+ "rows": [
+  {
+   "id": 56000,
+   "copy_from": 16456,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐亦风",
+   "ly_do": "cung ten (唐亦风); ung vien=[16456]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56001,
+   "copy_from": 16457,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐岳冲",
+   "ly_do": "cung ten (唐岳冲); ung vien=[16457]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56002,
+   "copy_from": 16461,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐予诚",
+   "ly_do": "cung ten (唐予诚); ung vien=[16461]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56003,
+   "copy_from": 16461,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐昱",
+   "ly_do": "khong co dong CY cung ten 唐昱; chon 唐予诚 = 唐门传送人 (cung Duong Mon, cung vai tro dich chuyen)"
+  },
+  {
+   "id": 56004,
+   "copy_from": 16847,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "王禅一",
+   "ly_do": "cung ten (王禅一); ung vien=[16847]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56005,
+   "copy_from": 16848,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "李继隆",
+   "ly_do": "cung ten (李继隆); ung vien=[16848]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56006,
+   "copy_from": 16852,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "九日通",
+   "ly_do": "cung ten (九日通); ung vien=[16852]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56007,
+   "copy_from": 16852,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "杨渐",
+   "ly_do": "khong co dong CY cung ten 杨渐; chon 九日通 = 鬼谷传送人 (cung Quy Coc, cung vai tro dich chuyen)"
+  },
+  {
+   "id": 56008,
+   "copy_from": 17027,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "君还珠",
+   "ly_do": "cung ten (君还珠); ung vien=[17027]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56009,
+   "copy_from": 17028,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "燕返",
+   "ly_do": "cung ten (燕返); ung vien=[17028]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56010,
+   "copy_from": 17032,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "桃殷",
+   "ly_do": "cung ten (桃殷); ung vien=[17032]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56011,
+   "copy_from": 17033,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "黄时雨",
+   "ly_do": "cung ten (黄时雨); ung vien=[17033]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56012,
+   "copy_from": 17207,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "行严",
+   "ly_do": "cung ten (行严); ung vien=[17207]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56013,
+   "copy_from": 17208,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "云骁",
+   "ly_do": "cung ten (云骁); ung vien=[17208]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56014,
+   "copy_from": 17243,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "谨行",
+   "ly_do": "cung ten (谨行); ung vien=[17243]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56015,
+   "copy_from": 17340,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "景言",
+   "ly_do": "cung ten (景言); ung vien=[17340]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56100,
+   "copy_from": 30,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "苏星河",
+   "ly_do": "cung ten (苏星河); ung vien=[30, 50564, 55562]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56101,
+   "copy_from": 16458,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐清秋",
+   "ly_do": "cung ten (唐清秋); ung vien=[671, 16458]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56102,
+   "copy_from": 16459,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐皖昕",
+   "ly_do": "cung ten (唐皖昕); ung vien=[16459]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56103,
+   "copy_from": 16460,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐楮机",
+   "ly_do": "cung ten (唐楮机); ung vien=[16460]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56104,
+   "copy_from": 16462,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐菲菲",
+   "ly_do": "cung ten (唐菲菲); ung vien=[16462, 45128]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56105,
+   "copy_from": 16463,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐暮翔",
+   "ly_do": "cung ten (唐暮翔); ung vien=[16463, 43158]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56106,
+   "copy_from": 16464,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐岳天",
+   "ly_do": "cung ten (唐岳天); ung vien=[16464]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56107,
+   "copy_from": 16465,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐门姥姥",
+   "ly_do": "cung ten (唐门姥姥); ung vien=[16465]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56108,
+   "copy_from": 16466,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐若兮",
+   "ly_do": "cung ten (唐若兮); ung vien=[16466]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56109,
+   "copy_from": 16470,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐门弟子男",
+   "ly_do": "cung ten (唐门弟子男); ung vien=[16470]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56110,
+   "copy_from": 16472,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "金钱豹",
+   "ly_do": "cung ten (金钱豹); ung vien=[761, 986, 987, 16472, 16863, 17043, 17254]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56111,
+   "copy_from": 16473,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "云雪豹",
+   "ly_do": "cung ten (云雪豹); ung vien=[16473, 16864, 17044, 17255]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56112,
+   "copy_from": 16474,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "幽冥豹",
+   "ly_do": "cung ten (幽冥豹); ung vien=[16474, 16865, 17045, 17256]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56113,
+   "copy_from": 16535,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "唐春",
+   "ly_do": "cung ten (唐春); ung vien=[16535]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56114,
+   "copy_from": 16849,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "王玄风",
+   "ly_do": "cung ten (王玄风); ung vien=[16849]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56115,
+   "copy_from": 16850,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "王雱儿",
+   "ly_do": "cung ten (王雱儿); ung vien=[16850]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56116,
+   "copy_from": 16851,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "苏芩",
+   "ly_do": "cung ten (苏芩); ung vien=[16851]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56117,
+   "copy_from": 16853,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "高扬裴",
+   "ly_do": "cung ten (高扬裴); ung vien=[16853]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56118,
+   "copy_from": 16854,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "苏沐然",
+   "ly_do": "cung ten (苏沐然); ung vien=[16854]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56119,
+   "copy_from": 16855,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "王栩之",
+   "ly_do": "cung ten (王栩之); ung vien=[16855]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56120,
+   "copy_from": 16856,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "张遗",
+   "ly_do": "cung ten (张遗); ung vien=[16856]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56121,
+   "copy_from": 16857,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "小仙儿",
+   "ly_do": "cung ten (小仙儿); ung vien=[16857]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56122,
+   "copy_from": 16858,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "鬼谷男亲兵",
+   "ly_do": "cung ten (鬼谷男亲兵); ung vien=[16858]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56123,
+   "copy_from": 16859,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "鬼谷女亲兵",
+   "ly_do": "cung ten (鬼谷女亲兵); ung vien=[16859]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56124,
+   "copy_from": 16861,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "鬼谷弟子男",
+   "ly_do": "cung ten (鬼谷弟子男); ung vien=[16861]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56125,
+   "copy_from": 16862,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "鬼谷弟子女",
+   "ly_do": "cung ten (鬼谷弟子女); ung vien=[16862]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56126,
+   "copy_from": 16913,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "吴澎",
+   "ly_do": "cung ten (吴澎); ung vien=[16913]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56127,
+   "copy_from": 16915,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "宵小之徒",
+   "ly_do": "cung ten (宵小之徒); ung vien=[16915, 17095, 17306]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56128,
+   "copy_from": 16924,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "阵灵石·天",
+   "ly_do": "cung ten (阵灵石·天); ung vien=[16924, 17104, 17313]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56129,
+   "copy_from": 16925,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "阵灵石·地",
+   "ly_do": "cung ten (阵灵石·地); ung vien=[16925, 17105, 17314]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56130,
+   "copy_from": 16926,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "阵灵石·人",
+   "ly_do": "cung ten (阵灵石·人); ung vien=[16926, 17106, 17315]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56131,
+   "copy_from": 17029,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "萧声咽",
+   "ly_do": "cung ten (萧声咽); ung vien=[17029]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56132,
+   "copy_from": 17030,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "黄致心",
+   "ly_do": "cung ten (黄致心); ung vien=[17030]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56133,
+   "copy_from": 17031,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "黄致知",
+   "ly_do": "cung ten (黄致知); ung vien=[17031]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56134,
+   "copy_from": 17032,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "桃殷",
+   "ly_do": "cung ten (桃殷); ung vien=[17032]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56135,
+   "copy_from": 17034,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "桃淘",
+   "ly_do": "cung ten (桃淘); ung vien=[17034]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56136,
+   "copy_from": 17035,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "枕梦归",
+   "ly_do": "cung ten (枕梦归); ung vien=[17035]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56137,
+   "copy_from": 17036,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "宿回之",
+   "ly_do": "cung ten (宿回之); ung vien=[17036]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56138,
+   "copy_from": 17037,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "林下风",
+   "ly_do": "cung ten (林下风); ung vien=[17037]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56139,
+   "copy_from": 17038,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "桃溪",
+   "ly_do": "cung ten (桃溪); ung vien=[17038]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56140,
+   "copy_from": 17039,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "兰宴",
+   "ly_do": "cung ten (兰宴); ung vien=[17039]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56141,
+   "copy_from": 17093,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "谢春寒",
+   "ly_do": "cung ten (谢春寒); ung vien=[17093]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56142,
+   "copy_from": 17125,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "李长吉",
+   "ly_do": "cung ten (李长吉); ung vien=[17125]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56143,
+   "copy_from": 17126,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "幽巍",
+   "ly_do": "cung ten (幽巍); ung vien=[17126, 50253]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56144,
+   "copy_from": 17127,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "幽澜",
+   "ly_do": "cung ten (幽澜); ung vien=[17127, 50254]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56145,
+   "copy_from": 17128,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "兰庭生",
+   "ly_do": "cung ten (兰庭生); ung vien=[17128]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56146,
+   "copy_from": 17129,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "阿棠",
+   "ly_do": "cung ten (阿棠); ung vien=[17129]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56147,
+   "copy_from": 17131,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "望海潮",
+   "ly_do": "cung ten (望海潮); ung vien=[17131]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56148,
+   "copy_from": 17132,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "徐鲤先生",
+   "ly_do": "cung ten (徐鲤先生); ung vien=[17132]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56149,
+   "copy_from": 17133,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "师悦",
+   "ly_do": "cung ten (师悦); ung vien=[17133]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56150,
+   "copy_from": 17135,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "韩晗",
+   "ly_do": "cung ten (韩晗); ung vien=[17135]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56151,
+   "copy_from": 17136,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "小天青",
+   "ly_do": "cung ten (小天青); ung vien=[17136, 17341]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56152,
+   "copy_from": 17138,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "木鸢",
+   "ly_do": "cung ten (木鸢); ung vien=[17138]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56153,
+   "copy_from": 17200,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "七叔",
+   "ly_do": "cung ten (七叔); ung vien=[17200]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56154,
+   "copy_from": 17201,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "穆宇",
+   "ly_do": "cung ten (穆宇); ung vien=[17201]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56155,
+   "copy_from": 17202,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "丹英",
+   "ly_do": "cung ten (丹英); ung vien=[17202]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56156,
+   "copy_from": 17211,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "乐颜",
+   "ly_do": "cung ten (乐颜); ung vien=[17211]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56157,
+   "copy_from": 17212,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "文禹",
+   "ly_do": "cung ten (文禹); ung vien=[17212]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56158,
+   "copy_from": 17241,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "路漫",
+   "ly_do": "cung ten (路漫); ung vien=[17241]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56159,
+   "copy_from": 17242,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "路原",
+   "ly_do": "cung ten (路原); ung vien=[17242]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56160,
+   "copy_from": 17247,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "巫芷",
+   "ly_do": "cung ten (巫芷); ung vien=[17247]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56161,
+   "copy_from": 17248,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "以恒",
+   "ly_do": "cung ten (以恒); ung vien=[17248]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56162,
+   "copy_from": 17304,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "凌绰",
+   "ly_do": "cung ten (凌绰); ung vien=[17304]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56163,
+   "copy_from": 17330,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "敬郎",
+   "ly_do": "cung ten (敬郎); ung vien=[17330]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56164,
+   "copy_from": 17331,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "晋览",
+   "ly_do": "cung ten (晋览); ung vien=[17331]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56165,
+   "copy_from": 50255,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "明书德",
+   "ly_do": "cung ten (明书德); ung vien=[50255]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56166,
+   "copy_from": 50256,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "寄琴思",
+   "ly_do": "cung ten (寄琴思); ung vien=[50256]; chon canHandle=1&camp=8, id nho nhat"
+  },
+  {
+   "id": 56167,
+   "copy_from": 50259,
+   "set": {
+    "5": 1,
+    "70": 8
+   },
+   "ten": "任颂传",
+   "ly_do": "cung ten (任颂传); ung vien=[50259]; chon canHandle=1&camp=8, id nho nhat"
+  }
+ ]
+}

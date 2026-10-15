@@ -1,0 +1,17 @@
+material trau_den : Mtl_Character_PSLit
+{
+	set_texture_alias <baseTexture> tga_trau_den.dds
+	technique
+	{
+		pass
+		{
+			emissive 0.420000 0.420000 0.420000
+			specular 0 0 0 16
+			texture_unit
+			{
+				texture tga_trau_den.dds
+				filtering trilinear
+			}
+		}
+	}
+}

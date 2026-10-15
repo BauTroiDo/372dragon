@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Gameplay và trạng thái"
+  short_description: "Kỹ năng, chiến đấu, cấp độ và tự chiến đấu CY"
+  default_prompt: "Dùng $cys-gameplay-state để sửa trạng thái gameplay giữa input, animation và máy chủ."

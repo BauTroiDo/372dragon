@@ -1,0 +1,3 @@
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\exec_world.txt 14083c540,140849200,14083b7d0,140840c90
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\exec_detail.txt 140842000
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\read_skill.txt 14084a940,140841c10,14084fe60,1407759d0,14083b9f0,14077a780,140850300,1408463d0,1408410a0

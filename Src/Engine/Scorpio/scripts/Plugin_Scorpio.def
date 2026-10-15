@@ -1,0 +1,10 @@
+EXPORTS	
+	; CYS: no dllStartPlugin/dllStopPlugin function exists in the source; alias them to StartScorpio/StopScorpio,
+	; which is what the reference Plugin_Scorpio.dll (Bin and Bin64) does - same RVA for both names.
+	dllStartPlugin=?StartScorpio@Ogre@@YAXXZ	@1
+	dllStopPlugin=?StopScorpio@Ogre@@YAXXZ	@2
+
+	createCollisionManager
+	destroyCollisionManager
+
+	convertEntityToHardwareSkinning

@@ -1,0 +1,2 @@
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\login_sel.txt 140632f30,140626f60,140627190,14062a530,14062a8c0
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\newmonster.txt 14050a4b0,14050a220,14050a290,14050a330,14050a480

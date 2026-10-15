@@ -1,0 +1,3159 @@
+{
+ "file": "/home/ubuntu/cys-test-20260913/Game_2/Script/scripts/obj/commonitem/300027.lua",
+ "crlf": false,
+ "summary": {
+  "eggs_dispatched_to_300027": 490,
+  "keep": 254,
+  "add": 173,
+  "replace": 7,
+  "skip": 56,
+  "skip_reasons": {
+   "skip:no-pet-with-that-name": 11,
+   "skip:ambiguous(2 rows at that level, 8 total)": 15,
+   "skip:ambiguous(2 rows at that level, 9 total)": 3,
+   "skip:ambiguous(2 rows at that level, 14 total)": 3,
+   "skip:ambiguous(2 rows at that level, 2 total)": 5,
+   "skip:ambiguous(16 rows at that level, 43 total)": 4,
+   "skip:ambiguous(8 rows at that level, 35 total)": 2,
+   "skip:ambiguous(2 rows at that level, 4 total)": 1,
+   "skip:special-name": 9,
+   "skip:ambiguous(3 rows at that level, 3 total)": 1,
+   "skip:ambiguous(5 rows at that level, 35 total)": 1,
+   "skip:ambiguous(2 rows at that level, 35 total)": 1
+  }
+ },
+ "changes": [
+  {
+   "item": 30309066,
+   "name": "珍兽蛋：欢乐猪",
+   "lv": "5",
+   "current": [],
+   "target": 8569,
+   "action": "add",
+   "wanted": "欢乐猪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309067,
+   "name": "珍兽蛋：灵兔兽",
+   "lv": "5",
+   "current": [],
+   "target": 22799,
+   "action": "add",
+   "wanted": "灵兔兽宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309075,
+   "name": "珍兽蛋：幼齿龙",
+   "lv": "5",
+   "current": [],
+   "target": 23339,
+   "action": "add",
+   "wanted": "幼齿龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309079,
+   "name": "珍兽蛋：咩小萌",
+   "lv": "5",
+   "current": [
+    {
+     "line": 279,
+     "kind": "single",
+     "dataId": 24619,
+     "pet": "星冥人偶宝宝"
+    }
+   ],
+   "target": 27149,
+   "action": "replace",
+   "wanted": "咩小萌宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309094,
+   "name": "珍兽蛋：玄女蛇",
+   "lv": "85",
+   "current": [
+    {
+     "line": 418,
+     "kind": "single",
+     "dataId": 24729,
+     "pet": "豆豆龙宝宝"
+    }
+   ],
+   "target": 27809,
+   "action": "replace",
+   "wanted": "玄女蛇宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309095,
+   "name": "珍兽蛋：玄女蛇",
+   "lv": "95",
+   "current": [
+    {
+     "line": 419,
+     "kind": "single",
+     "dataId": 24739,
+     "pet": "出云龙蟒宝宝"
+    }
+   ],
+   "target": 27819,
+   "action": "replace",
+   "wanted": "玄女蛇宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309097,
+   "name": "珍兽蛋：钟小花",
+   "lv": "45",
+   "current": [],
+   "target": 27839,
+   "action": "add",
+   "wanted": "钟小花宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309098,
+   "name": "珍兽蛋：毛毛牛",
+   "lv": "95",
+   "current": [],
+   "target": 27969,
+   "action": "add",
+   "wanted": "毛毛牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309099,
+   "name": "珍兽蛋：圣妆小鹿",
+   "lv": "95",
+   "current": [],
+   "target": 28039,
+   "action": "add",
+   "wanted": "圣妆小鹿宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309501,
+   "name": "珍兽蛋：钟小黑",
+   "lv": "5",
+   "current": [],
+   "target": 27879,
+   "action": "add",
+   "wanted": "钟小黑宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309504,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "5",
+   "current": [],
+   "target": 23989,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309506,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "5",
+   "current": [],
+   "target": 23989,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309510,
+   "name": "珍兽蛋：暴走熊猫",
+   "lv": "95",
+   "current": [],
+   "target": 28249,
+   "action": "add",
+   "wanted": "暴走熊猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309511,
+   "name": "珍兽蛋：萌音花灵",
+   "lv": "95",
+   "current": [],
+   "target": 28319,
+   "action": "add",
+   "wanted": "萌音花灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309512,
+   "name": "珍兽蛋：小易",
+   "lv": "20",
+   "current": [],
+   "target": 28329,
+   "action": "add",
+   "wanted": "小易宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309513,
+   "name": "珍兽蛋：小马哥",
+   "lv": "95",
+   "current": [],
+   "target": 28399,
+   "action": "add",
+   "wanted": "小马哥宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309514,
+   "name": "珍兽蛋：憨逗熊",
+   "lv": "95",
+   "current": [],
+   "target": 29449,
+   "action": "add",
+   "wanted": "憨逗熊宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309515,
+   "name": "变异珍兽蛋：元元",
+   "lv": "5",
+   "current": [],
+   "target": 29451,
+   "action": "add",
+   "wanted": "变异元元",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309516,
+   "name": "珍兽蛋：百战金刚",
+   "lv": "95",
+   "current": [],
+   "target": 28469,
+   "action": "add",
+   "wanted": "百战金刚宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309518,
+   "name": "珍兽蛋：人鱼公主",
+   "lv": "95",
+   "current": [],
+   "target": 29529,
+   "action": "add",
+   "wanted": "人鱼公主宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309519,
+   "name": "珍兽蛋：战修罗",
+   "lv": "95",
+   "current": [],
+   "target": 29609,
+   "action": "add",
+   "wanted": "战修罗宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309523,
+   "name": "珍兽蛋：邪灵",
+   "lv": "95",
+   "current": [],
+   "target": 29679,
+   "action": "add",
+   "wanted": "邪灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309524,
+   "name": "珍兽蛋：狐妖剑君",
+   "lv": "95",
+   "current": [],
+   "target": 29749,
+   "action": "add",
+   "wanted": "狐妖剑君宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309525,
+   "name": "珍兽蛋：九霄战龙",
+   "lv": "95",
+   "current": [],
+   "target": 29819,
+   "action": "add",
+   "wanted": "九霄战龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309527,
+   "name": "珍兽蛋：铁扇公主",
+   "lv": "95",
+   "current": [],
+   "target": 29959,
+   "action": "add",
+   "wanted": "铁扇公主宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309530,
+   "name": "珍兽蛋：美人鱼",
+   "lv": "5",
+   "current": [],
+   "target": 27229,
+   "action": "add",
+   "wanted": "美人鱼宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309534,
+   "name": "珍兽蛋：二郎真君",
+   "lv": "95",
+   "current": [],
+   "target": 30389,
+   "action": "add",
+   "wanted": "二郎真君宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309755,
+   "name": "珍兽蛋：珍奇牛",
+   "lv": "5",
+   "current": [],
+   "target": 22359,
+   "action": "add",
+   "wanted": "珍奇牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309757,
+   "name": "珍兽蛋：呆呆牛",
+   "lv": "5",
+   "current": [],
+   "target": 22289,
+   "action": "add",
+   "wanted": "呆呆牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309779,
+   "name": "珍兽蛋：变异兔子",
+   "lv": "5",
+   "current": [],
+   "target": 3001,
+   "action": "add",
+   "wanted": "变异兔子",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309780,
+   "name": "珍兽蛋：变异燕子",
+   "lv": "5",
+   "current": [],
+   "target": 3011,
+   "action": "add",
+   "wanted": "变异燕子",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309781,
+   "name": "珍兽蛋：变异乌龟",
+   "lv": "5",
+   "current": [],
+   "target": 3021,
+   "action": "add",
+   "wanted": "变异乌龟",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309782,
+   "name": "珍兽蛋：变异狗",
+   "lv": "5",
+   "current": [],
+   "target": 3031,
+   "action": "add",
+   "wanted": "变异狗",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309783,
+   "name": "珍兽蛋：变异刺猬",
+   "lv": "5",
+   "current": [],
+   "target": 3041,
+   "action": "add",
+   "wanted": "变异刺猬",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309784,
+   "name": "珍兽蛋：变异猴子",
+   "lv": "5",
+   "current": [],
+   "target": 3051,
+   "action": "add",
+   "wanted": "变异猴子",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309815,
+   "name": "珍兽蛋：珍奇虎",
+   "lv": "5",
+   "current": [],
+   "target": 23189,
+   "action": "add",
+   "wanted": "珍奇虎宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309846,
+   "name": "珍兽蛋：熊猫双侠",
+   "lv": "5",
+   "current": [],
+   "target": 23409,
+   "action": "add",
+   "wanted": "熊猫双侠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309847,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "5",
+   "current": [],
+   "target": 23719,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309848,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "45",
+   "current": [],
+   "target": 23729,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309849,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "55",
+   "current": [],
+   "target": 23739,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309850,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "65",
+   "current": [],
+   "target": 23749,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309851,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "75",
+   "current": [],
+   "target": 23759,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309852,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "85",
+   "current": [],
+   "target": 23769,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309853,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "95",
+   "current": [],
+   "target": 23779,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309854,
+   "name": "珍兽蛋：五色神牛",
+   "lv": "5",
+   "current": [],
+   "target": 23719,
+   "action": "add",
+   "wanted": "五色神牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309855,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "5",
+   "current": [],
+   "target": 23989,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309856,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "45",
+   "current": [],
+   "target": 23999,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309857,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "55",
+   "current": [],
+   "target": 24009,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309858,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "65",
+   "current": [],
+   "target": 24019,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309859,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "75",
+   "current": [],
+   "target": 24029,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309860,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "85",
+   "current": [],
+   "target": 24039,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309861,
+   "name": "珍兽蛋：玉鸾凤",
+   "lv": "95",
+   "current": [],
+   "target": 24049,
+   "action": "add",
+   "wanted": "玉鸾凤宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309869,
+   "name": "珍兽蛋：麒麟",
+   "lv": "5",
+   "current": [],
+   "target": 22429,
+   "action": "add",
+   "wanted": "麒麟宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309875,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "5",
+   "current": [],
+   "target": 24129,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309876,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "45",
+   "current": [],
+   "target": 24139,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309877,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "55",
+   "current": [],
+   "target": 24149,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309878,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "65",
+   "current": [],
+   "target": 24159,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309879,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "75",
+   "current": [],
+   "target": 24169,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309880,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "85",
+   "current": [],
+   "target": 24179,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309881,
+   "name": "珍兽蛋：灵兔双杰",
+   "lv": "95",
+   "current": [],
+   "target": 24189,
+   "action": "add",
+   "wanted": "灵兔双杰宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309882,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "5",
+   "current": [],
+   "target": 24199,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309883,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "45",
+   "current": [],
+   "target": 24209,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309884,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "55",
+   "current": [],
+   "target": 24219,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309885,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "65",
+   "current": [],
+   "target": 24229,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309886,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "75",
+   "current": [],
+   "target": 24239,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309887,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "85",
+   "current": [],
+   "target": 24249,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309888,
+   "name": "珍兽蛋：蛮石怪",
+   "lv": "95",
+   "current": [],
+   "target": 24259,
+   "action": "add",
+   "wanted": "蛮石怪宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309889,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "5",
+   "current": [],
+   "target": 24269,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309890,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "45",
+   "current": [],
+   "target": 24279,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309891,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "55",
+   "current": [],
+   "target": 24289,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309892,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "65",
+   "current": [],
+   "target": 24299,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309893,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "75",
+   "current": [],
+   "target": 24309,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309894,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "85",
+   "current": [],
+   "target": 24319,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309895,
+   "name": "珍兽蛋：精灵兔",
+   "lv": "95",
+   "current": [],
+   "target": 24329,
+   "action": "add",
+   "wanted": "精灵兔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309896,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "5",
+   "current": [],
+   "target": 24339,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309897,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "45",
+   "current": [],
+   "target": 24349,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309898,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "55",
+   "current": [],
+   "target": 24359,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309899,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "65",
+   "current": [],
+   "target": 24369,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309900,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "75",
+   "current": [],
+   "target": 24379,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309901,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "85",
+   "current": [],
+   "target": 24389,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309902,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "95",
+   "current": [],
+   "target": 24399,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309907,
+   "name": "珍兽蛋：多玩熊",
+   "lv": "5",
+   "current": [],
+   "target": 24409,
+   "action": "add",
+   "wanted": "多玩熊宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309908,
+   "name": "珍兽蛋：YY熊",
+   "lv": "20",
+   "current": [],
+   "target": 24419,
+   "action": "add",
+   "wanted": "YY熊宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309909,
+   "name": "珍兽蛋：僵尸",
+   "lv": "95",
+   "current": [],
+   "target": 23839,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309913,
+   "name": "珍兽蛋：昴日星",
+   "lv": "5",
+   "current": [],
+   "target": 24429,
+   "action": "add",
+   "wanted": "昴日星宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309914,
+   "name": "珍兽蛋：拱天豖",
+   "lv": "5",
+   "current": [],
+   "target": 24439,
+   "action": "add",
+   "wanted": "拱天豖宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309915,
+   "name": "珍兽蛋：东风螺",
+   "lv": "5",
+   "current": [],
+   "target": 24449,
+   "action": "add",
+   "wanted": "东风螺宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309924,
+   "name": "珍兽蛋：幽冥狼妖",
+   "lv": "5",
+   "current": [],
+   "target": 23849,
+   "action": "add",
+   "wanted": "幽冥狼妖宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309925,
+   "name": "珍兽蛋：百变猫",
+   "lv": "5",
+   "current": [],
+   "target": 24519,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309926,
+   "name": "珍兽蛋：百变猫",
+   "lv": "45",
+   "current": [],
+   "target": 24529,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309927,
+   "name": "珍兽蛋：百变猫",
+   "lv": "55",
+   "current": [],
+   "target": 24539,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309928,
+   "name": "珍兽蛋：百变猫",
+   "lv": "65",
+   "current": [],
+   "target": 24549,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309929,
+   "name": "珍兽蛋：百变猫",
+   "lv": "75",
+   "current": [],
+   "target": 24559,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309930,
+   "name": "珍兽蛋：百变猫",
+   "lv": "85",
+   "current": [],
+   "target": 24569,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309931,
+   "name": "珍兽蛋：百变猫",
+   "lv": "95",
+   "current": [],
+   "target": 24579,
+   "action": "add",
+   "wanted": "百变猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309933,
+   "name": "珍兽蛋：嵩鼠",
+   "lv": "5",
+   "current": [],
+   "target": 24589,
+   "action": "add",
+   "wanted": "嵩鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309934,
+   "name": "珍兽蛋：人偶",
+   "lv": "5",
+   "current": [],
+   "target": 24599,
+   "action": "add",
+   "wanted": "人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309935,
+   "name": "珍兽蛋：璇灵人偶",
+   "lv": "45",
+   "current": [],
+   "target": 24609,
+   "action": "add",
+   "wanted": "璇灵人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309936,
+   "name": "珍兽蛋：星冥人偶",
+   "lv": "55",
+   "current": [],
+   "target": 24619,
+   "action": "add",
+   "wanted": "星冥人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309937,
+   "name": "珍兽蛋：武玄人偶",
+   "lv": "65",
+   "current": [],
+   "target": 24629,
+   "action": "add",
+   "wanted": "武玄人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309938,
+   "name": "珍兽蛋：阎神人偶",
+   "lv": "75",
+   "current": [],
+   "target": 24639,
+   "action": "add",
+   "wanted": "阎神人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309939,
+   "name": "珍兽蛋：梵圣人偶",
+   "lv": "85",
+   "current": [],
+   "target": 24649,
+   "action": "add",
+   "wanted": "梵圣人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309940,
+   "name": "珍兽蛋：通天人偶",
+   "lv": "95",
+   "current": [],
+   "target": 24659,
+   "action": "add",
+   "wanted": "通天人偶宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309941,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "5",
+   "current": [],
+   "target": 24669,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309942,
+   "name": "珍兽蛋：比翼鸟",
+   "lv": "5",
+   "current": [],
+   "target": 22219,
+   "action": "add",
+   "wanted": "比翼鸟宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309943,
+   "name": "珍兽蛋：呆呆牛",
+   "lv": "5",
+   "current": [],
+   "target": 22289,
+   "action": "add",
+   "wanted": "呆呆牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309944,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "5",
+   "current": [],
+   "target": 24669,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309945,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "45",
+   "current": [],
+   "target": 24679,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309946,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "55",
+   "current": [],
+   "target": 24689,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309947,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "65",
+   "current": [],
+   "target": 24699,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309948,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "75",
+   "current": [],
+   "target": 24709,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309949,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "85",
+   "current": [],
+   "target": 24719,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309950,
+   "name": "珍兽蛋：豆豆龙",
+   "lv": "95",
+   "current": [],
+   "target": 24729,
+   "action": "add",
+   "wanted": "豆豆龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309951,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "5",
+   "current": [],
+   "target": 24739,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309952,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "45",
+   "current": [],
+   "target": 24749,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309953,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "55",
+   "current": [],
+   "target": 24759,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309954,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "65",
+   "current": [],
+   "target": 24769,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309955,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "75",
+   "current": [],
+   "target": 24779,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309956,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "85",
+   "current": [],
+   "target": 24789,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309957,
+   "name": "珍兽蛋：出云龙蟒",
+   "lv": "95",
+   "current": [],
+   "target": 24799,
+   "action": "add",
+   "wanted": "出云龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309958,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "5",
+   "current": [],
+   "target": 24819,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309959,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "45",
+   "current": [],
+   "target": 24829,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309960,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "55",
+   "current": [],
+   "target": 24839,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309961,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "65",
+   "current": [],
+   "target": 24849,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309962,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "75",
+   "current": [],
+   "target": 24859,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309963,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "85",
+   "current": [],
+   "target": 24869,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309965,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "5",
+   "current": [],
+   "target": 24819,
+   "action": "add",
+   "wanted": "傲云苍龙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309966,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "5",
+   "current": [],
+   "target": 24889,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309967,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "45",
+   "current": [],
+   "target": 24899,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309968,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "55",
+   "current": [],
+   "target": 24909,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309969,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "65",
+   "current": [],
+   "target": 24919,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309970,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "75",
+   "current": [],
+   "target": 24929,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309971,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "85",
+   "current": [],
+   "target": 24939,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309973,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "5",
+   "current": [],
+   "target": 24889,
+   "action": "add",
+   "wanted": "太古龙魂宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309977,
+   "name": "珍兽蛋：咩小萌",
+   "lv": "55",
+   "current": [],
+   "target": 27169,
+   "action": "add",
+   "wanted": "咩小萌宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309978,
+   "name": "珍兽蛋：咩小萌",
+   "lv": "95",
+   "current": [],
+   "target": 27209,
+   "action": "add",
+   "wanted": "咩小萌宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309979,
+   "name": "珍兽蛋：美人鱼",
+   "lv": "5",
+   "current": [],
+   "target": 27229,
+   "action": "add",
+   "wanted": "美人鱼宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309980,
+   "name": "珍兽蛋：天蓬揽月",
+   "lv": "5",
+   "current": [],
+   "target": 27299,
+   "action": "add",
+   "wanted": "天蓬揽月宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309984,
+   "name": "珍兽蛋：花仙子",
+   "lv": "5",
+   "current": [],
+   "target": 23049,
+   "action": "add",
+   "wanted": "花仙子宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309985,
+   "name": "珍兽蛋：呆呆牛",
+   "lv": "45",
+   "current": [
+    {
+     "line": 338,
+     "kind": "single",
+     "dataId": 30919,
+     "pet": "妙鼠小仙宝宝"
+    }
+   ],
+   "target": 22299,
+   "action": "replace",
+   "wanted": "呆呆牛宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309995,
+   "name": "珍兽蛋：锦毛鼠",
+   "lv": "5",
+   "current": [],
+   "target": 24339,
+   "action": "add",
+   "wanted": "锦毛鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309997,
+   "name": "珍兽蛋：百变汪仔",
+   "lv": "5",
+   "current": [
+    {
+     "line": 350,
+     "kind": "single",
+     "dataId": 23049,
+     "pet": "花仙子宝宝"
+    }
+   ],
+   "target": 27499,
+   "action": "replace",
+   "wanted": "百变汪仔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309998,
+   "name": "珍兽蛋：百变汪仔",
+   "lv": "85",
+   "current": [
+    {
+     "line": 351,
+     "kind": "single",
+     "dataId": 23059,
+     "pet": "花仙子宝宝"
+    }
+   ],
+   "target": 27549,
+   "action": "replace",
+   "wanted": "百变汪仔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30309999,
+   "name": "珍兽蛋：百变汪仔",
+   "lv": "95",
+   "current": [
+    {
+     "line": 352,
+     "kind": "single",
+     "dataId": 23069,
+     "pet": "花仙子宝宝"
+    }
+   ],
+   "target": 27559,
+   "action": "replace",
+   "wanted": "百变汪仔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504318,
+   "name": "珍兽蛋：僵尸",
+   "lv": "5",
+   "current": [],
+   "target": 23709,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504319,
+   "name": "珍兽蛋：僵尸",
+   "lv": "45",
+   "current": [],
+   "target": 23789,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504320,
+   "name": "珍兽蛋：僵尸",
+   "lv": "55",
+   "current": [],
+   "target": 23799,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504321,
+   "name": "珍兽蛋：僵尸",
+   "lv": "65",
+   "current": [],
+   "target": 23809,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504322,
+   "name": "珍兽蛋：僵尸",
+   "lv": "75",
+   "current": [],
+   "target": 23819,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504323,
+   "name": "珍兽蛋：僵尸",
+   "lv": "85",
+   "current": [],
+   "target": 23829,
+   "action": "add",
+   "wanted": "僵尸宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504325,
+   "name": "珍兽蛋：熊猫双侠",
+   "lv": "5",
+   "current": [],
+   "target": 23409,
+   "action": "add",
+   "wanted": "熊猫双侠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504326,
+   "name": "珍兽蛋：青羊真君",
+   "lv": "5",
+   "current": [],
+   "target": 28479,
+   "action": "add",
+   "wanted": "青羊真君宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504327,
+   "name": "珍兽蛋：稚月灵",
+   "lv": "95",
+   "current": [],
+   "target": 30319,
+   "action": "add",
+   "wanted": "稚月灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504328,
+   "name": "珍兽蛋：布老虎",
+   "lv": "5",
+   "current": [],
+   "target": 23259,
+   "action": "add",
+   "wanted": "布老虎宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504329,
+   "name": "珍兽蛋：狸美人",
+   "lv": "95",
+   "current": [],
+   "target": 31459,
+   "action": "add",
+   "wanted": "狸美人宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30504330,
+   "name": "珍兽蛋：狸美人",
+   "lv": "55",
+   "current": [],
+   "target": 31419,
+   "action": "add",
+   "wanted": "狸美人宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30505230,
+   "name": "珍兽蛋：唐装鼠",
+   "lv": "45",
+   "current": [],
+   "target": 8759,
+   "action": "add",
+   "wanted": "唐装鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30505231,
+   "name": "珍兽蛋：唐装鼠",
+   "lv": "65",
+   "current": [],
+   "target": 8779,
+   "action": "add",
+   "wanted": "唐装鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 30505232,
+   "name": "珍兽蛋：唐装鼠",
+   "lv": "85",
+   "current": [],
+   "target": 8799,
+   "action": "add",
+   "wanted": "唐装鼠宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 38001941,
+   "name": "珍兽蛋：年兽",
+   "lv": "5",
+   "current": [],
+   "target": 8819,
+   "action": "add",
+   "wanted": "年兽宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910078,
+   "name": "珍兽蛋：东仔",
+   "lv": "20",
+   "current": [],
+   "target": 30399,
+   "action": "add",
+   "wanted": "东仔宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910079,
+   "name": "珍兽蛋：龙三太子",
+   "lv": "95",
+   "current": [],
+   "target": 30469,
+   "action": "add",
+   "wanted": "龙三太子宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910080,
+   "name": "珍兽蛋：狐小仙",
+   "lv": "95",
+   "current": [],
+   "target": 30569,
+   "action": "add",
+   "wanted": "狐小仙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910081,
+   "name": "珍兽蛋：灵魅儿",
+   "lv": "95",
+   "current": [],
+   "target": 30719,
+   "action": "add",
+   "wanted": "灵魅儿宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910082,
+   "name": "珍兽蛋：灵魅儿",
+   "lv": "95",
+   "current": [],
+   "target": 30719,
+   "action": "add",
+   "wanted": "灵魅儿宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910085,
+   "name": "珍兽蛋：妙鼠小仙",
+   "lv": "95",
+   "current": [],
+   "target": 30949,
+   "action": "add",
+   "wanted": "妙鼠小仙宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910086,
+   "name": "珍兽蛋：神机小子",
+   "lv": "95",
+   "current": [],
+   "target": 31019,
+   "action": "add",
+   "wanted": "神机小子宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910088,
+   "name": "珍兽蛋：灵珠子",
+   "lv": "95",
+   "current": [],
+   "target": 31159,
+   "action": "add",
+   "wanted": "灵珠子宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910091,
+   "name": "珍兽蛋：傀儡狼",
+   "lv": "5",
+   "current": [],
+   "target": 23639,
+   "action": "add",
+   "wanted": "傀儡狼宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910094,
+   "name": "珍兽蛋：蛋蛋鸡",
+   "lv": "5",
+   "current": [],
+   "target": 31319,
+   "action": "add",
+   "wanted": "蛋蛋鸡宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910096,
+   "name": "珍兽蛋：齐天大圣",
+   "lv": "95",
+   "current": [],
+   "target": 30249,
+   "action": "add",
+   "wanted": "齐天大圣宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910097,
+   "name": "珍兽蛋：傀儡狼",
+   "lv": "95",
+   "current": [],
+   "target": 23699,
+   "action": "add",
+   "wanted": "傀儡狼宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910098,
+   "name": "珍兽蛋：蛋蛋鸡",
+   "lv": "95",
+   "current": [],
+   "target": 31379,
+   "action": "add",
+   "wanted": "蛋蛋鸡宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910104,
+   "name": "珍兽蛋：太白鹿灵",
+   "lv": "95",
+   "current": [],
+   "target": 34529,
+   "action": "add",
+   "wanted": "太白鹿灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910107,
+   "name": "珍兽蛋：太白鹿灵",
+   "lv": "5",
+   "current": [],
+   "target": 34469,
+   "action": "add",
+   "wanted": "太白鹿灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910113,
+   "name": "珍兽蛋：娲皇龙蟒",
+   "lv": "5",
+   "current": [],
+   "target": 27639,
+   "action": "add",
+   "wanted": "娲皇龙蟒宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910114,
+   "name": "珍兽蛋：妙法小僧",
+   "lv": "5",
+   "current": [],
+   "target": 34689,
+   "action": "add",
+   "wanted": "妙法小僧宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910124,
+   "name": "珍兽蛋：百变熊猫",
+   "lv": "5",
+   "current": [],
+   "target": 35249,
+   "action": "add",
+   "wanted": "百变熊猫宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910134,
+   "name": "珍兽蛋：邪灵",
+   "lv": "5",
+   "current": [],
+   "target": 29619,
+   "action": "add",
+   "wanted": "邪灵宝宝",
+   "rule": "name+take_level"
+  },
+  {
+   "item": 39910139,
+   "name": "珍兽蛋：龙三太子",
+   "lv": "5",
+   "current": [],
+   "target": 30409,
+   "action": "add",
+   "wanted": "龙三太子宝宝",
+   "rule": "name+take_level"
+  }
+ ],
+ "skipped": [
+  {
+   "item": 30309031,
+   "name": "珍兽蛋：黄鸟",
+   "lv": "85",
+   "current": [
+    {
+     "line": 37,
+     "kind": "single",
+     "dataId": 3299,
+     "pet": "雏凤宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "黄鸟宝宝"
+  },
+  {
+   "item": 30309032,
+   "name": "珍兽蛋：年兽",
+   "lv": "85",
+   "current": [
+    {
+     "line": 38,
+     "kind": "single",
+     "dataId": 3309,
+     "pet": "年兽宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "年兽宝宝",
+   "candidates": [
+    3309,
+    8819,
+    8829,
+    8839,
+    8849,
+    8859,
+    8869,
+    8879
+   ]
+  },
+  {
+   "item": 30309035,
+   "name": "珍兽蛋：麒麟",
+   "lv": "95",
+   "current": [
+    {
+     "line": 41,
+     "kind": "single",
+     "dataId": 3339,
+     "pet": "麒麟宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 9 total)",
+   "wanted": "麒麟宝宝",
+   "candidates": [
+    3339,
+    8689,
+    22429,
+    22439,
+    22449,
+    22459,
+    22469,
+    22479,
+    22489
+   ]
+  },
+  {
+   "item": 30309040,
+   "name": "珍兽蛋：山羊",
+   "lv": "5",
+   "current": [
+    {
+     "line": 46,
+     "kind": "single",
+     "dataId": 3389,
+     "pet": "技嘉羊宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "山羊宝宝"
+  },
+  {
+   "item": 30309046,
+   "name": "珍兽蛋：鸭嘴兽",
+   "lv": "5",
+   "current": [
+    {
+     "line": 52,
+     "kind": "single",
+     "dataId": 3449,
+     "pet": "鸭嘴兽宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "鸭嘴兽宝宝",
+   "candidates": [
+    3449,
+    7509,
+    7519,
+    7529,
+    7539,
+    7549,
+    7559,
+    7569
+   ]
+  },
+  {
+   "item": 30309050,
+   "name": "珍兽蛋：雪狐",
+   "lv": "5",
+   "current": [
+    {
+     "line": 56,
+     "kind": "single",
+     "dataId": 3489,
+     "pet": "雪狐宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "雪狐宝宝",
+   "candidates": [
+    3489,
+    7579,
+    7589,
+    7599,
+    7609,
+    7619,
+    7629,
+    7639
+   ]
+  },
+  {
+   "item": 30309076,
+   "name": "珍兽蛋：雷蛇",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "雷蛇宝宝"
+  },
+  {
+   "item": 30309077,
+   "name": "珍兽蛋：七巧狸猫",
+   "lv": "5",
+   "current": [
+    {
+     "line": 277,
+     "kind": "single",
+     "dataId": 23979,
+     "pet": "七巧狸猫宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 14 total)",
+   "wanted": "七巧狸猫宝宝",
+   "candidates": [
+    23919,
+    23929,
+    23939,
+    23949,
+    23959,
+    23969,
+    23979,
+    29319,
+    29329,
+    29339,
+    29349,
+    29359,
+    29369,
+    29379
+   ]
+  },
+  {
+   "item": 30309078,
+   "name": "珍兽蛋：玉兔",
+   "lv": "5",
+   "current": [
+    {
+     "line": 278,
+     "kind": "single",
+     "dataId": 24609,
+     "pet": "璇灵人偶宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 2 total)",
+   "wanted": "玉兔宝宝",
+   "candidates": [
+    6649,
+    24479
+   ]
+  },
+  {
+   "item": 30309089,
+   "name": "变异珍兽蛋：太古龙魂",
+   "lv": "95",
+   "current": [
+    {
+     "line": 413,
+     "kind": "single",
+     "dataId": 24679,
+     "pet": "豆豆龙宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(16 rows at that level, 43 total)",
+   "wanted": "变异太古龙魂",
+   "candidates": [
+    24881,
+    24882,
+    24891,
+    24892,
+    24893,
+    24901,
+    24902,
+    24903,
+    24904,
+    24911,
+    24912,
+    24913,
+    24914,
+    24915,
+    24921,
+    24922,
+    24923,
+    24924,
+    24925,
+    24926,
+    24931,
+    24932,
+    24933,
+    24934,
+    24935,
+    24936,
+    24937,
+    24941,
+    24942,
+    24943,
+    24944,
+    24945,
+    24946,
+    24947,
+    24948,
+    27701,
+    27702,
+    27703,
+    27704,
+    27705,
+    27706,
+    27707,
+    27708
+   ]
+  },
+  {
+   "item": 30309090,
+   "name": "变异珍兽蛋：傲云苍龙",
+   "lv": "95",
+   "current": [
+    {
+     "line": 414,
+     "kind": "single",
+     "dataId": 24689,
+     "pet": "豆豆龙宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(16 rows at that level, 43 total)",
+   "wanted": "变异傲云苍龙",
+   "candidates": [
+    24811,
+    24812,
+    24821,
+    24822,
+    24823,
+    24831,
+    24832,
+    24833,
+    24834,
+    24841,
+    24842,
+    24843,
+    24844,
+    24845,
+    24851,
+    24852,
+    24853,
+    24854,
+    24855,
+    24856,
+    24861,
+    24862,
+    24863,
+    24864,
+    24865,
+    24866,
+    24867,
+    24871,
+    24872,
+    24873,
+    24874,
+    24875,
+    24876,
+    24877,
+    24878,
+    27711,
+    27712,
+    27713,
+    27714,
+    27715,
+    27716,
+    27717,
+    27718
+   ]
+  },
+  {
+   "item": 30309092,
+   "name": "变异珍兽蛋：娲皇龙蟒",
+   "lv": "95",
+   "current": [
+    {
+     "line": 416,
+     "kind": "single",
+     "dataId": 24709,
+     "pet": "豆豆龙宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(16 rows at that level, 43 total)",
+   "wanted": "变异娲皇龙蟒",
+   "candidates": [
+    27631,
+    27632,
+    27641,
+    27642,
+    27643,
+    27651,
+    27652,
+    27653,
+    27654,
+    27661,
+    27662,
+    27663,
+    27664,
+    27665,
+    27671,
+    27672,
+    27673,
+    27674,
+    27675,
+    27676,
+    27681,
+    27682,
+    27683,
+    27684,
+    27685,
+    27686,
+    27687,
+    27691,
+    27692,
+    27693,
+    27694,
+    27695,
+    27696,
+    27697,
+    27698,
+    27721,
+    27722,
+    27723,
+    27724,
+    27725,
+    27726,
+    27727,
+    27728
+   ]
+  },
+  {
+   "item": 30309093,
+   "name": "变异珍兽蛋：玄荒腾蛇",
+   "lv": "95",
+   "current": [
+    {
+     "line": 417,
+     "kind": "single",
+     "dataId": 24719,
+     "pet": "豆豆龙宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(16 rows at that level, 43 total)",
+   "wanted": "变异玄荒腾蛇",
+   "candidates": [
+    27561,
+    27562,
+    27571,
+    27572,
+    27573,
+    27581,
+    27582,
+    27583,
+    27584,
+    27591,
+    27592,
+    27593,
+    27594,
+    27595,
+    27601,
+    27602,
+    27603,
+    27604,
+    27605,
+    27606,
+    27611,
+    27612,
+    27613,
+    27614,
+    27615,
+    27616,
+    27617,
+    27621,
+    27622,
+    27623,
+    27624,
+    27625,
+    27626,
+    27627,
+    27628,
+    27731,
+    27732,
+    27733,
+    27734,
+    27735,
+    27736,
+    27737,
+    27738
+   ]
+  },
+  {
+   "item": 30309096,
+   "name": "变异珍兽蛋：九黎妖虎",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(8 rows at that level, 35 total)",
+   "wanted": "变异九黎妖虎",
+   "candidates": [
+    27351,
+    27352,
+    27361,
+    27362,
+    27363,
+    27371,
+    27372,
+    27373,
+    27374,
+    27381,
+    27382,
+    27383,
+    27384,
+    27385,
+    27391,
+    27392,
+    27393,
+    27394,
+    27395,
+    27396,
+    27401,
+    27402,
+    27403,
+    27404,
+    27405,
+    27406,
+    27407,
+    27411,
+    27412,
+    27413,
+    27414,
+    27415,
+    27416,
+    27417,
+    27418
+   ]
+  },
+  {
+   "item": 30309522,
+   "name": "珍兽蛋：金童玉女",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 14 total)",
+   "wanted": "金童玉女宝宝",
+   "candidates": [
+    28619,
+    28629,
+    28639,
+    28649,
+    28659,
+    28669,
+    28679,
+    25859,
+    25869,
+    25879,
+    25889,
+    25899,
+    25909,
+    25919
+   ]
+  },
+  {
+   "item": 30309528,
+   "name": "珍兽蛋：金童玉女",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 14 total)",
+   "wanted": "金童玉女宝宝",
+   "candidates": [
+    28619,
+    28629,
+    28639,
+    28649,
+    28659,
+    28669,
+    28679,
+    25859,
+    25869,
+    25879,
+    25889,
+    25899,
+    25909,
+    25919
+   ]
+  },
+  {
+   "item": 30309600,
+   "name": "珍兽蛋：龙猫",
+   "lv": "5",
+   "current": [
+    {
+     "line": 87,
+     "kind": "single",
+     "dataId": 7649,
+     "pet": "龙猫宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "龙猫宝宝",
+   "candidates": [
+    6019,
+    7649,
+    7659,
+    7669,
+    7679,
+    7689,
+    7699,
+    7709
+   ]
+  },
+  {
+   "item": 30309607,
+   "name": "珍兽蛋：熊猫",
+   "lv": "5",
+   "current": [
+    {
+     "line": 94,
+     "kind": "single",
+     "dataId": 7789,
+     "pet": "熊猫宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "熊猫宝宝",
+   "candidates": [
+    6169,
+    7789,
+    7799,
+    7809,
+    7819,
+    7829,
+    7839,
+    7849
+   ]
+  },
+  {
+   "item": 30309621,
+   "name": "珍兽蛋：蜗牛",
+   "lv": "5",
+   "current": [
+    {
+     "line": 108,
+     "kind": "single",
+     "dataId": 7999,
+     "pet": "蜗牛宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "蜗牛宝宝",
+   "candidates": [
+    6319,
+    7999,
+    8009,
+    8019,
+    8029,
+    8039,
+    8049,
+    8059
+   ]
+  },
+  {
+   "item": 30309635,
+   "name": "珍兽蛋：螃蟹",
+   "lv": "5",
+   "current": [
+    {
+     "line": 122,
+     "kind": "single",
+     "dataId": 7859,
+     "pet": "螃蟹宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 9 total)",
+   "wanted": "螃蟹宝宝",
+   "candidates": [
+    6219,
+    7859,
+    7869,
+    7879,
+    7889,
+    7899,
+    7909,
+    7919,
+    29539
+   ]
+  },
+  {
+   "item": 30309642,
+   "name": "珍兽蛋：犀鸟",
+   "lv": "5",
+   "current": [
+    {
+     "line": 129,
+     "kind": "single",
+     "dataId": 7719,
+     "pet": "犀鸟宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "犀鸟宝宝",
+   "candidates": [
+    6119,
+    7719,
+    7729,
+    7739,
+    7749,
+    7759,
+    7769,
+    7779
+   ]
+  },
+  {
+   "item": 30309649,
+   "name": "珍兽蛋：鸭嘴兽",
+   "lv": "5",
+   "current": [
+    {
+     "line": 136,
+     "kind": "single",
+     "dataId": 7509,
+     "pet": "鸭嘴兽宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "鸭嘴兽宝宝",
+   "candidates": [
+    3449,
+    7509,
+    7519,
+    7529,
+    7539,
+    7549,
+    7559,
+    7569
+   ]
+  },
+  {
+   "item": 30309656,
+   "name": "珍兽蛋：雪狐",
+   "lv": "5",
+   "current": [
+    {
+     "line": 143,
+     "kind": "single",
+     "dataId": 7579,
+     "pet": "雪狐宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "雪狐宝宝",
+   "candidates": [
+    3489,
+    7579,
+    7589,
+    7599,
+    7609,
+    7619,
+    7629,
+    7639
+   ]
+  },
+  {
+   "item": 30309677,
+   "name": "珍兽蛋：当扈",
+   "lv": "5",
+   "current": [
+    {
+     "line": 164,
+     "kind": "single",
+     "dataId": 8279,
+     "pet": "当扈宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "当扈宝宝",
+   "candidates": [
+    6519,
+    8279,
+    8289,
+    8299,
+    8309,
+    8319,
+    8329,
+    8339
+   ]
+  },
+  {
+   "item": 30309724,
+   "name": "珍兽蛋：年兽",
+   "lv": "85",
+   "current": [
+    {
+     "line": 211,
+     "kind": "single",
+     "dataId": 8869,
+     "pet": "年兽宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "年兽宝宝",
+   "candidates": [
+    3309,
+    8819,
+    8829,
+    8839,
+    8849,
+    8859,
+    8869,
+    8879
+   ]
+  },
+  {
+   "item": 30309735,
+   "name": "珍兽蛋：钢斧神猿",
+   "lv": "5",
+   "current": [
+    {
+     "line": 222,
+     "kind": "single",
+     "dataId": 22140,
+     "pet": "钢斧神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "钢斧神猿宝宝"
+  },
+  {
+   "item": 30309736,
+   "name": "珍兽蛋：丛林神猿",
+   "lv": "45",
+   "current": [
+    {
+     "line": 223,
+     "kind": "single",
+     "dataId": 22150,
+     "pet": "丛林神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "丛林神猿宝宝"
+  },
+  {
+   "item": 30309737,
+   "name": "珍兽蛋：地狱神猿",
+   "lv": "55",
+   "current": [
+    {
+     "line": 224,
+     "kind": "single",
+     "dataId": 22160,
+     "pet": "地狱神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "地狱神猿宝宝"
+  },
+  {
+   "item": 30309738,
+   "name": "珍兽蛋：魅灵神猿",
+   "lv": "65",
+   "current": [
+    {
+     "line": 225,
+     "kind": "single",
+     "dataId": 22170,
+     "pet": "魅灵神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "魅灵神猿宝宝"
+  },
+  {
+   "item": 30309739,
+   "name": "珍兽蛋：罗汉神猿",
+   "lv": "75",
+   "current": [
+    {
+     "line": 226,
+     "kind": "single",
+     "dataId": 22180,
+     "pet": "罗汉神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "罗汉神猿宝宝"
+  },
+  {
+   "item": 30309740,
+   "name": "珍兽蛋：上古神猿",
+   "lv": "85",
+   "current": [
+    {
+     "line": 227,
+     "kind": "single",
+     "dataId": 22190,
+     "pet": "上古神猿"
+    }
+   ],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "上古神猿宝宝"
+  },
+  {
+   "item": 30309756,
+   "name": "珍兽蛋：麒麟",
+   "lv": "95",
+   "current": [
+    {
+     "line": 252,
+     "kind": "single",
+     "dataId": 22489,
+     "pet": "麒麟宝宝"
+    }
+   ],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 9 total)",
+   "wanted": "麒麟宝宝",
+   "candidates": [
+    3339,
+    8689,
+    22429,
+    22439,
+    22449,
+    22459,
+    22469,
+    22479,
+    22489
+   ]
+  },
+  {
+   "item": 30309785,
+   "name": "珍兽蛋：变异松鼠",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 4 total)",
+   "wanted": "变异松鼠",
+   "candidates": [
+    3061,
+    3062,
+    29961,
+    29962
+   ]
+  },
+  {
+   "item": 30309786,
+   "name": "珍兽蛋：变异浣熊",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 2 total)",
+   "wanted": "变异浣熊",
+   "candidates": [
+    3071,
+    3072
+   ]
+  },
+  {
+   "item": 30309787,
+   "name": "珍兽蛋：变异鹦鹉",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 2 total)",
+   "wanted": "变异鹦鹉",
+   "candidates": [
+    3081,
+    3082
+   ]
+  },
+  {
+   "item": 30309805,
+   "name": "神秘珍兽蛋",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 30309806,
+   "name": "神秘珍兽蛋",
+   "lv": "55",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 30309807,
+   "name": "神秘珍兽蛋",
+   "lv": "85",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 30309826,
+   "name": "珍兽蛋：冰雕龙",
+   "lv": "85",
+   "current": [],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "冰雕龙宝宝"
+  },
+  {
+   "item": 30309844,
+   "name": "珍兽蛋：鸭嘴兽",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "鸭嘴兽宝宝",
+   "candidates": [
+    3449,
+    7509,
+    7519,
+    7529,
+    7539,
+    7549,
+    7559,
+    7569
+   ]
+  },
+  {
+   "item": 30309919,
+   "name": "变异珍兽蛋：老虎",
+   "lv": "45",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(3 rows at that level, 3 total)",
+   "wanted": "变异老虎",
+   "candidates": [
+    3151,
+    3152,
+    3153
+   ]
+  },
+  {
+   "item": 30309964,
+   "name": "珍兽蛋：傲云苍龙",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "傲云苍龙宝宝",
+   "candidates": [
+    24819,
+    24829,
+    24839,
+    24849,
+    24859,
+    24869,
+    24879,
+    27719
+   ]
+  },
+  {
+   "item": 30309972,
+   "name": "珍兽蛋：太古龙魂",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "太古龙魂宝宝",
+   "candidates": [
+    24889,
+    24899,
+    24909,
+    24919,
+    24929,
+    24939,
+    24949,
+    27709
+   ]
+  },
+  {
+   "item": 38000648,
+   "name": "变异珍兽蛋：巡游小仙",
+   "lv": "20",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 2 total)",
+   "wanted": "变异巡游小仙",
+   "candidates": [
+    27821,
+    27822
+   ]
+  },
+  {
+   "item": 38002124,
+   "name": "珍兽蛋：火鸡",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:no-pet-with-that-name",
+   "wanted": "火鸡宝宝"
+  },
+  {
+   "item": 39910031,
+   "name": "变异珍兽蛋：娲皇龙蟒（废弃）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910032,
+   "name": "变异珍兽蛋：玄荒腾蛇（废弃）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910056,
+   "name": "变异珍兽蛋：玄荒腾蛇（废弃）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910057,
+   "name": "变异珍兽蛋：娲皇龙蟒（废弃）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910084,
+   "name": "珍兽蛋：鸭嘴兽",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 8 total)",
+   "wanted": "鸭嘴兽宝宝",
+   "candidates": [
+    3449,
+    7509,
+    7519,
+    7529,
+    7539,
+    7549,
+    7559,
+    7569
+   ]
+  },
+  {
+   "item": 39910092,
+   "name": "珍兽蛋：招财锦狐（雄）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910093,
+   "name": "珍兽蛋：招财锦狐（雌）",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:special-name"
+  },
+  {
+   "item": 39910103,
+   "name": "变异珍兽蛋：九霄开明",
+   "lv": "95",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(8 rows at that level, 35 total)",
+   "wanted": "变异九霄开明",
+   "candidates": [
+    34391,
+    34392,
+    34401,
+    34402,
+    34403,
+    34411,
+    34412,
+    34413,
+    34414,
+    34421,
+    34422,
+    34423,
+    34424,
+    34425,
+    34431,
+    34432,
+    34433,
+    34434,
+    34435,
+    34436,
+    34441,
+    34442,
+    34443,
+    34444,
+    34445,
+    34446,
+    34447,
+    34451,
+    34452,
+    34453,
+    34454,
+    34455,
+    34456,
+    34457,
+    34458
+   ]
+  },
+  {
+   "item": 39910120,
+   "name": "变异珍兽蛋：九黎妖虎",
+   "lv": "65",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(5 rows at that level, 35 total)",
+   "wanted": "变异九黎妖虎",
+   "candidates": [
+    27351,
+    27352,
+    27361,
+    27362,
+    27363,
+    27371,
+    27372,
+    27373,
+    27374,
+    27381,
+    27382,
+    27383,
+    27384,
+    27385,
+    27391,
+    27392,
+    27393,
+    27394,
+    27395,
+    27396,
+    27401,
+    27402,
+    27403,
+    27404,
+    27405,
+    27406,
+    27407,
+    27411,
+    27412,
+    27413,
+    27414,
+    27415,
+    27416,
+    27417,
+    27418
+   ]
+  },
+  {
+   "item": 39910131,
+   "name": "珍兽蛋：变异小电视",
+   "lv": "45",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 2 total)",
+   "wanted": "变异小电视",
+   "candidates": [
+    35590,
+    35601
+   ]
+  },
+  {
+   "item": 39910165,
+   "name": "变异珍兽蛋：九黎妖虎",
+   "lv": "5",
+   "current": [],
+   "target": null,
+   "action": "skip:ambiguous(2 rows at that level, 35 total)",
+   "wanted": "变异九黎妖虎",
+   "candidates": [
+    27351,
+    27352,
+    27361,
+    27362,
+    27363,
+    27371,
+    27372,
+    27373,
+    27374,
+    27381,
+    27382,
+    27383,
+    27384,
+    27385,
+    27391,
+    27392,
+    27393,
+    27394,
+    27395,
+    27396,
+    27401,
+    27402,
+    27403,
+    27404,
+    27405,
+    27406,
+    27407,
+    27411,
+    27412,
+    27413,
+    27414,
+    27415,
+    27416,
+    27417,
+    27418
+   ]
+  }
+ ]
+}

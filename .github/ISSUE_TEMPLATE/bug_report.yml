@@ -1,0 +1,48 @@
+name: Báo lỗi
+description: Lỗi build, client, server hoặc công cụ có thể tái hiện.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Bỏ thông tin riêng khỏi log. Không gửi mật khẩu, token, database hoặc dump bộ nhớ."
+  - type: dropdown
+    id: component
+    attributes:
+      label: Thành phần
+      options:
+        - Build client
+        - Client / UI / render
+        - Server / gameplay
+        - Công cụ / cấu hình
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Commit hoặc tên snapshot
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Môi trường
+      description: Hệ điều hành, toolchain, SDK và binary tự build hay có sẵn.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Các bước tái hiện
+    validations:
+      required: true
+  - type: textarea
+    id: expected_actual
+    attributes:
+      label: Kết quả mong đợi và thực tế
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Log hoặc bằng chứng đã bỏ thông tin riêng
+      render: text

@@ -1,0 +1,123 @@
+# So sach dot nhap tai nguyen canh GL -> CY. SINH RA BOI Tools/game/scene_import_gl.py
+# ("scene_import_gl.py registry") - dung sua tay, chay lai cong cu.
+# Dieu kien nguoi dung dat ra 17/09: moi tep nhap tu GL phai ghi nhat ky + gan the nguon.
+schema: 1
+batch: "2026-09-17-scene-import-gl"
+status: "applied"
+created: "2026-09-17T22:32:28"
+tool: "Tools/game/scene_import_gl.py (plan|apply|verify|undo|registry)"
+nguon:
+  nhanh: "GL"
+  root: "C:/TLBB/085/CY-Source/Assets/Canonical/Data"
+  ghi_chu: "nhanh GL CHI DOC - cong cu khong bao gio ghi vao day"
+dich:
+  root: "C:/TLBB/085/CY-Source/Assets/CanonicalCY/Data"
+  ghi_chu: "khong bao gio ghi de tep CY da co; trung ten = BO QUA"
+the_nguon: "NGUON=GL (Assets/Canonical) - CHO BAN CY THAT"
+ke_khai_chi_tiet: "Build/Logs/2026-09-17-scene-import-gl/manifest.jsonl"
+bang_tra_tung_tep: "Registry/batches/2026-09-17-scene-import-gl.tsv"
+tong:
+  so_ban_do: 18
+  so_tep: 290
+  tong_byte: 26245443
+  theo_loai:
+    mesh: 3
+    minimap: 92
+    model: 5
+    scene: 186
+    texture: 4
+ban_do:
+  - map: "PhoenixMaze"
+    so_tep: 18
+    byte: 1089777
+    canh_dung:
+      - { scene: 539, ten: "凤凰陵墓", type: "1", active: "1" }
+  - map: "bianguan_1"
+    so_tep: 11
+    byte: 214172
+    canh_dung:
+      - { scene: 117, ten: "边关阵地山头", type: "1", active: "0" }
+  - map: "bianguan_2"
+    so_tep: 10
+    byte: 172295
+    canh_dung:
+      - { scene: 118, ten: "边关阵地山头", type: "1", active: "0" }
+  - map: "bianguan_3"
+    so_tep: 10
+    byte: 172289
+    canh_dung:
+      - { scene: 119, ten: "边关阵地山头", type: "1", active: "0" }
+  - map: "bianguan_4"
+    so_tep: 10
+    byte: 172287
+    canh_dung:
+      - { scene: 120, ten: "边关阵地山头", type: "1", active: "0" }
+  - map: "dumuchang"
+    so_tep: 26
+    byte: 3237750
+    canh_dung:
+      - { scene: 404, ten: "毒障泽地", type: "1", active: "0" }
+  - map: "huanjing_1"
+    so_tep: 17
+    byte: 220505
+    canh_dung:
+      - { scene: 113, ten: "三春幻境", type: "1", active: "0" }
+  - map: "huanjing_2"
+    so_tep: 10
+    byte: 175430
+    canh_dung:
+      - { scene: 114, ten: "三夏幻境", type: "1", active: "0" }
+  - map: "huanjing_3"
+    so_tep: 10
+    byte: 175431
+    canh_dung:
+      - { scene: 115, ten: "三秋幻境", type: "1", active: "0" }
+  - map: "huanjing_4"
+    so_tep: 10
+    byte: 175431
+    canh_dung:
+      - { scene: 116, ten: "三冬幻境", type: "1", active: "0" }
+  - map: "huashan"
+    so_tep: 28
+    byte: 3475906
+    canh_dung:
+      - { scene: 125, ten: "华山绝顶", type: "0", active: "0" }
+  - map: "huomuchang"
+    so_tep: 26
+    byte: 4477643
+    canh_dung:
+      - { scene: 405, ten: "熔岩之地", type: "1", active: "0" }
+  - map: "jiaofei"
+    so_tep: 19
+    byte: 2241327
+    canh_dung:
+      - { scene: 189, ten: "镜湖匪寨", type: "1", active: "1" }
+  - map: "shengsileitai"
+    so_tep: 12
+    byte: 1136301
+    canh_dung:
+      - { scene: 410, ten: "生死擂台", type: "0", active: "0" }
+  - map: "songliao"
+    so_tep: 17
+    byte: 956331
+    canh_dung:
+      - { scene: 47, ten: "宋辽边境", type: "1", active: "1" }
+  - map: "yanziwu"
+    so_tep: 26
+    byte: 6230421
+    canh_dung:
+      - { scene: 190, ten: "燕子坞", type: "1", active: "1" }
+  - map: "yewai"
+    so_tep: 15
+    byte: 964331
+    canh_dung:
+      - { scene: 48, ten: "野外匪寨", type: "1", active: "1" }
+  - map: "zhulin"
+    so_tep: 15
+    byte: 957816
+    canh_dung:
+      - { scene: 49, ten: "竹林", type: "1", active: "1" }
+hoan_tac: "python -X utf8 Tools/game/scene_import_gl.py undo --maps <ds> --that"
+ap_lai_sau_khi_dung_lai_canonical:
+  - "python -X utf8 Tools/game/scene_import_gl.py apply --maps PhoenixMaze,bianguan_1,bianguan_2,bianguan_3,bianguan_4,dumuchang,huanjing_1,huanjing_2,huanjing_3,huanjing_4,huashan,huomuchang,jiaofei,shengsileitai,songliao,yanziwu,yewai,zhulin --that"
+  - "python -X utf8 Tools/game/scene_import_gl.py verify --maps PhoenixMaze,bianguan_1,bianguan_2,bianguan_3,bianguan_4,dumuchang,huanjing_1,huanjing_2,huanjing_3,huanjing_4,huashan,huomuchang,jiaofei,shengsileitai,songliao,yanziwu,yewai,zhulin"

@@ -1,0 +1,40 @@
+{
+  "name": "cy-test-data-2026-10-15.zip",
+  "bytes": 12391009560,
+  "raw_bytes": 24116348312,
+  "files": 126212,
+  "sha256": "d4e177afbd72933bff9394a29f41b93fcbc3c87ea90c11c2906c31ec2158c260",
+  "completion_seconds": 399.5,
+  "status": "SHARED_LINK_RECORDED_RIGHTS_UNVERIFIED",
+  "google_drive_url": "https://drive.google.com/file/d/1FG-BSvarnmCeezwr4PqqC0zHMf7syia4/view?usp=sharing",
+  "license": "Not covered by the CY-Source license; rights remain with original rightsholders",
+  "includes": [
+    "CanonicalCY/Data",
+    "Play/Overlay",
+    "server scene/config tables"
+  ],
+  "excludes": [
+    "DLL and EXE runtime",
+    "SDK",
+    "database",
+    "account credentials",
+    "logs",
+    "private Git history"
+  ],
+  "notice_revision": "2026-10-15-testing-disclaimer-v2",
+  "notice_sha256": "d1a9372034a925e8cf7678641ac8ad09fc9e77e29fce2ea9c1fe7ab5a2efa992",
+  "intended_purpose": "Technical testing of original source/builds, regression diagnosis, and client/server/data compatibility; not a third-party data license",
+  "previous_archive_sha256": "753eda4933cbd2acb8bd11ca73f19c58a73e0d11e7511907f0ee62f7a28742e6",
+  "link_source": "Provided by the project owner",
+  "link_verification": {
+    "checked_at_utc": "2026-10-15T02:47:13.181651+00:00",
+    "anonymous_file_page_accessible": true,
+    "http_status": 200,
+    "observed_title": "cy-test-data-2026-10-15.zip - Google Drive",
+    "remote_download_tested": false,
+    "remote_archive_sha256_verified": false,
+    "scope": "Anonymous file landing page only; expected hash and size refer to the locally prepared archive."
+  },
+  "project_name": "372dragon",
+  "former_project_name": "CY-Source"
+}

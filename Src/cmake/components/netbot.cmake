@@ -1,0 +1,31 @@
+# CysNetBot: login probe (handshake, authentication, character list, disconnect) and,
+# when NetCore is configured, a headless world mode that drives the same LoginClient/
+# GameClient as Game.exe (charlogin, CGConnect first, enter scene, move, CGAskQuit).
+# No dependency on the legacy 0.85 packet classes.
+if(NOT TARGET cys_protocolgen)
+    message(FATAL_ERROR "CYS netbot requires component protocolgen")
+endif()
+set(_cys_bot "${CYS_SRC}/Tools/CysNetBot")
+add_library(cys_login_probe STATIC "${_cys_bot}/LoginProbe.cpp" "${_cys_bot}/LoginProbe.h")
+target_include_directories(cys_login_probe PUBLIC "${_cys_bot}")
+target_link_libraries(cys_login_probe PUBLIC cys_protocolgen)
+set_target_properties(cys_login_probe PROPERTIES FOLDER Tools)
+add_executable(cys_netbot "${_cys_bot}/main.cpp")
+if(TARGET cys_netcore)
+    # cys_netcore already compiles LoginProbe.cpp; link it alone to avoid duplicate objects.
+    target_link_libraries(cys_netbot PRIVATE cys_netcore ws2_32)
+    target_include_directories(cys_netbot PRIVATE "${_cys_bot}")
+    target_compile_definitions(cys_netbot PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX CYS_NETBOT_WORLD=1)
+else()
+    target_link_libraries(cys_netbot PRIVATE cys_login_probe ws2_32)
+    target_compile_definitions(cys_netbot PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+endif()
+set_target_properties(cys_netbot PROPERTIES OUTPUT_NAME CysNetBot FOLDER Tools)
+add_executable(cys_netbot_tests "${CYS_ROOT}/Tests/net/login_probe_tests.cpp")
+target_link_libraries(cys_netbot_tests PRIVATE cys_login_probe)
+set_target_properties(cys_netbot_tests PROPERTIES FOLDER Tests)
+if(MSVC)
+    foreach(_t cys_login_probe cys_netbot cys_netbot_tests)
+        target_compile_options(${_t} PRIVATE /W4)
+    endforeach()
+endif()

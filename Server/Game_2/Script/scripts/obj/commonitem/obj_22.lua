@@ -1,0 +1,40 @@
+local class = require "class"
+local define = require "define"
+local script_base = require "script_base"
+local obj_22 = class("obj_22", script_base)
+obj_22.script_id = 331022
+obj_22.g_Impact1 = 3003
+obj_22.g_Impact2 = -1
+obj_22.g_SpecailObj = 22
+function obj_22:OnDefaultEvent(selfId, bagIndex) end
+
+function obj_22:IsSkillLikeScript(selfId)
+	return 1; 
+end
+
+function obj_22:CancelImpacts(selfId) return 0 end
+
+function obj_22:OnConditionCheck(selfId)
+    local ScriptGlobal = require "scripts.ScriptGlobal"
+    if ScriptGlobal.is_internal_test then
+        self:notify_tips(selfId, "Đang hoạt động test, không dùng được")
+        return 0
+    end
+    return self:LuaFnVerifyUsedItem(selfId)
+end
+
+function obj_22:OnDeplete(selfId)
+    return self:LuaFnDepletingUsedItem(selfId)
+end
+
+function obj_22:OnActivateOnce(selfId)
+    if (-1 ~= self.g_Impact1) then
+        local posX, posZ = self:GetWorldPos(selfId)
+        self:CreateSpecialObjByDataIndex(selfId, self.g_SpecailObj, posX, posZ)
+    end
+    return 1
+end
+
+function obj_22:OnActivateEachTick(selfId) return 1 end
+
+return obj_22

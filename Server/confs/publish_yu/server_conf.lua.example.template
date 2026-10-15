@@ -1,0 +1,12 @@
+-- CYS: redacted template of server_conf.lua (credentials removed). The real file is ignored by git.
+local c = {}
+c.server_ip = "127.0.0.1"
+c.gamedb = {host="127.0.0.1",port=27018,db_name="admin",username="",password="CHANGE_ME_GENERATE_LOCALLY"}
+c.logdb = c.gamedb
+c.mysqldb = {host="127.0.0.1",port=13306,database="dl",user="",password="CHANGE_ME_GENERATE_LOCALLY"}
+c.mqtt = {uri="127.0.0.1:1884",clean=true}
+c.MAX_COPY_SCENE=20
+c.MAX_SPAN_COPY_SCENE=5
+c.PREWARM_COPY_SCENE=3
+c.client_wire_encoding="utf8"
+return c

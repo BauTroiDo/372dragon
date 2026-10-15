@@ -1,0 +1,3 @@
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\lua_login_reg.txt 1406541b0
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\autosel.txt 140340700,1403404d0,1406e8880,1406e89e0
+strdec C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\str_loginserver_cfg.txt ^(Login_Server|Login_Area|Login_World|Login_Provider)$

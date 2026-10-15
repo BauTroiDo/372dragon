@@ -1,0 +1,1915 @@
+{
+ "generated_by": "Tests/oracle/make_cases.py",
+ "models": [
+  {
+   "id": "M01",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开男主角1级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M02",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开女主角1级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M03",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开女主角3级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M04",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开女主角2级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M05",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开男主角3级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M06",
+   "bucket": "player",
+   "obj": "dweapon_2025情人节银狼伞开男主角2级.obj",
+   "anim": "",
+   "verts": 1919,
+   "anims": 2,
+   "max_tex_px": 512
+  },
+  {
+   "id": "M07",
+   "bucket": "player",
+   "obj": "npc女主角曼陀套装高模展示.obj",
+   "anim": "",
+   "verts": 26354,
+   "anims": 2,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M08",
+   "bucket": "player",
+   "obj": "npc男主角曼陀套装高模展示.obj",
+   "anim": "",
+   "verts": 17141,
+   "anims": 2,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M09",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉五级.obj",
+   "anim": "",
+   "verts": 11719,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M10",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉五级01.obj",
+   "anim": "",
+   "verts": 11719,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M11",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉五级02.obj",
+   "anim": "",
+   "verts": 11719,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M12",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉三级01.obj",
+   "anim": "",
+   "verts": 11202,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M13",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉三级.obj",
+   "anim": "",
+   "verts": 11202,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M14",
+   "bucket": "pet",
+   "obj": "pet_2026情人节丘比特五级02.obj",
+   "anim": "",
+   "verts": 10753,
+   "anims": 10,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M15",
+   "bucket": "pet",
+   "obj": "pet_2026情人节丘比特五级01.obj",
+   "anim": "",
+   "verts": 10753,
+   "anims": 10,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M16",
+   "bucket": "pet",
+   "obj": "pet_2026情人节丘比特五级.obj",
+   "anim": "",
+   "verts": 10753,
+   "anims": 10,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M17",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉四级.obj",
+   "anim": "",
+   "verts": 10676,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M18",
+   "bucket": "pet",
+   "obj": "pet_2026狐狸小萝莉四级01.obj",
+   "anim": "",
+   "verts": 10676,
+   "anims": 9,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M19",
+   "bucket": "mount",
+   "obj": "骑乘230417花轿三级.obj",
+   "anim": "",
+   "verts": 16930,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M20",
+   "bucket": "mount",
+   "obj": "骑乘230706比武招亲花轿高级.obj",
+   "anim": "",
+   "verts": 13161,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M21",
+   "bucket": "mount",
+   "obj": "骑乘230417花轿二级.obj",
+   "anim": "",
+   "verts": 12655,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M22",
+   "bucket": "mount",
+   "obj": "骑乘230417花轿一级.obj",
+   "anim": "",
+   "verts": 9624,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M23",
+   "bucket": "mount",
+   "obj": "骑乘230706比武招亲花轿低级.obj",
+   "anim": "",
+   "verts": 9312,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M24",
+   "bucket": "mount",
+   "obj": "骑乘230417马车活动.obj",
+   "anim": "",
+   "verts": 9169,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M25",
+   "bucket": "costume",
+   "obj": "W_cloth_ERG_2024高模.obj",
+   "anim": "",
+   "verts": 25443,
+   "anims": 2,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M26",
+   "bucket": "costume",
+   "obj": "M_cloth_ERG_2024高模.obj",
+   "anim": "",
+   "verts": 14625,
+   "anims": 2,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M27",
+   "bucket": "costume",
+   "obj": "W_cloth_2024白晶晶npc.obj",
+   "anim": "",
+   "verts": 11570,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M28",
+   "bucket": "costume",
+   "obj": "W_cloth_ERG_2024全集_雕塑.obj",
+   "anim": "",
+   "verts": 9320,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M29",
+   "bucket": "costume",
+   "obj": "M_cloth_ERG_2024全集_雕塑.obj",
+   "anim": "",
+   "verts": 8037,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M30",
+   "bucket": "weapon",
+   "obj": "dweapon_2026夏日海洋法杖.obj",
+   "anim": "",
+   "verts": 4458,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M31",
+   "bucket": "weapon",
+   "obj": "dweapon_2026夏日海洋法杖五级.obj",
+   "anim": "",
+   "verts": 4458,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M32",
+   "bucket": "weapon",
+   "obj": "dweapon_2026夏日海洋法杖三级.obj",
+   "anim": "",
+   "verts": 4458,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M33",
+   "bucket": "weapon",
+   "obj": "dweapon_2026夏日海洋法杖二级.obj",
+   "anim": "",
+   "verts": 4458,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M34",
+   "bucket": "weapon",
+   "obj": "dweapon_2026七夕项羽战旗五级.obj",
+   "anim": "",
+   "verts": 3695,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M35",
+   "bucket": "weapon",
+   "obj": "dweapon_hj2026七夕项羽战旗四级.obj",
+   "anim": "",
+   "verts": 3695,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M36",
+   "bucket": "weapon",
+   "obj": "dweapon_2026七夕项羽战旗三级.obj",
+   "anim": "",
+   "verts": 3695,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M37",
+   "bucket": "weapon",
+   "obj": "dweapon_hj2026七夕项羽战旗二级.obj",
+   "anim": "",
+   "verts": 3695,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M38",
+   "bucket": "boss_npc",
+   "obj": "npc花车_2026十二生肖.obj",
+   "anim": "",
+   "verts": 27553,
+   "anims": 3,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M39",
+   "bucket": "boss_npc",
+   "obj": "npc怪_2026七夕副本弩机和人.obj",
+   "anim": "",
+   "verts": 18265,
+   "anims": 4,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M40",
+   "bucket": "boss_npc",
+   "obj": "npc_2026夏日预热盈霜花树五态.obj",
+   "anim": "",
+   "verts": 16564,
+   "anims": 1,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M41",
+   "bucket": "boss_npc",
+   "obj": "npc怪_2026七夕副本弩机.obj",
+   "anim": "",
+   "verts": 16132,
+   "anims": 4,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M42",
+   "bucket": "boss_npc",
+   "obj": "npc_2026象棋pvp车汉.obj",
+   "anim": "",
+   "verts": 16132,
+   "anims": 5,
+   "max_tex_px": 1024
+  },
+  {
+   "id": "M43",
+   "bucket": "boss_npc",
+   "obj": "npc_2026象棋pvp车楚.obj",
+   "anim": "",
+   "verts": 16132,
+   "anims": 5,
+   "max_tex_px": 1024
+  }
+ ],
+ "effects": [
+  {
+   "id": "E001",
+   "effect": "qc_2026大天使翅膀_自身拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E002",
+   "effect": "qc_2026大天使翅膀_展示A_10拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Ellipsoid",
+    "LinearForce",
+    "NewRibbonTrail",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E003",
+   "effect": "back_2026风云联动万剑归宗_休闲龙",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "ColourFading",
+    "LinearForce",
+    "NewRibbonTrail",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E004",
+   "effect": "back_2026风云联动万剑归宗_休闲背后法阵_9拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "Box",
+    "ColourFading",
+    "NewRibbonTrail",
+    "Particle",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E005",
+   "effect": "npc_2026夏日稳活蝴蝶高_拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E006",
+   "effect": "qc_2026大天使翅膀_展示A_10拖尾紫色",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Ellipsoid",
+    "LinearForce",
+    "NewRibbonTrail",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E007",
+   "effect": "qc_2026骨龙02_自身D",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E008",
+   "effect": "npc_2026夏日稳活蝴蝶高_B",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "Movement",
+    "NewRibbonTrail",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E009",
+   "effect": "boss_2026聚贤庄游骥_技能4_buff_水火相容_B",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "ColourFading",
+    "NewRibbonTrail",
+    "Particle",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E010",
+   "effect": "qc_2026骨龙02_自身H",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E011",
+   "effect": "qc_2026大天使翅膀03_自身拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E012",
+   "effect": "qc_2026大天使翅膀02_自身拖尾",
+   "new_type": "NewRibbonTrail",
+   "types": [
+    "NewRibbonTrail"
+   ]
+  },
+  {
+   "id": "E013",
+   "effect": "UI_xuannan_fg",
+   "new_type": "UIParticle",
+   "types": [
+    "ColourFading",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "UIParticle"
+   ]
+  },
+  {
+   "id": "E014",
+   "effect": "UI_CBT_2024",
+   "new_type": "UIParticle",
+   "types": [
+    "ColourFading",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "UIParticle"
+   ]
+  },
+  {
+   "id": "E015",
+   "effect": "UI_pm_yanwu",
+   "new_type": "UIParticle",
+   "types": [
+    "ColourFading",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "UIParticle"
+   ]
+  },
+  {
+   "id": "E016",
+   "effect": "UI_pm_yanwu_rchangben",
+   "new_type": "UIParticle",
+   "types": [
+    "ColourFading",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "UIParticle"
+   ]
+  },
+  {
+   "id": "E017",
+   "effect": "UI_PVE_2024",
+   "new_type": "UIParticle",
+   "types": [
+    "ColourFading",
+    "Point",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "UIParticle"
+   ]
+  },
+  {
+   "id": "E018",
+   "effect": "npc_2026风云打卡凤舞_C",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Ellipsoid",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E019",
+   "effect": "cw_2026情人节丘比特五级_远程攻击",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "RevoluMove",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E020",
+   "effect": "npc怪_2026萧阿刺落石_技能3_A",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E021",
+   "effect": "boss_2026聚贤庄玄难_大般若掌发招",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E022",
+   "effect": "wq_hj2026冰元素环右一级",
+   "new_type": "RevoluMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E023",
+   "effect": "boss_2026月常李秋水_剑舞_剑气_毒",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "RevoluMove",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E024",
+   "effect": "npc_2026夏日稳活蝴蝶高_C_子",
+   "new_type": "RevoluMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E025",
+   "effect": "boss_2026聚贤庄玄难_大悲降魔诀陷阱",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E026",
+   "effect": "m01_2026风云pve主角技能_排云掌发招2",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E027",
+   "effect": "qc_2026争霸赛龙第三名_眼睛",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "PolarEmitter",
+    "RevoluMove",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E028",
+   "effect": "qc_2026争霸赛龙第三名_翅膀",
+   "new_type": "RevoluMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E029",
+   "effect": "cj_2026夏日主城氛围烟花_全景烟花_A",
+   "new_type": "RevoluMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "HollowEllipsoid",
+    "Particle",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E030",
+   "effect": "qc_2026大天使翅膀_右翅2",
+   "new_type": "SequenceFrame",
+   "types": [
+    "ColourFading",
+    "Cylinder",
+    "LinearForce",
+    "Particle",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E031",
+   "effect": "wq_hj2026霸王枪一级_A",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Revolution",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E032",
+   "effect": "qc_2026呆呆牛_头顶_烟花棒A",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Cylinder",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E033",
+   "effect": "boss_2026风云pvp二阶绝世好剑剑灵_技能2",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "HollowEllipsoid",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E034",
+   "effect": "boss_2026野外秘境乌衣巷_技能3蓄力_B",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E035",
+   "effect": "npc_2026月常鸠摩智柔_爆炸",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "Scaler",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E036",
+   "effect": "cw_2026狐狸小萝莉a四级_自身A",
+   "new_type": "SequenceFrame",
+   "types": [
+    "ColourFading",
+    "LinearForce",
+    "Movement",
+    "Particle",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E037",
+   "effect": "wq_2026霸王枪五级_A",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E038",
+   "effect": "boss_2026月常鸠摩智_大金刚拳等级1预警",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "Particle",
+    "Point",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E039",
+   "effect": "dweapon_2026上元节提灯_展示01A花灯拖尾",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "Particle",
+    "Ring",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E040",
+   "effect": "npc变身_2026慕容打卡_火焰刀_A",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshAnimationAffector",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E041",
+   "effect": "npc_2026风云联动_凌霄困_陷阱",
+   "new_type": "SequenceFrame",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E042",
+   "effect": "npc_2026月常桑土公沙坑_站立",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E043",
+   "effect": "npc怪_2026萧阿刺巨钟_震响",
+   "new_type": "Dissolve",
+   "types": [
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E044",
+   "effect": "boss_2026月常鸠摩智_大金刚拳等级1释放",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "DeflectorPlane",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E045",
+   "effect": "wq_2026火麟剑展示_B",
+   "new_type": "Dissolve",
+   "types": [
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E046",
+   "effect": "cw_2026情人节丘比特_同护发招A",
+   "new_type": "Dissolve",
+   "types": [
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E047",
+   "effect": "npc_2026风云联动_凌霄索_发招",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E048",
+   "effect": "npc_2026风云打卡凤舞_B",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E049",
+   "effect": "npc_2026风云联动_凌霄怒_3级_发招_大刀2",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E050",
+   "effect": "wq_2026冰元素双环_展示A",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E051",
+   "effect": "npc_2026风云联动_凌霄怒_2级_发招",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E052",
+   "effect": "npc_2026风云联动_凌霄怒_3级_发招",
+   "new_type": "Dissolve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E053",
+   "effect": "boss_2026慕容打卡慕容博_发招B",
+   "new_type": "Dissolve",
+   "types": [
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E054",
+   "effect": "qc_2026呆呆牛_头顶_火苗",
+   "new_type": "RotationCurve",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "PolarEmitter",
+    "RevoluMove",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E055",
+   "effect": "npc_2026夏日版本预热_冰冰凉_头",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RevoluMove",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E056",
+   "effect": "npc_2026风云联动_凌霄怒_3级_发招_大刀",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "RotationCurve",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E057",
+   "effect": "npc_2026金瓯争夺赛罗盘_自身",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "Ring",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E058",
+   "effect": "buff_2025吃鸡杀人_求救",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "RevoluMove",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E059",
+   "effect": "wq_hj2025七夕毛笔四级_A",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshAnimationAffector",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RevoluMove",
+    "Ring",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E060",
+   "effect": "wq_2025冰元素镰刀_展示_挥刀第2下",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "LinearForce",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E061",
+   "effect": "buff_2025灯柱",
+   "new_type": "RotationCurve",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Point",
+    "RotationCurve"
+   ]
+  },
+  {
+   "id": "E062",
+   "effect": "wq_hj2025七夕毛笔三级_A",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Point",
+    "Ring",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E063",
+   "effect": "wq_2025冰元素镰刀_展示_挥刀",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E064",
+   "effect": "wq_2025冰元素镰刀_展示_挥刀最后",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Dissolve",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "RotationCurve",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E065",
+   "effect": "wq_2025镇国剑_展示",
+   "new_type": "RotationCurve",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "MeshAnimationAffector",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "RotationCurve",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E066",
+   "effect": "npc_2026夏日稳活_透明蝴蝶",
+   "new_type": "PolarMove",
+   "types": [
+    "Box",
+    "ColourFading",
+    "LinearForce",
+    "MeshAnimationAffector",
+    "Particle",
+    "Point",
+    "PolarMove",
+    "RevoluMove",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E067",
+   "effect": "cj_2025冰雪舞会_地表动态光斑01",
+   "new_type": "PolarMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E068",
+   "effect": "cj_2025冰雪舞会_地表动态光斑03",
+   "new_type": "PolarMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E069",
+   "effect": "cj_2025冰雪舞会_地表动态光斑02",
+   "new_type": "PolarMove",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E070",
+   "effect": "wq_2025冰元素镰刀_展示",
+   "new_type": "PolarMove",
+   "types": [
+    "ColourFading",
+    "DirectionRandomiser",
+    "Dissolve",
+    "HollowEllipsoid",
+    "LinearForce",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "PolarEmitter",
+    "PolarMove",
+    "RevoluMove",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator",
+    "SequenceFrame"
+   ]
+  },
+  {
+   "id": "E071",
+   "effect": "buff_新重楼龙头_霸体",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E072",
+   "effect": "buff_新重楼龙头_腰带",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E073",
+   "effect": "buff_新重楼龙头_望月",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E074",
+   "effect": "buff_新重楼龙头_逆天",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E075",
+   "effect": "buff_新重楼龙头_遁甲",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E076",
+   "effect": "buff_新重楼龙头_项链",
+   "new_type": "PolarMove",
+   "types": [
+    "Particle",
+    "Point",
+    "PolarMove"
+   ]
+  },
+  {
+   "id": "E077",
+   "effect": "g01_gb_shenlongbaiwei",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "PolarEmitter",
+    "Revolution",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E078",
+   "effect": "cw_宠物螃蟹07",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E079",
+   "effect": "HJ_boss_天山_远程攻击A",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E080",
+   "effect": "buff_新杀星_煞浪涌起陷阱",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E081",
+   "effect": "wq_唐门92神器_mo01",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E082",
+   "effect": "残影_武当_两仪剑B_峨嵋红",
+   "new_type": "",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Point",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E083",
+   "effect": "wq_danduan_wu01",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E084",
+   "effect": "珍兽100412章鱼_02",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E085",
+   "effect": "cy4_map_e_7ff26d89b67c8e33",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshAnimationAffector",
+    "MeshRotator",
+    "Movement",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E086",
+   "effect": "兽魂附体_兽魂211223蝴蝶二级染色1_B",
+   "new_type": "",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "PolarEmitter",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E087",
+   "effect": "yanhuo15",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Revolution",
+    "Rotator"
+   ]
+  },
+  {
+   "id": "E088",
+   "effect": "g01_ts_zdo_yihuajiemu",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Revolution",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E089",
+   "effect": "wq_九大门派神器桃花岛剑箫_mu01",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E090",
+   "effect": "wq_九大门派神器星宿钩_wu",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E091",
+   "effect": "g01_taxuewuhen_01",
+   "new_type": "",
+   "types": [
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Point",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E092",
+   "effect": "wq_双短10E_mo",
+   "new_type": "",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "Ring",
+    "Rotator"
+   ]
+  },
+  {
+   "id": "E093",
+   "effect": "qc_2024争霸赛第一名_10",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E094",
+   "effect": "boss_夏日地宫_龙胤浮屠_执斧三式预警A",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E095",
+   "effect": "珍兽_yy熊_06",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Movement",
+    "Particle",
+    "Revolution",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E096",
+   "effect": "cw_珍兽220518七夕女神五级02F",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Revolution",
+    "Ring",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E097",
+   "effect": "hj_boss云飘飘17_攻击",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E098",
+   "effect": "boss_夏日地宫_龙胤浮屠_冲锋点名",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "Particle",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E099",
+   "effect": "npc_orenleishouling_4",
+   "new_type": "",
+   "types": [
+    "ColourFading",
+    "Particle",
+    "PolarEmitter",
+    "ScaleInterpolator"
+   ]
+  },
+  {
+   "id": "E100",
+   "effect": "boss_进阶_大司命_自身",
+   "new_type": "",
+   "types": [
+    "Box",
+    "ColourFading",
+    "MeshRotator",
+    "Particle",
+    "Point",
+    "Rotator",
+    "ScaleInterpolator"
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "id": "S01",
+   "scene": "SceneFolder\\suzhou.Scene",
+   "pattern": "^suzhou",
+   "features": [
+    ".skysphere",
+    ".hdr",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S02",
+   "scene": "SceneFolder\\luoyang.Scene",
+   "pattern": "^luoyang",
+   "features": [
+    ".skysphere",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S03",
+   "scene": "SceneFolder\\dali.Scene",
+   "pattern": "^dali",
+   "features": [
+    ".skysphere",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S04",
+   "scene": "SceneFolder\\xuanren.Scene",
+   "pattern": "xuanren",
+   "features": [
+    ".skysphere",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S05",
+   "scene": "SceneFolder\\chuangjian.Scene",
+   "pattern": "chuangjian",
+   "features": [
+    ".skysphere",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S06",
+   "scene": "SceneFolder\\tlbb_login.Scene",
+   "pattern": "login",
+   "features": [
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S07",
+   "scene": "SceneFolder\\sr_rift.Scene",
+   "pattern": "rift|lol",
+   "features": [
+    ".enscene",
+    ".skysphere",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S08",
+   "scene": "SceneFolder\\cy4_guigu.Scene",
+   "pattern": "cy4_guigu",
+   "features": [
+    ".enscene",
+    ".hfog",
+    ".hdr",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S09",
+   "scene": "SceneFolder\\FengYun_lingxiaocheng.Scene",
+   "pattern": "fengyun_lingxiaocheng",
+   "features": [
+    ".enscene",
+    ".hfog",
+    ".hdr",
+    ".newhdrbloom"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene": "SceneFolder\\cy4_tangmen.Scene",
+   "pattern": "cy4_tangmen",
+   "features": [
+    ".enscene",
+    ".hfog",
+    ".hdr",
+    ".newhdrbloom"
+   ]
+  }
+ ]
+}

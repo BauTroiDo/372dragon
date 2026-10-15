@@ -1,0 +1,7 @@
+EXPORTS
+    ; Explicit exports can go here
+	  DllInit
+	  DllMagicCode DATA
+	  DllRelease
+	  
+	

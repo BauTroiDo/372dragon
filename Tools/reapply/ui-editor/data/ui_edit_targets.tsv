@@ -1,0 +1,58 @@
+# CYS-UIEDIT v1 - danh sach khung hong cho PgUp/PgDn cua bo sua bo cuc.
+# window	widget	ghi chu
+ActionSkill	ActionSkill_Name	DBC SkillTemplate_V1.txt.2: 4737 gia tri tran, o rong 154.8 px, tran toi da +641 px
+CommonSkill	CommonSkill_Target_Skill_Name	DBC SkillTemplate_V1.txt.2: 2829 gia tri tran, o rong 96.8 px, tran toi da +588 px
+ActionSkillsStudy	ActionSkillsStudy_SkillName	DBC SkillTemplate_V1.txt.2: 1373 gia tri tran, o rong 160.8 px, tran toi da +524 px
+Fenxian	Fenxian_CurrentScene	DBC SceneDefineEx.txt.1: 384 gia tri tran, o rong 236.0 px, tran toi da +261 px
+MiniMap	MiniMap_Placename	DBC SceneDefineEx.txt.1: 368 gia tri tran, o rong 105.0 px, tran toi da +289 px
+LoginCreateRole	CreateRole_SelectHair_Text2	DBC CharHairGeo.txt.6: 129 gia tri tran, o rong 111.0 px, tran toi da +45 px
+LoginCreateRole	CreateRole_SelectFace_Text2	DBC CharFaceGeo.txt.4: 122 gia tri tran, o rong 111.0 px, tran toi da +42 px
+LifeSkill	LifeSkill_Target_Skill_Name	DBC Ability.txt.1: 51 gia tri tran, o rong 68.9 px, tran toi da +197 px
+Synthesize	Synthesize_PageHeader_Name	DBC Ability.txt.1: 3 gia tri tran, o rong 250.0 px, tran toi da +74 px
+SelfEquip	SelfEquip_ZhenYuan	hang 17 the: o 35,0 px, "Chan Nguyen" can 72,7 px (+38). 15/17 the khong du cho. Widget mau lap o 46 khung
+SelfEquip	SelfEquip_ShenDing	hang 17 the: o 35,0 px, "Than Dinh" can 59,4 px (+25)
+SelfEquip	SelfEquip_JingMai	hang 17 the: o 35,0 px, "Kinh Mach" can 56,2 px (+22)
+SeventhFestivalTopList	SeventhFestivalTopList_ExchangeFrame_BK1_Text2	QXLS_150724_103: o 170 px, can 200 px (+30). Lap 16 ban sao _BK1.._BK16
+SeventhFestivalTopList	SeventhFestivalTopList_ExchangeFrame1_BK1_Text2	QXLS_150724_107: o 139 px, can 166 px (+27). Lap 16 ban sao
+ValentineRoseTopList	ValentineRoseTopList_ExchangeFrame_BK1_Text2	MGCQ_151230_103: o 150 px, can 201 px (+51) - nang nhat nhom. Lap 16 ban sao
+ValentineRoseTopList	ValentineRoseTopList_ExchangeFrame1_BK1_Text2	QRPHB_150113_119: o 139 px, can 163 px (+24). Lap 16 ban sao
+HuaShanLunJian2_BattleTable	HuaShanLunJian2_BattleTable_Final_TeamInfo	layout: 80 widget tran, nang nhat +30 px (o 100.0 px)
+BW_Match_JieSuan	BW_Match_JieSuan_Client01_Left_1_name	layout: 76 widget tran, nang nhat +28 px (o 80.5 px)
+BS_SeaMatch_JieSuan	BS_SeaMatch_JieSuan_Client01_Left_1_name	layout: 64 widget tran, nang nhat +28 px (o 80.5 px)
+BS_SeaMatch_JieSuan_Jx	BS_SeaMatch_JieSuan_Jx_Client01_Left_1_name	layout: 64 widget tran, nang nhat +28 px (o 80.5 px)
+ServerNew	ServerNew_HQYZ_Main_Text	layout: 54 widget tran, nang nhat +482 px (o 342.0 px)
+AutoAttackSkill	AutoAttackSkill_Others_TimeText	layout: 46 widget tran, nang nhat +217 px (o 135.0 px)
+BW_DaibiShop	BW_DaibiShop_text1	layout: 42 widget tran, nang nhat +42 px (o 34.0 px)
+T3DaibiShop	T3DaibiShop_But2	layout: 40 widget tran, nang nhat +100 px (o 80.0 px)
+VIP_EquipBaoJian_Transfer	VIP_EquipBaoJian_Transfer_FenYe5	layout: 39 widget tran, nang nhat +56 px (o 90.0 px)
+SafeCenter_SafeScore	SafeCenter_SafeScore_CYJ_Text3	layout: 38 widget tran, nang nhat +505 px (o 450.0 px)
+ViewSetup	ViewSetup_Item2_Text1	layout: 37 widget tran, nang nhat +144 px (o 70.0 px)
+EquipBaoJian_Transfer	EquipBaoJian_Transfer_AfterAttr1_1	layout: 37 widget tran, nang nhat +5 px (o 40.0 px)
+BudgetPlanGem	BudgetPlanGem_Team0001_1_Confraternity01_2	layout: 36 widget tran, nang nhat +128 px (o 220.0 px)
+Pet	Pet_jieduan	layout: 33 widget tran, nang nhat +190 px (o 160.0 px)
+Infant	Infant_HeroInfo_Huixin_Vigor1	layout: 33 widget tran, nang nhat +133 px (o 90.0 px)
+TargetInfant	TargetInfant_HeroInfo_Huixin_Vigor1	layout: 32 widget tran, nang nhat +133 px (o 90.0 px)
+TargetInfant2	TargetInfant2_HeroInfo_Huixin_Vigor1	layout: 32 widget tran, nang nhat +133 px (o 90.0 px)
+Alcohol_Shop	Alcohol_Shop_DownBegin_DownBKText	layout: 27 widget tran, nang nhat +500 px (o 600.0 px)
+OtherPet	OtherPet_jieduan	layout: 26 widget tran, nang nhat +190 px (o 160.0 px)
+TargetPet	TargetPet_jieduan	layout: 25 widget tran, nang nhat +190 px (o 160.0 px)
+TargetPet2	TargetPet2_jieduan	layout: 25 widget tran, nang nhat +190 px (o 160.0 px)
+HuaShanLunJian2_ResultShow	HuaShanLunJian2_ResultShow_Left_1_name	layout: 25 widget tran, nang nhat +153 px (o 170.0 px)
+ShengJingFanHui	ShengJingFanHui_PrizeInfo2_Lace	layout: 25 widget tran, nang nhat +118 px (o 100.0 px)
+WuShenTan_Guide_Top4List	WuShenTan_Guide_Top4List_ListTitle_Text1	layout: 25 widget tran, nang nhat +66 px (o 48.6 px)
+ZongMen_Shop	ZongMen_Shop_IndexButton1	layout: 24 widget tran, nang nhat +397 px (o 80.0 px)
+ZBS_ResultShow	ZBS_ResultShow_Left_1_name	layout: 24 widget tran, nang nhat +153 px (o 170.0 px)
+NoDiffMatch_ResultShow	NoDiffMatch_ResultShow_Left_1_name	layout: 24 widget tran, nang nhat +61 px (o 170.0 px)
+WuLin_Difficulty	WuLin_Difficulty_Player1Name	layout: 23 widget tran, nang nhat +169 px (o 85.2 px)
+PlayerGuide	PlayerGuide_MenPai_HongMing	layout: 22 widget tran, nang nhat +83 px (o 30.0 px)
+Qingming	Qingming_Client3_Show_FeastNum	layout: 21 widget tran, nang nhat +382 px (o 350.0 px)
+Wuhun	Wuhun_NeedLevel	layout: 21 widget tran, nang nhat +79 px (o 64.0 px)
+SiXiangTu_XunBao	SiXiangTu_XunBao_Client9_Coordinate	layout: 20 widget tran, nang nhat +479 px (o 328.0 px)
+JiuJiuXiaoHan	JiuJiuXiaoHan_IntroBtn	layout: 20 widget tran, nang nhat +165 px (o 110.0 px)
+YuanXiao_Shop	YuanXiao_Shop_BuyConfirm_Text	layout: 20 widget tran, nang nhat +89 px (o 60.0 px)
+TargetWuhun	TargetWuhun_NeedLevel	layout: 20 widget tran, nang nhat +79 px (o 64.0 px)
+WuLin	WuLin_Player1Name	layout: 19 widget tran, nang nhat +169 px (o 85.2 px)
+ZBS_Score	ZBS_Score_Left_1_name	layout: 19 widget tran, nang nhat +153 px (o 160.0 px)
+NoDiffMatch_Score	NoDiffMatch_Score_TimeText	layout: 19 widget tran, nang nhat +112 px (o 100.0 px)
+JiuJiuXiaoHan_Spring	JiuJiuXiaoHan_Spring_PrizeInfo2_Lace	layout: 19 widget tran, nang nhat +111 px (o 100.0 px)
+JiuJiuXiaoHan_Summer	JiuJiuXiaoHan_Summer_PrizeInfo2_Lace	layout: 19 widget tran, nang nhat +72 px (o 100.0 px)

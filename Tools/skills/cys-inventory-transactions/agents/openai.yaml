@@ -1,0 +1,4 @@
+interface:
+  display_name: "CY: Túi và giao dịch"
+  short_description: "Kiểm túi, GUID, tiêu hao và chống nhân đôi đồ"
+  default_prompt: "Dùng $cys-inventory-transactions để kiểm tra giao dịch vật phẩm và bảo toàn số lượng, GUID, metadata."

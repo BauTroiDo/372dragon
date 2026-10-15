@@ -1,0 +1,666 @@
+id	name	dir	proto	codec	kind	class_085	enum_085	id_085	read_src	lead	sk_fixed_fields	c_fixed_fields	sk_fixed_bytes	c_fixed_bytes	sk_complete	c_complete	unknow	proposals	weak_proposals
+38	LCRetCharLogin	LC	login	bos	prefix	LCRetCharLogin	PACKET_LC_RETCHARLOGIN	403	LCRetCharLogin.cpp	4	10	4	55	36	False	True	7		
+223	LCRetLogin	LC	login	bos	differ	LCRetLogin	PACKET_LC_RETLOGIN	400	LCRetLogin.cpp	0	4	2	73	20	False	True	5		
+240	CLAskDeleteChar	CL	login	bis	exact	CLAskDeleteChar	PACKET_CL_ASKDELETECHAR	454	CLAskDeleteChar.cpp	1	1	1	4	4	True	True	0		
+296	FGAskLogin	CL	login	bis	no_085_class						1		50		False		5		
+299	CLAskLogin	CL	login	bis	differ	CLAskLogin	PACKET_CL_ASKLOGIN	450	CLAskLogin.cpp	0	1	3	50	52	False	True	2		
+311	LCRetConnect	LC	login	bos	prefix	LCRetConnect	PACKET_LC_RETCONNECT	406	LCRetConnect.cpp	3	6	3	64	32	True	True	2	unknow=Result	
+319	LCRetCharList	LC	login	bos	prefix	LCRetCharList	PACKET_LC_RETCHARLIST	401	LCRetCharList.cpp	1	1	1	4	4	False	False	2	unknow=Result	
+355	CLConnect	CL	login	bis	differ	CLConnect	PACKET_CL_CONNECT	455	CLConnect.cpp	0	4	0	110	0	True	True	1		
+426	CLAskCharLogin	CL	login	bis	exact	CLAskCharLogin	PACKET_CL_ASKCHARLOGIN	452	CLAskCharLogin.cpp	2	2	2	6	6	True	True	0		
+440	LCRetCreateChar	LC	login	bos	exact	LCRetCreateChar	PACKET_LC_RETCREATECHAR	404	LCRetCreateChar.cpp	1	1	1	4	4	True	True	0		
+522	CLAskCreateChar	CL	login	bis	partial	CLAskCreateChar	PACKET_CL_ASKCREATECHAR	453	CLAskCreateChar.cpp	4	9	10	53	47	True	True	3	unknow_1=m_HairColor; unknow_2=m_FaceColor	
+554	LCStatus	LC	login	bos	exact	LCStatus	PACKET_LC_STATUS	402	LCStatus.cpp	2	2	2	6	6	True	True	2	unknow=TurnNumber; unknow_1=ClientStatus	
+707	LCRetDeleteChar	LC	login	bos	exact	LCRetDeleteChar	PACKET_LC_RETDELETECHAR	405	LCRetDeleteChar.cpp	1	1	1	4	4	True	True	0		
+711	CLAskCharList	CL	login	bis	differ	CLAskCharList	PACKET_CL_ASKCHARLIST	451	CLAskCharList.cpp	0	1	1	50	16	True	True	0		
+776	CLCheckAllowCreateChar	CL	login	bis	no_085_class						0		0		True		0		
+777	LCRetCheckAllowCreateChar	LC	login	bos	no_085_class						1		4		True		0		
+1	CGBankMoney	CG	game	bis	prefix	CGBankMoney	PACKET_CG_BANKMONEY	628	CGBankMoney.cpp	2	2	3	5	9	True	True	0		
+3	CGHeartBeat	CG	game	bis	both_empty	CGHeartBeat	PACKET_CG_HEARTBEAT	502	CGHeartBeat.cpp	0	0	0	0	0	True	True	0		
+4	CGPetUseEquip	CG	game	bis	no_085_class						4		10		True		0		
+5	CGCharAskEquipment	CG	game	bis	exact	CGCharAskEquipment	PACKET_CG_CHARASKEQUIPMENT	507	CGCharAskEquipment.cpp	1	1	1	4	4	True	True	0		
+6	CGChangePkModeReq	CG	game	bis	no_085_class						2		32		True		1		
+7	GCOperateResult	GC	game	bos	prefix	GCOperateResult	PACKET_GC_OPERATE_RESULT	68	GCOperateResult.cpp	1	2	1	8	4	True	True	0		
+8	CGCharAskImpactList	CG	game	bis	no_085_class						1		4		True		0		
+15	GCXinfaStudyInfo	GC	game	bos	exact	GCXinfaStudyInfo	PACKET_GC_XINFASTUDYINFO	111	GCXinfaStudyInfo.cpp	2	2	2	6	6	True	True	0		
+19	CGBankRemoveItem	CG	game	bis	exact	CGBankRemoveItem	PACKET_CG_BANKREMOVEITEM	626	CGBankRemoveItem.cpp	3	3	3	3	3	True	True	0		
+21	GCNewMonster	GC	game	bos	partial	GCNewMonster	PACKET_GC_NEWMONSTER	7	GCNewMonster.cpp	1	28	6	116	21	True	True	22		
+23	CGRaidInvite	CG	game	bis	no_085_class						1		4		False		0		
+26	GCPetUseEquipResult	GC	game	bos	no_085_class						13		27		True		0		
+27	CGSecKillRemoveItem	CG	game	bis	no_085_class						3		3		True		0		
+29	CGGuildJoin	CG	game	bis	exact	CGGuildJoin	PACKET_CG_GUILDJOIN	720	CGGuildJoin.cpp	1	1	1	2	2	True	True	0		
+31	CGBankAddItem	CG	game	bis	exact	CGBankAddItem	PACKET_CG_BANKADDITEM	625	CGBankAddItem.cpp	3	3	3	3	3	True	True	0		
+32	CGAskItemInfo	CG	game	bis	prefix	CGAskItemInfo	PACKET_CG_ASKITEMINFO	543	CGAskItemInfo.cpp	1	2	1	6	2	True	True	0		
+33	CGBankAcquireList	CG	game	bis	exact	CGBankAcquireList	PACKET_CG_BANKACQUIRELIST	624	CGBankAcquireList.cpp	1	1	1	1	1	True	True	0		
+34	GCPackage_SwapItem	GC	game	bos	prefix	GCPackage_SwapItem	PACKET_GC_PACKAGE_SWAPITEM	148	GCPackage_SwapItem.cpp	3	4	3	4	3	True	True	0		
+37	GCShopBuy	GC	game	bos	partial	GCShopBuy	PACKET_GC_SHOPBUY	106	GCShopBuy.cpp	2	4	3	10	6	False	True	4		
+40	CGLookUpOther	CG	game	bis	no_085_class						1		30		True		0		
+41	GCPlayerShopOnSale	GC	game	bos	partial	GCPlayerShopOnSale	PACKET_GC_PLAYERSHOPONSALE	181	GCPlayerShopOnSale.cpp	1	15	16	39	39	True	True	0		
+42	CGAskServerTime	CG	game	bis	no_085_class						2		8		True		2		
+46	CGMACNotify	CG	game	bis	no_085_class						1		8		True		0		
+48	CGWGuildLeagueQuit	CGW	game	bis	no_085_class						1		4		True		1		
+49	CGConnect	CG	game	bis	partial	CGConnect	PACKET_CG_CONNECT	501	CGConnect.cpp	3	9	6	108	34	True	True	6	unknow=m_ServerID	
+52	GCRemovePet	GC	game	bos	exact	GCRemovePet	PACKET_GC_REMOVEPET	185	GCRemovePet.cpp	2	2	2	8	8	True	True	0		
+55	GCDetailSkillList	GC	game	bos	prefix	GCDetailSkillList	PACKET_GC_DETAILSKILLLIST	26	GCDetailSkillList.cpp	2	2	2	6	6	False	False	0		
+58	CGWGuildLeagueAskEnter	CGW	game	bis	no_085_class						2		6		True		1		
+60	GCAcqStallRemoveItem	GC	game	bos	no_085_class						1		4		True		0		
+62	CGAuctionSell	CG	game	bis	no_085_class						1		1		False		1		
+63	GCCharAutoRide	GC	game	bos	no_085_class						1		4		True		0		
+64	CGPlayerShopAcquireItemList	CG	game	bis	partial	CGPlayerShopAcquireItemList	PACKET_CG_PLAYERSHOPACQUIREITEMLIST	689	CGPlayerShopAcquireItemList.cpp	1	7	7	15	14	True	True	0		
+65	CGTeamRetInvite	CG	game	bis	prefix	CGTeamRetInvite	PACKET_CG_TEAMRETINVITE	558	CGTeamRetInvite.cpp	2	4	2	41	5	True	True	1		
+66	CGOrnamentsOperation	CG	game	bis	no_085_class						2		2		False		0		
+67	KeyExchange	GC	game	bos	no_085_class						1		2		False		0		
+73	GCStopPedding	GC	game	bos	no_085_class						0		0		True		0		
+78	GCAddSkill	GC	game	bos	no_085_class						2		6		True		1		
+82	GCStallError	GC	game	bos	exact	GCStallError	PACKET_GC_STALLERROR	157	GCStallError.cpp	1	1	1	1	1	True	True	0		
+83	CGCharUseSkill	CG	game	bis	differ	CGCharUseSkill	PACKET_CG_CHARUSESKILL	522	CGCharUseSkill.cpp	0	7	7	28	28	True	True	0		
+85	GCCooldownUpdate	GC	game	bos	prefix	GCCooldownUpdate	PACKET_GC_COOLDOWN_UPDATE	78	GCCoolDownUpdate.cpp	2	3	2	10	8	False	False	0		
+86	GCBankSwapItem	GC	game	bos	exact	GCBankSwapItem	PACKET_GC_BANKSWAPITEM	121	GCBankSwapItem.cpp	4	4	4	4	4	True	True	0		
+88	CGUnEquip	CG	game	bis	prefix	CGUnEquip	PACKET_CG_UNEQUIP	528	CGUnEquip.cpp	2	4	2	4	2	True	True	3	unknow_2=m_BagIndex	
+96	CGSplitItem	CG	game	bis	exact	CGSplitItem	PACKET_CG_SPLITITEM	685	CGSplitItem.cpp	3	3	3	12	12	True	True	0		
+99	GCMinorPasswd	GC	game	bos	differ	GCMinorPasswd	PACKET_GC_MINORPASSWD	193	GCMinorPasswd.cpp	0	1	0	1	0	False	False	1		
+100	CGAuctionBuy	CG	game	bis	no_085_class						1		1		False		0		
+102	GCSectDetail	GC	game	bos	no_085_class						4		16		False		1		
+104	GCTeamAskApply	GC	game	bos	prefix	GCTeamAskApply	PACKET_GC_TEAMASKAPPLY	74	GCTeamAskApply.cpp	4	4	4	10	10	False	False	3		
+107	CGEventRequest	CG	game	bis	prefix	CGEventRequest	PACKET_CG_EVENTREQUEST	585	CGEventRequest.cpp	3	4	3	16	12	True	True	1		
+109	GCPetUnEquipResult	GC	game	bos	no_085_class						10		23		True		0		
+113	GCPickResult	GC	game	bos	exact	GCPickResult	PACKET_GC_PICKRESULT	50	GCPickResult.cpp	12	12	12	24	24	True	True	0		
+117	GCUseItemResult	GC	game	bos	exact	GCUseItemResult	PACKET_GC_USEITEMRESULT	48	GCUseItemResult.cpp	1	1	1	4	4	True	True	0		
+124	GCRaidList	GC	game	bos	no_085_class						5		13		False		0		
+125	CGLogSubmit	CG	game	bis	no_085_class						0		0		False		0		
+126	CGAskTeamFollow	CG	game	bis	both_empty	CGAskTeamFollow	PACKET_CG_ASK_TEAMFOLLOW	644	CGAskTeamFollow.cpp	0	0	0	0	0	True	True	0		
+127	CGExteriorCoupleFashion	CG	game	bis	no_085_class						2		3		True		2		
+128	GCRetAskQuit	GC	game	bos	no_085_class						1		1		True		0		
+134	CGAskDetailXinFaList	CG	game	bis	exact	CGAskSkillClass	PACKET_CG_ASKDETAILXINFALIST	546	CGAskDetailXinFaList.cpp	1	1	1	4	4	True	True	0		
+137	GCStudyXinfa	GC	game	bos	differ	GCStudyXinfa	PACKET_GC_STUDYXINFA_H	112	GCStudyXinfa.cpp	0	4	0	12	0	True	False	0		
+138	GCNotifyMail	GC	game	bos	exact	GCNotifyMail	PACKET_GC_NOTIFYMAIL	89	GCNotifyMail.cpp	1	1	1	1	1	True	True	0		
+139	GCCityList	GC	game	bos	no_085_class						1		54		True		0		
+143	GCBagSizeChange	GC	game	bos	no_085_class						2		2		True		0		
+145	CGAskTeamInfo	CG	game	bis	exact	CGAskTeamInfo	PACKET_CG_ASKTEAMINFO	607	CGAskTeamInfo.cpp	1	1	1	4	4	True	True	0		
+147	CGRongYu	CG	game	bis	no_085_class						1		4		False		3		
+149	CGRelation	CG	game	bis	differ	CGRelation	PACKET_CG_RELATION	665	CGRelation.cpp	0	1	0	1	0	False	False	7		
+150	CGChallenge	CG	game	bis	no_085_class						2		5		True		0		
+153	GCCharBuff	GC	game	bos	partial	GCCharBuff	PACKET_GC_CHAR_BUFF	141	GCCharBUFF.cpp	1	7	3	26	10	False	False	2		
+154	GCPlayerShopMoney	GC	game	bos	partial	GCPlayerShopMoney	PACKET_GC_PLAYERSHOPMONEY	182	GCPlayerShopMoney.cpp	1	7	8	18	18	True	True	0		
+156	CGAntagonistReq	CG	game	bis	no_085_class						2		5		True		1		
+160	CGPlayerShopBuyShop	CG	game	bis	partial	CGPlayerShopBuyShop	PACKET_CG_PLAYERSHOPBUYSHOP	718	CGPlayerShopBuyShop.cpp	1	5	6	13	13	True	True	0		
+163	CGMissionContinue	CG	game	bis	prefix	CGMissionContinue	PACKET_CG_MISSIONCONTINUE	583	CGMissionContinue.cpp	2	3	2	12	8	True	True	1	unknow=m_idScript	
+165	CGAskCampaignCount	CG	game	bis	no_085_class						1		4		True		0		
+170	CGAskMyBagList	CG	game	bis	prefix	CGAskMyBagList	PACKET_CG_ASKMYBAGLIST	517	CGAskMyBagList.cpp	2	2	2	5	5	False	False	1	unknow_1=m_Mode	
+174	GCAskServerTime	GC	game	bos	no_085_class						8		15		True		0		
+176	GCNewPlayer_Move	GC	game	bos	partial	GCNewPlayer_Move	PACKET_GC_NEWPLAYER_MOVE	12	GCNewPlayer_Move.cpp	4	11	8	38	30	False	True	2		
+179	CGLoginAcc	CG	game	bis	no_085_class						1		1		False		0		
+183	CGPetUnEquip	CG	game	bis	no_085_class						4		10		True		0		
+191	GCJiYuanShopInfo	GC	game	bos	no_085_class						5		1604		True		0		
+197	CGRaidRetInvite	CG	game	bis	no_085_class						3		9		True		0		
+199	CGWGuildLeagueInfo	CGW	game	bis	no_085_class						1		4		True		0		
+205	GCWGCPacket	GC	game	bos	no_085_class						1		1		False		0		
+206	GCDarkResult	GC	game	bos	no_085_class						2		3		False		4		
+207	CGAskMyBagSize	CG	game	bis	no_085_class						0		0		True		0		
+211	CGMail	CG	game	bis	differ	CGMail	PACKET_CG_MAIL	592	CGMail.cpp	0	1	0	4	0	False	False	2		
+213	GCAuctionSearch	GC	game	bos	no_085_class						7		10		False		2		
+214	CGCharStopLogic	CG	game	bis	exact	CGCharStopLogic	PACKET_CG_CHAR_STOP_LOGIC	652	CGCharStopLogic.cpp	1	1	1	4	4	True	True	0		
+217	GCStallBuy	GC	game	bos	prefix	GCStallBuy	PACKET_GC_STALLBUY	155	GCStallBuy.cpp	10	13	10	35	26	True	True	0		
+221	CGRaidCreate	CG	game	bis	no_085_class						4		14		False		0		
+222	GCRemoveGemResult	GC	game	bos	prefix	GCRemoveGemResult	PACKET_GC_REMOVEGEMRESULT	66	GCRemoveGemResult.cpp	1	2	1	8	4	True	True	0		
+226	GCRaidResult	GC	game	bos	no_085_class						7		19		False		0		
+228	CGPetBankAddPet	CG	game	bis	no_085_class						5		17		True		0		
+237	GCGuildError	GC	game	bos	exact	GCGuildError	PACKET_GC_GUILDERROR	162	GCGuildError.cpp	1	1	1	1	1	True	True	0		
+238	CGUseEquip	CG	game	bis	differ	CGUseEquip	PACKET_CG_USEEQUIP	527	CGUseEquip.cpp	0	3	1	6	1	True	True	0		
+245	GCRefreshKFSSkill	GC	game	bos	no_085_class						2		10		True		0		
+251	GCDetailImpactListUpdate	GC	game	bos	prefix	GCDetailImpactListUpdate			GCDetailImpactListUpdate.cpp	2	2	2	6	6	False	False	1		
+258	CGTeamRetApply	CG	game	bis	prefix	CGTeamRetApply	PACKET_CG_TEAMRETAPPLY	573	CGTeamRetApply.cpp	2	4	2	41	5	True	True	0		
+261	CGMissionAbandon	CG	game	bis	exact	CGMissionAbandon	PACKET_CG_MISSIONABANDON	582	CGMissionAbandon.cpp	1	1	1	4	4	True	True	0		
+263	GCMyBagList	GC	game	bos	prefix	GCMyBagList	PACKET_GC_MYBAGLIST	28	GCMyBagList.cpp	2	2	2	5	5	False	False	2		
+264	CGAcqStallSell	CG	game	bis	no_085_class						4		16		True		0		
+268	CGAuctionModify	CG	game	bis	no_085_class						3		6		True		0		
+269	GCAuctionChangeStatus	GC	game	bos	no_085_class						7		7		False		3		
+273	GCTeamFollowErr	GC	game	bos	exact	GCTeamFollowErr	PACKET_GC_TEAMFOLLOW_ERROR	138	GCTeamFollowErr.cpp	1	1	1	1	1	True	True	0		
+276	GCPlayerShopBuyShop	GC	game	bos	partial	GCPlayerShopBuyShop	PACKET_GC_PLAYERSHOPBUYSHOP	196	GCPlayerShopBuyShop.cpp	1	4	5	12	12	True	True	0		
+277	GCGuildReturn	GC	game	bos	differ	GCGuildReturn	PACKET_GC_GUILDRETURN	163	GCGuildReturn.cpp	0	1	0	1	0	False	False	0		
+279	CGAuctionBoxList	CG	game	bis	no_085_class						0		0		True		0		
+280	GCRetChangeScene	GC	game	bos	prefix	GCRetChangeScene	PACKET_GC_RETCHANGESCENE	55	GCRetChangeScene.cpp	1	1	1	1	1	False	False	0		
+281	GCTeamError	GC	game	bos	exact	GCTeamError	PACKET_GC_TEAMERROR	70	GCTeamError.cpp	1	1	1	1	1	True	True	0		
+285	GCDetailBuff	GC	game	bos	prefix	GCDetailBuff	PACKET_GC_DETAIL_BUFF	142	GCDetailBUFF.cpp	2	2	2	8	8	False	False	1		
+287	CGExteriorSharePlan	CG	game	bis	no_085_class						0		0		False		0		
+288	GCMissionList	GC	game	bos	prefix	GCMissionList	PACKET_GC_MISSIONLIST	82	GCMissionList.cpp	2	3	2	9	8	False	False	0		
+290	GCAcqStallOpen	GC	game	bos	no_085_class						2		8		False		0		
+291	GCPrivateInfo	GC	game	bos	differ	GCPrivateInfo	PACKET_GC_PRIVATEINFO	199	GCPrivateInfo.cpp	0	15	1	18	4	False	True	16		
+293	GCAcqStallSell	GC	game	bos	no_085_class						1		4		False		0		
+294	CGWGuildLeagueAnswerEnter	CGW	game	bis	no_085_class						3		10		True		1		
+303	CGPlayerShopBuyItem	CG	game	bis	partial	CGPlayerShopBuyItem	PACKET_CG_PLAYERSHOPBUYITEM	693	CGPlayerShopBuyItem.cpp	1	12	13	33	33	True	True	0		
+304	GCAuctionError	GC	game	bos	no_085_class						1		1		False		0		
+305	GCShopSell	GC	game	bos	exact	GCShopSell	PACKET_GC_SHOPSELL	107	GCShopSell.cpp	1	1	1	1	1	True	True	0		
+312	GCArrive	GC	game	bos	partial	GCArrive	PACKET_GC_ARRIVE	33	GCArrive.cpp	2	5	4	17	16	True	True	1		
+313	GCPlayerShopUpdatePartners	GC	game	bos	partial	GCPlayerShopUpdatePartners	PACKET_GC_PLAYERSHOPUPDATEPARTNERS	206	GCPlayerShopUpdatePartners.cpp	1	5	6	13	13	False	False	0		
+314	GCPackUpBank	GC	game	bos	no_085_class						1		4		True		1		
+316	CGAskDetailEquipList	CG	game	bis	prefix	CGAskDetailEquipList	PACKET_CG_ASKDETAILEQUIPLIST	544	CGAskDetailEquipList.cpp	1	1	3	4	10	True	True	0		
+320	GCSetDynamicRegion	GC	game	bos	no_085_class						6		22		True		0		
+321	GCShopSoldList	GC	game	bos	prefix	GCShopSoldList	PACKET_GC_SHOPSOLDLIST	104	GCShopSoldList.cpp	1	1	1	1	1	False	False	0		
+322	CGMissionSubmit	CG	game	bis	prefix	CGMissionSubmit	PACKET_CG_MISSIONSUBMIT	584	CGMissionSubmit.cpp	3	4	3	16	12	True	True	1		
+324	GCCharImpactListUpdate	GC	game	bos	partial	GCCharImpactListUpdate			GCCharImpactListUpdate.cpp	1	3	2	10	6	False	False	2		
+329	CGTeamApply	CG	game	bis	partial	CGTeamApply	PACKET_CG_TEAMAPPLY	569	CGTeamApply.cpp	1	2	2	8	5	False	False	2		
+331	GCCharSkill_Send	GC	game	bos	partial	GCCharSkill_Send	PACKET_GC_CHARSKILL_SEND	40	GCCharSkill_Send.cpp	2	8	10	26	38	True	True	2		
+332	WGCGuildLeagueInfo	WGC	game	bos	no_085_class						10		176		False		1		
+334	GCMSShopBuyInfo	GC	game	bos	no_085_class						1		4		False		2		
+335	GCChatDecryption	GC	game	bos	no_085_class						1		4		True		0		
+336	CGTeamChangeOption	CG	game	bis	no_085_class						2		12		True		1		
+338	CGWGuildLeagueMemberApplyList	CGW	game	bis	no_085_class						1		4		True		1		
+346	GCRelation	GC	game	bos	differ	GCRelation	PACKET_GC_RELATION	159	GCRelation.cpp	0	1	0	1	0	False	False	14		
+347	CGPlayerShopPartner	CG	game	bis	partial	CGPlayerShopPartner	PACKET_CG_PLAYERSHOPPARTNER	737	CGPlayerShopPartner.cpp	1	6	7	17	17	True	True	0		
+352	CGCharMove	CG	game	bis	prefix	CGCharMove	PACKET_CG_CHARMOVE	520	CGCharMove.cpp	5	6	5	18	17	False	False	1		
+356	CGRaidRetApply	CG	game	bis	no_085_class						3		9		True		0		
+357	GCRetSetting	GC	game	bos	differ	GCRetSetting	PACKET_GC_RETSETTING	183	GCRetSetting.cpp	0	1	0	1	0	False	False	0		
+359	GCExchangeCancel	GC	game	bos	both_empty	GCExchangeCancel	PACKET_GC_EXCHANGECANCEL	131	GCExchangeCancel.cpp	0	0	0	0	0	True	True	0		
+364	CGExchangeSynchLock	CG	game	bis	prefix	CGExchangeSynchLock	PACKET_CG_EXCHANGESYNCHLOCK	632	CGExchangeSynchLock.cpp	1	2	1	5	1	True	True	0		
+366	GCPhoenixPlainWarFlagPos	GC	game	bos	no_085_class						4		66		True		0		
+371	CGSetPetAttrib	CG	game	bis	prefix	CGSetPetAttrib	PACKET_CG_SET_PETATTRIB	642	CGSetPetAttrib.cpp	2	3	2	10	8	False	False	0		
+372	CGLockTarget	CG	game	bis	exact	CGLockTarget	PACKET_CG_LOCK_TARGET	610	CGLockTarget.cpp	1	1	1	4	4	True	True	0		
+375	GCPackUpPacket	GC	game	bos	differ	GCPackUpPacket	PACKET_GC_PACKUP_PACKET	180	GCPackUpPacket.cpp	0	1	0	4	0	True	True	1		
+378	GCNewPlatform	GC	game	bos	prefix	GCNewPlatform	PACKET_GC_NEWPLATFORM	90	GCNewPlatform.cpp	5	5	5	17	17	False	True	0		
+382	GCCharModifyAction	GC	game	bos	exact	GCCharModifyAction	PACKET_GC_CHARMODIFYACTION	202	GCCharModifyAction.cpp	3	3	3	12	12	True	True	0		
+384	GCNewBus	GC	game	bos	no_085_class						6		24		False		0		
+385	GCOrnamentsDataUpdate	GC	game	bos	no_085_class						2		2		False		0		
+387	CGBBSApply	CG	game	bis	exact	CGBBSApply	PACKET_CG_BBSAPPLY	664	CGBBSApply.cpp	2	2	2	8	8	True	True	0		
+389	GCRefreshDarkSkill	GC	game	bos	no_085_class						2		10		True		0		
+395	GCNewPet_Move	GC	game	bos	partial	GCNewPet_Move	PACKET_GC_NEWPET_MOVE	192	GCNewPet_Move.cpp	4	10	7	34	28	False	True	6	unknow_1=m_nHandleID	
+397	GCScriptCommand	GC	game	bos	prefix	GCScriptCommand	PACKET_GC_SCRIPTCOMMAND	75	GCScriptCommand.cpp	1	1	1	4	4	False	False	0		
+400	CGPetSoulXiShuXing	CG	game	bis	no_085_class						2		8		False		0		
+402	CGAskSetting	CG	game	bis	both_empty	CGAskSetting	PACKET_CG_ASKSETTING	695	CGAskSetting.cpp	0	0	0	0	0	True	True	0		
+404	CGCharAskBaseAttrib	CG	game	bis	exact	CGCharAskBaseAttrib	PACKET_CG_CHARASKBASEATTRIB	506	CGCharAskBaseAttrib.cpp	1	1	1	4	4	True	True	0		
+408	GCExchangeApplyI	GC	game	bos	prefix	GCExchangeApplyI	PACKET_GC_EXCHANGEAPPLYI	125	GCExchangeApplyI.cpp	1	2	1	8	4	False	True	0		
+409	CGModifySetting	CG	game	bis	prefix	CGModifySetting	PACKET_CG_MODIFYSETTING	696	CGModifySetting.cpp	1	3	1	6	1	True	False	0		
+414	CGAskChangeScene	CG	game	bis	prefix	CGAskChangeScene	PACKET_CG_ASKCHANGESCENE	542	CGAskChangeScene.cpp	2	4	2	12	4	True	True	2		
+417	GCDiaowenFeatureSkill	GC	game	bos	no_085_class						2		8		True		0		
+418	GCRaidAskInvite	GC	game	bos	no_085_class						6		46		True		0		
+420	GCExchangeSynchII	GC	game	bos	prefix	GCExchangeSynchII	PACKET_GC_EXCHANGESYNCHII	129	GCExchangeSynchII.cpp	2	3	2	4	2	False	False	1		
+421	CGRaidLeave	CG	game	bis	no_085_class						1		4		True		0		
+422	GCBusRemoveAllPassenger	GC	game	bos	no_085_class						1		4		True		0		
+423	GCPlayerShopSaleShopInfo	GC	game	bos	no_085_class						4		12		True		0		
+427	CGShopBuy	CG	game	bis	prefix	CGShopBuy	PACKET_CG_SHOPBUY	613	CGShopBuy.cpp	8	12	8	34	18	True	True	4		
+428	GCBBSMessages	GC	game	bos	prefix	GCBBSMessages	PACKET_GC_BBSMESSAGES	158	GCBBSMessages.cpp	2	2	3	8	9	False	False	0		
+431	GCPlayerRelive	GC	game	bos	both_empty	GCPlayerRelive	PACKET_GC_PLAYER_RELIVE	133	GCPlayerRelive.cpp	0	0	0	0	0	True	True	0		
+434	CGFriendGroupName	CG	game	bis	no_085_class						1		4		True		1		
+435	CGManipulatePet	CG	game	bis	exact	CGManipulatePet	PACKET_CG_MANIPULATEPET	643	CGManipulatePet.cpp	4	4	4	16	16	True	True	0		
+436	GCPlayerShopSaleOut	GC	game	bos	exact	GCPlayerShopSaleOut	PACKET_GC_PLAYERSHOPSALEOUT	195	GCPlayerShopSaleOut.cpp	2	2	2	2	2	True	True	0		
+443	CGAcqStallRemoveItem	CG	game	bis	no_085_class						1		4		True		0		
+444	GCRetNetDelay	GC	game	bos	no_085_class						0		0		True		0		
+447	CGTeamInvite	CG	game	bis	partial	CGTeamInvite	PACKET_CG_TEAMINVITE	552	CGTeamInvite.cpp	1	3	2	12	5	False	False	2		
+449	CGCityAskAttr	CG	game	bis	both_empty	CGCityAskAttr	PACKET_CG_CITYASKATTR	705	CGCityAskAttr.cpp	0	0	0	0	0	True	True	0		
+455	GCCharBaseAttrib	GC	game	bos	partial	GCCharBaseAttrib	PACKET_GC_CHARBASEATTRIB	15	GCCharBaseAttrib.cpp	1	3	2	19	8	False	False	19		
+456	GCConnect	GC	game	bos	partial	GCConnect	PACKET_GC_CONNECT	2	GCConnect.cpp	4	5	5	14	13	True	True	1		
+457	GCReturnTeamFollow	GC	game	bos	exact	GCReturnTeamFollow	PACKET_GC_RETURN_TEAMFOLLOW	136	GCReturnTeamFollow.cpp	2	2	2	5	5	True	True	0		
+459	GCAbilitySucc	GC	game	bos	prefix	GCAbilitySucc	PACKET_GC_ABILITY_SUCC	80	GCAbilitySucc.cpp	3	5	3	12	10	True	True	0		
+461	CGWGuildLeagueList	CGW	game	bis	no_085_class						1		4		True		1		
+462	GCUseEquipResult	GC	game	bos	prefix	GCUseEquipResult	PACKET_GC_USEEQUIPRESULT	51	GCUseEquipResult.cpp	13	14	13	29	27	True	True	1		
+464	CGPlayerShopType	CG	game	bis	partial	CGPlayerShopType	PACKET_CG_PLAYERSHOPTYPE	739	CGPlayerShopType.cpp	1	5	6	13	13	True	True	0		
+465	GCNewSpecial	GC	game	bos	exact	GCNewSpecial	PACKET_GC_NEWSPECIAL	170	GCNewSpecial.cpp	5	5	5	20	20	True	True	0		
+469	CGAskCheDiFuLuData	CG	game	bis	no_085_class						2		2		True		2		
+472	GCWorldTime	GC	game	bos	prefix	GCWorldTime	PACKET_GC_WORLDTIME	200	GCWorldTime.cpp	1	3	1	12	4	True	True	1		
+473	CGUseItem	CG	game	bis	partial	CGUseItem	PACKET_CG_USEITEM	529	CGUseItem.cpp	2	13	8	38	26	True	True	0		
+474	CGPlayerShopFavorite	CG	game	bis	partial	CGPlayerShopFavorite	PACKET_CG_PLAYERSHOPFAVORITE	738	CGPlayerShopFavorite.cpp	2	5	6	13	13	True	True	0		
+479	GCDiGongShopInfo	GC	game	bos	no_085_class						1		128		True		1		
+480	GCUnEquipResult	GC	game	bos	exact	GCUnEquipResult	PACKET_GC_UNEQUIPRESULT	53	GCUnEquipResult.cpp	8	8	8	15	15	True	True	0		
+481	GCNewMonster_Move	GC	game	bos	partial	GCNewMonster_Move	PACKET_GC_NEWMONSTER_MOVE	9	GCNewMonster_Move.cpp	6	10	8	34	29	False	True	2		
+487	CGExchangeOkIII	CG	game	bis	differ	CGExchangeOkIII	PACKET_CG_EXCHANGEOKIII	635	CGExchangeOkIII.cpp	0	1	0	4	0	True	True	0		
+488	GCOpenPlayerShop	GC	game	bos	no_085_class						1		4		True		1		
+489	CGCGWPacket	CG	game	bis	no_085_class						2		5		False		0		
+494	GCAuctionChangeMoney	GC	game	bos	no_085_class						4		7		True		0		
+501	CGAuctionSearch	CG	game	bis	no_085_class						3		6		False		0		
+507	CGUseGem	CG	game	bis	partial	CGUseGem	PACKET_CG_USEGEM	547	CGUseGem.cpp	2	6	3	9	6	True	True	4		
+508	GCPlayerDie	GC	game	bos	prefix	GCPlayerDie	PACKET_GC_PLAYER_DIE	132	GCPlayerDie.cpp	2	4	2	16	8	True	True	0		
+512	GCDetailAttrib_Pet	GC	game	bos	prefix	GCDetailAttrib_Pet	PACKET_GC_DETAILATTRIB_PET	123	GCDetailAttrib_Pet.cpp	3	4	3	24	12	False	False	9		
+513	CGRaidApply	CG	game	bis	no_085_class						1		4		False		0		
+517	CGDisplaceGem	CG	game	bis	no_085_class						2		2		True		0		
+518	WGCGuildLeagueMemberApplyList	WGC	game	bos	no_085_class						2		6		False		0		
+520	CGDiscardItem	CG	game	bis	exact	CGDiscardItem	PACKET_CG_DISCARDITEM	530	CGDiscardItem.cpp	2	2	2	2	2	True	True	0		
+527	CGByname	CG	game	bis	no_085_class						2		2		False		0		
+530	GCExteriorInfo	GC	game	bos	no_085_class						2		8		False		16		
+533	GCShengWangInfo	GC	game	bos	no_085_class						11		480		False		6		
+538	CGPlayerShopOnSale	CG	game	bis	partial	CGPlayerShopOnSale	PACKET_CG_PLAYERSHOPONSALE	692	CGPlayerShopOnSale.cpp	1	15	16	39	39	True	True	0		
+539	CGAskRaidMemberInfo	CG	game	bis	no_085_class						3		10		True		0		
+540	CGStallBuy	CG	game	bis	prefix	CGStallBuy	PACKET_CG_STALLBUY	661	CGPlayerShopBuy.cpp	6	8	6	24	16	True	True	0		
+546	CGAskDetailAbilityInfo	CG	game	bis	exact	CGAskDetailAbilityInfo	PACKET_CG_ASKDETAILABILITYINFO	574	CGAskDetailAbilityInfo.cpp	1	1	1	4	4	True	True	0		
+553	GCExchangeSynchLock	GC	game	bos	differ	GCExchangeSynchLock	PACKET_GC_EXCHANGESYNCHLOCK	127	GCExchangeSynchLock.cpp	0	4	3	5	3	True	True	1		
+555	CGAskStudyXinfa	CG	game	bis	differ	CGAskStudyXinfa	PACKET_CG_ASKSTUDYXINFA	618	CGAskStudyXinfa.cpp	0	3	0	6	0	True	False	0		
+557	CGPlayerShopSaleOut	CG	game	bis	partial	CGPlayerShopSaleOut	PACKET_CG_PLAYERSHOPSALEOUT	717	CGPlayerShopSaleOut.cpp	1	8	8	19	18	True	True	1		
+560	CGMSShopBuyInfoReq	CG	game	bis	no_085_class						0		0		True		0		
+563	CGShopSell	CG	game	bis	prefix	CGShopSell	PACKET_CG_SHOPSELL	614	CGShopSell.cpp	2	3	2	6	5	True	True	2	unknow_2=m_UniqueID	
+564	GCCharMove	GC	game	bos	partial	GCCharMove	PACKET_GC_CHARMOVE	31	GCCharMove.cpp	3	5	6	14	21	False	False	1		
+565	CGStopPedding	CG	game	bis	no_085_class						0		0		True		0		
+574	GCSpecialObj_FadeOut	GC	game	bos	exact	GCSpecialObj_FadeOut	PACKET_GC_SPECIAL_OBJ_FADE_OUT	175	GCSpecialObj_FadeOut.cpp	1	1	1	4	4	True	True	0		
+579	CGExchangeSynchMoneyII	CG	game	bis	prefix	CGExchangeSynchMoneyII	PACKET_CG_EXCHANGESYNCHMONEYII	634	CGExchangeSynchMoneyII.cpp	1	2	1	8	4	True	True	0		
+581	CGPlayerShopAskForRecord	CG	game	bis	partial	CGPlayerShopAskForRecord	PACKET_CG_PLAYERSHOPASKFORRECORD	736	CGPlayerShopAskForRecord.cpp	1	6	7	14	14	True	True	0		
+582	GCDelObject	GC	game	bos	exact	GCDelObject	PACKET_GC_DELOBJECT	52	GCDelObject.cpp	2	2	2	6	6	True	True	0		
+584	GCStallClose	GC	game	bos	both_empty	GCStallClose	PACKET_GC_STALLCLOSE	156	GCStallClose.cpp	0	0	0	0	0	True	True	0		
+587	CGPlayerShopAcquireShopList	CG	game	bis	both_empty	CGPlayerShopAcquireShopList	PACKET_CG_PLAYERSHOPACQUIRESHOPLIST	688	CGPlayerShopAcquireShopList.cpp	0	0	0	0	0	True	True	0		
+590	GCAskFashionDepotData	GC	game	bos	no_085_class						3		12		False		2		
+591	GCPlayerShopEstablish	GC	game	bos	differ	GCPlayerShopEstablish	PACKET_GC_PLAYERSHOPESTABLISH	178	GCPlayerShopEstablish.cpp	0	4	1	12	12	True	True	0		
+595	GCCharJump	GC	game	bos	exact	GCCharJump	PACKET_GC_CHARJUMP	30	GCCharJump.cpp	1	1	1	4	4	True	True	0		
+598	CGReqManualAttr	CG	game	bis	exact	CGReqManualAttr	PACKET_CG_REQMANUALATTR	509	CGReqManualAttr.cpp	5	5	5	20	20	True	True	0		
+602	CGStallRemoveItem	CG	game	bis	exact	CGStallRemoveItem	PACKET_CG_STALLREMOVEITEM	658	CGStallRemoveItem.cpp	8	8	8	21	21	True	True	0		
+603	GCMissionHaveDoneFlag	GC	game	bos	no_085_class						2		8		True		0		
+604	GCBankAcquireList	GC	game	bos	partial	GCBankAcquireList	PACKET_GC_BANKACQUIRELIST	118	GCBankAcquireList.cpp	3	4	4	7	10	False	False	3		
+607	GCDetailXinFaList	GC	game	bos	prefix	GCSkillClass	PACKET_GC_DETAILXINFALIST	61	GCDetailXinFaList.cpp	2	2	2	6	6	False	False	1		
+609	GCCityAttr	GC	game	bos	prefix	GCCityAttr	PACKET_GC_CITYATTR	189	GCCityAttr.cpp	1	1	1	4	4	False	False	0		
+612	GCAbilityExp	GC	game	bos	prefix	GCAbilityExp	PACKET_GC_ABILITYEXP	92	GCAbilityExp.cpp	2	3	2	10	6	True	True	0		
+613	GCChallenge	GC	game	bos	no_085_class						1		1		False		2		
+617	GCJuqingPoint	GC	game	bos	no_085_class						1		4		True		1		
+622	CGAuctionGetYB	CG	game	bis	no_085_class						2		2		True		0		
+623	GCItemInfo	GC	game	bos	prefix	GCItemInfo	PACKET_GC_ITEMINFO	58	GCItemInfo.cpp	2	2	2	6	6	False	False	1	unknow_1=m_nsNull	
+624	CGCTUGabrielCmdRet	CG	game	bis	no_085_class						1		4		False		2		
+625	GCNewBus_Move	GC	game	bos	no_085_class						10		40		False		0		
+630	GCGuild	GC	game	bos	differ	GCGuild	PACKET_GC_GUILD	160	GCGuild.cpp	0	2	0	5	0	False	False	21		
+631	CGStallClose	CG	game	bis	both_empty	CGStallClose	PACKET_CG_STALLCLOSE	662	CGStallClose.cpp	0	0	0	0	0	True	True	0		
+632	CGAskDoubleExp	CG	game	bis	no_085_class						0		0		True		0		
+636	CGCharAutoRide	CG	game	bis	no_085_class						1		4		True		0		
+639	GCRetRaidModifyMemberPosition	GC	game	bos	no_085_class						7		19		True		0		
+643	GCDetailAbilityInfo	GC	game	bos	prefix	GCDetailAbilityInfo	PACKET_GC_DETAILABILITYINFO	77	GCDetailAbilityInfo.cpp	2	2	2	5	5	False	False	0		
+648	GCTeamResult	GC	game	bos	partial	GCTeamResult	PACKET_GC_TEAMRESULT	73	GCTeamResult.cpp	5	6	6	15	14	False	False	0		
+651	CGExchangeReplyI	CG	game	bis	prefix	CGExchangeReplyI	PACKET_CG_EXCHANGEREPLYI	631	CGExchangeReplyI.cpp	1	2	1	8	4	True	True	0		
+656	CGRemoveGem	CG	game	bis	prefix	CGRemoveGem	PACKET_CG_REMOVEGEM	548	CGRemoveGem.cpp	2	3	2	3	2	True	True	0		
+657	CGDispelBuffReq	CG	game	bis	differ	CGDispelBuffReq	PACKET_CG_DISPEL_BUFF	651	CGDispelBuffReq.cpp	0	3	3	10	8	True	True	0		
+658	GCGameCommond	GC	game	bos	no_085_class						2		8		False		0		
+662	GCAbilityLevel	GC	game	bos	exact	GCAbilityLevel	PACKET_GC_ABILITYLEVEL	91	GCAbilityLevel.cpp	2	2	2	6	6	True	True	0		
+663	CGAskDiGongShopInfo	CG	game	bis	no_085_class						0		0		True		0		
+664	CGPlayerShopName	CG	game	bis	partial	CGPlayerShopName	PACKET_CG_PLAYERSHOPNAME	697	CGPlayerShopName.cpp	1	4	6	12	13	False	False	0		
+665	GCExchangeSuccessIII	GC	game	bos	differ	GCExchangeSuccessIII	PACKET_GC_EXCHANGESUCCESSIII	130	GCExchangeSuccessIII.cpp	0	2	1	5	1	False	False	0		
+666	GCManipulatePetRet	GC	game	bos	exact	GCManipulatePetRet	PACKET_GC_MANIPULATEPETRET	134	GCManipulatePetRet.cpp	4	4	4	16	16	True	True	0		
+672	GCByname	GC	game	bos	no_085_class						1		1		False		0		
+675	GCBoxItemList	GC	game	bos	prefix	GCBoxItemList	PACKET_GC_BOXITEMLIST	49	GCBoxItemList.cpp	3	3	3	7	7	False	False	0		
+676	GCCharDirectImpact	GC	game	bos	partial	GCCharDirectImpact	PACKET_GC_CHAR_DIRECT_IMPACT	140	GCCharDirectImpact.cpp	4	5	5	18	16	True	True	0		
+678	CGAskDetailAttrib	CG	game	bis	exact	CGAskDetailAttrib	PACKET_CG_ASKDETAILATTRIB	513	CGAskDetailAttrib.cpp	1	1	1	4	4	True	True	0		
+679	GCRMBChatFaceInfo	GC	game	bos	no_085_class						2		20		True		0		
+680	CGAskGSChitChatInfo	CG	game	bis	no_085_class						1		1		True		1		
+681	GCChallengeListInfo	GC	game	bos	no_085_class						0		0		True		0		
+682	CGMissionCheck	CG	game	bis	prefix	CGMissionCheck	PACKET_CG_MISSIONCHECK	650	CGMissionCheck.cpp	2	7	2	24	8	True	False	3	unknow_2=m_idScript	
+684	GCRetSecKillNum	GC	game	bos	no_085_class						0		0		False		0		
+687	CGNetDelay	CG	game	bis	no_085_class						3		10		True		3		
+690	CGAskJuqingPoint	CG	game	bis	no_085_class						1		4		True		1		
+694	GCMsgBall	GC	game	bos	no_085_class						1		4		False		2		
+696	GCCharSkill_Gather	GC	game	bos	partial	GCCharSkill_Gather	PACKET_GC_CHARSKILL_GATHER	36	GCCharSkill_Gather.cpp	2	10	10	40	38	True	True	0		
+699	CGBBSSychMessages	CG	game	bis	prefix	CGBBSSychMessages	PACKET_CG_BBSSYCHMESSAGES	663	CGBBSSychMessages.cpp	2	2	2	5	5	False	False	0		
+703	CGZdZdRequest	CG	game	bis	no_085_class						1		4		False		1		
+704	CGCharMoodState	CG	game	bis	exact	CGCharMoodState	PACKET_CG_CHARMOODSTATE	742	CGCharMoodState.cpp	2	2	2	5	5	True	True	0		
+708	GCLookUpOther	GC	game	bos	no_085_class						2		5		False		2		
+712	CGTeamKick	CG	game	bis	exact	CGTeamKick	PACKET_CG_TEAMKICK	567	CGTeamKick.cpp	2	2	2	8	8	True	True	0		
+715	GCItemSynch	GC	game	bos	prefix	GCItemSynch	PACKET_GC_ITEMSYNCH	167	GCItemSynch.cpp	1	1	1	1	1	False	False	0		
+717	CGTeamAppoint	CG	game	bis	exact	CGTeamAppoint	PACKET_CG_TEAMAPPOINT	575	CGTeamAppoint.cpp	2	2	2	8	8	True	True	0		
+720	CGAuctionMultiBuyItem	CG	game	bis	no_085_class						1		1		False		0		
+721	CGRemoveDressGem	CG	game	bis	no_085_class						0		0		True		0		
+724	GCComboSkillOperation	GC	game	bos	no_085_class						5		36		True		1		
+727	GCStallApply	GC	game	bos	prefix	GCStallApply	PACKET_GC_STALLAPPLY	149	GCStallApply.cpp	3	4	3	7	6	True	True	0		
+728	WGCGuildLeagueList	WGC	game	bos	no_085_class						2		6		False		1		
+732	GCMissionRemove	GC	game	bos	exact	GCMissionRemove	PACKET_GC_MISSIONREMOVE	84	GCMissionRemove.cpp	1	1	1	4	4	True	True	0		
+741	GCBankRemoveItem	GC	game	bos	exact	GCBankRemoveItem	PACKET_GC_BANKREMOVEITEM	120	GCBankRemoveItem.cpp	4	4	4	4	4	True	True	0		
+743	GCNotifyGoodBad	GC	game	bos	no_085_class						2		5		True		0		
+744	GCPacketStream	GC	game	bos	no_085_class						0		0		False		0		
+753	CGChat	CG	game	bis	prefix	CGChat	PACKET_CG_CHAT	545	CGChat.cpp	1	1	2	1	2	False	False	10		
+757	GCPetBankListUPData	GC	game	bos	no_085_class						1		2		False		0		
+758	GCDFengEssenceSynKongWeiData	GC	game	bos	no_085_class						1		4		False		0		
+760	GCAbilityResult	GC	game	bos	exact	GCAbilityResult	PACKET_GC_ABILITY_RESULT	76	GCAbilityResult.cpp	3	3	3	10	10	True	True	0		
+761	CGEnvRequest	CG	game	bis	both_empty	CGEnvRequest	PACKET_CG_ENVREQUEST	505	CGEnvRequest.cpp	0	0	0	0	0	True	True	0		
+772	GCUseGemResult	GC	game	bos	exact	GCUseGemResult	PACKET_GC_USEGEMRESULT	65	GCUseGemResult.cpp	1	1	1	4	4	True	True	0		
+782	GCTeamFollowList	GC	game	bos	prefix	GCTeamFollowList	PACKET_GC_TEAMFOLLOW_LIST	137	GCTeamFollowList.cpp	2	2	2	5	5	False	False	0		
+783	GCLevelUpLock	GC	game	bos	no_085_class						3		12		True		3		
+785	GCStallItemPrice	GC	game	bos	exact	GCStallItemPrice	PACKET_GC_STALLITEMPRICE	154	GCStallItemPrice.cpp	8	8	8	24	24	True	True	0		
+787	CGPetExteriorCollectionRequest	CG	game	bis	no_085_class						1		4		False		0		
+789	CGPlayerShopSaleShopOpt	CG	game	bis	no_085_class						11		41		False		8		
+790	GCChat	GC	game	bos	prefix	GCChat	PACKET_GC_CHAT	56	GCChat.cpp	1	1	2	1	2	False	False	11		
+791	CGTeamLeaderRetInvite	CG	game	bis	prefix	CGTeamLeaderRetInvite	PACKET_CG_TEAMLEADERRETINVITE	561	CGTeamLeaderRetInvite.cpp	3	5	3	73	9	True	True	0		
+792	GCExteriorCoupleFashion	GC	game	bos	no_085_class						3		4		False		7		
+795	CGSetMoodToHead	CG	game	bis	exact	CGSetMoodToHead	PACKET_CG_SETMOODTOHEAD	732	CGSetMoodToHead.cpp	1	1	1	1	1	True	True	0		
+797	GCShopMerchandiseList	GC	game	bos	partial	GCShopMerchandiseList	PACKET_GC_SHOPMERCHANDISELIST	103	GCShopMerchandiseList.cpp	2	20	15	56	42	False	False	12		
+799	CGMinorPasswd	CG	game	bis	differ	CGMinorPasswd	PACKET_CG_MINORPASSWD	715	CGMinorPasswd.cpp	0	1	0	1	0	False	False	0		
+802	GCCharSkill_Missed	GC	game	bos	partial	GCCharSkill_Missed	PACKET_GC_CHARSKILL_MISSED	143	GCCharSkill_Missed.cpp	2	5	5	17	16	True	True	0		
+803	GCVirtualNPCInfo	GC	game	bos	no_085_class						1		1		False		5		
+807	CGAskDarkAdjust	CG	game	bis	no_085_class						2		8		False		3		
+809	GCNotifyChangeScene	GC	game	bos	partial	GCNotifyChangeScene	PACKET_GC_NOTIFYCHANGESCENE	57	GCNotifyChangeScene.cpp	5	8	6	65	14	True	True	3	unknow_3=m_TargetDir	
+812	CGExchangeApplyI	CG	game	bis	prefix	CGExchangeApplyI	PACKET_CG_EXCHANGEAPPLYI	630	CGExchangeApplyI.cpp	1	2	1	8	4	True	True	1		
+817	GCCharCharge	GC	game	bos	no_085_class						8		32		True		1		
+819	GCRetGSChitChatInfo	GC	game	bos	no_085_class						2		2		True		2		
+822	CGTeamDismiss	CG	game	bis	exact	CGTeamDismiss	PACKET_CG_TEAMDISMISS	565	CGTeamDismiss.cpp	1	1	1	4	4	True	True	0		
+824	CGEnterScene	CG	game	bis	differ	CGEnterScene	PACKET_CG_ENTERSCENE	503	CGEnterScene.cpp	0	4	4	11	11	True	True	0		
+843	GCLevelUp	GC	game	bos	exact	GCLevelUp	PACKET_GC_LEVEUP	18	GCLevelUp.cpp	2	2	2	8	8	True	True	0		
+844	GCDiscardItemResult	GC	game	bos	exact	GCDiscardItemResult	PACKET_GC_DISCARDITEMRESULT	54	GCDiscardItemResult.cpp	4	4	4	7	7	True	True	0		
+845	WGCCTUGabrielCommond	WGC	game	bos	no_085_class						1		2		False		1		
+846	CGYuanBaoToBind	CG	game	bis	no_085_class						1		4		True		0		
+855	CGAskSecKillData	CG	game	bis	no_085_class						0		0		True		0		
+856	GCPhoenixPlainWarCrystalPos	GC	game	bos	no_085_class						0		0		False		0		
+857	GCGuildApply	GC	game	bos	exact	GCGuildApply	PACKET_GC_GUILDAPPLY	198	GCGuildApply.cpp	1	1	1	4	4	True	True	0		
+860	CGExecuteScript	CG	game	bis	differ	CGExecuteScript	PACKET_CG_EXECUTESCRIPT	683	CGExecuteScript.cpp	0	1	0	4	0	False	False	0		
+861	CGStallOpen	CG	game	bis	exact	CGStallOpen	PACKET_CG_STALLOPEN	656	CGStallOpen.cpp	1	1	1	4	4	True	True	0		
+863	CGStallApply	CG	game	bis	both_empty	CGStallApply	PACKET_CG_STALLAPPLY	654	CGStallApply.cpp	0	0	0	0	0	True	True	0		
+867	CGAuctionExpireBack	CG	game	bis	no_085_class						2		2		True		0		
+868	GCGroupingNameRet	GC	game	bos	no_085_class						0		0		False		1		
+869	GCStallEstablish	GC	game	bos	both_empty	GCStallEstablish	PACKET_GC_STALLESTABLISH	150	GCStallEstablish.cpp	0	0	0	0	0	True	True	0		
+870	CGAutoCreateTeam	CG	game	bis	no_085_class						1		4		True		1		
+872	GCBusMove	GC	game	bos	no_085_class						7		28		True		0		
+873	GCExteriorSharePlan	GC	game	bos	no_085_class						1		1		False		0		
+874	GCExchangeSynchConfirmII	GC	game	bos	exact	GCExchangeSynchConfirmII	PACKET_GC_EXCHANGESYNCHCONFIRMII	128	GCExchangeSynchConfirmII.cpp	1	1	1	1	1	True	True	0		
+875	CGRaidAppoint	CG	game	bis	no_085_class						3		9		True		0		
+877	CGPackage_SwapItem	CG	game	bis	prefix	CGPackage_SwapItem	PACKET_CG_PACKAGE_SWAPITEM	653	CGPackage_SwapItem.cpp	2	3	2	3	2	True	True	0		
+878	GCShowMonsterTaps	GC	game	bos	no_085_class						1		1		False		0		
+880	CGPackUpBank	CG	game	bis	no_085_class						2		4		False		1		
+884	CGAskMail	CG	game	bis	exact	CGAskMail	PACKET_CG_ASKMAIL	587	CGAskMail.cpp	1	1	1	1	1	True	True	0		
+885	GCExchangeNotifySerial	GC	game	bos	no_085_class						1		4		True		0		
+887	GCAskTeamFollow	GC	game	bos	both_empty	GCAskTeamFollow	PACKET_GC_ASK_TEAMFOLLOW	135	GCAskTeamFollow.cpp	0	0	0	0	0	True	True	0		
+889	GCBusAddPassenger	GC	game	bos	no_085_class						3		12		True		0		
+893	CGGemCompound	CG	game	bis	differ	CGGemCompound	PACKET_CG_GEM_COMPOUND	603	CGGemCompound.cpp	0	3	3	12	6	True	True	0		
+894	CGPlayerShopMoney	CG	game	bis	partial	CGPlayerShopMoney	PACKET_CG_PLAYERSHOPMONEY	694	CGPlayerShopMoney.cpp	1	8	9	19	19	True	True	0		
+895	CGRaidModifyMemberPosition	CG	game	bis	no_085_class						6		18		True		0		
+896	GCMissionModify	GC	game	bos	differ	GCMissionModify	PACKET_GC_MISSIONMODIFY	85	GCMissionModify.cpp	0	1	1	1	4	False	False	0		
+897	GCPhoenixPlainWarScore	GC	game	bos	no_085_class						1		4		False		0		
+898	CGGuildApply	CG	game	bis	differ	CGGuildApply	PACKET_CG_GUILDAPPLY	719	CGGuildApply.cpp	0	0	1	0	1	False	False	0		
+899	GCBankBegin	GC	game	bos	prefix	GCBankBegin	PACKET_GC_BANKBEGIN	117	GCBankBegin.cpp	2	3	2	6	5	True	True	1		
+902	GCPlayerShopApply	GC	game	bos	prefix	GCPlayerShopApply	PACKET_GC_PLAYERSHOPAPPLY	177	GCPlayerShopApply.cpp	4	5	4	14	13	True	True	1		
+907	GCMissionAdd	GC	game	bos	differ	GCMissionAdd	PACKET_GC_MISSIONADD	83	GCMissionAdd.cpp	0	4	0	41	0	True	False	0		
+908	CGKfsOperate	CG	game	bis	no_085_class						4		7		True		0		
+909	GCTargetListAndHitFlags	GC	game	bos	partial	GCTargetListAndHitFlags	PACKET_GC_TARGET_LIST_AND_HIT_FLAGS	147	GCTargetListAndHitFlags.cpp	3	8	11	23	36	False	False	1		
+910	CGExchangeSynchItemII	CG	game	bis	prefix	CGExchangeSynchItemII	PACKET_CG_EXCHANGESYNCHITEMII	633	CGExchangeSynchItemII.cpp	1	1	1	1	1	False	False	0		
+912	CGWuhunWG	CG	game	bis	no_085_class						1		4		False		1		
+913	GCPlayerShopSaleShopOptResult	GC	game	bos	no_085_class						6		14		True		2		
+916	GCPlayerShopUpdateFavorite	GC	game	bos	partial	GCPlayerShopUpdateFavorite	PACKET_GC_PLAYERSHOPUPDATEFAVORITE	207	GCPlayerShopUpdateFavorite.cpp	1	5	6	13	13	True	True	0		
+957	CGAskMissionList	CG	game	bis	exact	CGAskMissionList	PACKET_CG_ASKMISSIONLIST	586	CGAskMissionList.cpp	1	1	1	4	4	True	True	0		
+960	GCRaidError	GC	game	bos	no_085_class						1		1		True		0		
+961	GCSecKillRemoveItem	GC	game	bos	no_085_class						2		2		True		0		
+964	CGAskTeamMemberInfo	CG	game	bis	exact	CGAskTeamMemberInfo	PACKET_CG_ASKTEAMMEMBERINFO	609	CGAskTeamMemberInfo.cpp	3	3	3	10	10	True	True	0		
+965	GCObjTeleport	GC	game	bos	prefix	GCObjTeleport	PACKET_GC_OBJ_TELEPORT	116	GCObjTeleport.cpp	3	4	3	16	12	True	True	0		
+966	GCTeamAskInvite	GC	game	bos	partial	GCTeamAskInvite	PACKET_GC_TEAMASKINVITE	71	GCTeamAskInvite.cpp	1	4	2	37	5	False	False	2		
+968	GCTeamOptionChanged	GC	game	bos	no_085_class						2		12		True		1		
+971	CGWAskAladdinToken	CGW	game	bis	no_085_class						1		4		True		1		
+972	WGCAladdinToken	WGC	game	bos	no_085_class						4		26		True		4		
+980	GCPlayerShopAcquireShopList	GC	game	bos	partial	GCPlayerShopAcquireShopList	PACKET_GC_PLAYERSHOPACQUIRESHOPLIST	179	GCPlayerShopAcquireShopList.cpp	1	3	3	12	9	False	False	3		
+981	GCPlayerShopStallStatus	GC	game	bos	partial	GCPlayerShopStallStatus	PACKET_GC_PLAYERSHOPSTALLSTATUS	209	GCPlayerShopStallStatus.cpp	1	7	8	15	15	True	True	0		
+982	GCPhoenixPlainWarCampInfo	GC	game	bos	no_085_class						1		4		False		0		
+983	CGAskDynamicRegion	CG	game	bis	no_085_class						1		2		True		1		
+985	GCBankMoney	GC	game	bos	partial	GCBankMoney	PACKET_GC_BANKMONEY	122	GCBankMoney.cpp	2	4	3	10	9	False	True	3		
+991	CGSectOper	CG	game	bis	no_085_class						2		8		True		0		
+992	CGStallShopName	CG	game	bis	differ	CGStallShopName	PACKET_CG_STALLSHOPNAME	660	CGStallShopName.cpp	0	0	1	0	1	False	False	0		
+993	GCPetSoulXiShuXing	GC	game	bos	no_085_class						1		4		False		0		
+994	GCZhouHuoYueInfo	GC	game	bos	no_085_class						7		356		True		1		
+999	GCStallRemoveItem	GC	game	bos	exact	GCStallRemoveItem	PACKET_GC_STALLREMOVEITEM	153	GCStallRemoveItem.cpp	8	8	8	21	21	True	True	0		
+1002	WGCRetQueryXBWRankCharts	WGC	game	bos	no_085_class						4		13		False		2		
+1013	GCNotifyEquip	GC	game	bos	prefix	GCNotifyEquip	PACKET_GC_NOTIFYEQUIP	63	GCNotifyEquip.cpp	1	37	1	190	2	True	False	0		
+1014	GCDetailXiulianList	GC	game	bos	no_085_class						0		0		False		1		
+1016	CGPlayerShopDesc	CG	game	bis	partial	CGPlayerShopDesc	PACKET_CG_PLAYERSHOPDESC	698	CGPlayerShopDesc.cpp	1	4	6	12	13	False	False	0		
+1021	WGCRetQueryQingRenJieTopList	WGC	game	bos	no_085_class						2		8		False		11		
+1023	GCOpenWorldReference	GC	game	bos	no_085_class						1		32		True		1		
+1026	GCLevelUpResult	GC	game	bos	exact	GCLevelUpResult	PACKET_GC_LEVELUPRESULT	19	GCLevelUpResult.cpp	2	2	2	8	8	True	True	0		
+1027	CGExteriorRequest	CG	game	bis	no_085_class						2		8		False		13		
+1030	CGAuctionTakeBack	CG	game	bis	no_085_class						2		2		True		0		
+1031	GCManualAttrResult	GC	game	bos	exact	GCManualAttrResult	PACKET_GC_MANUALATTRRESULT	20	GCManualAttrResult.cpp	1	1	1	4	4	True	True	0		
+1032	CGShowFashionDepotData	CG	game	bis	no_085_class						1		1		True		1		
+1034	GCExchangeError	GC	game	bos	exact	GCExchangeError	PACKET_GC_EXCHANGEERROR	124	GCExchangeError.cpp	1	1	1	1	1	True	True	0		
+1049	CGPlayerShopEstablish	CG	game	bis	prefix	CGPlayerShopEstablish	PACKET_CG_PLAYERSHOPESTABLISH	687	CGPlayerShopEstablish.cpp	2	3	2	3	2	False	False	1		
+1050	GCBankAddItem	GC	game	bos	exact	GCBankAddItem	PACKET_GC_BANKADDITEM	119	GCBankAddItem.cpp	4	4	4	4	4	True	True	0		
+1064	GCAskDynamicRegionResult	GC	game	bos	no_085_class						1		4		False		4		
+1072	GCRetSecKillData	GC	game	bos	no_085_class						1		1		False		11		
+1073	CG_Unknow_0431	CG	game	bis	no_085_class						0		0		True		0		
+1076	GCRetCampaignCount	GC	game	bos	no_085_class						1		4		False		1		
+1079	GCRefreshEquipAttr	GC	game	bos	no_085_class						5		49		True		0		
+1088	unknow_440	GC	game	bos	no_085_class						1		2		True		1		
+1090	GCCharMoveResult	GC	game	bos	partial	GCCharMoveResult	PACKET_GC_CHARMOVERESULT	194	GCCharMoveResult.cpp	2	3	3	12	9	True	False	0		
+1092	CGCharJump	CG	game	bis	exact	CGCharJump	PACKET_CG_CHARJUMP	519	CGCharJump.cpp	1	1	1	4	4	True	True	0		
+1093	GCUnknow_1093	GC	game	bos	no_085_class						1		1		True		1		
+1095	CGCharDefaultEvent	CG	game	bis	prefix	CGCharDefaultEvent	PACKET_CG_CHARDEFAULTEVENT	549	CGCharDefaultEvnet.cpp	1	2	1	8	4	True	True	0		
+1096	CGPlayerShopSaleShopAskInfo	CG	game	bis	no_085_class						5		13		True		1		
+1108	GCStallAddItem	GC	game	bos	exact	GCStallAddItem	PACKET_GC_STALLADDITEM	152	GCStallAddItem.cpp	10	10	10	26	26	True	True	0		
+1109	GCPlayerShopRecordList	GC	game	bos	partial	GCPlayerShopRecordList	PACKET_GC_PLAYERSHOPRECORDLIST	205	GCPlayerShopRecordList.cpp	1	6	6	14	13	False	False	1		unknow~m_EntryNum
+1111	CGBankSwapItem	CG	game	bis	exact	CGBankSwapItem	PACKET_CG_BANKSWAPITEM	627	CGBankSwapItem.cpp	4	4	4	4	4	True	True	0		
+1116	GCCharStopAction	GC	game	bos	exact	GCCharStopAction	PACKET_GC_CHARSTOPACTION	197	GCCharStopAction.cpp	3	3	3	12	12	True	True	0		
+1117	CGAskTargetESPlan	CG	game	bis	no_085_class						1		4		True		0		
+1121	CGItemSynch	CG	game	bis	prefix	CGItemSynch	PACKET_CG_ITEMSYNCH	677	CGItemSynch.cpp	1	1	1	1	1	False	False	0		
+1133	CGPlayerShopOpenStall	CG	game	bis	partial	CGPlayerShopOpenStall	PACKET_CG_PLAYERSHOPOPENSTALL	699	CGPlayerShopOpenStall.cpp	1	7	8	15	15	True	True	0		
+1136	GCMail	GC	game	bos	differ	GCMail	PACKET_GC_MAIL	88	GCMail.cpp	0	1	0	1	0	False	False	0		
+1155	CGPickBoxItem	CG	game	bis	exact	CGPickBoxItem	PACKET_CG_PICKBOXITEM	526	CGPickBoxItem.cpp	5	5	5	12	12	True	True	0		
+1168	CGRaidKick	CG	game	bis	no_085_class						2		8		True		0		
+1170	GCCharSkill_Lead	GC	game	bos	partial	GCCharSkill_Lead	PACKET_GC_CHARSKILL_LEAD	38	GCCharSkill_Lead.cpp	2	10	10	40	38	True	True	0		
+1191	CGShopClose	CG	game	bis	both_empty	CGShopClose	PACKET_CG_SHOPCLOSE	616	CGShopClose.cpp	0	0	0	0	0	True	True	0		
+1192	CGCharUpdateCurTitle	CG	game	bis	differ	CGCharUpdateCurTitle	PACKET_CG_CHARUPDATECURTITLE	621	CGCharUpdateCurTitle.cpp	0	2	2	6	3	True	True	0		
+1194	GCCharEquipment	GC	game	bos	partial	GCCharEquipment	PACKET_GC_CHAREQUIPMENT	16	GCCharEquipment.cpp	1	3	2	12	6	False	False	7		
+1200	GCCheDiFuLuData	GC	game	bos	no_085_class						2		2		False		1		
+1205	GCUICommand	GC	game	bos	differ	GCUICommand	PACKET_GC_UICOMMAND	171	GCUICommand.cpp	0	2	0	2	0	False	False	1		
+1211	CGStallAddItem	CG	game	bis	exact	CGStallAddItem	PACKET_CG_STALLADDITEM	657	CGStallAddItem.cpp	8	8	8	21	21	True	True	0		
+1215	CGReportWaigua	CG	game	bis	no_085_class						2		31		False		0		
+1216	GCNewPet	GC	game	bos	partial	GCNewPet	PACKET_GC_NEWPET	190	GCNewPet.cpp	1	7	5	28	20	True	True	3		
+1221	GCAcqStallAddItem	GC	game	bos	no_085_class						4		13		True		0		
+1225	CGCharFly	CG	game	bis	no_085_class						6		24		True		0		
+1226	GCBankItemInfo	GC	game	bis	prefix	GCBankItemInfo	PACKET_GC_BANKITEMINFO	173	GCBankItemInfo.cpp	2	2	2	6	6	False	False	2	unknow_1=m_BankIndex; unknow_2=m_nsNull	
+1227	GCCharAllTitles	GC	game	bos	prefix	GCCharAllTitles	PACKET_GC_CHARALLTITLES	114	GCCharAllTitles.cpp	2	3	2	6	5	False	False	0		
+1228	GCDoubleExpInfo	GC	game	bos	no_085_class						11		44		True		0		
+1230	CGCharAllTitles	CG	game	bis	exact	CGCharAllTitles	PACKET_CG_CHARALLTITLES	620	CGCharAllTitles.cpp	1	1	1	4	4	True	True	0		
+1231	GCPlayerShopType	GC	game	bos	partial	GCPlayerShopType	PACKET_GC_PLAYERSHOPTYPE	208	GCPlayerShopType.cpp	1	5	6	13	13	True	True	0		
+1232	CGMissionAccept	CG	game	bis	prefix	CGMissionAccept	PACKET_CG_MISSIONACCEPT	580	CGMissionAccept.cpp	2	3	2	12	8	True	True	1	unknow=m_idScript	
+1250	CGAskRaiInfo	CG	game	bis	no_085_class						1		4		True		0		
+1252	CGAskDetailSkillList	CG	game	bis	exact	CGAskDetailSkillList	PACKET_CG_ASKDETAILSKILLLIST	515	CGAskDetailSkillList.cpp	1	1	1	4	4	True	True	0		
+1253	CGPlayerShopSize	CG	game	bis	partial	CGPlayerShopSize	PACKET_CG_PLAYERSHOPSIZE	740	CGPlayerShopSize.cpp	1	6	6	14	13	True	True	1		
+1262	GCCharFly	GC	game	bos	no_085_class						11		44		True		2		
+1263	CGStopTeamFollow	CG	game	bis	both_empty	CGStopTeamFollow	PACKET_CG_STOP_TEAMFOLLOW	645	CGStopTeamFollow.cpp	0	0	0	0	0	True	True	0		
+1266	CGOpenItemBox	CG	game	bis	exact	CGOpenItemBox	PACKET_CG_OPENITEMBOX	525	CGOpenItemBox.cpp	1	1	1	4	4	True	True	0		
+1267	GCItemList	GC	game	bos	prefix	GCItemList	PACKET_GC_ITEMLIST	168	GCItemList.cpp	1	1	1	1	1	False	False	0		
+1270	GCTarExteriorSharePlan	GC	game	bos	no_085_class						8		43		False		3		
+1272	GCDetailEquipList	GC	game	bos	partial	GCDetailEquipList	PACKET_GC_DETAILEQUIPLIST	59	GCDetailEquipList.cpp	2	3	3	20	10	False	False	1		
+1280	GCTeamList	GC	game	bos	differ	GCTeamList	PACKET_GC_TEAM_LIST	169	GCTeamList.cpp	0	0	2	0	3	False	False	0		
+1288	GCDetailExp	GC	game	bos	no_085_class						11		44		True		1		
+1289	CGStallEstablish	CG	game	bis	both_empty	CGStallEstablish	PACKET_CG_STALLESTABLISH	655	CGStallEstablish.cpp	0	0	0	0	0	True	True	0		
+1308	CGPlayerShopApply	CG	game	bis	both_empty	CGPlayerShopApply	PACKET_CG_PLAYERSHOPAPPLY	686	CGPlayerShopApply.cpp	0	0	0	0	0	True	True	0		
+1311	GCTeamMemberInfo	GC	game	bos	prefix	GCTeamMemberInfo	PACKET_GC_TEAMMEMBERINFO	101	GCTeamMemberInfo.cpp	2	3	2	12	8	False	False	6		
+1312	GCSplitItemResult	GC	game	bos	prefix	GCSplitItemResult	PACKET_GC_SPLITITEMRESULT	172	GCSplitItemResult.cpp	4	4	4	11	11	False	False	0		
+1316	CGAskFashionDepotData	CG	game	bis	no_085_class						4		10		True		4		
+1320	GCNpcTalk	GC	game	bos	no_085_class						1		4		False		0		
+1327	GCTJCPVPCmnData	GC	game	bos	no_085_class						2		28		True		0		
+1338	CGCreateGuildLeague	CG	game	bis	no_085_class						2		96		True		0		
+1340	GCNewPlayer	GC	game	bos	partial	GCNewPlayer	PACKET_GC_NEWPLAYER	10	GCNewPlayer.cpp	1	8	6	32	22	True	True	2		
+1345	GCWuhunWG	GC	game	bos	no_085_class						1		4		False		0		
+1353	CGTeamLeave	CG	game	bis	exact	CGTeamLeave	PACKET_CG_TEAMLEAVE	563	CGTeamLeave.cpp	1	1	1	4	4	True	True	0		
+1354	GCAbilityAction	GC	game	bos	exact	GCAbilityAction	PACKET_GC_ABILITY_ACTION	79	GCAbilityAction.cpp	6	6	6	19	19	True	True	0		
+1367	CGAcqStallOpen	CG	game	bis	no_085_class						1		4		True		0		
+1368	CGGuild	CG	game	bis	differ	CGGuild	PACKET_CG_GUILD	668	CGGuild.cpp	0	2	0	5	0	False	False	1		
+1369	CGReqLevelUp	CG	game	bis	both_empty	CGReqLevelUp	PACKET_CG_REQLEVELUP	508	CGReqLevelUp.cpp	0	0	0	0	0	True	True	0		
+1372	CGAcqStallAddItem	CG	game	bis	no_085_class						3		12		True		0		
+1374	CGUseAbility	CG	game	bis	prefix	CGUseAbility	PACKET_CG_USEABILITY	551	CGUseAbility.cpp	3	4	3	11	10	True	True	0		
+1375	GCFashionDepotOperation	GC	game	bos	no_085_class						3		6		False		5		
+1376	GCSpecialObj_ActNow	GC	game	bos	prefix	GCSpecialObj_ActNow	PACKET_GC_SPECIAL_OBJ_ACT_NOW	174	GCSpecialObj_ActNow.cpp	2	3	2	12	8	False	False	0		
+1384	CGAskPrivateInfo	CG	game	bis	exact	CGAskPrivateInfo	PACKET_CG_ASKPRIVATEINFO	724	CGAskPrivateInfo.cpp	1	1	1	4	4	True	True	0		
+1385	CGStallItemPrice	CG	game	bis	exact	CGStallItemPrice	PACKET_CG_STALLITEMPRICE	659	CGStallItemPrice.cpp	8	8	8	24	24	True	True	0		
+1388	GCPetSoulRanSe	GC	game	bos	no_085_class						2		8		False		0		
+1691	GCRaidAskApply	GC	game	bos	no_085_class						1		4		False		0		
+1692	GCDetailHealsAndDamages	GC	game	bos	differ	GCDetailHealsAndDamages	PACKET_GC_DETAIL_HEALS_AND_DAMAGES	146	GCDetailHealsAndDamages.cpp	0	4	0	13	0	False	False	0		
+1694	GCNewItemBox	GC	game	bos	prefix	GCNewItemBox	PACKET_GC_NEWITEMBOX	6	GCNewItemBox.cpp	6	7	6	28	24	True	True	1		
+1697	GCFinger	GC	game	bos	differ	GCFinger	PACKET_GC_FINGER	204	GCFinger.cpp	0	1	0	1	0	False	False	0		
+1698	GCPlayerShopError	GC	game	bos	exact	GCPlayerShopError	PACKET_GC_PLAYERSHOPERROR	176	GCPlayerShopError.cpp	1	1	1	1	1	True	True	0		
+1705	GCPrescription	GC	game	bos	exact	GCPrescription	PACKET_GC_PRESCRIPTION	93	GCPrescription.cpp	2	2	2	8	8	True	True	0		
+1706	GCPetBankAddPet	GC	game	bos	no_085_class						5		17		True		0		
+1707	GCRefreshSuperAttr	GC	game	bos	no_085_class						5		52		True		0		
+1711	GCRaidMemberInfo	GC	game	bos	no_085_class						4		14		False		0		
+1713	GCTeamLeaderAskInvite	GC	game	bos	prefix	GCTeamLeaderAskInvite	PACKET_GC_TEAMLEADERASKINVITE	72	GCTeamLeaderAskInvite.cpp	4	4	4	10	10	False	False	4		
+1714	GCPetExteriorCollectionInfo	GC	game	bos	no_085_class						1		4		False		4		
+1717	GCExchangeEstablishI	GC	game	bos	exact	GCExchangeEstablishI	PACKET_GC_EXCHANGEESTABLISHI	126	GCExchangeEstablishI.cpp	1	1	1	4	4	True	True	0		
+1724	GCAuctionBoxList	GC	game	bos	no_085_class						1		2		False		8		
+1725	CGFinger	CG	game	bis	differ	CGFinger	PACKET_CG_FINGER	733	CGFinger.cpp	0	1	0	4	0	False	False	0		
+1727	CGAskQuit	CG	game	bis	no_085_class						4		13		True		4		
+1729	CGWNormalRankingList	CGW	game	bis	no_085_class						1		4		True		0		
+1730	WGCRetNormalRankList	WGC	game	bos	no_085_class						7		23		False		0		
+1738	CGFashionDepotOperation	CG	game	bis	no_085_class						3		9		True		0		
+1741	CGAskSecKillNum	CG	game	bis	no_085_class						0		0		True		0		
+1745	CGReturnTeamFollow	CG	game	bis	exact	CGReturnTeamFollow	PACKET_CG_RETURN_TEAMFOLLOW	646	CGReturnTeamFollow.cpp	1	1	1	1	1	True	True	0		
+1749	GCSecWeaponAddSkillList	GC	game	bos	no_085_class						6		38		True		0		
+1750	GCRMBChatActionInfo	GC	game	bos	no_085_class						9		116		True		0		
+1758	CGPackUpPacket	CG	game	bis	exact	CGPackUpPacket	PACKET_CG_PACKUP_PACKET	691	CGPackUpPacket.cpp	1	1	1	4	4	True	True	1	unknow=m_nConIndex	
+1763	GCStallOpen	GC	game	bos	differ	GCStallOpen	PACKET_GC_STALLOPEN	151	GCStallOpen.cpp	0	0	1	0	1	False	False	0		
+1764	GCEnterScene	GC	game	bos	partial	GCEnterScene	PACKET_GC_ENTERSCENE	4	GCEnterScene.cpp	2	12	7	33	17	True	True	2		
+1765	CGCharPositionWarp	CG	game	bis	exact	CGCharPositionWarp	PACKET_CG_CHARPOSITIONWARP	716	CGCharPositionWarp.cpp	5	5	5	20	20	True	True	0		
+1768	GCPlayerShopOpenStall	GC	game	bos	partial	GCPlayerShopOpenStall	PACKET_GC_PLAYERSHOPOPENSTALL	184	GCPlayerShopOpenStall.cpp	1	7	8	15	15	True	True	0		
+1769	CGExchangeCancel	CG	game	bis	both_empty	CGExchangeCancel	PACKET_CG_EXCHANGECANCEL	636	CGExchangeCancel.cpp	0	0	0	0	0	True	True	0		
+1770	CGPlayerDieResult	CG	game	bis	exact	CGPlayerDieResult	PACKET_CG_PLAYER_DIE_RESULT	638	CGPlayerDieResult.cpp	1	1	1	4	4	True	True	0		
+1772	GCDetailAttrib	GC	game	bos	prefix	GCDetailAttrib	PACKET_GC_DETAILATTRIB	24	GCDetailAttrib.cpp	1	2	1	26	4	False	False	34		
+2000	CGEXchangeYuanBaoPiao	CG	game	bis	no_085_class						2		44		True		0		
+					only_085	BLRetAuth	PACKET_BL_RETAUTH	679	BLRetAuth.cpp										
+					only_085	BWConnect	PACKET_BW_CONNECT	748	BWConnect.cpp										
+					only_085	BWValidateUser	PACKET_BW_VALIDATEUSER	749	BWValidateUser.cpp										
+					only_085	CGApplyPrivateInfo	PACKET_CG_APPLYPRIVATEINFO	725	CGApplyPrivateInfo.cpp										
+					only_085	CGAskActiveTimeUpdate	PACKET_CG_ASK_ACTIVETIME_UPDATE	622	CGAskActiveTimeUpdate.cpp										
+					only_085	CGAskJoinMenpai	PACKET_CG_ASKJOINMENPAI	617	CGAskJoinMenpai.cpp										
+					only_085	CGAskLeanAbility	PACKET_CG_ASKSTUDYABILITY	619	CGAskLeanAbility.cpp										
+					only_085	CGAskLockObj	PACKET_CG_CGASKLOCKOBJ	741	CGAskLockObj.cpp										
+					only_085	CGAskMissionDesc	PACKET_CG_MISSIONDESC	744	CGAskMissionDesc.cpp										
+					only_085	CGAttack	PACKET_CG_ATTACK	523	CGAttack.cpp										
+					only_085	CGBankClose	PACKET_CG_BANKCLOSE	629	CGBankClose.cpp										
+					only_085	CGChannelCreate	PACKET_CG_CHANNELCREATE	588	CGChannelCreate.cpp										
+					only_085	CGChannelDismiss	PACKET_CG_CHANNELDISMISS	589	CGChannelDismiss.cpp										
+					only_085	CGChannelInvite	PACKET_CG_CHANNELINVITE	590	CGChannelInvite.cpp										
+					only_085	CGChannelKick	PACKET_CG_CHANNELKICK	591	CGChannelKick.cpp										
+					only_085	CGCharIdle	PACKET_CG_CHARIDLE	518	CGCharIdle.cpp										
+					only_085	CGCharSit	PACKET_CG_CHARSIT	727	CGCharSit.cpp										
+					only_085	CGCommand	PACKET_CG_COMMAND	541	CGCommand.cpp										
+					only_085	CGDiscardEquip	PACKET_CG_DISCARDEQUIP	531	CGDiscardEquip.cpp										
+					only_085	CGDoEvent	PACKET_CG_DOEVENT	579	CGDoEvnet.cpp										
+					only_085	CGIssuePetPlacard	PACKET_CG_ISSUEPETPLACARD	713	CGIssuePetPlacard.cpp										
+					only_085	CGLeaveScene	PACKET_CG_LEAVESCENE	504	CGLeaveScene.cpp										
+					only_085	CGMissionRefuse	PACKET_CG_MISSIONREFUSE	581	CGMissionRefuse.cpp										
+					only_085	CGOtherEquip	PACKET_CG_OTHEREQUIPMENT	512	CGOtherEquip.cpp										
+					only_085	CGPlayerCallOfResult	PACKET_CG_PLAYER_CALLOF_RESULT	728	CGPlayerCallOfResult.cpp										
+					only_085	CGReqResetAttr	PACKET_CG_REQRESETATTR	510	CGReqResetAttr.cpp										
+					only_085	CGShopBuySold	PACKET_CG_SHOPBUY	613											
+					only_085	CGShopRepair	PACKET_CG_SHOPREPAIR	615	CGShopRepair.cpp										
+					only_085	CGSkill	PACKET_CG_SKILL	524	CGSkill.cpp										
+					only_085	CGStallDefaultPage	PACKET_CG_STALL_DEFAULT_PAGE	731	CGStallDefaultPage.cpp										
+					only_085	CGTest	PACKET_CG_TEST	500	CGTest.cpp										
+					only_085	CGUseEquipSkill	PACKET_CG_USEEQUIPSKILL	550	CGUseEquipSkill.cpp										
+					only_085	GCAbandonAbility	PACKET_GC_ABANDON_ABILITY	94	GCAbandonAbility.cpp										
+					only_085	GCAbilityTeacherInfo	PACKET_GC_ABILITY_STUDYINFO	113	GCAbilityTeacherInfo.cpp										
+					only_085	GCAddCanPickMissionItem	PACKET_GC_ADDCANPICKMISSIONITEM	97	GCAddCanPickMissionItem.cpp										
+					only_085	GCAddLockObj	PACKET_GC_ADDLOCKOBJ	211	GCAddLockObj.cpp										
+					only_085	GCAttack	PACKET_GC_ATTACK	41	GCAttack.cpp										
+					only_085	GCCanPickMissionItemList	PACKET_GC_CANPICKMISSIONITEMLIST	96	GCCanPickMissionItemList.cpp										
+					only_085	GCChannelError	PACKET_GC_CHANNELERROR	86	GCChannelError.cpp										
+					only_085	GCChannelResult	PACKET_GC_CHANNELRESULT	87	GCChannelResult.cpp										
+					only_085	GCCharAction	PACKET_GC_CHARACTION	201	GCCharAction.cpp										
+					only_085	GCCharDoAction	PACKET_GC_CHARDOACTION	210	GCCharDoAction.cpp										
+					only_085	GCCharFirstLogin	PACKET_GC_FIRSTLOGIN	214	GCCharFirstLogin.cpp										
+					only_085	GCCharIdle	PACKET_GC_CHARIDLE	29	GCCharIdle.cpp										
+					only_085	GCCharSkill_CreateBullet	PACKET_GC_CHARSKILL_CREATEBULLET	34	GCCharSkill_CreateBullet.cpp										
+					only_085	GCCharSkill_Gather_Modify	PACKET_GC_CHARSKILL_GATHER_MODIFY	37	GCCharSkill_Gather_Modify.cpp										
+					only_085	GCCharSkill_Lead_Modify	PACKET_GC_CHARSKILL_LEAD_MODIFY	39	GCCharSkill_Lead_Modify.cpp										
+					only_085	GCCityError	PACKET_GC_CITYERROR	187	GCCityError.cpp										
+					only_085	GCCityNotify	PACKET_GC_CITYNOTIFY	188	GCCityNotify.cpp										
+					only_085	GCDetailSubEffectList	PACKET_GC_DETAILSUBEFFECTLIST	27	GCDetailSubEffectList.cpp										
+					only_085	GCDie	PACKET_GC_DIE	17	GCDie.cpp										
+					only_085	GCDiscardEquipResult	PACKET_GC_DISCARDEQUIPRESULT	62	GCDiscardEquipResult.cpp										
+					only_085	GCErrorAttack	PACKET_GC_ERRORATTACK	43	GCErrorAttack.cpp										
+					only_085	GCErrorSkill	PACKET_GC_ERRORSKILL	46	GCErrorSkill.cpp										
+					only_085	GCJoinMenpai	PACKET_GC_JOINMENPAI	110	GCJoinMenpai.cpp										
+					only_085	GCLeaveScene	PACKET_GC_LEAVESCENE	3	GCLeaveScene.cpp										
+					only_085	GCMenpaiInfo	PACKET_GC_MENPAIINFO	109	GCMenpaiInfo.cpp										
+					only_085	GCMissionResult	PACKET_GC_MISSIONRESULT	139	GCMissionResult.cpp										
+					only_085	GCModifySpeed	PACKET_GC_MODIFYSPEED	99	GCModifySpeed.cpp										
+					only_085	GCMonsterRealMove	PACKET_GC_MONSTERREALMOVE	14	GCMonsterRealMove.cpp										
+					only_085	GCMonsterSpeak	PACKET_GC_MONSTERSPEAK	100	GCMonsterSpeak.cpp										
+					only_085	GCNewItem	PACKET_GC_NEWITEM	5	GCNewItem.cpp										
+					only_085	GCNewMonster_Death	PACKET_GC_NEWMONSTER_DEATH	8	GCNewMonster_Death.cpp										
+					only_085	GCNewPet_Death	PACKET_GC_NEWPET_DEATH	191	GCNewPet_Death.cpp										
+					only_085	GCNewPlayer_Death	PACKET_GC_NEWPLAYER_DEATH	11	GCNewPlayer_Death.cpp										
+					only_085	GCNewPortal	PACKET_GC_NEWPORTAL	60	GCNewPortal.cpp										
+					only_085	GCNewSkillObj	PACKET_GC_NEWSKILLOBJ	64	GCNewSkillObj.cpp										
+					only_085	GCNotifyRMBMoney	PACKET_GC_NOTIFYRMB	212	GCNotifyGoodBad.cpp										
+					only_085	GCNotifyTeamInfo	PACKET_GC_NOTIFYTEAMINFO	81	GCNotifyTeamInfo.cpp										
+					only_085	GCOtherAttack	PACKET_GC_OTHERATTACK	42	GCOtherAttack.cpp										
+					only_085	GCOtherEquip	PACKET_GC_OTHEREQUIPMENT	23	GCOtherEquip.cpp										
+					only_085	GCOtherSkill	PACKET_GC_OTHERSKILL	45	GCOtherSkill.cpp										
+					only_085	GCPetPlacardList	PACKET_GC_PETPLACARDLIST	186	GCPetPlacardList.cpp										
+					only_085	GCPlayerCallOf	PACKET_GC_PLAYER_CALLOF	203	GCPlayerCallOf.cpp										
+					only_085	GCPlayerRealMove	PACKET_GC_PLAYERREALMOVE	13	GCPlayerRealMove.cpp										
+					only_085	GCRemoveCanPickMissionItem	PACKET_GC_REMOVECANPICKMISSIONITEM	98	GCRemoveCanPickMissionItem.cpp										
+					only_085	GCReqResetAttrResult	PACKET_GC_RESETATTRRESULT	21	GCReqResetAttrResult.cpp										
+					only_085	GCRetMissionDesc	PACKET_GC_MISSIONDESC	213	GCRetMissionDesc.cpp										
+					only_085	GCShopRepair	PACKET_GC_SHOPREPAIR	108	GCShopRepair.cpp										
+					only_085	GCShopUpdateMerchandiseList	PACKET_GC_SHOPUPDATEMERCHANDISELIST	105	GCShopUpdateMerchandiseList.cpp										
+					only_085	GCSkill	PACKET_GC_SKILL	44	GCSkill.cpp										
+					only_085	GCSkillPrepare	PACKET_GC_SKILLPREPARE	47	GCSkillPrepare.cpp										
+					only_085	GCSystemMsg	PACKET_GC_SYSTEMMSG	215	GCSystemMsg.cpp										
+					only_085	GCTest	PACKET_GC_TEST	1	GCTest.cpp										
+					only_085	GCUseEquipSkillResult	PACKET_GC_USEEQUIPSKILL_RESULT	69	GCUseEquipSkillResult.cpp										
+					only_085	GGSceneNotify	PACKET_GG_SCENENOTIFY	641	GGSceneNotify.cpp										
+					only_085	GSAskData	PACKET_GS_ASKDATA	533	GSAskData.cpp										
+					only_085	GWAskChangeScene	PACKET_GW_ASKCHANGESCENE	537	GWAskChangeScene.cpp										
+					only_085	GWAskMail	PACKET_GW_ASKMAIL	604	GWAskMail.cpp										
+					only_085	GWAskSceneData	PACKET_GW_ASKSCENEDATA	639	GWAskSceneData.cpp										
+					only_085	GWAskTeamInfo	PACKET_GW_ASKTEAMINFO	608	GWAskTeamInfo.cpp										
+					only_085	GWAskTeamMemberInfo	PACKET_GW_ASKTEAMMEMBERINFO	611	GWAskTeamMemberInfo.cpp										
+					only_085	GWAskUserData	PACKET_GW_ASKUSERDATA	535	GWAskUserData.cpp										
+					only_085	GWBatchMail	PACKET_GW_BATCHMAIL	700	GWBatchMail.cpp										
+					only_085	GWCallOfHuman	PACKET_GW_CALLOFHUMAN	729	GWCallOfHuman.cpp										
+					only_085	GWChangeMenpai	PACKET_GW_CHANGEMENPAI	722	GWChangeMenpai.cpp										
+					only_085	GWChannelCreate	PACKET_GW_CHANNELCREATE	593	GWChannelCreate.cpp										
+					only_085	GWChannelDismiss	PACKET_GW_CHANNELDISMISS	594	GWChannelDismiss.cpp										
+					only_085	GWChannelInvite	PACKET_GW_CHANNELINVITE	595	GWChannelInvite.cpp										
+					only_085	GWChannelKick	PACKET_GW_CHANNELKICK	596	GWChannelKick.cpp										
+					only_085	GWChat	PACKET_GW_CHAT	597	GWChat.cpp										
+					only_085	GWCityApplyNewCity	PACKET_GW_CITYAPPLYNEWCITY	701	GWCityApplyNewCity.cpp										
+					only_085	GWCityAskInitInfo	PACKET_GW_CITYASKINITINFO	706	GWCityAskInitInfo.cpp										
+					only_085	GWCityClose	PACKET_GW_CITYCLOSE	707	GWCityClose.cpp										
+					only_085	GWCityCloseSuccess	PACKET_GW_CITYCLOSESUCCESS	708	GWCityCloseSuccess.cpp										
+					only_085	GWCityOpt	PACKET_GW_CITYOPT	712	GWCityOpt.cpp										
+					only_085	GWCommand	PACKET_GW_COMMAND	690	GWCommand.cpp										
+					only_085	GWEnterTeamFollow	PACKET_GW_ENTER_TEAMFOLLOW	647	GWEnterTeamFollow.cpp										
+					only_085	GWFinger	PACKET_GW_FINGER	734	GWFinger.cpp										
+					only_085	GWGuild	PACKET_GW_GUILD	669	GWGuild.cpp										
+					only_085	GWHeartBeat	PACKET_GW_HEARTBEAT	743	GWHeartBeat.cpp										
+					only_085	GWLevelUp	PACKET_GW_LEVEUP	637	GWLevelUp.cpp										
+					only_085	GWMail	PACKET_GW_MAIL	598	GWMail.cpp										
+					only_085	GWNotifyUser	PACKET_GW_NOTIFYUSER	539	GWNotifyUser.cpp										
+					only_085	GWRelation	PACKET_GW_RELATION	666	GWRelation.cpp										
+					only_085	GWStopTeamFollow	PACKET_GW_STOP_TEAMFOLLOW	648	GWStopTeamFollow.cpp										
+					only_085	GWSystemMsg	PACKET_GW_SYSTEMMSG	752	GWSystemMsg.cpp										
+					only_085	GWTeamApply	PACKET_GW_TEAMAPPLY	570	GWTeamApply.cpp										
+					only_085	GWTeamAppoint	PACKET_GW_TEAMAPPOINT	576	GWTeamAppoint.cpp										
+					only_085	GWTeamDismiss	PACKET_GW_TEAMDISMISS	566	GWTeamDismiss.cpp										
+					only_085	GWTeamInvite	PACKET_GW_TEAMINVITE	553	GWTeamInvite.cpp										
+					only_085	GWTeamKick	PACKET_GW_TEAMKICK	568	GWTeamKick.cpp										
+					only_085	GWTeamLeaderRetInvite	PACKET_GW_TEAMLEADERRETINVITE	562	GWTeamLeaderRetInvite.cpp										
+					only_085	GWTeamLeave	PACKET_GW_TEAMLEAVE	564	GWTeamLeave.cpp										
+					only_085	GWTeamMemberEnterScene	PACKET_GW_TEAMMEMBERENTERSCENE	623	GWTeamMemberEnterScene.cpp										
+					only_085	GWTeamRetApply	PACKET_GW_TEAMRETAPPLY	572	GWTeamRetApply.cpp										
+					only_085	GWTeamRetInvite	PACKET_GW_TEAMRETINVITE	559	GWTeamRetInvite.cpp										
+					only_085	GWUpdateTitle	PACKET_GW_UPDATETITLE	723	GWUpdateTitle.cpp										
+					only_085	LBAskAuth	PACKET_LB_ASKAUTH	678	LBAskAuth.cpp										
+					only_085	LWAskCharLogin	PACKET_LW_ASKCHARLOGIN	680	LWAskCharLogin.cpp										
+					only_085	LWAskDeleteChar	PACKET_LW_ASKDELETECHAR	746	LWAskDeleteChar.cpp										
+					only_085	SGRetData	PACKET_SG_RETDATA	534	SGRetData.cpp										
+					only_085	SSConnect	PACKET_SS_CONNECT	532	SSConnect.cpp										
+					only_085	SSScenePlayerCount	PACKET_SS_SCENEPLAYERCOUNT	684	SSScenePlayerCount.cpp										
+					only_085	WBRetValidateUser	PACKET_WB_RET_VALIDATEUSER	750	WBRetValidateUser.cpp										
+					only_085	WGCallOfHuman	PACKET_WG_CALLOFHUMAN	730	WGCallOfHuman.cpp										
+					only_085	WGChannelError	PACKET_WG_CHANNELERROR	599	WGChannelError.cpp										
+					only_085	WGChannelResult	PACKET_WG_CHANNELRESULT	600	WGChannelResult.cpp										
+					only_085	WGChat	PACKET_WG_CHAT	601	WGChat.cpp										
+					only_085	WGCityApplyNewCity	PACKET_WG_CITYAPPLYNEWCITY	702	WGCityApplyNewCity.cpp										
+					only_085	WGCityAttr	PACKET_WG_CITYATTR	704	WGCityAttr.cpp										
+					only_085	WGCityClose	PACKET_WG_CITYCLOSE	709	WGCityClose.cpp										
+					only_085	WGCityCloseSuccess	PACKET_WG_CITYCLOSESUCCESS	710	WGCityCloseSuccess.cpp										
+					only_085	WGCityError	PACKET_WG_CITYERROR	703	WGCityError.cpp										
+					only_085	WGCityInitInfo	PACKET_WG_CITYINITINFO	711	WGCityInitInfo.cpp										
+					only_085	WGFinger	PACKET_WG_FINGER	735	WGFinger.cpp										
+					only_085	WGGuild	PACKET_WG_GUILD	670	WGGuild.cpp										
+					only_085	WGGuildError	PACKET_WG_GUILDERROR	672	WGGuildError.cpp										
+					only_085	WGGuildReturn	PACKET_WG_GUILDRETURN	673	WGGuildReturn.cpp										
+					only_085	WGMail	PACKET_WG_MAIL	602	WGMail.cpp										
+					only_085	WGNotifyMail	PACKET_WG_NOTIFYMAIL	605	WGNotifyMail.cpp										
+					only_085	WGNotifyUser	PACKET_WG_NOTIFYUSER	540	WGNotifyUser.cpp										
+					only_085	WGRelation	PACKET_WG_RELATION	667	WGRelation.cpp										
+					only_085	WGRetChangeScene	PACKET_WG_RETCHANGESCENE	538	WGRetChangeScene.cpp										
+					only_085	WGRetSceneData	PACKET_WG_RETSCENEDATA	640	WGRetSceneData.cpp										
+					only_085	WGRetUserData	PACKET_WG_RETUSERDATA	536	WGRetUserData.cpp										
+					only_085	WGSystemMsg	PACKET_WG_SYSTEMMSG	751	WGSystemMsg.cpp										
+					only_085	WGTeamAskApply	PACKET_WG_TEAMASKAPPLY	571	WGTeamAskApply.cpp										
+					only_085	WGTeamAskInvite	PACKET_WG_TEAMASKINVITE	557	WGTeamAskInvite.cpp										
+					only_085	WGTeamError	PACKET_WG_TEAMERROR	554	WGTeamError.cpp										
+					only_085	WGTeamFollowList	PACKET_WG_TEAMFOLLOW_LIST	649	WGTeamFollowList.cpp										
+					only_085	WGTeamLeaderAskInvite	PACKET_WG_TEAMLEADERASKINVITE	560	WGTeamLeaderAskInvite.cpp										
+					only_085	WGTeamList	PACKET_WG_TEAM_LIST	682	WGTeamList.cpp										
+					only_085	WGTeamMemberInfo	PACKET_WG_TEAMMEMBERINFO	612	WGTeamMemberInfo.cpp										
+					only_085	WGTeamResult	PACKET_WG_TEAMRESULT	555	WGTeamResult.cpp										
+					only_085	WGWorldTime	PACKET_WG_WORLDTIME	726	WGWorldTime.cpp										
+					only_085	WLRetCharLogin	PACKET_WL_RETCHARLOGIN	681	WLRetCharLogin.cpp										
+					only_085	WLRetDeleteChar	PACKET_WL_RETDELETECHAR	747	WLRetDeleteChar.cpp										

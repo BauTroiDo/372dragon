@@ -1,0 +1,39 @@
+{
+ "schema": 1,
+ "dot": "2026-09-19-maps-kho48-canh-tam-2300",
+ "zero_wmap": true,
+ "ghi_chu": "DONG TAM, chi de DO. Canh 2300 la canh THEM MOI (`scene_install.py add`, type=0, active=1, file=songliao.scn) dung lam host do `songliao` bang client that. Vi sao phai co canh tam: canh 47 that su chay songliao.scn nhung la `type=1`, va cong thuc `scenes-lo2` (tam dat type=0) KHONG ap duoc cho no — DBC da co dong o ID 47 tro `murenxiang.scene` nen `WorldManager.cpp:118` khong bao gio lui ve `client_res`; va dong 47 la du lieu SONG (canh 43 木人巷 dung `clientres=47`). Xem Timeline/handoff/maps-kho48.md muc 5.0b. TACH RIENG khoi maps-kho48-dbc-rows.json de `undo` go duoc rieng dong nay ma khong dung toi 3079/1350.",
+ "rows": [
+  {
+   "id": 2300,
+   "cells": [
+    2300,
+    "Biên Cương Tống Liêu",
+    128,
+    128,
+    "songliao.scene",
+    "songliao.path",
+    "songliao.wCollision",
+    "songliao.jpg",
+    117,
+    60000,
+    "songliaoscene",
+    0,
+    0,
+    0,
+    0,
+    15000,
+    10,
+    "Sign1",
+    "MiniMap_Icon",
+    "YiPinTang_Normal",
+    "MiniMap_Icon",
+    "YipinTang_Hover",
+    "Biên Cương Tống Liêu",
+    "0.2;0.2",
+    0
+   ],
+   "nguon": "sao y dong 3079 cua chinh dot nay (goc: bang SERVER R/configs/SceneDefineEx.txt dong 3079 + ten tieng Viet bang client GL dong 79), chi doi cot 0 thanh 2300. Dai 2300-2399 da kiem TRONG o CA HAI bang (SceneInfo.ini 798 section, DBC client 801 dong) truoc khi dung."
+  }
+ ]
+}

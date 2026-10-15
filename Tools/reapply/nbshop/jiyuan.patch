@@ -1,0 +1,19 @@
+--- a/Game_2/Script/scripts/event/prize/yuanbaoshop.lua
++++ b/Game_2/Script/scripts/event/prize/yuanbaoshop.lua
+@@ -44,6 +44,16 @@
+     end
+ end
+ 
++-- CY YuanbaoShop_Show requests this metadata separately after opening the shelf.
++-- Use the same live dispatcher as odali_shenmishangren:OnEventRequest(index=3).
++function yuanbaoshop:OpenJiYuanShop(selfid, targetid)
++    if targetid == -1 and self:GetLevel(selfid) < 15 then
++        self:notify_tips(selfid, "Chức năng này chỉ dùng được khi cấp bạn >= 15.")
++        return
++    end
++    self:DispatchJiYuanShopInfo(selfid, targetid)
++end
++
+ function yuanbaoshop:yuanbao_pay(selfId, ItemIndex, check, uiindex, hint)
+     if check == 1 then
+         local index, merchadise = self:GetMerchadiseByItemIndex(selfId, ItemIndex)

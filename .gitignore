@@ -1,0 +1,82 @@
+# CY-Source — những gì KHÔNG đưa vào git
+
+# Mã nguồn tham chiếu (chỉ đọc, 3 GB)
+/Reference/
+
+# Tài khoản test cục bộ (người dùng cho phép lưu 14/09; không đưa vào git)
+/.local/
+
+# Dữ liệu game và kết quả dựng (lớn, sinh lại được)
+/Assets/*
+!/Assets/README_vi.md
+!/Assets/Sources/
+/Assets/Sources/*
+!/Assets/Sources/sources.yaml
+/Build/*
+!/Build/README_vi.md
+
+# Ảnh chụp đối chứng (sinh lại được, nặng)
+/Tests/oracle/ours/
+/Tests/oracle/baseline/
+
+# SDK của hãng tải về (FMOD, Cg): giấy phép riêng
+/Src/ThirdParty/_sdk/
+
+# Rác của trình biên dịch / IDE
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.ipch
+*.pch
+*.aps
+*.ncb
+*.sdf
+*.suo
+*.user
+*.VC.db
+.vs/
+out/
+CMakeUserPresets.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Ban sao luu lam viec cua tung dot (dang *.bak-<nhanh>-<ngay>).
+# Chung van o lai tren dia vi cac ban giao co tro toi, nhung KHONG vao git:
+# mot khi da commit thi chinh git la ban sao luu.
+*.bak-*
+
+# Font người dùng cung cấp; bản runtime cùng SHA đã ở Assets/Canonical.
+/NotoSansSC-Regular.ttf
+
+# Public export: local installations and private state
+/Play/
+/Server/db/
+/Server/log/
+/Server/backups/
+/Server/.local/
+/Server/confs/**/*.lua
+/Server/mongod.conf
+/Server/mosquitto.conf
+*.zip
+*.7z
+*.partial
+
+# 372dragon: data restored from the external ZIP stays outside source control.
+/Server/configs/
+/Server/Game_2/Scene/
+/DATA-FILES.json
+/DATA-NOTICE.txt
+
+# SDK/runtime binaries and local build outputs are obtained or built separately.
+*.dll
+*.exe
+*.lib
+*.so
+*.so.*
+*.a
+*.o
+*.bson
+*.dmp

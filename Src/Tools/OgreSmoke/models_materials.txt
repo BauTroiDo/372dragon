@@ -1,0 +1,19 @@
+# CYS: OgreSmoke model list for the material-parity test (2026-09-12). UTF-8.
+# One group per line: label<TAB>mesh[+mesh...]; meshes of a group share one node and play the
+# same animation. Families from pick_models.py (all.material parents, client_GL S1 index).
+Mtl_Character_Lit: male Mingjiao (7 parts)	男主角高模1明教高级100.mesh+男主角高模2明教高级100.mesh+高模3明教.mesh+男主角高模4明教高级100.mesh+4脸.mesh+少爷发型.mesh+明教刀.mesh
+Mtl_Character_PSLit: mount trau_den	trau_den.mesh
+Pbr_Mat: costume Ruihetu	女主角时装瑞鹤图高级01.mesh
+LSHair_Sp: costume jinling	W_cloth_2021jinling01.mesh
+Mtl_OutlineCtrl_FlowLight: pet Yueshen	pet_2025月神一级.mesh+pet_2025月神鸟一级.mesh
+Mtl_Character_FlowLight: pet golden tiger	珍兽211026金虎.mesh
+Mtl_Outline_FlowLight: mount Queqiao	骑乘220524七夕月宫鹊桥.mesh
+Mtl_Char_FLTrans+FlowLight: mount camel	骑乘240520异域骆驼.mesh
+Transparent/AlphaTemplate: npc Lushu	npc_2025珍兽打卡鹿蜀.mesh
+Mtl_Outline: soul crane	兽魂211227仙鹤三级.mesh
+WeaponTemplate: in-mesh material blade	大刀10c.mesh
+WeaponTemplateAlpha: fan	暑期玄铁扇.mesh
+Mtl_Character_XingNing_PlannarRim: pet griffin	pet_2023狮鹫五级.mesh
+Mtl_Character_FlowLight_Uv: dweapon fan	Dweapon_2024芭蕉扇.mesh
+Mtl_Char_Hair_ColourChangable_AlphaBlend: hair	W_hair_2026李师师.mesh
+Mtl_Character_HighLight: wedding dress	女主角时装七夕红男绿女婚服.mesh

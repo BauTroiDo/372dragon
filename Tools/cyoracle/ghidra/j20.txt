@@ -1,0 +1,2 @@
+funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\sync172.txt 14057cf80,14057e2f0
+callers C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\sync172_callers.txt 14057cf80,14057e2f0

@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "path": "Game_2/Script/scripts/event/prize/yuanbaoshop.lua",
+      "patch": "jiyuan.patch",
+      "encoding": "utf-8",
+      "before_sha256": "f6756edd205e704d1a6520c7b47a7a5dcd04ef5aa1531f7e9b3dcd5c07a6607f",
+      "after_sha256": "03b556e11eb42f60eaa48c30c24e97a58aad2087df7683021ef3b081b9ec84fd",
+      "patch_sha256": "cf8fa4646683261073e0c49f1ffe1f7dee3cf58cd94e723f87032c4d82e4d444",
+      "patch_base64": "jiyuan.patch.b64"
+    }
+  ]
+}

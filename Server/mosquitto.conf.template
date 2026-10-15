@@ -1,0 +1,6 @@
+listener 1884 127.0.0.1
+allow_anonymous true
+persistence false
+log_dest file /home/ubuntu/cys-test-20260913/log/mosquitto.log
+pid_file /home/ubuntu/cys-test-20260913/mosquitto.pid
+user root

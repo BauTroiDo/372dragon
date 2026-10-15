@@ -1,0 +1,225 @@
+# sources.yaml - CY-Source asset sources S1-S7 (phase D0). Descriptors only: no data is copied here.
+# Facts from Docs/05-QUY-TRINH-TAI-SAN_vi.md muc 2, Docs/01 muc 7, Docs/evidence/assetinv/ and the D0
+# index run (Tools/pipeline/index_sources.py -> Assets/Staging/index/). Paths are mirrored in
+# index_sources.py (SOURCES / S4_DIR); change both together.
+schema: 1
+updated: 2026-09-12
+rules:
+  - >-
+    Every source is READ-ONLY for the pipeline. Never write into C:\TLBB\085\client, Tools\DATA NEW or
+    Reference. client_GL (S1) is written only by the D1 installer (install.py with check, apply, verify,
+    revert and a backup).
+  - Compare assets across sources by obj/mesh NAME (GBK bytes) plus content hash, never by table ID.
+  - all.obj / all.material / all.effect / all.particle / all.skill are GBK in every source; edit at byte level only.
+  - Tables follow the HJ layout (S1 = S3 = skynet server). CY/JD tables (S2 = S4) need the column map (Docs/08 muc 7.3).
+  - Trailing padding written by the extractors (S1/S2/S3) is removed only in Staging, never in the source.
+format_family_ogre:        # S1, S2, S3, S4, S7 (and S6 TTrangNew) share the file formats
+  mesh: '[MeshSerializer_v1.40] (some v1.30); container chunk sizes are wrong -> read sequentially'
+  skeleton: '[Serializer_v1.10] + Fairy chunk 0x4120'
+  texture: 'DDS DXT1/DXT3/DXT5 + a few ARGB/L8; no BC5/BC7/DX10 header'
+  difference_between_sources: engine features and table layout, not file formats
+
+sources:
+  S1:
+    name: client_GL
+    path: 'C:\TLBB\085\client_GL\Data'
+    kind: loose folders
+    read_only: true
+    identity: >-
+      The client being played ("B"): 085 client with GL-style UI, created 2026-09-04 from
+      C:\TLBB\085\client; modern Fairy engine line (PDB: Temp_Release_v0-08-0101 + Fairy_TLBB_Truck),
+      Game.exe x64 VS2012, D3D9 SM3, with local binary patches (Docs/08 muc 10) and the 2026 content imports.
+    version: '085 client_GL (as of 2026-09-12)'
+    table_layout: HJ   # EquipBase 101 / MonsterAttrEx 71 / PetAttr 51 columns
+    tables: '431 in ConfigFolder: 378 DBC 00CCBBDD + 53 text (header GBK, body UTF-8, CRLF, ascending ID)'
+    text_encoding: 'UTF-8 system since 2026-08-24; all.* scripts and path/key cells stay GBK'
+    filename_encoding: >-
+      GBK bytes shown as cp1252 mojibake (49,429 non-ASCII names in the 12/09 manifest, all in the cp1252
+      range). Real name = name.encode('cp1252').decode('gbk'), bytes 0x81/0x8D/0x8F/0x90/0x9D kept raw.
+    folders:
+      model: [ModelFolder, Model2Folder, Model3Folder]
+      material: [MaterialFolder, Material2Folder, Material3Folder, Material4Folder, Material5Folder]
+      other: [EffectFolder, SceneFolder, InterfaceFolder, ConfigFolder, BrushesFolder, SoundFolder]
+    scripts:
+      obj: 'ModelFolder\all.obj'
+      material: 'MaterialFolder\all.material'
+      effect: 'EffectFolder\all.effect'
+      particle: 'EffectFolder\all.particle'
+      skill: 'EffectFolder\all.skill'
+    material_templates: 'MaterialTemplates.zip (112 files, 97 templates; 2025-11)'
+    scale_2026_09_12: {files: 81114, bytes: 15947736803}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S1_client_GL.tsv'
+    role: BASE of Assets\Canonical (already UTF-8, already carries the 2026 imports)
+    d0_index_2026_09_12:
+      objects_in_all_obj: 6766            # plus 5 duplicated object names (first one kept)
+      objects_complete: 6686              # 52 miss a skeleton file, 27 use undefined materials, 1 misses a texture
+      files_with_trailing_padding: 978    # 875 zero, 103 non-zero, by format-derived length
+      duplicate_basenames: 584
+    notes:
+      - Contains backup files (*.bak-*, *.lolbak, *.mapbak-*, *.pre-*.bak); they are hashed but never indexed as assets.
+      - Some files copied from DataCY during the 2026 imports carry the same 1-12 byte trailing padding as S2.
+
+  S2:
+    name: DataCY31-08-26
+    path: 'C:\TLBB\085\Tools\DATA NEW\DataCY31-08-26'
+    exclude: ['tlbb15', 'tlbb15.zip']   # = S2b, never read by the pipeline
+    kind: loose folders (extracted from AXP)
+    read_only: true
+    identity: >-
+      Client data of the CY/JD 3.71 branch (《新天龙八部》永恒经典版), extracted from the AXP packs about two
+      weeks before S4 (folders dated 2026-08-20..31; zip 2026-09-04). Slightly older than S4 3.71.9609
+      (e.g. all.effect 24,992,999 B vs 25,004,261 B in S4).
+    version: 'JD 3.71, before 3.71.9609'
+    table_layout: CY/JD   # EquipBase 103 / MonsterAttrEx 73 / PetAttr 54 columns
+    tables: '739 text tables, GBK (the same tables are DBC inside S4 Config.axp -> not byte-comparable)'
+    filename_encoding: 'real Unicode (Chinese) names'
+    folders:
+      model: [Model, Model2, Model3, Model4, Model5, Model6, Model7, Model8]
+      material: [Material, Material2, Material3, Material4, Material5, Material6, Material7]   # no Material8 (S4 has 16 dds there)
+      other: [Effect, Scene, Scene2, Interface, Config, Brushes, Sound, MaterialTemplates, OgreCore]
+    scripts: {obj: 'Model\all.obj', material: 'Material\all.material', effect: 'Effect\all.effect',
+              particle: 'Effect\all.particle', skill: 'Effect\all.skill'}
+    material_templates: 'MaterialTemplates\ (loose, 112 files; newer than S1: Model_ps.hlsl, Model_Flow_ps.hlsl, ShaderLib\ParamNamed.inc, ShaderLib\TexKill.inc)'
+    scale_2026_09_12: {files: 108847, bytes: 21444405477}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S2_DataCY.tsv'
+    extraction_padding: >-
+      The extractor appended 1-12 bytes at the end of files that S4 stores with wrapper types 19-25
+      (mostly zero bytes, a minority non-zero garbage). Canonical length = S4 payload length
+      = (list) size - 96. Files of wrapper types 1-18 and plain entries have exact length.
+      Per-file plan: Assets\Staging\index\s2_vs_s4_lengths.tsv (+ s2_vs_s4_summary.txt).
+    role: >-
+      Source of CY-branch models, textures, effects, maps (CY-only maps such as 汴京, *_ZM) and sound.
+      The ONLY source of the 7,368 model entries (6,101 mesh + 1,267 skeleton) that S4 wraps with
+      types 1-18, which the known AXP keys cannot decrypt.
+    use_rule: take bytes from S2, cut to the S4 payload length (Docs/05 muc 3.1)
+    d0_index_2026_09_12:
+      objects_in_all_obj: 11494           # plus 8 duplicated object names
+      objects_complete: 11483
+      pairs_with_S4: 108694
+      identical_to_S4_payload: 81940      # sha256 equal, no trim needed
+      padded_then_identical_after_trim: 18431   # 16,484 zero tail + 1,947 non-zero tail; all S4 wrapper 19-25; 1..12 bytes
+      exact_length_w1_18_unverifiable: 7368
+      content_differs_from_S4: 216        # S4 3.71.9609 is newer (Scene/Scene2 dds, Interface lua/xml, all.* scripts, filedep.xml)
+      config_text_vs_S4_dbc: 739
+      S4_entries_missing_in_S2: 32        # 9609 additions: 2026纸雕 / 咖啡杯猫 / 纸雕帽 / 年中鹿 (Model8+Material8), 4 brushes, 3 tables, 1 icon
+      S2_files_without_S4_entry: 153      # MaterialTemplates 112, OgreCore 19, Material7 17 + Model8 5 (2026风云联动龙脉01, 2026元宵节墨青马)
+
+  S2b:
+    name: tlbb15
+    path: 'C:\TLBB\085\Tools\DATA NEW\DataCY31-08-26\tlbb15'
+    kind: server (Linux x64 C++, hooked, ASLR off), HJ table layout
+    read_only: true
+    role: reference only - NOT used by the pipeline
+    notes:
+      - Contains config.yaml with credentials. Never read it into logs, reports or indexes.
+
+  S3:
+    name: CYHJ091026
+    path: 'C:\TLBB\085\Tools\DATA NEW\CYHJ091026'
+    kind: loose folders (extracted)
+    read_only: true
+    identity: 'Official 怀旧 (HJ) client data, 2026-09/10 (folders dated 2026-09-10)'
+    version: 'HJ 2026-09/10'
+    table_layout: HJ   # same columns as S1; adds EquipBase Type 27 (fashion) and Type 43 (mount)
+    tables: '446 text tables, GBK'
+    filename_encoding: 'real Unicode (Chinese) names'
+    folders:
+      model: [Model, Model2, Model3, Model4]
+      material: [Material, Material2, Material3, Material4, Material5, Material6]
+      other: [Effect, Scene, Scene2, Interface, Config, Brushes, Sound, LaunchSkin]
+    scripts: {obj: 'Model\all.obj', material: 'Material\all.material', effect: 'Effect\all.effect',
+              particle: 'Effect\all.particle', skill: 'Effect\all.skill'}
+    scale_2026_09_12: {files: 75536, bytes: 13483408742}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S3_CYHJ.tsv'
+    extraction_padding: 'Same extractor artefact as S2 (1-12 trailing bytes, also on files that S4 stores plain); use the format-derived length.'
+    role: 'HJ content: official variants (dweapon_hj2026*), HJ-only effects/particles/skills/materials, HJ maps, table rows'
+    d0_index_2026_09_12:
+      objects_in_all_obj: 6183
+      objects_complete: 6148              # 27 undefined materials, 5 missing textures, 3 missing skeletons
+      files_with_trailing_padding: 12610  # 11,093 zero, 1,517 non-zero, by format-derived length
+
+  S4:
+    name: CY Game
+    path: 'C:\TLBB\085\Tools\DATA NEW\CY Game\Data'
+    kind: AXP v1.1 archives (magic AXPK 0x4b505841, version 0x10001), 23 files
+    read_only: true
+    identity: >-
+      《新天龙八部》永恒经典版 installer XTLBB-JD-3.71.9509_GF, patched to 3.71.9609 by eight .xzip patches
+      (Patch\xtlbb-jd-3.71.9509-3.71.9518.xzip ... 3.71.9596-3.71.9609.xzip, already applied into the .axp).
+      Root file "(version)" starts with '3.71.9609|109028'.
+    version: '3.71.9609'
+    table_layout: CY/JD
+    tables: '742 DBC (00CCBBDD) in Config.axp'
+    reader: 'CY-Source\Docs\evidence\assetinv\axp_index.py (port of Tools\AXPDecryptor\AxpDecryptor.cs)'
+    list_format: >-
+      Internal "(list)": 'name|SIZE_HEX|CHECK_HEX'. SIZE = stored entry size (payload + 96-byte wrapper
+      header when wrapped). CHECK is not CRC-32 or Adler-32 of the payload (meaning unknown).
+    wrappers: >-
+      Inner 96-byte header 'SEPCIAL_FILE_HD' (XOR). Types 19-25 decrypt with the known keys; types 1-18 do
+      not (7,368 entries, all in Model*.axp: 6,101 mesh + 1,267 skeleton) -> those files come from S2.
+    other_files: [MaterialTemplates.zip, OgreCore.zip, ndata.dat]
+    scale_2026_09_12: {archives: 23, listed_entries: 108726, bytes: 21675716853}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S4_CYGame.tsv (archive level); per-entry lists in Docs\evidence\assetinv\axplist_*.txt'
+    role: >-
+      Authority for the exact LENGTH of every S2 file; direct source for plain entries and wrapper types
+      19-25 when a newer version than S2 is needed.
+    d0_index_2026_09_12:
+      objects_in_all_obj: 11495           # plus 8 duplicated object names
+      wrappers: {plain: 58501, w19_25: 42857, w1_18: 7368}
+      w1_18_by_archive: {Model.axp: 7193, Model2.axp: 16, Model5.axp: 159}
+      entity_meshes_needing_S2: 3514      # w1-18 meshes referenced by 2,752 objects
+      unlisted_entries_found_by_S2_names: 0
+
+  S5:
+    name: TLGL_extracted
+    path: 'C:\TLBB\085\Tools\DATA NEW\TLGL_extracted'
+    kind: extracted JPAK client of another engine
+    read_only: true
+    identity: '天龙八部·归来 1.0.190 (tlbb_setup_gwobzb11_full_1.0.190.exe), D3D11 engine, extracted with the DIY tools (95.7 % named)'
+    scale_2026_09_12: {files: 120934, bytes: 10019236967}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S5_TLGL_extracted.tsv'
+    role: 'UI images (ui_png) and models through converters (glpet2tlbb.py -> gltf2tlbb.py)'
+    notes:
+      - Different engine - layouts, Lua and maps are NOT usable; .pu effects (JBPU) are not decoded yet.
+      - Textures are JMT1 (jmt2png.py -> DDS); meshes need a V flip.
+
+  S6:
+    name: loose packs
+    kind: small packs
+    read_only: true
+    items:
+      - {name: DIY, path: 'C:\TLBB\085\Tools\DATA NEW\DIY', what: 'GL client extraction tools (jpak.py, extract_all.py, jmt2png.py, ...)'}
+      - {name: TTrangNew, path: 'C:\TLBB\085\Tools\DATA NEW\TTrangNew', what: 'fashion packs 2026七夕项羽 / 七夕虞姬 / 聂风 / 第二梦 (Ogre formats, 41 files)'}
+      - {name: trau, path: 'C:\TLBB\085\Tools\DATA NEW\trâu', what: 'JX3 model 辛丑牛02 (KSword3D .Mesh/.Ani, needs jx3mount2tlbb.py)'}
+      - {name: XTLBB installer, path: 'C:\TLBB\085\Tools\DATA NEW\XTLBB-JD-3.71.9509_GF (1)', what: 'installer of S4 (3.71.9509)'}
+    manifests: ['files_S6_DIY.tsv', 'files_S6_TTrangNew.tsv', 'files_S6_trau.tsv']
+
+  S7:
+    name: 085 original data
+    path: 'C:\TLBB\085\CY-Source\Reference\tlbb085\085\Build\Client\Data'
+    kind: loose folders
+    read_only: true
+    identity: '0.85 build data shipped with the Reference source tree; "(version)" starts with 0.85.9602|23121'
+    version: '0.85.9602'
+    folders: {model: [Model], material: [Material], other: [Effect, Scene, Interface, Config, Brushes, Sound, LaunchSkin]}
+    scale_2026_09_12: {files: 22791, bytes: 1401541983}
+    manifest: 'Assets\Sources\manifests-2026-09-12\files_S7_085orig.tsv'
+    role: 'sandbox only (engine track E1a: 0.85 world)'
+    notes:
+      - all.material uses 12 legacy templates (NPCnMonster*Template, CharacterTemplate*, TransparentTemplate;
+        3,129 references). Do NOT mix into Canonical unless re-parented to a modern template (e.g. Mtl_Character_PSLit).
+
+d0_findings_2026_09_12:
+  - 'Trim rule verified on content: S2[:(list) size - 96] equals the decrypted S4 payload for all 18,431 padded S2 files; the format-derived length (mesh/skeleton/DDS/PNG/JPG) equals that payload length for 18,265 of them.'
+  - 'S1 and S3 carry the same extractor padding (978 and 12,610 files): compare and copy by format-derived length (column sha256_content), never by raw size.'
+  - '14,078 distinct obj names. 3,606 are in all four sources; meshes identical in 2,836, different in 321, identical in S1-S3 but S4 undecryptable (w1-18) in 447.'
+  - 'The CY branch (S2 = S4) re-encoded its DDS files: same size, format and mip count as HJ/GL (S1 = S3) but other DXT block bytes. 2,892 of the 3,606 differ only this way; 56 differ in texture size or format.'
+  - 'Branch-only objects: 7,274 only in S2+S4 (CY), 2,540 only in S1+S3 (HJ/GL), 585 in S1+S2+S4 (CY imports in client_GL), 33 only in S1 (local custom), 8 only in S3, 3 only in S4.'
+  - 'Effects by name + whitespace-normalised block hash: 24,838 effect / 82,241 particle / 7,477 skill names; differing definitions 121 / 1,025 / 528 (skills mostly S1=S3 vs S2=S4); S1-only 405 / 1,560 / 276.'
+  - 'The (list) CHECK field is not CRC-32 or Adler-32 of the payload.'
+
+index:
+  tool: 'CY-Source\Tools\pipeline\index_sources.py (+ tlbbfmt.py)'
+  output: 'CY-Source\Assets\Staging\index\'
+  files: [sha256_S1.tsv, sha256_S2.tsv, sha256_S3.tsv, models_S1.tsv, models_S2.tsv, models_S3.tsv, models_S4.tsv,
+          models_cross.tsv, effects_cross.tsv, s2_vs_s4_lengths.tsv, s2_vs_s4_summary.txt, index_summary.json]

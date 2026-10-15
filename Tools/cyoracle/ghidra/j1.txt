@@ -1,0 +1,5 @@
+pkt C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\login.txt CLConnect=140c28048,LCRetConnect=140c8db18,CLAskLogin=140c28098,LCRetLogin=140c8d818,LCStatus=140c8d998,CLAskCharList=140c280e8,LCRetCharList=140c8d8d8,CLAskCharLogin=140c29438,LCRetCharLogin=140c8da58,CLAskCreateChar=140c29ab8,LCRetCreateChar=140c8dbd8
+pkt C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\game1.txt CGConnect=140c2c2d8,GCConnect=140c9b0d8,KeyExchange=140c8e4d8,CGEnterScene=140c29e48,GCEnterScene=140c9b498,CGHeartBeat=140bceb28
+pkt C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\game2.txt GCDetailAttrib=140c9d868,GCCharBaseAttrib=140c9c7e8,GCCharEquipment=140c9c8a8,GCNewPlayer=140c9b8e8,GCNewPlayer_Move=140c9f2a8,GCNewMonster=140c9eca8,GCNewMonster_Move=140c9ed68,CGCharMove=140c220c8,GCCharMove=140c9cde8,GCPlayerRealMove=140c9b828,GCWorldTime=140ca5208,CGAskDetailAttrib=140b263e8
+scalar C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\scalar_3aa68.txt 3aa68,140001000,140a38000
+strdec C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\str_pktsize.txt (Packet size error!|Read Packet|PacketID=|LoginServer|SERVER_BEGIN)

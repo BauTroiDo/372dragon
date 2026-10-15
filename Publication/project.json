@@ -1,0 +1,18 @@
+{
+  "name": "372dragon",
+  "repository_name": "372dragon",
+  "former_name": "CY-Source",
+  "description": "TLBB x64 client and Skynet/Lua server source, development tools and technical documentation. Test data is distributed separately; licenses apply by component.",
+  "topics": ["tlbb", "mmorpg", "game-client", "game-server", "cpp", "lua", "skynet", "ogre3d", "direct3d9", "windows", "x64", "source-available", "research"],
+  "primary_language": "vi",
+  "default_branch": "main",
+  "github_owner": "ts4m97",
+  "github_url": "https://github.com/ts4m97/372dragon",
+  "status": "source-snapshot",
+  "source_archive_name": "372dragon-source-2026-10-15.zip",
+  "source_archive_root": "372dragon",
+  "banner": "Docs/assets/372dragon-banner.svg",
+  "social_preview": "Docs/assets/372dragon-social.png",
+  "data_name_unchanged": "cy-test-data-2026-10-15.zip",
+  "license_scope": "PolyForm Noncommercial 1.0.0 for eligible original contributions only; inherited code, third-party components and data retain their respective terms."
+}

@@ -1,0 +1,391 @@
+# Lựa chọn bản chuẩn, sinh TỰ ĐỘNG bởi Tools/pipeline/auto_select.py (người dùng yêu cầu hạn chế duyệt tay).
+# Luật: bỏ bản thiếu/giữ chỗ -> đồng thuận >= 2 nguồn -> điểm chất lượng (giữ S1 nếu kém < 15%%) -> S1>S3>S2.
+# Nguồn: C:/TLBB/085/CY-Source/Assets/Staging/review/2026-09-12-variants/data.json
+"0物品/包袱.obj": S1  # đồng thuận S1=S3
+"Buff_场景机制特效_地面火焰_空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"CJ包袱.obj": S1  # đồng thuận S1=S3
+"HJ_npc秦皇地宫小宝箱220802.obj": S1  # đồng thuận S1=S3
+"boss_2025通天塔迦叶尊者_技能1法眼npc.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"boss_2025通天塔迦楼罗王_技能1龙卷风.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"boss_2026武神坛耶律浚.obj": S3  # đồng thuận S3=S2
+"boss_2026武神坛萧阿刺.obj": S3  # đồng thuận S3=S2
+"boss_大话PVE_孙悟空_技能1_宽5m矩形预警.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"boss_大话PVE_孙悟空_技能1_扇形预警.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"boss_大话PVE_孙悟空_技能1_矩形预警.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"boss四绝庄琴韵100121.obj": S1  # đồng thuận S1=S3
+"dweapon_2026冰元素环右.obj": S1  # đồng thuận S1=S3
+"dweapon_2026冰元素环左.obj": S1  # đồng thuận S1=S3
+"hj_npc残星共暗盒24.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc100107姑苏慕容丫鬟1.obj": S1  # đồng thuận S1=S3
+"npc20151130圣诞树4.obj": S1  # đồng thuận S1=S3
+"npc20151130礼盒1.obj": S1  # đồng thuận S1=S3
+"npc20151130礼盒2.obj": S1  # đồng thuận S1=S3
+"npc20151130礼盒3.obj": S1  # đồng thuận S1=S3
+"npc20151130礼盒4.obj": S1  # đồng thuận S1=S3
+"npc20151201圣诞丝带.obj": S1  # đồng thuận S1=S3
+"npc20151201圣诞小熊.obj": S1  # đồng thuận S1=S3
+"npc20151201圣诞糖果.obj": S1  # đồng thuận S1=S3
+"npc_2023suxinghe.obj": S1  # điểm S1 39.1 ~ tốt nhất S1 39.1 -> giữ S1
+"npc_2023xuzhu.obj": S1  # điểm S1 40.3 ~ tốt nhất S1 40.3 -> giữ S1
+"npc_2024冰雕虎1级武器.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024冰雕虎1级盾.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024冰雕虎2级武器.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024冰雕虎2级盾.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024冰雕虎3级武器.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024冰雕虎3级盾.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024变身白晶晶.obj": S1  # đồng thuận S1=S3
+"npc_2024大话演绎02.obj": S1  # đồng thuận S1=S3
+"npc_2024大话银锁金铃.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024旋转木马三米五.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024旋转木马五米.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024旋转木马八米.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024旋转木马六米五.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒传送白.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒传送红.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒传送绿.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒碎片.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光精华.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光精粹.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024空物体卷轴.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024观心镜.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024采集点兵刃.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024采集点头盔.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024采集点战靴.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024采集点护腕.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024采集点铠甲.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025七夕打卡小倩.obj": S1  # đồng thuận S1=S3
+"npc_2025巅峰系统萧峰.obj": S1  # đồng thuận S1=S3
+"npc_2026七夕副本动态阻挡_猩红荆棘.obj": S2  # mọi bản đầy đủ giống nhau
+"npc_2026凌霄梦尘1级.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2026凌霄梦尘2级.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2026凌霄梦尘3级.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2026空模型bus.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2026预热疯狂铸剑台.obj": S1  # đồng thuận S1=S3
+"npc_2026风云pve未激活撤离区域.obj": S1  # đồng thuận S1=S3
+"npc_ERG_2024坐骑管理员刑万里.obj": S1  # đồng thuận S1=S3
+"npc_ERG_2024武功传授人叶二娘.obj": S1  # đồng thuận S1=S3
+"npc_ERG_2024门派气氛印公.obj": S1  # đồng thuận S1=S3
+"npc_ERG_2024门派辅助生活技能山曜.obj": S1  # đồng thuận S1=S3
+"npc_冰雪节割草_狂轰乱炸1.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_冰雪节割草_狂轰乱炸2.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_象棋pvp_空物体技能1.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_象棋pvp_空物体技能2.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_一级剑_地面放置.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_一级护心符.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_三级剑_地面放置.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_三级固身符.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_二级剑_地面放置.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_二级回魂符.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_神仙卷.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_雪人PVP倩女版本_锁魂针.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc中年妇女_喝茶.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc中年妇女_围观.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc中年妇女_购买.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc仆从变色二200706_喝茶.obj": S1  # điểm S1 39.3 ~ tốt nhất S1 39.3 -> giữ S1
+"npc仆从变色二200706_围观.obj": S1  # điểm S1 39.3 ~ tốt nhất S1 39.3 -> giữ S1
+"npc仆从变色二200706_站立.obj": S1  # điểm S1 39.3 ~ tốt nhất S1 39.3 -> giữ S1
+"npc四绝庄潘菁菁.obj": S1  # đồng thuận S1=S3
+"npc姑苏慕容接引人091228.obj": S1  # đồng thuận S1=S3
+"npc怪_2025地狱之门形迹可疑的探子.obj": S1  # đồng thuận S1=S3
+"npc怪_2025帝陵重现辽国骑兵.obj": S1  # đồng thuận S1=S3
+"npc怪_2026耶律浚巡逻兵.obj": S3  # đồng thuận S3=S2
+"npc怪_2026耶律浚突石.obj": S3  # đồng thuận S3=S2
+"npc怪_2026萧阿刺巡逻兵.obj": S3  # đồng thuận S3=S2
+"npc怪_2026萧阿刺落石.obj": S3  # đồng thuận S3=S2
+"npc怪五龙柱100126_土.obj": S1  # đồng thuận S1=S3
+"npc怪五龙柱100126_火.obj": S1  # đồng thuận S1=S3
+"npc怪姑苏门派轻功飞贼20091229.obj": S1  # đồng thuận S1=S3
+"npc怪姑苏门派轻功飞贼20091229红.obj": S1  # đồng thuận S1=S3
+"npc怪姑苏门派轻功飞贼20091229绿.obj": S1  # đồng thuận S1=S3
+"npc怪姑苏门派轻功飞贼20091229蓝.obj": S1  # đồng thuận S1=S3
+"npc怪宝箱棋子1.obj": S1  # đồng thuận S1=S3
+"npc怪宝箱棋子2.obj": S1  # đồng thuận S1=S3
+"npc扫地僧090805.obj": S1  # đồng thuận S1=S3
+"npc汴梁城中年男子200630.obj": S1  # đồng thuận S1=S3
+"npc汴梁城中年男子200630_交谈.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城中年男子200630_购买.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城中年男子绿色200630_交谈.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc汴梁城中年男子绿色200630_喝酒.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc汴梁城书生200722.obj": S1  # điểm S1 36.6 ~ tốt nhất S2 40.8 -> giữ S1
+"npc汴梁城书生200722_交谈.obj": S1  # điểm S1 36.8 ~ tốt nhất S1 36.8 -> giữ S1
+"npc汴梁城侍女_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城农妇200729_交谈.obj": S1  # điểm S1 40.2 ~ tốt nhất S1 40.2 -> giữ S1
+"npc汴梁城农妇200729_交谈2.obj": S1  # điểm S1 40.2 ~ tốt nhất S1 40.2 -> giữ S1
+"npc汴梁城农妇200729_洗衣服2.obj": S1  # điểm S1 40.2 ~ tốt nhất S1 40.2 -> giữ S1
+"npc汴梁城农妇200729_购买3.obj": S1  # điểm S1 40.2 ~ tốt nhất S1 40.2 -> giữ S1
+"npc汴梁城农妇黄色200813_交谈.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城农妇黄色200813_购买.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城古董小贩200710_围观.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城古董小贩200710_购买.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城圆领平民男子紫_二胡.obj": S1  # đồng thuận S1=S3
+"npc汴梁城圆领平民男子紫_交谈.obj": S1  # đồng thuận S1=S3
+"npc汴梁城圆领平民男子黄_二胡.obj": S1  # đồng thuận S1=S3
+"npc汴梁城圆领平民男子黄_弹阮2.obj": S1  # đồng thuận S1=S3
+"npc汴梁城坐堂医生20200722_交谈.obj": S1  # đồng thuận S1=S3
+"npc汴梁城坐堂医生20200722_围观.obj": S1  # đồng thuận S1=S3
+"npc汴梁城外卖平民男200722.obj": S1  # đồng thuận S1=S3
+"npc汴梁城大内禁军.obj": S1  # đồng thuận S1=S3
+"npc汴梁城女青年200702.obj": S3  # đồng thuận S3=S2
+"npc汴梁城女青年200702_交谈.obj": S3  # đồng thuận S3=S2
+"npc汴梁城女青年200702_围观.obj": S3  # đồng thuận S3=S2
+"npc汴梁城女青年200702_撑伞站立.obj": S3  # đồng thuận S3=S2
+"npc汴梁城女青年200702_站立.obj": S3  # đồng thuận S3=S2
+"npc汴梁城女青年变色200702_交谈.obj": S1  # đồng thuận S1=S2
+"npc汴梁城女青年变色200702_围观.obj": S1  # đồng thuận S1=S2
+"npc汴梁城女青年变色200702_撑伞站立.obj": S1  # đồng thuận S1=S2
+"npc汴梁城字画书生200821.obj": S1  # điểm S1 39.7 ~ tốt nhất S2 42.1 -> giữ S1
+"npc汴梁城富家公子.obj": S1  # đồng thuận S1=S3
+"npc汴梁城富家公子02_交谈.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子_交谈.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子_喝酒.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子_购买.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子灰色02_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城富家公子灰色_交谈.obj": S1  # đồng thuận S1=S3
+"npc汴梁城富家公子红色02_交谈.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子红色02_购买.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家公子红色_购买.obj": S1  # điểm S1 40.3 ~ tốt nhất S2 40.4 -> giữ S1
+"npc汴梁城富家女.obj": S1  # điểm S1 39.9 ~ tốt nhất S2 41.1 -> giữ S1
+"npc汴梁城富家女_交谈.obj": S3  # đồng thuận S3=S2
+"npc汴梁城富家女_撑伞.obj": S3  # đồng thuận S3=S2
+"npc汴梁城富家女_购买.obj": S3  # đồng thuận S3=S2
+"npc汴梁城富家女_购买2.obj": S3  # đồng thuận S3=S2
+"npc汴梁城富家女_购买3.obj": S3  # đồng thuận S3=S2
+"npc汴梁城富家女蓝衣200720_围观.obj": S1  # điểm S1 41.1 ~ tốt nhất S1 41.1 -> giữ S1
+"npc汴梁城小女孩.obj": S1  # điểm S1 39.6 ~ tốt nhất S2 39.8 -> giữ S1
+"npc汴梁城小女孩变色_围观.obj": S1  # đồng thuận S1=S3
+"npc汴梁城小男孩.obj": S1  # điểm S1 39.8 ~ tốt nhất S1 39.8 -> giữ S1
+"npc汴梁城小男孩_吃糖葫芦.obj": S1  # điểm S1 39.8 ~ tốt nhất S1 39.8 -> giữ S1
+"npc汴梁城小男孩_围观细看.obj": S1  # điểm S1 39.8 ~ tốt nhất S1 39.8 -> giữ S1
+"npc汴梁城小男孩_放风筝.obj": S1  # điểm S1 39.8 ~ tốt nhất S1 39.8 -> giữ S1
+"npc汴梁城小男孩变色.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城小男孩变色_围观.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城小男孩变色_围观2.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城小男孩拨浪鼓_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城师爷绿色200808.obj": S1  # điểm S1 39.6 ~ tốt nhất S2 42.0 -> giữ S1
+"npc汴梁城师爷绿色200808_围观.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城平民男吵架_吵架.obj": S1  # đồng thuận S1=S3
+"npc汴梁城抱娃平民女紫衣200721_围观.obj": S1  # đồng thuận S1=S3
+"npc汴梁城抱娃平民女紫衣200721_围观2.obj": S1  # đồng thuận S1=S3
+"npc汴梁城抱娃平民女紫衣200721_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城抱娃平民女紫衣200721_购买.obj": S1  # đồng thuận S1=S3
+"npc汴梁城挑夫喽啰200723.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城挑夫喽啰200723_交谈.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城挑夫喽啰200723_喝茶2.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城挑夫喽啰200723_围观2.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城挑夫喽啰200723_蹲地购买.obj": S1  # điểm S1 39.5 ~ tốt nhất S1 39.5 -> giữ S1
+"npc汴梁城普通男人四200822_喝酒.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城普通男人四200822_围观.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城杂货风车小贩200723.obj": S1  # điểm S1 41.6 ~ tốt nhất S1 41.6 -> giữ S1
+"npc汴梁城杂货风车小贩200723_交谈.obj": S1  # điểm S1 41.6 ~ tốt nhất S1 41.6 -> giữ S1
+"npc汴梁城杂货风车小贩200723_站立.obj": S1  # điểm S1 41.6 ~ tốt nhất S1 41.6 -> giữ S1
+"npc汴梁城杂货食品小贩200723.obj": S1  # điểm S1 40.0 ~ tốt nhất S1 40.0 -> giữ S1
+"npc汴梁城杂货食品小贩200723_喝茶.obj": S1  # điểm S1 40.0 ~ tốt nhất S1 40.0 -> giữ S1
+"npc汴梁城杂货食品小贩200723_喝茶2.obj": S1  # điểm S1 40.0 ~ tốt nhất S1 40.0 -> giữ S1
+"npc汴梁城杂货食品小贩200723_围观.obj": S1  # điểm S1 40.0 ~ tốt nhất S1 40.0 -> giữ S1
+"npc汴梁城李清照坐船_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城男书童_站立.obj": S1  # điểm S1 38.5 ~ tốt nhất S1 38.5 -> giữ S1
+"npc汴梁城男书童一_读书.obj": S1  # điểm S1 38.5 ~ tốt nhất S1 38.5 -> giữ S1
+"npc汴梁城男青年200701.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城男青年200701_交谈2.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城男青年200701_喝茶.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城男青年变色200701_喝茶.obj": S1  # đồng thuận S1=S3
+"npc汴梁城男青年变色200701_购买.obj": S1  # đồng thuận S1=S3
+"npc汴梁城码头挑夫工头200723_围观.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc汴梁城码头挑夫工头200723_站立.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc汴梁城码头挑夫工头200723_购买.obj": S1  # điểm S1 39.2 ~ tốt nhất S1 39.2 -> giữ S1
+"npc汴梁城粉色青楼女子200723_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城糖葫芦小贩_吆喝.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城糖葫芦小贩_喝茶.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城糖葫芦小贩_喝酒.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc汴梁城紫毛青楼女子200728.obj": S1  # điểm S1 38.6 ~ tốt nhất S3 38.6 -> giữ S1
+"npc汴梁城紫毛青楼女子200728_站立.obj": S1  # điểm S1 38.6 ~ tốt nhất S3 38.6 -> giữ S1
+"npc汴梁城红色青楼女子200724.obj": S3  # đồng thuận S3=S2
+"npc汴梁城红色青楼女子200724_站立.obj": S3  # đồng thuận S3=S2
+"npc汴梁城老大爷200723.obj": S1  # đồng thuận S1=S3
+"npc汴梁城老大爷200723_交谈.obj": S1  # đồng thuận S1=S3
+"npc汴梁城老大爷200723_围观.obj": S1  # đồng thuận S1=S3
+"npc汴梁城老大爷200723_打扫.obj": S1  # đồng thuận S1=S3
+"npc汴梁城老大爷200723_购买.obj": S1  # đồng thuận S1=S3
+"npc汴梁城老年人变色200629_围观.obj": S1  # đồng thuận S1=S3
+"npc汴梁城药摊小贩200710.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城药摊小贩200710_喝酒.obj": S1  # điểm S1 38.8 ~ tốt nhất S1 38.8 -> giữ S1
+"npc汴梁城蓝色青楼女子200724_站立.obj": S3  # đồng thuận S3=S2
+"npc汴梁城赌坊伙计小乙.obj": S1  # điểm S1 39.9 ~ tốt nhất S1 39.9 -> giữ S1
+"npc汴梁城赌坊伙计小乙_交谈.obj": S1  # điểm S1 39.9 ~ tốt nhất S1 39.9 -> giữ S1
+"npc汴梁城赌坊伙计小乙_喝酒.obj": S1  # điểm S1 39.9 ~ tốt nhất S1 39.9 -> giữ S1
+"npc汴梁城赌坊伙计小乙_围观.obj": S1  # điểm S1 39.9 ~ tốt nhất S1 39.9 -> giữ S1
+"npc汴梁城跑堂男200630_倒茶.obj": S1  # đồng thuận S1=S3
+"npc汴梁城酒摊小贩200710.obj": S1  # đồng thuận S1=S3
+"npc汴梁城马车_站立.obj": S1  # đồng thuận S1=S3
+"npc汴梁城骆驼200728_站立.obj": S1  # đồng thuận S1=S3
+"npc空模型.obj": S1  # đồng thuận S1=S3
+"npc空模型_2026精英怪萧孝穆_子弹刀光.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc空模型_2026精英怪萧德温_子弹刀光.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc空模型_boss耶律浚_技能3_突石_预警.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc空模型_七夕副本出场黑雾.obj": S1  # đồng thuận S1=S3
+"npc立繁.obj": S1  # đồng thuận S1=S3
+"npc紫色真心祈福气球091231.obj": S1  # đồng thuận S1=S3
+"npc西域年轻男子1.obj": S1  # đồng thuận S1=S3
+"npc西域年轻男子1a.obj": S1  # đồng thuận S1=S3
+"npc西域年轻男子1b.obj": S1  # đồng thuận S1=S3
+"npc许愿树.obj": S1  # đồng thuận S1=S3
+"npc许愿树1001时.obj": S1  # đồng thuận S1=S3
+"npc许愿树501时.obj": S1  # đồng thuận S1=S3
+"npc许愿树801时.obj": S1  # đồng thuận S1=S3
+"pet_2024牛魔王三级.obj": S1  # đồng thuận S1=S3
+"pet_2024牛魔王三级01.obj": S1  # đồng thuận S1=S3
+"pet_2025混世魔猿五级.obj": S1  # đồng thuận S1=S3
+"pet_2025混世魔猿五级01.obj": S1  # đồng thuận S1=S3
+"top_2025燕赤霞.obj": S1  # đồng thuận S1=S3
+"中年乞丐.obj": S1  # đồng thuận S1=S3
+"九大门派骑乘狮子.obj": S1  # đồng thuận S1=S3
+"于九莲.obj": S1  # đồng thuận S1=S3
+"云中鹤.obj": S1  # đồng thuận S1=S3
+"倩女幽魂_碎裂大圆台.obj": S1  # đồng thuận S1=S3
+"全冠清.obj": S1  # đồng thuận S1=S3
+"兰剑.obj": S1  # đồng thuận S1=S3
+"出尘子.obj": S1  # đồng thuận S1=S3
+"北方老年男性.obj": S1  # đồng thuận S1=S3
+"单正.obj": S1  # đồng thuận S1=S3
+"南海鳄神.obj": S1  # đồng thuận S1=S3
+"叶二娘.obj": S1  # đồng thuận S1=S3
+"周年代币npc王语嫣.obj": S1  # đồng thuận S1=S3
+"大刀4a.obj": S1  # đồng thuận S1=S3
+"大刀4b.obj": S1  # đồng thuận S1=S3
+"大角狼兽身3.obj": S1  # đồng thuận S1=S3
+"天山男弟子.obj": S1  # đồng thuận S1=S3
+"天山骑乘弟子.obj": S1  # đồng thuận S1=S3
+"天山高级骑乘弟子.obj": S1  # đồng thuận S1=S3
+"女主角高模天山.obj": S1  # đồng thuận S1=S3
+"女主角高模少林.obj": S1  # đồng thuận S1=S3
+"女主角高模星宿.obj": S1  # đồng thuận S1=S3
+"奸商.obj": S1  # điểm S1 34.0 ~ tốt nhất S1 34.0 -> giữ S1
+"宁虚散人.obj": S1  # đồng thuận S1=S3
+"宋箭楼空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"客栈老板.obj": S1  # điểm S1 32.2 ~ tốt nhất S1 32.2 -> giữ S1
+"富书生B.obj": S1  # đồng thuận S1=S3
+"小和尚.obj": S1  # đồng thuận S1=S3
+"小男孩3.obj": S1  # đồng thuận S1=S3
+"小茗.obj": S1  # đồng thuận S1=S3
+"小茗2.obj": S1  # đồng thuận S1=S3
+"小贩.obj": S1  # đồng thuận S1=S3
+"少妇.obj": S1  # điểm S1 32.5 ~ tốt nhất S1 32.5 -> giữ S1
+"峨嵋骑乘弟子.obj": S1  # đồng thuận S1=S3
+"峨嵋高级骑乘弟子.obj": S1  # đồng thuận S1=S3
+"师门任务/灵芝.obj": S1  # điểm S1 20.6 ~ tốt nhất S1 20.6 -> giữ S1
+"师门任务/瓶子4.obj": S1  # điểm S1 25.3 ~ tốt nhất S1 25.3 -> giữ S1
+"师门任务/箱.obj": S1  # điểm S1 24.0 ~ tốt nhất S1 24.0 -> giữ S1
+"师门任务/米筐.obj": S1  # điểm S1 23.2 ~ tốt nhất S1 23.2 -> giữ S1
+"幻世武器230920暗夜荧光冰枪三级.obj": S1  # đồng thuận S1=S3
+"幻世武器230920暗夜荧光冰枪二级.obj": S1  # đồng thuận S1=S3
+"张全祥.obj": S1  # đồng thuận S1=S3
+"张玄素.obj": S1  # đồng thuận S1=S3
+"恶人谷门派高手武器.obj": S1  # đồng thuận S1=S3
+"慕容博.obj": S1  # đồng thuận S1=S3
+"战斗丐帮弟子.obj": S1  # đồng thuận S1=S3
+"扇子1C.obj": S1  # đồng thuận S1=S3
+"扇子2A.obj": S1  # đồng thuận S1=S3
+"扇子2B.obj": S1  # đồng thuận S1=S3
+"扇子3A.obj": S1  # đồng thuận S1=S3
+"扇子4A.obj": S1  # đồng thuận S1=S3
+"扇子8A.obj": S1  # đồng thuận S1=S3
+"方百花.obj": S1  # đồng thuận S1=S3
+"普通侠士2.obj": S1  # đồng thuận S1=S3
+"林和靖.obj": S1  # đồng thuận S1=S3
+"林灵素.obj": S1  # đồng thuận S1=S3
+"段正明.obj": S1  # đồng thuận S1=S3
+"沙漠野人战士.obj": S1  # đồng thuận S1=S3
+"洛阳客栈老板.obj": S1  # đồng thuận S1=S3
+"流寇一品堂头目.obj": S1  # đồng thuận S1=S3
+"海盗鼠.obj": S1  # đồng thuận S1=S3
+"海盗鼠大红.obj": S1  # đồng thuận S1=S3
+"海盗鼠深红.obj": S1  # đồng thuận S1=S3
+"海盗鼠湖蓝.obj": S1  # đồng thuận S1=S3
+"海盗鼠炭黑.obj": S1  # đồng thuận S1=S3
+"海盗鼠紫.obj": S1  # đồng thuận S1=S3
+"海盗鼠绿.obj": S1  # đồng thuận S1=S3
+"海盗鼠钴蓝.obj": S1  # đồng thuận S1=S3
+"涿鹿大旗操作台.obj": S1  # đồng thuận S1=S3
+"淡黄色駮马.obj": S1  # điểm S1 36.8 ~ tốt nhất S1 36.8 -> giữ S1
+"渔夫.obj": S1  # đồng thuận S1=S3
+"玄慈.obj": S1  # đồng thuận S1=S3
+"王语嫣.obj": S1  # đồng thuận S1=S3
+"环10a.obj": S1  # đồng thuận S1=S3
+"环6c.obj": S1  # đồng thuận S1=S3
+"珍兽20091106圣诞节驯鹿宝宝4.obj": S1  # đồng thuận S1=S3
+"珍兽221110暗天马五级.obj": S1  # đồng thuận S1=S3
+"珍兽230509凤求凰五级01.obj": S1  # đồng thuận S1=S3
+"珍兽上古神猿1a.obj": S1  # đồng thuận S1=S3
+"珍兽上古神猿2a.obj": S2  # mọi bản đầy đủ giống nhau
+"珍兽上古神猿5.obj": S1  # đồng thuận S1=S3
+"珍兽上古神猿6.obj": S1  # đồng thuận S1=S3
+"男主角高模武当.obj": S1  # đồng thuận S1=S3
+"盐湖鳄鱼.obj": S1  # đồng thuận S1=S3
+"石清露.obj": S1  # đồng thuận S1=S3
+"破痴.obj": S1  # đồng thuận S1=S3
+"秋水无痕.obj": S1  # điểm S1 33.4 ~ tốt nhất S1 33.4 -> giữ S1
+"秦家寨护卫.obj": S1  # đồng thuận S1=S3
+"秦家寨护卫头目.obj": S1  # đồng thuận S1=S3
+"秦家寨探子.obj": S1  # đồng thuận S1=S3
+"秦家寨探子1.obj": S1  # đồng thuận S1=S3
+"秦家寨探子2.obj": S1  # đồng thuận S1=S3
+"秦家寨探子3.obj": S1  # đồng thuận S1=S3
+"秦家寨探子4.obj": S1  # đồng thuận S1=S3
+"秦家寨探子头目.obj": S1  # đồng thuận S1=S3
+"绿褐龟.obj": S1  # điểm S1 34.3 ~ tốt nhất S1 34.3 -> giữ S1
+"胖大商人.obj": S1  # điểm S1 32.2 ~ tốt nhất S1 32.2 -> giữ S1
+"草药矿石/孔明灯1.obj": S1  # đồng thuận S1=S3
+"草药矿石/孔明灯2.obj": S1  # đồng thuận S1=S3
+"草药矿石/孔明灯3.obj": S1  # đồng thuận S1=S3
+"萧远山.obj": S1  # đồng thuận S1=S3
+"蓝色宠物蝴蝶.obj": S1  # đồng thuận S1=S3
+"藤员佐为.obj": S1  # đồng thuận S1=S3
+"郎中1.obj": S1  # điểm S1 32.4 ~ tốt nhất S1 32.4 -> giữ S1
+"酒壶.obj": S1  # đồng thuận S1=S3
+"阿珠.obj": S1  # đồng thuận S1=S3
+"骑乘小老虎.obj": S1  # đồng thuận S1=S3
+"骑乘蝴蝶翅膀090812.obj": S1  # đồng thuận S1=S3
+"骑乘蝴蝶翅膀160918.obj": S1  # đồng thuận S1=S3
+"骑乘跨服争霸赛一级20110712.obj": S1  # đồng thuận S1=S3
+"骑乘跨服争霸赛二级20110713.obj": S1  # đồng thuận S1=S3
+"骑马的路人.obj": S1  # đồng thuận S1=S3
+"骑驴老头.obj": S1  # điểm S1 35.4 ~ tốt nhất S1 35.4 -> giữ S1
+"骷髅兵.obj": S1  # đồng thuận S1=S3
+"黄色宠物蝴蝶.obj": S1  # đồng thuận S1=S3
+"黑色红蹄红角駮马.obj": S1  # điểm S1 36.8 ~ tốt nhất S1 36.8 -> giữ S1
+"黑蜂.obj": S1  # đồng thuận S1=S3
+"黑蜂头目.obj": S1  # đồng thuận S1=S3
+"Buff_场景机制特效_风暴_空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"HJ_boss密探召唤师17鹰特效.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"HJ_npc云决决17受伤.obj": S1  # điểm S1 41.4 ~ tốt nhất S1 41.4 -> giữ S1
+"HJ_紫禁预热_空模型.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"hj_藏宝图npc_小怪关卡终点空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024月光宝盒传送.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2024雪怪憨憨冰锥.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025兽穴PVP_传送门.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025空沙堆.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025空物体雷劫落雷.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025预热空模型.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025预热空模型阻挡12米.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025预热空模型阻挡8米.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2025龙渊阁城门.obj": S1  # điểm S1 34.6 ~ tốt nhất S3 35.2 -> giữ S1
+"npc_2026夏日版本稳活_透明蝴蝶.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_2026夏日答题海豹1.obj": S1  # điểm S1 40.0 ~ tốt nhất S1 40.0 -> giữ S1
+"npc_2026夏日答题海豹2.obj": S1  # điểm S1 39.7 ~ tốt nhất S1 39.7 -> giữ S1
+"npc_2026大理种花虞美人花02.obj": S3  # điểm cao nhất S3 34.3 (S2 34.3, S3 34.3)
+"npc_2026大理种花虞美人花04.obj": S3  # điểm cao nhất S3 36.0 (S2 36.0, S3 36.0)
+"npc_团本赵钱孙空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_妖塔入口_木.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_妖塔入口_水.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_妖塔入口_火.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_机缘秘境入口.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_通天塔帝释天_雷云.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_采集物灵气.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_金瓯争夺赛法阵.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc_龙塔入口.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"npc汴梁城小女孩变色_斗蛐蛐.obj": S2  # điểm cao nhất S2 39.7 (S2 39.7, S3 39.6)
+"npc空模型_七夕剧情红特效.obj": S3  # điểm cao nhất S3 16.0 (S2 16.0, S3 16.0)
+"npc空模型_七夕剧情蓝特效.obj": S3  # điểm cao nhất S3 16.0 (S2 16.0, S3 16.0)
+"九尾狐保护墙空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên
+"军队牛空物体.obj": S1  # không có bản đầy đủ -> giữ nguyên

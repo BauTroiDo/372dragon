@@ -1,0 +1,2210 @@
+-- local class = require "class"
+-- local define = require "define"
+-- local ScriptGlobal = require "scripts.ScriptGlobal"
+-- local script_base = require "script_base"
+-- local gbk = require "wire_charset"
+-- local odali_gongcaiyun = class("odali_gongcaiyun", script_base)
+-- odali_gongcaiyun.script_id = 002089
+-- local MDEX_PRE_RECHAGE_GETD = 408
+-- local MDEX_PRE_RECHAGE_UPGRADE = 409
+
+-- --限时补偿奖励  日期  05月12日23:59  之前可领取
+-- -- dates,hour,minute 三个配置改变任何一个值，角色可重新领取一次
+-- --dates = 0,  当这个配置为0时 不开放补偿奖励
+-- odali_gongcaiyun.limited_time_compensation = {
+	-- dates = 0930,			--  =0时  不开放偿奖励
+	-- -- dates = 0311,			--日期 3月11日  =0时  不开放偿奖励
+	-- hour = 23,				--小时
+	-- minute = 30,			--分钟
+	-- name = "维护补偿礼包",	--NPC选项显示
+	-- item = {
+		-- {id = 30008117,num = 5,isbind = true},
+		-- {id = 30505187,num = 1,isbind = true},
+		-- {id = 38003158,num = 5,isbind = true},
+		-- {id = 20501003,num = 10,isbind = true},
+		-- {id = 20502003,num = 10,isbind = true},
+		-- {id = 20500003,num = 10,isbind = true},
+	-- },
+-- }
+
+-- odali_gongcaiyun.g_eventList = {
+    -- 808036,
+    -- 808035,
+    -- 808058,
+    -- 808059,
+    -- 808060,
+    -- 210242,
+    -- 760712,
+    -- 808063,
+    -- 210243,
+    -- 050022,
+    -- 808074,
+    -- 808075,
+    -- 808077,
+    -- 808079,
+    -- 808038,
+    -- 889052,
+    -- 889053,
+    -- 808129
+-- }
+		-- --[[
+		-- 珍兽模板
+		-- addPet = {
+			-- --dataid 珍兽ID  maxmutated = 该ID的珍兽最大可选择几级变异（为0时只给对应的 dataid）
+			-- selectpet = {
+				-- {dataid = 27561,maxmutated = 0},				--变异蛟龙  最大可选变异8
+				-- {dataid = 27711,maxmutated = 0},				--变异柴猫  最大可选变异2
+				-- {dataid = 27891,maxmutated = 0},				--变异柴猫  最大可选变异2
+				-- {dataid = 31007,maxmutated = 0},				--变异柴猫  最大可选变异2
+
+			-- },				--自选
+			
+			-- addpetsx = {
+				-- str_perception = 3000,			--标准力量资质
+				-- spr_perception = 3000,			--标准灵气资质
+				-- con_perception = 3000,			--标准体质资质
+				-- dex_perception = 3000,			--标准身法资质
+				-- int_perception = 3000,			--标准定力资质
+				-- growth_rate = 2.188				--成长率
+			-- }
+		-- },
+		
+		-- --下一个
+		-- addPet = {
+			-- --dataid 珍兽ID  maxmutated = 该ID的珍兽最大可选择几级变异
+			-- selectpet = {
+				-- {dataid = 31008,maxmutated = 0},				--变异柴猫  最大可选变异2
+			-- },				--自选
+			
+			-- addpetsx = {
+				-- str_perception = 4000,			--标准力量资质
+				-- spr_perception = 4000,			--标准灵气资质
+				-- con_perception = 4000,			--标准体质资质
+				-- dex_perception = 4000,			--标准身法资质
+				-- int_perception = 4000,			--标准定力资质
+				-- growth_rate = 2.188				--成长率
+			-- }
+		-- },
+		-- ]]--
+-- local TopChongZhiData = {127,128,129}
+-- local PetIteminfodata = {30309095,30310018,30309083,30310061,30310084}
+-- local PetIteminfodataEx = {30309098,30310021,30309088,30310127}
+-- local ShowReceiveCount = 1;				--NPC选项显示已领取的礼包选项 最小0最大5；
+-- local ShowNotReceiveCount = 2;			--NPC选项显示未领取或未达标的选项 最小1，最大5；
+-- local PrizeTable =
+-- {
+	-- {showMoney = 600 , items = {{20502003,20 },{20501003,20 },{38002397,100},{38008160,100},{38002540,50 },{38002499,20 }}},
+	-- {showMoney = 800 , items = {{20502003,20 },{20501003,20 },{38002397,100},{38008160,120},{38002540,50 },{38002499,20 }}},
+	-- {showMoney = 1200 , items = {{20502003,20 },{20501003,20 },{38002397,100},{38008160,130},{38002540,50 },{38002499,20 },{38003680,1  },{38003656,1  }}},
+	-- {showMoney = 1500 , items = {{20502003,20 },{20501003,20 },{38002397,100},{38008160,140},{38002540,50 },{38002499,20 },{38003582,1  },{38003695,1  }}},
+	-- {showMoney = 2000 , items = {{20502003,20 },{20501003,20 },{38002397,100},{38008160,150},{38002540,50 },{38002499,20 },{30310113,1  }}},
+	-- {showMoney = 2500 , items = {{20502003,20 },{20501003,20 },{38002397,150},{38008160,160},{38002540,50 },{38002499,20 },{38003589,1  },{38003425,1  }}},
+	-- {showMoney = 3000 , items = {{20502003,20 },{20501003,20 },{38002397,150},{38008160,170},{38002540,50 },{38002499,20 },{38003215,1  },{38003681,1  }}},
+	-- {showMoney = 4000 , items = {{20502003,20 },{20501003,20 },{38002397,150},{38008160,180},{38002540,50 },{38002499,20 },{38003609,1  },{38003682,1  }}},
+	-- {showMoney = 5000, items = {{20502003,20 },{20501003,20 },{38002397,150},{38008160,200},{38002540,50 },{38002499,20 },{10126034,1  }}},
+	                                                       
+	-- {showMoney = 6000, items = {{20502004,10 },{20501004,10 },{38002397,200},{38008160,220},{38002540,100},{38002499,30 },{38008186,1  }}},
+	-- {showMoney = 6500, items = {{20502004,10 },{20501004,10 },{38002397,200},{38008160,230},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 7000, items = {{20502004,10 },{20501004,10 },{38002397,200},{38008160,240},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 8000, items = {{20502004,20 },{20501004,20 },{38002397,200},{38008160,250},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 9000, items = {{20502004,30 },{20501004,30 },{38002397,200},{38008160,260},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 10000, items = {{20502004,30 },{20501004,30 },{38002397,200},{38008160,270},{38002540,100},{38002499,30 },{38002943,1  }}},
+	-- {showMoney = 12000, items = {{20502004,30 },{20501004,30 },{38002397,200},{38008160,280},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 15000, items = {{20502004,50 },{20501004,50 },{38002397,200},{38008160,290},{38002540,100},{38002499,30 },{30310168,1  }}},
+	-- {showMoney = 16000, items = {{20502004,50 },{20501004,50 },{38002397,200},{38008160,300},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 18000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,350},{38002540,100},{38002499,30 }}},
+	-- {showMoney = 20000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,400},{38002540,100},{38002499,30 },{38002943,1  }}},
+	
+	-- {showMoney = 25000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,400},{38002540,100},{38002499,50 }}},
+	-- {showMoney = 30000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,400},{38002540,100},{38002499,50 }}},
+	-- {showMoney = 35000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,400},{38002540,100},{38002499,50 }}},
+	-- {showMoney = 40000, items = {{20502004,50 },{20501004,50 },{38002397,300},{38008160,400},{38002540,100},{38002499,100 },{10420088,1  }}},
+
+-- }
+-- --内测专用
+-- local PreRecharge_Gift_NC = {
+	-- {
+		-- money = 500,--3000
+		-- prize = {
+			-- { itemid = 30505905, num = 1 },
+			-- { itemid = 30505817, num = 100  },
+			-- { itemid = 38008202, num = 1  },
+			-- { itemid = 38008186, num = 1  },
+			-- { itemid = 38008187, num = 1  },
+			-- { itemid = 10143014, num = 1  },
+			-- { itemid = 10142994, num = 1  },
+			-- { itemid = 10126034, num = 1  },
+			-- { itemid = 10125382, num = 1  },
+			
+			-- { itemid = 10422150, num = 1  },
+			-- { itemid = 10423026, num = 1  },
+			-- { itemid = 10420088, num = 1  },
+			-- --兽魂等级 - 1 配置   非兽魂道具不要配置  soul_level
+			-- --{itemid = 70600015,num = 1,soul_level = 5},
+		-- }
+	-- }
+-- }
+
+-- local PreRecharge_Gift_GC = {
+	-- {
+		-- money = 100,--3000
+		-- prize = {
+			-- { itemid = 20501003, num = 20 },
+			-- { itemid = 20502003, num = 20  },
+			-- { itemid = 38003055, num = 20  },
+			-- { itemid = 20310174, num = 200  },
+			-- --兽魂等级 - 1 配置   非兽魂道具不要配置  soul_level
+			-- --{itemid = 70600015,num = 1,soul_level = 5},
+		-- }
+	-- },
+-- }
+
+
+
+-- local PreRecharge_Gift_ShengDan = -- 圣诞活动
+-- {
+	-- {showMoney = 400  , items = {{30900132,10 },{38002397,200 },{38002675,30  },{20501003,100},{20502003,100},{38003055,10 },{38008160,200 },{38008300,20 }}},
+	-- {showMoney = 1000 , items = {{20310228,30 },{38002397,500 },{38002675,50  },{20501004,30 },{20502004,30 },{38003055,20 },{38008160,400 },{38008300,30 }}},
+	-- {showMoney = 2000 , items = {{20310228,55 },{38002397,1000},{38002675,100 },{20501004,50 },{20502004,50 },{38003055,30 },{38008160,800 },{38008300,50 }}},
+	-- {showMoney = 2400 , items = {{30900132,10 },{38002397,200 },{38002675,30  },{20501003,100},{20502003,100},{38003055,10 },{38008160,200 },{38008300,20 }}},
+	-- {showMoney = 3000 , items = {{20310228,30 },{38002397,500 },{38002675,50  },{20501004,30 },{20502004,30 },{38003055,20 },{38008160,400 },{38008300,30 }}},
+	-- {showMoney = 4000 , items = {{20310228,55 },{38002397,1000},{38002675,100 },{20501004,50 },{20502004,50 },{38003055,30 },{38008160,800 },{38008300,50 }}},
+	-- {showMoney = 4400 , items = {{30900132,10 },{38002397,200 },{38002675,30  },{20501003,100},{20502003,100},{38003055,10 },{38008160,200 },{38008300,20 }}},
+	-- {showMoney = 5000 , items = {{20310228,30 },{38002397,500 },{38002675,50  },{20501004,30 },{20502004,30 },{38003055,20 },{38008160,400 },{38008300,30 }}},
+	-- {showMoney = 6000 , items = {{20310228,55 },{38002397,1000},{38002675,100 },{20501004,50 },{20502004,50 },{38003055,30 },{38008160,800 },{38008300,50 },{38003683,1  }}},
+
+-- }
+
+-- local ZhuBoBangYuan_GuidList = {
+-- --["372DC"] = true,
+-- }
+-- function odali_gongcaiyun:UpdateEventList(selfId, targetId)
+	-- local petpos = 0
+	-- local lqFlag = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET);
+	-- if lqFlag == 3 then
+		-- local petdataid
+		-- local petcount = self:LuaFnGetPetCount(selfId)
+		-- for i = 1,petcount do
+			-- petdataid = self:LuaFnGetPet_DataID(selfId, i)
+			-- if petdataid >= SpecialPetid_Min and petdataid <= SpecialPetid_Max then
+				-- petpos = i
+				-- break
+			-- end
+		-- end
+	-- end
+	-- local guid = self:LuaFnGetGUID(selfId)
+    -- self:BeginEvent(self.script_id)
+    -- local PlayerName = self:GetName(selfId)
+    -- local strNpcDefault = "#{OBJ_DALI_GONGCAIYUN_DEFAULT}"
+	-- local nExYuanBao =   self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_YUANBAO)
+	-- local nprizepoint =  self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_POINTCOUNT)
+    -- local nCurPrize = self:GetMissionData(selfId,ScriptGlobal.MD_HUIKUI_1)
+	-- local CostYuanBao = self:GetMissionData(selfId,ScriptGlobal.MD_COST_YUANBAO)
+    -- local tPirzeFlag = self:MathCilCompute_1_InEx(nCurPrize)
+	-- --local serverid = self:LuaFnGetServerID(selfId)
+    -- local Isopen = 0
+	-- --[[local myPoint = self:GetYuanXiaoExchange(selfId)
+	-- myPoint = math.floor(myPoint)
+	-- local curflag = -1
+	-- if ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK then
+		-- curflag = self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK)
+		-- if curflag >= 10000 then
+			-- curflag = -1
+		-- end
+	-- end
+	-- if myPoint >= 500 and curflag ~= -1 then
+		-- if curflag < 500 then
+			-- self:AddNumText("#G500元周回馈礼包", 6, 20101)
+		-- elseif curflag < 1000 then
+			-- self:AddNumText("#G1000元周回馈礼包", 6, 20102)
+		-- elseif curflag < 3000 then
+			-- self:AddNumText("#G3000元周回馈礼包", 6, 20103)
+		-- elseif curflag < 5000 then
+			-- self:AddNumText("#G5000元周回馈礼包", 6, 20104)
+		-- elseif curflag < 8000 then
+			-- self:AddNumText("#G8000元周回馈礼包", 6, 20105)
+		-- elseif curflag < 10000 then
+			-- self:AddNumText("#G10000元周回馈礼包", 6, 20106)
+		-- end
+	-- end--]]
+	-- --152 703 704 705 
+	 -- --if serverid == 13 and nprizepoint >= 200 and self:GetMissionDataEx(selfId,703) == 0 then
+		 -- --self:AddNumText("#G内测预充奖励补领", 6, 20003)
+	 -- --end
+	-- --if not ScriptGlobal.is_internal_test then
+		-- self:AddNumText("#G领取充值回馈",6,1)
+		
+		
+		-- if nprizepoint >= 1588 then --人气礼包 
+			-- if self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD1) == 0 or self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD2) == 0 then
+				-- self:AddNumText("#突破2000人气礼包",6,94001)
+			-- end
+		-- end
+		
+
+		-- self:ShengDan(selfId,1) --圣诞活动
+
+    -- --end
+	-- --if ScriptGlobal.is_internal_test then
+		-- --self:AddNumText("#G领取内测充值礼包", 6, 50002)
+	-- --end
+	-- local hex_guid = string.upper(string.format("%X", guid))
+	-- if ZhuBoBangYuan_GuidList[hex_guid] then
+		-- local val = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_YURENJIE_GET_AWARD)
+		-- if val == 0 then
+			-- self:AddNumText("主播绑元领取", 6, 70000)
+		-- end
+	-- end
+	-- self:AddNumText("角色当前名下可领取奖励", 6, 30000)
+	-- self:AddNumText("666财富卡激活", 6, 79000)
+	-- --self:AddNumText("角色当前名下可领取奖励", 6, 80000)
+    -- self:AddText(strNpcDefault)
+	-- --self:AddText("新节日限时充值金额数：#G"..myPoint)
+	-- self:AddText("当前累计消耗元宝数：#G"..CostYuanBao)
+	-- self:AddText("当前累计领取元宝数：#G"..nExYuanBao)
+	-- --self:AddNumText("领取周、月卡奖励",6,90000)
+    -- self:EndEvent()
+    -- self:DispatchEventList(selfId, targetId)
+-- end
+
+-- function odali_gongcaiyun:OnDefaultEvent(selfId, targetId)
+    -- self:UpdateEventList(selfId, targetId)
+-- end
+
+-- function odali_gongcaiyun:OnEventRequest(selfId, targetId, arg, index)
+    -- local human = self.scene:get_obj_by_id(selfId)
+	-- if not human then return end
+	-- --nOperation  1000 以下请不要占用，包括负值
+    -- local nOperation = index
+	-- local nBagsPos = self:LuaFnGetPropertyBagSpace(selfId)
+	-- local Isok = 0
+	-- local PlayerName = self:GetName(selfId)
+	-- local nIdx = 0;
+	-- local nIdex = 1
+	-- local nPirzeIdx = 1000
+	-- local Idx = 200
+	-- local Idx_pet = 300
+	-- local nExchYuanBao = self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_YUANBAO )
+	-- local nprizepoint = self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_POINTCOUNT )
+	-- local guid = self:LuaFnGetGUID(selfId)
+	-- local myPoint = self:GetYuanXiaoExchange(selfId)
+	-- --local serverid = self:LuaFnGetServerID(selfId)
+	-- myPoint = math.floor(myPoint)
+	
+	-- -- 圣诞累计兑换活动处理（所有逻辑都在 ShengDan 方法中）
+	-- if nOperation >= 92000 and nOperation <= 92019 then
+		-- self:ShengDan(selfId, nOperation, targetId)
+		-- return
+	-- end
+	
+	-- if nOperation >= 20101 and nOperation <= 20106 then
+		-- local curflag = -1
+		-- if ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK then
+			-- curflag = self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK)
+			-- if curflag >= 10000 then
+				-- curflag = -1
+			-- end
+		-- end
+		-- if curflag == -1 then
+			-- self:notify_tips(selfId,"你已经领取过周回馈礼包了。")
+			-- return
+		-- end
+		-- local sub_index = nOperation - 20100
+		-- local xs_award = {
+			-- {
+				-- needpoint = 500,
+				-- giveitem = {
+					-- {id = 38008160,num = 500,bind = true},
+					-- {id = 38003055,num = 10,bind = true},
+					-- {id = 20600003,num = 5,bind = true},
+					-- {id = 20502004,num = 10,bind = true},
+					-- {id = 20501004,num = 10,bind = true},
+				-- },
+			-- },
+			-- {
+				-- needpoint = 1000,
+				-- giveitem = {
+					-- {id = 38008160,num = 1000,bind = true},
+					-- {id = 38003055,num = 20,bind = true},
+					-- {id = 20600003,num = 10,bind = true},
+					-- {id = 20502004,num = 20,bind = true},
+					-- {id = 20501004,num = 20,bind = true},
+				-- },
+			-- },
+			-- {
+				-- needpoint = 3000,
+				-- giveitem = {
+					-- {id = 38008160,num = 3000,bind = true},
+					-- {id = 38003055,num = 30,bind = true},
+					-- {id = 20600003,num = 30,bind = true},
+					-- {id = 20502004,num = 30,bind = true},
+					-- {id = 20501004,num = 30,bind = true},
+				-- },
+			-- },
+			-- {
+				-- needpoint = 5000,
+				-- giveitem = {
+					-- {id = 38008160,num = 5000,bind = true},
+					-- {id = 38003055,num = 50,bind = true},
+					-- {id = 20600003,num = 50,bind = true},
+					-- {id = 20502004,num = 50,bind = true},
+					-- {id = 20501004,num = 50,bind = true},
+				-- },
+			-- },
+			-- {
+				-- needpoint = 8000,
+				-- giveitem = {
+					-- {id = 38008160,num = 8000,bind = true},
+					-- {id = 38003055,num = 80,bind = true},
+					-- {id = 20600003,num = 80,bind = true},
+					-- --兽魂等级 - 1 配置
+					-- {id = 70600015,num = 1,bind = true,level = 4},
+				-- },
+			-- },
+			-- {
+				-- needpoint = 10000,
+				-- giveitem = {
+					-- {id = 38008160,num = 10000,bind = true},
+					-- {id = 38003055,num = 100,bind = true},
+					-- {id = 20600003,num = 100,bind = true},
+					-- {id = 38002943,num = 1,bind = true},
+				-- },
+			-- },
+		-- }
+		-- local select_award = xs_award[sub_index]
+		-- if not select_award then return end
+		-- if curflag >= select_award.needpoint then
+			-- self:notify_tips(selfId,"你已经领取过周回馈礼包了。。")
+			-- return
+		-- end
+		-- if myPoint < select_award.needpoint then
+			-- self:notify_tips(selfId,"你还不符合领取条件哦。")
+			-- return
+		-- end
+		-- local is_special = false
+        -- self:BeginAddItem()
+		-- for i,j in ipairs(select_award.giveitem) do
+			-- self:AddItem(j.id,j.num,j.bind)
+			-- if j.id == 70600015 then
+				-- is_special = true
+			-- end
+		-- end
+		-- local ret = self:EndAddItem(selfId,is_special)
+        -- if not ret then
+            -- return 
+        -- end
+        -- --if not self:LuaFnHaveAgname(selfId, 1073) then
+        -- --    self:LuaFnAddNewAgname(selfId, 1073)
+        -- --end
+		-- --70600015 在给个5级穷奇
+		-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK,select_award.needpoint)
+		-- if self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_REWARD_BACK) == select_award.needpoint then
+			-- if not is_special then
+				-- self:AddItemListToHuman(selfId)
+			-- else
+				-- local specialid,specialnum,specialbind,speciallevel
+				-- self:BeginAddItem()
+				-- for i,j in ipairs(select_award.giveitem) do
+					-- if j.id ~= 70600015 then
+						-- self:AddItem(j.id,j.num,j.bind)
+					-- else
+						-- specialid,specialnum = j.id,j.num
+						-- specialbind = j.bind
+						-- speciallevel = j.level
+					-- end
+				-- end
+				-- self:EndAddItem(selfId)
+				-- self:AddItemListToHuman(selfId)
+				-- if specialid and specialnum and specialnum >= 1 and speciallevel and speciallevel >= 0 then
+					-- for i = 1,specialnum do
+						-- local newpos = self:TryRecieveItem(selfId, specialid, specialbind)
+						-- if newpos ~= define.INVAILD_ID then
+							-- local prop_bag_container = human:get_prop_bag_container()
+							-- local item = prop_bag_container:get_item(newpos)
+							-- if item then
+								-- item:get_pet_equip_data():set_pet_soul_level(speciallevel)
+								-- self:LuaFnRefreshItemInfo(selfId, newpos)
+							-- end
+						-- end
+					-- end
+				-- end
+			-- end
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("  好的，礼包已经发放给你咯！")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+		-- else
+			-- self:BeginAddItem()
+		-- end
+		-- return
+	-- end
+	
+	-- if nOperation >= 94001 and nOperation <= 94003 then
+		-- if nprizepoint >= 1588 then
+			-- if nOperation == 94001 then
+				-- local newhuodong1 = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD1)
+				-- local newhuodong2 = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD2)
+				-- if newhuodong1 ~= 0 and newhuodong2 ~= 0 then
+					-- self:notify_tips(selfId,"你已经领取过感恩回馈礼包了。")
+					-- return
+				-- end
+				-- self:BeginEvent(self.script_id)
+				-- if newhuodong1 == 0 and nprizepoint >= 1588 then
+					-- self:AddNumText("#G回馈礼包1",6,94002)
+				-- end
+				-- if newhuodong2 == 0 and nprizepoint >= 2188 then
+					-- self:AddNumText("#G回馈礼包2",6,94003)
+				-- end
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+				-- return
+			-- elseif nOperation == 94002 then
+				-- local newhuodong1 = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD1)
+				-- if nprizepoint >= 1588 and newhuodong1 == 0 then
+					-- local AwardInfo = {
+					-- {10415055,1},--重楼肩
+					-- {38008160,200},--至尊强化
+					-- {38002397,300},--武道丹
+					-- {20310219,50},--称号凭证
+					-- {38003055,10},--淬火玉
+					-- {20501003,50},--三级棉布
+					-- {20502003,50},--三级秘银
+					-- }
+					-- self:BeginAddItem()
+					-- for i,j in ipairs(AwardInfo) do
+						-- self:AddItem(j[1],j[2],true)
+					-- end
+					-- local ret = self:EndAddItem(selfId)
+					-- if not ret then
+						-- self:BeginAddItem()
+						-- self:notify_tips(selfId,"背包空间不足")
+						-- return 
+					-- end
+					-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_NEWREWARD1,1)
+					-- self:AddItemListToHuman(selfId)
+					-- self:BeginEvent(self.script_id)
+					-- self:AddText("  好的，礼包已经发放给你咯！")
+					-- self:EndEvent()
+					-- self:DispatchEventList(selfId, targetId)
+					-- return
+				-- end
+			-- elseif nOperation == 94003 then
+				-- local newhuodong2 = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_NEWREWARD2)
+				-- if nprizepoint >= 2188 and newhuodong2 == 0 then
+					-- local AwardInfo = {
+					-- {10413102,1},--重楼甲
+					-- {38008160,500},--至尊强化
+					-- {38002397,500},--武道丹
+					-- {20310219,100},--称号凭证
+					-- {38003055,20},--淬火玉
+					-- {20501004,50},--四级棉布
+					-- {20502004,50},--四级秘银
+					-- }
+					-- self:BeginAddItem()
+					-- for i,j in ipairs(AwardInfo) do
+						-- self:AddItem(j[1],j[2],true)
+					-- end
+					-- local ret = self:EndAddItem(selfId)
+					-- if not ret then
+						-- self:BeginAddItem()
+						-- self:notify_tips(selfId,"背包空间不足")
+						-- return 
+					-- end
+					-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_NEWREWARD2,1)
+					-- self:AddItemListToHuman(selfId)
+					-- self:BeginEvent(self.script_id)
+					-- self:AddText("  好的，礼包已经发放给你咯！")
+					-- self:EndEvent()
+					-- self:DispatchEventList(selfId, targetId)
+					-- return
+				-- end
+			-- end
+		-- else
+			-- self:notify_tips(selfId,"累计充值点数不足1588点，暂时无法领取。")
+			-- return
+		-- end
+		-- return
+	-- end
+	
+	-- if nOperation == 20001 then
+		-- if 0 == 0 then return end
+		-- if self:GetMissionDataEx(selfId,705) > 0 then
+			-- self:notify_tips(selfId,"你已经领取过感恩回馈礼包了。")
+			-- return
+		-- end
+		-- if myPoint < 99 then
+			-- self:notify_tips(selfId,"你还不符合领取条件哦。")
+			-- return
+		-- end
+		-- local AwardInfo = {
+		-- {38008160,300},
+		-- {20600003,5},
+		-- {38003055,5},
+		-- }
+		-- local itemName
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("  恭喜您得到一个礼盒，请我们看看里面有什么吧！")
+		-- for i,j in ipairs(AwardInfo) do
+			-- itemName = self:GetItemName(j[1])
+			-- self:AddText("#G"..itemName.."#W * #G"..tostring(j[2]))
+		-- end
+		-- self:AddNumText("收到心意，即可收下", 6,20002)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 20002 then
+		-- if 0 == 0 then return end
+		-- if self:GetMissionDataEx(selfId,705) > 0 then
+			-- self:notify_tips(selfId,"你已经领取过感恩回馈礼包了。")
+			-- return
+		-- end
+		-- if myPoint < 99 then
+			-- self:notify_tips(selfId,"你还不符合领取条件哦。")
+			-- return
+		-- end
+		-- local AwardInfo = {
+		-- {38008160,300},
+		-- {20600003,5},
+		-- {38003055,5},
+		-- }
+        -- self:BeginAddItem()
+		-- for i,j in ipairs(AwardInfo) do
+			-- self:AddItem(j[1],j[2],true)
+		-- end
+		-- local ret = self:EndAddItem(selfId)
+        -- if not ret then
+			-- self:BeginAddItem()
+            -- self:notify_tips(selfId,"背包空间不足")
+            -- return 
+        -- end
+		-- self:SetMissionDataEx(selfId,705,1)
+		-- self:AddItemListToHuman(selfId)
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("  好的，礼包已经发放给你咯！")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 20003 then
+		-- --[[if serverid ~= 13 then
+			-- return
+		-- end 
+		-- if self:GetMissionDataEx(selfId,703) > 0 then
+			-- self:notify_tips(selfId,"你已经领取过庆该礼包了。")
+			-- return
+		-- end
+		-- if nprizepoint < 200 then
+			-- self:notify_tips(selfId,"你还不符合领取条件哦。")
+			-- return
+		-- end
+		-- local Awardlist = {
+		-- {38008160,100},
+		-- {20310166,100},
+		-- }
+        -- self:BeginAddItem()
+		-- for i,j in ipairs(Awardlist) do
+			-- self:AddItem(j[1],j[2],true)
+		-- end
+		-- local ret = self:EndAddItem(selfId)
+        -- if not ret then
+			-- self:BeginAddItem()
+            -- self:notify_tips(selfId,"背包空间不足")
+            -- return 
+        -- end
+		-- self:SetMissionDataEx(selfId,703,1)
+		-- self:AddItemListToHuman(selfId)
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("  好的，礼包已经发放给你咯！")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return--]]
+    -- end
+-- --新奖励
+	-- if nOperation == 29998 then
+		-- local ndate = self.limited_time_compensation.dates
+		-- if ndate > 0 then
+			-- ndate = ndate * 10000 + self.limited_time_compensation.hour * 60 + self.limited_time_compensation.minute
+			-- if self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_COMPENSATION) ~= ndate then
+				-- local times = os.date("*t")
+				-- local curdate = times.month * 1000000 + times.day * 10000 + times.hour * 60 + times.min
+				-- if curdate <= ndate then
+					-- local haveaward
+					-- local msgtab = {"    您将要领取",self.limited_time_compensation.name,"："}
+					-- for i,j in ipairs(self.limited_time_compensation.item) do
+						-- table.insert(msgtab,"\n")
+						-- table.insert(msgtab,self:GetItemName(j.id))
+						-- table.insert(msgtab," X ")
+						-- table.insert(msgtab,j.num)
+						-- if j.isbind then
+							-- table.insert(msgtab,"(绑定)")
+						-- end
+						-- haveaward = true
+					-- end
+					-- if haveaward then
+						-- local msg = table.concat(msgtab)
+						-- self:BeginEvent(self.script_id)
+						-- self:AddText(msg)
+						-- self:AddNumText("确认领取",6,29999)
+						-- self:AddNumText("返回奖励选择",11,30000)
+						-- self:EndEvent()
+						-- self:DispatchEventList(selfId, targetId)
+						-- return
+					-- end
+				-- end
+			-- end
+		-- end
+		-- self:UpdateEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 29999 then
+		-- local ndate = self.limited_time_compensation.dates
+		-- if ndate > 0 then
+			-- ndate = ndate * 10000 + self.limited_time_compensation.hour * 60 + self.limited_time_compensation.minute
+			-- if self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_COMPENSATION) ~= ndate then
+				-- local times = os.date("*t")
+				-- local curdate = times.month * 1000000 + times.day * 10000 + times.hour * 60 + times.min
+				-- if curdate <= ndate then
+					-- self:BeginAddItem()
+					-- for i,j in ipairs(self.limited_time_compensation.item) do
+						-- self:AddItem(j.id,j.num,j.isbind)
+					-- end
+					-- if not self:EndAddItem(selfId) then
+						-- self:BeginEvent(self.script_id)
+						-- self:AddText("    背包空间不足。")
+						-- self:EndEvent()
+						-- self:DispatchEventList(selfId, targetId)
+						-- return
+					-- end
+					-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_COMPENSATION,ndate)
+					-- if self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_COMPENSATION) == ndate then
+						-- self:AddItemListToHuman(selfId)
+						-- self:BeginEvent(self.script_id)
+						-- self:AddText("    "..tostring(self.limited_time_compensation.name).."领取成功。")
+						-- self:EndEvent()
+						-- self:DispatchEventList(selfId, targetId)
+					-- else
+						-- self:BeginEvent(self.script_id)
+						-- self:AddText("    "..tostring(self.limited_time_compensation.name).."领取失败，请重试。")
+						-- self:EndEvent()
+						-- self:DispatchEventList(selfId, targetId)
+					-- end
+					-- return
+				-- end
+			-- end
+		-- end
+		-- self:UpdateEventList(selfId, targetId)
+		-- return
+	-- end
+	-- if nOperation == 30000 then
+		-- local special_name
+		-- local ndate = self.limited_time_compensation.dates
+		-- if ndate > 0 then
+			-- ndate = ndate * 10000 + self.limited_time_compensation.hour * 60 + self.limited_time_compensation.minute
+			-- if self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LIMITED_TIME_COMPENSATION) ~= ndate then
+				-- local times = os.date("*t")
+				-- local curdate = times.month * 1000000 + times.day * 10000 + times.hour * 60 + times.min
+				-- if curdate <= ndate then
+					-- special_name = self.limited_time_compensation.name
+				-- end
+			-- end
+		-- end
+		-- local list = self:GetWebAwardList(selfId)
+		-- local maxindex = #list
+		-- if special_name then
+			-- if maxindex > 14 then
+				-- maxindex = 14
+			-- end
+		-- else
+			-- if maxindex > 15 then
+				-- maxindex = 15
+			-- end
+		-- end
+		-- if maxindex == 0 then
+			-- if special_name then
+				-- self:BeginEvent(self.script_id)
+				-- self:AddText("    可领取以下奖励：")
+				-- self:AddNumText("#G"..tostring(special_name),6,29998)
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+			-- else
+				-- self:BeginEvent(self.script_id)
+				-- self:AddText("    当前没有奖励可领取。")
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+			-- end
+		-- else
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    可领取以下奖励：")
+			-- if special_name then
+				-- self:AddNumText("#G"..tostring(special_name),6,29998)
+			-- end
+			-- for i = 1,maxindex do
+				-- if list[i].status > 99 then
+					-- self:AddNumText(tostring(list[i].award_name).."#G(∞)",6,i + 30000)
+				-- else
+					-- self:AddNumText(tostring(list[i].award_name).."#G("..tostring(list[i].status)..")",6,i + 30000)
+				-- end
+			-- end
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+		-- end
+		-- return
+	-- end
+	-- if nOperation >= 30001 and nOperation <= 30015 then
+		-- local idx = nOperation - 30000
+		-- local list = self:GetWebAwardList(selfId)
+		-- local select_award = list[idx]
+		-- if not select_award then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    选择的奖励异常。"..tostring(nOperation))
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- local haveaward = false
+		-- local msgtab = {"    您将要领取",select_award.award_name,"："}
+		-- if select_award.award_item then
+			-- for i,j in ipairs(select_award.award_item) do
+				-- table.insert(msgtab,"\n")
+				-- table.insert(msgtab,self:GetItemName(j.itemid))
+				-- if j.petsoullv and j.petsoullv >= 0 then
+					-- table.insert(msgtab,"("..(j.petsoullv).."级)")
+				-- end
+				-- table.insert(msgtab," X ")
+				-- table.insert(msgtab,j.num)
+				-- -- if j.bind then
+					-- table.insert(msgtab,"(绑定)")
+				-- -- end
+				-- haveaward = true
+			-- end
+		-- end
+		-- if select_award.award_pet then
+			-- for i,j in ipairs(select_award.award_pet) do
+				-- table.insert(msgtab,"\n")
+				-- table.insert(msgtab,j.name)
+				-- if j.growth_rate and j.growth_rate > 0 then
+					-- table.insert(msgtab,"\n    成长率:+")
+					-- table.insert(msgtab,j.growth_rate * 1000)
+				-- end
+				-- if j.str_perception and j.str_perception > 0 then
+					-- table.insert(msgtab,"\n    力量资质:+")
+					-- table.insert(msgtab,j.str_perception)
+				-- end
+				-- if j.spr_perception and j.spr_perception > 0 then
+					-- table.insert(msgtab,"\n    灵气资质:+")
+					-- table.insert(msgtab,j.spr_perception)
+				-- end
+				-- if j.con_perception and j.con_perception > 0 then
+					-- table.insert(msgtab,"\n    体力资质:+")
+					-- table.insert(msgtab,j.con_perception)
+				-- end
+				-- if j.int_perception and j.int_perception > 0 then
+					-- table.insert(msgtab,"\n    定力资质:+")
+					-- table.insert(msgtab,j.int_perception)
+				-- end
+				-- if j.dex_perception and j.dex_perception > 0 then
+					-- table.insert(msgtab,"\n    身法资质:+")
+					-- table.insert(msgtab,j.dex_perception)
+				-- end
+				-- haveaward = true
+			-- end
+		-- end
+		-- if select_award.award_title then
+			-- for i,j in ipairs(select_award.award_title) do
+				-- table.insert(msgtab,"\n")
+				-- table.insert(msgtab,j.name)
+				-- haveaward = true
+			-- end	
+		-- end
+		-- if select_award.specialtitle then
+			-- table.insert(msgtab,"\n")
+			-- table.insert(msgtab,select_award.specialtitle)
+			-- haveaward = true
+		-- end
+		-- if select_award.add_maxhp and select_award.add_maxhp > 0 then
+			-- table.insert(msgtab,"\n")
+			-- table.insert(msgtab,"血上限 +")
+			-- table.insert(msgtab,select_award.add_maxhp)
+			-- haveaward = true
+		-- end
+		-- if select_award.add_damage and select_award.add_damage > 0 then
+			-- table.insert(msgtab,"\n")
+			-- table.insert(msgtab,"对目标造成伤害 +")
+			-- table.insert(msgtab,select_award.add_damage)
+			-- table.insert(msgtab,"%")
+			-- haveaward = true
+		-- end
+		-- if select_award.award_buff and select_award.award_buff >= 0 then
+			-- table.insert(msgtab,"\n")
+			-- table.insert(msgtab,"领取状态:")
+			-- table.insert(msgtab,select_award.add_damage)
+			-- haveaward = true
+		-- end
+		-- if not haveaward then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    选择的奖励配置异常。"..tostring(nOperation))
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- local msg = table.concat(msgtab)
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText(msg)
+		-- self:AddNumText("确认领取",6,nOperation + 15)
+		-- self:AddNumText("返回奖励选择",11,30000)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- end
+	-- if nOperation >= 30016 and nOperation <= 30030 then
+		-- local idx = nOperation - 30015
+		-- local list = self:GetWebAwardList(selfId)
+		-- local select_award = list[idx]
+		-- if not select_award then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    选择的奖励异常。。"..tostring(nOperation))
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- elseif not select_award.status or select_award.status < 1 then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    该奖励已领取过。")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- if select_award.award_pet then
+			-- local checkCreatePet = self:TryCreatePet(selfId, #select_award.award_pet)
+			-- if not checkCreatePet then
+				-- self:BeginEvent(self.script_id)
+				-- self:AddText("    您不能携带更多的珍兽。")
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+				-- return
+			-- end
+		-- end
+		-- if select_award.award_item then
+			-- self:BeginAddItem()
+			-- for i,j in ipairs(select_award.award_item) do
+				-- self:AddItem(j.itemid,j.num,j.bind)
+			-- end
+			-- if not self:EndAddItem(selfId,true) then
+				-- self:BeginEvent(self.script_id)
+				-- self:AddText("    背包空间不足。")
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+				-- return
+			-- end
+		-- end
+		-- if self:SetReceiveAward(select_award.id,select_award.status - 1) then
+			-- if select_award.award_item then
+				-- local havepetsoul = {}
+				-- local pet_shelizi = {}
+				-- local otheritem
+				-- self:BeginAddItem()
+				-- for i,j in ipairs(select_award.award_item) do
+					-- if j.petsoullv and j.petsoullv > 0 and j.itemid >= 70000000 then
+						-- table.insert(havepetsoul,{itemid = j.itemid,petsoullv = j.petsoullv,bind = j.bind})
+					-- elseif j.itemid == 30900058 or j.itemid == 30900059 then
+						-- table.insert(pet_shelizi,{itemid = j.itemid,num = j.num,bind = j.bind})
+					-- else
+						-- -- self:AddItem(j.itemid,j.num,j.bind)
+						-- self:AddItem(j.itemid,j.num,true)
+						-- otheritem = true
+					-- end
+				-- end
+				-- if otheritem then
+					-- self:EndAddItem(selfId)
+					-- self:AddItemListToHuman(selfId)
+				-- end
+				-- if #havepetsoul > 0 then
+					-- local newpos
+					-- for i,j in ipairs(havepetsoul) do
+						-- newpos = self:TryRecieveItem(selfId, j.itemid, j.bind)
+						-- if newpos ~= define.INVAILD_ID then
+							-- local prop_bag_container = human:get_prop_bag_container()
+							-- local item = prop_bag_container:get_item(newpos)
+							-- if item then
+								-- item:get_pet_equip_data():set_pet_soul_level(j.petsoullv - 1)
+								-- self:LuaFnRefreshItemInfo(selfId, newpos)
+							-- end
+						-- end
+					-- end
+				-- end
+				-- if #pet_shelizi > 0 then
+					-- for i,j in ipairs(pet_shelizi) do
+						-- for n = 1,j.num do
+							-- newpos = self:TryRecieveItem(selfId, j.itemid, j.bind)
+							-- if newpos ~= define.INVAILD_ID then
+								-- self:SetBagItemParam(selfId, newpos, 4, 30000000, "int", true)
+							-- end
+						-- end
+					-- end
+				-- end
+			-- end
+			-- if select_award.award_pet then
+				-- for i,j in ipairs(select_award.award_pet) do
+					-- local ret, petGUID_H, petGUID_L = self:CallScriptFunction(800105, "CreateRMBPetToHuman34534", selfId, j.dataid, 1)
+					-- if ret then
+						-- if j.growth_rate and j.growth_rate > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"growth_rate",j.growth_rate)
+						-- end
+						-- if j.str_perception and j.str_perception > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"str_perception",j.str_perception)
+						-- end
+						-- if j.spr_perception and j.spr_perception > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"spr_perception",j.spr_perception)
+						-- end
+						-- if j.con_perception and j.con_perception > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"con_perception",j.con_perception)
+						-- end
+						-- if j.int_perception and j.int_perception > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"int_perception",j.int_perception)
+						-- end
+						-- if j.dex_perception and j.dex_perception > 0 then
+							-- self:LuaFnSetPetData(selfId,petGUID_H,petGUID_L,"dex_perception",j.dex_perception)
+						-- end
+					-- end
+				-- end
+			-- end
+			-- if select_award.award_title then
+				-- for i,j in ipairs(select_award.award_title) do
+					-- if not j.titleflag or j.titleflag == -1 then
+						-- if not self:LuaFnHaveAgname(selfId,j.titleid) then
+							-- self:LuaFnAddNewAgname(selfId,j.titleid)
+						-- end
+					-- else
+						-- self:LuaFnAwardTitle(selfId,j.titleflag,j.titleid)
+						-- self:LuaFnDispatchAllTitle(selfId)
+					-- end
+				-- end
+			-- end
+			-- if select_award.specialtitle then
+				-- self:LuaFnAwardSpouseTitle(selfId,select_award.specialtitle)
+			-- end
+			-- if select_award.add_maxhp and select_award.add_maxhp > 0 then
+				-- self:SetMissionData(selfId,652,select_award.add_maxhp)
+			-- end
+			-- if select_award.add_damage and select_award.add_damage > 0 then
+				-- self:SetMissionData(selfId,653,select_award.add_damage)
+			-- end
+			-- if select_award.award_buff and select_award.award_buff >= 0 then
+				-- self:LuaFnSendSpecificImpactToUnit(selfId, selfId, selfId, select_award.award_buff, 0)
+			-- end
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    "..tostring(select_award.award_name).."领取成功。")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+		-- else
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    "..tostring(select_award.award_name).."领取失败，请重试。")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+		-- end
+		-- return
+	-- end
+	
+	-- --周卡相关，奖励数据里面定义
+	-- --[[if nOperation == 90000 then
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("周、月卡有效期间，每天可在此处领取专属奖励")
+		-- self:AddNumText("领取周卡奖励",6,90001)
+		-- self:AddNumText("领取高级周卡奖励",6,90002)
+		-- --self:AddNumText("领取月卡奖励",6,90003)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 90001 then
+		-- local nowdate = math.floor(self:GetTime2Day2() / 10000)
+		-- local curawarddate = math.floor(self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LOWLEVELWEEKLYCARD_OVER) / 10000)
+		-- local curawardflag = math.floor(self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_LOWLEVELWEEKLYCARD_START) / 10000)
+		-- if nowdate > curawarddate then
+			-- self:NotifyTips(selfId,"该周卡请在激活后再来")
+			-- return
+		-- elseif nowdate < curawardflag then
+			-- self:NotifyTips(selfId,"今天已领过奖励，请明天再来")
+			-- return
+		-- end
+		-- local addinfo = {
+			-- yuanbao = 0,					--元宝，不给写0
+			-- bindyuanbao = 3000,				--绑元，不给写0
+			-- money = 0,						--金钱，不给写0
+			-- moneyjz = 1000000,				--交子，不给写0
+			-- item = {
+				-- {id = 20310168,count = 30},
+				-- {id = 20310168,count = 20},
+				-- {id = 38002499,count = 5},
+			-- }
+		-- }
+		-- self:BeginAddItem()
+		-- for i,j in ipairs(addinfo.item) do
+			-- if j.id and j.id ~= -1 
+			-- and self:LuaFnIsItemExists(itemId)		then
+				-- self:AddItem(j.id,j.count,true);
+			-- end
+		-- end
+		-- if not self:EndAddItem(selfId) then
+			-- -- self:BeginAddItem()
+			-- self:NotifyTips(selfId,"背包空间不足")
+			-- return
+		-- end
+		-- local end_date = self:GetDiffTime2Day2(24 * 60 * 60)
+		-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_LOWLEVELWEEKLYCARD_START, end_date)
+		-- self:AddItemListToHuman(selfId)
+		-- local addprize = addinfo.yuanbao
+		-- if addprize > 0 then
+			-- self:CSAddYuanbao(selfId, addprize)
+		-- end
+		-- addprize = addinfo.bindyuanbao
+		-- if addprize > 0 then
+			-- self:AddBindYuanBao(selfId,addprize)
+		-- end
+		-- addprize = addinfo.money
+		-- if addprize > 0 then
+			-- self:AddMoney(selfId, addprize)
+		-- end
+		-- addprize = addinfo.moneyjz
+		-- if addprize > 0 then
+			-- self:AddMoneyJZ(selfId, addprize)
+		-- end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("周卡奖励领取成功，请明日再来")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 90002 then
+		-- local nowdate = math.floor(self:GetTime2Day2() / 10000)
+		-- local curawarddate = math.floor(self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_HIGHLEVELWEEKLYCARD_OVER) / 10000)
+		-- local curawardflag = math.floor(self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_HIGHLEVELWEEKLYCARD_START) / 10000)
+		-- if nowdate > curawarddate then
+			-- self:NotifyTips(selfId,"该周卡请在激活后再来")
+			-- return
+		-- elseif nowdate < curawardflag then
+			-- self:NotifyTips(selfId,"今天已领过奖励，请明天再来")
+			-- return
+		-- end
+		-- local addinfo = {
+			-- yuanbao = 0,					--元宝，不给写0
+			-- bindyuanbao = 8000,				--绑元，不给写0
+			-- money = 0,						--金钱，不给写0
+			-- moneyjz = 2000000,				--交子，不给写0
+			-- item = {
+				-- {id = 20310168,count = 100},
+				-- {id = 20310168,count = 50},
+				-- {id = 38002499,count = 30},
+				-- {id = 20600003,count = 1},
+				-- {id = 38008163,count = 2},
+			-- }
+		-- }
+		-- self:BeginAddItem()
+		-- for i,j in ipairs(addinfo.item) do
+			-- if j.id and j.id ~= -1 
+			-- and self:LuaFnIsItemExists(itemId)		then
+				-- self:AddItem(j.id,j.count,true);
+			-- end
+		-- end
+		-- if not self:EndAddItem(selfId) then
+			-- -- self:BeginAddItem()
+			-- self:NotifyTips(selfId,"背包空间不足")
+			-- return
+		-- end
+		-- local end_date = self:GetDiffTime2Day2(24 * 60 * 60)
+		-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_HIGHLEVELWEEKLYCARD_START, end_date)
+		-- self:AddItemListToHuman(selfId)
+		-- local addprize = addinfo.yuanbao
+		-- if addprize > 0 then
+			-- self:CSAddYuanbao(selfId, addprize)
+		-- end
+		-- addprize = addinfo.bindyuanbao
+		-- if addprize > 0 then
+			-- self:AddBindYuanBao(selfId,addprize)
+		-- end
+		-- addprize = addinfo.money
+		-- if addprize > 0 then
+			-- self:AddMoney(selfId, addprize)
+		-- end
+		-- addprize = addinfo.moneyjz
+		-- if addprize > 0 then
+			-- self:AddMoneyJZ(selfId, addprize)
+		-- end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("周卡奖励领取成功，请明日再来")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- elseif nOperation == 90003 then
+		-- local nowdate = math.floor(self:GetTime2Day2() / 10000)
+		-- local curawarddate = math.floor(self:GetMissionData(selfId,ScriptGlobal.MD_YU_LONG_TIE_END_TIME) / 10000)
+		-- local curawardflag = math.floor(self:GetMissionDataEx(selfId,ScriptGlobal.MDEX_MOONCARDAWARD) / 10000)
+		-- if nowdate > curawarddate then
+			-- self:NotifyTips(selfId,"御龙贴已过期或未激活状态")
+			-- return
+		-- elseif nowdate < curawardflag then
+			-- self:NotifyTips(selfId,"今天已领过奖励，请明天再来")
+			-- return
+		-- end
+		-- local end_date = self:GetDiffTime2Day2(24 * 60 * 60)
+		-- self:SetMissionDataEx(selfId,ScriptGlobal.MDEX_MOONCARDAWARD, end_date)
+		-- local bindyuanbao = 2888				--绑元，不给写0
+		-- if bindyuanbao > 0 then
+			-- self:AddBindYuanBao(selfId,bindyuanbao)
+		-- end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("御龙贴每日奖励领取成功")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- end--]]
+	-- if nOperation == 90004 then
+		-- local petpos = 0
+		-- local lqFlag = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET);
+		-- if lqFlag == 3 then
+			-- local petdataid
+			-- local petcount = self:LuaFnGetPetCount(selfId)
+			-- for i = 1,petcount do
+				-- petdataid = self:LuaFnGetPet_DataID(selfId, i)
+				-- if petdataid >= SpecialPetid_Min and petdataid <= SpecialPetid_Max then
+					-- petpos = i
+					-- break
+				-- end
+			-- end
+		-- end
+		-- if petpos > 0 then
+			-- local phid,plid = self:LuaFnGetPetGUID(selfId, petpos)
+			-- if phid and plid then
+				-- local ret = self:LuaFnDeletePetByGUID(selfId, phid, plid)
+				-- if ret then
+					-- self:SetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET,0)
+					-- self:BeginEvent(self.script_id)
+					-- self:AddText("5000档自选珍兽回收成功可以重新选择珍兽了")
+					-- self:EndEvent()
+					-- self:DispatchEventList(selfId, targetId)
+					-- return
+				-- end
+			-- end
+		-- end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("需要重新选择此档位的珍兽，请保证背包里有此珍兽")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- end
+	-- if nOperation == 50002 then
+		-- local PreRechageMoney = nprizepoint
+		-- PreRechageMoney = PreRechageMoney >= 50 and PreRechageMoney or 0
+		-- if ScriptGlobal.is_internal_test then
+			-- self:ShowPreRechageGiftContent(selfId, PreRechageMoney, targetId)
+		-- end
+		-- return
+	-- end
+	-- if nOperation == 50003 then
+		-- local PreRechageMoney = nprizepoint
+		-- PreRechageMoney = PreRechageMoney >= 50 and PreRechageMoney or 0
+		-- if ScriptGlobal.is_internal_test then
+			-- self:GetPreRechargeGiftAward(selfId, PreRechageMoney, targetId)
+		-- end
+		-- return
+	-- end
+	-- if nOperation == 70000 then
+		-- local hex_guid = string.upper(string.format("%X", guid))
+		-- if ZhuBoBangYuan_GuidList[hex_guid] == nil then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("#不在名单中")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- local val = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_YURENJIE_GET_AWARD)
+		-- if val == 0 then
+			-- --self:AddMoneyJZ(selfId,18000000)
+			-- self:AddBindYuanBao(selfId,200000)
+			-- self:SetMissionDataEx(selfId, ScriptGlobal.MDEX_YURENJIE_GET_AWARD, 1)
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("#领取成功")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+		-- end
+	-- end
+	-- if nOperation == 79000 then
+		-- self:BeginUICommand()
+		-- self:UICommand_AddInt(targetId)
+		-- self:UICommand_AddInt(1)
+		-- self:EndUICommand()
+		-- self:DispatchUICommand(selfId,20100118)
+		-- return
+	-- end
+	-- if nOperation == 80000 then
+		-- self:ShowCharacterCanGetAward(selfId)
+		-- return
+	-- end
+	-- if nOperation >= 80001 and nOperation < 80015 then
+		-- self:SeeCharacterCanGetAward(selfId, nOperation)
+		-- return
+	-- end
+	-- if nOperation >= 80101 and nOperation < 80115 then
+		-- self:GetCharacterCanGetAward(selfId, nOperation, targetId)
+		-- return
+	-- end
+	-- --领取门派高级时装
+	-- if nOperation == 3000 then
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("#Y领取门派高级时装")
+		-- self:AddText("  有一位旅行家曾经惊奇的发现，银皑雪原上的一些怪物身上可能携带神秘的#Y怪物日记本#W。如果你能帮他找来20本#Y怪物日记本#W，就可以得到他赠予的一件门派高级时装。")
+		-- self:AddText("    怎么样，你打算交换吗？")
+		-- self:AddNumText("确定",8,3001)
+		-- self:AddNumText("取消",8,3002)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- end
+	-- if nOperation == 3001 then
+		-- if self:GetMenPai(selfId) == 9 then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("  你还没有加入一个门派，只有九大门派的弟子才能兑换门派高级时装啊。")
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- -- 1，检测玩家身上是不是有足够的石头
+		-- local HaveAllItem = 1
+		-- if (self:GetItemCount(selfId, self.guaiwuriji[1]) + self:GetItemCount(selfId,self.guaiwuriji[2])) < self.guaiwurijicount then
+			-- HaveAllItem = 0
+		-- end
+		-- if HaveAllItem == 0 then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("  你需要拿20个怪物日记本才能兑换门派高级时装。" );
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- -- 2，检测玩家的这套碎片是不是都能够删除
+		-- local AllItemCanDelete = 1
+		-- local Stone1_Num = self:LuaFnGetAvailableItemCount(selfId,self.guaiwuriji[1])
+		-- local Stone2_Num = self:LuaFnGetAvailableItemCount(selfId,self.guaiwuriji[2])
+
+		-- if Stone1_Num+Stone2_Num < self.guaiwurijicount   then
+			-- AllItemCanDelete = 0
+		-- end
+		-- if AllItemCanDelete == 0 then
+			-- self:BeginEvent(self.script_id)
+			-- self:AddText("    扣除你身上的物品失败，请检测你是否对物品加锁，或者物品处于交易状态。" );
+			-- self:EndEvent()
+			-- self:DispatchEventList(selfId, targetId)
+			-- return
+		-- end
+		-- --扣除物品前获得物品
+		-- local bagpos = -1
+		-- if Stone1_Num > 0 then
+		  -- bagpos = self:GetBagPosByItemSn(selfId,self.guaiwuriji[1])
+		-- elseif Stone1_Num == 0 and Stone2_Num > 0 then
+		  -- bagpos = self:GetBagPosByItemSn(selfId,self.guaiwuriji[2])
+		-- end
+		-- self:NotifyTips(selfId,bagpos)
+		-- local GemItemInfo
+		-- if bagpos ~= -1 then
+		  -- GemItemInfo = self:GetBagItemTransfer(selfId, bagpos )
+		-- end
+		-- -- 3，检测玩家身上是不是有空间放奖励
+		-- local nItemId = 0
+		-- local nMenpaiName = ""
+		-- for i=1, 11 do
+			-- if self:GetMenPai(selfId) == self.MenPaiDress[i].mp  then
+				-- nItemId = self.MenPaiDress[i].Item
+				-- nMenpaiName = self.MenPaiDress[i].mpname
+			-- end
+		-- end
+		-- if nItemId==0  then
+			-- return
+		-- end
+
+	 	-- self:BeginAddItem()
+			-- self:AddItem(nItemId, 1 )
+		-- local ret = self:EndAddItem(selfId)
+		-- local delret = 1
+		-- if ret then
+		-- --开始扣除物品
+			-- local DeleteNum = self:LuaFnGetAvailableItemCount(selfId,self.guaiwuriji[1]);
+			-- if(DeleteNum >= self.guaiwurijicount) then
+			-- --扣除绑定的
+				-- if not self:LuaFnDelAvailableItem(selfId,self.guaiwuriji[1],self.guaiwurijicount) then
+					-- delret = 0
+				-- end
+			-- elseif(DeleteNum == 0) then
+			-- --扣除没有绑定的
+				-- if not self:LuaFnDelAvailableItem(selfId,self.guaiwuriji[2],self.guaiwurijicount) then
+					-- delret = 0
+				-- end
+			-- else
+			-- --先扣除没绑定的再扣除绑定的
+				-- if not self:LuaFnDelAvailableItem(selfId,self.guaiwuriji[1], DeleteNum)   then
+					-- delret = 0
+				-- end
+				
+				-- DeleteNum = self.guaiwurijicount - DeleteNum;  --还要删除的
+				-- if not self:LuaFnDelAvailableItem(selfId,self.guaiwuriji[2], DeleteNum)   then
+					-- delret = 0
+				-- end
+				
+			-- end
+			
+			-- if delret == 1  then
+				-- self:AddItemListToHuman(selfId)
+				-- self:LuaFnSendSpecificImpactToUnit(selfId,selfId,selfId,18,1000)
+				-- -- 提示玩家
+				-- self:BeginEvent(self.script_id)
+					-- self:AddText( "您获得了" .. nMenpaiName .. "的高级门派套装一件。" );
+				-- self:EndEvent()
+				-- self:DispatchMissionTips(selfId)
+				
+				-- -- 发世界公告
+				-- local str = ""
+				-- local rand = math.random(3)
+				
+				-- if rand == 1  then
+					-- str = string.format("#P突然！天昏地暗，众人皆不知所措，原来是#{_INFOUSR%s}使用#G20本怪物日记本#P换取到了无出其右羡煞旁人的#G %s高级门派时装#P！",self:GetName(selfId), nMenpaiName)
+				-- elseif rand == 2  then
+					-- str = string.format("#P哇呀！#{_INFOUSR%s}使用#G20本怪物日记本#P换到了#G %s高级门派时装#P，穿上后真是惊人的耀眼！", self:GetName(selfId), nMenpaiName)
+				-- else
+					-- str = string.format("#P#{_INFOUSR%s}使用#G20本怪物日记本#P换到了#G %s高级门派时装#P！恭喜！恭喜！再恭喜！", self:GetName(selfId), nMenpaiName)
+				-- end
+				
+				-- self:BroadMsgByChatPipe(selfId,gbk.fromutf8(str), 4)
+				
+				-- -- 关闭窗口
+				-- self:BeginUICommand()
+				-- self:EndUICommand()
+				-- self:DispatchUICommand(selfId, 1000)
+				-- return
+			-- end
+		-- end
+		-- return
+	-- end
+	-- if nOperation == 3002 then
+		-- self:BeginUICommand()
+		-- self:EndUICommand()
+		-- self:DispatchUICommand(selfId, 1000)
+		-- return
+	-- end
+	-- if nOperation == 1 then
+		-- local lqFlag = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD);
+		-- local lqFlag_Pet = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET);
+		-- local minIndex = lqFlag - ShowReceiveCount;
+		-- local minIndex_pet = lqFlag_Pet - ShowReceiveCount;
+		-- if ShowReceiveCount == 0 then
+			-- minIndex = lqFlag;
+			-- minIndex_pet = lqFlag_Pet;
+		-- end
+		-- local maxIndex = lqFlag + ShowNotReceiveCount;
+		-- local maxIndex_pet = lqFlag_Pet + ShowNotReceiveCount
+		-- local selfPoint =self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_POINTCOUNT )
+		-- local needPoint,textColor,textAdd
+		-- local Istrue = false;
+		-- local petlistcount = 0
+		-- self:BeginEvent(self.script_id)
+		-- for i,j in ipairs(PrizeTable) do
+			-- if i >= minIndex and i <= maxIndex then
+				-- Istrue = true;
+				-- if i <= lqFlag then
+					-- textColor = "#cFFCC99";
+					-- textAdd = " (已领取)"
+				-- else
+					-- needPoint = j.showMoney;
+					-- if selfPoint >= needPoint then
+						-- textColor = "#G"
+						-- textAdd = " (可领取)"
+					-- else
+						-- textColor = "#cff0000"
+						-- textAdd = " (未达标)"
+					-- end
+				-- end
+				-- self:AddNumText(textColor..tostring(j.showMoney).."点礼包"..textAdd, 6, i+Idx);
+			-- end
+			-- if j.addPet then
+				-- -- petlistcount = petlistcount + 1
+				-- -- if petlistcount >= minIndex_pet and petlistcount <= maxIndex_pet then
+					-- Istrue = true;
+					-- -- if j.addPet then
+						-- if i <= lqFlag_Pet then
+							-- textColor = "#cFFCC99";
+							-- textAdd = " (已领取)"
+						-- else
+							-- needPoint = j.showMoney;
+							-- if selfPoint >= needPoint then
+								-- textColor = "#G"
+								-- textAdd = " (可领取)"
+							-- else
+								-- textColor = "#cff0000"
+								-- textAdd = " (未达标)"
+							-- end
+						-- end
+						-- self:AddNumText(textColor..tostring(j.showMoney).."点(自选珍兽)礼包"..textAdd, 6, i+Idx_pet);
+					-- -- end
+				-- -- end
+			-- end
+		-- end
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return
+	-- end
+	-- local min_index = Idx + 1
+	-- local max_index = Idx + #PrizeTable
+	-- if nOperation >= min_index and nOperation <= max_index then
+		-- self:GivePrize(selfId, nOperation,targetId)
+		-- return
+	-- end
+	-- min_index = Idx_pet + 1
+	-- max_index = Idx_pet + #PrizeTable
+	-- --111 22 3
+	-- if nOperation >= min_index and nOperation <= max_index then
+		-- local tabidx = nOperation - 300
+		-- local haveaward = PrizeTable[tabidx]
+		-- if haveaward then
+			-- local havepet = haveaward.addPet
+			-- if havepet then
+				-- local msgtab = {"可自选一只珍兽(资质>>"}
+				-- for key,value in pairs(havepet.addpetsx) do
+					-- if value > 0 then
+						-- if key == "str_perception" then
+							-- table.insert(msgtab,"力量=")
+						-- elseif key == "spr_perception" then
+							-- table.insert(msgtab,"灵气=")
+						-- elseif key == "con_perception" then
+							-- table.insert(msgtab,"体力=")
+						-- elseif key == "int_perception" then
+							-- table.insert(msgtab,"定力=")
+						-- elseif key == "dex_perception" then
+							-- table.insert(msgtab,"身法=")
+						-- elseif key == "growth_rate" then
+							-- table.insert(msgtab,"成长=")
+						-- end
+						-- table.insert(msgtab,tostring(value))
+						-- table.insert(msgtab,",")
+					-- end
+				-- end
+				-- table.insert(msgtab,")")
+				-- local msg = table.concat(msgtab)
+				-- local petname
+				-- local index_a
+				-- self:BeginEvent(self.script_id)
+				-- self:AddText(msg)
+					-- for i,j in ipairs(havepet.selectpet) do
+						-- petname = self:GetPetName(j.dataid)
+						-- if petname then
+							-- msg = "#G"..petname.."(max:"..tostring(j.maxmutated).."-变异)"
+							-- index_a = 0 - i * 1000 - tabidx
+							-- self:AddNumText(msg, 6, index_a);
+						-- end
+					-- end
+				-- self:EndEvent()
+				-- self:DispatchEventList(selfId, targetId)
+			-- else
+				-- self:NotifyTips(selfId,"没有该奖励配置a:"..tostring(nOperation))
+			-- end
+		-- else
+			-- self:NotifyTips(selfId,"没有该奖励配置b:"..tostring(nOperation))
+		-- end
+		-- return
+	-- end
+	-- min_index = -99999
+	-- max_index = -1
+	-- if nOperation >= min_index and nOperation <= max_index then
+		-- local index_x = math.abs(nOperation)
+		-- local index_z
+		-- local selectpetz = math.floor(index_x / 1000)
+		-- local selectindex = index_x % 1000
+		-- local haveaward = PrizeTable[selectindex]
+		-- if haveaward then
+			-- local havepet = haveaward.addPet
+			-- if havepet then
+				-- local haveselectpet = havepet.selectpet
+				-- if haveselectpet then
+					-- local curselectpet = haveselectpet[selectpetz]
+					-- if curselectpet then
+						-- self:BeginEvent(self.script_id)
+						-- self:AddText("选择一只珍兽奖励领取")
+						-- local petname
+						-- local curpetdataid = curselectpet.dataid
+						-- if curselectpet.maxmutated > 0 and curselectpet.maxmutated < 9 then
+							-- local startdataid = math.floor(curpetdataid / 10) * 10
+							-- for i = 1,curselectpet.maxmutated do
+								-- petname = self:GetPetName(startdataid + i)
+								-- if petname then
+									-- index_z = nOperation - i * 100000
+									-- self:AddNumText(petname..tostring(i), 6, index_z);
+								-- end
+							-- end
+						-- else
+							-- petname = self:GetPetName(curpetdataid)
+							-- if petname then
+								-- local moddataid = curpetdataid % 10
+								-- index_z = nOperation - moddataid * 100000
+								-- self:AddNumText(petname..tostring(moddataid), 6, index_z);
+							-- end
+						-- end
+						-- self:EndEvent()
+						-- self:DispatchEventList(selfId, targetId)
+					-- else
+						-- self:NotifyTips(selfId,"没有该奖励配置d:"..tostring(nOperation))
+					-- end
+				-- else
+					-- self:NotifyTips(selfId,"没有该奖励配置c:"..tostring(nOperation))
+				-- end
+			-- else
+				-- self:NotifyTips(selfId,"没有该奖励配置b:"..tostring(nOperation))
+			-- end
+		-- else
+			-- self:NotifyTips(selfId,"没有该奖励配置a:"..tostring(nOperation))
+		-- end
+		-- return
+	-- elseif nOperation < min_index then
+		-- local index_x = math.abs(nOperation)
+		-- local petid1 = math.floor(index_x / 100000)
+		-- index_x = index_x % 100000
+		-- local petid2 = math.floor(index_x / 1000)
+		-- index_x = index_x % 1000
+		-- local haveaward = PrizeTable[index_x]
+		-- if haveaward then
+			-- local havepet = haveaward.addPet
+			-- if havepet then
+				-- local haveselectpet = havepet.selectpet
+				-- if not haveselectpet then
+					-- self:NotifyTips(selfId,"没有该奖励配置z:"..tostring(nOperation))
+					-- return
+				-- end
+				-- local curselectpet = haveselectpet[petid2]
+				-- if not curselectpet then
+					-- self:NotifyTips(selfId,"没有该奖励配置x:"..tostring(nOperation))
+					-- return
+				-- end
+				-- local newdataid = math.floor(curselectpet.dataid / 10) * 10 + petid1
+				-- local petname = self:GetPetName(newdataid)
+				-- if petname then
+					-- if not haveaward.showMoney then
+						-- self:NotifyTips(selfId,"奖励异常:"..tostring(index_x)..">>showMoney")
+						-- return
+					-- end
+					-- local selfPoint = self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_POINTCOUNT);
+					-- local needPoint = haveaward.showMoney
+					-- if selfPoint < needPoint then
+						-- self:NotifyTips(selfId,"该奖励需要至少"..tostring(needPoint).."点数。")
+						-- return
+					-- end
+					-- local lqFlag = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET);
+					-- if lqFlag >= index_x then
+						-- self:NotifyTips(selfId,"该奖励您已领取过，请不要非法操作。")
+						-- return
+					-- end
+					-- local up_award = 0;
+					-- for i = index_x - 1,1,-1 do
+						-- if PrizeTable[i].addPet then
+							-- if lqFlag ~= i then
+								-- local upAward = PrizeTable[i].showMoney;
+								-- if upAward then
+									-- self:NotifyTips(selfId,"请先领取"..tostring(upAward).."点自选珍兽礼包。")
+								-- else
+									-- self:NotifyTips(selfId,"请先领取前一档的奖励。")
+								-- end
+								-- return
+							-- else
+								-- break
+							-- end
+						-- end
+					-- end
+					-- self:SetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET,index_x)
+					-- local ret, petGUID_H, petGUID_L = self:CallScriptFunction(800105, "CreateRMBPetToHuman34534", selfId, newdataid, 1)
+					-- if ret then
+						-- for key,value in pairs(havepet.addpetsx) do
+							-- if value > 0 then
+								-- -- self:NotifyTips(selfId,"key:"..tostring(key))
+								-- self:LuaFnSetPetData(selfId, petGUID_H, petGUID_L, key,value)
+							-- end
+						-- end
+						-- self:NotifyTips(selfId,"您得到"..petname.."一只。")
+					-- else
+						-- self:SetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD_PET,lqFlag)
+					-- end
+				-- else
+					-- self:NotifyTips(selfId,"没有此珍兽信息:"..tostring(newdataid))
+				-- end
+			-- else
+				-- self:NotifyTips(selfId,"没有该奖励配置b:"..tostring(nOperation))
+			-- end
+			
+		-- else
+			-- self:NotifyTips(selfId,"没有该奖励配置a:"..tostring(nOperation))
+		-- end
+		-- return
+	-- end
+-- end
+
+-- function odali_gongcaiyun:GivePrize(selfId, nOperationss,targetId)
+	-- local nOperation = nOperationss - 200
+	-- if nOperation == 0 then
+		-- self:UpdateEventList(selfId, targetId)
+		-- return
+	-- elseif not nOperation or nOperation < 1 then
+		-- return
+	-- end
+	-- local PrizeTable_x = PrizeTable[nOperation];
+	-- if not PrizeTable_x then
+		-- self:NotifyTips(selfId,"奖励异常:"..tostring(nOperation)..">>PrizeTable_x")
+		-- return
+	-- elseif not PrizeTable_x.items then
+		-- self:NotifyTips(selfId,"奖励异常:"..tostring(nOperation)..">>items")
+		-- return
+	-- end
+	-- local selfPoint = self:GetMissionData(selfId,ScriptGlobal.MD_CHANGE_POINTCOUNT );
+	-- local needPoint = PrizeTable_x.showMoney
+	-- if selfPoint < needPoint then
+		-- self:NotifyTips(selfId,"该奖励需要至少"..tostring(needPoint).."点数。")
+		-- return
+	-- end
+	-- local lqFlag = self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD);
+	-- if lqFlag >= nOperation then
+		-- self:NotifyTips(selfId,"该奖励您已领取过，请不要非法操作。")
+		-- return
+	-- elseif lqFlag < nOperation - 1 then
+		-- local newIndex = nOperation - 1;
+		-- local upAward = PrizeTable[newIndex].showMoney;
+		-- if upAward then
+			-- self:NotifyTips(selfId,"请先领取"..tostring(upAward).."点礼包。")
+		-- else
+			-- self:NotifyTips(selfId,"请先领取前一档的奖励。")
+		-- end
+		-- return
+	-- end
+	-- self:BeginAddItem()
+	-- for i,j in ipairs(PrizeTable_x.items) do
+		-- if j[1] and j[1] ~= -1 then
+			-- self:AddItem(j[1], j[2], true);
+		-- end
+	-- end
+	-- if not self:EndAddItem(selfId) then
+		-- self:BeginAddItem()
+		-- self:NotifyTips(selfId,"背包空间不足")
+		-- return
+	-- end
+	-- self:SetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD,nOperation);
+	-- if self:GetMissionDataEx(selfId, ScriptGlobal.MDEX_ZHUBO_GET_AWARD) == nOperation then
+		-- self:AddItemListToHuman(selfId)
+		-- self:BeginAddItem()
+		-- local addText = "";
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("奖励领取成功"..addText)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+	-- else
+		-- self:NotifyTips(selfId,"数据异常，请重试")
+	-- end
+-- end
+
+
+
+-- function odali_gongcaiyun:BitIsTrue(value, bit_pos)
+	-- return ((0x1 << (bit_pos - 1) & value) ~= 0)
+-- end
+
+-- function odali_gongcaiyun:MarkBitTrue(value, bit_pos)
+	-- return (value | 0x1 << (bit_pos - 1))
+-- end
+
+-- function odali_gongcaiyun:ShowCharacterCanGetAward(selfId, targetId)
+	-- local awards = self:GetCanGetAwardList(selfId)
+	-- self:BeginEvent(self.script_id)
+	-- if #awards > 0 then
+		-- self:AddText("当前可领取的奖励:")
+		-- for i = 1, 15 do
+			-- local award = awards[i]
+			-- if award then
+				-- self:AddNumText(award.award_name, 6, 80000 + i)
+			-- end
+		-- end
+	-- else
+		-- self:AddText("当前没有可领取的奖励")
+	-- end
+	-- self:EndEvent()
+	-- self:DispatchEventList(selfId, targetId)
+-- end
+
+-- function odali_gongcaiyun:SeeCharacterCanGetAward(selfId, nOperation)
+	-- local index = nOperation - 80000
+	-- local award_list = self:GetCanGetAwardList(selfId)
+	-- local awards = award_list[index]
+	-- if awards == nil then
+		-- self:notify_tips(selfId, "没有奖励可以领取")
+		-- return
+	-- end
+	-- self:BeginEvent(self.script_id)
+	-- local content = string.format("您当前可以领取的%s内容为:", awards.award_name)
+	-- self:AddText(content)
+	-- for _, p in ipairs(awards.award_list) do
+		-- p.itemid = math.floor(p.itemid)
+        -- if p.itemid then
+            -- local item_name = self:GetItemName(p.itemid)
+            -- if p.soul_level then
+                -- self:AddText(item_name .. " " .. p.soul_level + 1 .. "阶 X" ..  math.floor(p.num))
+            -- else
+                -- self:AddText(item_name .. "X" .. math.floor(p.num))
+            -- end
+        -- end
+	-- end
+	-- self:AddNumText("确认领取",6, 100 + nOperation )
+	-- self:EndEvent()
+	-- self:DispatchEventList(selfId,-1)
+-- end
+
+-- function odali_gongcaiyun:GetCharacterCanGetAward(selfId, nOperation, targetId)
+	-- local index = nOperation - 80100
+	-- local award_list = self:GetCanGetAwardList(selfId)
+	-- local awards = award_list[index]
+	-- if awards == nil then
+		-- self:notify_tips(selfId, "没有奖励可以领取")
+		-- return
+	-- end
+	-- self:BeginAddItem()
+	-- local pet_soul_level
+	-- for _,item in pairs(awards.award_list) do
+        -- if item.title_id then
+            -- if not self:LuaFnHaveAgname(selfId, item.title_id) then
+                -- self:LuaFnAddNewAgname(selfId, item.title_id)
+            -- end
+        -- else
+            -- self:AddItem(item.itemid, item.num, true)
+            -- if item.soul_level then
+                -- pet_soul_level = item.soul_level
+            -- end
+        -- end
+	-- end
+	-- if not self:EndAddItem(selfId) then
+		-- self:NotifyTips( selfId, "背包空间不足" )
+		-- return
+	-- end
+	-- self:RemoveCanGetAward(awards.id)
+	-- self:AddItemListToHuman(selfId)
+	-- if pet_soul_level then
+		-- local BagPos = self:GetBagPosByItemSn(selfId, 70600015)
+			-- local human = self:get_scene():get_obj_by_id(selfId)
+			-- local prop_bag_container = human:get_prop_bag_container()
+			-- local item = prop_bag_container:get_item(BagPos)
+			-- item:get_pet_equip_data():set_pet_soul_level(pet_soul_level)
+			-- self:LuaFnRefreshItemInfo(selfId, BagPos)
+		-- -- self:SetPetSoulLevel(selfId, BagPos, pet_soul_level)
+	-- end
+	-- self:BeginEvent(self.script_id)
+	-- self:AddText(string.format("%s领取成功", awards.award_name))
+	-- self:EndEvent()
+	-- self:DispatchEventList(selfId,targetId)
+-- end
+
+-- function odali_gongcaiyun:GetCanGetAwardList(selfId)
+	-- local guid = self:LuaFnGetGUID(selfId)
+	-- local skynet = require "skynet"
+    -- local query_tbl = { guid = guid, status = 0}
+    -- local coll_name = "can_get_awards"
+    -- local response = skynet.call(".char_db", "lua", "findAll", { collection = coll_name, query = query_tbl})
+	-- response = response or {}
+	-- local list = {}
+	-- for _, resp in ipairs(response) do
+		-- local award_name = resp.award_name
+		-- local award_list = resp.award_list
+		-- local id = resp["_id"]
+		-- table.insert(list, { award_name = award_name, award_list = award_list, id = id })
+	-- end
+	-- return list
+-- end
+
+-- function odali_gongcaiyun:RemoveCanGetAward(id)
+	-- local selector = {["_id"] = id}
+    -- local updater = {}
+    -- updater["$set"] = { status = 1 }
+    -- local sql = { collection = "can_get_awards", selector = selector, update = updater}
+	-- local skynet = require "skynet"
+    -- skynet.call(".char_db", "lua", "safe_update", sql)
+-- end
+-- function odali_gongcaiyun:GetWebAwardList(selfId)
+	-- local guid = self:LuaFnGetGUID(selfId)
+	-- local skynet = require "skynet"
+    -- local response = skynet.call(".char_db", "lua", "findAll", 
+	-- { collection = "web_awards", query = { guid = guid, status = { ["$gt"] = 0 } }})
+
+	-- response = response or {}
+	-- local list = {}
+	-- for _, resp in ipairs(response) do
+		-- local award_name = resp.award_name
+		-- local award_item = resp.award_item
+		-- local award_pet = resp.award_pet
+		-- local award_title = resp.award_title
+		-- local status = resp.status
+		-- local specialtitle = resp.specialtitle
+		-- local award_buff = resp.award_buff
+		-- local id = resp["_id"]
+		-- table.insert(list, 
+		-- { id = id,
+		-- status = status,
+		-- award_buff = award_buff,
+		-- award_name = award_name,
+		-- award_item = award_item,
+		-- award_pet = award_pet,
+		-- award_title = award_title,
+		-- specialtitle = specialtitle,
+		-- })
+	-- end
+	-- return list
+-- end
+-- function odali_gongcaiyun:SetReceiveAward(id,status)
+	-- local selector = {["_id"] = id}
+    -- local updater = {}
+    -- updater["$set"] = { status = status, receive_time = os.date("%y-%m-%d %H:%M:%S")}
+    -- local sql = { collection = "web_awards", selector = selector, update = updater}
+	-- local skynet = require "skynet"
+    -- skynet.call(".char_db", "lua", "safe_update", sql)
+    -- local isok = skynet.call(".char_db", "lua", "findOne", { collection = "web_awards", query = { _id = id, status = status}})
+	-- if isok then
+		-- return true
+	-- end
+-- end
+-- function odali_gongcaiyun:ShowPreRechageGiftContent(selfId, PreMoney, targetId)
+	-- local val = self:GetMissionDataEx(selfId, MDEX_PRE_RECHAGE_GETD)
+	-- local gift_config = self:GetPreRechargeGiftContent(PreMoney, val)
+	-- if gift_config == nil then
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText(string.format("您当前预充数额为%d元, 没有预充礼包可以领取", PreMoney))
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId,targetId)
+		-- return
+	-- end
+	-- local prize = gift_config.prize
+	-- self:BeginEvent(self.script_id)
+	-- local content = string.format("您当前可以领取的预充礼包内容为: %d 元档", PreMoney)
+	-- self:AddText(content)
+	-- self:AddNumText("确认领取",6, 50003)
+	-- self:EndEvent()
+	-- self:DispatchEventList(selfId,targetId)
+-- end
+
+-- function odali_gongcaiyun:MarkBitPoss(val, bit_poss)
+	-- for _, pos in ipairs(bit_poss) do
+		-- val = self:MarkBitTrue(val, pos)
+	-- end
+	-- return val
+-- end
+
+-- function odali_gongcaiyun:GetPreRechargeGiftAward(selfId, PreMoney, targetId)
+	-- --if not ScriptGlobal.is_internal_test then
+	-- --	return
+	-- --end
+	-- local val = self:GetMissionDataEx(selfId, MDEX_PRE_RECHAGE_GETD)
+	-- local gift_config, bit_poss = self:GetPreRechargeGiftContent(PreMoney, val)
+	-- if gift_config == nil then
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText(string.format("您当前预充数额为%d元, 没有预充礼包可以领取", PreMoney))
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId,targetId)
+		-- return
+	-- end
+	-- local player_level
+	-- local pet_soul,title,pet = {},{},{}
+	
+	-- self:BeginAddItem()
+	-- for i,item in pairs(gift_config.prize) do
+        -- if item.title_id then
+			-- table.insert(title,item.title_id)
+		-- elseif item.petid then
+			-- table.insert(pet,item.petid)
+		-- elseif item.player_level then
+			-- player_level = item.player_level
+			
+			
+		-- elseif item.soul_level and item.soul_level >= 0 then
+			-- table.insert(pet_soul,{item.itemid,item.num,item.soul_level})
+			-- self:AddItem(item.itemid, item.num, true)
+		-- else
+			-- self:AddItem(item.itemid, item.num, true)
+		-- end
+	-- end
+	-- if not self:EndAddItem(selfId,true) then
+		-- return
+	-- end
+	-- val = self:MarkBitPoss(val, bit_poss)
+	-- self:SetMissionDataEx(selfId, MDEX_PRE_RECHAGE_GETD, val)
+	-- if self:GetMissionDataEx(selfId,MDEX_PRE_RECHAGE_GETD) == val then
+		-- for i,item in pairs(gift_config.prize) do
+			-- if item.itemid and item.num then
+				-- if not item.soul_level then
+					-- self:AddItem(item.itemid, item.num, true)
+				-- end
+			-- end
+		-- end
+		-- self:AddItemListToHuman(selfId)
+		-- if #pet_soul > 0 then
+			-- for i,j in ipairs(pet_soul) do
+				-- for n = 1,j[2] do
+					-- local newpos = self:TryRecieveItem(selfId, j[1],true)
+					-- if newpos ~= define.INVAILD_ID then
+						-- local prop_bag_container = human:get_prop_bag_container()
+						-- local item = prop_bag_container:get_item(newpos)
+						-- if item then
+							-- item:get_pet_equip_data():set_pet_soul_level(j[3])
+							-- self:LuaFnRefreshItemInfo(selfId, newpos)
+						-- end
+					-- end
+				-- end
+			-- end
+		-- end
+        -- if #title > 0 then
+			-- for i,j in ipairs(title) do
+				-- if not self:LuaFnHaveAgname(selfId,j) then
+					-- self:LuaFnAddNewAgname(selfId,j)
+				-- end
+			-- end
+		-- end
+		-- if player_level then
+			-- local obj_me = self:get_scene():get_obj_by_id(selfId)
+			-- local level = obj_me:get_level()
+			-- if player_level > level then
+				-- for i = level + 1, player_level do
+					-- obj_me:set_level(i)
+					-- obj_me:on_level_up(i)
+				-- end
+			-- end
+		-- end
+        -- if #pet > 0 then
+			-- for i,j in ipairs(pet) do
+				-- self:CallScriptFunction(800105, "CreateRMBPetToHuman34534", selfId,j,1)
+			-- end
+		-- end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("预充奖励领取成功")
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId,targetId)
+	-- end
+-- end
+
+-- function odali_gongcaiyun:GetPreRechargeGiftContent(nPreMoney, val)
+	-- if ScriptGlobal.is_internal_test then
+		-- local gifts = {prize = {}}
+		-- local bit_poss = {}
+		-- for i = 1,#PreRecharge_Gift_NC do
+			-- local bit = self:BitIsTrue(val, i)
+			-- if not bit then
+				-- local gift = PreRecharge_Gift_NC[i]
+				-- if gift.money <= nPreMoney then
+					-- for _, p in ipairs(gift.prize) do
+						-- local prize = table.clone(p)
+						-- table.insert(bit_poss, i)
+						-- table.insert(gifts.prize, prize)
+					-- end
+					-- break
+				-- end
+			-- end
+		-- end
+		-- if #gifts.prize == 0 then
+			-- return
+		-- end
+		-- return gifts, bit_poss
+	-- else
+		-- local gifts = {prize = {}}
+		-- local bit_poss = {}
+		-- for i = 1,#PreRecharge_Gift_GC do
+			-- local bit = self:BitIsTrue(val, i)
+			-- if not bit then
+				-- local gift = PreRecharge_Gift_GC[i]
+				-- if gift.money <= nPreMoney then
+					-- for _, p in ipairs(gift.prize) do
+						-- local prize = table.clone(p)
+						-- table.insert(bit_poss, i)
+						-- table.insert(gifts.prize, prize)
+					-- end
+					-- break
+				-- end
+			-- end
+		-- end
+		-- if #gifts.prize == 0 then
+			-- return
+		-- end
+		-- return gifts, bit_poss
+	-- end
+-- end
+
+
+-- function odali_gongcaiyun:SetPetSoulLevel(selfId, BagPos, level)
+	-- -- local human = self:get_scene():get_obj_by_id(selfId)
+	-- -- local prop_bag_container = human:get_prop_bag_container()
+	-- -- local item = prop_bag_container:get_item(BagPos)
+	-- -- item:get_pet_equip_data():set_pet_soul_level(level)
+	-- -- self:LuaFnRefreshItemInfo(selfId, BagPos)
+-- end
+
+-- function odali_gongcaiyun:OnMissionAccept(selfId, targetId, missionScriptId)
+-- end
+
+-- function odali_gongcaiyun:OnMissionRefuse(selfId, targetId, missionScriptId)
+-- end
+
+-- function odali_gongcaiyun:OnMissionContinue(selfId, targetId, missionScriptId)
+-- end
+
+-- function odali_gongcaiyun:OnMissionSubmit(selfId, targetId, missionScriptId, selectRadioId)
+-- end
+
+-- function odali_gongcaiyun:OnDie(selfId, killerId)
+-- end
+-- function odali_gongcaiyun:GetYuanXiaoExchange(selfId)
+    -- local guid = self:LuaFnGetGUID(selfId)
+    -- local skynet = require "skynet"
+    -- local pipeline = {}
+    -- local query_tbl = {["guid"] = guid, ["time"] = {["$gte"] = 1741104000,["$lte"] = 1741705200},["cost"] = {["$gte"] = 1}}
+	-- local step = {["$group"] = {_id = false, ["total"] = {["$sum"] = "$cost"}}}
+    -- table.insert(pipeline, {["$match"] = query_tbl})
+    -- table.insert(pipeline, step)
+    -- local coll_name = "toppoint_cost"
+    -- local result = skynet.call(".char_db", "lua", "runCommand", "aggregate",  coll_name, "pipeline", pipeline, "cursor", {},  "allowDiskUse", false)
+    -- if result and result.ok == 1 then
+        -- if result.cursor and result.cursor.firstBatch then
+            -- local r = result.cursor.firstBatch[1]
+            -- if r then
+               -- return r["total"]
+            -- end
+        -- end
+    -- end
+    -- return 0
+-- end
+
+-- function odali_gongcaiyun:ShengDan(selfId, index, targetId)
+	-- local total_exchange_point = self:GetMissionData(selfId, 718) --活动开启后累计兑换的点数
+	-- local shengdan_flag = self:GetMissionData(selfId, 719) --玩家领取记录 位标记 共9档
+	
+	-- if index == 1 then --与NPC交互时检测是否可以领取圣诞累计兑换礼包
+		-- if total_exchange_point < 400 then --小于400点不显示 
+			-- return false
+		-- end
+		-- -- 检查是否有可领取的档位（直接遍历 PreRecharge_Gift_ShengDan）
+		-- local has_available = false
+		-- for cfg_idx = 1, #PreRecharge_Gift_ShengDan do
+			-- local cfg = PreRecharge_Gift_ShengDan[cfg_idx]
+			-- local bit_pos = cfg_idx
+			-- local has_get = self:BitIsTrue(shengdan_flag, bit_pos)
+			-- if (not has_get) and total_exchange_point >= cfg.showMoney then
+				-- has_available = true
+				-- break
+			-- end
+		-- end
+		
+		-- if has_available then
+			-- self:AddNumText("#G圣诞累计兑换礼包", 6, 92000)
+			-- return true
+		-- end
+		-- return false
+	-- elseif index == 92000 then -- 显示圣诞活动主菜单（显示所有可领取的档位）
+		-- if not targetId then return false end
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText("圣诞累计兑换活动")
+		-- self:AddText("当前累计兑换点数：#G"..tostring(total_exchange_point))
+		
+		-- -- 直接遍历 PreRecharge_Gift_ShengDan，显示所有可领取的档位
+		-- for cfg_idx = 1, #PreRecharge_Gift_ShengDan do
+			-- local cfg = PreRecharge_Gift_ShengDan[cfg_idx]
+			-- local bit_pos = cfg_idx
+			-- local has_get = self:BitIsTrue(shengdan_flag, bit_pos)
+			-- if (not has_get) and total_exchange_point >= cfg.showMoney then
+				-- local show_name = string.format("#G%d点礼包#W", cfg.showMoney)
+				-- self:AddNumText(show_name, 6, 92000 + cfg_idx)
+			-- end
+		-- end
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return true
+	-- elseif index >= 92001 and index <= 92009 then -- 显示某个档位的详情
+		-- if not targetId then return false end
+		-- local cfg_idx = index - 92000
+		-- local cfg = PreRecharge_Gift_ShengDan[cfg_idx]
+		-- if not cfg then
+			-- self:notify_tips(selfId, "配置错误，找不到对应档位。")
+			-- return false
+		-- end
+		
+		-- -- 检查是否可领取
+		-- local bit_pos = cfg_idx
+		-- local has_get = self:BitIsTrue(shengdan_flag, bit_pos)
+		-- if has_get then
+			-- self:notify_tips(selfId, "该档位已领取。")
+			-- return false
+		-- end
+		
+		-- if total_exchange_point < cfg.showMoney then
+			-- self:notify_tips(selfId, string.format("累计兑换点数不足，需要%d点。", cfg.showMoney))
+			-- return false
+		-- end
+		
+		-- -- 显示礼包内容
+		-- self:BeginEvent(self.script_id)
+		-- self:AddText(string.format("#Y【%d点】#W礼包内容：", cfg.showMoney))
+		-- for _, item in ipairs(cfg.items) do
+			-- local item_name = self:GetItemName(item[1])
+			-- self:AddText(string.format("  %s x%d", item_name or ("道具ID:"..tostring(item[1])), item[2]))
+		-- end
+		-- self:AddNumText("确认领取", 6, 92010 + cfg_idx)
+		-- self:AddNumText("返回圣诞活动主菜单", 11, 92000)
+		-- self:EndEvent()
+		-- self:DispatchEventList(selfId, targetId)
+		-- return true
+	-- elseif index >= 92011 and index <= 92019 then -- 确认领取某个档位
+		-- if not targetId then return false end
+		-- local cfg_idx = index - 92010
+		-- local cfg = PreRecharge_Gift_ShengDan[cfg_idx]
+		-- if not cfg then
+			-- self:notify_tips(selfId, "配置错误，找不到对应档位。")
+			-- return false
+		-- end
+		
+		-- -- 检查是否可领取
+		-- local bit_pos = cfg_idx
+		-- local has_get = self:BitIsTrue(shengdan_flag, bit_pos)
+		-- if has_get then
+			-- self:notify_tips(selfId, "该档位已领取。")
+			-- return false
+		-- end
+		
+		-- if total_exchange_point < cfg.showMoney then
+			-- self:notify_tips(selfId, string.format("累计兑换点数不足，需要%d点。", cfg.showMoney))
+			-- return false
+		-- end
+		
+		-- -- 准备发放奖励
+		-- local add_list = {} -- 要发放的道具列表
+		-- for _, item in ipairs(cfg.items) do
+			-- table.insert(add_list, {itemid = item[1], num = item[2]})
+		-- end
+		
+		-- -- 检查背包空间并发放奖励
+		-- self:BeginAddItem()
+		-- for _, it in ipairs(add_list) do
+			-- if it.itemid and it.itemid > 0 then
+				-- self:AddItem(it.itemid, it.num, true)
+			-- end
+		-- end
+		-- if not self:EndAddItem(selfId) then
+			-- self:BeginAddItem()
+			-- self:notify_tips(selfId, "背包空间不足")
+			-- return false
+		-- end
+		
+		-- -- 更新领取标记
+		-- shengdan_flag = self:MarkBitTrue(shengdan_flag, bit_pos)
+		-- self:SetMissionData(selfId, 719, shengdan_flag)
+		
+		-- -- 发放奖励
+		-- self:AddItemListToHuman(selfId)
+		
+		-- -- 跳转到奖励选择界面（主菜单）
+		-- self:ShengDan(selfId, 92000, targetId)
+		-- return true
+	-- end
+	-- return false
+-- end
+
+-- function odali_gongcaiyun:NotifyTips(selfId,msg)
+	-- self:BeginEvent()
+        -- self:AddText(msg)
+    -- self:EndEvent()
+    -- self:DispatchMissionTips(selfId)
+-- end
+-- return odali_gongcaiyun
