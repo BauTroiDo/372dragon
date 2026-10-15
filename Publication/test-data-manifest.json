@@ -7,7 +7,7 @@
   "completion_seconds": 399.5,
   "status": "SHARED_LINK_RECORDED_RIGHTS_UNVERIFIED",
   "google_drive_url": "https://drive.google.com/file/d/1FG-BSvarnmCeezwr4PqqC0zHMf7syia4/view?usp=sharing",
-  "license": "Not covered by the CY-Source license; rights remain with original rightsholders",
+  "license": "Not covered by the 372 dragon license; rights remain with original rightsholders",
   "includes": [
     "CanonicalCY/Data",
     "Play/Overlay",
@@ -35,6 +35,8 @@
     "remote_archive_sha256_verified": false,
     "scope": "Anonymous file landing page only; expected hash and size refer to the locally prepared archive."
   },
-  "project_name": "372dragon",
-  "former_project_name": "CY-Source"
+  "project_name": "372 dragon",
+  "repository_notice_sha256": "1237b2096b80ed7f946e9b117e25fd70d083fd53c906472dc15f63b17446fc77",
+  "repository_notice_revision": "2026-10-15-project-display-name",
+  "repository_notice_note": "Repository notice uses the current project display name; terms are unchanged. Archive notice and archive checksums remain those of the already shared package."
 }

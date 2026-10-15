@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="Docs/assets/372dragon-banner.svg" alt="372dragon — TLBB x64 client, server and development tools" width="100%">
+  <img src="Docs/assets/372dragon-banner.svg" alt="372 dragon — TLBB x64 client, server and development tools" width="100%">
 </p>
 
-<h1 align="center">372dragon</h1>
+<h1 align="center">372 dragon</h1>
 
 <p align="center">
   <strong>Mã nguồn client TLBB x64, server Skynet/Lua và công cụ phát triển.</strong><br>
@@ -20,7 +20,7 @@
 
 ---
 
-**372dragon** là tên công bố của **CY-Source**: dự án phát triển client Windows x64
+**372 dragon** là dự án phát triển client Windows x64
 từ nền mã TLBB 0.85, dùng Fairy/OGRE, Direct3D 9, CEGUI và Lua, kết nối với server
 Skynet/Lua trên Linux hoặc WSL2. Repository tập hợp source client/server, công cụ,
 kiểm thử và tài liệu kỹ thuật để nghiên cứu, tiếp tục phát triển và kiểm tra hành vi.
@@ -33,7 +33,7 @@ kiểm thử và tài liệu kỹ thuật để nghiên cứu, tiếp tục phá
 
 | Bạn muốn làm gì? | Đọc ở đâu? |
 |---|---|
-| Hiểu dự án và lấy đúng các thành phần | [Bắt đầu với 372dragon](Docs/guide/getting-started.md) |
+| Hiểu dự án và lấy đúng các thành phần | [Bắt đầu với 372 dragon](Docs/guide/getting-started.md) |
 | Tải data, kiểm hash và giải nén | [Data kiểm thử trên Google Drive](DATA_DOWNLOAD.md) |
 | Dựng client Windows x64 | [Toolchain, SDK và lệnh build](Docs/guide/build-client.md) |
 | Chuẩn bị server Linux/WSL2 | [Source, cấu hình riêng và dịch vụ](Docs/guide/server-setup.md) |
@@ -50,10 +50,6 @@ kiểm thử và tài liệu kỹ thuật để nghiên cứu, tiếp tục phá
 | **Công cụ** | Build, xử lý tài nguyên, giao thức, staging và kiểm tra |
 | **Tư liệu kỹ thuật** | Registry, đặc tả, ghi chép kiểm toán và bằng chứng theo mốc phát triển |
 | **Data kiểm thử** | Tài nguyên client, overlay và bảng/scene server; tải riêng để giữ repository nhẹ |
-
-Các tên `CY-Source`, `CYSource`, `CYS_*`, `cys_*` và `CanonicalCY` trong code vẫn là
-định danh kỹ thuật hoặc lịch sử của cùng dự án. Tên công bố **372dragon** không yêu
-cầu đổi các target build, đường dẫn data hay tên file tài nguyên.
 
 ## Tải source và data
 
@@ -88,8 +84,8 @@ cd C:\Dev\372dragon
 ├── Tests/            Kiểm thử, validator và probe
 ├── Registry/         ID, giao thức, ABI và dấu vết nhập nguồn
 ├── Docs/guide/       Hướng dẫn dành cho người dùng repository
-├── Docs/assets/      Banner và nhận diện 372dragon
-├── Docs/             Tài liệu kỹ thuật và lịch sử CY-Source
+├── Docs/assets/      Banner và nhận diện 372 dragon
+├── Docs/             Tài liệu kỹ thuật và lịch sử phát triển
 ├── Publication/      Manifest, kiểm tra data và chuẩn bị cấu hình
 ├── LICENSES/         Văn bản giấy phép gốc
 └── .github/          Mẫu issue và pull request
@@ -137,7 +133,7 @@ bước tái hiện, hành vi mong đợi cùng log đã loại thông tin riên
 <details>
 <summary><strong>English overview</strong></summary>
 
-372dragon is the public project name for CY-Source, a TLBB 0.85-derived Windows x64
+372 dragon is a TLBB 0.85-derived Windows x64
 client with a separate Skynet/Lua server. The client uses Fairy/OGRE, Direct3D 9,
 CEGUI and Lua. This repository contains a source snapshot, development tools,
 tests and technical documentation. Test resources are distributed separately.
@@ -145,7 +141,6 @@ tests and technical documentation. Test resources are distributed separately.
 A complete clean-machine build and installation has not yet been validated.
 Original project contributions use PolyForm Noncommercial 1.0.0 only within the
 documented scope; inherited code, third-party libraries and test data retain their
-respective rights and terms. Technical identifiers and historical documents still
-use CY-Source/CYS names. The main documentation is currently in Vietnamese.
+respective rights and terms. The main documentation is currently in Vietnamese.
 
 </details>

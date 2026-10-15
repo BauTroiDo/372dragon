@@ -1,6 +1,6 @@
-# Giấy phép 372dragon — phạm vi đóng góp của dự án
+# Giấy phép 372 dragon — phạm vi đóng góp của dự án
 
-372dragon là tên công bố của CY-Source. Tên mới không thay quyền tác giả hoặc giấy phép hiện hữu.
+Giấy phép của 372 dragon áp dụng theo từng thành phần, giữ nguyên quyền tác giả và giấy phép hiện hữu.
 
 Quyết định ngày 15/10/2026:
 

@@ -1,7 +1,6 @@
 {
-  "name": "372dragon",
+  "name": "372 dragon",
   "repository_name": "372dragon",
-  "former_name": "CY-Source",
   "description": "TLBB x64 client and Skynet/Lua server source, development tools and technical documentation. Test data is distributed separately; licenses apply by component.",
   "topics": ["tlbb", "mmorpg", "game-client", "game-server", "cpp", "lua", "skynet", "ogre3d", "direct3d9", "windows", "x64", "source-available", "research"],
   "primary_language": "vi",

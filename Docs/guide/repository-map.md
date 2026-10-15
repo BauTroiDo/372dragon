@@ -24,7 +24,7 @@
 1. **Hướng dẫn bản công bố:** [Docs/guide](README.md), README, DATA_DOWNLOAD,
    CONTRIBUTING và các file root giải thích cách tiếp cận repository.
 2. **Tư liệu lịch sử:** tài liệu đánh số trong `Docs/`, spec và evidence giữ ngày
-   tháng, giả định và đường dẫn của CY-Source lúc viết.
+   tháng, giả định và đường dẫn của dự án lúc viết.
 3. **Metadata đóng gói:** manifest data, phạm vi license và nguồn data ở `Publication/`.
    Chúng không thay source SDK hay chứng nhận runtime.
 

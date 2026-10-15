@@ -1,8 +1,8 @@
-# Bắt đầu với 372dragon
+# Bắt đầu với 372 dragon
 
 [← Tài liệu](README.md) · [Build client →](build-client.md)
 
-372dragon cung cấp source để nghiên cứu và phát triển client TLBB x64 cùng server
+372 dragon cung cấp source để nghiên cứu và phát triển client TLBB x64 cùng server
 Skynet/Lua. Quy trình cài trọn bộ trên máy mới chưa được nghiệm thu. Bạn có thể đọc
 code ngay mà không tải 12,39 GB data.
 

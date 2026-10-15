@@ -1,6 +1,6 @@
 # Báo cáo vấn đề bảo mật
 
-372dragon hiện là source snapshot cho nghiên cứu/phát triển; chưa công bố nhánh
+372 dragon hiện là source snapshot cho nghiên cứu/phát triển; chưa công bố nhánh
 ổn định có chính sách cập nhật bảo mật hay thời gian phản hồi cam kết.
 
 Không đưa mật khẩu, token, private key, database người chơi, dump bộ nhớ hoặc

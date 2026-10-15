@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440" role="img" aria-labelledby="title desc">
-  <title id="title">372dragon — TLBB x64 client and server source</title>
+  <title id="title">372 dragon — TLBB x64 client and server source</title>
   <desc id="desc">Gold lettering and an original geometric dragon emblem on a dark blue background.</desc>
   <defs>
     <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#111d2e"/><stop offset="1" stop-color="#080e18"/></linearGradient>
@@ -15,8 +15,8 @@
     <circle cx="1030" cy="222" r="146" fill="none" stroke="#d0ad70" opacity="0.18" stroke-dasharray="2 10"/>
     <path d="M800 80V360" stroke="#b5935b" opacity="0.25"/>
     <path d="M76 75H109" stroke="#dbb573" stroke-width="3"/>
-    <text x="123" y="80" font-family="Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="3.8" fill="#c7b394">THE 372DRAGON PROJECT</text>
-    <text x="70" y="198" font-family="Segoe UI,Arial,sans-serif" font-weight="700" font-size="91" letter-spacing="-5"><tspan fill="#e9c68c">372</tspan><tspan fill="#f2f1eb">dragon</tspan></text>
+    <text x="123" y="80" font-family="Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="3.8" fill="#c7b394">THE 372 DRAGON PROJECT</text>
+    <text x="70" y="198" font-family="Segoe UI,Arial,sans-serif" font-weight="700" font-size="91" letter-spacing="-5"><tspan fill="#e9c68c">372</tspan><tspan dx="18" fill="#f2f1eb">dragon</tspan></text>
     <text x="76" y="252" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#e1e5e9">TLBB x64 · Client &amp; server source</text>
     <text x="76" y="288" font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#9daabd">Study the code. Understand the systems. Build and test.</text>
     <g font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#d7e0e8">

@@ -2,7 +2,7 @@
 
 [← Tài liệu](README.md)
 
-Mốc **15/10/2026**. Tên công bố **372dragon**; tên nội bộ/lịch sử CY-Source.
+Mốc **15/10/2026**. Tên dự án **372 dragon**.
 Source được công bố tại [ts4m97/372dragon](https://github.com/ts4m97/372dragon),
 nhánh `main`. Đây là source snapshot; chưa có release binary hoặc tag ổn định.
 
@@ -51,6 +51,6 @@ Ghi môi trường, snapshot/commit, SDK, cấu hình và kết quả từng m�
 | 24/09/2026 | Kiểm toán source/build/provenance client tại thời điểm đó |
 | 01/10/2026 | Runtime repairs cuối được ghi trong bàn giao |
 | 04/10/2026 | Tạm lưu CY, chuyển trọng tâm sang dự án GL riêng |
-| 15/10/2026 | Công bố source snapshot và nhận diện 372dragon; data tải riêng |
+| 15/10/2026 | Công bố source snapshot và nhận diện 372 dragon; data tải riêng |
 
 Đây không phải tag SemVer hay chứng minh bản cài hiện tại đã đạt mọi phép thử.

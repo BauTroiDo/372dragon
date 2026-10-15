@@ -1,4 +1,4 @@
-# Thiết lập repository 372dragon
+# Thiết lập repository 372 dragon
 
 [← Trang dự án](../README.md)
 
@@ -11,6 +11,7 @@ và cách duy trì bản source đã công bố. Chưa tạo release binary ho�
 | Thuộc tính | Giá trị |
 |---|---|
 | Repository name | **372dragon** |
+| Tên hiển thị trong tài liệu | **372 dragon** |
 | Default branch | `main` |
 | Owner | `ts4m97` |
 | Visibility | Public |

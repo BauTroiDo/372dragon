@@ -1,4 +1,4 @@
-# CY-Source — Thiên Long Bát Bộ 64-bit dựng từ mã nguồn
+# 372 dragon — Thiên Long Bát Bộ 64-bit dựng từ mã nguồn
 
 Dự án dựng một client TLBB x64 từ mã nguồn 0.85 (trong `Reference`), nâng lên ngang dòng engine Fairy hiện đại của `client_GL` và CY 3.71, rồi dùng một kho dữ liệu hợp nhất từ CY, HJ, GL và 085. Client nói giao thức của server skynet đang chạy trong WSL `TLBB`.
 

@@ -45,56 +45,56 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "c8d7a1df7c8e1316dd35c6c41500fc2e68d5cb38816928c94998880bef142cb2",
+      "sha256": "4800e404f926a4d528db4a13698b43f49f2c5bc93bdd7b01a361f510dac86bd1",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "CONTRIBUTING.md",
-      "sha256": "ea677f442932535bc93ee04e922f6a3a61e6819964069d9208b958d6c7eb3d03",
+      "sha256": "625d6b13c093c0597e41ebe0921e3eb235a7bba6f0ca5334c3163ccde7212d43",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "DATA_DOWNLOAD.md",
-      "sha256": "0b1cd0371c8d95218ee9fc147042c3e4b8f4954175ae0afca83f1270a0a30f0a",
+      "sha256": "67d5e9368324e7e409231eb29a840240de5d66ee5199fb49c3f17abfcd329cce",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "DATA_NOTICE.md",
-      "sha256": "d1a9372034a925e8cf7678641ac8ad09fc9e77e29fce2ea9c1fe7ab5a2efa992",
+      "sha256": "1237b2096b80ed7f946e9b117e25fd70d083fd53c906472dc15f63b17446fc77",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Docs/assets/372dragon-banner.svg",
-      "sha256": "1e81bcd955c465fea813c60d1dbbf100bdfcc6c7d749a19fe5366222985fab29",
+      "sha256": "f3d8209eb27feb89013d2c3784c4a07c376f2baa8ea3f87eddf6a279f560aac1",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Docs/assets/372dragon-social.png",
-      "sha256": "337fcb5d9031d5494de6da7621d1f48d87f9a8d7442672fe7523f7a737d0fe46",
+      "sha256": "22689777fa8007ed3ffbba7613ce4af21968a2cf77cbac5e3c3599fa7102be7d",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Docs/guide/README.md",
-      "sha256": "fbe8e0ce46e4a673c6d58a7d7b42a3e6fbb4b5b5b891e2d1ca6fe3bb9019fa7c",
+      "sha256": "8a3c45aa7b4678031e3fede60bcd47b831af1a895c3893aa0d128e5da05d1384",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Docs/guide/architecture.md",
-      "sha256": "fbfce497c9e4929dafb27f1cde3d6cbca62d3a93ef4dd2a61737c3fb9c7c4458",
+      "sha256": "338bd73994fe964c8c039d9633afd29d962b60da3e14ef82c31ccb2ca52751b2",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
@@ -108,14 +108,14 @@
     },
     {
       "path": "Docs/guide/getting-started.md",
-      "sha256": "64b2680919d9361e04af9ac22c4d8e48afe26c96e91dbb87901d214370922273",
+      "sha256": "56ef215272beb46eb050b8dd00c3a9f3992c2c5664ce029ca15c7069226ec1b4",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Docs/guide/repository-map.md",
-      "sha256": "17c7a17f9927cc87478978aed40e29e5e4a59e5b7e11c514fb7eb2976d9e70f7",
+      "sha256": "b0412cf9317875e029aad19d3d1ad92cee8633131a4e004d0552dfd3bcec5aa4",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
@@ -129,7 +129,7 @@
     },
     {
       "path": "Docs/guide/status.md",
-      "sha256": "6450f9c345c29b84fd2f8b3f8d3fa05687cb56e7341d0b1fbca7b753963412ac",
+      "sha256": "9f7a7b78b30dbba38d18091bb0d8cf7fc5eb0c101b8cd01260c978b9aa14615f",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
@@ -143,28 +143,28 @@
     },
     {
       "path": "LICENSE",
-      "sha256": "c5aef68545bdca7ac6a4639808ac4f898e5a4f5b00ef2168f992283228ce13c6",
+      "sha256": "ef0c50b03fa8f6d1166e20ee42beafa1e2deeca189a8accbcedaf829e2bf4d2e",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "LICENSING.md",
-      "sha256": "69e26097feae0b4032ed99ef6b004158a835925d6350affc746b5160e5a54dae",
+      "sha256": "04d333f1cd74acc0789ff3935e0d7214988c8da188e107f0d44c4337f26add19",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Publication/GITHUB-SETUP.md",
-      "sha256": "659d7cb4077c9f8228d84087153b8f2c3fbdcc59ebb9f840614872c64b721c26",
+      "sha256": "99b1eaa2f96c5d4bdff8ac62900e12b2479914085eaedc272f0320781f75817b",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "Publication/INSTALL-NOTES.md",
-      "sha256": "33ee68f1f64a7f46eb47227e49d217e87ae730769bf76af13a96d3c3e3cafc92",
+      "sha256": "3d66f680c5b59e126b068dbba84f3f0905bab4d7c1b26302cbfd9ddd9abfe5a6",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
@@ -185,7 +185,7 @@
     },
     {
       "path": "Publication/project.json",
-      "sha256": "b4e7dc9c2a0741b07140afc969545ea5864e04438204e27b21b0c47ef27449b5",
+      "sha256": "f87b79c9cd26c0c15bec3e53a622853603401bb934d005a49c43cd91f8de8397",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
@@ -199,14 +199,14 @@
     },
     {
       "path": "README.md",
-      "sha256": "7219d3e744c9ce810d48fc7c27b0055e90968b17729332f40585691927d82020",
+      "sha256": "c5ac5c8a525e2a61300fa42ac85aee2208d2cb1507783e6b3b2e4380d5eb2f8a",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"
     },
     {
       "path": "SECURITY.md",
-      "sha256": "3d413cbeb11f1081023860d53be7bb0f4181410e47251c3b1b7f4b2efecd5f8c",
+      "sha256": "4809746c3a309088b4b4758889e21c7ebc6f457f61904c2661fa6cb4d6e582d9",
       "scope": "new original publication tooling/documentation authored in this preparation",
       "license": "PolyForm-Noncommercial-1.0.0",
       "excludes": "quoted third-party names, facts, notices and standard license texts"

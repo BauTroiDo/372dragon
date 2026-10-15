@@ -1,6 +1,6 @@
-# Phương án công bố 372dragon — 15/10/2026
+# Phương án công bố 372 dragon — 15/10/2026
 
-Tên công bố của CY-Source là **372dragon**. Xem [README.md](README.md),
+**372 dragon**: source client/server và tài liệu dự án. Xem [README.md](README.md),
 [hướng dẫn](Docs/guide/README.md) và [thiết lập GitHub](Publication/GITHUB-SETUP.md).
 
 Quyết định mới nhất: GitHub cho source và tài liệu; một file data ZIP64 riêng ở Google Drive;
@@ -43,7 +43,7 @@ không xóa bản gốc. Nếu muốn chia sẻ thêm, từng nhóm cần kiểm
 
 Đã làm: kiểm kê client/server thật; xuất source riêng; thay mật khẩu cấu hình bằng template;
 chuẩn bị license scope, bảng nguồn data và tài liệu DLL; ghi nhận liên kết Drive do chủ dự án cung cấp và kiểm tra trang file không đăng nhập.
-Source snapshot được công bố tại [372dragon trên GitHub](https://github.com/ts4m97/372dragon), nhánh `main`.
+Source snapshot được công bố tại [372 dragon trên GitHub](https://github.com/ts4m97/372dragon), nhánh `main`.
 
 Chưa làm: xác minh quyền phân phối lại của từng nguồn data; hoàn tất phạm vi
 đóng góp CY lịch sử; bổ sung mọi notice phụ thuộc; nghiệm thu cài mới và clean build trên máy khác.

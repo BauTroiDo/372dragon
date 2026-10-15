@@ -1,4 +1,4 @@
-# Kiến trúc 372dragon
+# Kiến trúc 372 dragon
 
 [← Tài liệu](README.md) · [Bản đồ repository →](repository-map.md)
 

@@ -1,4 +1,4 @@
-# Đóng góp cho 372dragon
+# Đóng góp cho 372 dragon
 
 [← Trang dự án](README.md)
 

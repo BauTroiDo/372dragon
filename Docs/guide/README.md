@@ -1,9 +1,9 @@
-# Tài liệu 372dragon
+# Tài liệu 372 dragon
 
 [← Trang dự án](../../README.md)
 
-Đây là bộ hướng dẫn dành cho bản công bố 372dragon. Các tài liệu khác trong `Docs/`
-ghi quá trình phát triển CY-Source; đọc ngày tháng và phạm vi trước khi áp dụng.
+Đây là bộ hướng dẫn dành cho bản công bố 372 dragon. Các tài liệu khác trong `Docs/`
+ghi quá trình phát triển dự án; đọc ngày tháng và phạm vi trước khi áp dụng.
 
 | Thứ tự | Hướng dẫn | Kết quả cần có |
 |---:|---|---|

@@ -1,8 +1,8 @@
 # Cài mới: những gì bộ chuẩn bị cung cấp
 
-**372dragon:** bắt đầu từ [hướng dẫn cài đặt](../Docs/guide/getting-started.md),
+**372 dragon:** bắt đầu từ [hướng dẫn cài đặt](../Docs/guide/getting-started.md),
 [build client](../Docs/guide/build-client.md) và [server](../Docs/guide/server-setup.md).
-File này giữ các ghi chú kỹ thuật của bản xuất CY-Source.
+File này giữ các ghi chú kỹ thuật của bản xuất source.
 
 Đây là hướng dẫn về bố cục và các bước cần nghiệm thu, chưa phải tuyên bố cài đặt tự động đã đạt.
 

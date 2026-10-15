@@ -2,7 +2,7 @@
 
 ## 1. Mục đích của bộ dữ liệu
 
-CY-Source tập hợp và dẫn bộ dữ liệu này chỉ nhằm phục vụ nghiên cứu, đối chiếu và
+372 dragon tập hợp và dẫn bộ dữ liệu này chỉ nhằm phục vụ nghiên cứu, đối chiếu và
 kiểm thử kỹ thuật: kiểm tra mã nguồn gốc, bản build từ source và các thay đổi của
 dự án có đọc, tải, xử lý tài nguyên và thực hiện chức năng đúng hay không; tái hiện
 lỗi và đánh giá khả năng tương thích giữa client, server và định dạng dữ liệu.
@@ -16,9 +16,9 @@ sao chép, sử dụng, sửa đổi, phân phối hoặc vận hành dữ liệ
 ## 2. Quyền tác giả và phạm vi giấy phép
 
 Dữ liệu được tổng hợp từ nhiều nguồn. Quyền tác giả, quyền liên quan, nhãn hiệu và
-các quyền sở hữu trí tuệ khác thuộc tác giả hoặc chủ sở hữu tương ứng. CY-Source
+các quyền sở hữu trí tuệ khác thuộc tác giả hoặc chủ sở hữu tương ứng. 372 dragon
 không tuyên bố sở hữu, không chuyển nhượng và không cấp lại giấy phép cho dữ liệu.
-Giấy phép phần mềm của CY-Source không áp dụng cho bộ dữ liệu này. Việc một tài nguyên
+Giấy phép phần mềm của 372 dragon không áp dụng cho bộ dữ liệu này. Việc một tài nguyên
 xuất hiện trong bộ dữ liệu không hàm ý tác giả hoặc chủ sở hữu bảo trợ hay chấp thuận
 toàn bộ dự án.
 
@@ -33,7 +33,7 @@ sửa đổi, phân phối lại hoặc khai thác dữ liệu đều hợp phá
 ## 4. Giới hạn trách nhiệm và nghĩa vụ của người sử dụng
 
 Trong phạm vi pháp luật áp dụng cho phép, tác giả đóng góp, người duy trì và bên
-cung cấp của CY-Source không chịu trách nhiệm đối với thiệt hại, tổn thất hoặc yêu
+cung cấp của 372 dragon không chịu trách nhiệm đối với thiệt hại, tổn thất hoặc yêu
 cầu bồi thường phát sinh từ việc sử dụng, không thể sử dụng, sửa đổi, phân phối lại
 hoặc khai thác bộ dữ liệu, bao gồm các tranh chấp về quyền tác giả, quyền sở hữu trí
 tuệ và các rủi ro pháp lý liên quan đến hành vi sử dụng của người nhận.
