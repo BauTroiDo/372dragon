@@ -1,10 +1,5 @@
 # Hiệu chỉnh màu theo CY 3.71 — "màu quá rực / cháy trắng"
 
-Ngày 15/09/2026, agent color-calib, nhánh `color-calib` (commit sửa `a6bb4f7`). Chuẩn: CY 3.71.9609
-(`Tools\DATA NEW\CY Game`, chỉ đọc; chạy bản sao `Build\re\color-calib\CYGame`). Ký hiệu: **FACT** = có bằng chứng
-(hàm/offset/chuỗi/ảnh/số đo), **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-14-color-calib\`
-(`cy\` ảnh CY thật, `viewer\` ảnh TlbbViewer, `metrics\` số đo + ảnh ghép, `replay-run-2\` Game.exe, `smoke\`,
-`scene-test.log`, `re\` = `Build\re\color-calib\out`).
 
 ## 0. Tóm tắt
 
@@ -17,40 +12,6 @@ Ngày 15/09/2026, agent color-calib, nhánh `color-calib` (commit sửa `a6bb4f7
   như `Bin\System.cfg` CY. A/B: `CYS_COLOR=gl` hoặc `--postfx PostFX.HDRMode=gl` + `View_HDRFilter=1`.
 - Các tầng khác (LUT nhận bóng `luttex.png`, bóng, ColorLUT theo cảnh, sương) **giữ nguyên**: đều đúng CY và tác động
   nhỏ (bảng mục 3).
-
-## 1. Ảnh CY thật — chụp được (FACT)
-
-- Chạy `Bin64\Game.exe -fl` của bản sao (21,2 GB, robocopy). Game.exe CY **ghi vào thư mục của nó** (xoá
-  `Bin64\ShaderCache`, ghi `Bin\System.cfg`, `Bin64\LogDirectory`) ⇒ bắt buộc dùng bản sao. Không quyền admin, không
-  gõ tài khoản, **0 kết nối TCP** trong 5 lượt (`cy\*\run.json`; script giết tiến trình nếu có kết nối ngoài cổng 80/443).
-- `Tools\render\run_cy_capture.ps1`: đợi không còn Game.exe nào, sửa `System.cfg` của bản sao, chụp vùng client theo
-  HWND (`PrintWindow` PW_RENDERFULLCONTENT, `WinCapture.ps1`), phím/nhấp bằng PostMessage. Luồng CY: video mở đầu
-  (~46 s, bấm "跳过剧情" 1200,40) → cảnh 3D **`erengu_DL.Scene`** (Ác Nhân Cốc đêm) sau khung chọn server hoặc khung tài
-  khoản. Cửa sổ luôn **1280×720** (CY bỏ qua `View_Resoution` khi chạy cửa sổ ⇒ mọi ảnh so ở 1280×720; không có
-  1024×768/1920×1080 của CY).
-- Không tới được màn tạo nhân vật / world của CY khi offline (cần đăng nhập) ⇒ **Đại Lý, Vô Lượng Sơn, tạo nhân vật:
-  không có chuẩn CY**, áp cùng luật CY đã chứng minh bằng mã (mục 2).
-- **Camera đăng nhập CY đọc từ bộ nhớ** (đọc chỉ-đọc `ReadProcessMemory`, `mem-aspect-86.txt`): `Ogre::Frustum` có
-  aspect 16:9 = `0x3FE38E39`, trước nó fov 0,7330383 rad (**42°**), far 40000, near 25; ma trận view tại +336 ⇒ mắt
-  (−2278,95; 4462,77; −8180,85), hướng (0,4735; −0,0737; 0,8777), nghiêng ~2° (viewer không có roll).
-- Khung CY ổn định: 9 ảnh ở 5 lượt, dải hai bên (mặt nạ `sides_mask.png`): luma **46,4 ± 0,2**, chroma 33,9 ± 0,3,
-  HSV sat 0,445 (`metrics\cy_sides.tsv`).
-- Thiết lập đồ hoạ mặc định CY (FACT, `Bin\System.cfg` do bản cài ghi lần chạy đầu): `View_HumanLightmap=2`,
-  `View_HDRFilter=0`, `View_Fanhunjiao=0`, `View_FullScreenLight=0`, `View_EnableFog=1`, `View_TextureFiltering=2`,
-  `View_EffectLevel=2`, `View_UpdateQuality=2`, `Camera_FOV=35`. Không mở được hộp thiết lập khi offline.
-
-## 2. CY làm gì với HDR/bloom (FACT, Ghidra chỉ-đọc + quét byte)
-
-| Chỗ | Bằng chứng | Kết luận |
-|---|---|---|
-| Game.exe `CScene::EnterScene` `FUN_1406be820` | `(*DAT_141038ad8 + 800)(…,0,0,0)` (`Build\Logs\2026-09-14-shadow-cy\cy-re\decomp\21_…` dòng 471); quét `FF 9x 20 03 00 00` sau `mov r,[rip→0x141038ad8]` trong cả Game.exe: **1** lời gọi (0x1406bf2f4) | mỗi lần vào cảnh: NewHDRBloom **tắt**, UseHDR 0, Auto 0; không nơi nào bật lại |
-| Render.dll vtable 0x320 `FUN_18002dec0` | `setParameter("NewHDRBloom","UseHDR",p3==1)`, `("UseAutoExposure",p4==1)`, `setEnabled("NewHDRBloom",p2==1)` (`re\nhb_xref.txt`) | = `Scene_SetSceneNewHDRBloomEnabled` |
-| Render.dll `View_HDRFilter` `FUN_18002ec20` → vtable 0x308 `FUN_18002ced0` | `setEnabled(<VA 0x1802c0400> = "HDR", v==1)` nếu `+200` (HDR sẵn sàng) | bộ lọc **HDR cũ** (`.hdr`), không phải NewHDRBloom |
-| Game.exe sau vòng bảng cảnh | gửi lại `View_HDRFilter` (giá trị cfg, mặc định 0) | HDR cũ tắt ở mặc định |
-| Đăng nhập/chọn nhân vật | `FUN_180030510` id < 0 đặt `View_HDRFilter="0"` (07d §8) | tắt |
-
-⇒ Ảnh world của CY mặc định = cảnh sau shader + LUT nhận bóng + ColorLUT theo cảnh (chỉ 4 cảnh) + sương, **không**
-bloom/tonemap/FXAA. client_GL khác vì bản vá `patch_hdr.py` của chính dự án 085 (07d §1).
 
 ## 3. A/B từng tầng (TlbbViewer 1280×720, `--lights scene`, cùng camera; `metrics\*_layers.tsv`)
 
@@ -99,13 +60,6 @@ Tầng làm vọt: **NewHDRBloom (tự phơi sáng + ACES)**. LUT nhận bóng +
 - Log: `CysPostFX: HDR rule cy (…)`, dòng khởi động có `PostFX.HDRMode=cy(default) View_HDRFilter=0(default)`.
 - GPU: chỉ bớt pass (NewHDRBloom 0,21 ms + FXAA 0,11 ms ở 1080p theo `07d` §10) ⇒ không tăng.
 - `Tools\game\stage_game.py` còn chú thích cũ "Defaults stay client_GL's (FXAA + NewHDRBloom)" (chỉ chú thích).
-
-## 6. Công cụ
-
-- `Tools\render\run_cy_capture.ps1` (+ `WinCapture.ps1`): chạy bản sao CY, `-Plan "t:shot:<tên>;t:click:x,y;t:key:vk;t:aspect:<tag>"`.
-- `Tools\render\run_viewer_shots.ps1 -Viewer … -Cases <tsv> -Out …`: mỗi ca một tiến trình, đồng bộ; tsv `tên<TAB>env<TAB>tham số`.
-- `Tools\render\compare_frames.py stats OUT.tsv IMG… [--mask] [--region n=x0,y0,x1,y1]` (luma, chroma, HSV sat, p5/p50/p95,
-  histogram 32 ô) và `triptych`.
 
 ## 7. Chưa làm / chưa xác minh
 

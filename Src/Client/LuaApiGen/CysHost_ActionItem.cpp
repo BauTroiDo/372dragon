@@ -140,16 +140,16 @@ namespace CysHostActionItem
                         a ? a->GetName() : "(none)", a ? a->GetIconName() : "(none)");
                 if (a && !first) first = a->GetID();
             }
-            // GO BO: ban dau buoc nay goi MainMenuBar_Set(9, first) de icon hien len thanh chinh
-            // cho de chup anh. HAI LY DO PHAI BO, ca hai do duoc o live-4 (20/09 00:25-00:28):
-            //  1. MainMenuBar_Set KHONG chi ve len thanh - no con dong goi CGModifySetting va GUI
-            //     len server (GMActionSystem.cpp:1465+), tuc mot buoc "chi de lay bang chung" lai
-            //     GHI DE thanh phim tat DA LUU cua nhan vat test. Do la tac dung phu khong ai xin.
-            //  2. live-2 (khong co buoc nay) thoat sach 20/20 PASS; live-4 (co buoc nay) VANG luc
-            //     thoat - mot cu nem C++ tai Game.exe+0x003DAC48, dung giay in "LuaApiGen missing
-            //     calls end". Khac biet duy nhat giua hai luot la dong nay. CHUA chung minh nhan
-            //     qua (mot mau, va live-4 con khac tai khoan/canh/co danh nhau), nhung mot buoc
-            //     LAY BANG CHUNG ma lam client vang thi phai bo truoc, dieu tra sau.
+
+
+
+
+
+
+
+
+
+
             (void)first;
         }
 

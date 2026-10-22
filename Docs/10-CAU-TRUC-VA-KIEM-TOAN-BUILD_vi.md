@@ -182,8 +182,6 @@ trong danh sách module. Có file đi kèm không đồng nghĩa nó đang đư�
 lấy chúng từ thư mục `Build/.../bin`. CMake thực tế **copy DLL có sẵn** vào đó. Nhãn này chỉ phản ánh
 nguồn sao chép của stage, không đủ làm bằng chứng “DLL này được biên dịch từ source”.
 
-## 5. Các cơ chế hook đã tìm thấy
-
 ### 5.1. Hook IAT đếm cấp phát bộ nhớ trong Render.dll
 
 **Nguồn:** `Src/Engine/WXCore/CYS/Perf/CysPerf.cpp`.
@@ -237,8 +235,6 @@ draw call. Đây là mã công cụ viewer; `TlbbViewer.exe` không nằm trong 
   các vị trí đã tìm thấy; không phải bằng chứng có hook bàn phím toàn hệ thống.
 - `LoadLibrary`/`GetProcAddress` để nạp plugin Render/UI, Cg, hoặc DbgHelp phục vụ crash dump:
   phải xét điểm gọi và DLL đích, không thể coi mọi lần LoadLibrary là inject.
-
-## 6. Kiểm tra PE và lượt chạy thực tế
 
 ### Kiểm tra tĩnh
 
@@ -333,7 +329,7 @@ Không dùng kết quả đó để khẳng định “clean build đã thành c
 - Quan sát động chỉ ở màn hình trước đăng nhập; không khẳng định mọi DLL có thể nạp muộn trong
   mọi map/chức năng đều đã xuất hiện.
 - Liệt kê module không phát hiện được mọi dạng mã nạp thủ công/ẩn trong bộ nhớ; quét import cũng
-  không loại trừ hoàn toàn API được resolve động. DLL SDK đóng không được dịch ngược toàn bộ.
+  không loại trừ hoàn toàn API được resolve động. Phạm vi kiểm tra SDK đóng chỉ gồm thông tin binary và hành vi đã quan sát.
 - Không thấy injector trong đường Play đã khảo sát; không đưa ra chứng nhận “mọi phần mềm trên
   máy không thể inject vào game”.
 - Nên làm rõ nhãn provenance của manifest: **compiled from source / copied SDK / system runtime**.

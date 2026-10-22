@@ -1,33 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Read-only dump/validator for .dynbone files (CY-Source, dynbone agent, 2026-09-12).
-
-Format: XML <EntityDynamicBones> read by client_GL Render.dll (B). RVA evidence and the simulation are in
-Docs/specs/render/06-dynbone_vi.md. What B's reader does (VA, image base 0x180000000):
-  FUN_1801ce6e0  after every entity is created: "<mesh name up to the last '.'>.dynbone" in the default
-                 resource group (resourceExists -> parse, cached per LogicModel)
-  FUN_180230940  RootElement (name not checked) -> FIRST <DynamicBones> -> every <DynamicBone>,
-                 FIRST <Colliders> -> every <CapsuleCollider>, optional <Effects> -> every <Effect>.
-                 <DynamicBones> and <Colliders> are dereferenced without a NULL check.
-  FUN_18022f210  DynamicBone: Bone (string) -> FUN_18022ebd0 floats UpdateRate Damping Elasticity Stiffness
-                 Inert Friction Radius (missing -> 0.0), Force = Vector3 (missing -> uninitialised stack)
-  FUN_1802306f0  CurveParams: DampingACParam ElasticityACParam StiffnessACParam InertACParam FrictionACParam
-  FUN_18022ecd0  CapsuleCollider: Center (Vector3), Orientation ("w x y z", missing -> identity), Radius,
-                 Height (floats), Invert (bool)
-Numbers go through Ogre::StringConverter (parseReal / parseVector3 needs exactly 3 tokens, else ZERO /
-parseQuaternion needs 4, else IDENTITY / parseBool).
-
-Sources (never written): loose *.dynbone under the roots, and *.dynbone members of *.axp archives found under
-them (one "source" per directory of archives). Each file is cross-checked against the skeleton linked by the
-mesh of the same base name (the lookup B does), found in the same source.
-
-Outputs (default Build/Logs/2026-09-12-dynbone):
-  dynbone_files.tsv     one row per file: status OK/WARN/FAIL, mesh, skeleton, bone coverage, issues
-  dynbone_dump.tsv      one row per element (DynamicBone / CapsuleCollider / Effect), every attribute
-  dynbone_summary.json  counts, parameter ranges, issue totals
-Exit code: 0 when no file is FAIL, 1 otherwise (not parseable, or would break B's reader).
-
-Usage: py -3 dynbone.py [--out DIR] [--no-axp] [ROOT ...]
-"""
+'Read-only dump/validator for .dynbone files (CY-Source, dynbone agent, 2026-09-12).\n\nSources (never written): loose *.dynbone under the roots, and *.dynbone members of *.axp archives found under\nthem (one "source" per directory of archives). Each file is cross-checked against the skeleton linked by the\nmesh of the same base name (the lookup B does), found in the same source.\n\nOutputs (default Build/Logs/2026-09-12-dynbone):\n  dynbone_files.tsv     one row per file: status OK/WARN/FAIL, mesh, skeleton, bone coverage, issues\n  dynbone_dump.tsv      one row per element (DynamicBone / CapsuleCollider / Effect), every attribute\n  dynbone_summary.json  counts, parameter ranges, issue totals\nExit code: 0 when no file is FAIL, 1 otherwise (not parseable, or would break B\'s reader).\n\nUsage: py -3 dynbone.py [--out DIR] [--no-axp] [ROOT ...]\n'
 import argparse
 import collections
 import hashlib

@@ -417,10 +417,10 @@ VOID CCursorMng::MouseCommand_Active(SCommand_Mouse& cmd)
 
 	case SCommand_Mouse::MCT_LEAP:
 		{
-			//轻功...
-			// CYS-MOVE2: CY 3.71 MouseCommand_Active MCT_LEAP (0x14012db44): skill = CCharacterData::GetDefaultFlySkillID(),
-			// then CAI_MySelf::PushCommand_Fly(skill, x, z) (vtable slot 6, 0x140118600). Ctrl + left click on the
-			// ground arms this command in MouseCommand_Set below. The 0.85 lines above were the same call, commented out.
+
+
+
+
 			CObject_PlayerMySelf* pMySelf = CObjectManager::GetMe()->GetMySelf();
 			// CYS-LEAP: truoc day ca ba dieu kien duoi day that bai trong im lang; mot luot do am tinh khong noi duoc
 			// la lenh chua bao gio duoc kich hoat hay da kich hoat ma bi tu choi.
@@ -451,56 +451,56 @@ VOID CCursorMng::MouseCommand_Active(SCommand_Mouse& cmd)
 
 namespace
 {
-	// CYS -- root cause of "no mouse cursor visible" (reported 13/09):
-	// every line below used to be ::LoadCursorFromFile("..\\Data\\Cursor\\*.ani"),
-	// but that folder ships in none of Canonical, client_GL or the build
-	// stage, so LoadCursorFromFile always returned NULL, m_hCursor[] stayed
-	// NULL, and OnSetCursor() called ::SetCursor(NULL) -- an invisible
-	// cursor. client_GL's own Game.exe ("B") does not have this problem
-	// because it never loads external .ani files at all: it loads its
-	// cursors from resources compiled into the EXE.
-	//
-	// The table below is B's ENUM_CURSOR_TYPE -> resource id mapping,
-	// recovered by static analysis of client_GL\Bin64\Game.exe:
-	//   - CCursorMng::Initial in B is the 18-call LoadCursorA cluster at
-	//     RVA 0x12be90..0x12c00f (RTTI/vtable lookup for CCursorMng was not
-	//     needed: the very first call passes MAKEINTRESOURCE(IDC_ARROW),
-	//     an exact byte-for-byte match for this project's own
-	//     m_hCursor[CURSOR_WINBASE] line below, which anchors the rest of
-	//     the array).
-	//   - m_hCursor[] starts at object offset 0x48 (tNode/tCursorSystem
-	//     contribute exactly 0x40 bytes -- vtable + STRING m_strName(32) +
-	//     std::list m_ChildBuf(16) + tNode* m_pParentNode(8) -- then
-	//     m_bShow(4)/m_nCursorState(4) -- confirmed independently by
-	//     CCursorMng::SetCursor, compiled immediately after Initial, which
-	//     stores its argument at [this+0x44]). Each array slot's resource
-	//     id was read directly from the "mov edx, imm32" immediately
-	//     preceding its LoadCursorA call, paired to its slot via the
-	//     "mov [rdi+offset], rax" store that follows (B's compiler
-	//     reorders which physical LoadCursorA call happens in which
-	//     sequence position, so call order was not usable -- only the
-	//     store offset is).
-	//   - Resource ids were then confirmed to be real, well-formed
-	//     RT_GROUP_CURSOR/RT_CURSOR pairs (17 of the 18 groups in B; the
-	//     18th, id 152, is never referenced by any LoadCursorA call in the
-	//     whole binary and is presumably orphaned art) using
-	//     Tools\cursor\extract_cursors.py; see Build\re\cursor\out\cursors
-	//     for the rebuilt .cur files, a .png render of each, and
-	//     manifest.json with every frame's exact hotspot.
-	//
-	// B ships no symbol for the ENUM_CURSOR_TYPE identifiers themselves
-	// (release build, no RTTI name reaches individual enum values), so
-	// the slot order alone is not proof of *which* named type a given
-	// resource id is for -- and checking the rendered .png evidence shows
-	// B's declared order is NOT simply 0.85's order with one value
-	// appended (e.g. the slot at B's own array position 3 renders as an
-	// unmistakable sword, i.e. ATTACK, not AUTORUN as naive same-order
-	// reuse of 0.85's enum would suggest). The mapping below is therefore
-	// the *art*, matched by hand against each ENUM_CURSOR_TYPE's Chinese
-	// gloss comment in TDCursorSystem.h, not the raw array position.
-	// Confidence is noted per row; MEDIUM/LOW ones were assigned by
-	// elimination among visually ambiguous icons and should be spot
-	// checked in-game (see HANDOFF.md) rather than trusted blindly.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	struct SCursorResourceMap
 	{
 		ENUM_CURSOR_TYPE	nType;
@@ -510,7 +510,7 @@ namespace
 
 	const SCursorResourceMap g_aCursorResourceMap[] =
 	{
-		// type                  GL resource id               0.85 fallback id          confidence / evidence (Build\re\cursor\out\cursors\group_<id>.png)
+
 		{ CURSOR_NORMAL,       IDC_CURSOR_GL_NORMAL,      IDC_CURSOR_NORMAL      }, // MEDIUM  id129 - first real slot right after IDC_ARROW; themed flame/scroll art, not a plain arrow
 		{ CURSOR_ATTACK,       IDC_CURSOR_GL_ATTACK,      IDC_CURSOR_ATTACK      }, // HIGH    id130 - sword
 		{ CURSOR_AUTORUN,      IDC_CURSOR_GL_AUTORUN,     IDC_CURSOR_AUTORUN     }, // LOW     id155 - assigned by elimination (flame-like art)

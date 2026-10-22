@@ -18,12 +18,6 @@ Người dùng mở phần UI cần cho đăng nhập: “Có, mở phần UI c�
 | `0b6e3eb` | 30 ca widget và bản đầu capture; **CI lỗi** thiếu include OGRE ở Game. Không dùng binary của commit này để chứng minh. |
 | `bb67e6a` | Đặt capture ở Render.dll, giữ ranh giới plugin; CI và các cổng cuối đều xanh. |
 
-### BeHit
-
-- B UI_CEGUI.dll SHA256 `344628121ed7068a45a70dd4bf6732f4c68d01916cbb3a226ae0d7be10e93f73`, phân tích cục bộ read-only. Constructor RVA bd60 đọc DBC182; c550 chọn biến thể; cca0 tạo TLBB_BeHitBoard; d310 reset; d6b0 cập nhật. Disassembly và IAT/string annotations trong `Build/Logs/2026-09-13-gpt-p1-1/ui-behit-range.txt`, `behit-reset.txt`, `behit-update.txt`.
-- Đọc typed 20 cột, yêu cầu ID cơ sở 0..8; reload lỗi giữ bảng trước. ID+100 là biến thể xen kẽ, không phải offset mảng +10. Dữ liệu Canonical có14 dòng; baseline thử Game có12 dòng. Giữ thời gian hold/fade, vận tốc/gia tốc, màu thường/chí mạng, scale chí mạng; tối đa100 cửa sổ hoạt động.
-- 38/38 ca native: actual Canonical, golden chuyển động/alpha/scale, biến thể, hết thời gian, thời gian0, schema/số/màu/ID lỗi và reload nguyên tử. Chưa đo ảnh số sát thương trong combat thật.
-
 ### Widget đăng nhập
 
 - Star là triển khai CY theo thuộc tính layout, **chưa chứng minh parity toàn bộ hiệu ứng B**. Giới hạn4096 hạt, kiểm số hữu hạn, khoảng/chu kỳ/số lượng; vẽ nền ba phần và chữ, phát ảnh sao, reset/hết thời gian. Không dùng một widget trống để vượt lỗi nạp.

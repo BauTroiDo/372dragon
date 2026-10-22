@@ -35,12 +35,12 @@ public:
 	VOID						SetAddHeight(FLOAT fAddHeight = 1.7f);
 	FLOAT						GetAddHeight(void) const { return m_fAddHeight; }
 
-	// CYS-PROJSIZE (projsize, 20/09/2026): co cua may chieu PHAI ap len effect CUA CHINH doi tuong nay.
-	// 0.85 (va CY-Source cho toi hom nay) ap len `CRFObj_Dummy::m_pEffect` - mot con tro KHAC, NULL tren
-	// duong nay - nen khong bao gio co tac dung. Hai cay SONG deu da chuyen viec nay vao day:
-	//   CY 3.71 Render.dll  (4.057.088 B, sha256 e6e67de45489f902...) 0x18001d280
-	//   client_GL Render.dll(3.991.552 B, sha256 49b2ab1f3c72d4b1...) 0x180007eb0
-	// Ca hai duyet effect cua chinh ProjTex, so getType()=="Projector", goi setProjectionSize(size).
+
+
+
+
+
+
 	VOID						SetProjectionSize(FLOAT fSize);
 	FLOAT						GetProjectionSize(void) const { return m_fProjectionSize; }
 
@@ -53,7 +53,7 @@ protected:
 	BOOL						m_bShow;
 	//附加高度
 	FLOAT						m_fAddHeight;
-	// CYS-PROJSIZE: CY giu so nay lam thanh vien (+0x28, khoi tao 0 trong ctor 0x18001d090).
+
 	FLOAT						m_fProjectionSize;
 
 public:

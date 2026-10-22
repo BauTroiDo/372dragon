@@ -1,9 +1,5 @@
 # host-power — 82 hàm host chỉ khung hệ sức mạnh gọi (17/09/2026)
 
-Agent `host-power`. Nhánh **lớp hàm host của client** cho các khung hệ sức mạnh.
-Chị em: [power-attrib](../net/power-attrib_vi.md) (chỉ số nhân vật), [power-equip](../net/power-equip_vi.md) (trang bị/ngọc).
-Bằng chứng: `Build\Logs\2026-09-17-host-power\` (không vào git). Dịch ngược: `Build\re\host-power\decomp-game.c`, `decomp-pages.c`.
-Server riêng `R` = `/home/ubuntu/cys-test-20260913` (restart 19:31:52, **không restart trong lượt này**).
 
 Quy ước: **[DK]** dữ kiện đo/đọc được (có đường dẫn, offset hoặc số). **[SL]** suy luận. Không chắc thì ghi "chưa kết luận được".
 
@@ -17,18 +13,11 @@ Trong **82** hàm (không phải 81 — xem 1.1) mà **chỉ** các khung hệ s
 |---|---|---|
 | thuộc hệ **server ĐÃ CHẠY** | **12** | **71** |
 | thuộc hệ server thiếu bảng / thiếu script / không có gì | 70 | 273 |
-| có `impl_va` trong `Registry/luaapi/catalog.json` (dịch ngược được) | **17** | 143 |
 | chỉ tồn tại trong client CY 3.71, không có trong binary GL/085 | 65 | 201 |
 
-**Đã cài thật trong lượt này: 3 hàm** — hai hàm đọc dữ liệu (là **2 hàm duy nhất** vừa có `impl_va` vừa thuộc hệ server đã chạy) cộng hàm mở cửa sổ mà thiếu nó thì hai hàm kia không ai gọi tới được:
-
-- `Player:GetXiuLianMiJiInfo` (35 lời gọi, `Xiulian.lua` + `XiulianStudy.lua`) — `impl_va 0x2d2950`
-- `Player:GetXiuLianBookInfo` (16 lời gọi, cùng hai khung) — `impl_va 0x2d2fe0`
-- `XiuLianPage()` (**23 khung CY** gọi) — `impl_va 0x21b780`; nhóm dùng chung, xem 2.6
 
 Kèm theo là lớp trạng thái client còn thiếu: **gói 1014 `GCDetailXiulianList`** trước lượt này **không có handler nào ở client**, nên cửa sổ tu luyện không có cách nào biết cấp của 11 cuốn bí tịch.
 
-**Không cài 79 hàm còn lại** (80 dòng còn lại trừ `GetEquipDur` vốn **đã có thật**, xem 1.1b) — đúng luật "thà 5 hàm chắc chắn đúng còn hơn 50 hàm đoán": 65 hàm không có binary để dịch ngược, và phần lớn thuộc hệ mà **server không có gì để trả lời**. Một hàm host trả số bịa còn tệ hơn stub, vì stub ít nhất còn ghi `missing host function` và đếm.
 
 ---
 
@@ -49,7 +38,6 @@ ROI khoi nhom rieng-he: CheckIsSuperWeapon, GetChildOffset, PopComfirm_Alpha1
 MOI  vao  nhom rieng-he: CommonClientMessage, GetEquipDur, GetRemainRepairCount, GetSectIsBackLevel
 ```
 
-`GetChildOffset` là ca đáng chú ý nhất: nó **không** phải hàm riêng hệ sức mạnh mà là **phương thức widget CEGUI** (`this:GetChildOffset`, receiver `this`, `UI_CEGUI.dll+0x58500`), **173 lời gọi** rải khắp client. Nó thuộc nhóm ống nước của `host-plumbing`, không phải nhóm này. **Đã báo.**
 
 ### 1.1b Bẫy thứ hai: phép đếm không nhìn vào `Network\Cys*Net.cpp` [DK]
 
@@ -76,7 +64,6 @@ Tren toan bo client: 6 ten (GetEquipDur, GetEquipPoint, GetItemColorInShop, GetI
 
 | # | Hàm host | Lời gọi | Hệ | Server đã chạy chưa | Nguồn hành vi |
 |---|---|---|---|---|---|
-| 1 | `ConvenientBuyItem` | 41 | võ hồn (khung hoạt động) | script 790076/892471 KHÔNG tồn tại | **[DK]** `impl_va 0x2334c0` |
 | 2 | **`GetXiuLianMiJiInfo`** | **35** | **tu luyện** | **CHẠY** (power-attrib 2.2) | **[DK]** `0x2d2950` — **ĐÃ CÀI** |
 | 3 | **`GetXiuLianBookInfo`** | **16** | **tu luyện** | **CHẠY** | **[DK]** `0x2d2fe0` — **ĐÃ CÀI** |
 | 4 | `GetZongMenTalentCoreData` | 15 | tông môn | thiếu `TalentInfo`/`ZongmenTalent` | [SL] chỉ-CY |
@@ -106,46 +93,6 @@ Hai mươi dòng đầu = **247/344** lời gọi của cả nhóm.
 ## 2. Ba hàm đã cài — nguồn hành vi từng ô
 
 Mã: `Src\Client\LuaApiGen\CysHost_Power.cpp` (glue Lua) + `Src\Client\WXClient\Network\CysPowerNet.cpp` (trạng thái + bảng).
-
-### 2.1 Dịch ngược B (`client_GL\Bin64\Game.exe`, byte giống `client\Bin64`) [DK]
-
-`Build\re\host-power\run-decomp.cmd` chạy Ghidra headless **chỉ đọc** trên bản sao project `Build\re\host-power\proj` (chép từ `Build\re\luaapi\game-exe-proj`, không đụng bản gốc), script `CyDecompFuncs.java`.
-
-`FUN_1402d2950` = `Player:GetXiuLianMiJiInfo`:
-
-```c
-if (lua_type(s,2) != 3) return 0;                 // tham so 1 phai la so
-if (!lua_isstring(s,3)) return 0;                 // tham so 2 phai la chuoi
-if (10 < (uint)index) return 0;                   // >10 -> KHONG tra gi
-...
-"Name"     -> lua_pushstring(*obj + 8)
-"Level"    -> lua_pushnumber(obj[2])              // +0x10
-"JingJie"  -> lua_pushnumber(obj[3])              // +0x18
-"Explain"  -> lua_pushstring(*obj + 0x18)
-"MaxLevel" -> lua_pushnumber(*(int*)(obj + 0x1c))
-"UpLevelNeedMoney": if (level > 0x95) push(...)  else s_pXiuLianDetailDBC->Search_Index_EQU(level + menpai*0x97 + 2)
-"UpLevelNeedExp"  : if (level < 0x96)            cung  Search_Index_EQU(level + menpai*0x97 + 2)
-   ... switch (*(int*)*obj) { case 0..10 }        // chon nhom cot theo id bi tich
-tThrowAssertException(".../GMGameInterface_Script_PlayerMySelf.cpp", 0x59b, "s_pXiuLianDetailDBC")
-```
-
-Bốn điều rút ra, đều kiểm chéo được:
-
-1. **`0x97` = 151** — đúng bằng số dòng `BOOKLEVEL 0..150` của một `BOOKID` trong `XiuLianDetail.txt`.
-2. **`+2`** = "+1 sang cấp kế tiếp" và "+1 vì cột `Index` đếm từ 1". Nên chi phí hiển thị là **của cấp SAU**, không phải cấp hiện tại.
-3. **`menpai`** — `FUN_1401a0090` trả `*(int*)(charData + 0xEC)`, và server tra bảng bằng `details.BOOKID == menpai` (`human_attrib.lua:2373 get_xiulian_bonus`). Hai bên khớp.
-4. **Chỉ số > 10 bị từ chối**: B chỉ biết 11 cuốn — đúng bằng 11 ô của gói 1014.
-
-`FUN_1402d2fe0` = `Player:GetXiuLianBookInfo`:
-
-```c
-if (1 < (uint)index) return 0;                    // >1 -> KHONG tra gi. B chi co HAI quyen.
-"Name"/"Explain" -> PushString(...)
-"Level" -> book 0: max( *(int*)(miji[i] + 0x18) ) voi i = 0..4
-           book 1: max( *(int*)(miji[i] + 0x18) ) voi i = 5..10      // +0x18 = JingJie
-```
-
-**Hệ quả quan trọng và ngược với phỏng đoán cũ [DK]:** `Xiulian.lua:573` và `XiulianStudy.lua:316/373` gọi `GetXiuLianBookInfo(2,"HasActived")`. B **không có quyển số 2** (昊天真经 là quyển CY 3.71 thêm sau), nên lời gọi đó **trả nil ngay trong bản gốc**. Việc "chặn nhầm nút thăng cảnh giới" mà power-attrib 3.2 nêu **không phải do stub** — bản thật cũng xử như vậy. Bản cài ở đây giữ nguyên hành vi đó và **không bịa** một giá trị `HasActived`; server riêng cũng không có khái niệm "đã kích hoạt quyển 2".
 
 ### 2.2 Bảng dữ liệu [DK]
 
@@ -179,8 +126,6 @@ Gói 1014 chỉ mang **hai** số mỗi bí tịch, còn B giữ **ba** (`Level`
 - `human.lua:8021 fix_xiulian_list`: mỗi cuốn khởi tạo `{ level = 0, upper_limit = 10 }`;
 - `odali_wuyazi.lua:206 AskXiuLianAdvanceJingJie`: thăng cảnh giới gọi `XiuLianLevelUpperLimitUp(selfId, mjId, 10)` — **cộng đúng 10**.
 
-⇒ `upper_limit = 10 × JingJie`, nên **`JingJie = upper_limit / 10`** và **`MaxLevel = upper_limit`**. Khớp luôn với điều kiện mở quyển 2 trong `Xiulian.lua:534` (`GetXiuLianBookInfo(0,"Level") >= 3`, tức phải có một cuốn của quyển 0 đạt cảnh giới 3 = giới hạn 30).
-Đây là mắt xích **duy nhất** trong hai hàm không đọc thẳng được từ binary hay bảng; nếu sau này có bản CY 3.71 để dịch ngược thì nên kiểm lại chỗ này trước tiên.
 
 ### 2.5 Hợp đồng đã cài
 
@@ -242,8 +187,6 @@ Ba file dùng chung chỉ bị thêm **một dòng mỗi chỗ**, có thẻ `CYS
 `Register` dùng cờ `force = true` vì `LuaApiGen_Player.cpp` đã đăng ký stub cùng tên trước đó (`IsMissing` sẽ trả false).
 
 ---
-
-## 4. Phép kiểm
 
 ### 4.1 Đã chạy trong lượt này
 
@@ -330,47 +273,12 @@ xiulian[0]           0/10           1/10
 
 **Trạng thái test09 sau phép kiểm:** `xiulian_list[0].level = 1` (trước là 0), exp 22243, jiaozi 28.879.031. Không hoàn tác — đó là một thao tác chơi hợp lệ trên tài khoản test và chính nó là bằng chứng.
 
-## 5. Thu hoạch phụ — dịch ngược sẵn cho người sau
-
-`Build\re\host-power\decomp-game.c` và `decomp-pages.c` đã có 24 hàm. Những cái đáng dùng ngay, **[DK]** cả:
-
-| Hàm | RVA | Hành vi thật |
-|---|---|---|
-| `XiuLianPage()` | `0x21b780` | `PushEvent(0x286 /*646*/, -1)` sau khi kiểm một cờ (`FUN_140218430`) |
-| `ToggleWuhunPage()` | `0x21b700` | `PushEvent(0x27c /*636*/, -1)` cùng khuôn |
-| `OpenRidePage()` | `0x21b860` | `PushEvent(0x15f /*351*/)` |
-| `SystemSetup:OpenPetFrame(name)` | `0x32e1f0` | chuỗi khớp `"Ride"` → sự kiện `0x15f`, còn lại `0x1ac` |
-| `GetEquipDur()` | `0x1df930` | `vt+0xd8 / vt+0xe0` = độ bền hiện tại / tối đa; âm thì trả `1.0` |
-| `PopComfirm_Alpha0(text)` | `0x22ff20` | ném lỗi nếu tham số không phải chuỗi, rồi `vt+0xb0(obj, 0x235 /*565*/, text, "")` |
-| `AskEvaluateAndLevelup()` | `0x223460` | `vt+0xc8(obj, 0x1aa /*426*/)` |
-| `UpdateDoubleExpData()` | `0x21b1a0` | gửi gói 0.85 `CGAskDoubleExp` |
-| `ConvenientBuyItem(a1..a6[,count])` | `0x2334c0` | kiểm tiền (`a2 == 9` thì cộng thêm loại tiền thứ hai), thiếu thì `PushEvent(0x85, "#{YBSD_081225_062}")`, đủ thì gửi `CGShopBuy{ byte a4, byte a5, int a6, …, int count, …, int a1 }` |
-
-Ba hàm `XiuLianPage` / `ToggleWuhunPage` / `OpenRidePage` **không nằm trong nhóm 82** (nhiều khung khác cũng gọi ⇒ nhóm dùng chung của `host-plumbing`), nhưng chúng là **cửa vào** của chính các khung hệ sức mạnh: không có chúng thì hai hàm vừa cài không ai mở tới được bằng chuột. Việc còn lại là ánh xạ 646/636/351 sang tên sự kiện mà `RegisterEvent` của Lua dùng — chưa làm, **chưa kết luận được** tên.
-
----
-
 ## 6. Bẫy đã sập
 
-1. **Regex `[:.]` không có `\s*`** (mục 1.1) — làm một phương thức widget bị xếp vào "hàm riêng hệ sức mạnh". Mọi phép đếm host trong dự án dùng lại `fhs.CALL` đều dính.
-2. **`Search_Index_EQU` trả con trỏ đầu bản ghi, nhưng trên x64 bản ghi KHÔNG phải mảng `FIELD`.** `FIELD` là union chứa `const char*` nên 8 byte, còn cột INT nằm ở ô 4 byte (`TLBB_DBC.h` đầu file). Viết `row[col].iValue` là **sai lệch ô** ngay khi bảng có cột chuỗi. Phải dùng `Search_Posistion(row, col)`.
-3. **Chạy lại script của agent khác ghi đè bằng chứng của họ.** `52-stub-reach.py` ghi thẳng vào `Build\Logs\2026-09-17-power-attrib\stub-reach.tsv`; lần chạy lại lúc 21:26 đã đè bản 20:00 (nay là 754 thật/5913 stub vì `host-xinfa` và `host-plumbing` cũng vừa thêm hàm). Bản 81 dòng gốc được giữ ở `Build\Logs\2026-09-17-host-power\stub-reach-orig-81.txt`.
-4. **`catalog.json` chỉ phủ binary GL/085.** 65/82 hàm của nhóm này là hàm **chỉ có trong client CY 3.71** (`LuaApiGen_Cy.cpp`, sinh từ lời gọi của 2.043 script CY chứ không từ binary), nên không có `impl_va` để dịch ngược. Đừng kết luận "không tìm thấy hàm" khi thật ra là "không có trong binary này".
-5. **Đừng tin cột `HasActived` là dấu hiệu của stub.** Bản gốc cũng trả nil (mục 2.1).
 
 ---
 
 ## 7. Việc tiếp theo, xếp theo "rẻ và chắc"
-
-1. **Chạy phép kiểm 4.2** (mở client một lần, xem hai dòng log biến mất, đối chiếu 1145/34). Đây là việc còn thiếu duy nhất để hai hàm này được coi là đã chứng minh.
-2. **Ánh xạ sự kiện 646 / 636 / 351 sang tên** rồi cài `XiuLianPage` / `ToggleWuhunPage` / `OpenRidePage` (nhóm `host-plumbing`). Không có chúng thì các khung hệ sức mạnh không mở được bằng chuột.
-3. ~~`GetEquipDur`~~ — **không cần làm gì**: hàm này đã có thật từ trước ở `CysInventoryNet.cpp:604` (`ActionGetEquipDur`, đăng ký vào `CActionItem::s_pMetaTable`); nó chỉ bị phép đếm cũ xếp nhầm là stub (mục 1.1b). Bản dịch ngược `0x1df930` ở mục 5 xác nhận công thức `cur/max` mà bản đã có dùng.
-4. **`ConvenientBuyItem` / `ConvenientBulkBuyItem`** (53 lời gọi, `WuhunQuest`): hành vi đã dịch ngược xong, nhưng nó **tiêu tiền thật của người chơi**. Chỉ cài sau khi ánh xạ `CGShopBuy` 0.85 → CY được đo bằng bot (`power-equip` đã mua được ngọc nên đường này có sẵn).
-5. **Nhóm võ hồn (8 hàm `KFS*`)**: server có đủ chuỗi và 8 bảng, nhưng **chưa ai đo**. Làm bước "phát một võ hồn vào túi test10 rồi đo `--kfs`" (power-attrib mục 7.6) trước, rồi mới cài hàm host — ngược lại là đoán.
-6. **Tông môn (27 hàm, 112 lời gọi — nhóm đông nhất)**: vô ích cho tới khi server có bảng. **Tin tốt [DK]:** ba bảng server đang thiếu **đã có sẵn trên client** ở `Assets\CanonicalCY\Data\ConfigFolder` — `TalentInfo.txt` (25 cột × 15 dòng), `ZongmenTalent.txt` (37 × 255), `TalentLayerLevel.txt` (6 × 10) — đúng bằng số dòng CY mà power-attrib 4.3 liệt kê (17/257/… kể cả 2 dòng tiêu đề). Nên đây là một lượt **nhập bảng client → server** y hệt lượt `CharTitleNew` của power-attrib 4.4 (dựng vân tay cột trước, chỉ thêm, sao lưu, `luac`/verify), không phải việc dựng mới.
-   **Tin xấu [DK]:** chiều ngược lại cũng thiếu — `SectDesc.txt` và `SectInfo.txt` **có trên server mà KHÔNG có trên client**. Vì vậy `Lua_GetSectDesc` (`0x25a9b0`, đọc `s_pSectDesc` = DBC id `0x126`, dòng có chuỗi định dạng ở ô `+0x28` và 5 chuỗi theo cấp ở `+0x30 + level*8`) **chưa cài được**: không có bảng trên client để đọc. Phải chép `SectDesc.txt` sang `ConfigFolder` trước rồi mới dựng được ánh xạ cột.
-   Và dù có đủ bảng hai chiều thì **27 hàm host tông môn đều là hàm chỉ-CY** — không có binary để dịch ngược, nên vẫn phải suy hợp đồng từ chính Lua của khung.
-7. **Chân nguyên, lệnh bài, bí tịch, kinh mạch (21 hàm)**: không cài gì cả cho tới khi có server. 65 hàm chỉ-CY trong nhóm này **không có binary để dịch ngược**, nên mọi bản cài đều là đoán.
 
 
 ---

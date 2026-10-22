@@ -1,4 +1,4 @@
-// CYS: clean-room shortcut setter; B RVA 0x26d540, see hotkeys_vi.md.
+
 #include "CysHostHotKeys.h"
 #include "LuaPlus.h"
 

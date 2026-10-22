@@ -20,8 +20,6 @@ Ký hiệu: **[DK]** dữ kiện đọc từ mã server/0.85/bảng; **[SL]** su
 
 `GCItemList` (1267) **không** phải gói túi: server chỉ dùng nó cho danh sách sạp/cửa hàng người chơi (`item.lua:751`, `OPT_ADD_ITEM_LIST` + `GCPlayerShopItemListForSelf_t`). Túi của nhân vật đi bằng 263 + 623 **[DK]**. Lỗi `self.type`/`write` thiếu độ dài của 1267 (TIMELINE việc 5) vẫn ở nhánh `OPT_ADD_ONE_ITEM`/`TYPE_ITEM`, không chạm vòng lõi.
 
-## 2. Bố cục trường (packets.yaml + Lua server)
-
 ### 2.1 Chat
 
 - **753 `CGChat`** (`social.lua:59` bis): `ChatType u8`, `Contex str32` (u32 độ dài + UTF-8), `unknow_7 str8` (rỗng), `unknow_8 u32`, `unknow_9 u8`, `unknow_10 u32`, nhánh theo `ChatType` (0 NORMAL: `unknow_2 u16`; 1 TEAM: `teamID u16`; 3 TELL: `TargetName str8` + `u16`; 18 MAIL: `dest_guid i32`; 11 CITY: `city i32`…), rồi `uts[3] u8` (1 = link vật phẩm `guid 6 B`, 2 = link thú `PetGUID`, 6 = ngoại hình 67 B). Bot cũ (`tlbb_sim/packets.py cg_chat`) đã kiểm chứng bố cục này live 08/2026 **[DK]**. Client CY-Source dịch từ 0.85 `CGChat` (`GetChatType/GetContex/GetTargetName/GetTeamID`).

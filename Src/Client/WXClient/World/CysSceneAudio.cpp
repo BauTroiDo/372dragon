@@ -1,18 +1,18 @@
-// CYS-AUDIO (audio-cy 15/09/2026): background music and environment sounds of a scene as CY 3.71.
-// Evidence (CY 3.71 Game.exe, Build/re/audio-cy/out, Docs/specs/game/audio-cy_vi.md 5):
-//  - CScene::LoadEnvSound FUN_1406c0e30: <SceneDefineEx column 4 (.Scene)> with the extension renamed to ".esd",
-//    opened from resource group "Scene"; fewer than 20 columns -> "CScene::LoadEnvSound ESD Less Than 20 Column:%s".
-//    Row: 0 id, 1 sound id, 2..4 random sound ids (> 0 added), 5 region type (0 circle, 1 quad, 10 music region),
-//    6/7 X/Z, 8 distance, 9 volume factor, 10..15 the three other quad corners, 16 plays per run, 17 interval ms,
-//    18 interval before the next run.
-//  - scene tick FUN_1406c00e0: listener = MySelf position; type 10 inside -> background music switches to that id
-//    (FUN_1406bd3e0(scene, 1, id)), leaving every music region restores SceneDefineEx column 8; types 0/1 need
-//    Enable3DSound: in range -> env-type 3D source (FUN_1406890d0) at X/Z, loop when plays per run = 0, max distance
-//    = distance, played; out of range -> the source is destroyed (FUN_140689020).
-//  - repeats FUN_14068a740: after a play, wait interval ms and play again until the run count is reached, then wait
-//    the next-run interval and draw a random id (FUN_1406bde60, never the same id twice in a row when there are more).
-//  - volume FUN_14068a1d0: circle = type volume * (1 - d / distance) * gain; quad = full inside the quad, then
-//    1 - (distance to the quad) / distance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "StdAfx.h"
 #include "Scene.h"
 #include "TDUtil.h"
@@ -151,7 +151,7 @@ BOOL CScene::LoadEnvSound()
         {
             FLOAT p[4][2] = { { e.fX, e.fZ }, { (FLOAT)CYS_I(10), (FLOAT)CYS_I(11) },
                               { (FLOAT)CYS_I(12), (FLOAT)CYS_I(13) }, { (FLOAT)CYS_I(14), (FLOAT)CYS_I(15) } };
-            // convex order around the centroid (CY FUN_1406c2c00 tries the three corner orders)
+
             FLOAT cx = 0, cz = 0;
             for (int k = 0; k < 4; k++) { cx += p[k][0] * 0.25f; cz += p[k][1] * 0.25f; }
             int idx[4] = { 0, 1, 2, 3 };
@@ -174,7 +174,7 @@ BOOL CScene::LoadEnvSound()
     return TRUE;
 }
 
-// CYS-AUDIO: one looping background source per id (CY FUN_1406bd3e0 / FUN_140688fc0: type 0, 2D, loop)
+
 VOID CScene::PlayBkgSoundID(INT nSoundID, const char* szWhy)
 {
     if (m_pBackSound && m_nCysBackSoundID == nSoundID) return;
@@ -236,7 +236,7 @@ VOID CScene::ControlEnvSoundVol()
 //控制环境音
 VOID CScene::ControlEnvSound(BOOL bEnable)
 {
-    // CY FUN_1406bd650: enable -> reload the ESD (FUN_1406c0e30); disable -> destroy every env source
+
     if (bEnable)
     {
         LoadEnvSound();
@@ -319,7 +319,7 @@ VOID CScene::TickEnvSound(VOID)
         }
         pSrc->UpdateVolume();
 
-        // repeats (CY FUN_14068a740)
+
         if (e.nRepeat > 0)
         {
             e.nTimerMs += nDeltaMs;

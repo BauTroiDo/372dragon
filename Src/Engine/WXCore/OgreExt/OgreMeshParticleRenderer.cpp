@@ -236,8 +236,8 @@ namespace Ogre	{
             // particles, the system default size otherwise
             Vector3 size = mMeshSizeChanged ? Vector3(p->mWidth, p->mHeight, p->mDepth) :
                 Vector3(mDefaultWidth, mDefaultHeight, mDefaultDepth);
-            // CYS: client_GL (Render.dll FUN_1801e9b90) scales Z by the width when the depth is 0 - most mesh
-            // templates set no particle_depth (default 0), a zero Z scale would flatten them
+
+
             if (size.z == 0.0f)
                 size.z = size.x;
 

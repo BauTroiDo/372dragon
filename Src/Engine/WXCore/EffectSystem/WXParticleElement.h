@@ -161,10 +161,10 @@ namespace WX	{
 		typedef std::unordered_map<Ogre::Particle*, Effect*> CollisionEffectMap;
 		CollisionEffectMap mCollisionEffects;
 
-		void _updateParticleEffects(void);		///< B FUN_180216c10 + FUN_180216e90
-		void _updateCollisionEffects(void);		///< B FUN_180216800 (_updateColPsys)
-		void _removeParticleEffects(void);		///< B FUN_180215e30
-		void _removeCollisionEffects(void);		///< B FUN_180215ee0
+		void _updateParticleEffects(void);
+		void _updateCollisionEffects(void);
+		void _removeParticleEffects(void);
+		void _removeCollisionEffects(void);
 		/// the system is attached to this element's node (B checks this before dropping the sub-effects)
 		bool _isSystemAttached(void) const;
 

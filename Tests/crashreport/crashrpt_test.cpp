@@ -1,30 +1,30 @@
-// CYS-CRASHRPT 19/09/2026 - deliberate-crash harness for the engine crash reporter.
-//
-// Why this exists: the 18/09 "press Q" crash was chased for three days because
-// TDCrashReport.cpp printed 64-bit addresses with "%08X". The report said
-// "Address: 0xFFFFFFFF" while the faulting address was 0xFFFFFFFFFFFFFFFF, and the truncated
-// value was read as a 32-bit npos index. (Timeline\handoff\qlog-crash.md muc 5.1)
-//
-// A crash reporter can only be tested by crashing. This harness raises a REAL access violation
-// at an address we choose, hands the SEH record to the real tProcessException(), and lets the
-// caller diff the files it produced. Run it against the pre-patch sources and it prints the
-// truncated address, no module+RVA and no artifact index - i.e. the test knows how to fail.
-//
-// Modes (argv[1]):
-//   noncanonical  read through 0x420C0000420C0698 - the EXACT 18/09 signature: a non-canonical
-//                 address raises #GP, and Windows reports AV with data address -1
-//                 (0xFFFFFFFFFFFFFFFF). 0x420C0000420C0698 is the real bogus "this" from that
-//                 crash: CEGUI Size{35.0f,35.0f} reinterpreted as a pointer, + 0x698.
-//   high          read through 0x00007FF0DEADBEE8 - a canonical, unmapped user address whose
-//                 upper 32 bits are non-zero. "%08X" prints DEADBEE8 and silently drops 00007FF0;
-//                 this is the digit-for-digit truncation proof.
-//   write         write through 0x00007FF0CAFEF00D8 & ~7 - proves the Write/Read classification.
-//   cppthrow      throw a C++ object => SEH code 0xE06D7363, whose FOUR parameters are the payload
-//                 ([0] 0x19930520 EH magic, [1] thrown object, [2] _ThrowInfo, [3] image base).
-//                 Added 19/09 after the real scene-1350 crash: the report printed "Code: 0xE06D7363"
-//                 and NOTHING else, so naming the thrown C++ type still needed the minidump.
-//
-// Build: Tests\crashreport\build_test.cmd   (see that file for the A/B against HEAD)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>

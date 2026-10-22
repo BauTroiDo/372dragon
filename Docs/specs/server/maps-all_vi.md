@@ -367,8 +367,6 @@ phải restart**, và cảnh chưa được tạo thì server **rơi về cảnh
 
 ---
 
-## 8. Cái KHÔNG làm được, và cái cố tình không làm
-
 ### 8.1 49 cảnh không mở được: client CY không có tệp nghệ thuật [DK]
 
 Không có dòng DBC nào mang bản đồ đó, **và** `Assets/CanonicalCY/Data/SceneFolder` (+ `Scene2Folder`,

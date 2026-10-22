@@ -1,20 +1,20 @@
 #ifndef __CYS_ENVIRONMENT_H__
 #define __CYS_ENVIRONMENT_H__
 
-// CY-Source (scene agent): engine-wide environment state of the current scene and its time-of-day driver.
-//
-// Sources (05 §1-§4): the scene's .EnScene (object type "EnScene", config_file) or, when there is none, the
-// .skysphere named by the <SkySphere> header element; per-scene .hdr/.newhdrbloom/.hfog/.godrays files.
-// Each update samples the EnvKeys at the time of day (and blends the EnScene region under the camera), then
-// applies what the 0.85 renderer understands the way B does (FUN_180182550): Enviroment ambient + linear fog,
-// #FairyMainLightOne/#FairyMainLightTwo diffuse/specular/intensity/direction, FakeLight global intensity.
-// Everything else (actor lights, PBR ambient, sky-dome ambient, shadow strengths, height fog, grading keys,
-// post-filter files) is published in CYSEnvironment for the material / post-filter code: poll
-// CYSEnvironment::current() or register a CYSEnvironmentListener.
-//
-// Time of day: hours [0, 24). Default 12:00 and frozen (deterministic screenshots). Overrides for testing:
-// environment variables CYS_TIME_OF_DAY=<hours>, CYS_TIME_SCALE=<game hours per real second>, CYS_WEATHER=<name>,
-// CYS_SKY=0 (no sky geometry), CYS_ENV=0 (do not touch lights/fog), CYS_HEIGHTFOG_FALLBACK=0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "CYSEnSceneData.h"
 #include "CYSSkySphereData.h"
@@ -133,13 +133,13 @@ namespace WX
         /// Wind of the vegetation / water shaders (wind_control_params = dir x, dir z, strength). B scenes carry no
         /// wind: the default is the B shader initialiser, direction (1, 0, 0) and strength 16.
         void setWind(const Ogre::Vector3& direction, Real strength);
-        /// CYS-SKY: CY 3.71 day clock of Render.dll (FUN_1800dde40 / FUN_1800ddec0): a 60 s day running from 0 until the
-        /// game sets the time (FUN_18002e3d0 pauses it). Game.exe never sets it in the login / character procedures, so
-        /// the login sky's sun (cloud lighting, dome constants) turns once a minute there. Enabled by the client after it
-        /// loads a procedure scene; any scene load and setTimeOfDay stop it; CYS_SKY_CLOCK=0 or CYS_TIME_OF_DAY disable it.
+
+
+
+
         void setCyFreeClock(bool running);
-        /// CYS-SKY: CY Render.dll FUN_18002e3d0 (gfx +0x350) from the game's GCWorldTime: stops the CY clock, sets the time
-        /// (hours = fraction * 24) and the lunar day of the SkySphere moon; logs the time and the sun phase.
+
+
         void setWorldTime(int dayOfMonth, Real dayFraction);
         int getDayOfMonth(void) const { return mDayOfMonth; }
         bool isCyFreeClock(void) const { return mCyFreeClock; }

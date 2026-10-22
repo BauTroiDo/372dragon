@@ -251,7 +251,7 @@ VOID CGamePro_Login::Init(VOID)
 	lStyle = lStyle & ~WS_THICKFRAME ;
 	lStyle = lStyle & ~WS_MAXIMIZEBOX ;
 	::SetWindowLongPtrW(g_hMainWnd, GWL_STYLE, lStyle);//
-	// CYS-LOGIN: CY 3.71 then gives the login window a fixed 1280x720 client (FUN_1406302b0), see GameProcedure.h.
+
 	CysLoginWindowFixed();
 	//Rresh title
 	::PostMessage(g_hMainWnd, WM_NCACTIVATE, TRUE, 0);
@@ -260,8 +260,8 @@ VOID CGamePro_Login::Init(VOID)
 	if(CGameProcedure::s_pVariableSystem->GetAs_Int("GameServer_ConnectDirect") == 1) return;
 	//--- for debug
 
-	// CYS-CHARSEL: CY 3.71 CGamePro_Login::Init (Game.exe FUN_14062f940) loads the fixed 3D login background erengu_DL.Scene
-	// (scene id -1) behind the server-selection and account screens, with the static CY login camera.
+
+
 	CysLoginScene::Enter(CysLoginScene::Login);
 
 	//打开登录界面

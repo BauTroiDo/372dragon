@@ -581,7 +581,7 @@ VOID CUIStringSystem::ParserString_RuntimeNew(const STRING& strSourceNotCheck, C
 	}
 	_CheckStringCode(strExpanded, strSource);
 
-	// CYS-QUEST: CY 3.71 (UI_CEGUI.dll 0x18004b146) expands $N $n $U $G $g $R $r right after the code check.
+
 	{
 		CysUiTalkVars provider(&CUIStringSystem::ResolvePackedFormat, this);
 		STRING strVars;
@@ -642,9 +642,9 @@ VOID CUIStringSystem::ParserString_RuntimeNew(const STRING& strSourceNotCheck, C
 			}
 			else if( strKey_Opt == "u" )
 			{//#u下划线
-				// CYS-INFOPARITY 19/09: CY UI_CEGUI.dll 0x18004bc63/0x18004bc6b - the first "#u" emits 0xE6000000
-				// (underline on), the next one 0xE7000000 (off), toggling per occurrence. The font layer
-				// (CEGUIFontBase.cpp drawTextLine) draws the line; before today both bytes were simply dropped.
+
+
+
 				val = bUnderline ? 0xE7000000 : 0xE6000000;
 				strOutUtf32 += val;
 				bUnderline = !bUnderline;
@@ -652,8 +652,8 @@ VOID CUIStringSystem::ParserString_RuntimeNew(const STRING& strSourceNotCheck, C
 			}
 			else if( strKey_Opt == "n" )
 			{//#n回复状态
-				// CYS-INFOPARITY 19/09: CY 0x18004bcb9/0x18004bcc7 emits blink-off + underline-off here and leaves
-				// its own toggle state alone (a later "#u" still continues the sequence). Mirrored byte for byte.
+
+
 				val = 0xE1000000;
 				strOutUtf32 += val;
 				val = 0xE7000000;
@@ -706,23 +706,23 @@ VOID CUIStringSystem::ParserString_RuntimeNew(const STRING& strSourceNotCheck, C
 				{
 					STRING strID = strSource.substr(nIDBegin, nIDEnd-nIDBegin);
 
-					// CYS-INFOLINK 19/09: CY 3.71 turns #{_INFOAIM<x>,<y>,<scene>,<name>} and its eleven siblings
-					// into an inline hyperlink "#aB{x,y,scene,type,target}#u[x,y]#u#aE" and re-parses the result
-					// (CY UI_CEGUI.dll FUN_18004b050, block 0x18004e309..0x18004e50c for _INFOAIM; see CysInfoLink.h).
-					// Until today the project had no branch here, _IsValidDictionKey missed, and the whole tag
-					// produced 0 characters - 12.200 tags in StrDictionary.txt vanished without a trace.
+
+
+
+
+
 					STRING strInfoLink;
 					CysInfoLink::Link infoLinkParsed;
 					const BOOL bInfoLink = CysInfoLink::Expand(strID, strInfoLink, &infoLinkParsed) ? TRUE : FALSE;
 					if(bInfoLink)
 					{
-						// CYS-INFOPARITY 19/09: _INFOMAP alone is bracketed by two raw utf32 codes appended straight to
-						// the output (CY 0x18004e6ef / 0x18004e70d): 0xE8 = link colour -> #0099E5 for this link, then
-						// back to the default #00CCFF. The font layer handles 0xE8 since today.
+
+
+
 						if(infoLinkParsed.mapTag)
 							strOutUtf32 += (CEGUI::utf32)0xE80099E5;
 						CEGUI::String strOutTemp;
-						ParserString_RuntimeNew(strInfoLink, strOutTemp);	// recursive, exactly like CY 0x18004e4e7
+						ParserString_RuntimeNew(strInfoLink, strOutTemp);
 						strOutUtf32 += strOutTemp;
 						if(infoLinkParsed.mapTag)
 							strOutUtf32 += (CEGUI::utf32)0xE800CCFF;
@@ -899,7 +899,7 @@ VOID CUIStringSystem::ParserString_RuntimeNew(const STRING& strSourceNotCheck, C
 	}
 	if(bUnderline)
 	{
-		// CYS-INFOPARITY 19/09: CY 0x180053fff/0x180054005 closes an unbalanced "#u" at end of string.
+
 		CEGUI::utf32 val = 0xE7000000;
 		strOutUtf32 += val;
 	}

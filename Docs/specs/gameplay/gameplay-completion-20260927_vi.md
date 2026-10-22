@@ -2,8 +2,6 @@
 
 Phạm vi: tiếp nối [đợt kiểm tra trước](quest-crafting-xinfa-elements-20260927_vi.md) theo yêu cầu “sửa tất cả các vấn đề”. Đích chạy là CY-Source và server riêng `/home/ubuntu/cys-test-20260913`; không sửa client_GL, CanonicalCY, snapshot WSL hay server gốc. Các nhánh thiếu thân script hoặc dữ liệu gốc được ghi rõ ở cuối; tài liệu này không xác nhận mọi nhiệm vụ trong game đã chơi hết.
 
-## Các thay đổi đã thực hiện
-
 ### Nhiệm vụ sư môn và vật phẩm mục tiêu
 
 - Đăng ký lại tám script sư môn 229001–229008; dùng chung lớp sửa cho cả chín phái cổ điển, kể cả Thiếu Lâm 229000 vốn đã được nạp.

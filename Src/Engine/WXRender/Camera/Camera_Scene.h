@@ -88,7 +88,7 @@ protected:
 	fVector3			m_fvEye;			// CYS: mat cua lan Update gan nhat (don vi render)
 	fVector3			m_fvLookAtGfx;		// CYS: diem nhin (da cong m_fAddHeight)
 
-	// CYS: C FUN_180004540 - khoang cach hop le cua che do va cham TRUE
+
 	static FLOAT		_GetValidDistance(
 							const WX::TerrainData* pTerrainData,
 							const fVector3& fvLookAt,

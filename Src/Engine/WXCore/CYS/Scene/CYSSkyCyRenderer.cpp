@@ -117,7 +117,7 @@ namespace WX
     //////////////////////////////////////////////////////////////////////////
     namespace
     {
-        const Real kCelestialDistance = 9000.0f;        // EnMoon child node (0, 0, -9000): hex 0x1802c3a04
+        const Real kCelestialDistance = 9000.0f;
 
         bool envFlag(const char* name, bool def)
         {
@@ -143,8 +143,8 @@ namespace WX
                 p->setNamedConstant(name, v);
         }
 
-        /// FUN_180236000 (moon) / FUN_1802378a0 (sun): fraction of the day arc, 0.25 at rise .. 0.75 at set (moon: the
-        /// same with the rise/set roles swapped at the call site).
+
+
         Real sunArc(Real hours, Real up, Real down)
         {
             if (down < up)
@@ -167,8 +167,8 @@ namespace WX
             return (hours - up) / ((down - up) * 2.0f) + 0.25f;
         }
 
-        /// FUN_1802378a0: node orientation = rot(-Y, orient + 180) * rot(-X, -angle) * rot(-Y, arc * 360), sun direction =
-        /// orientation * (0, 0, 1) (checked against SUN_POSITION of the CY login trace: 0.3933 day -> 0.621, 0.600, 0.504).
+
+
         Ogre::Quaternion celestialOrientation(const CYSEnCelestial& c, Real hours, bool sun)
         {
             Ogre::Quaternion q = Ogre::Quaternion(Ogre::Degree(c.orient + 180.0f), Ogre::Vector3::NEGATIVE_UNIT_Y) *
@@ -177,7 +177,7 @@ namespace WX
             if (sun)
                 arc = c.fixed ? 0.5f : sunArc(hours, c.upTime, c.downTime);
             else if (c.fixed)
-                return q;           // FUN_180236000: moonfix skips the day rotation
+                return q;
             else
                 arc = sunArc(hours, c.downTime, c.upTime);
             return q * Ogre::Quaternion(Ogre::Degree(arc * 360.0f), Ogre::Vector3::NEGATIVE_UNIT_Y);
@@ -269,8 +269,8 @@ namespace WX
             {
                 if (!rgm.resourceExists(groups[i], name))
                     continue;
-                // FUN_180239970 (dome) and the cloud loaders: the colour table / cloud images are single level
-                // (trace: 64x256, 2048x512 ... A8R8G8B8 levels 1); .dds keep their own chain.
+
+
                 const String lower = toLowerAscii(name);
                 const bool dds = lower.size() > 4 && lower.substr(lower.size() - 4) == ".dds";
                 if (noMipmaps && !dds)
@@ -392,7 +392,7 @@ namespace WX
         destroy();
         mPrefix = "CYS/SkyCY/" + sceneName + "/";
         mSkySphere = false;
-        mSun = sky.sun;                 // FUN_180236220 defaults (orient 0, angle 50, 6..18 h) when <Sun> is absent
+        mSun = sky.sun;
 
         if (sky.dome.present)
             buildDome(sky.dome);
@@ -427,9 +427,9 @@ namespace WX
     //-----------------------------------------------------------------------
     void CYSSkyCyRenderer::buildDome(const CYSEnSkyDome& dome)
     {
-        // FUN_1802391e0: entity "en_skydome" of enskydome.mesh, material EnScene/skyDome, queue (5, 100), node at the
-        // camera; FUN_180239ad0 adds the <texture> colour table (u wrap, v/w clamp) and "TextureUnitEx" (the second
-        // Rayleigh table of a region blend; the trace binds the same table on s1 and s2).
+
+
+
         if (!prepareTexture(dome.texture, true))
             return;
         Ogre::MeshPtr mesh = loadMesh("enskydome.mesh");
@@ -457,8 +457,8 @@ namespace WX
     //-----------------------------------------------------------------------
     void CYSSkyCyRenderer::buildCloud(const CYSEnCloudLayer& layer)
     {
-        // FUN_18023a350: entity "cloud_<name>", clone of EnScene/cloud, queue (59, 90 + layer); FUN_18023ac50 texture
-        // units: <texturename> (wrap) then the fog-amount map bmp_overhead_weak_fog.dds (clamp).
+
+
         const String meshName = layer.meshName.empty() ? String("enskycloud.mesh") : layer.meshName;
         if (!prepareTexture(layer.textureName, true))
             return;
@@ -480,14 +480,14 @@ namespace WX
         fog->setTextureFiltering(Ogre::TFO_BILINEAR);
         item->material->load();
         attach(item, mesh, 59, (Ogre::ushort)std::max(0, 90 + layer.layer));
-        // INF: rotangle (radians) turns the cloud node about Y; the per-frame FUN_18023b200 keeps the orientation.
+
         item->node->setOrientation(Ogre::Quaternion(Ogre::Radian(layer.rotAngle), Ogre::Vector3::UNIT_Y));
     }
     //-----------------------------------------------------------------------
     void CYSSkyCyRenderer::buildRing(const CYSEnCloudLayer& layer)
     {
-        // FUN_18023b940: entity "ringcloud_<name>" under EnRingCloudRoot, clone of EnScene/ringcloud, queue (59, 110 + layer);
-        // FUN_18023c2b0: <texturename> (u wrap, v/w clamp) then bmp_horizon_fog_strong.dds (u wrap, v/w clamp).
+
+
         const String meshName = layer.meshName.empty() ? String("ringcloud.mesh") : layer.meshName;
         if (!prepareTexture(layer.textureName, true))
             return;
@@ -515,9 +515,9 @@ namespace WX
     //-----------------------------------------------------------------------
     void CYSSkyCyRenderer::buildCelestial(const CYSEnCelestial& c, bool sun)
     {
-        // FUN_180235a10 / FUN_180236220: prefab plane (200 x 200, facing +Z) on a child node at (0, 0, -9000) scaled by
-        // `scale`, material EnScene/moon / EnScene/sun with the texture replaced; queue 59, priority 90 + layer (the
-        // erengu_DL moon, layer 30, draws between ring priorities 118 and 121 in the CY trace).
+
+
+
         if (!prepareTexture(c.texture, true))
             return;
         Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName("Prefab_Plane");
@@ -549,7 +549,7 @@ namespace WX
     //////////////////////////////////////////////////////////////////////////
     Ogre::MeshPtr CYSSkyCyRenderer::skySphereMesh(Real pitchStart, Real pitchEnd)
     {
-        // FUN_1801d0ba0 with the steps of FUN_1800f0260: pitch step PI/10, yaw step 2PI/40, vertical shift 0.05.
+
         const Real stepPitch = Ogre::Math::PI / 10.0f;
         const Real stepYaw = Ogre::Math::TWO_PI / 40.0f;
         const Real shift = 0.05f;
@@ -691,7 +691,7 @@ namespace WX
         item->sphereLayer = def;
         item->fogLayer = def.id == CYS_SKY_FOG;
         Ogre::MeshPtr mesh = skySphereMesh(def.pitchStart, def.pitchEnd);
-        // FUN_1801d0440: node scale sqrt(distance^2 / (1 - 0.05^2)) (irrelevant on screen: blend_vp sets z = 0.999999 w).
+
         const Real scale = Ogre::Math::Sqrt(def.distance * def.distance / (1.0f - 0.05f * 0.05f));
         item->node->setScale(scale, scale, scale);
 
@@ -705,9 +705,9 @@ namespace WX
     //-----------------------------------------------------------------------
     void CYSSkyCyRenderer::rebuildSphereMaterial(Item* item, const std::vector<Real>& alphas)
     {
-        // FUN_1801ce6f0 (shader branch): one pass, alpha blend, no depth write, no lighting, fog none; one texture unit
-        // per active group (at most 3, u wrap); texUWrap/texVWrap = group wraps, blendFactor = alpha_i / sum with
-        // w = min(sum, 1), blendColour = layer colour (sky_fog on the fog layer).
+
+
+
         item->active.clear();
         for (size_t i = 0; i < alphas.size() && item->active.size() < 3; ++i)
         {
@@ -719,7 +719,7 @@ namespace WX
         Ogre::Pass* pass = m->createTechnique()->createPass();
         if (item->active.empty())
         {
-            // no group visible: nothing is written (FUN_1801ce6f0 colour write off + entity hidden)
+
             pass->setColourWriteEnabled(false);
             pass->setDepthWriteEnabled(false);
             pass->setLightingEnabled(false);
@@ -774,7 +774,7 @@ namespace WX
         if (!camera)
             return;
         Ogre::Vector3 cameraPos = camera->getDerivedPosition();
-        if (mSkySphere && mFixedHeight)         // FUN_1801d0a50: enable_fixed_height keeps the root at fixed_height
+        if (mSkySphere && mFixedHeight)
             cameraPos.y = mFixedHeightValue;
         for (size_t i = 0; i < mItems.size(); ++i)
             updateItem(mItems[i], dt, env, cameraPos);
@@ -783,7 +783,7 @@ namespace WX
     void CYSSkyCyRenderer::updateItem(Item* item, Real dt, const CYSEnvironment& env, const Ogre::Vector3& cameraPos)
     {
         const Real hours = env.timeOfDay;
-        // FUN_1802378a0 -> sun direction and FUN_1801ea5c0: the dome and clouds get (sun direction, light one colour).
+
         const Ogre::Vector3 sunDir = celestialOrientation(mSun, hours, true) * Ogre::Vector3::UNIT_Z;
         const Ogre::Vector3 lightOne(env.lightOneDiffuse.r, env.lightOneDiffuse.g, env.lightOneDiffuse.b);
 
@@ -791,7 +791,7 @@ namespace WX
         {
         case Item::DOME:
         {
-            // FUN_18023a0e0
+
             item->node->setPosition(cameraPos);
             setConst(item->vp, "SUN_POSITION", sunDir);
             setConst(item->vp, "SUN_COLOUR", lightOne);
@@ -803,7 +803,7 @@ namespace WX
         }
         case Item::CLOUD:
         {
-            // FUN_18023b200
+
             const CYSEnTimeNode n = item->layer.sample(hours);
             const bool visible = n.alpha > 0.0f;
             if (visible != item->visible)
@@ -830,7 +830,7 @@ namespace WX
         }
         case Item::RING:
         {
-            // FUN_18023c7a0
+
             const CYSEnTimeNode n = item->layer.sample(hours);
             const bool visible = n.alpha > 0.0f;
             if (visible != item->visible)
@@ -871,15 +871,15 @@ namespace WX
         case Item::MOON:
         case Item::SUN:
         {
-            // FUN_180236000 / FUN_1802378a0: parent node at the camera, orientation from orient/angle/day arc.
+
             item->node->setPosition(cameraPos);
             item->node->setOrientation(celestialOrientation(item->celestial, hours, item->kind == Item::SUN));
             break;
         }
         case Item::SPHERE_LAYER:
         {
-            // FUN_1801d0a50: root at the camera, yaw rotate_speed * real seconds; FUN_1800f53b0: group alphas at the
-            // day fraction, rebuild when the visible set changes, else blendFactor = (a0, a1, a2, sum) (FUN_1801ce0f0).
+
+
             item->node->setPosition(cameraPos);
             if (item->sphereLayer.rotateSpeed != 0.0f)
                 item->node->yaw(Ogre::Radian(item->sphereLayer.rotateSpeed * dt));

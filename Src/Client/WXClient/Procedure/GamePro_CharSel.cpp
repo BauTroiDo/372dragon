@@ -130,8 +130,8 @@ CGamePro_CharSel::~CGamePro_CharSel()
 
 VOID CGamePro_CharSel::Init(VOID)
 {
-	// CYS-LOGIN: CY 3.71 CGamePro_CharSel::Init (FUN_14063c000) first restores the resizable View_Resoution window
-	// that the login procedure had fixed at 1280x720 (FUN_14063c8e0).
+
+
 	if (GetActiveProcedure() == this) CysLoginWindowRestore();
 
 	//return;
@@ -573,6 +573,3 @@ void CGamePro_CharSel::ClearUIModel()
 		m_Character[i].DestroyUIModel();
 	}
 }
-
-
-

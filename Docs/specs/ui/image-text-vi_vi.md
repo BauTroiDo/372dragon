@@ -19,11 +19,6 @@ nút tròn `榜 线 社 战`, ô kênh chat `近 世 密…`. Layout chỉ gọi
 
 ## Cách làm (`Tools/pipeline/cy_gui_image_vi.py`)
 
-1. **Registry** `Registry/i18n/cy_gui_image_vi.tsv` gồm các cột: imageset, ảnh (dấu phẩy phân tách, cho phép `*`),
-   chữ Trung, chữ Việt, tuỳ chọn và nguồn dịch. Nguồn dịch là một trong ba loại:
-   - `TM`: khớp đúng `analysis/translation/translation.db`; ghi `TM rut gon` khi đã rút ngắn cho vừa khung.
-   - `HV`: Hán‑Việt.
-   - `dich`: tự dịch ngắn.
 
    Không gọi API.
 2. **Nguồn ảnh.** Lấy byte CY 3.71 từ `Interface.axp` (S4), chỉ đọc; loại vỏ 1–18 lấy từ S2, giống

@@ -40,8 +40,6 @@ Ký hiệu: **[DK]** dữ kiện đọc từ mã nguồn · **[LIVE]** đã bắ
 3 TEAMDISMISS · 4 TEAMKICK · 5 TEAMAPPOINT · 6 TEAMREFRESH · 7 STARTCHANGESCENE · 8 ENTERSCENE ·
 9 REFRESHSERVERINFO · 10 MEMBEROFFLINE. `define.MAX_TEAM_MEMBER = 6`, `define.LEADER_ID = 1`.
 
-## 2. Bố cục trường (chỉ những gói đã dùng)
-
 ### 447 `CGTeamInvite` (CG) — team.lua:917 **[DK]**
 ```
 i32 data_length      -- server đọc rồi bỏ; bot ghi 11 + #dest_name
@@ -118,8 +116,6 @@ u8 uts[3] ; (4 x tuỳ uts: item guid / pet guid / 67 byte exterior)
 `team:broad_team_msg`; 3 → `.world tell_chat` (gửi người nhận) **và** một bản `CHAT_TYPE_TELL_RET = 25`
 gửi lại cho người gửi.
 
-## 3. Luồng đã chứng minh live
-
 ### 3.1 Mời → chấp nhận (lượt `03-invite`, `08-exp`) **[LIVE]**
 ```
 T+0      CYTest05  CG 447 CGTeamInvite dest_name="CYTest06"
@@ -176,8 +172,6 @@ nhận `type=3`. **[LIVE]**
 Khi bị chặn, server trả `GCScriptCommand m_nCmdID=5` (đường `human:notify_tips`) với nội dung
 `e7ad89e7baa7e4b88de8b6b33530e38082` = UTF-8 `"等级不足50。"`. **[LIVE]** Kênh `CHAT_TYPE_SCENE (2)`
 và `CHAT_TYPE_CITY (11)` dùng chung cổng chặn này.
-
-## 4. Lỗi tìm được
 
 ### 4.1 `caculate_owner_list` không ghi `team_leader` khi chính đội trưởng hạ quái — **ĐÃ VÁ, CHỜ RESTART**
 `services/scene/obj/monster.lua:434`. Nhánh `if n:get_guid() == occupant_guid` không kiểm

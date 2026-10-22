@@ -1,15 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""CYS-FXBASE: one batch = the same effect sequence for CY 3.71 (cy-oracle scenario JSON) and CY-Source
-(CYS_WORLD_SCENARIO replay text), impact-driven on the NPC 木人 (obj 2002), timed from GCEnterScene.
-
-Both sides get byte-identical packet content (GCCharImpactListUpdate obj=2002 ids=[impact]) at the same second;
-capture offsets: CY = plan tail (real time is measured afterwards), CY-Source = CYS_SFX_SHOT_MS (exact).
-
-usage: fxbase_scenario.py --plan <tables/plan.json> --batch <name> --fids B10,T01,... [--interval 4.5] [--late]
-                          --out <dir>
-writes <out>/<batch>.cy.json, <out>/<batch>.replay.txt, <out>/<batch>.batch.json, <out>/<batch>.tail.txt
-"""
+'Both sides get byte-identical packet content (GCCharImpactListUpdate obj=2002 ids=[impact]) at the same second;\ncapture offsets: CY = plan tail (real time is measured afterwards), CY-Source = CYS_SFX_SHOT_MS (exact).\n\nusage: fxbase_scenario.py --plan <tables/plan.json> --batch <name> --fids B10,T01,... [--interval 4.5] [--late]\n                          --out <dir>\nwrites <out>/<batch>.cy.json, <out>/<batch>.replay.txt, <out>/<batch>.batch.json, <out>/<batch>.tail.txt\n'
 import argparse
 import json
 import os
@@ -84,7 +75,7 @@ def main():
           'character': {'guid': 200001, 'sex': 0, 'name': 'CYOracle', 'level': 90, 'menpai': 9, 'hair_color': 0,
                         'hair': 0, 'face': 0, 'equips': [], 'visuals': [], 'model_id': -1},
           'echo_move': True, 'npcs': [dict(NPC)],
-          'world_time': {'time': 0, 'counter': 43200000, 'interval': 0, 'note': '12:00 frozen (cy-oracle)'},
+          'world_time': {'time': 0, 'counter': 43200000, 'interval': 0, 'note': '12:00 frozen'},
           'impacts': {str(NPC['obj']): []},
           'timeline': timeline,
           'cys_fxbase': {'batch': a.batch, 'interval_s': interval, 'late': a.late, 'npc': a.npc, 'items': tags}}
@@ -112,7 +103,7 @@ def main():
             continue
         tag = step['tag']
         shots = BASE_SHOTS if tag.startswith('base') else cy_shots
-        # run_cy_oracle.ps1: a '+s' step is due s seconds after the LAST MATCHED WAIT (absolute within the tag window)
+
         tail.append('+0:wait:timeline %s:' % tag)
         for k, s in enumerate(shots):
             tail.append('+%g:shot:%s-%s' % (s, tag, 'abcdefgh'[k]))

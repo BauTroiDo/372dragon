@@ -106,19 +106,16 @@ Mã nguồn: `Assets/CanonicalCY/Data/InterfaceFolder/{Quest,MissionTrack,QuestL
 
 ## 7. Biến thoại `$N` và các biến CY khác
 
-**Nơi CY thay biến (dữ kiện, Ghidra chỉ đọc).** Không phải server (script chỉ gửi `$N` nguyên văn), không phải Lua (`Quest.lua` không có `$`), không phải Game.exe (Game.exe CY chỉ dùng `$N`/`$U` cho danh hiệu và mẫu chat). CY thay trong **UI_CEGUI.dll**: bộ phân tích chuỗi runtime `FUN_18004b050` gọi `FUN_180054e20` (kiểm mã chữ) rồi `FUN_18004a5e0` tại `0x18004b146`, trước khi xử lý `#`. Mọi chuỗi qua `ParserString_Runtime` (hộp thoại NPC `AddTextElement`, mục chọn, bảng tên, chat) đều được thay.
 
 | Biến | CY đọc | Giá trị |
 |---|---|---|
 | `$N` | `g_pObjectSystem` vt+0xb8(0) | tên nhân vật mình |
 | `$n` | vt+0xb8(1) | tên mục tiêu chính nếu là `CObject_Character`, không thì rỗng |
-| `$U` | vt+0xc8 | chuỗi `CharacterData+0x4940` của mình, rỗng khi liên server [SL: chỉ thấy chỗ khởi tạo `0x1401bc250`; không dữ liệu/script nào dùng `$U` → 0.85 trả rỗng] |
 | `$G` | giới tính mình (vt+0xc0(0)) | từ điển `GMGameInterface_Script_Talk_Info_G_Woman` / `_G_Man` (Tiểu yêu nữ / Tiểu ác nhân) |
 | `$g` | giới tính mục tiêu (vt+0xc0(1)) | `_g_Woman` / `_g_Man` |
 | `$R` | giới tính mình | `_R_Woman` / `_R_Man` (Cô nương / Thiếu hiệp) |
 | `$r` | giới tính mình | `_r_Woman` / `_r_Man` |
 
-Quy tắc (theo `FUN_18004a5e0`): so ký tự sau `$` theo thứ tự `N n U G g R r` (bảng `0x18008f180`); giới tính 0 = nữ, 1 = nam (người chơi: id bảng chủng tộc % 2 khi `RaceID != -1`, `0x14060b8a0`; NPC: cột giới tính của bảng quái, `0x1406026a0`), giá trị khác → biến bị xoá; thiếu khoá từ điển → rỗng; ký tự khác (vd `$C`, `$1`, `$` cuối chuỗi) → chỉ bỏ `$`; chưa có `g_pObjectSystem` → giữ nguyên chuỗi. `$` nằm trong khoảng bảo vệ (`this+0x138`, do `FUN_180054e20` ghi cho khối `#{_INFOMSG<3 số>…}` và `#{…*?<độ dài>…}`, từ vị trí `#`−1 tới `}`) được chép nguyên cùng ký tự sau. Không có `$C`. Dùng trong CanonicalCY: StrDictionary `$N` 508 lần (440 mục), `$G` 2; script server `$N` 25, `$g` 6.
 
 **Triển khai.** `Src/Client/CEGUISystem/CysDialogVars.h` (header, `Expand` + `ProtectedRanges`), gọi trong `CUIStringSystem::ParserString_RuntimeNew` ngay sau `_CheckStringCode`; nguồn `tObjectSystem::GetTalkName/GetTalkSex/GetTalkUserString` (thêm cuối interface, cài ở `CObjectManager`), từ điển qua `ResolvePackedFormat`. [SL] CY còn đòi trường NPC `+0x4f0 == 0` khi lấy giới tính NPC — chưa ánh xạ.
 
@@ -128,7 +125,6 @@ Quy tắc (theo `FUN_18004a5e0`): so ký tự sau `$` theo thứ tự `N n U G g
 
 ## 8. Lời thoại > 255 B, nút đáy hộp thoại, tên cảnh (15/09 tối)
 
-**Giới hạn chữ (dữ kiện Ghidra).** Game.exe CY đọc mỗi chữ của danh sách sự kiện `GCScriptCommand` cmd 0/2 với `len-1 < 0xff` vào bộ đệm 256 B (`FUN_1408471d0`, gọi từ `Packets::GCScriptCommand` vftable `0x140c9e0a8` slot Read `0x140848280`); cmd 5 cũng bộ đệm `0x100`. Server skynet `packet_domains/mission.lua` `bos` ghi `len` nhưng không ghi byte nào khi `len >= 256`, nên client nhận chuỗi rỗng. Server gửi UTF-8 (`wire_charset` chế độ utf8, `fromutf8` chỉ tra tên), không chuyển mã. Bản gốc GBK vừa 255 B; bản dịch tiếng Việt UTF-8 vượt: 174 chuỗi `AddText` literal trong 161 file (`Tests/luaapi/server_event_text_split/scan255.py`), ví dụ Bạch Sùng Nghĩa 404 B.
 
 **Sửa.**
 - Server riêng: commit `db708f5`, restart bởi menpai-fix lúc 18:16 (SHA `6ca25a8`). `script_base:EndEvent` tách chữ > 255 B thành các mục ≤ 254 B + `\31`, cắt ở ranh giới UTF-8, ưu tiên sau dấu cách, tổng không quá 16 mục. Không có `\31` nào trong StrDictionary, script hay lualib. Bản vá và test: `Tests/luaapi/server_event_text_split/` (10/10 PASS).

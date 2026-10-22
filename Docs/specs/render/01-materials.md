@@ -1,20 +1,8 @@
 # 01 — Material system: B templates vs the 0.85 OGRE material/GPU-program system
 
-Status: spec for engine engineers (phase E2 "Hệ material", doc 03). Date 2026-09-12.
-Legend: **FACT** = measured in a file/binary (path, offset, RVA or script output given); **INF** = inference.
-B = `client_GL` (VS2012 Fairy build); 0.85 = `CY-Source\Src` (OGRE 1.2.5 "Dagon" + WX).
-All Render.dll addresses are from the ORIGINAL pre-patch Render.dll (SHA-256 `fda12053…d67901`, the build imported in
-`analysis\graphics-overhaul\ghidra\proj\gfx.gpr`); `client_GL\Bin64\Render.dll` is the patched chain end
-(`49b2ab1f…`, shadow + HDR + aniso patches, doc 08 §10) — identical except the patched bytes.
 
 Evidence (all regenerable, read-only on sources):
 
-| Script | Output |
-|---|---|
-| `Tools\re\extract_mtltemplates.py` | `Assets\Staging\materialtemplates\B\` (+`_manifest.tsv`), `…\A085\` (0.85 data zip) |
-| `Tools\re\mtl_catalog.py` | `Tools\re\out\mtl_programs.tsv`, `mtl_templates.tsv`, `mtl_template_usage.tsv`, `mtl_keyword_gap.tsv`, `mtl_value_usage.tsv`, `mtl_autoconst_gap.tsv`, `mtl_autoconst_B_dict.txt`, `mtl_hlsl_inventory.tsv`, `mtl_allmat_progrefs.tsv`, `mtl_postfx_blocks.txt`, `mtl_issues.tsv`, `mtl_catalog.json` |
-| `Tools\re\ogre_api_gap.py` | `Tools\re\out\ogre_api_gap.tsv` (B OgreMain exports whose identifier does not exist in 0.85 source) |
-| Ghidra (`Tools\re\ghidra\CyReDump.java`, `CyReByName.java`) | `Tools\re\out\ghidra\ogre_autoparams2.txt` (B OgreMain `_updateAutoParams*`), `shadow_env.txt` (Render.dll material system) |
 
 ## 1. Inventory (FACT)
 
@@ -54,7 +42,6 @@ Top template usage in all.material (FACT, `mtl_template_usage.tsv`):
 |---|---|---|---|---|
 | pass `render_queue` | 13 / 15 | `on 69`, `on 77`, `on 70`, `on 73`, `on 41` | `Pass::setRenderQueueEnabled/getRenderQueueID` | per-pass render-queue override (transparent sort order, water at 77…) |
 | pass `separate_scene_blend` | 3 / 6 | `src_alpha one_minus_src_alpha one one`, `… zero zero` | `Pass::setSeparateSceneBlending`, `getSourceBlendFactorAlpha` | D3DRS_SEPARATEALPHABLENDENABLE + SRCBLENDALPHA/DESTBLENDALPHA |
-| texture_unit `content_type` | 10 / 19 | `compositor SceneRender depth_buffer`, `compositor SceneRender scene_buffer`, `dsintz` (B also knows `named`, `shadow`, `global`) | `TextureUnitState::setContentType/setCompositorReference/getReferencedCompositorName/MRTIndex`; Render.dll imports `setCompositorReference` (called from `FUN_180210420`) | bind a texture produced by another compositor (scene colour, linear depth) or the INTZ hardware depth texture |
 | texture_unit `sampler_index` | 42 / 111 | 0, 2, 3, 6, 7, 8, 9, 10, 11 | `setSamplerRegisterIndex/getSamplerRegisterIndex` | TUS → explicit D3D sampler register (0.85 binds unit *i* to sampler *i*) |
 | texture_unit `shader_type` | 0 / 104 | `vs` | `setTexUnitShaderType` | vertex-texture fetch (`WaveGrass_RandomTex_VS` samples `<wavenoise>` in the VS) |
 | (known, unused) `use_type`, `texture_source` | 0 | — | `setTexUnitUseType` | not needed for data |
@@ -68,8 +55,6 @@ No other keyword or value gap was found: all enum values used (`scene_blend`, `f
 |---|---|---|---|
 | P1 | **`#include` not supported** | FACT 0.85 `OgreD3D9HLSLProgram.cpp:106–116` passes `NULL //no includes` to `D3DXCompileShader`; 37 of 89 B HLSL/INC files include others (`mtl_hlsl_inventory.tsv`): `ModelDef.inc`×17, `ShaderLib/CalcPos.inc`×8, `ShadingParams`, `CalcUV`, `TexKill`×5, `CalcLight`, `CalcView`, `Diffuse`, `Utility`×4… | Implement `ID3DXInclude` that opens `ShaderLib/x.inc` and bare `x.inc` through `ResourceGroupManager` (zip archive), relative to the including file first, then the group root. Must handle GBK comments (bytes pass-through). |
 | P2 | Shader binary cache | FACT B `RenderSystem_Direct3D9.dll` strings `.\ShaderCache\`, `.bin`, `.\ShaderCache\DISABLED` (offset 0x32922); `Game.exe` strings `NewMaterialTemplateMD5`, `NewShaderCacheReset`, `CVariableSystem::SetShaderCache Begin, UpdateType is %d, MaterialTemplateMD5 is %s, HardwareID is %s,%s…` | Cache compiled microcode keyed by (program name, defines, target, zip MD5). Not needed for correctness; needed for load time (hundreds of permutations). |
-| P3 | Runtime permutation defines | FACT `Render.dll FUN_180154160` registers 22 macro slots: `USE_SKIN, USE_QUAT_SKIN, USE_TEXCOORD, USE_NORMAL, USE_TANGENT, USE_VERTEXCOLOR, TEX_EFFECT_0/1, TEX_PROJECT, LIGHT_CALC_TYPE, ALPHATEST_ENABLE, BLEND_OP_0/1, DIFFUSE_1/2_ENABLE, SPHEREMAPPING_ENABLE, SHADOWMAP_TYPE, LUT_ENABLE, VS_ANIMATION, USE_MODEL_VS_OUT, PER_ALPHA, DISSOLVE_EFFECT`; B OgreMain exports `GpuProgram::getPreprocessorDefineMap`, `Material::setUseTemplate/hasTemplate`, `Pass::_dirtyShaderHash` | INF: Render.dll's `MaterialSystemManager` (`…\FairyCore\Core\MaterialSystem\MaterialSystemManager.cpp`, "Create Material Desc failed! Duplicate material name") clones template programs with extra defines per model state (skin/DQ skin, shadow type, LUT, dissolve). Implement `ProgramVariantCache: (template program, define set) → HighLevelGpuProgram`. Values: `SHADOWMAP_NONE 0, CSM 1, SIMPLE 2` (`ParamNamed.inc:81–83`). |
-| P4 | Auto-binding by uniform name | FACT `FUN_180155ba0` / `FUN_180154d30` hold 45–48 auto-constant names (e.g. `world_matrix_array_3x4[0]`, `light_position_array[0]`, `shadow_csm_param`, `isystem_userdata`); `ParamNamedAuto.inc` declares uniforms named exactly like the auto constants | INF: generated variants get `param_named_auto <name> <name>` implicitly for every uniform whose name is in the dictionary. Implement "auto-bind if uniform name ∈ dictionary". |
 | P5 | Vertex texture fetch | FACT no `D3DVERTEXTEXTURESAMPLER` anywhere in 0.85 D3D9 (`grep`); needed by `shader_type vs` (104) | `_setVertexTexture(unit)` → `SetTexture(D3DVERTEXTEXTURESAMPLER0+n)`; caps check (`vs_3_0`). |
 | P6 | INTZ depth texture | FACT none in 0.85 D3D9; B D3D9 contains FOURCC `INTZ` (3 hits, e.g. offset 0x11887); B `RenderSystem::checkDSTextureIntz/getDSTextureIntz/msDSTexIntZName` exports; `*_DSIntZ` programs with `USE_DSINTZ=1` (HeightFog, DoF, water, FakePointLight) | Create the main depth-stencil as an INTZ texture when `CheckDeviceFormat(INTZ)` succeeds; expose it to `content_type dsintz`. Fallback = the `SceneDepth` render node (`depth_buffer`, see 02 §4). |
 | P7 | Skinning limits | FACT `ParamNamedAuto.inc`: `MAX_SKIN_BONE_NUM 74` (float3x4 → 222 VS regs), `MAX_QUAT_SKIN_BONE_NUM 105` (float2x4 → 210 regs); OgreMain B exports `GpuProgramManager::_checkForHardwareSkinningMaterialSupport` | Enforce ≤74 bones per submesh for LBS and ≤105 for DQ; software fallback otherwise. |
@@ -77,7 +62,6 @@ No other keyword or value gap was found: all enum values used (`scene_blend`, `f
 
 ## 4. Auto-constants
 
-B's dictionary has **124** names; 87 are the 0.85 names (`OgreGpuProgram.cpp:47–146`), **37 are new** (FACT, `mtl_autoconst_B_dict.txt`, strings in B OgreMain at file offset ≈0x2b5870). B scripts use 17 of the new names directly; the rest are bound by Render.dll (P4). Semantics below are FACT from the B OgreMain decompile (`GpuProgramParameters::_updateAutoParamsNoLights` @0x1800a4650, `_updateAutoParamsLightsOnly` @0x1800a3550, getters in `ogre_autoparams2.txt`); enum numbers are B's (note B's dictionary *order* differs from its enum: `dual_quaternion_array_2x4` is string #7 but enum 0x7b) — our engine may renumber freely, only names matter.
 
 | name | B case | value | script uses (tpl/prog/allmat) |
 |---|---|---|---|
@@ -105,11 +89,6 @@ How shaders use them (FACT, grep of the zip): `CalcLight.inc` lerps scene lighti
 
 Template `texture_alias` vocabulary (count of template TUS): `<baseTexture>` 101, `<normalTexture>` 15, `<scrollTex>` 14, `<_Reflection>` 11, `<albedoTexture>` 11, `<ctlTex>` 10, `<metallicTexture>` 9, `<envTexture>` 9, `<dissolveTexure>` 5, `<starsTexture>/<starsDistortionTexture>/<rimTexure>` 4, `<emissiveTex>` 3, `<MaskTexture>` 3, `<DTexture0–2>/<DNTexture0–2>` 1–2, `<LTexture0–2>/<LNTexture0–2>` 1 (PBRScene_Detail / _More_Detail / _Terrain). all.material sets: `<baseTexture>` 50,156, `<scrollTex>` 13,300, `<ctlTex>` 3,500, `<_Reflection>` 3,499, `<outlineCtrlTexture>` 1,017… DataCY/CY Game additionally set `<envTexture>` 249, `<MaskTexture>` 37, `<DTexture*>/<DNTexture*>` 36 each (doc 01 §7, `Docs\evidence\assetinv\fxkeys.json`). `set_texture_alias` exists in 0.85 (OK).
 
-## 6. Material-instance parameter system (Render.dll, not script-visible)
-
-FACT `FUN_180156ab0` registers 54 named shader constants that Render.dll pushes per LogicModel/particle: `tex0BlendColor, multiBlendColor, flowFactor, D0UV_params…D2UV_params, DN_params, outlinePow, outlineColor, spec_params, dissolveClip, dissolveColorA/B, dissolveUVRepeat, dissolveParams, dissolveSoftEdgeWidth, dissolveEdgeLighting, dissolveFlowSpeed, dissolveEdgeContrast, dissolveEdgeRange, dissolveEdgeColor, dissolveDirection, dissolveReverse, dissolveTime, dissolveMinProj, dissolveMaxProj, rimTintColor, starsTexDistortion_rimPow_rimClampMin_rimClampMax, rimFlowFactor, starsTexScaleFactor, texRotateScale, texDepthFactor, wavesSpeed, FogColorDensity, BigWavesScale, SmallWavesScale, BumpScale, ReflectionAmount, TransparencyRatio, SunShinePow, SunMultiplier, FresnelBias, UVScale, heightParams, L0UV_params…L2UV_params, LN_params, lightParams, useRibbon, widthRatio, useUDirection, blocks, sequenceFrameUVFactor`. Writers: `FUN_1801e9530` (particle dissolve), `FUN_180170170`/`FUN_18016eaf0` (model `@Disslove`/`@Transparent` material clones), `FUN_1801e9bb0` (sequence-frame UV), water objects. C additionally has `dissolveBox` (FACT: only in CY 3.71 `Render.dll` 0x2e9370, 0 uses in S1/S2 data).
-Spec: `MaterialInstance` = cloned Ogre material + dictionary of named constants, applied with `hasParamerter()`-guarded `setNamedConstant` (B OgreMain exports `GpuProgramParameters::hasParamerter`, FACT).
-
 ## 7. Other OgreMain deltas that materials depend on (FACT, `ogre_api_gap.tsv`, 2,146 methods scanned)
 
 - `Pass` (16 new): separate blending, render-queue override, `setUseLit`, `setVertexProgram2/ShadowCaster…2`, `setSelfIlluminationAndDiffuseAlpha`.
@@ -120,10 +99,5 @@ Spec: `MaterialInstance` = cloned Ogre material + dictionary of named constants,
 
 ## 8. Implementation spec (order) and acceptance
 
-1. **Parser**: add the 5 keywords of §2 (+`use_type` no-op) with B semantics; unknown keywords must log file:line (doc 08 §3.1). Test: parse `all.material` + zip + MaterialFolder → 0 errors (`mtl_catalog.py` corpus counts must match: 65,046 materials, 50,857 parents resolved).
-2. **HLSL**: include handler (P1), variant cache (P3), auto-bind by name (P4), binary cache (P2). Test: compile all 94 + 25 + 94 programs and every define permutation used by `FUN_180154160` without error on D3D9 SM3.
-3. **Auto constants**: the 37 names with the semantics of §4 (`AutoParamDataSource` fields fed by SceneManager/Render). Test: PIX/RenderDoc-less check = dump constant table per program and compare values with B via a debug overlay (INF).
-4. **RenderSystem**: separate alpha blend, per-pass queue, sampler-register mapping, vertex textures (P5), INTZ (P6), compositor texture references.
-5. **Material instance system** (§6) + template/scheme selection (`Depth` scheme is required by shadows and SSAO, docs 02/03).
 
 Effort (1 engineer + AI): parser 3–4 d; HLSL pipeline 1.5–2 wk; auto constants 1 wk; render-system items 1–1.5 wk; material instance system 1.5–2 wk → **≈5–7 weeks** for full template parity. Visual acceptance: SSIM ≥ 0.95 vs `client_GL` on 50 models (doc 03 gate E2).

@@ -1,25 +1,5 @@
 # Bộ lọc hậu kỳ `ColorLUT` theo cảnh của CY 3.71.9609
 
-Ngày 14/09/2026, agent colorlut, nhánh `colorlut`. Chuẩn duy nhất là CY 3.71 (`Tools\DATA NEW\CY Game`, chỉ đọc).
-Ký hiệu: **FACT** = có bằng chứng (hàm/offset/chuỗi/file/ảnh), **INF** = suy luận.
-Bằng chứng: `Build\Logs\2026-09-14-colorlut\` (`re\` = Ghidra trên bản sao CY Game.exe + Render.dll ở
-`Build\re\colorlut\bin` — Game.exe sha256 `9278c7f3…e0cc5b`, Render.dll `e6e67de4…0cec7`; `viewer\` = ảnh TlbbViewer,
-`metrics\` = số đo màu; `replay-run-*` = Game.exe replay offline).
-Tài liệu liên quan: `cy-look_vi.md` mục 2 (LUT `luttex.png` của **shader nhận bóng** — khác bộ lọc này),
-`shadow-cy_vi.md` mục 2 (mức `View_HumanLightmap`), `02-postfx.md` (khung hậu kỳ), `07d-fx-render_vi.md`.
-
-## 0. Tóm tắt
-
-- CY có **hai** LUT khác nhau: (a) `luttex.png` 16×16 trong shader nhận bóng (cy-look, đã làm) và (b) **bộ lọc hậu kỳ
-  `ColorLUT`** toàn màn hình với LUT 512×512 (8×8 ô, 64 mức mỗi kênh) **chọn theo cảnh** — file này.
-- Cảnh → LUT được **ghi cứng trong Game.exe** (`CScene::EnterScene`, chuỗi `LUT_*.png` tại VA `0x140c62320…`), không có
-  cột nào trong `SceneDefineEx.txt` (25 cột, không cột LUT) và không có file cấu hình cảnh (`.hdr/.newhdrbloom/.hfog/
-  .godrays`) mang tên LUT. Game.exe gửi tên LUT cho Render.dll qua vtable `CRenderSystem+0x330` =
-  `Scene_SetSceneLUTParam(enable, name)`; lệnh console `scenesetlut <n>=<file>` gọi cùng slot.
-- Render.dll chỉ **bật** bộ lọc ở mức `View_HumanLightmap = 2` (cùng lúc với bóng đổ), tắt ở mức 0/1;
-  `destAmount = "1"` (không blend, không chuyển mượt).
-- CY-Source: `CysPostFx` nhận tên cảnh ở `Scene_Load` (hook `// CYS-LUT:`), tra bảng CY, đặt `LUTImage`/`destAmount`
-  và bật/tắt theo mức; công tắc `Gfx_ColorLUT = auto|0|1|<file>` và biến môi trường `CYS_COLORLUT` để A/B.
 
 ## 1. Shader và dữ liệu LUT (FACT)
 
@@ -41,17 +21,6 @@ Tài liệu liên quan: `cy-look_vi.md` mục 2 (LUT `luttex.png` của **shader
 
 ## 2. Cách CY chọn LUT theo cảnh (FACT, Game.exe CY x64)
 
-- Chuỗi `LUT_*.png` (17 bản tại `0x140c62320…0x140c62460`) **không** được mã tham chiếu trực tiếp (Ghidra xref = 0,
-  quét rel32 = 0); chúng là con trỏ trong **bảng ghi đè theo cảnh `DAT_140fb35b0`** — 43 bản ghi × 0x68 byte, số bản
-  ghi ở `DAT_140fb3434` (`re\scene_override_table.tsv`, giải mã từ bản sao Game.exe). Đây chính là bảng mà
-  `shadow-cy_vi.md` ghi "nguồn dữ liệu chưa rõ".
-- `CScene::EnterScene` (`FUN_1406be820`, `Build\Logs6-09-14-shadow-cy\cy-re\decomp` dòng 464–535) làm theo
-  thứ tự: `vtable 0x328("")` (đặt LUT rỗng), rồi duyệt bảng so **ID cảnh** (`SceneDefine` cột 0, `*(int*)param_1[3]`)
-  với bản ghi `+0x00`; khi khớp: nếu `+0x08` (shadowDis) > 0 thì gọi 0x418/0x420/0x428/0x448 (tham số bóng), rồi
-  **`vtable 0x328(+0x10)`** = tên LUT của bản ghi, rồi 0x5b0/0x5b8/0x5c0, 0x458, 0x380, 0x378 theo các trường còn
-  lại; cờ `+0x04` = 1 (cảnh thi đấu) thì thêm 0x300(0)/0x308(0)/0x318(1) và chỉ gửi lại `View_HumanLightmap`. Sau vòng
-  lặp, Game.exe gửi lại `View_HDRFilter`, `View_FullScreenLight`, `View_HumanLightmap` (sự kiện 0x13c).
-- Bảng cảnh → LUT (17/43 bản ghi có tên; các bản ghi khác và mọi ID ngoài bảng = `""`):
 
   | ID cảnh (SceneDefineEx CY) | File cảnh | LUT |
   |---|---|---|
@@ -65,38 +34,6 @@ Tài liệu liên quan: `cy-look_vi.md` mục 2 (LUT `luttex.png` của **shader
   | 825, 830, 831 三庭洞天 | `congrenfb.Scene` | `LUT_congrenfb.png` (đồng nhất) |
   | 754, 712–716, 834–837, 733, 727, 848, 879, 882, 929, 930, 934, 987–990, 996, 1007, 1008, 1011 | (bảng có bóng/camera) | `""` |
 
-  ⇒ **Đại Lý, Lạc Dương, Tô Châu, Thảo Nguyên, Đào Hoa Đảo… không có LUT trong CY** (không có trong bảng, hoặc `""`).
-  Chỉ 4 LUT được Game.exe dùng; trong đó hai LUT `congren*` là đồng nhất, nên CY thực sự đổi tông màu ở đúng
-  **4 file cảnh**: 3 cảnh `LUT_00gao` (tối, tăng tương phản) và 汴京 `LUT_bianjing1` (hơi sáng, ngả xanh).
-- Không phụ thuộc thời điểm/thời tiết: bảng chỉ có ID cảnh; không có mã đổi LUT theo giờ (không xref nào khác tới
-  `LUTImage` ngoài `FUN_18002db70`/setter của bộ lọc). `SceneDefineEx.txt` CY (DBC 25 cột) không có cột LUT.
-- Lệnh console `scenesetlut <n>=<file>` (`FUN_140446700`): `atoi(n)` + tên sau `=` → `vtable 0x330(n, file)` = bật/tắt
-  thủ công với file bất kỳ.
-
-## 3. Render.dll CY: bật/tắt và tham số (FACT)
-
-- Vtable `+0x328` → `FUN_18002de40(this, const char* name)` (`re
-ender_slots.txt`): lưu `name` vào `std::string
-  this+0x108`, rồi gọi **`vtable 0x330(this, name[0] != 0, name)`** ⇒ cảnh có LUT: bật ngay; cảnh `""`: tắt ngay.
-- Vtable `+0x330` → `FUN_18002db70(this, int enable, const char* lutName)` (`Build\Logs6-09-14-shadow-cy\cy-re  decomp`, `10_CRenderSystem_vtable.txt` dòng 103):
-  - bỏ qua nếu `this+0xfc == 0` (bộ lọc ColorLUT không tạo được — `FUN_180024ea0` đặt cờ này lúc khởi tạo chuỗi);
-  - lưu `lutName` vào `this+0x108`; nếu khác rỗng: `PostFilterManager::setParameter("ColorLUT", "LUTImage", lutName)`;
-  - luôn `setParameter("ColorLUT", "destAmount", "1")` (`DAT_1802c1d28` = chuỗi `"1"`) ⇒ **không blend, không fade**;
-  - `setEnabled("ColorLUT", enable == 1)`.
-- Setter của bộ lọc (`FUN_1801a9530`, `Fairy::ColorLUTPostFilter::setParameter`): `LUTImage` → lưu tên (+0x58),
-  `_forceLoad32BitTexture` (`FUN_1801a8990`: nạp PNG thành texture 32-bit, đặt cờ +0x78 để gắn lại unit 1);
-  `destAmount` → `parseReal` vào +0x50 (hằng `dest_amount` của shader).
-- Mức chất lượng `View_HumanLightmap` (Render.dll `FUN_18002ec20` → vtable 0x338 `FUN_18002e100(level)`,
-  `decomp` dòng 160–200): **mức 2** gọi `FUN_18002db70(this, 1, this+0x108)` **chỉ khi tên đã lưu khác rỗng**;
-  mọi mức khác gọi `FUN_18002db70(this, 0, this+0x108)` (tắt). Game.exe gửi lại khoá này **mỗi lần vào cảnh**
-  (`FUN_1406be820` dòng 717–732) ngay sau vòng lặp bảng ⇒ luật hiệu dụng của CY:
-  **ColorLUT bật ⇔ cảnh có tên LUT trong bảng ∧ `View_HumanLightmap = 2`.**
-- Chuỗi debug `[Scene_SetSceneLUTParam("LUT_00gao.png")] param:` (`0x1802c1f98`) do lệnh `debugpostfilter` in ra.
-- Thứ tự tạo bộ lọc trong CY (`FUN_180024ea0`, `re
-ender_lut_xref.txt` dòng ~1290): … NewHDRBloom → **ColorLUT**
-  (cờ sẵn sàng `+0xfc`) → HeightFog → GodRays — **giống B** (`02-postfx.md` mục 1). CY-Source `CYS_ORDER_COLORLUT = 100`
-  giữa NewHDRBloom (90) và HeightFog (110): cùng thứ tự.
-- Cảnh đăng nhập/chọn nhân vật không qua `CScene::EnterScene` nên giữ tên đang lưu (rỗng lúc khởi động) ⇒ tắt.
 
 ## 4. CY-Source làm gì (nhánh `colorlut`, hook `// CYS-LUT:`)
 

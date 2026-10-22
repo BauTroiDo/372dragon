@@ -10,18 +10,9 @@ Cần có `Build\cmake\ci-x64\bin\LuaPlus.dll` và `lib\LuaPlus.lib` do CI xây 
 
 31 ca kiểm tra gồm:
 
-- Đăng ký thật `RegisterAll`, lượt gọi lặp, mỗi tên chỉ ghi log lần đầu, phân biệt receiver, truy vấn không làm đổi bộ đếm, reset và các giá trị trả về trung tính.
-- Sắp xếp theo số lượt giảm dần rồi tên tăng dần; mặc định 20 hàm, giới hạn 0/3/100 trên 25 hàm với 350 lượt gọi.
-- Giữ hàm và giá trị đã đăng ký, kể cả hàm trong metatable của receiver.
-- Format đóng gói byte theo helper B `Game.exe+0x619670`, không tra từ điển hoặc thay placeholder tại host: vector `#{K}`, `Q` trả `23 7B 4B 2A 01 06 2A 01 51 7D`; 15 tham số; độ dài metadata một byte; padding khi block tham số dài 56 byte; input/output theo C-string; UTF-8 được giữ nguyên trong payload.
-- Giới hạn CY có chủ đích: từ chối template C-string rỗng trong nhánh có tham số và từ chối đầu ra vượt 1.024 byte tính cả NUL; kiểm tra sát biên 1.023/1.024 byte nội dung. Không sao chép lỗi tràn bộ đệm của B.
-- Truyền sự kiện, dừng tham số ở nil/kiểu không hỗ trợ; đóng cửa sổ với cờ boolean; cô lập callback giữa hai Lua state.
-- Thiếu dịch vụ hoặc callback ném ngoại lệ trở thành lỗi Lua bắt được bằng `pcall`.
-- Cùng một đoạn Lua gọi ba hàm 5 lần: bản stub có 15 lượt thiếu và 3 dòng log; đăng ký host thật trước stub có 0 lượt thiếu, 0 dòng thiếu, đủ 10 tác dụng phụ event/close qua callback thử và kiểm đúng cả 5 chuỗi Format trả về.
 
 `tests.log` ghi từng ca và dòng `BEFORE_AFTER`; `result.json` ghi mã thoát build/run, đường dẫn exe/log, số nguồn, mức song song và SHA-256 LuaPlus.dll. Phép đo trước/sau này là kiểm thử đơn vị offline, không thay cho số đo smoke của Game.exe. Các lỗi Lua trong ca dữ liệu sai là lỗi được chủ động kiểm tra; ca bình thường và đoạn Lua trước/sau phải không có lỗi.
 
-Vector kỳ vọng được viết trực tiếp từ cấu trúc của helper B đã phục hồi, không gọi bộ đóng gói của implementation để sinh expected. Chưa chạy B để lấy kết quả động. Bộ thử host không xác nhận UI đã giải được metadata này; decoder của UI cần kiểm chứng riêng. Bằng chứng helper: `Build/re/luaapi/gpt-p1-2-helpers/decomp/140619670.c` và `Build/Logs/2026-09-12-gpt-p1-2/timers/recovered-helpers_vi.md`. Kết quả 26 ca cũ dùng callback từ điển chỉ là trạng thái thử trước khi phát hiện helper; không dùng làm bằng chứng tương đương B.
 
 Kiểm thử riêng decoder UI, không biên dịch lại LuaApiGen:
 
@@ -31,7 +22,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\TLBB\085\CY-Source\Tests\
 
 34 ca dùng header `CysPackedFormat.h`: vector B, UTF-8 và GBK nguyên byte, metadata dài hơn 127, block length quay vòng, padding, dấu ngoặc trong tham số, biểu thức lồng, dữ liệu cắt cụt, lỗi giữ nguyên toàn bộ input, giới hạn sâu 16 tầng/4.096 biểu thức/1 MiB và 10.000 ca byte lỗi ngẫu nhiên với seed cố định. Decoder nhận `%s0`…`%s9`, `%sa`…`%sf`; token thiếu tham số được giữ nguyên; key không có chỉ làm mất nội dung envelope đó, còn các đoạn khác được giữ. Ca tích hợp gọi LuaPlus thật → `CysHostGlobals::Register` → `ScriptGlobal_Format('#{ZNDB_230215_157}',42)` → decoder → template Canonical 45 byte → output đúng 44 byte, giữ mã màu và tiếng Việt. Exe này chỉ biên dịch 2 nguồn cùng LuaPlus đã có, không cần 113 file stub. Đây là kiểm thử trước bước render UI, chưa phải ảnh hoặc smoke Game.exe.
 
-Ba hành vi placeholder/unknown key trên được đối chiếu với body reader lịch sử `C:\TLBB\085\analysis\ghidra\resolver-out\resolver_FUN_180030640.c:2403` và dòng 2411–2427 (chỉ đọc). `%sa`…`%se` thay các tham số 10…14; `%sf` giữ nguyên với tối đa 15 tham số của host. `%%s0` thành `%` cộng tham số 0, chữ hoa `%sA` không đổi. Không có callback resolver là lỗi dịch vụ `missing-resolver`, khác với callback có nhưng trả “không tìm thấy key”.
 
 Kiểm tra đường truyền owner của event trên x64:
 
@@ -65,7 +55,6 @@ Một ca bổ sung chạy process riêng với `--native-exception-child`: C++ e
 
 `powershell -NoProfile -ExecutionPolicy Bypass -File Tests/luaapi/run_hotkey_tests.ps1 -Jobs 3` chạy LuaPlus thật và 24 ca trên các thân hàm Game được trích nguyên từ source. Test doubles thay thiết bị/UI/đồ họa; chưa phải input OS hoặc smoke Game. Cùng Lua: missing 1→0 và thao tác F1 lúc bị khóa 1→0. Spec, giới hạn và manifest nguồn: [hotkeys_vi.md](../../Docs/specs/lua/hotkeys_vi.md).
 
-Kiểm thử biến thoại CY (`$N $n $U $G $g $R $r`, header `Src\Client\CEGUISystem\CysDialogVars.h`, theo UI_CEGUI.dll CY `FUN_18004a5e0`), chỉ biên dịch một nguồn:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\TLBB\085\CY-Source\Tests\luaapi\run_dialog_vars_tests.ps1

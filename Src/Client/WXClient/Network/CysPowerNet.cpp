@@ -2,25 +2,25 @@
 #include "CysPowerNet.h"
 
 #if defined(CYS_HAVE_NETCORE)
-// CYS-POWER: cultivation (修炼) of the CY power windows (Docs/specs/client/host-power_vi.md).
-//
-// Evidence this file is built on (never guessed - every number below was read from the binary, the tables or a
-// live session; see the spec for the full chain):
-//   * B (client_GL\Bin64\Game.exe, byte-identical to client\Bin64) Player:GetXiuLianMiJiInfo = RVA 0x2d2950 and
-//     Player:GetXiuLianBookInfo = RVA 0x2d2fe0, decompiled in Build/re/host-power/decomp-game.c.
-//     MiJiInfo refuses an index > 10 and reads s_pXiuLianDetailDBC (DBC id 0xf9) at
-//         Search_Index_EQU(level + menpai * 0x97 + 2)
-//     - 0x97 = 151 = the BOOKLEVEL span (0..150) of one BOOKID, and "+2" is "+1 for the next level, +1 because
-//     the Index column is 1-based". BookInfo refuses an index > 1 and answers "Level" with the highest JingJie
-//     of the scrolls of that book (0..4 for book 0, 5..10 for book 1).
-//   * XiuLianDetail.txt of CanonicalCY: 63 columns x 2416 rows = 16 BOOKID x 151 BOOKLEVEL, Index == row + 1
-//     everywhere (scripts/30-dbc.py), columns Index | BOOKLEVEL | BOOKID | (经验, 金币, 加成, 未知) x 15
-//     (the column names come from the server copy configs/XiuLianDetail.txt, which has the same layout with 11
-//     scroll groups instead of 15).
-//   * BOOKID == menpai: row (BOOKID 9 = 无门派, BOOKLEVEL 1) has 经验 = 1145 for scroll 0, and the live session
-//     of power-attrib measured exactly 1145 experience taken for that step (23388 -> 22243).
-//   * JingJie = upper_limit / 10: human.lua starts every scroll at upper_limit 10 and
-//     odali_wuyazi.lua:206 AskXiuLianAdvanceJingJie raises it by exactly 10.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "CysModernGame.h"
 #include "CysHost_Power.h"
 #include "CysHost_Ride.h"      // CYS-RIDE probe (CYS_RIDE_PROBE)

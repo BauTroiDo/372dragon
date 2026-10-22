@@ -1,13 +1,13 @@
 #ifndef __CYS_DYNAMICBONES_H__
 #define __CYS_DYNAMICBONES_H__
 
-// CY-Source (scene agent): ".dynbone" files (26 in client_GL, 2024-2026 costumes/hair/weapons; 05 §7).
-// XML: EntityDynamicBones -> DynamicBones/DynamicBone(Bone, UpdateRate, Damping, Elasticity, Stiffness, Inert,
-// Friction, Radius, Force)/CurveParams(*ACParam), Colliders/CapsuleCollider(Bone, Center, Orientation, Radius,
-// Height, Invert), Effects/Effect. B: loader FUN_1801ce6e0 looks for "<mesh base name>.dynbone" in the default
-// resource group; parser FUN_180230940. The parameters mirror Unity "Dynamic Bone" (INF); CYSDynamicBoneChain is
-// a Verlet solver with those semantics. Binding to animated skeletons (after the animation pose, before
-// skinning) belongs to the LogicModel update and is not wired yet.
+
+
+
+
+
+
+
 
 #include "CYSSceneCommon.h"
 

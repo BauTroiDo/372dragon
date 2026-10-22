@@ -22,64 +22,6 @@ Nói cách khác: kể cả khi chỉ cài `SendAskStudyXinfa`, **người chơi
 
 ---
 
-## 1. Hành vi đúng của `SendAskStudyXinfa` — dịch ngược, không đoán
-
-### 1.1 Vì sao không dùng `Registry/luaapi/catalog.json` [DK]
-
-`catalog.json` được dựng từ **hai** binary: `client\Bin64\Game.exe` và `client_GL\Bin64\Game.exe` (khối `sources`). `SendAskStudyXinfa` **không có** trong 3.804 entry, và `grep` toàn bộ `client_GL\Data\InterfaceFolder` chỉ thấy `SkillsStudyFrame_study` — nhánh GL không có hàm này. Nó là hàm **chỉ có ở CY**, nên nguồn đúng là binary CY.
-
-### 1.2 Nguồn thật: CY 3.71 `Game.exe` (Bin64) [DK]
-
-```
-C:\TLBB\085\Tools\DATA NEW\CY Game\Bin64\Game.exe
-sha256 9278c7f37b55539fcfac1d93afa71f278e34d4ce674b0e8b52a0f62ea6e0cc5b
-imagebase 0x140000000, .text va 0x1000 (raw 0x400)
-```
-
-Chuỗi `"SendAskStudyXinfa"` nằm ở file 0xc440b0 = **VA 0x140c456b0**; chỗ duy nhất `lea` tới nó là **0x140654ee0**, giữa vòng `objGlobal.Register(name, fn)`:
-
-```
-140654ebb: leaq -0x4202a2(%rip), %r8   # 0x140234c20   <- SkillsStudyFrame_study
-140654ec2: leaq  0x5f073f(%rip), %rdx  # 0x140c45608   "SkillsStudyFrame_study"
-140654ed9: leaq -0x420250(%rip), %r8   # 0x140234c90   <- SendAskStudyXinfa
-140654ee0: leaq  0x5f07c9(%rip), %rdx  # 0x140c456b0   "SendAskStudyXinfa"
-```
-
-⇒ **`SendAskStudyXinfa` = 0x140234c90 (RVA 0x234c90)**, `SkillsStudyFrame_study` = 0x140234c20 (RVA 0x234c20).
-Bằng chứng đầy đủ: `Build\Logs\2026-09-17-host-xinfa\re\cy-sendaskstudyxinfa.txt` (công cụ: `re\pescan.py` + `llvm-objdump`).
-
-### 1.3 Thân hàm 0x140234c90 [DK]
-
-```
-lua_type(L,1..3) phải == 3 (LUA_TNUMBER), nếu không thì tThrowStringException
-esi = (int)lua_tonumber(L,1)      ; arg1
-edi = (int)lua_tonumber(L,2)      ; arg2
-ebx = (int)lua_tonumber(L,3)      ; arg3
-call 0x1406e5f50                   ; dựng gói tại rsp+0x28, vtable 0x140a6e528
-movw %bx,  0x40(%rsp)              ; thân gói +0x00 = arg3
-movw %di,  0x42(%rsp)              ; thân gói +0x02 = arg2
-movw %si,  0x44(%rsp)              ; thân gói +0x04 = arg1
-call 0x14050ea70 (rcx = *(0x1410378b0) net manager, rdx = &gói)   ; gửi
-```
-
-Ba `uint16` liên tiếp, đúng bố cục `pg::CGAskStudyXinfa` (id **555**, thân 6 byte, `PgPackets_misc.h`):
-
-| Thân gói | Trường server | Tham số Lua |
-|---|---|---|
-| +0x00 u16 | `menpai` | **arg3** |
-| +0x02 u16 | `xinfa` | **arg2** |
-| +0x04 u16 | `now_level` | **arg1** |
-
-Khớp đúng chỗ gọi duy nhất trong dữ liệu CY — `MessageBox_Self.lua:6488`:
-
-```lua
-SendAskStudyXinfa( argStudyXinFaNowLevel, argStudyXinFaID, argStudyXinFaMenPai );
-```
-
-(ba biến đặt ở `:3955-3957` khi khung nhận sự kiện `STUDY_XINFA`, có chú thích 等级 / ID / 门派).
-
-⇒ **`SendAskStudyXinfa(nowLevel, xinfaId, menpai)` → `CGAskStudyXinfa{menpai = arg3, xinfa = arg2, now_level = arg1}`.** [DK]
-
 ### 1.4 Bước trước nó: `SkillsStudyFrame_study` của CY nhận MỘT tham số [DK]
 
 `ActionSkillsStudy.lua:312` (`ActionSkillsStudy_UpLevel_Clicked`):
@@ -90,33 +32,14 @@ SkillsStudyFrame_study( g_XinfaDefineID[g_CurSelect] );
 
 `g_XinfaDefineID[i] = EnumAction(i-1,"xinfa"):GetDefineID()`, và `CActionItem_XinFa::GetDefineID` trả `pSkillClass->m_pDefine->nID` = **id của `XinFa_V1`** — cùng con số mà `GetXinfaLevel` / `GetUplevelXinfaSpendMoney` / trường `xinfa` của gói dùng.
 
-Bản 0.85 (`GMGameInterface_Script.cpp:689`) đòi `args[1..3].IsInteger()` và `TDThrow` nếu thiếu ⇒ **trên dữ liệu CY nút này ném ngoại lệ**. Bản CY (0x140234c20) chỉ đọc `lua_tonumber(L,1)` rồi gọi `CDataPool::SendStudySkillEvent(id)` ở **0x1400cd690** (chuỗi `D:\TLBB\Temp_Release_v3-71-9001\...\GMDataPool.cpp` trong cùng hàm).
-
-`0x1400cd690` (bằng chứng: `re\cy-senddstudyskillevent-0x1400cd690.txt`) làm:
-
-1. tra bản ghi tâm pháp của nhân vật → `esi` = **cấp hiện tại**; `ebx` = cấp nhân vật;
-2. cấp tâm pháp `>= 0x77` (119) ⇒ báo `GMDataPool_Info_Xinfo_Level_Is_Top` rồi dừng;
-3. tra `XinFaStudySpend_V1` theo **cấp+1**, lấy `r13` = tiền cần, `r14` = kinh nghiệm cần (cả hai `-1` ⇒ gửi thẳng);
-4. thiếu tiền ⇒ báo `GMDataPool_Info_Up_Level_Money_Is_Not_Enough` rồi dừng;
-5. **nếu quỹ kinh nghiệm hồi lưu phủ được chi phí** (`HUILIUEXP`, `jle`/`jge` tại 0x1400ce0d3/0x1400ce0dc) ⇒ **gửi thẳng** `CGAskStudyXinfa` tại 0x1400ce2ae (cùng bố cục 3×u16, menpai/xinfa/cấp hiện tại);
-6. ngược lại ⇒ ghép ba số thành chuỗi rồi **đẩy sự kiện 0x487** (0x1400ce290 `mov edx, 0x487`).
 
 ### 1.5 Sự kiện 0x487 = `STUDY_XINFA` [DK]
 
-Bảng tên sự kiện của CY khởi tạo tại 0x140a29c8a:
-
-```
-140a29c8a: movl $0x487, 0x4ca27c(%rip)
-140a29c94: leaq 0xd0d45(%rip), %rax    # 0x140afa9e0 = "STUDY_XINFA"
-140a29cb8: movl $0x488, ...            # dòng kế: 0x488 = "STUDY_XIULIAN"
-```
 
 Và `MessageBox_Self.lua:653` đăng ký đúng tên đó. Khớp: khung CY nhận `arg0/arg1/arg2` = cấp / id / môn phái, rồi nút OK gọi `SendAskStudyXinfa` với đúng thứ tự ấy.
 Trong dự án này `CUIWindowItem` đẩy `pEvent->vArg[i]` thành biến toàn cục `argN` (chuỗi) rồi gọi `<Window>_OnEvent("TÊN")` (`UIWindowMng.cpp:533-546`) — nên phía C++ chỉ cần `PushEvent(GE_STUDY_XINFA, {cấp, id, môn phái})`, không phải ghép chuỗi như CY.
 
 ---
-
-## 2. Đã cài gì
 
 ### 2.1 Lớp Lua glue — `Src\Client\LuaApiGen\CysHost_Skill.cpp`
 
@@ -128,12 +51,6 @@ Hai hàm mới, cả hai đăng ký **force** (đè cả stub lẫn bản 0.85 s
 | `SendAskStudyXinfa(nowLevel, xinfaId, menpai)` | gọi `Services::studySend`; không đẩy giá trị trả về |
 
 `Services` (trong `CysHost_Skill.h`) thêm hai con trỏ hàm `studyRequest` / `studySend`; phần việc thật nằm ở lớp game như mọi hàm khác của file này.
-
-### 2.2 Lớp game — `Src\Client\WXClient\Network\CysSkillNet.cpp`
-
-- `CysSkillNet::RequestStudyXinfa(xinfaId)` — dựng lại 0x1400cd690: tâm pháp phải có trong danh sách đã học, cấp `< 119`, đủ tiền theo `XinFaStudySpend_V1` (DBC 907, cùng phép tra với `Lua_GetUplevelXinfaSpendMoney`), rồi `PushEvent(GE_STUDY_XINFA, {cấp, id, môn phái})`. Không có quỹ hồi lưu trên bản này nên **luôn đi nhánh hỏi xác nhận** — đúng nhánh mà người chơi thấy.
-- `CysSkillNet::AskStudyXinfa(xinfaId, nowLevel, menpai)` — dựng `pg::CGAskStudyXinfa` và gửi bằng `CysModernGame::SendModern`. **Môn phái và `now_level` lấy từ trạng thái client** (`Get_MenPai()`, `XinfaLevel(id)`) chứ không lấy thẳng từ Lua, vì `scenecore:char_study_xinfa` tính chi phí theo `req.now_level`; hai giá trị Lua vẫn được ghi log để đối chiếu.
-- Hai bộ đếm mới `studyRequests` / `studyAsks` trong `Counters`.
 
 ### 2.3 Sự kiện dùng chung (hai dòng, có thẻ `// CYS-XINFA`)
 
@@ -279,16 +196,6 @@ Từ `gui-live-4` trở đi: **20/20 PASS**.
 
 ## 4. Bẫy đã sập trong lượt này
 
-1. **Hàm không có trong `catalog.json` không có nghĩa là không có bằng chứng.** Catalog dựng từ `client` + `client_GL`; hàm chỉ-CY phải tra thẳng trong `CY Game\Bin64\Game.exe`. Quét chuỗi + `lea` RIP-relative tới chuỗi đó là đủ tìm chỗ đăng ký (`re\pescan.py`), không cần mở Ghidra.
-2. **Sửa `SendAskStudyXinfa` một mình là vô dụng.** Không có `GE_STUDY_XINFA` thì `RegisterEvent("STUDY_XINFA")` bị `PushEventByName` từ chối (dòng "CYS: reject unknown names"), hộp xác nhận không hiện, và hàm không bao giờ được gọi.
-3. **Cùng một tên hàm, hai arity khác nhau.** `SkillsStudyFrame_study` tồn tại ở cả 0.85 và CY nhưng CY chỉ truyền **một** tham số; bản 0.85 `TDThrow` — đây là kiểu hỏng mà bộ đếm stub **không** thấy, vì hàm "có thật".
-4. **`Build\cmake\<tên>-x64` mới phải build TOÀN BỘ target ít nhất một lần.** Chỉ build `cys_wxclient` thì thiếu `WXRender.dll`/`UI_CEGUI.dll`… và `stage_game.py` vẫn "STAGED" 12 binary; client chết ngay với `TDThrow: Load plugin dll(WXRender.dll) failed!` (lượt `gui-live-1`).
-5. **`stage_game.py build` từ chối ghi đè stage cũ** ("stage exists") và `stage_wsl_test.py apply` từ chối stage đã ở trạng thái server-profile ⇒ mỗi lần dựng lại binary phải dùng `--name` mới.
-6. **Tài khoản của lượt GUI live bị ghi cứng `test00`** trong `CysGlLoginSmoke.h` (ba chỗ kiểm tên tài khoản + hai chỗ kiểm tên nhân vật). `-Account` của runner chỉ chọn **mật khẩu**. Đã thay bằng `CYS_BOT_ACCOUNT` / `CYS_BOT_ROLE`.
-7. **GM tool chỉ mở cho `test00`** (`GmTool_Self.GmCeshi = { {user = "test00"} }`), nên `--exec 900066,ConsoleRoleUse,...` không dùng được cho test05; phải dựng điều kiện bằng Mongo lúc nhân vật offline (`scripts\10-char-xinfa.py`).
-8. **Bấm `Select-Object -First N` sau `wsl.exe`** làm tiến trình chết vì broken pipe và trả exit 255 dù lệnh đã chạy xong — đừng đọc đó là lỗi.
-9. **Ba ô tâm pháp 2/3/6 khoá nút "Học" khi nhân vật cấp < 20** (`ActionSkillsStudy.lua:362-367`). Bấm vào đó là "không có gì xảy ra" — rất dễ đọc nhầm thành hàm host còn hỏng (lượt `gui-live-4`). Đo bằng nhân vật cấp ≥ 20 hoặc chọn ô khác.
-10. **`attrib.world_pos.y` của server = `z` của bản đồ** (theo `cs3a_move_test_char.py`); ghi nhầm vào `.z` là nhân vật rơi sai chỗ.
 
 ---
 
@@ -300,4 +207,3 @@ Từ `gui-live-4` trở đi: **20/20 PASS**.
 | `scripts\10-char-xinfa.py` | đọc/chuẩn bị/khôi phục nhân vật test trên Mongo (`dump` / `prepare --menpai --money` / `restore`); mặc định CHỈ ĐỌC, mọi lệnh ghi đòi `--apply`, chỉ chạm GUID 200001–200016, từ chối khi còn client nối 15733/15734, sao lưu toàn bộ document trước khi ghi |
 | `scripts\20-xinfa-gui-turn.ps1` | một lượt GUI live của đường học tâm pháp (chờ máy rảnh → `run_world_gui_live.ps1` với `CYS_XINFA_LIVE=1`) |
 | `re\pescan.py` | quét PE: chuỗi → VA, rồi tìm mọi `lea` RIP-relative trỏ tới VA đó trong `.text` |
-| `re\cy-*.txt` | disassembly kèm hash của CY `Game.exe` |

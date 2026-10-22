@@ -1,29 +1,29 @@
-// CYS-RIDE: Lua glue of the CY mount window. See CysHost_Ride.h.
-//
-// Where every behaviour below comes from (no guessing; the uncertain one is marked):
-//   * `OpenRidePage()` - B (client_GL\Bin64\Game.exe) RVA 0x21b860 pushes one event after a guard; the event NAME
-//     comes from the CY window itself: Ride.lua:20 `this:RegisterEvent("OPEN_RIDE_PAGE", true)`. The 0.85 event
-//     system is keyed by name, so GE_OPEN_RIDE_PAGE + one row in g_GlobalEvent is all that is needed - and it IS
-//     needed: CEventSystem::RegisterEventHandle (GMEventSystem.cpp:716) does `map[name]` then `if(!pEvent) return;`
-//     so an unknown name silently inserts NULL and DROPS the window's handler.
-//     Eight CY windows call it (SelfEquip, Pet, JingMai, Infant, OtherInfo, HuanLing, Martial_WuYi, CangPin_ShuXing);
-//     Infant.lua:1131 reads `local bRet = OpenRidePage()`, so it answers 1/0.
-//   * `GetMountID()` - B has it as a global (_G, RVA 0x222af0, returns a number); Ride.lua calls it as
-//     `Player:GetMountID()` (lines 433 and 467) and compares the result with -1 and with an action item id.
-//     Registered under BOTH spellings because the two sources disagree only about the receiver table.
-//   * `Player:UseSkillInLua_Const()` - CY-only (no entry in Registry/luaapi/catalog.json, so nothing to decompile).
-//     Contract read from the caller: Ride.lua:425 `CallInOutRide(1)` = mount, `CallInOutRide(0)` = dismount, both
-//     call it with NO arguments and the mount branch tests `if nSucc == 1`. It is mapped to CGCharAutoRide, the one
-//     packet the server has for this (scenecore.lua:6172 char_auto_ride -> skill 21).
-//     [SL] The DISMOUNT half is NOT proven: char_auto_ride answers an already-mounted character immediately without
-//     taking the mount away, so pressing "xuong ngua" will very likely do nothing visible. Left as is on purpose -
-//     inventing a second packet would be a guess. See the spec.
-//   * `Lua_CysSelectRide(index)` - NOT a CY script name, and marked `Lua_Cys*` so nobody mistakes it for one.
-//     It is the selection hook `ride-core` needs: CGExteriorRequest (1027) type 7 with list[0].unknow_1 == 3 is
-//     what scenecore.lua:3761 turns into human:set_ride(index), and set_ride is the precondition that makes
-//     char_auto_ride case 3 stop returning silently. In the CY UI the mount is chosen by EQUIPPING it
-//     (Ride.lua:379 `g_Ride[i]:DoAction()`, HEQUIP_RIDER = 8); the appearance path belongs to the NewExterior_*
-//     state machine, which is a different subsystem and is not bound here.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "CysHost_Ride.h"
 #include "LuaApiGen.h"
 #include "Network/CysRideNet.h"

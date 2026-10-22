@@ -73,7 +73,7 @@ namespace CEGUI
 		if( hasInputFocus() && d_caretOn )
 			FalagardMultiLineEditbox::cacheCaratImagery( textArea );
 	}
-    
+
 	void FalagardMultiIMEEditBox::resetCaretBlink(void)
 	{
 		d_caretOn = true;
@@ -87,7 +87,7 @@ namespace CEGUI
 
 		Ime::SetActiveIMEEditBox(this, true);
 	}
-		
+
 	void FalagardMultiIMEEditBox::onDeactivated(ActivationEventArgs& e)
 	{
 		FalagardMultiLineEditbox::onDeactivated(e);
@@ -132,5 +132,3 @@ namespace CEGUI
     }
 
 }
-
-	

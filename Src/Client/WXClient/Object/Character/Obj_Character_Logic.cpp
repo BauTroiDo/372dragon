@@ -559,9 +559,9 @@ BOOL CObject_Character::CleanupLogicCommandList( VOID )
 
 BOOL CObject_Character::IsLogicReady( INT nLogicCount )const
 {
-	// CYS-PARITY: CY 3.71 FUN_1405eb160 (CObject_Character vftable +0x1e8) answers "ready" when the object never ran a
-	// logic command (logic count <= 0), e.g. MySelf as the sender of a GCDetailHealsAndDamages: 0.85 kept such events
-	// 10 s and dropped them unshown (no damage number). CYS_PARITY_LOGIC_READY=0 restores 0.85 (skill-fx-parity).
+
+
+
 	static const BOOL s_bCyReady = []() { char t[8] = {}; DWORD n = ::GetEnvironmentVariableA("CYS_PARITY_LOGIC_READY", t, sizeof(t)); return (n == 1 && t[0] == '0') ? FALSE : TRUE; }();
 	if(s_bCyReady && GetLogicCount() <= 0)
 	{
@@ -1435,8 +1435,8 @@ BOOL CObject_Character::Start_MagicSend(CObjectCommand_Logic *pLogicCommand)
 	if ( pClientSkill == NULL )
 		return FALSE;
 
-	// CYS-AUDIO: CY 3.71 FUN_1405eac80 plays SkillTemplate column 16 (start sound, row +0x50) once in 3D at the caster
-	// CYS-AUDIO: (file name -> SoundInfo id -> FUN_140688ce0); hooking it on the send command is INFERENCE (spec 4.5).
+
+
 	if ( pClientSkill->m_lpszStartSound != NULL && pClientSkill->m_lpszStartSound[0] != '\0' )
 		CSoundSystemFMod::PlaySoundFileAtGame( pClientSkill->m_lpszStartSound, GetPosition(), FALSE, "skill-start" );
 
@@ -2524,10 +2524,10 @@ VOID CObject_Character::DisplayDamageBoard(const _DAMAGE_INFO* pDamageInfo)
 	
 	BOOL bNeedDisplay = TRUE;
 	bool bDouble = pDamageInfo->m_bIsCriticalHit > 0;
-	// CYS-PARITY: CY 3.71 FUN_1405f2530 - shown only when caster or receiver is MySelf / my pet (or my summoner, not
-	// ported); ONE board per value: hp loss type 6 (caster = my pet), 7 (caster = MySelf), else 1; rage +2/-3,
-	// mana +4/-5, strike point +11/-12 whoever receives. 0.85 drew hp loss twice when MySelf hit itself (types 7 and 1)
-	// and hid mana/rage of others. CYS_PARITY_DAMAGE_BOARD=0 restores 0.85 (skill-fx-parity).
+
+
+
+
 	static const BOOL s_bCyBoard = []() { char t[8] = {}; DWORD n = ::GetEnvironmentVariableA("CYS_PARITY_DAMAGE_BOARD", t, sizeof(t)); return (n == 1 && t[0] == '0') ? FALSE : TRUE; }();
 	if (s_bCyBoard)
 	{
@@ -2730,8 +2730,8 @@ VOID CObject_Character::DoLogicEvent_Damage(const _LOGIC_EVENT *pLogicEvent)
 					pDirectlyImpact && pDirectlyImpact->m_pszEffectLocator ? pDirectlyImpact->m_pszEffectLocator : "-");
 				if ( pDirectlyImpact != NULL )
 				{
-					// CYS-PARITY: CY 3.71 FUN_1405f1cf0 picks one of the five (effect, sound, locator) groups with rand()%5
-					// (0.85 always the first). CYS_PARITY_DIRECT_IMPACT_RAND=0 keeps the first group (skill-fx-parity).
+
+
 					static const BOOL s_bCyRand = []() { char t[8] = {}; DWORD n = ::GetEnvironmentVariableA("CYS_PARITY_DIRECT_IMPACT_RAND", t, sizeof(t)); return (n == 1 && t[0] == '0') ? FALSE : TRUE; }();
 					const INT nGroup = s_bCyRand ? (::rand() % 5) : 0;
 					const CHAR* pszEffect = nGroup ? pDirectlyImpact->m_aEffectEx[nGroup - 1].m_pszEffect : pDirectlyImpact->m_pszEffect;

@@ -1,6 +1,5 @@
 # Tham chiếu cảnh tạo và chọn nhân vật gốc CY
 
-Ngày 13/09/2026. Tài liệu này ghi kết luận hành vi, hằng dữ liệu và nguồn kiểm chứng để triển khai độc lập trong CY-Source. Không chứa mã dịch ngược hoặc giả mã. Mọi đường dẫn tính từ CY-Source; nguồn bên ngoài chỉ được đọc. Không chạy Game.exe hoặc launcher gốc trong đợt điều tra này.
 
 ## Nguồn và danh tính
 
@@ -16,7 +15,6 @@ Người dùng chọn đúng bộ S2 tại `../Tools/DATA NEW/DataCY31-08-26`. C
 | B `../client_GL/Bin64/Game.exe` | `ce0c4fec7666595ca7adb250fcd8075c28f04d1852d05111c88b730f57e1c763` |
 | B `../client_GL/Bin64/Render.dll` | `49b2ab1f3c72d4b1c957e463bbe474f0ef86f3f085fd8aa8660776f9de1369bb` |
 
-Các địa chỉ dưới đây là RVA hex. C/B Game có image base `0x140000000`; Render có image base `0x180000000`. Không áp offset vtable của C/B lên interface của executable tự build; lớp tích hợp dùng export bổ sung, giữ nguyên ABI virtual hiện có.
 
 ## Cảnh, bầu trời và phạm vi giao diện
 
@@ -117,5 +115,3 @@ Thư mục bằng chứng: `Build/Logs/2026-09-13-gpt-create-role/original-refer
 - `c-render-camera-tracks.txt`, `c-render-camera-mode-endpoints.txt`, `c-render-select-track.txt`, `c-render-camera-frame-listener.txt`, `c-render-camera-track-names.txt`: camera, timing và tên track.
 - `c-show-model-complete.txt`, `s2-sect-preview-rows.json`: công thức model, 30 bản ghi nguồn và tham chiếu mesh.
 - Các file `b-create-*`, `b-select-*`, `b-render-sky-*`, `b-render-charcam-*`: đối chiếu GL B và chỉnh lại nghĩa hai tên sky.
-
-Tài liệu này chỉ lưu kết luận và metadata cần triển khai; disassembly cục bộ không được chép vào đặc tả tracked.

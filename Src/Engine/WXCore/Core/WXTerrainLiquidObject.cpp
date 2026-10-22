@@ -300,7 +300,7 @@ namespace WX {
                 &projectorSizeCmd,
                 0);
 
-            // CYS: B/C water properties (Render.dll ParameterDefs FUN_180110360, 05 §5).
+
             static CYSWaterPropertyCmd replaceMaterialCmd(CYS_WF_REPLACE_MATERIAL);
             defineProperty("replaceMaterial",
                 "The material name use to replace the current liquid when the hardware not support.",
@@ -539,8 +539,8 @@ namespace WX {
         }
         mCYSMeshEntity->setMaterialName(material);
         mCYSMeshEntity->setCastShadows(false);
-        // CYS-WATER: CY FUN_1801219e0 - PBRScene_Water on a mesh renders in queue 77 (0x4d) when the new water renders
-        //            (it reads the scene_buffer copy made before that queue); other mesh water stays in 75 (0x4b).
+
+
         const bool cysNewMeshWater = material.find("PBRScene_Water") != String::npos &&
             CYSScene::getWaterRenderHooks() && CYSScene::getWaterRenderHooks()->supportsNewWater();
         mCYSMeshEntity->setRenderQueueGroup(cysNewMeshWater ? (Ogre::uint8)77 : (Ogre::uint8)Ogre::RENDER_QUEUE_WORLD_GEOMETRY_2);

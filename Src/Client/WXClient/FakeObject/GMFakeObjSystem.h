@@ -49,12 +49,12 @@ public:
 	LPCTSTR					GetWindowObject(LPCTSTR szWindowName) const;	// object shown in the window, NULL when none
 	BOOL					IsFakeObject(LPCTSTR szObjName) const;			// CY fakeEx vt[23]
 
-	// CYS-MESHEX 19/09: CY's second system (node "bin\fakeEx") does NOT pre-create its objects. CDataPool::Initial
-	// registers ENTRIES (class, object name, camera) - Game.exe 0x1400e5dcc .. 0x1400e6f09, 18 calls of
-	// 0x1401f8eb0 - and fakeEx vt[15] AttachWindow (0x1401f9560) creates the object from its entry the first time a
-	// window asks for it ("FakeObjectAttachWindow:Fake ObjectEx szObjName is not exist(%s)" when the NAME is not an
-	// entry). The whole table is in CysExObjectClass(); EnsureExObject() is the lazy half, called from
-	// OnUIHookWithBackground and from the global Lua SetFakeObjDataEx.
+
+
+
+
+
+
 	static LPCTSTR			ExObjectClass(LPCTSTR szObjName);				// NULL when the name is not a CY Ex entry
 	tObject*				EnsureExObject(LPCTSTR szObjName);				// creates it once; NULL when unknown
 	tObject*				FindFakeObject(LPCTSTR szObjName) const;		// the logical object behind a fake name

@@ -143,14 +143,14 @@ struct _DBC_CHARACTER_MODEL
 	LPCSTR	m_pszModelName_IV;	// [2] "_iv" *.obj; CY row+0x10, used instead of [1] when a global mode flag is set
 	FLOAT	m_fFuseTime;	// [3] client_GL col 2; CY row+0x18
 	FLOAT	m_fCol4;	// [4] client_GL col 3
-	FLOAT	m_fCol5;	// [5] client_GL col 4; CY FUN_1405db040 (Obj_Character.cpp:0xf7) returns row+0x20, default 1.0 [SL: scale]
-	FLOAT	m_fCol6;	// [6] client_GL col 5; CY FUN_1405e39f0 stores row+0x24 into the object (+0x434) while choosing the action set
-	// CYS-AVATAR: [7..19] = 13 ids in the CharModelEx / Character_3DHead id space, identical for every row of a family
-	// (male protagonist + all NPCs 3155 3158 3159 3160 3161 3162 3163 3164 3165 3163 3156 3157 3159, female 3089..,
-	// mounts 3188). None of the 13 CY 3.71 consumers of CharModelEx reads row+0x28..0x58 (Build/re/cy-avatar
-	// out_globalrefs.txt), so the meaning stays [SL]; never read here.
+	FLOAT	m_fCol5;
+	FLOAT	m_fCol6;
+
+
+
+
 	INT	m_nLinkedID[13];	// [7..19]
-	INT	m_nActionSetFileID;	// [20] row of ActionSetFile.txt; CY FUN_1405c6c40 / FUN_1405d8b60 read row+0x5c
+	INT	m_nActionSetFileID;
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -189,26 +189,26 @@ struct _DBC_CHARACTER_MOUNT
 	INT	m_nRider2ActionSetM;	// [10]
 	LPCSTR	m_pszRider2Locator;	// [11] CY row+0x38
 	LPCSTR	m_pszRiderLocatorEx[4];	// [12..15] seats 3..6 locators (values attach3..attach6)
-	// CYS-AVATAR (14/09): [16..23] from CY 3.71 Game.exe consumers + DataCY value scan (Build/re/cy-avatar).
+
 	INT	unk_16;	// [16] always -1 in CY data (354 rows); no reader found
-	INT	m_nRideAllowMain;	// [17] 1/-1; CY FUN_1406146d0 (GMAI_MySelf.cpp:0x7b0) denies the action when row+0x64 < 0 (driver) [SL: name]
+	INT	m_nRideAllowMain;
 	INT	m_nRideAllowPassenger;	// [18] 1/-1; same check reads row+0x68 for a passenger (vtable+0x288 != 0) [SL: name]
 	INT	m_nCanFly;	// [19] CY 3.71 140613380: row+0x6c >= 1 permits CGFlyOperation (high flight).
 	INT	unk_20;	// [20] always 0 in CY data; no reader found
 	INT	m_nMonsterFormID;	// [21] [SL] MonsterAttrExTable id of the mount as a creature (52 rows: 变异废柴 22744 ...); no reader in CY Game.exe
-	// CYS-RIDE (17/09): FLIGHT ALTITUDE above the walk surface, not a camera offset (the old m_fCameraAddHeight name was wrong).
-	// Evidence: CY 3.71 Game.exe reads row+0x78 in exactly two places, Corps_2016::SetPlayerWatchPosDirection
-	// (FUN_1402c8e30) and BWDH::SetPlayerWatchPosDirection (FUN_1403f1c80). Both do
-	//     y = <walk-surface height at (x,z)>; if (mountRow) y += *(float*)(mountRow + 0x78);
-	// and store (x, y, z) as a world POSITION triple (FUN_1403f1c80 writes +0x60c364/68/6c) - a position, not a camera.
-	// Data confirms the meaning: every row with this > 0 is airborne and only those. client_GL CharMount col 14 (the
-	// same column, 12 rows > 0): 七彩祥云/筋斗云 4.0, 黑金飞剑(flying sword) 4.0, 精卫鸟 3.0, 苍雪/金辉领主 4.0,
-	// 拍卖翅膀 x5 (WINGS) 2.0. Wings and clouds have no walking model, so a camera offset cannot explain them.
-	// Seat height stays in m_fAddHeight [4] (0.5-0.9 for these rows too); this is an extra lift on top of it.
-	// Applied by CObject_Character::GetGroundLift -> CObject_Phy::SetMapPosition. Purely local: no fly packet is
-	// involved (CGCharFly/GCCharFly 1225/1262 are 轻功 qinggong, gated server-side by scenecore:is_qinggong_skill).
+
+
+
+
+
+
+
+
+
+
+
 	FLOAT	m_fFlyHeight;	// [22] client_GL col 14
-	INT	m_nPetPossPositionID;	// [23] PetPossPositionValue.txt id (DBC 640): CY FUN_1405ddcb0/FUN_1405e0c60 pass row+0x7c to FUN_1405db1f0 -> 7 floats -> rider attach transform; -1 in data
+	INT	m_nPetPossPositionID;
 };
 
 //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
@@ -425,17 +425,17 @@ struct _DBC_ITEM_VISUAL_LOCATOR
 {
 	INT	nID;	// [0]
 	LPCSTR	unk_1;	// [1] empty in every CY row
-	LPCSTR	pObjFile_Right;	// [2] right-hand *.obj (RightWeaponObj); CY FUN_140608cd0 (Obj_PlayerOther) reads row+0x10
+	LPCSTR	pObjFile_Right;
 	LPCSTR	pMatName_Right;	// [3] [SL] empty in CY
 	LPCSTR	unk_4;	// [4] empty in CY
-	LPCSTR	pObjFile_Left;	// [5] left-hand *.obj (LeftWeaponObj); CY FUN_140608cd0 row+0x28
-	LPCSTR	pMatName_Left;	// [6] left material; CY FUN_140608cd0 row+0x30
+	LPCSTR	pObjFile_Left;
+	LPCSTR	pMatName_Left;
 	LPCSTR	unk_7;	// [7] empty in every CY row
 	LPCSTR	unk_8;	// [8] empty in every CY row
-	// CYS-AVATAR (14/09): [9..28] = five (object, material, flag, spare) groups of the extra attach slots; the slot names
-	// are the SlotCreate attributes of 男主角.obj / 女主角.obj and the strings of CY FUN_1405e1f40 (Obj_Character.cpp:0x492):
-	// LeftWeaponObj RightWeaponObj FootWeaponObj NewBackWeaponObj WaistWeaponObj1 WaistWeaponObj2 KFSObj. Evidence:
-	// FUN_140608cd0 reads row+0x48/+0x50 for KFSObj; the others by DataCY values (psoul_/toy_/大刀/双刀右/双刀左 objects) [SL].
+
+
+
+
 	LPCSTR	pObjFile_KFS;	// [9] 武魂 object (KFSObj)
 	LPCSTR	pMatName_KFS;	// [10]
 	LPCSTR	unk_11;	// [11] empty
@@ -456,7 +456,7 @@ struct _DBC_ITEM_VISUAL_LOCATOR
 	LPCSTR	pMatName_Waist2;	// [26]
 	LPCSTR	pFlag_Waist2;	// [27] "1" when [25] is set
 	LPCSTR	unk_28;	// [28] empty
-	LPCSTR	pEffectName[30];	// [29..58] gem effects (client_GL cols 19..48); GemInfo nEffectIndex-1; CY FUN_140608cd0 row+0xe8+idx*8
+	LPCSTR	pEffectName[30];
 	LPCSTR	pTail[4];	// [59..62] kang* effects (client_GL cols 49..52)
 };
 
@@ -1247,27 +1247,27 @@ struct _DBC_CODE_CONVERT
 	LPCSTR  szCode;		// 字符串形式的十六进制数字
 };
 
-/////////////////////////////////////////////////////////////////////
-//心法技能								(XINFA_02)
-/////////////////////////////////////////////////////////////////////
-// CYS dbc-id-dup 19/09: this #define carried (902) - the id of DBC_LIFEABILITY_DEFINE / Ability.txt (:1153).
-// The clash is inherited from upstream 0.85 (Reference/tlbb085/085/SourceCode/Client/天龙八部客户端/Client/Common/
-// TDDBC_Struct.h:872 and :960 carry the very same pair), not from any CY-Source change.
-// It is NOT renumbered to the free slot 906, because this is not a table of its own:
-//   * nothing ever referenced DBC_XINFA_XINFADEFINE - not one use in CY-Source nor in the pristine 0.85 tree
-//     (only the #define line itself), so it was never in CDataBaseSystem::OpenAllDataBase either;
-//   * no data file exists for it in any data set (Assets/CanonicalCY/Data/ConfigFolder and client/Data/ConfigFolder
-//     hold XinFa_V1.txt and XinFaStudySpend_V1.txt, nothing else named XinFa*);
-//   * the CY 3.71 reference binary opens 562 tables and has no separate xinfa-define table either: its only one is
-//     XinFa_V1.txt, CY id 0x7d (Build/Logs/2026-09-16-menpai-verify/23-cy-dbc-list.tsv:24, site 0x14009248a);
-//   * the five members below are exactly the first five columns of _DBC_SKILL_XINFA (XinFa_V1.txt, :779) with the
-//     same x86/x64 offsets, i.e. this is an older, narrower declaration of that same table.
-// So the 心法定义表 is DBC_SKILL_XINFA (601, XinFa_V1.txt) and this name is kept only as an alias of it; it no
-// longer owns a number, which removes the duplicate id without inventing a table.
-// Full evidence, measurements and the deliberate-failure proofs: Build/Logs/2026-09-19-dbc-id-dup/ and
-// Timeline/handoff/dbc-id-dup.md. The gate that keeps two names off one number from now on:
-// Tests/abi/check_dbc_layout.py --check-dbc-ids (also folded into --strict), pinned by
-// Tests/abi/test_dbc_schema.py test_dbc_ids_are_unique, which asserts this line stays an alias.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #define DBC_XINFA_XINFADEFINE	DBC_SKILL_XINFA	// = 601, XinFa_V1.txt; see _DBC_SKILL_XINFA for the full 37 columns
 // Makes the conclusion above self-enforcing: give this name a number of its own again and the build stops here,
 // instead of the clash being found years later (the 0.85 one never was).
@@ -1293,16 +1293,16 @@ struct Spend
 	INT		dwSpendExperience;		// 需要花费的经验值
 };
 #define DBC_XINFA_STUDYSPEND	(907)
-// CYS-CY 16/09 (menpai-verify): CY 3.71 layout of XinFaStudySpend_V1.txt (244 INT columns, 302 rows).
-// CY Game.exe opens the very same file in its OpenAllDataBase (FUN_140091df0, entry @0x140092933: CY table id
-// 0x97, name string @0x140a58fd8 "XinFaStudySpend_V1.txt"), between Platform.txt and CharTitle.txt - the same
-// neighbours this list has. CY numbers its 562 tables in one dense run (0x64...), so tables match by FILE NAME,
-// not by id arithmetic; CY-Source keeps the 0.85 number 907 as it does for every other table.
-// Column 0 is the row number (1..302), column 1 the study level; row 1 carries 888 and row 2 carries 999:
-//   888 row = the xinfa slot of every column pair (0, 0, 1, 1, ... 120, 120), 999 row = 0 money / 1 experience.
-// So StudySpend[nXinfaId] is the pair of the xinfa whose XinFa_V1 id is nXinfaId (1..120); rows 3..302 are levels
-// 1..300. The 0.85 struct had no row-number column and only 54 pairs. Evidence: Build/re/menpai-verify/out/
-// xinfa-disasm.txt, Docs/specs/ui/xinfa-client_vi.md.
+
+
+
+
+
+
+
+
+
+
 #define DBC_XINFA_STUDYSPEND_SLOTS	(121)
 struct _DBC_XINFA_STUDYSPEND
 {
@@ -1529,14 +1529,14 @@ struct _DBC_MONSTER_PAOPAO
 
 #define DBC_CAMP_AND_STAND		(922)	//阵营
 
-// CYS: CampAndStand.txt (client_GL, 17 INT columns): camp id + relation to camps 0..15. CampAndStand.cpp reads
-// CYS: it column by column; this struct documents the record for Tests/abi/check_dbc_layout.py.
-// CYS-CY 14/09 (cs2-world): CY 3.71 has no CampAndStand.txt; its camp relations live in ReputationTable.txt
-// (DBC id 0xbb in CY Game.exe: FUN_14061e270 -> GetDataBase(0xbb) -> GetDBCFile -> FUN_140784570 ->
-// TemplateManager_T<U>::InitFromDB FUN_140784410; 68 columns x 64 rows). Column 0 is the camp/faction id (0..63),
-// column 1 its name, column 2 an enabled flag, columns 3..66 the reputation score towards every other faction and
-// column 67 a description. The relation lookup of CY (FUN_1407843b0, matrix at 0x14103e0b8, stride 0x120) reads
-// nRelation[b] of row a; the caller (FUN_1407785a0) treats a score < -159999 as hostile ("-160000" in the data).
+
+
+
+
+
+
+
+
 struct _DBC_CAMP_AND_STAND
 {
 	INT	nCampID;	// [0]
@@ -1606,15 +1606,15 @@ struct _DBC_PET_LEVELUP
 	INT		nExp;			//所需要经验
 };
 
-/////////////////////////////////////////////////////////////////////
-// 攻击特性表 (AttackTraits.txt) - CYS-PETSKILL 19/09
-/////////////////////////////////////////////////////////////////////
-// CY only (0.85 has no such table). CY Game.exe opens it as DBC 0xbe and Pet:GetAttackTrait (B FUN_1402b58c0) looks
-// the pet's attack_type up with Search_Index_EQU, then pushes columns 1 and 2 - the tooltip text and the imageset
-// entry the Pet window feeds to "set:Button6 image:..." (Data/InterfaceFolder/Pet/Pet.lua:1535). 20 rows: 0..9 and
-// 14..19 are the schools (with an empty icon, so the window hides the widget), 10 is NPC and 11/12/13 are the three
-// pet traits 外功/内功/平衡 with icons PetAttack_Type1..3. The server fills attack_type from MonsterAttrExTable
-// 攻击特性ID (cfghelper.lua:1353 -> petmanager.lua:250), which is 11/12/13 for pets and 10 for wild monsters.
+
+
+
+
+
+
+
+
+
 #define DBC_PET_ATTACK_TRAIT	( 926 )
 struct _DBC_PET_ATTACK_TRAIT
 {
@@ -1630,17 +1630,17 @@ struct _DBC_PET_ATTACK_TRAIT
 	INT		nRate5;				// [9]
 };
 
-/////////////////////////////////////////////////////////////////////
-// 珍兽灵性表 (PetLingXing.txt) - CYS-PETSKILL 19/09
-/////////////////////////////////////////////////////////////////////
-// CY only. CY Game.exe opens it as DBC 0xfe; Pet:GetPercent_Lx (B FUN_1402bc1c0) walks it row by row with
-// Search_LineNum_EQU and takes the first row whose 宠物编号 is the pet's data id and whose [nMainPerceptionMin,
-// nMainPerceptionMax) contains the pet's main_perception, then pushes nBonus[lingxing - 101] - B's own expression is
-// *(int*)(row - 0x184 + lingxing*4), i.e. column 4 for lingxing 101 up to column 13 for 110. The server sends
-// lingxing as 100 + level (pet_detail.lua:383 set_ling_xing) and 0 while the pet has not been awakened, which is why
-// B gates on (unsigned)(lingxing - 101) < 10. The bonus is per mille: the server applies it as
-// base * (1 + l_bonus/1000) (pet_attrib.lua:783) and Pet.lua prints value/10 as a percentage.
-// 23138 rows = 3 aptitude bands per pet type.
+
+
+
+
+
+
+
+
+
+
+
 #define DBC_PET_LINGXING		( 927 )
 struct _DBC_PET_LINGXING
 {

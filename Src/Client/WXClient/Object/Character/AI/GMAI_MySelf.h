@@ -38,11 +38,11 @@ public:
 	virtual BOOL PushCommand_MoveTo(FLOAT fDestX, FLOAT fDestZ);
 	virtual BOOL PushCommand_AutoHit(INT isAutoHit);
 	virtual BOOL PushCommand_Jump(VOID);
-	// CYS-MOVE2: CY 3.71 CAI_MySelf::PushCommand_Fly 0x140118600 (轻功). See GMAI_MySelf.cpp for the step list.
+
 	virtual BOOL PushCommand_Fly(INT idSkill, FLOAT fDestX, FLOAT fDestZ);
 	virtual BOOL PushCommand_UseSkill(INT idSkill, GUID_t guidTarget, INT idTargetObj, FLOAT fTargetX, FLOAT fTargetZ, FLOAT fDir);
 
-	// CYS-MOVE2: CY 3.71 CAI_MySelf vtable slot 16 (0x14011a070) - the gate PushCommand_Fly asks before it leaps.
+
 	BOOL IsCanFly( VOID );
 	// CYS-MOVE2: milliseconds of the 500 ms lock (m_uForbidTime, CY +0xa4) still to run; 0 = free. Tests / logs.
 	UINT GetForbidRemainMs( VOID ) const;

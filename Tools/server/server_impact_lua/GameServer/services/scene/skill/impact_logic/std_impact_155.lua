@@ -1,10 +1,10 @@
--- impact-logic (CY-Source 15/09/2026): logic 155 (tlbb15 StdImpact155_T 魂离魄散) — quét địch quanh chủ nhân, gửi impact khi kích hoạt và khi chết.
--- Bằng chứng: Serverhook.so StdImpact155_T::OnActive/OnDie (Build/re/impact-logic/hook.trim.c).
---   OnActive: chủ nhân = Obj tạo impact; quét bán kính 0x19 quanh chủ; đếm buff 集合 0x15b/0x15d/0x15f (=347/349/351) đang có →
---             tăng chỉ số 0x4c chọn 参数值 thứ (0..3) làm impact gửi cho tối đa 6 địch (SendImpactByCombat, cấp = xinfa%10).
---   OnDie: quét địch quanh chủ, gửi 参数值[0] (死亡触发) cho tối đa 6 địch.
--- CY nhãn: 死亡触发, 一魂, 二魂, 三魂 (=参数值 0..3). Bản Lua dùng scan + send_impact_to_unit (đủ hiệu ứng chính; SendImpactByCombat native
---   xử lý sát thương theo cấp — ở đây dùng send_impact_to_unit thường, sát thương theo dòng impact con [SL]).
+
+
+
+
+
+
+
 local class = require "class"
 local base = require "scene.skill.impact_logic.base"
 local util = require "scene.skill.impact_logic.cy_impact_util"

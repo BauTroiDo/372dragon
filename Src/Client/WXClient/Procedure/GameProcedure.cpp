@@ -497,7 +497,7 @@ static int _CysPlayerLevel(void*)
 	return mySelf->GetCharacterData()->Get_Level();
 }
 
-// CYS-PLUMB: B's Player:IsVaild (0x1402d7810) is "the active procedure is the main one AND MySelf exists".
+
 static bool _CysPlayerValid(void*)
 {
 	if(!CGameProcedure::s_pProcMain || CGameProcedure::GetActiveProcedure() != (CGameProcedure*)CGameProcedure::s_pProcMain)
@@ -506,8 +506,8 @@ static bool _CysPlayerValid(void*)
 	return objects && objects->GetMySelf() != NULL;
 }
 
-// CYS-PLUMB: client area of the game window, step for step like B's GetCurClientSize (0x140227de0):
-// GetClientRect normally, the restored window rect minus the frame while iconic, then a floor of 800x600.
+
+
 static bool _CysClientSize(void*, int* width, int* height)
 {
 	if(!width || !height || !g_hMainWnd) return false;
@@ -532,8 +532,8 @@ static bool _CysClientSize(void*, int* width, int* height)
 		w = (int)(rc.right - rc.left);
 		h = (int)(rc.bottom - rc.top);
 	}
-	*width  = w < 800 ? 800 : w;   // B: .rdata 0x1407cb354 = 800
-	*height = h < 600 ? 600 : h;   // B: .rdata 0x1407cb384 = 600
+	*width  = w < 800 ? 800 : w;
+	*height = h < 600 ? 600 : h;
 	return true;
 }
 
@@ -1288,10 +1288,10 @@ VOID CGameProcedure::CreateMainWnd(VOID)
 	fVector2 fResoution;
 	if (CysLoginWindowEnabled())
 	{
-		// CYS-LOGIN: CY 3.71 CreateMainWnd (Game.exe FUN_140623bd0) ignores View_Resoution / View_FullScreen: a
-		// 1280x720 client, style 0xCA0000 (= DEFWINDOW_STYLE), centred on SM_CXFULLSCREEN / SM_CYFULLSCREEN, and no
-		// resolution events; the login screens keep that size and CGamePro_CharSel/CharCreate::Init apply the
-		// configured size (CysLoginWindowRestore).
+
+
+
+
 		fResoution.x = 1280.0f;
 		fResoution.y = 720.0f;
 	}
@@ -1869,9 +1869,9 @@ VOID CGameProcedure::KeepWindowFOV(RECT* pRect, UINT dwChanging, UINT dwAnchor)
 
 namespace
 {
-	// CYS-LOGIN: the move shared by CY FUN_1406302b0 / FUN_14063c8e0: client rect -> window rect with the current style,
-	// centred in the work area (clamped to >= 0), window at least 800x600, SW_RESTORE, MoveWindow, then the size-change
-	// notification CY sends as FUN_140620a30(WM_EXITSIZEMOVE) (renderer, UI, event) without touching View_Resoution.
+
+
+
 	VOID CysMoveMainWindowClient(INT nWidth, INT nHeight)
 	{
 		RECT rectWindow;
@@ -1896,9 +1896,9 @@ namespace
 VOID CGameProcedure::CysLoginWindowFixed(VOID)
 {
 	if (!g_hMainWnd || !CysLoginWindowEnabled()) return;
-	// CYS-LOGIN: FUN_1406302b0, called by CGamePro_Login::Init after clearing WS_THICKFRAME | WS_MAXIMIZEBOX (0x50000).
-	// CY does it whatever View_FullScreen says; the CY login art (loginSplash*.jpg 1280x720) and the login camera
-	// (aspect 16:9 read from the running CY process) are made for this size.
+
+
+
 	RECT rectClient;
 	GetClientRect(g_hMainWnd, &rectClient);
 	if (rectClient.right - rectClient.left == 1280 && rectClient.bottom - rectClient.top == 720 && !IsZoomed(g_hMainWnd))
@@ -1909,8 +1909,8 @@ VOID CGameProcedure::CysLoginWindowFixed(VOID)
 VOID CGameProcedure::CysLoginWindowRestore(VOID)
 {
 	if (!g_hMainWnd || !s_pVariableSystem || !CysLoginWindowEnabled()) return;
-	// CYS-LOGIN: FUN_14063c8e0 / FUN_140641c20: frame back (style | 0x50000), then full screen -> screen size, otherwise
-	// the View_Resoution client size when it differs from the current client.
+
+
 	LONG_PTR lStyle = ::GetWindowLongPtrW(g_hMainWnd, GWL_STYLE);
 	::SetWindowLongPtrW(g_hMainWnd, GWL_STYLE, lStyle | WS_THICKFRAME | WS_MAXIMIZEBOX);
 	fVector2 fResoution = s_pVariableSystem->GetAs_Vector2("View_Resoution");

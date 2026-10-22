@@ -290,10 +290,10 @@ namespace CysWardrobeHost
             return data ? data->Get_RaceID() : 1;
         }
 
-        // Exterior:LuaFnGetExteriorRaceID() -> 0 female / 1 male. NewExterior_PlayerFrame.lua:31-39 indexes
-        // g_CameraPosition[sex] with it, so a wrong answer means the wrong camera (branch `wardrobe` measured the
-        // stub's 0 giving a MALE character the female camera h=0.85 d=7.2 p=0.10 instead of d=7.5 p=0.28).
-        // CY (0x1403eaef0) answers the PREVIEWED sex first and only then the character's own - same order here.
+
+
+
+
         int ExteriorGetRaceId(LuaPlus::LuaState* s)
         {
             const Fit* sex = FindFit("SEX");
@@ -525,15 +525,15 @@ namespace CysWardrobeHost
         };
     }
 
-    // XEM TRUOC GIOI TINH DANG TAT - CO LY DO, DUNG BAT LAI MA KHONG DOC MUC 5 CUA BAN GIAO.
-    // live-1 (19/09 19:45:36) da do: dong log "avatar built with the previewed sex 0 (own 1)" roi NGAY SAU DO
-    // Access violation trong OgreMain.dll+0x8B5AF (`mov rbx,[rcx+0x100]` voi rcx = 0), tuc Set_RaceID() doi chung
-    // toc tren mot fake object DANG bi moc vao cua so RTT thi lam chet tien trinh. Dung 1/1 lan.
-    // Doi chung toc tren fake object KHONG phai bao gio cung chet (avatar vo hon `My_Wuhun` doi Set_RaceID sang
-    // model 2341 van song), nen nghi can la: object dang gan cua so + dang co render texture, dung lai model thi
-    // con tro entity ben Ogre thanh rac. Chua truy tiep - do la mot nhanh rieng.
-    // Khoa SEX VAN duoc luu va LuaFnGetExteriorRaceID van tra ve no (nut doi gioi tinh van lat anh, bang camera
-    // van doi), chi rieng MODEL la khong dung lai.
+
+
+
+
+
+
+
+
+
     int RaceIdFor(const char* objectName, int selfRaceId)
     {
         if (!objectName || strcmp(objectName, "Exterior_Player") != 0) return selfRaceId;

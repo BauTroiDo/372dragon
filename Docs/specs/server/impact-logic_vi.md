@@ -1,7 +1,5 @@
 # impact-logic — cài logic impact CY còn thiếu (buff rỗng + chưa cài) theo mã CY
 
-Ngày: 15/09/2026. Agent `impact-logic`, nhánh `impact-logic`, worktree `Build\wt-impact-logic`.
-Tiếp nối `server-impact_vi.md` (đọc mục 0–2 trước). Bằng chứng RE: `Build\re\impact-logic\`; log: `Build\Logs\2026-09-15-impact-logic\`.
 
 Quy ước: **[DK]** dữ kiện đo (đường dẫn/offset). **[SL]** suy luận. Server riêng `R = /home/ubuntu/cys-test-20260913`.
 
@@ -9,7 +7,6 @@ Quy ước: **[DK]** dữ kiện đo (đường dẫn/offset). **[SL]** suy lu�
 
 | Việc | Trạng thái |
 |---|---|
-| Nghĩa từng logic theo CY | Đã bẻ **mã logic của CY** (không chỉ mô tả): dựng lại bảng symbol ELF64 còn sót của `tlbb15/Server/Server` (e_shoff=0, 27.105 symbol) + `nm -D Serverhook.so` (1.367), decompile Ghidra headless mọi `StdImpactNNN_T` phương thức ảo (logic 0–189). Bằng chứng: `Build\re\impact-logic\{main-stdimpact-sel.c, hook-stdimpact149-189.named.c, stdimpact-methods.tsv, main-symbols.json, hook-symbols.json}` |
 | Logic mới cài (module Lua thật) | **6 module**: `std_impact_098` (慈航普度 khiên nhóm), `101` (怒火连斩 đếm đao + 加速BUFF), `102` (一日丧命散 AOE), `103` (横扫AOE), `155` (魂离魄散 AOE hồn), `169` (拘魂·命/金刚不坏 hồi máu-khí千分比 + 免疫率). `impactenginer.id_logic_module` +6 dòng |
 | Kỹ năng 15 phái cấp 1–4 "không tác dụng" | **400 → 380** (tĩnh, cùng định nghĩa server-impact mục 1.5); "ok" 1.071 → **1.099** |
 | Ô logic chưa cài của kỹ năng phái cấp thấp | **32 → 5** (còn 99 阳关三叠 ×4 = bẫy, 171 五绝计时 ×1 = đổi kỹ năng) |
@@ -23,10 +20,6 @@ Quy ước: **[DK]** dữ kiện đo (đường dẫn/offset). **[SL]** suy lu�
 - chuỗi `_ZNK…StdImpact148_T12InitFromData` trong `.strtab`, kiểm chéo `_Z9Float2IntIfEiT_` tại strtab+0x2FD4.
 Quét ±24 byte ra 27.105 symbol → `main-symbols.json`. `Serverhook.so` còn `.dynsym` → `nm -D` ra logic 149–189 (`Impact_ModuleA::StdImpactNNN_T`).
 
-Decompile: Ghidra headless (`Build\re\impact-logic\ghidra\`, script `DecompSel.java`) nạp:
-- blob `PT_LOAD#1` VA `0x3f0000` của `Server` (BinaryLoader) → logic 0–148 (main),
-- `Serverhook.so` (ELF, base `0x100000`) → logic 149–189 (hook).
-Gắn tên hàm từ TSV rồi decompile; hook đổi `func_0x…` → tên PLT (`06-annotate.py`).
 
 **Ánh xạ ABI → nghĩa CY:** mỗi logic đọc tham số qua `Impact_GetImpactDataDescriptorValueByIndex(imp, k)` (k = chỉ số 0..15 = 参数值 thứ k của dòng StandardImpact, đúng thứ tự nhãn `参数k说明`). Đối chiếu chỉ số k với nhãn CY trong `03-logic-survey.json` (khảo sát dòng SI theo logic). Các hook combat: `OnDamage` = phòng thủ (Lua `on_damages`), `OnDamageTarget` = tấn công (Lua `on_damage_target`), `OnActive/OnFadeOut/OnIntervalOver/OnDie/GetIntAttrRefix/OnFiltrateImpact` = trùng tên Lua.
 

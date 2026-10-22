@@ -179,16 +179,16 @@ protected:
 	HCURSOR								m_hDraggingCursor;
 	bool								m_bActivePaoPao;
 
-	// CYS-INFOPARITY 19/09: a #{_INFOUSEITEM} click (CY link type 2) walks to (x,y) and uses the item ON ARRIVAL.
-	// That is what CY 3.71 does: handleHyperLinkLeftActive stores the item on the world manager's auto-move
-	// target (UI_CEGUI.dll 0x18007197a -> Game.exe CWorldManager vt+0xF0 = 0x1406c9320, field +0xC) and the
-	// arrival tick (Game.exe 0x1406c9097-0x1406c9173) uses it once the player stands on the target position in
-	// the target scene. The 0.85 world has no auto-move object, so the pending use lives here and CUISystem::Tick
-	// checks the distance itself.
+
+
+
+
+
+
 	struct CysInfoUseItem
 	{
 		BOOL	bActive;
-		INT		nItemID;		// item table index, exactly 8 digits (CY 0x18007191d/0x18007192d)
+		INT		nItemID;
 		INT		nScene;
 		FLOAT	fX;
 		FLOAT	fY;

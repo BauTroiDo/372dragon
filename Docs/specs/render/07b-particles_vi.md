@@ -4,15 +4,9 @@ Tài liệu của nhánh **fx-particles** (13/09/2026). Mục tiêu: CY-Source �
 ("C") **đúng như B**: mọi khoá, kiểu, mặc định và thuật toán. Tài liệu này là nguồn tham chiếu khi sửa `Src\Engine\ParticleFX2`,
 lõi hạt OGRE (`OgreParticle*`, `OgreBillboard*`), plug-in `ParticleFX` và các renderer/affector hạt của WXCore.
 
-- Ghi chép RE gốc (tiếng Anh, có RVA từng mục): `Build\Logs\2026-09-13-fx-particles\re-notes.md`.
-- Bàn giao, số đo, lệnh chạy lại: `Build\Logs\2026-09-13-fx-particles\HANDOFF.md`.
-- Kiểm thử: `Tests\fx\particles` (mục 12).
-- Ký hiệu: **FACT** = đọc trực tiếp từ mã máy B (RVA ghi kèm, ảnh `Build\re\fx-particles`); **SUY LUẬN** = rút ra từ ngữ cảnh.
-  RVA là địa chỉ ảo với image base `0x180000000` của từng DLL.
 
 ## 0. Nguồn và quan hệ B / C
 
-| File | SHA-256 (bản sao trong `Build\re\fx-particles\bin`) |
 |---|---|
 | B `Plugin_ParticleFX.dll` | `f84752770006993583695402bcf5bada3f507f76044c326c166fe0821b1533f9` |
 | B `Plugin_ParticleFX2.dll` | `31febfa71aaa1c22ce1a59b4db8542fd9218e968d317b3312919946413235974` |
@@ -23,50 +17,6 @@ lõi hạt OGRE (`OgreParticle*`, `OgreBillboard*`), plug-in `ParticleFX` và c�
 | C `OgreMain.dll` | `a226c865cf3f45af0669e0bcb88dd0b44ba3c0401e3a5f9ae18796a7ac1ffb87` |
 | C `Render.dll` | `e6e67de45489f90207379419c0eb2e9f4fbdbd1d800cc6f46902c1fe5eb0cec7` |
 
-**B và C không trùng từng byte, nhưng hành vi hạt như nhau** (FACT, `Build\re\fx-particles\scripts\pe_cmp.py`, `pe_strdiff.py`):
-
-- Hai plug-in của C lớn hơn đúng 4.640 byte = chữ ký Authenticode (thư mục security 4.640 byte ở cuối file, "Beijing Changyou").
-  Nhưng C được **liên kết lại** (timestamp B `6965aca2` ≈ 13/01/2026, C `69e6003e` ≈ 20/04/2026), nên `.text/.rdata` khác:
-  - `Plugin_ParticleFX2`: `.text` khác đúng 4 byte ở RVA `ee1d/ee24/ee55/ee5c` = hai địa chỉ bảng khởi tạo CRT (`__xi_a`/`__xc_a`) lệch 8 byte;
-    `.rdata` khác do bố cục IAT/chuỗi. So mã đã chuẩn hoá (Ghidra, cả hai DLL): 0 dòng khác.
-  - `Plugin_ParticleFX`: `.text` khác 232 byte, tất cả là độ dời RIP-relative tới `.rdata` bị dịch 16 byte; chuỗi khác duy nhất:
-    khoá Cylinder `"BendAngle"` (B) / `"bend_angle"` (C) và đường dẫn PDB/nguồn. Không dữ liệu nào (Canonical, S2) dùng khoá này.
-- `OgreMain.dll`: tập chuỗi định danh của C = của B (chỉ khác đường dẫn nguồn) ⇒ từ điển tham số hạt lõi, renderer billboard, parser như B.
-- `Render.dll` của C lớn hơn 64 KB và có thêm chuỗi (`dissolveBox`, `furniture_projector`, các chế độ camera `IMMEDIATELY/SMOOTHLY/…`,
-  công cụ dump tài nguyên). Không chuỗi nào là khoá của `all.particle`; `dissolveBox`/`furniture_projector` chỉ xuất hiện trong
-  `all.effect` của S2 (thuộc nhánh fx-effects).
-- Kết luận: làm theo B cho cả dữ liệu Canonical lẫn S2; không có xung đột B/C nào trên cùng một khoá hạt.
-
-## 1. Lõi `ParticleSystem` (B `OgreMain.dll`)
-
-### 1.1 Mặc định của template (FACT, `ParticleSystemData` init `FUN_1801202d0`)
-
-| Khoá | B | 0.85 | CY-Source |
-|---|---|---|---|
-| `particle_width` / `particle_height` | 1 / 1 | 100 / 100 | 1 / 1 (`createTemplate`) |
-| `particle_depth` | 0 | (không có) | 0 |
-| `local_space` | **true** | false | true |
-| `camera_cull` | true | (không có) | true |
-| `cull_each`, `sorted` | false | false | false |
-| `iteration_interval`, `nonvisible_update_timeout` | 0 (chưa đặt) | 0 | 0 |
-| `renderer` | `billboard` | `billboard` | `billboard` |
-| `quota` | 10 | 10 | 10 |
-
-Bằng chứng dữ liệu: `local_space false` được viết 7.721 lần, `true` chỉ 109 lần; `camera_cull` chỉ có giá trị `false`.
-Hệ tạo bằng mã (không từ template) giữ mặc định của constructor (100 × 100, độ sâu 100 — B ctor `18011fc40`).
-
-`quota` (FACT, `setParticleQuota` `180126480`): chỉ **tăng** pool, không giảm (như 0.85). `quota 0` trong dữ liệu (28 dòng Canonical,
-59 dòng S2) vì vậy giữ pool 10 như B — census báo "value-not-applied" nhưng đó là hành vi của B.
-
-### 1.2 `_update` (FACT, `180122bf0`)
-
-1. Nếu hệ ngoài tầm nhìn lâu hơn timeout: timeout = timeout riêng *nếu đã đặt và > 0*, ngược lại timeout mặc định.
-   Quá hạn: B **xoá mọi hạt đang sống** (renderer được báo từng hạt) rồi thoát; 0.85 chỉ bỏ qua cập nhật.
-   (Render.dll của B đặt `setDefaultNonVisibleUpdateTimeout(5.0)` lúc khởi động `FUN_18000e530` — xem mục 13.)
-2. `dt *= speed_factor`; cấu hình renderer.
-3. Bước cố định **chỉ** theo `msDefaultIterationInterval` (Render đặt 0,033 s); `iteration_interval` của script được đọc nhưng không dùng.
-4. Thứ tự một bước: **expire → emit → affect → move** (0.85: expire → affect → move → emit). Hạt sinh ra trong bước được affector
-   xử lý và di chuyển ngay trong bước đó (ví dụ ColourFading tô màu stage 0 ngay khung đầu).
 
 ### 1.3 Parser (FACT, `ParticleSystemManager::parseScript` `18012cba0`)
 
@@ -98,8 +48,6 @@ Scaler (plug-in ParticleFX) của B gọi `setDimensions(w, h, 0)`.
 | `angle`, `duration`, `repeat_delay`, `start_time` | 0 | 0 |
 
 `genEmission*`, `genConstantEmissionCount`, `initDurationRepeat`: như 0.85.
-
-## 4. Emitter vùng (B `Plugin_ParticleFX.dll`)
 
 ### 4.1 `AreaEmitter` (FACT, `initDefaults` `180001f40`)
 
@@ -146,8 +94,6 @@ Thứ tự rút ngẫu nhiên: `u = RangeRandom(F(z0), F(z1))`, `phi = RangeRand
 - Ngẫu nhiên: θ, φ, r lấy trong khoảng start–end. Vị trí = `mPosition + (x, y, z)` (không dùng trục của emitter).
 - Mọi setter đặt lại giá trị hiện tại về start; `setEnabled` cũng vậy.
 - **Không phát hạt nào ở lần cập nhật mà `duration` hết** (0.85 vẫn trả số hạt của lần đó).
-
-## 6. Affector của `Plugin_ParticleFX2` (B = C)
 
 ### 6.1 `ColourFading` (FACT: ctor `180001450`, `_initParticle` `180002950`, `_affectParticles` `180002670`)
 
@@ -214,57 +160,15 @@ Khoá: `uniform_size`, `width/height/depth_range_start/end`, `use_constant_scale
 
 `Rotator`, `LinearForce`, `DirectionRandomiser`, `ColourFader`, `ColourInterpolator`, `ColourImage`: như 0.85. `Scaler`: như 0.85 nhưng đặt độ sâu 0.
 
-## 8. Renderer
-
 ### 8.1 `billboard` (FACT `BillboardParticleRenderData` ctor `18004ce30`)
 
 `billboard_type point`, `billboard_origin center`, **`billboard_rotation_type vertex`** (0.85 BillboardSet: texcoord; dữ liệu viết
 `texcoord` 5.478 lần), `common_direction +Z`, `common_up_vector +Y`, `point_rendering false`, `accurate_facing false`,
 `speed_relatived_size_factor 0,01`. `_updateRenderQueue` (`18004e030`) như 0.85.
 
-### 8.2 `texcoord_billboard` + `SequenceFrame`
-
-Flip-book do affector `SequenceFrame` điều khiển (lõi B `FUN_18012de50` cấu hình bộ đếm khung trong renderer). CY-Source: affector WX
-`CYS\Effects\WXSequenceFrameAffector` gắn vào renderer (`_bindRenderer`, `setTexCoordIndexSource`); parser chuyển dòng `stacks/slices/repeat_times` cho nó (mục 1.3).
-
-### 8.3 `mesh` (FACT: render data `FUN_180138590`, renderer vtable `1802d8390`, `_notifyParticleMoved` `180139240`)
-
-Khoá: `mesh_name`, `orientation_type`, `local_rotation` (**quaternion "w x y z"**, `parseQuaternion` `18013a3e0`, mặc định đơn vị),
-`local_position` (Vector3, 0), `common_direction` (+Z), `common_up_vector` (+Y).
-`orientation_type`: `oriented_origin`, `oriented_self`, `oriented_camera`, `oriented_common`, `perpendicular_common`, `perpendicular_self`.
-
-- Kích thước: kích thước riêng của hạt nếu một affector đã đổi kích thước, ngược lại kích thước mặc định (w, h, d) của hệ
-  (`_notifyDefaultDimensions` `1801391e0` lưu cả ba). **Scale Z = width khi depth = 0** (`FUN_1801e9b90`) — hầu hết template mesh
-  không ghi `particle_depth` (mặc định 0); bỏ quy tắc này làm mesh bị ép phẳng (vòng sét Thiếu Lâm, lửa Minh Giáo biến mất ở cảnh tạo nhân vật).
-- Hướng (`FUN_1801e9980`): `frame = parent [· yaw(Y) · pitch(X) · roll(Z) nếu có MeshRotator] · facing`;
-  `oriented_self/common`: Y = hướng (chuẩn hoá), X = Y × trục Z camera, Z = X × Y; `oriented_camera`: Z hướng camera, Y theo up camera,
-  chỉ quay theo roll; `perpendicular_*`: X = up × d, Y = d × X, Z = X × Y. Mesh treo trên nút con mang `local_rotation`/`local_position`
-  (vị trí cục bộ bị scale theo kích thước hạt): `orientation = frame · local_rotation`, `position = p + frame·(size ⊙ local_position)`.
-  `parent` = hướng nút hệ khi hạt ở world space, đơn vị khi local.
-- Màu: chỉ khi hệ có ColourFading/ColourInterpolator (cờ `180139230`): RGB thành self-illumination của mọi pass, alpha thành alpha diffuse
-  (`Material::setSelfIlluminationAndDiffuseAlpha`).
-- Mỗi hạt mesh là một entity + nút riêng (1 draw call/hạt) — **như B**, không phải lãng phí của CY-Source.
-
 ### 8.4 `ribbon`
 
 Chưa đối chiếu chi tiết với B (mục 13).
-
-## 9. Affector mesh
-
-### 9.1 `MeshAnimationAffector` (FACT: ctor `18013d7d0`, `_affectParticles` `18013ddc0`, cập nhật visual `FUN_1801e9f80`)
-
-Khoá: `animation_name`, `animation_range_begin` (0), `animation_range_end` (1), `animation_loop` (false), `animation_speed` (1).
-`anim_pos` được ctor B ghi vào một danh sách phụ **không có mã nào đọc** (chỉ hàm truy cập và hàm huỷ tham chiếu `0x1803b7620`),
-nên B từ chối `anim_posN` (9 dòng mỗi bộ dữ liệu) — CY-Source cũng vậy.
-
-- Lần cập nhật đầu (bảng khoá toàn 0): lấy độ dài animation từ skeleton của mesh renderer và tuổi thọ `L` của emitter 0
-  (`min + (max − min)·UnitRandom()`, vtable +0xe0/+0xe8 = `getMinTimeToLive/getMaxTimeToLive`). Mesh/animation chưa có → không làm gì.
-  - Không loop và độ dài ≤ L: khoá (0,0), (1, dài/L), (1,1): chạy một lần đúng tốc độ rồi giữ khung cuối.
-  - Ngược lại: khoá (0,0), (1,1) và `speed *= L/dài`.
-- Mỗi hạt: `t = tuổi·speed/(end − begin)`; loop: đưa về [0,1) bằng `fmod`; không loop: kẹp 0 và **0,999**; vị trí =
-  `begin + curve(t)·(end − begin)` kẹp [0,1]; `AnimationState::setTimePosition(dài × vị trí)` (0.85 cộng `dt·speed` mỗi khung).
-
-### 9.2 `MeshRotator` (FACT `18013b620`/`18013b530`): như CY-Source.
 
 ## 10. Census khoá (Canonical / S2)
 
@@ -294,9 +198,6 @@ Sheet `canonical-oracle-fxp` / `canonical-frontend-fxp` (`Build\Logs\2026-09-13-
 | E016 | nothing → saturated | Ring `inner_width 0` là đĩa đặc ở B (0.85: vòng mảnh) ⇒ nhiều hạt chồng nhau hơn |
 | E090, E044 | bão hoà / bounds 3.589 → 5.995 | ScaleInterpolator mặc định, `opacity 2` (B nhân cả RGBA), Revolution hai bước con có chống vượt tâm |
 
-Mesh không ghi `particle_depth` bị ép phẳng ở bản 18:30 đã được sửa (Z = width khi depth 0, `FUN_1801e9b90`).
-Chưa có ảnh B để so trực tiếp (chạy client_GL nằm ngoài phạm vi); một ảnh chụp màn tạo nhân vật Thiếu Lâm/Minh Giáo trên client_GL sẽ
-khẳng định kích thước vòng sét/lửa.
 
 ## 11. Hiệu năng (200 hệ thật, `Tests\fx\particles\particle_bench.cpp`)
 

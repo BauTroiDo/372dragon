@@ -123,8 +123,6 @@ Trung" là nhầm — nó chỉ chứa số.
 
 ---
 
-## 3. Đã sửa gì (17/09)
-
 ### 3.1 Hai bảng Tu luyện — hết ô vuông
 
 `Src/Client/WXClient/Network/CysPowerNet.cpp` tự mở hai bảng này ngoài `OpenAllDataBase` và đưa thẳng ô GBK cho

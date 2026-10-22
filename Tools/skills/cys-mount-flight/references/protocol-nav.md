@@ -1,15 +1,5 @@
 # Native evidence và navmesh
 
-## Nguồn chính xác
-
-Đợt 24/09 dùng `Build/re/wuliang-parity/CYGame/Bin64/Game.exe` SHA256 `9278c7f37b55539fcfac1d93afa71f278e34d4ce674b0e8b52a0f62ea6e0cc5b`. Không chuyển RVA sang binary khác mà không xác nhận hash.
-
-- `0x140613380`: CharMount 109, cột 19, request bay và khóa 2000 ms.
-- `0x1407861a0 / 0x14083b640`: codec 2242, body 5 byte.
-- `0x1405ee030 / 0x1405ee430`: action cất/hạ cánh; `0x1405ec038 / 0x1405f4690`: action trên không.
-- Render `0x18008e020` đọc `scene.fly`; `StrDictionary` FLY_101118_01/02 là tổ hợp phím, các message còn lại mô tả giới hạn.
-- `Tools/game/audit_mount_flight.py` có công cụ đọc tĩnh; dùng skill reverse engineering khi cần phân tích binary sâu, không mặc định decompile cho mọi sửa đổi.
-
 ## Lưới bay và mặt đất
 
 .fly có u32 count rồi 16 byte reserved và float độ cao tuyệt đối; có dạng legacy header 4 byte. Phân biệt bằng kích thước chính xác, kiểm count/size/finite/bounds trước nội suy. Có 181 mục scene có grid ở mốc khảo sát; grid hỏng/thiếu thì từ chối, không tự cho Y cố định.

@@ -23,28 +23,28 @@ purpose:    a terrain projector effect element.
 
 namespace WX	{
 
-	// CYS-FXFINISH (fx-finish, 20/09/2026) --------------------------------------------------------------
-	// HOC TRUOC (QUY TAC 0). Doc CY 3.71 Bin64\Render.dll (4.057.088 B,
-	// sha256 e6e67de45489f90207379419c0eb2e9f4fbdbd1d800cc6f46902c1fe5eb0cec7), dinh vi bang XREF CHUOI
-	// ("the near clip distance of projector must be larger than zero" @0x1802ccf80) + bang .pdata,
-	// KHONG nhay thang toi dia chi chep tu tai lieu (LUAT 22.8):
-	//   ProjectorElement::_getFovFromProjectionSize = 0x1800909e0
-	//   ProjectorElement::_createProjector          = 0x180090720 .. 0x18009095b
-	// Ba dong CUOI CUNG cua _createProjector trong CY:
-	//   0x1800908ed  parent->attachObject(mProjector)              (Node vtbl+0x290)
-	//   0x18009091c  parent->setPosition(0, 200, 0)                (Node vtbl+0xe0; 200.0f @0x1802bc664,
-	//                                                               da doc byte: 0000 4843)
-	//   0x18009093c  parent->setDirection(-Y, relativeTo=2, -Z)    (Node vtbl+0x368; 2 == TS_WORLD)
-	// => CY dat tu the may chieu DUNG MOT LAN luc tao, y het 0.85 va y het cay nay. CY KHONG he co mot
-	//    ProjectorElement::setTransformInfo rieng.
-	// VAY TAI SAO CY KHONG HONG? Vi kien truc node khac:
-	//   CY: node cua element la CON cua node GOC hieu ung; node goc mang transform cua chu so huu, node
-	//       con dung yen. Bang chung: setRelPos (0x180172fa0) va setRelOrientation (0x180172f60) cua CY
-	//       la HAM AO ghi THANG mRelPos (+0x88) / mRelOrientation (+0x94) len node [this+0x18] roi thoi.
-	//   Cay nay: EffectElement::setTransformInfo (WXEffectElement.cpp:207-222) ghi transform THE GIOI len
-	//       node CUA TUNG ELEMENT moi khung hinh - dung nhu ghi chu CYS ngay tai cho da noi ro.
-	// => Trong cay DAN PHANG nay, muon giu dung hanh vi CY thi phai DAT LAI tu the may chieu sau moi lan
-	//    base ghi de. Do la toan bo noi dung ban va nay.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	static const Ogre::Real CYS_PROJECTOR_LIFT = 200.0f;
 
 	static bool cysProjectorFixEnabled(void)
@@ -249,24 +249,24 @@ namespace WX	{
 				( mSystem->getSceneManager()->createMovableObject(parent->getName(), ProjectorFactory::FACTORY_TYPE_NAME) );
 			mProjector->setProjectionType(Ogre::PT_ORTHOGRAPHIC);
 
-            // CYS-FXFINISH (muc 2 cua nhiem vu) - THU TU: near/far PHAI dat TRUOC setFOVy.
-            // _getFovFromProjectionSize() doc mProjector->getNearClipDistance() (dong 340), va Ogre 1.2
-            // cua cay nay KHONG co ortho window: Frustum::calcProjectionParameters
-            // (OgreFrustum.cpp:340-341) dung CHUNG mot nhanh half_h = tan(fov/2) * mNearDist cho ca
-            // PT_ORTHOGRAPHIC. => cua so truc giao = size * (mNearClipDistance / near_luc_tinh_fov).
-            // Ban goc tinh fov khi frustum con o near MAC DINH cua Ogre (OgreFrustum.cpp:51 mNearDist=100)
-            // roi moi dat near that => sai he so mNearClipDistance/100 voi bat ky hieu ung nao khai
-            // NearClipDistance != 100. Chinh chu thich tieng Trung o _getFovFromProjectionSize da noi ro
-            // gia dinh "D la 100.0f (gia tri mac dinh)".
-            // CY 3.71 co CUNG thu tu sai nay (setFOVy @0x180090796 truoc setNearClipDistance @0x180090837)
-            // nhung MIEN NHIEM vi ngay sau do CY goi setOrthoWindowSize(size, size) (@0x18009086a,
-            // Frustum vtbl+0x390 = ?setOrthoWindowSize@Frustum@Ogre@@UEAAXMM@Z, CO trong OgreMain.dll cua
-            // CY va GL, KHONG co trong Ogre 1.2 cua ta) - voi PT_ORTHOGRAPHIC thi ortho window moi la cai
-            // quyet dinh, fov thanh vo nghia. Ta khong co API do nen phai sua bang THU TU.
-            // DO DUOC: khoa "NearClipDistance" xuat hien 0 lan trong Assets\CanonicalCY\Data\EffectFolder\
-            // all.effect (21/21 element Projector chi khai StartTime/LifeTime/Position/Material/
-            // ProjectionSize) => hom nay day la loi TIEM AN, khong doi mot diem anh nao. Sua vi no la bay
-            // cho nguoi sau, khong phai vi no dang hong.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             mProjector->setNearClipDistance(mNearClipDistance);
             mProjector->setFarClipDistance(mFarClipDistance);
 

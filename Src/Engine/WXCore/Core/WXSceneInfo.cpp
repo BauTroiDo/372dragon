@@ -24,9 +24,9 @@ namespace WX
 {
 #define STARTUP_BUILD_OBJECTS   64
 #define RUNNING_BUILD_OBJECTS   1
-// CYS-PERF-FIX scenebuild: CY 3.71 Render.dll IncrementalSceneBuilder (ctor FUN_1800876d0: +0x14 = 64, +0x18 = 30,
-// frameStarted FUN_18008b4f0): the first frame builds 64 objects, then 30 objects per SECOND (budget += 30 x
-// FrameEvent::timeSinceLastFrame, one object per whole unit), not one object per frame.
+
+
+
 #define CYS_RUNNING_BUILD_OBJECTS_PER_SECOND 30.0f
 const float MAX_DISTANCE = 2000.0f;
 const float MAX_DISTANCE_SQUARED = MAX_DISTANCE * MAX_DISTANCE;
@@ -318,14 +318,14 @@ const float MAX_DISTANCE_SQUARED = MAX_DISTANCE * MAX_DISTANCE;
         bool mCysBuildStartup;   // next build is the 64-object startup batch
         bool mCysBuildLegacy;    // CYS_PERF_SCENEBUILD=legacy
 
-        // CYS-PERF-FIX camdiscull: CY 3.71 camera-distance culling of StaticEntity (SceneConfig EnableCamDisCull /
-        // SetCamDisCullDepth / SetCamDisCullParam, Render.dll FUN_180133a20 + setters FUN_180134cb0/cf0/d20):
-        //   system+0x148 enable, +0x150 depth (kept only when 100 < depth < 10000), +0x154 depth^2, +0x14c param (> 0);
-        //   per object (FUN_1800bc880) +0x148 = Entity::getBoundingRadius() x param, +0x14c its square;
-        //   IncrementalSceneBuilder::frameStarted (FUN_18008b4f0): a StaticEntity is kept while
-        //   dist^2(eye) <= max(depth^2, (radius x param)^2), otherwise its render instance is destroyed and re-created
-        //   when the camera returns. CY-Source hides the entity instead (no reload hitch when coming back) - INF.
-        //   dali_new_320: EnableCamDisCull=true, depth 4000, param 14. CYS_PERF_CAMDISCULL=0 disables (A/B).
+
+
+
+
+
+
+
+
         struct CysCulled
         {
             ObjectWeakPtr object;

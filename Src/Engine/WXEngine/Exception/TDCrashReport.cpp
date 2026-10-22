@@ -315,9 +315,9 @@ VOID CreateExceptionDesc(PEXCEPTION_POINTERS pException, FILE* fp, UINT dwLastEr
 	//取得异常发生地
 	TCHAR		szModeleInfo[MAX_PATH];
 	TCHAR		Module_Name[MAX_PATH];
-	// CYS-CRASHRPT: "<module basename>+0x<RVA>" - the single line that turns this report from
-	// useless into "paste it into llvm-symbolizer". WXC_SML.TXT carried only the module PATH,
-	// so no reader could tell WHERE inside the DLL the fault was.
+
+
+
 	TCHAR		szFault[MAX_PATH + 64];
 	PBYTE		Module_Addr = 0;		// CYS-CRASHRPT: was read uninitialized on the not-found path
 	if (Get_Module_By_Ret_Addr((PBYTE)E.ExceptionAddress, Module_Name, Module_Addr))
@@ -401,12 +401,12 @@ VOID CreateExceptionDesc(PEXCEPTION_POINTERS pException, FILE* fp, UINT dwLastEr
 				(E.ExceptionCode == 0xE06D7363) ? _T("  (MSVC C++ throw)") : _T(""),
 				dwLastError);
 
-			// CYS-CRASHRPT 19/09/2026: print the exception PARAMETERS. Without them an "OTHER" report
-			// says only that something was thrown. The 19/09 scene-1350 crash was code 0xE06D7363,
-			// where the parameters ARE the payload:
-			//   [0] 0x19930520 EH magic   [1] thrown object   [2] _ThrowInfo   [3] image base (x64)
-			// Resolving [2] to module+RVA and running llvm-symbolizer on it prints the C++ type
-			// outright ("_TI2?AVException@Ogre@@" => Ogre::Exception) - without opening the minidump.
+
+
+
+
+
+
 			const DWORD nParams = (E.NumberParameters > EXCEPTION_MAXIMUM_PARAMETERS)
 								? EXCEPTION_MAXIMUM_PARAMETERS : E.NumberParameters;
 			for (DWORD i = 0; i < nParams; ++i)
@@ -744,4 +744,3 @@ BOOL CreateDumpHelpFile(PEXCEPTION_POINTERS pException, PTCHAR szDumpFile)
 
 	return TRUE;
 }
-

@@ -144,8 +144,6 @@ mọi chỉ số khác: không đổi
 
 ---
 
-## 3. Lớp client: khung có đủ, hàm host thì không
-
 ### 3.1 Khung
 
 36 khung của hệ chỉ số đều có `.layout.xml` + `.lua` (`frame-host-status.tsv`); nhỏ nhất `ZongMenSkill_Info` 3,5 KB, lớn nhất `JingMai` 77 KB. **Không khung nào thiếu file.** Ngoại lệ duy nhất: `LongwenPropertyReset` có `.lua` mà **không có layout** (nó dùng layout của khung khác).
@@ -188,8 +186,6 @@ Số stub theo khung (`frame-host-status.tsv`, cột `stub`): `ZhenYuan` 52, `Ji
 ⇒ Trả lời gọn cho câu hỏi của người dùng ("khung có mà chưa có chức năng"): **218/306 hàm host mà các khung sức mạnh gọi là hàm giả; 81 trong số đó là của riêng hệ sức mạnh.**
 
 ---
-
-## 4. Ba phép đếm theo đúng cách
 
 ### 4.1 Handler gói: 195 `function request:` thật
 
@@ -293,8 +289,6 @@ if not config or not config.IA or not config.IV then goto continue end   -- hoac
 Chưa vá vì `human_attrib.lua` là file dùng chung và cần một cửa sổ restart; ghi vào NEXT.
 
 ---
-
-## 5. Công cụ mới
 
 ### 5.1 `CysNetBot` — nhóm cờ `attrib` (thẻ `// CYS-ATTRIB`)
 

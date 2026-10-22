@@ -1,13 +1,13 @@
-// CY-Source Tests/fx/particles: unit tests of the client_GL (B) particle behaviour implemented in CY-Source
-// (spec: Docs/specs/render/07b-particles_vi.md; RE notes: Build/Logs/2026-09-13-fx-particles/re-notes.md).
-// Expected values are worked out by hand from B's algorithms (RVAs in the spec), not taken from the code under test.
-//
-//   CYSParticleUnitTest.exe [--report <file>] [--log <ogre log>] [--no-device]
-//
-// Order matters: the runtime copies (OgreMain's ParticleFX, Plugin_ParticleFX2.dll, WXCore) are exercised through
-// their factories first, so their parameter dictionaries are the ones registered; the copies of the same sources
-// compiled into this test are then used for the exact math (sampling formulas, curves, transforms).
-// Exit code = number of failed checks.
+
+
+
+
+
+
+
+
+
+
 
 // OgreParticleFXPrerequisites.h and OgreParticleFX2Prerequisites.h share the include guard
 // __SfxPluginPrerequisites_H__, so only the first one included defines its export macro: define both (empty,

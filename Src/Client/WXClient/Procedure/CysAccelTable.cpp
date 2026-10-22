@@ -40,7 +40,7 @@ namespace
     struct Capture
     {
         bool on;
-        bool chatSlot;   // the button the window was clicked on; CY overrides it with the key's own list (0x140437050)
+        bool chatSlot;
         int id;
     };
 
@@ -164,8 +164,8 @@ namespace
 
     void TellWindow(int row)
     {
-        // CY 0x1404371ae / 0x140435cdc: TOGLE_INPUTSETUP(key1 text, key2 text, id) - AcceSetup_OnEvent's
-        // "character message" branch redraws the two buttons of that id.
+
+
         char k1[48], k2[48];
         KeyText(S().table.key1[row], k1, sizeof(k1));
         KeyText(S().table.key2[row], k2, sizeof(k2));
@@ -210,7 +210,7 @@ namespace
         KeyText(packed, text, sizeof(text), false);
         if (Vk(packed) == 0x1B)
         {
-            // Esc: 0x1404370a1 - leave the row as it is, tell the window so it stops showing "please type".
+
             TDU_Log("CYS-ACCEL: capture id=%d cancelled with Esc", s.capture.id);
             TellWindow(row);
             s.capture.on = false;
@@ -221,7 +221,7 @@ namespace
         else if (IsValidPlainBinding(packed)) slot = 1;
         else
         {
-            // 0x140437259: not in either list -> ZDYKJJ_20071227_02, the capture stays armed (CY keeps [0x29c]).
+
             TDU_Log("CYS-ACCEL: capture id=%d refused key %s (%06X) - not a bindable key", s.capture.id, text, packed);
             DebugMessage("ZDYKJJ_20071227_02");
             return;
@@ -258,9 +258,9 @@ namespace
             if (!down) break;
             if (CysAccel::ChatEditActive())
             {
-                // CY's Esc (0x140438300) lets the UI consume the key first (UISystem->[vt+0x200]); leaving chat
-                // input mode is that consumption. GE_CHAT_CLOSED has no listener in the CY Lua (0 hits in
-                // InterfaceFolder), so the state change is what actually does the work here.
+
+
+
                 CysAccel::SetChatting(false);
                 CEventSystem::GetMe()->PushEvent(GE_CHAT_CLOSED);
             }
@@ -271,9 +271,9 @@ namespace
             }
             break;
         case ACT_CHAT_OPEN:
-            // CY 0x140439c00 calls UISystem->[vt+0x1e0](true) = "the chat input is taking keys now". This build has
-            // no such method, so the state is published where CY publishes it: the variable NonChatActive, which
-            // CY's own accelerator accessor (0x140434650) reads and seven CY frames read too.
+
+
+
             if (down) CysAccel::SetChatting(true);
             break;
         case ACT_CHAT_GM_PREV:
@@ -300,7 +300,7 @@ namespace
             break;
         case ACT_MENUBAR:
         {
-            // 0x140438370: slot = 10 * page + (id - 1); key-down prepares, key-up executes (0x1404383b0).
+
             const int index = 10 * s.menuBarPage + (meta.id - 1);
             CActionSystem::GetMe()->MainMenuBar_DoAction(index, down ? true : FALSE);
             break;
@@ -340,10 +340,10 @@ namespace
             }
             break;
         case ACT_SCENE_MAP:
-            // CY 0x140438840, the whole callback: PushEvent(TOGLE_SCENE_MAP, {szSceneMap, "2"}) and the two minimap
-            // refresh flags. Runs in BOTH states - Tab is not in CY's text-key set, so chatting does not swallow it.
-            // The 0.85 tree locked the nearest target here instead ("CYS-SKILL: CY binds Tab to select the nearest
-            // enemy"); that claim does not survive the disassembly, so the lock is gone.
+
+
+
+
             if (down && CWorldManager::GetMe() && CWorldManager::GetMe()->GetActiveScene())
             {
                 std::vector<STRING> params;
@@ -361,14 +361,14 @@ namespace
             if (down) PushNamed(meta.arg, "-1");
             break;
         case ACT_XIULIAN_PAGE:
-            // 0x14043a0e0: only from level 70 (charData->[0x18]->[0x6c] >= 0x46).
+
             if (down && self && self->GetCharacterData() && self->GetCharacterData()->Get_Level() >= 70) PushNamed(meta.arg, "-1");
             break;
         case ACT_STOP_TEAM_FOLLOW:
 #if defined(CYS_HAVE_NETCORE)
             if (down)
             {
-                // 0x14043a030: a bodiless packet whose vtable's GetPacketID answers 1263 = CGStopTeamFollow.
+
                 if (!CysModernGame::SendModern(std::unique_ptr<pg::Packet>(new pg::CGStopTeamFollow)))
                     TDU_Log("CYS-ACCEL: CGStopTeamFollow not sent (no modern session)");
             }
@@ -441,7 +441,7 @@ void CysAccel::SetAccount(const char* account)
         clean.push_back((*p == '\\' || *p == '/' || *p == ':' || *p == '.' || *p == '"') ? '_' : *p);
     if (clean == s.account) return;
     s.account = clean;
-    s.customFile = "..\\Accounts\\" + clean + "\\Acce_Custom.ini";   // CY 0x140408b64
+    s.customFile = "..\\Accounts\\" + clean + "\\Acce_Custom.ini";
     s.customLoaded = false;
 }
 
@@ -466,7 +466,7 @@ bool CysAccel::ProcessKey(int kc, bool down)
     const bool editActive = AnyEditActive();
     if (editActive && !(mod & (kModCtrl | kModAlt)) && IsTextKey(vk))
     {
-        // processKeyMessage 0x14043412d: the box owns text keys; only Ctrl/Alt chords pass while typing.
+
         ++s.counters.swallowedByEdit;
         if (down)
         {
@@ -502,30 +502,30 @@ bool CysAccel::ProcessKey(int kc, bool down)
     return true;
 }
 
-// CYS-MOVE2: which question decides "the keyboard belongs to the chat box".
-//
-// MEASURED 18/09 (Build/Logs/2026-09-17-move-2/live-1): in the CY GUI `Ime::GetActiveIMEEditBox()` returns
-// "Chat_EditBox" from the moment the world loads and NEVER returns null - ChatFrame.lua:536 sets
-// Chat_EditBox:SetProperty("DefaultEditBox","True"), which makes it the permanent default target. So both
-// "is any edit box focused" (0.85 IsIMEEditboxEmpty) and "is the chat box focused" are TRUE all the time.
-// In that run 0 of the plain-letter rows fired and every letter landed in the chat box:
-//   Chat_EditBox="1234567890ccaassqqfftteexxoodd--hzvvjmmw,,..rrikbbppl``1234567890"
-// ⇒ the focus list cannot be the gate. CY does not use it either: its accessor (0x140434650) asks
-//   UISystem->GetVariable("NonChatActive") == 1 for binding 1, else binding 2.
-// Seven CY frames read the same variable (ChatFrame.lua:534, LargeMap:317, MainMenuBar:1686, MiniMap:1190,
-// SceneMap:465/1001, TeamFrame:2825), and SystemSetup:Lua_SetNonChatActive (CY Game.exe +0x32e710) is its setter.
-//
-// So the gate below asks, in CY's order:
-//   1. the variable "NonChatActive" when it exists   (CY's own rule)
-//   2. else: is the chat INPUT window visible        (CY only shows it in input mode)
-//   3. else: the focus list                          (0.85 behaviour, the last resort)
-// Nothing in this build writes the variable yet - that setter is SystemSetup:Lua_SetNonChatActive, which lives in
-// LuaApiGen (host-2). Until it exists, step 2 decides; every step is logged once so the next live run can say
-// which one answered.
-// CYS-MOVE2: CY's own contract. "NonChatActive" == 1 means the chat input is NOT taking keys, so binding 1 (the
-// plain key) is live; anything else means the player is typing and only binding 2 (Alt+key) is live.
-// This build is the writer: the variable does not exist until SetChatting runs, and 1 (not chatting) is the state
-// the world starts in.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void CysAccel::SetChatting(bool chatting)
 {
     Init();

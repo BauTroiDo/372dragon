@@ -62,8 +62,8 @@ namespace CysMeshWinHost
             return LuaPlus::LuaObject();
         }
 
-        // KFSBase.txt through CDataBase::Util_OpenDBCFromTxt (the CysPowerNet road for CY-only tables): it is not in
-        // the 0.85 DBC enum. 0xEE is the id CY's Game.exe uses for it (0x1404fd7b2) - a label here, nothing more.
+
+
         DBC::DBCFile* KfsBase()
         {
             if (g_kfsBaseTried) return g_kfsBase;
@@ -99,22 +99,22 @@ namespace CysMeshWinHost
         int DataPoolKfsUpdateModel(LuaPlus::LuaState*)
         {
             UpdateWuhunModel();
-            return 0;   // CY 0x1402f2490: xor eax, eax
+            return 0;
         }
 
-        // ---- CYS-MESHEX 19/09: _G:SetFakeObjDataEx(name) ------------------------------------------------------
-        // CY 3.71 Game.exe (sha256 9278c7f3...): the Lua global is registered at 0x140659e90 with the body
-        // 0x14026dfd0 - argument 1 must be a string ("LUA: Lua_SetFakeObjDataEx  Param Error", .rdata 0x140b1d5f9,
-        // return -1), then it calls 0x1406003f0(MySelf, name). 0x1406003f0 looks the name up in the fakeEx system
-        // (0x1401f93f0 on the node at 0x1410303f8) and copies MySelf's CHARACTER DATA (the member at +0x228, this
-        // tree's CCharacterData) into the fake object: single fields first, then a loop over 83 equip points with
-        // index 16 special-cased (that is the fashion point - GameDefine_Item.h HEQUIP_DRESS = 16), and it ends with
-        // SetFaceDir(0.0f) through the object's vtable (+0xd8).
-        // Here the SAME set of fields is copied, but through the road this tree already proves for the "Player"
-        // avatar: Obj_PlayerMySelf.cpp:130-177 forwards exactly RaceID / HairMesh / HairColor / FaceMesh /
-        // Equip+EquipGem / DressVisual to m_pAvatar, and the SelfEquip portrait built from those is the one that
-        // rendered in live-7/8/10. CY's other 70-odd points have no storage in SDATA_PLAYER_OTHER (HEQUIP_NUMBER=9
-        // plus the separate m_nDressVisual), so there is nothing to copy them into.
+
+
+
+
+
+
+
+
+
+
+
+
+
         int CopiedFields = 0;
 
         bool CopyMySelfAppearance(const char* objectName)
@@ -134,9 +134,9 @@ namespace CysMeshWinHost
             CCharacterData* dstData = dst->GetCharacterData();
             if (!src || !dstData) return false;
 
-            // CYS-WARD2: the wardrobe can preview the OTHER sex ("SEX" key of the fitting set, CY reads it in
-            // LuaFnGetExteriorRaceID 0x1403eaef0 before the character's own field). RaceID rebuilds the model, so
-            // the previewed value has to be chosen HERE - after this line every other setter only refines it.
+
+
+
             const int raceId = CysWardrobeHost::RaceIdFor(objectName, src->Get_RaceID());
             dstData->Set_RaceID(raceId);          // rebuilds the model; every other field only refines it
 
@@ -161,10 +161,10 @@ namespace CysMeshWinHost
                 dstData->Set_AssaultAppearance(src->Get_AssaultItem(),src->Get_AssaultVisual());
                 ++fields;
             }
-            // CYS-WARD2: CY's LuaFnUpdateExteriorPlayerData (0x1403d5da0) is this copy FOLLOWED BY the fitting
-            // half; that half is here. With nothing being tried on it changes nothing at all.
+
+
             CysWardrobeHost::ApplyFitting(objectName, dst);
-            dst->SetFaceDir(0.0f);                // CY 0x14060046e: vtable +0xd8 with xmm1 = 0
+            dst->SetFaceDir(0.0f);
             if (objectName && strcmp(objectName, "Exterior_Player") == 0) CysWardrobeCatalog::Preview(dst);
             CopiedFields = fields;
             Log("SetFakeObjDataEx %s: race=%d hair=%d/%u face=%d weapon=%d dress=%d fields=%d type=%d",
@@ -175,7 +175,7 @@ namespace CysMeshWinHost
 
         int GlobalSetFakeObjDataEx(LuaPlus::LuaState* state)
         {
-            // CY 0x14026dfd0: IsString(1) or the Param Error line and -1.
+
             if (!state) return 0;
             LuaPlus::LuaStack args(state);
             if (!args[1].IsString())
@@ -184,19 +184,19 @@ namespace CysMeshWinHost
                 return 0;
             }
             CopyMySelfAppearance(args[1].GetString());
-            return 0;   // CY 0x14026e046: xor eax, eax
+            return 0;
         }
 
-        // ---- CYS-WARDROBE 19/09: Exterior:LuaFnUpdateExteriorPlayerData() --------------------------------------
-        // CY 3.71 Game.exe: registered at 0x140681822 with the body 0x1403d5da0. Its FIRST half is byte for byte the
-        // worker of SetFakeObjDataEx (0x1406003f0) with the name fixed to "Exterior_Player": look the object up in
-        // the fakeEx node (0x1403d5e0b-0x1403d5e19, .rdata 0x140b86a30 = "Exterior_Player"), then the same chain of
-        // get/set pairs on the character data at +0x228 and the same SetFaceDir(0) through vtable +0xd8. Its SECOND
-        // half then lays the WARDROBE FITTING on top (the item the player is trying on but has not bought/worn).
-        // This tree has no fitting state yet - Exterior:LuaFnSetCurrentExteriorSetInfo and the other 109 Exterior
-        // host functions are still generated stubs, and the packets that carry the wardrobe (CY CGExteriorRequest
-        // 1337 / GCExteriorInfo 512) do not exist on the client side at all - so only the first half is implemented
-        // here: the wardrobe shows the player as they ARE. That is what makes NewExterior_PlayerFrame draw a model.
+
+
+
+
+
+
+
+
+
+
         int ExteriorUpdatePlayerData(LuaPlus::LuaState*)
         {
             CopyMySelfAppearance("Exterior_Player");
@@ -308,7 +308,7 @@ namespace CysMeshWinHost
         {
             const DBC::DBCFile::FIELD* key = dbc->Search_Posistion(row, 0);
             if (!key || key->iValue != itemTableId) continue;
-            const int col = (wuhunLevel >= 1 && wuhunLevel <= 4) ? 10 + wuhunLevel : 10;   // CY 0x1404fd820-0x1404fd835
+            const int col = (wuhunLevel >= 1 && wuhunLevel <= 4) ? 10 + wuhunLevel : 10;
             const DBC::DBCFile::FIELD* cell = dbc->Search_Posistion(row, col);
             return cell ? cell->iValue : -1;
         }

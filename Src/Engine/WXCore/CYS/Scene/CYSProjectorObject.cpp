@@ -52,7 +52,7 @@ namespace WX
             Object* createInstance(void) { return new CYSProjectorObject; }
         };
 
-        // Labels of CY BlendModeCmd (Render.dll 0x1802e07e0): value = Ogre::SceneBlendType.
+
         const Constant kBlendModes[] =
         {
             { "modulate", Ogre::SBT_MODULATE },
@@ -273,9 +273,9 @@ namespace WX
     //-----------------------------------------------------------------------
     bool CYSProjectorObject::resolveTexture(String& name) const
     {
-        // CY FUN_18012b810: BaseWhite (the default) creates nothing; a missing texture is looked up again as
-        // "<ext>_<base>.dds" in the same folder (the converted-texture naming of CY data) unless the name is
-        // already a .dds; the editor keeps the object without a projector.
+
+
+
         name = mTextureName;
         if (name.empty() || name == "BaseWhite")
             return false;
@@ -389,8 +389,8 @@ namespace WX
             mProjector->setCastShadows(false);
             mProjector->setNearClipDistance(mNearClip);
             mProjector->setFarClipDistance(mFarClip);
-            // Orthographic window = projector size: tan(fov/2) * near = size / 2 (CY FUN_18012b580, 0.85
-            // ProjectorElement::_getFovFromProjectionSize).
+
+
             mProjector->setFOVy(Ogre::Math::ATan(mProjectorSize / (mNearClip * 2.0f)) * 2.0f);
             mProjector->setTerrainGridLimit(mTerrainGridLimit > 0 ? mTerrainGridLimit : 1);
             mProjector->setVertexLimit(static_cast<size_t>(mVertexLimit > 0 ? mVertexLimit : 0));

@@ -2,16 +2,6 @@
 
 Ngày lập: 2026-09-12. Áp dụng cho các pha E0, E1a, E1b, và cho mọi thay đổi mã về sau. Số liệu lấy từ khảo sát mã nguồn trong tài liệu 01, mục 2.
 
-## 1. Nguyên tắc
-
-1. `CY-Source\Reference` **chỉ đọc**. Mọi thứ chép sang `Src` đều phải có manifest: đường dẫn gốc, SHA-256, mã hoá gốc.
-2. `Src` là bản làm việc. Commit đầu tiên chứa mã **nguyên trạng** (chỉ đổi mã hoá), nhờ vậy mọi diff về sau là thay đổi của ta.
-3. Không dán mã decompile vào `Src`. Viết lại sạch theo đặc tả (mục 8).
-4. Không chạy binary chưa rõ nguồn với quyền quản trị. Server C++ 0.85 chỉ chạy làm hộp cát cục bộ (mục 7).
-5. Mỗi thay đổi đi kèm lý do và bằng chứng, như file:dòng hay offset, theo yêu cầu của `CLAUDE.md`.
-
-## 2. Chuẩn bị môi trường (E0)
-
 ### 2.1 Cài công cụ (cần người dùng đồng ý, câu hỏi Q5)
 
 ```powershell
@@ -54,8 +44,6 @@ git -C C:\TLBB\085\CY-Source commit -m "Khởi tạo CY-Source: tài liệu quy 
 Thêm một mục vào `$map` trong `C:\TLBB\085\Tools\Sync-CodeGraphSources.ps1`: nguồn `C:\TLBB\085\CY-Source\Src`, đích `.codegraph-src\cysrc`. Bỏ qua `Src\ThirdParty\boost`, `wxWidgets` và `Xerces\samples`.
 
 Nếu tổng số file vượt 12.000 thì nâng `--max-files` trong `C:\TLBB\085\.mcp.json`. Việc này đổi cấu hình dự án, nên phải hỏi người dùng trước. Không sửa file trong `.codegraph-src`.
-
-## 3. Nhập mã nguồn vào `Src` (E0)
 
 ### 3.1 Ánh xạ thư mục
 
@@ -100,8 +88,6 @@ Lý do: literal tiếng Trung trong mã là **khoá tài nguyên** (tên locator
 **Kiểm:**
 - Sau khi dựng E1a, tìm một literal biết trước (ví dụ `身体受击点`) dưới dạng byte GBK trong `.rdata` của binary vừa dựng.
 - So danh sách chuỗi CJK của `Render.dll` tự dựng với `Reference\…\Build\Client\Bin\Render.dll`.
-
-## 4. Hệ build
 
 ### 4.1 E1a — Dựng nhanh bằng `.vcxproj` có sẵn (x86)
 
@@ -205,46 +191,6 @@ Số liệu từ lần quét mã ngày 12/09. "Game" gồm các project WX*, CEG
   - Chỉ nghe trên localhost.
   - Không mở cổng ra LAN.
   - Phần mềm diệt virus có thể xoá exe server cũ. Chỉ thêm ngoại lệ cho thư mục của hộp cát và chỉ khi file có nguồn tin cậy.
-
-## 8. Quy trình "dịch ngược làm đặc tả"
-
-Dùng cho mọi tính năng mà B/C có nhưng mã 0.85 thiếu. Mỗi tính năng là một gói việc:
-
-1. **Chọn tính năng và đo mức dùng.** Ví dụ affector `Dissolve`. Số lần dữ liệu dùng nó lấy từ `Docs\evidence\assetinv\fxkeys.json`.
-2. **Tìm trong B/C.**
-   - Chuỗi và RTTI: `Docs\evidence\binlineage\rtti.json`, `strscan.json`.
-   - Project Ghidra: `analysis\graphics-overhaul\ghidra\proj\gfx.gpr` (Render.dll + Game.exe của B), `analysis\ghidra\headless-projects\cegui.gpr`, `pathlib.gpr`.
-   - Ghi lại module, hash, RVA, xref.
-3. **Viết đặc tả** vào `Docs\specs\<module>\<tính-năng>.md`: cú pháp dữ liệu, tham số, thuật toán (pseudo-code), hằng số, tương tác với phần khác, các ca thử lấy từ dữ liệu thật (tên effect/model dùng tính năng đó), và mức chắc chắn.
-4. **Hiện thực** trong `Src`: viết sạch theo phong cách của mã xung quanh. Không chép mã decompile.
-5. **Đối chứng:** Viewer của ta so với `client_GL` trên cùng model/effect/cảnh và cùng camera. So ảnh và log (tài liệu 07).
-6. **Đóng gói việc:** cập nhật đặc tả (đạt, hay còn khác ở đâu), commit, thêm ca thử vào bộ đối chứng.
-
-**Quy tắc:**
-- Phân tích tĩnh trước.
-- Không gắn debugger vào client khi người dùng đang chơi.
-- Mọi kết luận phải có offset/RVA hoặc xref; tên hàm hay pseudo-code do mô hình đoán thì chưa phải sự thật.
-- Trước khi dùng ReVa MCP phải kiểm kết nối (phiên 12/09 bị CONNECT_TIMEOUT).
-
-## 9. Chuyển các bản vá binary thành tính năng mã nguồn
-
-Danh sách đầy đủ ở tài liệu 08, mục 10. Nơi làm trong `Src`:
-
-| Nhóm | Nơi làm (theo mã 0.85) | Ghi chú |
-|---|---|---|
-| Cửa sổ Unicode, nhập codepoint, tiêu đề | Chỗ tạo cửa sổ và vòng thông điệp của `WXClient` (tìm `CreateWindow`/`PeekMessage` trong `Src\Client\WXClient`); `CEGUIBase` (`injectChar`) | Bỏ được 4 bản vá import + hook `SetWindowLongPtrW` |
-| Code page UTF-8, resolver `#{KEY*args}` | `Src\Client\CEGUISystem` (lớp chuỗi và font) | Bỏ được 3 bản vá của UI_CEGUI |
-| District code page | Phần đọc bảng `System_District` trong `WXClient` | Bỏ bản vá 0x97CD84 |
-| ActionSetLine nhiều ô | `Src\Client\WXClient\Object\ActionSetMgr.*` | Số ô đọc theo số cột của bảng, không cố định 11 hay 15 |
-| Bóng, HDR, anisotropy | `Src\Engine\WXRender` (cấu hình render, post-filter) | Bật theo cfg khi khởi động |
-| Giới hạn chuỗi trong gói | Codec sinh từ đặc tả (G1) | Kiểm biên thay vì để crash |
-
-## 10. Thí nghiệm tuỳ chọn H0: module tự dựng dưới Game.exe của B
-
-- **Mục đích:** xem có đi tắt tới M3 được không, bằng cách chạy Render.dll tự dựng dưới Game.exe của B.
-- **Bước 1 (chỉ ghi vết):** dựng một DLL proxy tên `Render.dll`. Proxy nạp `Render_orig.dll`, bọc đối tượng giao diện, rồi ghi slot nào trong 188 slot được gọi và bao nhiêu lần trong một phiên chơi. Proxy chỉ chuyển tiếp, không tạo hay huỷ đối tượng STL, nên dựng bằng VS2022 vẫn được.
-- **Điều kiện đi tiếp sang thay thế thật:** hoặc các slot đang dùng không truyền `STRING`/`std::list` qua ranh giới, hoặc có toolset VS2012 (v110) để dựng phần ghép.
-- **Nơi làm:** chỉ trên bản sao `CY-Source\Build\H0\` của `client_GL`, không bao giờ trên `client_GL` thật, và không chạy khi người dùng đang chơi.
 
 ## 11. Chuẩn mã và kiểm soát thay đổi
 

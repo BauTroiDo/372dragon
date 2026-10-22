@@ -1,29 +1,29 @@
 #ifndef __CYS_POSTFX_PIPELINE_H__
 #define __CYS_POSTFX_PIPELINE_H__
 
-// CY-Source (post-processing agent, 2026-09-12): the render-node style post-processing pipeline of one viewport
-// (02-postfx.md 1 and 4.1), built on the OGRE 1.2 compositor without changing OgreMain.
-//
-// B builds each of its 29 filters as a code-built compositor on an extended compositor API (RT aliases, ping-pong,
-// cross-compositor texture references) plus a SceneRender filter holding the render nodes. OGRE 1.2 has none of
-// those extensions, so the pipeline compiles every enabled stage into ONE compositor technique that it rebuilds
-// when the set of enabled stages (or a structural parameter) changes, like B rebuilds its SceneRender technique:
-//
-//   render nodes (named render textures, own compositors, updated with the render textures before the window):
-//     depth node  "CYS/Compositor/SceneRender/depth_buffer"  R32F linear view depth (clear to the far value, then
-//                 the scene with material scheme "Depth", queues 10..90, opaque only)
-//     stage nodes e.g. GenSSAO -> "CYS/Global/SSAO" (sampled at s12 by the material system's lighting shaders)
-//   main compositor (head of the viewport's chain):
-//     [scene]   rt_ping: clear with the viewport colour, render queues 0..99
-//     [stages]  in B's order, each reads the current ping-pong target and writes the other one
-//     [output]  copy to the back buffer
-// CYS fx-render 2026-09-13 (B-exact default): rt_ping / rt_pong are 8-bit A8R8G8B8 like B's SceneRender scene_buffer
-// (Render.dll FUN_180213940, format 0xc) and the output is a plain copy like B's FinalPass/FrameCopy. The
-// "cinematic" preset (setCinematic, PostFX.Preset=cinematic) keeps FP16 targets and a 0.5 LSB dithered copy.
-//
-// The texture names are the ones TextureUnitState uses for 'content_type compositor <C> <T>' / 'global' units
-// (CY-Source OgreMain), so B's own materials that reference SceneRender/depth_buffer read the depth node. The 0.85
-// filters (IM_PREVIOUS) run after the main compositor. Everything is resized when the viewport size changes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "CysPostFxStage.h"
 

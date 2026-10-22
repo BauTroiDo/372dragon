@@ -99,8 +99,8 @@ VOID CCamera_Scene::SetDistance(FLOAT fDistance)
 	//一般来说，fvScale的三个值都是一样的，so...
 	m_fDistance = fDistance*fvScale.y;
 
-	// CYS: C FUN_1800038d0 - che do va cham khoang cach: mat khong hop le thi rut 0.1 moi buoc toi MIN_DISTANCE,
-	// hop le thi ghi nho lam khoang cach mong muon.
+
+
 	const WX::TerrainData* pTerrainData = CRenderSystem::GetMe()->GetRenderSystem()->getTerrainData();
 	if(COLLIDE_BY_DISTANCE && pTerrainData && !pTerrainData->isEmpty())
 	{
@@ -328,8 +328,8 @@ FLOAT CCamera_Scene::_GetValidPitch(
 	return 0;
 }
 
-// CYS: C FUN_180004540. Mat khong hop le: -1.0 moi buoc toi MIN_DISTANCE. Hop le: thu gian +10 (DAT_1803b01f8)
-// nhung khong qua khoang cach mong muon, roi lui 0.1 moi buoc toi khi hop le.
+
+
 FLOAT CCamera_Scene::_GetValidDistance(
 							const WX::TerrainData* pTerrainData,
 							const fVector3& fvLookAt,
@@ -380,7 +380,7 @@ BOOL CCamera_Scene::_IsValidEye(
 			gridsTerrain))
 	{
 		//眼睛在地形外面
-		return !COLLIDE_BY_DISTANCE;	// CYS: C FUN_180004c50 - ngoai dia hinh chi hop le o che do nang pitch
+		return !COLLIDE_BY_DISTANCE;
 	}
 
 	//近距球是否在地形下面
@@ -598,4 +598,3 @@ VOID CCamera_Scene::_UpdateCurStatus( fVector3& vEyePos, fVector3& vLookatPos)
 	}
 	return;
 }
-

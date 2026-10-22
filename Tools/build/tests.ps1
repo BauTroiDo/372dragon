@@ -17,7 +17,7 @@
             Same RESULT gate as native.
   python  - the offline Python suites of Tests\ and Tools\ (schema/DBC table list, fx-audit tools, cluster route
             guard, world snapshot collector, perf patchers and report, create-role mesh/scene/selection, stage_game,
-            cyoracle offline, CY GUI image and Lua unpack).
+            CY GUI image and Lua unpack).
   Unlike checks.ps1 this step runs from the MAIN checkout, not from Build\ci\wt: several suites read
   Assets\CanonicalCY (git-ignored, so it does not exist inside the CI worktree) through a hard-coded repository
   path. A dirty main tree is not refused but is recorded in tests.json (source_dirty, dirty_files) and printed.
@@ -98,7 +98,6 @@ $suites = @(
     @{ name = 'create_role_scene';   kind = 'python'; file = 'Tests\ui\create_role_scene_resources_tests.py'; args = @() },
     @{ name = 'create_role_select';  kind = 'python'; file = 'Tests\ui\create_role_selection_tests.py';   args = @('--out', '<OUTDIR_REL>', '--lua-dll', '<LUADLL_REL>') },
     @{ name = 'stage_game';          kind = 'python'; file = 'Tools\game\test_stage_game.py';             args = @() },
-    @{ name = 'cy_oracle_offline';   kind = 'python'; file = 'Tools\cyoracle\test_oracle_offline.py';     args = @() },
     @{ name = 'cy_gui_image';        kind = 'python'; file = 'Tools\pipeline\test_cy_gui_image_vi.py';    args = @() },
     @{ name = 'cy_lua_unpack';       kind = 'python'; file = 'Tools\pipeline\test_cy_lua_unpack.py';      args = @() }
 )

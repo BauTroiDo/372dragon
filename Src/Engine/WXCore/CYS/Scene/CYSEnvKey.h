@@ -1,10 +1,10 @@
 #ifndef __CYS_ENVKEY_H__
 #define __CYS_ENVKEY_H__
 
-// CY-Source (scene agent): time-of-day environment keys ("EnvKey") of .EnScene (<LightAndFog>) and .skysphere
-// (<SkyEnviromentList>) files, and the height-fog parameter block shared with the per-scene .hfog file.
-// Field list, defaults and fix-ups follow the B reader (Render.dll FUN_1801f4b70, 05 §4); the application to the
-// engine follows FUN_180182550 (see CYSEnvironment.h).
+
+
+
+
 
 #include "CYSSceneCommon.h"
 

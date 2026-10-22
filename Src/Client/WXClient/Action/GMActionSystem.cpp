@@ -507,9 +507,9 @@ VOID CActionItem::NotifyTooltipsShow(INT nLeft, INT nTop, INT nRight, INT nBotto
 		return;
 	}
 
-	// The living contract (B FUN_1401de070 / CY 3.71 FUN_1400107c0, both = CActionItem vtable +0xa8): seven strings -
-	// "1", type, LEFT, TOP, RIGHT, BOTTOM of the button, and the NUMBER OF COMPARE WINDOWS. SuperTooltip.lua reads them
-	// as arg2..arg6 with no nil guard (`g_mCmpWndCount = tonumber(arg6)`, then `nCmpWndCount > 0` at :153 and :191).
+
+
+
 	const INT rect[4] = { nLeft, nTop, nRight, nBottom };
 	for (int i = 0; i < 4; ++i)
 	{

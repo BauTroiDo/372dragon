@@ -169,10 +169,10 @@ VOID CFakeObjSystem::OnUIHookWithBackground(LPCTSTR szWindowName, LPCTSTR szObjN
 
 	//找到先前创建的FakeObj
 	std::map< STRING, FakeObject >::iterator it = m_listFakeMap.find(szObjName);
-	// CYS-MESHEX 19/09: CY's fakeEx AttachWindow (0x1401f9560) creates the object from its registered entry here;
-	// the 0.85 road simply returned, which is why every Dress*/NewExterior_* model window stayed empty.
-	// The empty name is the DETACH road (DetachWindowEx and every SetFakeObject("") of the CY scripts hook ""), not a
-	// missing entry - the unhook above has already run, so leave without looking anything up or logging.
+
+
+
+
 	if(it == m_listFakeMap.end() && szObjName && szObjName[0])
 	{
 		if (!EnsureExObject(szObjName)) return;
@@ -181,10 +181,10 @@ VOID CFakeObjSystem::OnUIHookWithBackground(LPCTSTR szWindowName, LPCTSTR szObjN
 	if(it == m_listFakeMap.end()) return;
 
 	FakeObject& obj = it->second;
-	//目前不支持一个模型被多个窗口显示
-	// CYS-MESHWIN 19/09: in Release TDAssert is (void)0, and a second window attaching the same object would then
-	// create the imageset "<obj>_RenderTexture" twice (CEGUI AlreadyExistsException). CY's fakeEx closes the old
-	// window of the object first (Game.exe 0x1401f9707-0x1401f9745); do the same here.
+
+
+
+
 	if (!obj.strWindowName.empty() && obj.strWindowName != szWindowName)
 	{
 		TDU_Log("CYS-MESHWIN: object %s moves from window %s to %s", szObjName, obj.strWindowName.c_str(), szWindowName);
@@ -295,36 +295,36 @@ tObject* CFakeObjSystem::FindFakeObject(LPCTSTR szObjName) const
 	return CObjectManager::GetMe()->FindObject(it->second.nObjectID);
 }
 
-// ---- CYS-MESHEX 19/09: the CY fakeEx entry table (see GMFakeObjSystem.h) -----------------------------------------
-// Read off CY 3.71 Game.exe (sha256 9278c7f3...), the 18 calls of 0x1401f8eb0 inside CDataPool::Initial. Each entry
-// is (class, object name, camera); the camera is "Camera_Main" in every one of the 18. Five of the names are already
-// created eagerly by this tree (Player / My_Pet / My_TargetPet, and the two pets' own road), so only the rest are
-// created lazily here - a name that is already in m_listFakeMap is never touched.
+
+
+
+
+
 namespace
 {
 	struct CysExEntry { const char* szObject; const char* szClass; const char* szCamera; };
 	const CysExEntry kCysExEntries[] = {
 		{"Rabbit",                  "CObject_PlayerNPC",   "Camera_Main"},   // GL GM creature preview
 		{"Pet_Tujian",              "CObject_PlayerNPC",   "Camera_Main"},
-		{"My_Pet",                  "CObject_PlayerNPC",   "Camera_Main"},   // 0x1400e5dcc
-		{"My_OtherPet",             "CObject_PlayerNPC",   "Camera_Main"},   // 0x1400e5e05
-		{"My_TargetPet",            "CObject_PlayerNPC",   "Camera_Main"},   // 0x1400e5e3e
-		{"PetOneType_ShopView",     "CObject_PlayerNPC",   "Camera_Main"},   // 0x1400e60ea
-		{"Player",                  "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6c5d
-		{"DecoWeapon_Player",       "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6c96
-		{"FashionAction_Player",    "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6ccf
-		{"Exterior_Player",         "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6d08
-		{"Exterior_Ride",           "CObject_PlayerNPC",   "Camera_Main"},   // 0x1400e6d41  (NPC, not Other)
-		{"Exterior_Target",         "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6d7a
-		{"ChongLou_Player",         "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6db3
-		{"Exterior_OtherShare",     "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6dec
-		{"PlayerDressPaint_sp",     "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6e25
-		{"PlayerDressJian_sp",      "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6e5e
-		{"DressPreview_Player",     "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6e97
-		{"GemEffectPreview_Player", "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6ed0
-		{"Ornaments_Player",        "CObject_PlayerOther", "Camera_Main"},   // 0x1400e6f09
-		// 0x1400e6971 is a loop: "XFSJFakeObj_PlayerNew%d" 0..5, CObject_PlayerOther (ServerNew_XFSJ.lua:159 builds
-		// the same name with (index-1)). Spelled out so the table stays a plain lookup.
+		{"My_Pet",                  "CObject_PlayerNPC",   "Camera_Main"},
+		{"My_OtherPet",             "CObject_PlayerNPC",   "Camera_Main"},
+		{"My_TargetPet",            "CObject_PlayerNPC",   "Camera_Main"},
+		{"PetOneType_ShopView",     "CObject_PlayerNPC",   "Camera_Main"},
+		{"Player",                  "CObject_PlayerOther", "Camera_Main"},
+		{"DecoWeapon_Player",       "CObject_PlayerOther", "Camera_Main"},
+		{"FashionAction_Player",    "CObject_PlayerOther", "Camera_Main"},
+		{"Exterior_Player",         "CObject_PlayerOther", "Camera_Main"},
+		{"Exterior_Ride",           "CObject_PlayerNPC",   "Camera_Main"},
+		{"Exterior_Target",         "CObject_PlayerOther", "Camera_Main"},
+		{"ChongLou_Player",         "CObject_PlayerOther", "Camera_Main"},
+		{"Exterior_OtherShare",     "CObject_PlayerOther", "Camera_Main"},
+		{"PlayerDressPaint_sp",     "CObject_PlayerOther", "Camera_Main"},
+		{"PlayerDressJian_sp",      "CObject_PlayerOther", "Camera_Main"},
+		{"DressPreview_Player",     "CObject_PlayerOther", "Camera_Main"},
+		{"GemEffectPreview_Player", "CObject_PlayerOther", "Camera_Main"},
+		{"Ornaments_Player",        "CObject_PlayerOther", "Camera_Main"},
+
+
 		{"XFSJFakeObj_PlayerNew0",  "CObject_PlayerOther", "Camera_Main"},
 		{"XFSJFakeObj_PlayerNew1",  "CObject_PlayerOther", "Camera_Main"},
 		{"XFSJFakeObj_PlayerNew2",  "CObject_PlayerOther", "Camera_Main"},
@@ -358,8 +358,8 @@ tObject* CFakeObjSystem::EnsureExObject(LPCTSTR szObjName)
 	const CysExEntry* entry = cysExEntry(szObjName);
 	if (!entry)
 	{
-		// CY 0x1401f95bf prints exactly this when the NAME has no entry; keep the same wording so a missing frame
-		// is recognisable in the log instead of being a silent no-op.
+
+
 		TDU_Log("CYS-MESHEX: FakeObjectAttachWindow: Fake ObjectEx szObjName is not exist(%s)", szObjName);
 		return NULL;
 	}
@@ -375,9 +375,9 @@ BOOL CFakeObjSystem::RestPose(LPCTSTR szWindowName)
 	if (it == m_listFakeUI.end() || !it->second) return FALSE;
 	FakeObject& obj = *(it->second);
 	if (m_pRotateObj == &obj) m_pRotateObj = NULL;
-	// [SL] CY's RestPositonEx ends in Render.dll (fakeEx vt[20] -> render vt[0x9e](window)), not disassembled;
-	// the avatars are created facing 0 (Obj_PlayerMySelf.cpp:132, GMDataPool.cpp Pet_SetPetModel), so "rest" = face 0
-	// + the camera the object started with.
+
+
+
 	CObject* pObj = (CObject*)CObjectManager::GetMe()->FindObject(obj.nObjectID);
 	if (pObj) pObj->SetFaceDir(0.0f);
 	const CysRttCameraBridge& bridge = cysRttCameraBridge();

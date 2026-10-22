@@ -432,10 +432,10 @@ namespace WX
     //-----------------------------------------------------------------------
     bool CysPostFxPipeline::intzSceneDepth(void)
     {
-        // CYS-PARITY (d3d9-trace L2): FACT CY 3.71 (trace cy-login-2, cy-world-1): the scene pass renders into FP16 with
-        // DS = INTZ 1280x720; the FakeLight boxes (1e1f4ac9) and the water fog volumes (78f6952f) sample that INTZ
-        // texture during the scene with depth writes off, HeightFog_DSIntZ (6c52486a) after it; there is no depth
-        // render. Render.dll picks "<material>_DSIntZ" (FUN_1801275e0, FUN_1801219e0, FUN_1801bf970).
+
+
+
+
         static const bool env = []() {
             const char* v = getenv("CYS_PARITY_INTZ");
             return !(v && v[0] == '0');

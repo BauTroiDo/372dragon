@@ -1,27 +1,27 @@
 #pragma once
-// CYS-PET: the pet (珍兽) side of the CY protocol and the Lua host functions of the CY Pet* windows. Game.exe main
-// thread only.
-//
-// What this module owns (host-pet 17/09/2026, pet-gc512 17/09/2026):
-//   * GCDetailAttrib_Pet (512)   - one per pet in the bag (scenecore.lua ask_detail_attrib -> human:send_pets_detail,
-//                                  and every per-pet refresh). Port of the 0.85 GCDetailAttrib_PetHandler normal and
-//                                  "context menu of another player's pet" branches onto the CY (ProtocolGen) layout:
-//                                  fills CDataPool::Pet_GetPet(slot) / TargetPet_GetPet(), pushes GE_UPDATE_PET_PAGE.
-//   * GCNewPet (1216)            - a summoned pet appears in the scene (port of GCNewPetHandler: CObject_PlayerNPC of
-//                                  NPC_TYPE_PET; the CY packet also carries the model, applied as the race id).
-//   * GCRemovePet (52)           - a pet left the bag (port of GCRemovePetHandler).
-//   * GCManipulatePetRet (666)   - capture / call up / recall / free result (port of GCManipulatePetRetHandler) and
-//                                  the own current-pet GUID on call up / recall (0.85 learned it from GCDetailAttrib).
-//   * CGManipulatePet (435)      - Translate of the 0.85 packet the CY windows send through Pet:Go_Fight / Go_Relax /
-//                                  Go_Free (Packets::CGManipulatePet -> pg::CGManipulatePet).
-//   * The CY-only cells of the pet record that the 0.85 SDATA_PET has no field for (lingxing, mind attack / defence,
-//                                  wuxing, growth rate, titles, pet type, used procreate count, attack type, the 12
-//                                  elemental cells, equipment) kept beside the slot, keyed by the pet GUID.
-//   * The per-slot "which window is using this pet" marker of Pet:SetPetLocation / Pet:GetPetLocation.
-//   * The Services of LuaApiGen/CysHost_Pet.cpp.
-//
-// Evidence chain: Docs/specs/client/host-pet_vi.md, read-only decompiles in Build/re/host-pet/ (B = the CY 3.71
-// Game.exe), the server clone /home/ubuntu/cys-test-20260913 (pet_detail_types.lua bos, pet_attrib.lua, scenecore.lua).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include <cstdint>
 #include <memory>
@@ -72,11 +72,11 @@ namespace CysPetNet
     bool ElementOfSelected(const char* key, int& value);
     // Skill id (DBC_SKILL_DATA id) in skill slot `pos` of the pet in slot `index`, -1 when empty.
     int SkillIdAt(int index, int pos);
-    // Pet:GetTakeLevel: PetAttrTable (DBC_PET_EX_ATT, B's DBC 0x70) row of the pet's data id, column 可携带等级
-    // (B FUN_1401c3af0 reads row+0x14 = GL column 3 = CY column 4 m_TakeLevel). 0 when no pet / no row (B pushes 0 too).
+
+
     int TakeLevel(int index);
-    // Pet:GetPetGrowLevel(index, rate*1000): 0..4 by the row's 成长率1..4 thresholds (B FUN_1401c39a0: rate <= t1 -> 0,
-    // <= t2 -> 1, <= t3 -> 2, <= t4 -> 3, else 4); -1 for a negative rate (not appraised), no pet or no row.
+
+
     int GrowLevel(int index, int ratePerMille);
 
     // ---- CYS-PETSKILL 19/09 (pet-skill-12) ----------------------------------------------------------------------

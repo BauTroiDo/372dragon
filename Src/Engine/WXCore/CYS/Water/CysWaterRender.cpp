@@ -45,7 +45,7 @@ namespace WX
     {
         CysWaterRender* gInstance = 0;
 
-        const Ogre::uint8 QUEUE_WATER_SURFACE = 77;     // CY 'M' (FUN_1801ef510, FUN_18021e7b0 pass 6: 77..85)
+        const Ogre::uint8 QUEUE_WATER_SURFACE = 77;
 
         void waterLog(const String& message)
         {
@@ -193,7 +193,7 @@ namespace WX
         , mEnabled(true)
         , mDepthUsers(0)
         , mMirrorEnabled(true)
-        , mMirrorSize(1024)             // CY: 0x400 x 0x400 (FUN_18011ef40)
+        , mMirrorSize(1024)
         , mSurfaceQueued(false)
         , mMirrorQueued(false)
         , mMirrorSeenThisFrame(false)
@@ -294,7 +294,7 @@ namespace WX
         Entry e;
         e.liquid = &liquid;
         e.material = name;
-        e.mirror = name.find("mirror") != String::npos;     // CY FUN_18011ef40: find("mirror")
+        e.mirror = name.find("mirror") != String::npos;
         e.height = liquid.mPosition.y;
         mLiquids.push_back(e);
         if (!liquid.mCYSWater.meshName.empty())
@@ -449,7 +449,7 @@ namespace WX
         releaseSceneBuffer();
         try
         {
-            // CY: SceneRender scene_buffer, format 0xc = PF_A8R8G8B8, 1.0 x 1.0 of the viewport (FUN_18021e7b0)
+
             mSceneBuffer = Ogre::TextureManager::getSingleton().createManual(SCENE_BUFFER_TEXTURE,
                 Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D,
                 (Ogre::uint)width, (Ogre::uint)height, 0, format, Ogre::TU_RENDERTARGET);
@@ -572,7 +572,7 @@ namespace WX
         Ogre::Camera* main = mSystem ? mSystem->getCamera() : 0;
         if (!main || !mMirrorCamera)
             return;
-        // INF (CY listener body not decompiled): the mirror plane of the mirror liquid nearest to the camera.
+
         const Ogre::Vector3 eye = main->getDerivedPosition();
         Real best = -1;
         Real height = 0;

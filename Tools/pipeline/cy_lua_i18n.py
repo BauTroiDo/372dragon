@@ -1,21 +1,4 @@
-"""cy_lua_i18n.py - Vietnamese display literals in the CY 3.71 UI scripts (cy-gui-2, 14/09/2026).
-
-Port of analysis/translation/manifest/lua_lexer.py + the context rules of apply_clientlua.py (translation pipeline
-of the big project, 24/08/2026) so that build_canonical_cy.py can translate the Lua literals of the CY GUI layer
-without the WSL pipeline. Only double-quoted string literals ("...") that contain Han characters outside TLBB tokens
-are candidates; a literal is left alone when its call site couples it to code:
-
-  cmp      `== "..."` / `"..." ~=`                          (compared with server/host strings)
-  index    `t["..."]`                                        (table key)
-  strfn    argument of string.find/gsub/gfind/match/len/sub  (pattern / measured text)
-  nameapi  argument of AutoRuntoTargetExWithName / AxTrace   (lookup name / debug trace)
-  blackvar assigned to g_Name*/npcname/... (server lookup names)
-  custom   inside g_Custom*/g_SignPost table constructors
-  excluded in the global exclusion set (a literal coupled somewhere is excluded everywhere: same string, same
-           semantics - cy_translate.py collects it from every CY script)
-
-After a replacement the token stream must be identical except for the replaced literals (verify_lex_equal).
-"""
+'cy_lua_i18n.py - Vietnamese display literals in the CY 3.71 UI scripts (cy-gui-2, 14/09/2026).\n\n  cmp      `== "..."` / `"..." ~=`                          (compared with server/host strings)\n  index    `t["..."]`                                        (table key)\n  strfn    argument of string.find/gsub/gfind/match/len/sub  (pattern / measured text)\n  nameapi  argument of AutoRuntoTargetExWithName / AxTrace   (lookup name / debug trace)\n  blackvar assigned to g_Name*/npcname/... (server lookup names)\n  custom   inside g_Custom*/g_SignPost table constructors\n  excluded in the global exclusion set (a literal coupled somewhere is excluded everywhere: same string, same\n           semantics - cy_translate.py collects it from every CY script)\n\nAfter a replacement the token stream must be identical except for the replaced literals (verify_lex_equal).\n'
 import re
 from collections import Counter
 

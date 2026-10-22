@@ -1,18 +1,18 @@
 #ifndef __CYS_SKYCYRENDERER_H__
 #define __CYS_SKYCYRENDERER_H__
 
-// CYS-SKY (sky-enscene, Docs/specs/render/sky-enscene-cy_vi.md): the sky of CY 3.71 drawn the way its Render.dll does,
-// with the shaders of MaterialTemplates.zip EnScene.hlsl / SkySphereLayer.hlsl and the materials of all.material:
-//   EnScene  : EnDome (FUN_1802391e0 / FUN_18023a0e0)  entity enskydome.mesh, "EnScene/skyDome", queue 5 prio 100
-//              EnCloud (FUN_18023a350 / FUN_18023b200) <meshname>, clone of "EnScene/cloud", queue 59 prio 90+layer
-//              EnRingCloud (FUN_18023b940 / FUN_18023c7a0) <meshname>, clone of "EnScene/ringcloud", queue 59 prio 110+layer
-//              EnMoon / EnSun (FUN_180235a10 / FUN_180236000, FUN_180236220 / FUN_1802378a0) plane 200x200 at 9000,
-//              "EnScene/moon" / "EnScene/sun", queue 59 prio 90+layer
-//   SkySphere: SkySphereLayer (FUN_1801d0440 / FUN_1801d0ba0 / FUN_1801ce6f0) generated band mesh, pass with
-//              SkySphereLayerBlend_<One|Two|Three>Texture_VS_1_1_hlsl / _PS_2_0_hlsl, queue 5 prio 100
-// The per-frame constants follow the CY update functions (hours = CYSEnvironment::timeOfDay). Stars, sun flare, the
-// SkySphere moon and stars have no CY shader draw in the captured frames; they stay on the fixed-function
-// CYSSkyRenderer (built as "extras"). Switch: CYS_SKY_SHADER=0 -> the former fixed-function sky only.
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "CYSEnSceneData.h"
 #include "CYSSkySphereData.h"
@@ -42,7 +42,7 @@ namespace WX
 
         /// CYS_SKY_SHADER (default on) and the EnScene / SkySphereLayer programs are available.
         static bool isEnabled(void);
-        /// Direction towards the EnScene sun at `hours` (FUN_1802378a0; <Sun> defaults when absent).
+
         static Ogre::Vector3 sunDirection(const CYSEnCelestial& sun, Real hours);
 
         void buildEnScene(const CYSEnSky& sky, const String& sceneName);

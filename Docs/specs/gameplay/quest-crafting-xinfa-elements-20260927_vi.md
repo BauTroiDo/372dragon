@@ -8,8 +8,6 @@ Mã nguồn client CY-Source và server riêng `/home/ubuntu/cys-test-20260913`,
 
 Đã phát hành phần sửa được kiểm chứng vào `Build/world-gui/stage-play-21/Play.cmd`. Server riêng đang chạy 20 file trong `staged-final/manifest.json`. Hai lượt GUI cuối đều đạt; tài khoản thử đã được phục hồi đầy đủ. Các lượt thất bại được giữ nguyên trong thư mục bằng chứng.
 
-## Những lỗi đã sửa trong nguồn
-
 ### Nhiệm vụ
 
 - Request nhận/tiếp tục/nộp/kiểm tra nhiệm vụ cần người chơi còn sống và NPC thật trong bán kính tương tác 5. Giữ nguyên danh sách script được NPC cho phép; khóa request của cùng người chơi qua các lần yield.

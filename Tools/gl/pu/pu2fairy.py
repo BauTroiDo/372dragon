@@ -1,19 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-r"""pu2fairy.py - convert TLBB GL (天龙八部·归来) Particle-Universe effects (*.pu, binary JBPU) into Fairy
-(TLBB 0.85 / CY-Source engine) all.particle + all.effect + all.material fragments, DDS textures and static
-effect meshes, staged per effect under Assets\Staging\gl\effects\<effect>\ (never into Canonical/client_GL).
-
-  pu2fairy.py convert PU [PU ...] [--out-root DIR] [--prefix gl_]
-  pu2fairy.py batch SPEC.json [--out-root DIR]            SPEC: {"effects": [{"pu": path, "note": ...}, ...]}
-  pu2fairy.py rank [--top 80] [--tsv OUT] [--workers 4]   score all GL .pu for richness + convertibility
-  pu2fairy.py check DIR [DIR ...]                         syntax/schema/reference/name-collision check
-  pu2fairy.py mapping                                     print the PU -> Fairy mapping table (markdown)
-
-Output files are ASCII (a subset of GBK), CRLF, TAB indented, no comments (Docs\05 section 6.4 rules).
-Semantic assumptions about GL that could not be read from data alone are collected in SEM (see the
-decompiled evidence in Build\re\tlgl\out\pu and Tools\gl\pu\README_vi.md).
-"""
+'pu2fairy.py - convert TLBB GL (天龙八部·归来) Particle-Universe effects (*.pu, binary JBPU) into Fairy\n(TLBB 0.85 / CY-Source engine) all.particle + all.effect + all.material fragments, DDS textures and static\neffect meshes, staged per effect under Assets\\Staging\\gl\\effects\\<effect>\\ (never into Canonical/client_GL).\n\n  pu2fairy.py convert PU [PU ...] [--out-root DIR] [--prefix gl_]\n  pu2fairy.py batch SPEC.json [--out-root DIR]            SPEC: {"effects": [{"pu": path, "note": ...}, ...]}\n  pu2fairy.py rank [--top 80] [--tsv OUT] [--workers 4]   score all GL .pu for richness + convertibility\n  pu2fairy.py check DIR [DIR ...]                         syntax/schema/reference/name-collision check\n  pu2fairy.py mapping                                     print the PU -> Fairy mapping table (markdown)'
 import sys
 sys.dont_write_bytecode = True          # never drop __pycache__ into the read-only tool folders we import from
 import argparse
@@ -49,8 +36,8 @@ SEM = dict(
     dims_multiplier=True,      # emitter all_particle_dimensions / particle_width|height multiply the technique size
     default_size=50.0,         # technique default_particle_width|height|depth when absent (PU DEFAULT_WIDTH)
     scale_mode='mult1p',       # Scale affector. GL default set_scale=1 (ctor writes 0x0100 at +0x149):
-                               # size = technique default * particle factor * (1 + value)   [decompiled FUN_140746980]
-                               # 'rate' = PU size += value*dt (GL only when set_scale false; never in data)
+
+
     rot_unit='rad',            # TextureRotator / Vortex / GeometryRotator values are radians (per second)
     emitter_defaults=dict(emission_rate=10.0, time_to_live=3.0, velocity=100.0, angle=20.0, mass=1.0,
                           duration=0.0, repeat_delay=0.0),

@@ -22,9 +22,6 @@ Không có nguồn StandardImpact CY nào mới hơn tlbb15 trên máy (`scripts
 | Bot live (mục 6) | 剜心镰 4622 (恶人谷) trước: **149 lần tung, 0 sát thương**; sau: **1 lần tung → sát thương → giết**. 剑锁江山 775 (慕容) sau: 2 lần tung → 4 GCDetailHealsAndDamages + 2 GCCharDirectImpact + buff, 2 quái chết |
 
 
-
-## 1. Impact thiếu **[DK]**
-
 ### 1.1 Cách đếm
 Tham chiếu impact = ô `参数值` của SD mà `参数说明` là nhãn impact (có `效果`/`buff`, không có `几率/概率/集合/陷阱/次数/数目/上限/半径/时间/距离/类型/百分/%/权重/层数/脚本/冷却/范围/说明/宽度/步长/技能ID/阈值/倍率/系数`), giá trị ≥ 0;
 cộng `ST.珍兽技能产生的效果ID` và `EquipBase` cột 19 (`Tools/server/server_impact.py collect_refs`).
@@ -187,7 +184,6 @@ Bằng chứng `Build/Logs/2026-09-14-server-impact/` (script trong `scripts/`).
 7. Dọn: chờ rảnh → stop → `char-skill --restore` (skill_list gốc 9 mục) + `cs3a_move_test_char.py apply --scene 2 --x 160 --z 150` (`char-move-1.json`, trước: cảnh 6 46,152) → start (`restart-4.txt`, `wait-logcheck-4.txt`: 0 traceback, git 926e506 sạch).
 
 Hoàn tác: `git -C R revert 926e506 2aca108 0daf4b0` rồi restart; hoặc chép lại `R/backups/server-impact-20260915T002904Z/`; Mongo: `cys_server.sh restore backups/20260915T000804Z-truoc-server-impact`.
-
 
 
 ## 7. Còn lại / rủi ro

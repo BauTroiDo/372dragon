@@ -2,13 +2,6 @@
 
 GL LogOn.lua:323 gọi ToggleWindow("SoftKeyBoard"); SoftKeyBoard_PreLoad đăng ký TOGGLE_WINDOW và handler tự Show/Hide theo IsVisible. CY trước chỉ có generated stub và chưa đăng ký tên sự kiện. Không thay Lua GL hoặc gọi Show trực tiếp để vượt lỗi.
 
-## Contract và đối chiếu
-
-- Registry/luaapi/catalog.tsv định vị Game.exe RVA226980. B gọi helper218430 trước đọc arg1; helper kiểm scene localID77 (cmp0x4d), cùng gate OpenWindow đã có.
-- Sau gate, GetString của LuaStackObject tại IAT6df5d0 đọc arg1; đẩy một đối số vào event0x16d, trả0 giá trị. B đăng ký event0x16d với chuỗi TOGGLE_WINDOW tại RVA6ccce0/6cccea; chuỗi ở7c3228.
-- Hai vùng mã94/102byte tại226980/218430 giống byte Game.exe GL hiện tại. Toàn SHA file bản sao khác GL; không suy mọi vùng hoặc runtime giống nhau.
-- Dùng LLVM đã cài đọc bản sao trong Build/re/luaapi/gpt-p1-2-helpers/inputs, không chạy B. Evidence: Build/Logs/2026-09-13-gpt-gl-login/toggle-b-{asm.txt,gate.txt,gate-tail.txt,event-registration.txt,evidence.json}. Không dùng decompile làm source; ReVa không có tool callable ở phiên này.
-
 ## Thực hiện và kiểm thử
 
 CysHostGlobals dùng scene service hiện có, kiểm gate trước argument, phát TOGGLE_WINDOW qua pushEvent. Đăng ký nil-only trước generated catalog. CY giữ C-string/number/UTF-8, từ chối giá trị không đổi được thành chuỗi. Thiếu service có Lua error rõ; không tự tạo cửa sổ hoặc lách scene gate. GE_TOGGLE_WINDOW thêm cuối enum, giữ toàn309 ID cũ; bản đồ tên thêm một mục (toggle-event-prefix.json).

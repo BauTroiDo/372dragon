@@ -1089,36 +1089,36 @@ namespace
         object->PushCommand(&cmd);
     }
 
-    // CYS-MSGEMPTY 20/09/2026 - thong bao KINH NGHIEM, dung cho cua CY.
-    //
-    // 0.85 (ban ma nguon ta co) suy thong bao tu DELTA cua `CCharacterData::Set_Exp`, dung khoa
-    // `WIN_EXP` / `WIN_ADD_EXP`. Hai khoa do KHONG co trong bat ky tu dien nao va cung KHONG co
-    // trong `Game.exe` cua CY 3.71 (`9278c7f3...`) lan cua client 0.85 DA PHAT HANH
-    // (`0bf34493...`) => duong do da bi bo tu truoc CY.
-    //
-    // Cach cua CY: mot goi RIENG, `GCDetailExp` (1288). Cau truc duoi day KHONG phai suy dien tu
-    // ten khoa - no doc tu chinh ma CY bang XREF CHUOI (luat 22.8: dinh vi bang chuoi, khong bang
-    // ten ham). Ban dung: CY 3.71.9609, `Bin64\Game.exe` sha256 9278c7f3...; cong cu:
-    // `Tools\pipeline\cys_msgempty_cyxref.py --near 0x14058BDA0`. Ket qua, theo dung thu tu ma:
-    //     0x14058BCA8 / 0x14058BD06  GCDetailExp_Human_NormalAndAdditionalExp
-    //     0x14058BD1B / 0x14058BD76  GCDetailExp_Human_NormalExp
-    //     0x14058BDDE / 0x14058BE39  GCDetailExp_Human_AdditionalExp
-    //     0x14058BFF1 / 0x14058C04B  GCDetailExp_Pet_NormalAndAdditionalExp
-    //     0x14058C09C / 0x14058C0F3  GCDetailExp_Pet_NormalExp
-    //     0x14058C10B / 0x14058C162  GCDetailExp_Pet_AdditionalExp
-    //     0x14058C273 GCDetailExp_DARK_NAndAexp / 0x...284 _NormalExp / 0x...28D _AdditionalExp
-    // Moi khoa xuat hien DOI - dung mau `COLORMSGFUNC` + `NOCOLORMSGFUNC` (chat + thong bao noi)
-    // ma 0.85 dung o `EXP_OVERFLOW`. Va co BA khoa moi nhom, khong phai hai: khi CA HAI phan kinh
-    // nghiem deu > 0 thi CY gop lai thanh MOT dong (`...NormalAndAdditionalExp`, 2 dac ta), khong
-    // in hai dong. Neu chi doc ten khoa ma khong doc ma thi se lam sai cho nay.
-    // (`GCDetailExp_DARK_NAndAexp` dung ten RUT GON, khong theo quy luat - da kiem tay.)
-    //
-    // So dac ta khop so doi so o ca chin khoa (2/1/1 moi nhom) - cong o
-    // `Tools\pipeline\cys_msgempty_proposal.py` doc thang bang `groups[]` duoi day tu ma nguon.
-    //
-    // Server dang gui goi nay moi lan giet quai (`services/scene/obj/human.lua:3528`). Truoc ban va
-    // nay `WorldModel.cpp:392` chi DEM no (`stats_.expPackets`) roi `CysModernHandlers::Dispatch`
-    // tra `handled=false` => client ghi "first unhandled GC id=1288" va KHONG hien dong nao.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     void OnGCDetailExp(const pg::GCDetailExp& packet)
     {
         if (!IsMain()) return;
@@ -1138,20 +1138,20 @@ namespace
         for (int i = 0; i < (int)(sizeof(groups) / sizeof(groups[0])); ++i)
         {
             const Group& g = groups[i];
-            // Dau ngoac nhon la BAT BUOC: `ADDTALKMSG` (GMInterface_Script_Talk.h:128) tu no da
-            // ket thuc bang dau `;`, nen `if (..) ADDTALKMSG(x); else` no ra `...; ; else` =>
-            // C2181 "illegal else without matching if". Da sap that trong lan dung dau tien.
-            //
-            // HAI cua, khong phai mot - va day KHONG phai lam them cho chac, day la CY:
-            // xref cua CY cho THAY moi khoa xuat hien DOI (0x14058BCA8 va 0x14058BD06 cho
-            // `..._NormalAndAdditionalExp`, 0x14058BD1B/0x14058BD76 cho `..._NormalExp`, ...) -
-            // dung mau `COLORMSGFUNC` + `NOCOLORMSGFUNC` ma 0.85 dung o `EXP_OVERFLOW`.
-            // Lan dau toi chi lam mot cua (`ADDTALKMSG`) va do la LOI: trong bo du lieu CY,
-            // `ChatFrame.lua:547` de dong `ChatFrame_InsertChatContent(...)` trong CHU THICH, nen
-            // su kien `GE_CHAT_MESSAGE` khong co ai ve. Cua con lai - `ADDNEWDEBUGMSG` ->
-            // `GE_NEW_DEBUGMESSAGE` -> `DebugListBox.lua:26` -> `AddInfo` - thi SONG (bo dem
-            // census cua chinh luot do ghi `DebugListBox_ListBox|TLBB_InfoList|0,61,1024,154`,
-            // tuc dang hien tren man hinh).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             const char* key = (g.normal && g.additional) ? g.both
                             : g.normal ? g.onlyNormal
                             : g.additional ? g.onlyAdditional : NULL;
@@ -1353,7 +1353,7 @@ bool CysModernHandlers::Dispatch(const pg::Packet& packet, uint32_t generation, 
     case pg::GCLevelUp::PACKET_ID: OnGCLevelUp(static_cast<const pg::GCLevelUp&>(packet)); return true;
     case pg::GCDetailExp::PACKET_ID: OnGCDetailExp(static_cast<const pg::GCDetailExp&>(packet)); return true; // CYS-MSGEMPTY
     case pg::GCOperateResult::PACKET_ID: OnGCOperateResult(static_cast<const pg::GCOperateResult&>(packet)); return true;
-    case pg::GCWorldTime::PACKET_ID: { // CYS-SKY: CY 3.71 GCWorldTime handler FUN_1405420a0 (world time of the sky)
+    case pg::GCWorldTime::PACKET_ID: {
         const auto& p = static_cast<const pg::GCWorldTime&>(packet);
         CysWorldTime::OnPacket(p.m_Time, static_cast<int>(p.counter), p.unknow);
         return true;

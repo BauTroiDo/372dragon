@@ -1,14 +1,14 @@
 #ifndef __CYS_SCENEOBJECTS_H__
 #define __CYS_SCENEOBJECTS_H__
 
-// CY-Source (scene agent): scene object types of the B/C .Scene format that 0.85 lacks, and verbatim storage of
-// B properties that 0.85 object classes do not model (data: Tools/re/out/scene_objects.tsv, 546 scenes):
-//   EnScene (190, #FairyEnScene: config_file, enabled)        SkySphere (343, #FairySkySphere: enabled)
-//   FakeLight (4,362: size, diffuse, intensity, begin/end brightness + placement)
-//   SceneConfig (261, #FairySceneConfig: camera-distance culling), HierarchyNode (1,370, editor hierarchy),
-//   Projector -> CYSProjectorObject.h (CY decal object; was a verbatim bag until fix-projector 15/09/2026).
-// Stored-only B properties of 0.85 types: uuid (all), lockHeight, "Final transparency", "transparency switch",
-// HeightMapDouble, "actor cull", Light "end brightness"/"attenuation", Model "transparency"/"receive shadows".
+
+
+
+
+
+
+
+
 
 #include "Core/WXObject.h"
 #include "Core/WXPlacementObject.h"

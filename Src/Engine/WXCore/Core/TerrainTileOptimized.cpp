@@ -97,9 +97,9 @@ TerrainTileOptimized::createGeometry(TerrainData* data, int xbase, int zbase, in
     // CYS: the B/C terrain templates (client_GL FairyTerrain*.material -> FairyTerrainColorMap.hlsl) read the lightmap
     //      and colour-map UV "uvBlend" from TEXCOORD7: a whole-terrain UV (one lightmap / colour map per terrain).
     const bool cysBlendUV = includeLightmap || data->mCYSExtras.hasColorMap;
-    // CYS-PARITY (L5b): CY TerrainTileOptimized::createGeometry (Render.dll FUN_1801cb520) writes POSITION, NORMAL,
-    //      TEXCOORD0, [TEXCOORD1], and when lightmapped or colour-mapped only TEXCOORD7 = tile-local UV
-    //      ((x - xbase + corner) / xsize) for the tile's lightmap / colour map; 40 / 48 byte vertices (trace w09).
+
+
+
     const bool cysTileUV = Terrain::_cysTileMaps();
     if (cysTileUV)
         includeLightmap = false;

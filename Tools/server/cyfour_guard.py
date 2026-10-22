@@ -1,31 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""cyfour_guard — impact KHÔNG có mô tả thì BỎ QUA như CY, không assert (đang làm kẹt đăng nhập).
-
-Bằng chứng mã CY (tlbb15 Server, tháo mã chỉ đọc — Build/re/skill-logic/impactcore_initfromdata*.asm.txt):
-  Combat_Module::Impact_Module::ImpactCore_T::InitImpactFromData @0xa87fee
-      imp[+4] = dataIndex; imp[+0x24] = level
-      pData = GetImpactData(dataIndex)            ; call 0xa87ee6
-      if (pData == NULL) { return 0; }            ; @0xa88080 je → @0xa880b6 mov eax,0 ; ret
-      logic = GetLogic(&imp)                      ; call 0xa43425
-      if (logic == NULL) { return 0; }            ; @0xa8809b je → @0xa880c2 mov eax,0
-      return logic->Init(&imp, pData) == 1;
-  Người gọi kiểm giá trị trả về rồi BỎ QUA (vd StdImpact115_T::OnActive @0xa5f415 `test eax,eax; jne`).
-  ⇒ CY: thiếu mô tả hiệu ứng → không dựng impact, KHÔNG dừng chương trình.
-
-Phía server riêng, `cy_four_combat/engine.lua:67` lại `assert(config.impacts[data_index], "unmapped
-positional impact")`. Một buff cũ (kể cả đã hết hạn) trỏ tới Data_Index không có mô tả positional làm
-`human.ctor → impact_data.init_from_db_data → register_impact → on_impact_activated` ném lỗi ⇒ nhân vật
-KHÔNG đăng nhập được. Hai lớp vá (đều theo CY):
-
-  1. `lualib/db/impact_data.lua`: bỏ qua buff lưu trong DB mà `data_index` không có dòng StandardImpact
-     — đúng nhánh `GetImpactData(dataIndex) == NULL → return 0` của CY.
-  2. `lualib/cy_four_combat/engine.lua`: `bridge:state` trả nil + ghi log MỘT LẦN cho mỗi data_index
-     thay vì assert; mọi phương thức do `make_impact` sinh ra được bọc để khi thiếu mô tả thì trả giá trị
-     trung tính (point/damage giữ nguyên, continuance_cal rơi về base, số đếm 0, cờ false).
-
-  cyfour_guard.py plan --out <dir> | apply --staging <dir> [--dry-run] | verify [--staging <dir>]
-"""
+'cyfour_guard — impact KHÔNG có mô tả thì BỎ QUA như CY, không assert (đang làm kẹt đăng nhập).\n\nPhía server riêng, `cy_four_combat/engine.lua:67` lại `assert(config.impacts[data_index], "unmapped\npositional impact")`. Một buff cũ (kể cả đã hết hạn) trỏ tới Data_Index không có mô tả positional làm\n`human.ctor → impact_data.init_from_db_data → register_impact → on_impact_activated` ném lỗi ⇒ nhân vật\nKHÔNG đăng nhập được. Hai lớp vá (đều theo CY):\n\n  1. `lualib/db/impact_data.lua`: bỏ qua buff lưu trong DB mà `data_index` không có dòng StandardImpact\n     — đúng nhánh `GetImpactData(dataIndex) == NULL → return 0` của CY.\n  2. `lualib/cy_four_combat/engine.lua`: `bridge:state` trả nil + ghi log MỘT LẦN cho mỗi data_index\n     thay vì assert; mọi phương thức do `make_impact` sinh ra được bọc để khi thiếu mô tả thì trả giá trị\n     trung tính (point/damage giữ nguyên, continuance_cal rơi về base, số đếm 0, cờ false).\n\n  cyfour_guard.py plan --out <dir> | apply --staging <dir> [--dry-run] | verify [--staging <dir>]\n'
 import argparse
 import datetime
 import json

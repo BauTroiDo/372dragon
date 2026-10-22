@@ -110,8 +110,8 @@ VOID CObject_Bullet::Initial( VOID *pInit )
 	m_fStartToEndDist = TDU_GetDist(m_fvTargetPos, m_fvStartPos);
 	m_bAlreadyHit	= FALSE;
 
-	// CYS-AUDIO: CY 3.71 FUN_14061a720: Bullet.txt column 4 (fly sound, row +0x18) plays looping in 3D at the bullet
-	// CYS-AUDIO: and its handle is kept; FUN_14061a850 stops it and plays column 7 (hit sound, row +0x30) once.
+
+
 	CSoundSystemFMod::StopSoundHandle(m_nCysFlySound);
 	if(m_pBulletData != NULL && m_pBulletData->m_szFlySound != NULL)
 		m_nCysFlySound = CSoundSystemFMod::PlaySoundFileAtGame(m_pBulletData->m_szFlySound, GetPosition(), TRUE, "bullet-fly");
@@ -270,7 +270,7 @@ VOID CObject_Bullet::AlreadyHit( VOID )
 	}
 
 	m_bAlreadyHit = TRUE;
-	// CYS-AUDIO: CY 3.71 FUN_14061a850 (see Initial)
+
 	CSoundSystemFMod::StopSoundHandle(m_nCysFlySound);
 	if(m_pBulletData != NULL && m_pBulletData->m_szHitSound != NULL)
 		CSoundSystemFMod::PlaySoundFileAtGame(m_pBulletData->m_szHitSound, GetPosition(), FALSE, "bullet-hit");

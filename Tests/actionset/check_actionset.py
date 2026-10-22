@@ -36,9 +36,9 @@ from validators.common import DataRoot, tags, disp  # noqa: E402
 BASE_ACTIONS = [(0, 'idle'), (1, 'idle_ex0'), (2, 'idle_ex1'), (3, 'walk'), (4, 'run'), (5, 'sit_down'),
                 (6, 'sit_idle'), (7, 'sit_stand'), (14, 'f_idle'), (15, 'f_walk'), (16, 'f_run'), (23, 'be_hit'),
                 (24, 'die'), (25, 'cadaver')]
-# Slot layout of ActionSetLine. GL (client_GL, 11 or 15 columns): 0..8 weapons, 9 shared, 10..14 sects.
-# CY 3.71 (16 columns, cs1-tables/cs2-world): SlotFromEquipType (CY FUN_1405c6df0) selects 0..12 and 15 for the
-# weapon types, the shared slot of monsters/NPCs/pets/riders is 13 and slot 14 is data-only (never selected).
+
+
+
 GL_PLAYER_SLOTS = list(range(0, 15))
 GL_SHARED_SLOT = 9
 CY_PLAYER_SLOTS = list(range(0, 13)) + [15]

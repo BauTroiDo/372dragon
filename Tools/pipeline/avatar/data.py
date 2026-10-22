@@ -43,16 +43,16 @@ COLUMN_PROFILES = {
         'cme_action_set': 20,            # CharModelEx: ActionSetFile row (CY Game.exe row+0x5c)
         'hair_mesh': 2, 'hair_mesh2': 4, 'hair_label': 6,   # CharHairGeo: [3]/[5] are the _iv variants
         'face_mesh': 2, 'face_label': 4,
-        # ItemVisualLocator slot -> (object column, material column, tag). Evidence: value scan of DataCY
-        # (right/left 2/5 hold weapon *.obj, 9 = psoul/武魂 objects, 13 = toy objects, 17/21/25 = CR_2021 大刀 /
-        # 双刀右 / 双刀左 = back + two waist sheaths; slot names are the SlotCreate attributes of 男主角.obj and the
-        # strings LeftWeaponObj/RightWeaponObj/FootWeaponObj/NewBackWeaponObj/WaistWeaponObj1/2 of CY Game.exe
-        # FUN_1405e1f40 (Obj_Character.cpp:0x492)). Material columns are the following column ([SL]: empty in CY).
+
+
+
+
+
         'ivl_slots': ((b'RightWeaponObj', 2, 3, 'rw'), (b'LeftWeaponObj', 5, 6, 'lw'),
                       (b'FootWeaponObj', 13, 14, 'fw'), (b'NewBackWeaponObj', 17, 18, 'bw'),
                       (b'WaistWeaponObj1', 21, 22, 'w1'), (b'WaistWeaponObj2', 25, 26, 'w2')),
         'kfs_slot': (b'KFSObj', 9, 10, 'kfs'),
-        # EquipBase Type % 30 -> ActionSetLine slot (CY Game.exe FUN_1405c6df0); column = slot + 1, bare hands = 1
+
         'type_slot': {0: 2, 1: 1, 2: 4, 3: 3, 4: 5, 5: 6, 6: 7, 7: 15, 8: 8, 9: 9, 10: 10, 16: 11, 17: 12},
         'shared_slot': 13,
         'mount_add_height': 22,          # CharMount camera add-height (client_GL col 14)

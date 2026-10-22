@@ -36,8 +36,6 @@ Mọi số so với mốc `6ca25a8` và **giữ nguyên Lua của mốc đó**, 
 | 慕容 Mộ Dung | 68 → 8 | | 天山 Thiên Sơn | 19 → 8 |
 | 桃花岛 Đào Hoa | 67 → 8 | | 明教 / 少林 / 丐帮 | 7 → 3 / 5 → 1 / 2 → 2 |
 
-## 1. Khảo sát nguồn: cái gì có thật, cái gì phải suy **[DK]**
-
 ### 1.1 Không có bảng StandardImpact của CY 3.71 trên máy — đã kiểm lại
 - `find /c/TLBB/085 -iname '*standardimpact*'`: mọi bản đều là (a) tlbb15 `Server/Config/StandardImpact.txt` (8.137.022 B, 23.520 dòng), (b) bảng server GL/085, hoặc (c) bản sao/backup của hai thứ đó. **Chỉ một nguồn họ-CY duy nhất là tlbb15.**
 - StandardImpact là bảng **chỉ có ở server**: trong mã 0.85 (`Reference/tlbb085`) chỉ `Server/.../GameTable.cpp`, `Impact_Core.cpp`, `FileDef.h` nhắc tới; client không nạp. Nên client CY 3.71 (DataCY31-08-26) **không thể** có bảng này.
@@ -131,19 +129,6 @@ Mốc "trước" = `Build\Logs\2026-09-15-menpai-audit\live-results.tsv` (server
 Cả ba trước đây bị `menpai-audit` xếp "gửi chiêu không tác dụng" (mục 1.2 của audit). 0 traceback trong log phiên.
 Lượt bot bị dừng giữa chừng theo yêu cầu người điều phối để gộp restart với agent `skill-logic`; các chiêu 唐门/鬼谷/恶人谷 chạy tiếp sau restart.
 
-## 5. Còn lại / rủi ro
-
-- **1.457 ID impact vẫn không có nguồn thật**, trong đó **183 ô cấp 1–4** của 15 phái, thuộc **43 kỹ năng** [DK `06-remain-p1.txt` dựng lại trên bảng cuối]:
-  - **第八心法** (logic kỹ năng 643/644), 13 kỹ năng × 4 ô: 龙盘斗里, 泗水围城, 紫雾扰心, 碎舟入渊, 六合禁域, 万宿辰光, 步罡踏斗, 良夜游, 潮生云灭, 容海川, 意长流, 噬魂九淬, 缚魂狂镰 — tip chỉ ghi "强力控制…根据评分" không có số. Các chiêu này đòi tâm pháp 71–80 nên nhân vật cấp 30 chưa dùng được → ảnh hưởng chơi thực tế thấp [SL].
-  - **星宿 巨莽/蝎** (nhóm lớn nhất, ~60 ô): 神蝎百相 (`变身男buff`/`变身女buff`/`免控buff`), 蝎行无阻 ×2, 毒螯势 ×3 (logic 171 đổi kỹ năng), 饮鸩止渴, 圣蚕护身 — cơ chế biến thân CY-only, tlbb15 không có dòng nào.
-  - **Cơ chế CY mới, không có dòng cùng tên**: 恶人谷 生死由我 (`消耗N个拘魂状态的效果`), 唐门 千机变/诸葛神弩/神机幻影/沙场点兵/矢魂箭, 丐帮 业火焚城/斗犬十弄/无处遁形/六剑齐发/彼道还施/剑归我道, 峨嵋 蚀心白骨爪·九阴/金针渡劫, 鬼谷 借东风/缩地成寸.
-  Muốn bù đúng thì cần bảng StandardImpact của **server CY 3.71** (không có trên máy) hoặc dựng tay theo tip + mã native (`Build\re\impact-logic\`).
-- **`series` (714 dòng, 570 mức "thấp")**: các cấp của một ô dùng chung số của cấp gần nhất → kỹ năng **không mạnh lên theo cấp** ở ô đó. Đúng cơ chế, sai cân bằng [SL]. Việc sau: nội suy theo cấp như `server-impact` R1 khi có ≥ 2 mốc thật.
-- **Chênh tip CY ↔ dòng mẫu**: công cụ không tự sửa số (vd `软猬仙身` tip "phản đòn tối đa 2000" ↔ dòng mẫu `反射伤害上限=20000`). Nên thêm `plan --fix-from-tip` có kiểm tay.
-- **79 dòng mới rơi `null_logic_buff`** (logic chưa cài, chỉ hiện icon) — chờ agent cài các logic đó (tiếp `impact-logic`).
-- **Ghép ô ↔ nhóm tên theo thứ tự** (`name2`): khi một kỹ năng có nhiều ô thiếu và nhiều nhóm tên, ghép theo thứ tự cột ↔ thứ tự ID. Có thể lệch vai trò (sát thương ↔ khống chế) ở kỹ năng nhiều hiệu ứng [SL]; TSV ghi rõ nhóm tên đã dùng để rà lại.
-- Dòng mẫu dùng chung `互斥ID`/`分类ID` với dòng gốc → hai kỹ năng cùng họ thay thế buff của nhau. Đúng như thiết kế TLBB, nhưng nếu thấy buff bị mất khi đổi chiêu thì xem lại đây trước.
-
 ## 6. Chỉnh SỐ cho khớp CY (`impact_data.py fix`) **[DK]**
 
 Dòng bù là bản sao của bản HJ nên **cơ chế đúng mà số thường lệch** (mục 2.6). Lệnh `fix` sửa phần số đó.
@@ -195,7 +180,6 @@ Bằng chứng từng ô (tham số hiện có + tip nguyên văn): `46-need-sou
 
 ### 6.2 Nhóm A — "% phổ công" nằm ở **bên gọi**, không ở dòng impact **[DK mã native + Lua]**
 
-Đã tháo mã native của `Combat_Module::Impact_Module::StdImpact003_T` (blob `PT_LOAD#1` VA `0x3f0000` của `tlbb15/Server/Server`; bảng symbol ở `Build\re\impact-logic\stdimpact-methods.tsv`; mã tháo: `Build\re\impact-data\stdimpact003.asm.txt`, script `scripts/60-disasm.sh`):
 
 | Hàm | VA | Kích thước |
 |---|---|---|

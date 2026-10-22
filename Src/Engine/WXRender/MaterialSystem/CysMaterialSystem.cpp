@@ -43,8 +43,8 @@ namespace CYS
 {
     namespace
     {
-        // ------------------------------------------------------------------ per-instance constants
-        // Render.dll FUN_180156ab0: name, component count (type 0xb..0xe), default value (FACT).
+
+
         const InstanceParamInfo kInstanceParams[] = {
             { "tex0BlendColor", 4, { 0, 0, 0, 0 } },
             { "multiBlendColor", 4, { 1, 1, 1, 1 } },
@@ -409,9 +409,9 @@ namespace CYS
             return false;
         if (classify(fp) != FAMILY_MODEL)
             return false;
-        // FACT (CY 3.71 Render.dll FUN_18021b1e0, Build\Logs\2026-09-14-shadow-cy\cy-re): every model pass gets a
-        // shadow-receiver program pair whose LIGHT_CALC_TYPE is forced to 2 (added when missing, kept only when 0)
-        // plus SHADOWMAP_TYPE 1. Unlit templates (LIGHT_CALC_TYPE=0: outline, unlit skin) stay unlit.
+
+
+
         const String lc = defineOf(fp, "LIGHT_CALC_TYPE");
         return lc != "0" && lc != "2";
     }
@@ -863,14 +863,14 @@ namespace CYS
                 base = "Particle_VS"; // billboards / ribbons: colour = vertex colour + emissive (CalcLight.inc:78-85)
                 break;
             }
-            // CYS fx-render: meshes (mesh particles, effect meshes on models) take the Model VS, as B does. FACT: the
-            // VS name builder of Render.dll (FUN_1802120b0) only produces Model[_Skin][_VsAnimation]..._VS or
-            // Depth..._VS for a pass, and B has the macro slot USE_MODEL_VS_OUT (FUN_180154160, slot 0x13) for the
-            // particle pixel shaders (ParticleDef.inc:27). With LIGHT_CALC_VS and the Mtl_Particle ambient/diffuse
-            // 0 0 0, the colour is derived_scene_colour = self-illumination (the mesh particle colour) and the alpha
-            // comes from surface_diffuse_colour.a (the mesh particle alpha) in the pixel shader. Particle_VS read
-            // COLOR0, which such meshes lack: alpha 0, so every 'src_alpha' mesh particle was invisible. D3D9 SM3
-            // links VS outputs to PS inputs by semantic (TEXCOORD0, COLOR0), so the pixel shader is not recompiled.
+
+
+
+
+
+
+
+
             base = mode == SKIN_NONE ? "Model_VS" : "Model_Skin_VS";
             if (mode == SKIN_QUAT)
                 extra["USE_QUAT_SKIN"] = "1";
@@ -1313,8 +1313,8 @@ namespace CYS
             defines["LIGHT_CALC_TYPE"] = "2";
             const String vpName = pass->getVertexProgramName();
             const String vv = getProgramVariant(vpName, defines);
-            // CYS-LOOK: CY Render.dll FUN_180166280: terrain receiver PS = {SHADOWMAP_TYPE=1, LUT_ENABLE=1,
-            // LIGHT_CALC_TYPE=2}, VS without LUT_ENABLE
+
+
             if (receiverLutEnabled() && samplerFree(pass, 4))
                 defines["LUT_ENABLE"] = "1";
             const String fv = getProgramVariant(fpName, defines);
@@ -1338,10 +1338,10 @@ namespace CYS
             if (!vp.isNull() && defineOf(vp, "LIGHT_CALC_TYPE") == "2")
                 defines["LIGHT_CALC_TYPE"] = "2";
         }
-        // CYS-LOOK: CY Render.dll FUN_18021b1e0 gives every lit model pass a receiver pixel shader with LUT_ENABLE=1
-        // (macro slot 0x12) next to SHADOWMAP_TYPE=1; Diffuse.inc applies it to scene objects only
-        // (imodel_userdata.x == 0), actors keep their colours.
-        // (Model_ps.hlsl / Model_Flow_ps.hlsl put dissolveRampMap on s4 when DISSOLVE_EFFECT == 5: no LUT there.)
+
+
+
+
         if (classify(fp) == FAMILY_MODEL && isReceiverDefineSet() && pass->getLightingEnabled() &&
             defineOf(fp, "DISSOLVE_EFFECT") != "5" && receiverLutEnabled() && samplerFree(pass, 4))
             defines["LUT_ENABLE"] = "1";

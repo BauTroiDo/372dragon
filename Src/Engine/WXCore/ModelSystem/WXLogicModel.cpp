@@ -2172,7 +2172,7 @@ namespace WX	{
                 info.mRotation = locatorNode->getWorldOrientation() * offsetRotation;
                 info.mPosition = locatorNode->getWorldOrientation() * ( locatorNode->_getDerivedScale() * offsetPos )
                     + locatorNode->getWorldPosition();
-                // CYS: B getLocatorWorldTransform (FUN_1800c6c80): the scale follows the locator
+
                 if (mEffectFollowScale)
                     info.mScale = locatorNode->_getDerivedScale();
 
@@ -2241,7 +2241,7 @@ namespace WX	{
 			info.mRotation.ToRotationMatrix(mat);
 
 			info.mPosition = mModelMainNode->_getFullTransform() * bone->_getDerivedPosition() + mat * offsetPos;
-			// CYS: B getBoneWorldTransform (FUN_1800c6590): the scale follows the model node
+
 			if (mEffectFollowScale)
 				info.mScale = mModelMainNode->_getDerivedScale();
 
@@ -2441,7 +2441,7 @@ namespace WX	{
 			AnimationEffectInfo *effectInfo = mCurrentSkill->getAnimationEffectInfo(i);
 			assert (effectInfo);
 
-			// CYS: B DefaultShow (FUN_1800b0ea0): while the system hides skill effects only DefaultShow ones are made
+
 			if ( mSystem->getHideAnimationEffects() && false == effectInfo->getDefaultShow() )
 				continue;
 
@@ -2554,7 +2554,7 @@ namespace WX	{
 
 			Effect *effect = effectInfo->getEffect();
 
-			// CYS: B DefaultShow (FUN_1800b97e0)
+
 			if (effect && effectInfo->getAttach() &&
 				( false == mSystem->getHideAnimationEffects() || effectInfo->getDefaultShow() ))
 			{

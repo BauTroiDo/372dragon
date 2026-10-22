@@ -52,10 +52,10 @@ namespace CysActionSet
 			return (unsigned int)b[0] | ((unsigned int)b[1] << 8) | ((unsigned int)b[2] << 16) | ((unsigned int)b[3] << 24);
 		}
 
-		// CYS-CY: CY 3.71 (Assets/CanonicalCY) ships the three tables as binary DBC (magic 0xDDBBCC00, TLBB_DBC.h
-		// FILE_HEAD: fields, records, string bytes; one 4-byte type per field; 4-byte cells; string pool). CY Game.exe
-		// FUN_1405b7610 opens them through its DBCFile. Cells become the text cells the text path would produce.
-		// Returns false when the buffer is not binary; a truncated binary buffer yields no rows.
+
+
+
+
 		bool SplitBinaryRows(const char* pData, size_t nSize, std::vector<Row>& rows)
 		{
 			if(nSize < 16 || Read32(pData) != 0xDDBBCC00u) return false;
@@ -157,7 +157,7 @@ namespace CysActionSet
 	int SlotFromEquipType(int nEquipType)
 	{
 		if(nEquipType < 0) return SLOT_NONE;
-		switch(nEquipType % 30)	// CYS-CY: CY 3.71 FUN_1405c6df0: signed remainder, jump table of 18 (0..17)
+		switch(nEquipType % 30)
 		{
 		case 0:		return SLOT_LONG;
 		case 1:		return SLOT_SPEAR;
@@ -218,8 +218,8 @@ namespace CysActionSet
 			m_stats.messages.push_back("... (more notes suppressed)");
 	}
 
-	// ActionSet.txt: record, set id, action id, line id (B FUN_1400e35b0 reads columns 1..3 and groups rows by set
-	// id as they change; the record column is not used).
+
+
 	bool Table::LoadActionSet(const char* pData, size_t nSize)
 	{
 		m_sets.clear();
@@ -422,7 +422,7 @@ namespace CysActionSet
 		SetMap::const_iterator it = m_sets.find(nSetID);
 		if(it == m_sets.end()) return -1;
 		const ActionList& list = it->second;
-		// B FUN_1400e3db0: linear scan of the set's rows, first match wins.
+
 		for(size_t k = 0; k < list.size(); ++k)
 			if(list[k].first == nActionID) return list[k].second;
 		return -1;

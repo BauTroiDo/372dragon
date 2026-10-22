@@ -59,8 +59,8 @@ public:
         return gx >= 0 && gz >= 0 && (std::uint32_t)gx < mesh.nx && (std::uint32_t)gz < mesh.nz;
     }
 
-    // Test segment a->b against the triangles of the cell it starts in, restricted to
-    // triangles whose blocked flag == `blocked`. Mirrors FUN_18001d8d0.
+
+
     bool segmentHitsBlockedTri(const float* a, const float* b, float* hitA, float* hitB,
                                char blocked) const override {
         int gx, gz;
@@ -85,8 +85,8 @@ public:
         return false;
     }
 
-    // Test segment a->b against the constraint edges (walls) of the cell it starts in.
-    // Mirrors FUN_18001d810.
+
+
     bool segmentHitsConstraintEdge(const float* a, const float* b, float* hitA,
                                    float* hitB) const override {
         int gx, gz;

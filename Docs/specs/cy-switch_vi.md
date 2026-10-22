@@ -25,10 +25,6 @@ Quy ước: **[DK]** là dữ kiện đo được, có đường dẫn/offset. *
 
 ---
 
-## 2. Giao thức CY 3.71 so với skynet (DoD 1)
-
-Phương pháp (chỉ tĩnh): đọc RTTI `.?AV<Tên>Factory@Packets@@` → COL → vtable, slot `GetPacketID` là hàm `mov eax, imm32; ret` (`Tools/re/cyswitch/pkt_ids.py`). Kiểm phương pháp trên client_GL: **488/488** tên chung có ID trùng đặc tả skynet. Hàm ghi header/gói được decompile bằng Ghidra headless chỉ đọc trên bản sao (`Build/re/cy-switch/projCG`, `projB`).
-
 ### 2.1 Số đo **[DK]**
 
 | Chỉ số | client_GL | CY 3.71 | skynet | tlbb15 |
@@ -38,15 +34,6 @@ Phương pháp (chỉ tĩnh): đọc RTTI `.?AV<Tên>Factory@Packets@@` → COL 
 | Gói login skynet (16): có tên / cùng ID | 15/15 | 15/13 | — | — |
 | Gói game skynet (481): có tên / cùng ID | 473/473 | 432/**11** | — | — |
 
-- **CY dùng ID khác cho 423/447 gói chung.** 307 ID mà skynet dùng thì CY gán cho gói khác. Ví dụ `CGConnect` skynet/GL = 49, CY = 456 (456 là `GCConnect` ở skynet); `GCEnterScene` 1764 → 380; `CGCharMove` 352 → 2345; `CGHeartBeat` 3 → 896. Ba gói login `CLAskLogin` 299, `CLConnect` 355, `LCRetLogin` 223 trùng.
-- CY có 910 gói skynet không có; skynet có 50 gói CY không có (`CGAcqStall*`, `CGPetSoulXiShuXing`, `CGWuhunWG`…). 705/910 ID của gói chỉ-CY đang trống trong bảng ID skynet.
-- **Khung giống nhau:** hàm ghi header GL `FUN_1404664d0` và CY `FUN_1406e6df0` cùng mã: `u16 id`, rồi `u32 = (seq << 24) | size` → đúng header skynet `{u16 id, u16 size, u16 idx=seq<<8}`. Đọc header: size+6 ở cả hai (`FUN_140388330` / `FUN_14050f060`). CY đặt seq = 0x7B khi kết nối (`FUN_1405105f0`), như GL. Không có mã hoá luồng trong đường ghi.
-- **CY thêm:** `SendPacket` CY (`FUN_14050ea70`) ghi tiền tố ASCII `TLBB01` (6 byte) trước mỗi gói khi chế độ mạng (`+0x3aa6c`) là 1 hoặc 2. Chưa lần nguồn đặt chế độ **[SL: gateway/proxy]**.
-- **Bố cục gói login/game khác:**
-  - `CLAskLogin::Write`: GL `50,4,len,4,32,16,128,128,4×5,1,33,512,16,1,4` (= len+949); CY `50,4,len,4,9,32,16,128,128,4×3,1,1,1,512,4,1,20,4` (= len+927).
-  - `uVersion` ghi vào `+0x1a4`: GL **0x802** (`FUN_1403e8e60` → `FUN_14066d4e0`), CY **0x37196** (`FUN_14062e240` → `FUN_140831ba0`). Chú thích "0x705 → 0x785" ở `services/login/packet.lua:152` không phải hằng client ghi; logind không kiểm version. Hằng 0x785 trong CY (`FUN_1408209a0`) là mã log "On Packet Overflow".
-  - `CLConnect`: GL 110 B (`4,50,32,24` = đúng `bis` skynet), CY 124 B (`1,4,50,4,1,32,4,4,24`).
-  - `CGConnect`: GL 108 B, CY 140 B.
 
 ### 2.2 Kết luận
 
@@ -54,11 +41,8 @@ Phương pháp (chỉ tĩnh): đọc RTTI `.?AV<Tên>Factory@Packets@@` → COL 
 - **tlbb15 không hợp với client nào đang có:** ID trùng 6,0% với GL, 5,5% với CY, 5,9% với skynet, tức chỉ bằng mức trùng ngẫu nhiên của các ID login/thấp. Nó là server của một nhánh thứ ba (bố cục bảng HJ). Mức chắc chắn: cao về ID; không xét bố cục trường.
 - Client của dự án là Game.exe dựng từ mã (ProtocolGen theo skynet), nên việc ID của CY khác **không chặn** việc dựng "giống CY". Nó chỉ loại việc dùng nguyên CY Game.exe làm client.
 
-Bằng chứng: `protocol/protocol-evidence.json`, `protocol/pkt_compare.tsv`, `protocol/pkt_compare_summary.json`, `protocol/pkt_compare_4way.json`, `pkt_ids_{gl,cy,tlbb15_*}.tsv`, `protocol/ghidra/*.txt`.
 
 ---
-
-## 3. Dữ liệu CY so với Canonical GL (DoD 2)
 
 ### 3.1 Bảng DBC **[DK]**
 
@@ -131,12 +115,6 @@ Bằng chứng: `data/res_compare_cy.json`, `viewer/`.
 
 **Quyết định cơ chế:** chuyển hẳn lúc build (không có hồ sơ dữ liệu lúc chạy). Game.exe từ nhánh `cs1-tables` chỉ đọc đúng `Assets/CanonicalCY`; `Assets/Canonical` (GL) chỉ còn làm đối chứng lịch sử. Stage GL cũ (world3b, replay) phải dùng binary trước CS1. Chỉ thị người dùng 14/09 chiều "Mọi thứ như CY": bảng GUI cũng theo CY (bỏ ngoại lệ GUI giữ GL).
 
-**Bằng chứng cột** (`Build/Logs/2026-09-14-cs1-tables/`, công cụ ở `Build/re/cs1-tables`):
-- **[DK]** Căn giá trị GL → CY trên các dòng cùng ID **và** cùng cột khoá (`align_cy.py`, ví dụ Monster khoá cấp + MP; EquipBase khoá Type/Index/EquipPoint/giá; SkillTemplate khoá icon), đối chiếu dòng mẫu (`dump_rows.py`), kiểu cột thật của CanonicalCY.
-- **[DK]** Ghidra headless chỉ đọc trên bản sao `projCG` (CY Game.exe sha `9278c7f3…`): `OpenAllDataBase` = `FUN_140091df0` (563 bảng, ID CY: CharModelEx 107, CharMount 109, EquipBase 115, SceneDefineEx 136…); `GetDataBase` là slot vtable `+0x88`; kích thước bản ghi CY khớp cột tự nhiên (CharHairGeo 88, CharFaceGeo 72, CharModelEx 96, CharMount 128, CommonItem 136, GemInfo 368, ItemVisualChar 184, ItemVisualLocator 504, SkillTemplate 448, SkillDeplete 24, SceneDefineEx 160, PlayerExpLevel 16).
-- **[DK]** CharModelEx: bộ động tác đọc ở `row+0x5c` = **cột 20** (`FUN_1405c6c40`, `FUN_1405d8b60`); cột 2 là `*_iv.obj` (`row+0x10`, dùng thay cột 1 khi cờ toàn cục bật). CharMount: `row+0x10==2` chọn ghế 2, locator `row+0x28` (cột 8) / `row+0x38` (cột 11), `row+0x7c` (cột 23) truyền vào hàm gắn người cưỡi.
-- **[DK]** ActionSetLine CY: 16 slot + 3 ô phụ (bản ghi 0x26, `FUN_1405b7610`); Type%30 → slot (`FUN_1405c6df0`): 0→2, 1→1, 2→4, 3→3, 4→5, 5→6, 6→7, 7→15, 8→8, 9→9, 10→10, 16→11, 17→12; quái/biến hình/cưỡi/xe → slot 13 (`FUN_1405e3230`, `FUN_1405e33a0`, `FUN_1405d84f0`).
-- **[DK]** Bảng CY nhị phân mà parser cũ chỉ đọc text: `ActionSet/*.txt`, `BeHit.txt` → đã thêm đường nhị phân.
 
 **Kết quả:**
 - 25 struct đổi theo CY (bảng ở `Registry/abi/dbc_struct_columns_cy.tsv`, thành viên theo cột) + `_DBC_UI_LAYOUTDEFINE` (InterfaceEx 10 cột). Thành viên giữ tên GL khi cột căn được; cột mới/chưa rõ = `unk_N`, không đọc.
@@ -166,8 +144,6 @@ Bằng chứng: `data/res_compare_cy.json`, `viewer/`.
 | Kết luận | **Khuyến nghị** | Loại; chỉ dùng tlbb15 làm nguồn tham chiếu cột/ script HJ (đọc tĩnh) | Loại. Nếu cần "oracle" CY thì giới hạn login → vào cảnh → đi (~15 gói), không làm trước CS3 |
 
 ---
-
-## 6. Các pha (có DoD)
 
 ### CS0 — Đo và gốc dữ liệu (XONG 14/09)
 - DoD đạt: mục 2, 3; `Assets/CanonicalCY/Data` idempotent (chạy lại ghi 0 file), verify sâu sha256; viewer vẽ cảnh 2 và 2 nhân vật CY.

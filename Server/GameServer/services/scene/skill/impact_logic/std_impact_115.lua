@@ -1,26 +1,26 @@
--- skill-logic (CY-Source 16/09/2026): logic impact 115 — "sát thương bằng N % đòn ĐÁNH THƯỜNG".
---
--- Đây là cách CY diễn đạt các mô tả kiểu "造成100%普通攻击伤害" / "造成80%普攻伤害" trong tip kỹ năng:
--- KHÔNG phải một ô tham số của StandardImpact (không có cột "% phổ công"), mà là một dòng StandardImpact
--- riêng mang 逻辑ID = 115 với tham số 0 = 伤害量缩放系数.
---
--- MÃ CY (tlbb15 Server, tháo mã ở Build/re/skill-logic/stdimpact115_*.asm.txt — chỉ đọc file, không chạy binary):
---   StdImpact115_T::InitFromData @0xa5f204: imp[+0x2c] = round(修正步长0 × imp.level) + 参数值0
---       (+0x2c là ô sát thương ĐẦU TIÊN của _OWN_IMPACT — chính ô mà StdImpact003_T::RefixPowerByRate
---        @0xa440c8 nhân với (100+rate)/100, theo bằng chứng của impact-data).
---   StdImpact115_T::OnActive  @0xa5f2f8:
---       1. mục tiêu còn sống, có cảnh; tìm người gây (GetSpecificObjInSameSceneByID theo imp[+0x0c]);
---       2. loại đối tượng người gây phải ∈ {1,2,3} (human/pet/monster) — `(type-1) u< 3`;
---       3. CombatCore::Reset; ImpactCore::InitImpactFromData(core, **DataIndex 0**, &newImp, mục_tiêu, 0)
---          — dòng 0 của StandardImpact là "普通攻击的伤害效果，这一行永远不能删除或者改变.这是缺省效果";
---       4. nếu newImp có 逻辑ID == 3 → CombatCore::Reset + GetResultImpact(cc, người_gây, mục_tiêu, &newImp, 0x64);
---       5. newImp[+8] = imp[+8] (chép ID kỹ năng) rồi EventCore::RegisterImpactEvent(cảnh, mục_tiêu, người_gây, newImp, 0, -1).
---   StdImpact115_T::IsOverTimed @0xa5f538 và ::IsIntervaled @0xa5f53e đều `mov eax,0; ret` → hiệu ứng tức thời.
---
--- [SL] Bước nhân 伤害量缩放系数: bản tlbb15 truyền HẰNG 0x64 (=100) cho GetResultImpact và không đọc lại
--- imp[+0x2c] trong bốn phương thức của lớp này. Nhưng dữ liệu CY đặt hệ số khác nhau theo cấp
--- (撼岳群攻效果 43918–43923 = 100/110/125/145/170/200) và tip ghi rõ "N % 普通攻击伤害", nên ở đây áp hệ số
--- bằng ĐÚNG phép nhân của RefixPowerByRate. Hệ số 100 cho kết quả trùng khít bản tlbb15.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local class = require "class"
 local base = require "scene.skill.impact_logic.base"
 local impact = require "scene.skill.impact"

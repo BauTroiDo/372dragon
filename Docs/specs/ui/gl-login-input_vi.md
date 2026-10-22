@@ -11,7 +11,6 @@ Nhánh source từ `902ecf8`, trong phạm vi UI cần cho đăng nhập đã đ
 | `CAPLOCK_CHANGED` | `GMInputSystem` lấy mẫu khi nhận Caps Lock keydown/keyup, khi nhận focus và khi active lại; chỉ phát event khi bit toggle thay đổi. Không phát lặp do key repeat. |
 | `Window:StartFade(from,to,seconds)` | Chỉ nhận ba Lua number thật; sai type giữ nguyên như B. Lưu transition, update alpha sau `updateSelf` và trước children. Alpha đi tuyến tính theo delta, clamp đầu/cuối về [0,1], giữ target khi xong. Chỉ bước thời gian khi window visible. |
 
-Chứng cứ B chỉ đọc, không chạy: `Build/Logs/2026-09-13-gpt-gl-input/b-input-query.txt` (Game RVA `233420`, `233470`), `b-input-empty.txt` (fallback RVA `75b97b` là byte NUL), `b-start-fade.txt` (UI_CEGUI RVA `25ac0`), `b-fade-native.txt` (CEGUIBase RVA `a7750`) và `b-fade-update.txt` (`a7ae0`). B không đổi alpha ngay khi gọi StartFade. CY tránh chia 0: duration 0/âm tới target ở update kế tiếp, từ chối NaN/Inf trước khi đổi state và bỏ qua delta âm/không hữu hạn.
 
 Lua globals nằm trong `Src/Client/LuaApiGen/CysHostInput.*`, đăng ký nil-only và giữ bản sao descriptor callbacks. Root nối callback trước generated stubs và thêm ba tên event `CAPLOCK_CHANGED`, `QRCODE_MESSAGE`, `QRCODE_SCANQR_SUCCESS`. Hai tên QR chỉ được nhận diện; nhánh này không tạo dịch vụ QR hay giả event trả kết quả.
 

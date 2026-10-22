@@ -81,7 +81,7 @@ namespace WX	{
 	//---------------------------------------------------------------------
 	ParticleElement::~ParticleElement()
 	{
-		// CYS: B drops the sub-effects and the collision effects first (FUN_180215a70)
+
 		_removeParticleEffects();
 		_removeCollisionEffects();
 
@@ -125,8 +125,8 @@ namespace WX	{
             mNeedUpdateColour = false;
         }
 
-		// CYS: B ParticleElement::updateRenderInstance (FUN_180218070): sub-effects, then collision effects.
-		// Guarded by the sub-effect master switch so it can be disabled at runtime without a rebuild.
+
+
 		if ( msSubEffectsEnabled )
 		{
 			if ( mUseParticleEffect && mParticleSystem && mBasicNode &&
@@ -150,7 +150,7 @@ namespace WX	{
 	{
 		if (mParticleSystem)
 		{
-			// CYS: B sleep drops the sub-effects / collision effects of an attached system (FUN_180217e40)
+
 			if (_isSystemAttached())
 			{
 				_removeParticleEffects();
@@ -316,9 +316,9 @@ namespace WX	{
 	{
 		EffectManager& effectMgr = EffectManager::getSingleton();
 
-		// B FUN_180216c10: every live particle gets an entry, appended in particle order; an entry whose particle
-		// is no longer alive loses it. Particles are identified by address as in B, so a pool slot that is
-		// reused between two updates keeps its entry and its effect.
+
+
+
 		++mParticleEffectStamp;
 
 		Ogre::ParticleIterator it = mParticleSystem->_getIterator();
@@ -351,8 +351,8 @@ namespace WX	{
 			}
 		}
 
-		// B FUN_180216e90: the effect of a dead particle goes back to the pool at once, a new particle gets its
-		// effect, and every effect is placed on its particle.
+
+
 		const bool localSpace = mParticleSystem->getKeepParticlesInLocalSpace();
 		const bool meshRenderer = ( mParticleSystem->getRendererName() == "mesh" );
 
@@ -420,9 +420,9 @@ namespace WX	{
 	//---------------------------------------------------------------------
 	void ParticleElement::_updateCollisionEffects(void)
 	{
-		// B FUN_180216800 (_updateColPsys): a particle within 10 units of the ground (the terrain height, or the
-		// water surface kept in the terrain type info) makes the collision effect of its pool slot appear there
-		// (a slot's effect is shut down and reborn when one of its particles lands again) and is expired.
+
+
+
 		EffectManager& effectMgr = EffectManager::getSingleton();
 
 		TerrainData* terrainData = mSystem ? mSystem->getTerrainData() : NULL;
@@ -473,7 +473,7 @@ namespace WX	{
 	//---------------------------------------------------------------------
 	void ParticleElement::_removeParticleEffects(void)
 	{
-		// B FUN_180215e30
+
 		if ( false == mParticleEffects.empty() )
 		{
 			EffectManager& effectMgr = EffectManager::getSingleton();
@@ -492,7 +492,7 @@ namespace WX	{
 	//---------------------------------------------------------------------
 	void ParticleElement::_removeCollisionEffects(void)
 	{
-		// B FUN_180215ee0
+
 		if ( false == mCollisionEffects.empty() )
 		{
 			EffectManager& effectMgr = EffectManager::getSingleton();
@@ -519,7 +519,7 @@ namespace WX	{
 	//---------------------------------------------------------------------
 	void ParticleElement::shutdown(void)
 	{
-		// CYS: B shutdown drops the sub-effects / collision effects when it disables an emitter (FUN_180217d80)
+
 		if (mParticleSystem)
 		{
 			for ( unsigned short e = 0; e < mParticleSystem->getNumEmitters(); ++e )
@@ -610,7 +610,7 @@ namespace WX	{
     //-----------------------------------------------------------------------
     void ParticleElement::setVisible(bool visible)
     {
-        // CYS: B hiding an attached system drops its sub-effects / collision effects (FUN_180217bf0)
+
         if (false == visible && mParticleSystem && _isSystemAttached())
         {
             _removeParticleEffects();

@@ -16,8 +16,6 @@ Chỗ nào chưa chứng minh được thì ghi thẳng "chưa kết luận đư
 
 ---
 
-## 1. Chuỗi cơ chế THẬT (đọc từ mã server, không đoán)
-
 ### 1.1 Trân thú hoang sinh ra ở đâu
 
 [DK] Chỉ có **hai** lời gọi tạo trân thú hoang trong toàn bộ `Game_2/Script` (33 chỗ dùng `CreatePetOnScene`):
@@ -90,8 +88,6 @@ nào trỏ tới** ⇒ mã chết.
 không đi bắt hoang.
 
 ---
-
-## 2. Trạng thái đo được
 
 ### 2.1 Bảng dữ liệu
 
@@ -254,8 +250,6 @@ Hệ quả của việc bỏ, đã đo: client chỉ dùng bảng này cho `Pet_
 
 ---
 
-## 3. [DK] Đo LIVE — trọn vòng trân thú
-
 ### 3.1 Trứng → túi thú → triệu hồi → cất về túi
 
 `live/egg-summon-190848/` (test14 / GUID 200015), `exit_code 0`, `decode_failures 0`,
@@ -296,8 +290,6 @@ Hai số đo phụ, đều lấy từ `live/capture-s62c-194314/`:
   người tung vẫn đang trong chiêu. Bot nay chờ 4 s rồi thử lại một lần.
 
 ---
-
-## 4. Công cụ đã thêm
 
 ### 4.1 `Tools\server\pet_data.py` — `plan | apply | verify`
 

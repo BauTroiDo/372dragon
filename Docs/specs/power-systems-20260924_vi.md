@@ -10,24 +10,6 @@ Không sửa máy chủ gốc, `client_GL`, CanonicalCY hoặc snapshot WSL.
 của CY còn thiếu xử lý hiệu quả môn phái trong server GL, nên chưa kích hoạt và
 không thu phí. Không coi việc hiển thị 15 biểu tượng là 15 hiệu quả đã hoạt động.
 
-## Nguồn đối chiếu
-
-- CY `Wuhun`, `WuhunMagicUp`, `SelfShenDing`, `Xiulian`, `XiulianStudy` trong
-  `Assets/CanonicalCY/Data/InterfaceFolder`.
-- Server đang chạy: `scripts/event/equip/wuhun.lua`, `odali_wuyazi.lua`,
-  `odali_saodiseng.lua`, `osuzhou_yunshenshen.lua`, `item.lua`, `db/pet_attrib.lua`.
-- Bản CY donor: `Tools/DATA NEW/DataCY31-08-26/tlbb15/Public/Data/Script/NewHJ_Script/EquipmentRelated/ShenMuWangDing/ShenMuWangDing.lua`.
-  SHA256 `107b3d14f2a65247e6e1e4acfd9a014818c2124cbf7fd53e08a9a8a45f0b9de0`.
-- GL `PetSoul_LevelUp`, `PetSoul_BloodLevelUp`, `PetSoul_XiShuxing`,
-  `PetSoul_Addlife`, PetSoulBase/Extension/LevelCost/LevelUpInfo và PetEquipBase.
-- Bằng chứng host GL đã thu hồi: `Build/re/luaapi/decomp/Game.exe/1402c37c0.c`,
-  nhánh TIPS: thuộc tính 15–22 dùng `floor(value/10)/10`, định dạng một chữ số
-  thập phân; 0–14 dùng số nguyên. Không hiển thị 966 thành 966%%.
-- Bảng KFSAttrEx tiếng Việt lấy từ GL sau khi khẳng định toàn bộ 69 cột ngoài tên
-  và ID đều bằng CY; không thay công thức hoặc chi phí bằng bản dịch.
-
-## Chức năng đã nối
-
 ### Võ hồn
 
 - Dữ liệu cấp, trưởng thành, hợp thành, thuộc tính gốc/thực tế và thuộc tính mở

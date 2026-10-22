@@ -77,7 +77,7 @@ int CysLeapNet::DefaultFlySkillID(const CCharacterData* data)
     return INVALID_ID;
 }
 
-// CYS-MOVE2: CY 3.71 CCharacterData::GetDefaultFlySkillID (called at 0x14012db44 before PushCommand_Fly).
+
 INT CCharacterData::GetDefaultFlySkillID(VOID) const
 {
     return CysLeapNet::DefaultFlySkillID(this);

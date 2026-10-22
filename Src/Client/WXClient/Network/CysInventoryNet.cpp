@@ -723,7 +723,7 @@ namespace
         tObject_Item* item = ActionObjectItem(action);
         const int cur=item && item->GetItemClass()==ICLASS_EQUIP ? action->GetItemDur() : -1;
         const int max=item && item->GetItemClass()==ICLASS_EQUIP ? action->GetItemMaxDur() : -1;
-        // B Game.exe+0x1df930: remaining/max, not the raw remaining points.
+
         state->PushNumber(cur>=0 && max>0 ? static_cast<double>(cur)/max : 1.0);
         return 1;
     }

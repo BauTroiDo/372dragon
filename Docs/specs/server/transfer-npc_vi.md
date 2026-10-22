@@ -103,8 +103,6 @@ mới. Còn "vị trí có thể đứng" ghi ở `SceneAttr` dòng 490 là (40,
 
 ---
 
-## 3. Khuôn có sẵn — đừng viết mới
-
 ### 3.1 Ba đường dịch chuyển trong mã server [DK]
 
 | Đường | Script | Ai gọi | Dữ liệu | Dùng được? |
@@ -367,8 +365,6 @@ cd C:\TLBB\085\CY-Source ; & .\Build\Logs\2026-09-17-transfer-npc\scripts\after_
 > báo `option requires a value`. Gọi bằng `& .\…ps1` trong một phiên PowerShell.
 
 ---
-
-## 7b. Đợt bổ sung 18:40 — 汴京 755, 唐家堡 495, 恶人谷 987 [DK]
 
 ### 7b.1 恶人谷: cổng đang hỏng, đã sửa
 `maps-sect` chuyển Ác Nhân Cốc 1063 → **987** (DBC client dòng 1063 là 凌云窟, dòng 987 mới là

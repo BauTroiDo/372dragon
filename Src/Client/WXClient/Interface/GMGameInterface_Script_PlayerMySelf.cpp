@@ -704,19 +704,19 @@ namespace SCRIPT_SANDBOX
 		const SCLIENT_LIFEABILITY* pLifeAbility =
 			CObjectManager::GetMe()->GetMySelf()->GetCharacterData()->Get_LifeAbility(nAbilityID);
 
-		// CYS-UIEDIT 20/09: `Get_LifeAbility` tra NULL khi nhan vat chua co ky nang sinh hoat do, va
-		// `m_pDefine` co the NULL khi dong bang khong tra cuu duoc — the ma TAM chin nhanh ben duoi
-		// deref thang `pLifeAbility->...`, khong mot cho nao kiem.
-		//
-		// DO DUOC, KHONG PHAI SUY: `nhanh ui-editor-2` mo khung `Synthesize` bang
-		// `CysUiEditOpen` va client CHET NGAY — Access violation doc dia chi 0 tai
-		// `Game.exe+0x000702A1`, llvm-symbolizer tra ve dung dong 664 (`PushString` voi con tro NULL),
-		// va RBX = 0x656D616E = "name" khop dung nhanh do. Bang chung:
-		// `Build\Logs\2026-09-20-ui-editor-2\npc-moc2-080633\WXC_SML.TXT`.
-		//
-		// Day KHONG phai loi cua bo sua bo cuc: bat ky nguoi choi nao mo khung che tao khi chua co
-		// ky nang sinh hoat tuong ung deu giet tien trinh. Chinh la lop loi ma `ui-frames` mo ta
-		// (khung hong vi ma chet), nhung nang hon mot bac — no khong de trong o, no lam van game.
+
+
+
+
+
+
+
+
+
+
+
+
+
 		if(pLifeAbility == NULL || pLifeAbility->m_pDefine == NULL) return 0;
 
 		if(str == "name")			// 名称

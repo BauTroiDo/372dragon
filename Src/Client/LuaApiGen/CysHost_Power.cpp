@@ -94,9 +94,9 @@ namespace CysHostPower
             return 0;
         }
 
-        // XiuLianPage(): B (RVA 0x21b780) pushes event 0x286 after a guard; the CY window itself names that event
-        // Xiulian.lua:64 RegisterEvent("OPEN_XIULIAN_PAGE"). 23 CY windows call it, and without it the two
-        // accessors above are unreachable with the mouse. Returns 1/0 the way Infant.lua:1090 expects (`local bRet`).
+
+
+
         int GlobalXiuLianPage(LuaPlus::LuaState* s)
         {
             const bool ok = g_services.openXiulianPage ? g_services.openXiulianPage() : false;

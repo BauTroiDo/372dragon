@@ -26,7 +26,7 @@ CSoundSourceFMod::CSoundSourceFMod(INT id, Type type, BOOL b3DMode)
 
 	_FModChannel= NULL;	// CYS: was -1
 	_nType = type;
-	_MaxDistance = 10.0f;	// CYS-AUDIO: CY ctor FUN_14068a880 +0x64 = 10.0
+	_MaxDistance = 10.0f;
 	_Gain = 1.0f;			// CYS-AUDIO: +0x6c = 1.0
 	_szCysWhat = "source";
 	_nCysPlayMs = 0;
@@ -177,9 +177,9 @@ void CSoundSourceFMod::UpdateVolume()
 	//3D模式
 	if(_b3DMode)
 	{
-		// CYS-AUDIO: CY 3.71 FUN_14068a1d0 (circle sources): linear fall-off on the ground plane,
-		// volume = type volume * (1 - d / max) * gain, silent beyond max. 0.85 used a dB roll-off over 0..40 m
-		// (_ComputeManualRollOff, kept for reference).
+
+
+
 		const fVector3& vL = CSoundSystemFMod::GetMe()->Listener_GetPos();
 		const fVector3& vS = GetPos();
 		FLOAT dx = vL.x - vS.x, dz = vL.z - vS.z;

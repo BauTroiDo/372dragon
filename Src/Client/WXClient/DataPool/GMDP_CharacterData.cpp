@@ -1080,12 +1080,12 @@ VOID CCharacterData::Set_Exp(INT nExp)
 		{
 			if(bLog)
 			{
-				// CYS-MSGEMPTY: `EXP_OVERFLOW` -> `battle_nomore_exp` ("Kinh nghiem da dat gioi han
-				// toi da.", 0 dac ta). CY GIU nhanh nay o CharacterData chu khong chuyen di dau ca:
-				// xref chuoi trong CY 3.71.9609 (sha 9278c7f3...) cho HAI tham chieu lien tiep
-				// 0x140179605 / 0x140179661 - dung mau COLORMSGFUNC + NOCOLORMSGFUNC ngay duoi day -
-				// va chung nam cung vung voi `GMDP_CharacterData_Energy_Lost` (0x14017DDE1), tuc
-				// vung ma CCharacterData. Cong cu: Tools\pipeline\cys_msgempty_cyxref.py
+
+
+
+
+
+
 				STRING strTemp = COLORMSGFUNC("battle_nomore_exp");
 				ADDTALKMSG(strTemp);
 				strTemp = NOCOLORMSGFUNC("battle_nomore_exp");

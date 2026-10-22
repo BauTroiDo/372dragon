@@ -1,9 +1,5 @@
 # Nhìn như CY 3.71.9609 — công trình tĩnh và LUT nhận bóng
 
-Ngày 14/09/2026, agent cy-look, nhánh `cy-look`. Chuẩn duy nhất là CY 3.71 (`Tools\DATA NEW\CY Game`, chỉ đọc); client_GL (B) chỉ tham khảo.
-Ký hiệu: **FACT** = có bằng chứng (hàm/offset/chuỗi/file/ảnh), **INF** = suy luận.
-Bằng chứng: `Build\Logs\2026-09-14-cy-look\` (`re\` = Ghidra trên bản sao CY OgreMain.dll ở `Build\re\cy-look`, `viewer\` = ảnh TlbbViewer, `metrics\` = số đo màu).
-Đặc tả bóng đổ: `shadow-cy_vi.md` (mục 1–8). File này bổ sung mục LUT và luật theo cảnh còn thiếu ở đó.
 
 ## 1. Công trình tĩnh của CY hiện trắng — nguyên nhân gốc (FACT)
 
@@ -26,14 +22,6 @@ một dòng log: `scripts ... 1 aborted by an exception` và số material < 80.
 
 ## 2. LUT của shader nhận bóng — CY làm thế nào (FACT)
 
-- Macro `LUT_ENABLE` là **slot 0x12** của bảng macro material (CY Render.dll `FUN_180160130`; xref
-  `Build\Logs\2026-09-14-shadow-cy\cy-re\decomp\01`). Cặp chương trình nhận bóng đặt:
-  - model (`FUN_18021b1e0`): VS = define gốc + `LIGHT_CALC_TYPE` ép 2 (giữ nếu 0) + `SHADOWMAP_TYPE=1`;
-    **PS = như VS + `LUT_ENABLE=1`**;
-  - địa hình (`FUN_180166280`): VS {SHADOWMAP_TYPE, LIGHT_CALC_TYPE=2}, PS {SHADOWMAP_TYPE, **LUT_ENABLE=1**, LIGHT_CALC_TYPE=2}.
-- **Texture LUT = `luttex.png` trong `MaterialTemplates.zip`** (193 byte, PNG 16×16, sha256 `b0e1eebe02c21e1f…`,
-  **giống hệt byte trong bản CY và bản GL**). CY OgreMain.dll dựng sẵn ba texture unit của engine trong
-  `Ogre::SceneRenderProxy::initialize` @`180181ce0` (`re\cy_ogremain_luttex_xref.txt`):
 
   | Unit | Nguồn | Sampler | Lọc | Address |
   |---|---|---|---|---|
@@ -41,19 +29,6 @@ một dòng log: `scripts ... 1 aborted by an exception` và số material < 80.
   | **`luttex.png`** | tên texture | **s4** | **none (điểm)** | clamp |
   | `ssao_buffer` | compositor `SceneRender` | s12 | mặc định | clamp |
 
-  `SceneRenderProxy::setPass` @`180182df0` chỉ gắn ba unit này khi pass dùng **chương trình nhận bóng**
-  (`getShadowReceiverVertex/FragmentProgram`). Material địa hình của CY cũng ghi thẳng trong script:
-  `texture luttex.png / tex_address_mode clamp / filtering none / sampler_index 4`
-  (`Assets\CanonicalCY\Data\SceneFolder\FairyTerrainColorMapNormalSpec.material`).
-- Công thức (`ShaderLib\Diffuse.inc`, `FairyTerrainColorMap.hlsl`): tra cứu **từng kênh** trên lưới 16×16 —
-  `uv = (v*255 % 16 / 16, floor(v*255/16)/16)`, tức bảng 256 mức. `luttex.png` là đường cong S xám
-  (0→0, 32→27, 64→67, 128→146, 192→201, 255→255): ép tương phản và nâng vùng trung gian.
-- Phạm vi áp dụng: model chỉ đổi màu khi `imodel_userdata.x == 0` (`LUTCorrect`), tức **vật thể cảnh**; nhân vật/NPC
-  (actor lighting = 1) giữ nguyên màu. Địa hình luôn áp (không có điều kiện).
-- LUT này **khác** bộ lọc hậu kỳ `ColorLUT` (LUT 512² theo cảnh, `Scene_SetSceneLUTParam`/lệnh console `scenesetlut`,
-  `LUT_00gao.png`, `LUT_bianjing1.png`, `LUT_congren.png`…). Mức `View_HumanLightmap = 2` của CY bật cả hai
-  (`FUN_18002e100` gọi `FUN_18002db70(1, <tên LUT của cảnh>)`). Bảng tên LUT theo cảnh nằm trong Game.exe
-  (`c60d20`…): **chưa làm** ở CY-Source (xem mục 5).
 
 ## 3. CY-Source làm gì (nhánh cy-look)
 

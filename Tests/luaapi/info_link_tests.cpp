@@ -1,7 +1,7 @@
-// CYS-INFOLINK: unit tests for CysInfoLink (CY 3.71 UI_CEGUI.dll #{_INFOxxx..} coordinate hyperlinks).
-// Expected strings are written from the CY templates read out of .rdata (0x18008f3f8, 0x18008f498,
-// 0x18008fb70 ... see CysInfoLink.h), NOT produced by the implementation.
-// argv[1] = CanonicalCY StrDictionary.txt (optional whole-file section).
+
+
+
+
 #include "CysInfoLink.h"
 
 #include <cstdio>
@@ -66,16 +66,16 @@ int main(int argc, char** argv)
     {
         struct Case { const char* id; const char* want; };
         const Case cases[] = {
-            { "_INFOMAP131,121,2,x",     "#aB{131,121,2,0,x}#u[131,121]#u#aE" },   // 0x18004e652 template ",0,"
-            { "_INFOKILL81,99,8,x",      "#aB{81,99,8,1,x}#u[81,99]#u#aE"     },   // 0x18004f535 template ",1,"
-            { "_GETITEM282,261,2,x",     "#aB{282,261,2,3,x}#u[282,261]#u#aE" },   // 0x18004f6f3 template ",3,"
-            { "_GETPET90,70,123,x",      "#aB{90,70,123,4,x}#u[90,70]#u#aE"   },   // 0x18004f8b1 template ",4,"
-            { "_INFOCITY93,60,0,x",      "#aB{93,60,0,5,x}#u[93,60]#u#aE"     },   // 0x18004e85f  $0x5
-            { "_INFO2CITY45,47,-1,x",    "#aB{45,47,-1,5,x}#u[45,47]#u#aE"    },   // 0x18004ea6b  $0x5
-            { "_INFOHOME133,147,-1,x",   "#aB{133,147,-1,6,x}#u[133,147]#u#aE"},   // 0x18004ec93  $0x6
-            { "_INFO2HOME1,2,3,x",       "#aB{1,2,3,6,x}#u[1,2]#u#aE"         },   // 0x18004ee9f  $0x6
-            { "_INFO2LINE1,2,3,x",       "#aB{1,2,3,7,x}#u[1,2]#u#aE"         },   // 0x18004f2fe  $0x7
-            { "_INFO2WYXZ1,2,3,9,x",     "#aB{1,2,3,8,9,x}#u[1,2]#u#aE"       },   // 0x18004f0d6  $0x8, 5 fields
+            { "_INFOMAP131,121,2,x",     "#aB{131,121,2,0,x}#u[131,121]#u#aE" },
+            { "_INFOKILL81,99,8,x",      "#aB{81,99,8,1,x}#u[81,99]#u#aE"     },
+            { "_GETITEM282,261,2,x",     "#aB{282,261,2,3,x}#u[282,261]#u#aE" },
+            { "_GETPET90,70,123,x",      "#aB{90,70,123,4,x}#u[90,70]#u#aE"   },
+            { "_INFOCITY93,60,0,x",      "#aB{93,60,0,5,x}#u[93,60]#u#aE"     },
+            { "_INFO2CITY45,47,-1,x",    "#aB{45,47,-1,5,x}#u[45,47]#u#aE"    },
+            { "_INFOHOME133,147,-1,x",   "#aB{133,147,-1,6,x}#u[133,147]#u#aE"},
+            { "_INFO2HOME1,2,3,x",       "#aB{1,2,3,6,x}#u[1,2]#u#aE"         },
+            { "_INFO2LINE1,2,3,x",       "#aB{1,2,3,7,x}#u[1,2]#u#aE"         },
+            { "_INFO2WYXZ1,2,3,9,x",     "#aB{1,2,3,8,9,x}#u[1,2]#u#aE"       },
         };
         for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); ++i)
             Equal(Expand(cases[i].id), cases[i].want, cases[i].id);

@@ -92,8 +92,6 @@ Chạy trong WSL root: `python3 -B /mnt/c/TLBB/085/CY-Source/Tools/server/cs3b_m
 
 Đã kiểm: `plan` chạy hai lần cho kết quả trùng byte (`scripts/23-idempotent-diff.out.txt`); `apply --dry-run` liệt kê 55 file; `verify` sau apply `ok` (`verify-1.json`: 140 kiểm ID OK, luac 41/41).
 
-## 3. Bảng theo ID CY (CS3c phần đầu)
-
 ### 3.1 Cách dựng chung
 Mỗi dòng CY (theo ID CY) thành một dòng server theo **bố cục cột GL** (server đọc theo tên cột, `txtreader.lua`):
 1. Nền = dòng tlbb15 cùng ID **và cùng tên** (tlbb15 dùng bố cục cột GL với tên cột, ID = CY) → nếu không, dòng GL cùng ID + cùng tên (+ cùng phái sau ánh xạ) → nếu không, mặc định = giá trị phổ biến nhất của cột trong tlbb15.

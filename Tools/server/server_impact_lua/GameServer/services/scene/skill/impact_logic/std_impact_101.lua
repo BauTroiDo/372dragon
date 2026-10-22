@@ -1,10 +1,10 @@
--- impact-logic (CY-Source 15/09/2026): logic 101 (tlbb15 StdImpact101_T 怒火连斩) — đếm "số đao" khi đánh trúng bằng kỹ năng thuộc tập, phát 加速BUFF, tới ngưỡng thì tăng sát thương.
--- Bằng chứng: Server (main) StdImpact101_T::OnDamageTarget/OnMissTarget/GetIntAttrRefix/OnFiltrateImpact (Build/re/impact-logic/main-stdimpact-sel.c):
---   OnDamageTarget: nếu 生效技能集合 (index1)=-1 hoặc kỹ năng thuộc tập → 刀数(0x2c)++, gọi Sect_OnKnifeNumUpdate; nếu chưa có 加速BUFF (index0)
---     thì phát nó; khi 刀数 ≥ 刀数上限 (index2) thì cộng % sát thương theo tổng lũy tiến (Σ i×hệ số, i=1..0x30).
---   GetIntAttrRefix (0x33 = hội tâm): cộng 0x34 (giá trị hội tâm tích) — dòng CY không nạp 0x34 nên = 0.
--- CY nhãn: 加速BUFF, 生效技能集合, 刀数上限. Bản Lua đếm đao + phát加速BUFF (cơ chế chính); % sát thương lũy tiến giữ theo native (hệ số nội bộ)
---   [SL] xấp xỉ +刀数% khi đạt ngưỡng (hệ số float native chưa giải chính xác) — đánh dấu suy luận.
+
+
+
+
+
+
+
 local class = require "class"
 local base = require "scene.skill.impact_logic.base"
 local util = require "scene.skill.impact_logic.cy_impact_util"

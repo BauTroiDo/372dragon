@@ -235,8 +235,8 @@ CharModelEx.txt	1	STRING		1	0.533	_DBC_CHARACTER_MODEL	m_pszModelName
 CharModelEx.txt	2	STRING	_iv 模型 (used instead of [1] when the global IV flag is set; CY row+0x10)			_DBC_CHARACTER_MODEL	m_pszModelName_IV
 CharModelEx.txt	3	FLOAT		2	0.999	_DBC_CHARACTER_MODEL	m_fFuseTime
 CharModelEx.txt	4	FLOAT		3	gap	_DBC_CHARACTER_MODEL	m_fCol3
-CharModelEx.txt	5	FLOAT	[SL] scale-like value returned by CY FUN_1405db040 Obj_Character.cpp:0xf7 (row+0x20, default 1.0)	4	0.883	_DBC_CHARACTER_MODEL	m_fCol5
-CharModelEx.txt	6	FLOAT	[SL] stored into object+0x434 by CY FUN_1405e39f0 (action-set selection, row+0x24)			_DBC_CHARACTER_MODEL	m_fCol6
+CharModelEx.txt	5	FLOAT	[SL] scale-like value returned by	4	0.883	_DBC_CHARACTER_MODEL	m_fCol5
+CharModelEx.txt	6	FLOAT	[SL] stored into object+0x434 by			_DBC_CHARACTER_MODEL	m_fCol6
 CharModelEx.txt	7	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[0]
 CharModelEx.txt	8	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[1]
 CharModelEx.txt	9	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[2]
@@ -250,7 +250,7 @@ CharModelEx.txt	16	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, ide
 CharModelEx.txt	17	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[10]
 CharModelEx.txt	18	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[11]
 CharModelEx.txt	19	INT	[SL] 13 ids in CharModelEx/Character_3DHead id space, identical for every row of a family (male 3155.., female 3089.., mounts 3188); none of the 13 CY consumers of CharModelEx reads row+0x28..0x58			_DBC_CHARACTER_MODEL	m_nLinkedID[12]
-CharModelEx.txt	20	INT	动作组 ActionSetFile row (CY row+0x5c, FUN_1405c6c40/FUN_1405d8b60)			_DBC_CHARACTER_MODEL	m_nActionSetFileID
+CharModelEx.txt	20	INT	动作组 ActionSetFile row			_DBC_CHARACTER_MODEL	m_nActionSetFileID
 CharMount.txt	0	INT		0	1.0	_DBC_CHARACTER_MOUNT	m_nID
 CharMount.txt	1	STRING		1	gap	_DBC_CHARACTER_MOUNT	m_pszName
 CharMount.txt	2	INT		2	0.831	_DBC_CHARACTER_MOUNT	m_nPassengerNum
@@ -268,13 +268,13 @@ CharMount.txt	13	STRING	seat 4 locator (attach4)			_DBC_CHARACTER_MOUNT	m_pszRid
 CharMount.txt	14	STRING	seat 5 locator (attach5)			_DBC_CHARACTER_MOUNT	m_pszRiderLocatorEx[2]
 CharMount.txt	15	STRING	seat 6 locator (attach6)			_DBC_CHARACTER_MOUNT	m_pszRiderLocatorEx[3]
 CharMount.txt	16	INT	always -1 in CY 3.71 data (354 rows); no reader found			_DBC_CHARACTER_MOUNT	unk_16
-CharMount.txt	17	INT	[SL] 1/-1: action allowed for the DRIVER while riding (CY FUN_1406146d0 GMAI_MySelf.cpp:0x7b0 denies when row+0x64 < 0)			_DBC_CHARACTER_MOUNT	m_nRideAllowMain
+CharMount.txt	17	INT	[SL] 1/-1: action allowed for the DRIVER while riding (			_DBC_CHARACTER_MOUNT	m_nRideAllowMain
 CharMount.txt	18	INT	[SL] 1/-1: same for a PASSENGER (row+0x68 when vtable+0x288 != 0)	12	0.952	_DBC_CHARACTER_MOUNT	m_nRideAllowPassenger
 CharMount.txt	19	INT	1/-1 flag (103 rows = 1); no reader found	13	0.361	_DBC_CHARACTER_MOUNT	unk_19
 CharMount.txt	20	INT	always 0 in CY 3.71 data; no reader found			_DBC_CHARACTER_MOUNT	unk_20
 CharMount.txt	21	INT	[SL] MonsterAttrExTable id of the mount as creature (52 rows: 变异废柴 22744, 成年废柴 22780 ...)			_DBC_CHARACTER_MOUNT	m_nMonsterFormID
-CharMount.txt	22	FLOAT	FLIGHT ALTITUDE above the walk surface (client_GL col 14). CY reads row+0x78 only in Corps_2016/BWDH SetPlayerWatchPosDirection (FUN_1402c8e30/FUN_1403f1c80): y = walkSurfaceY + row+0x78, stored as a world POSITION triple. Every row > 0 is airborne and only those (client_GL col 14: wings 2.0, flying sword/clouds 4.0, bird 3.0). NOT a camera offset.	14	0.91	_DBC_CHARACTER_MOUNT	m_fFlyHeight
-CharMount.txt	23	INT	PetPossPositionValue.txt id (DBC 640): CY FUN_1405ddcb0/FUN_1405e0c60 pass row+0x7c to FUN_1405db1f0 -> 7 floats -> renderer +0x288 (rider attach transform); always -1 in data			_DBC_CHARACTER_MOUNT	m_nPetPossPositionID
+CharMount.txt	22	FLOAT	FLIGHT ALTITUDE above the walk surface (client_GL col 14). CY reads row+0x78 only in Corps_2016/BWDH SetPlayerWatchPosDirection: y = walkSurfaceY + row+0x78, stored as a world POSITION triple. Every row > 0 is airborne and only those (client_GL col 14: wings 2.0, flying sword/clouds 4.0, bird 3.0). NOT a camera offset.	14	0.91	_DBC_CHARACTER_MOUNT	m_fFlyHeight
+CharMount.txt	23	INT	PetPossPositionValue.txt id (DBC 640):			_DBC_CHARACTER_MOUNT	m_nPetPossPositionID
 CharRace.txt	0	INT		0	1.0	_DBC_CHAR_RACE	nID
 CharRace.txt	1	INT		1	gap	_DBC_CHAR_RACE	nGender
 CharRace.txt	2	INT		2	gap	_DBC_CHAR_RACE	nIsPlayer
@@ -913,15 +913,15 @@ ItemVisualChar.txt	21	STRING		21	0.828	_DBC_ITEM_VISUAL_CHAR	pDyeMat_Race1[7]
 ItemVisualChar.txt	22	STRING		22	0.996	_DBC_ITEM_VISUAL_CHAR	pDyeMat_Race1[8]
 ItemVisualLocator.txt	0	INT		0	1.0	_DBC_ITEM_VISUAL_LOCATOR	nID
 ItemVisualLocator.txt	1	STRING	empty in every CY row	1	gap	_DBC_ITEM_VISUAL_LOCATOR	unk_1
-ItemVisualLocator.txt	2	STRING	右手 object (RightWeaponObj); CY FUN_140608cd0 row+0x10	2	0.411	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_Right
+ItemVisualLocator.txt	2	STRING	右手 object (RightWeaponObj)	2	0.411	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_Right
 ItemVisualLocator.txt	3	STRING	[SL] right material (empty in CY data)	3	gap	_DBC_ITEM_VISUAL_LOCATOR	pMatName_Right
 ItemVisualLocator.txt	4	STRING	empty in every CY row	4	gap	_DBC_ITEM_VISUAL_LOCATOR	unk_4
-ItemVisualLocator.txt	5	STRING	左手 object (LeftWeaponObj); CY FUN_140608cd0 row+0x28	5	0.837	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_Left
-ItemVisualLocator.txt	6	STRING	left material; CY FUN_140608cd0 row+0x30			_DBC_ITEM_VISUAL_LOCATOR	pMatName_Left
+ItemVisualLocator.txt	5	STRING	左手 object (LeftWeaponObj)	5	0.837	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_Left
+ItemVisualLocator.txt	6	STRING	left material			_DBC_ITEM_VISUAL_LOCATOR	pMatName_Left
 ItemVisualLocator.txt	7	STRING	empty in every CY row			_DBC_ITEM_VISUAL_LOCATOR	unk_7
 ItemVisualLocator.txt	8	STRING	empty in every CY row			_DBC_ITEM_VISUAL_LOCATOR	unk_8
-ItemVisualLocator.txt	9	STRING	武魂 object (KFSObj, psoul_*.obj); CY FUN_140608cd0 row+0x48	7	0.732	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_KFS
-ItemVisualLocator.txt	10	STRING	武魂 material; CY FUN_140608cd0 row+0x50			_DBC_ITEM_VISUAL_LOCATOR	pMatName_KFS
+ItemVisualLocator.txt	9	STRING	武魂 object (KFSObj, psoul_*.obj)	7	0.732	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_KFS
+ItemVisualLocator.txt	10	STRING	武魂 material			_DBC_ITEM_VISUAL_LOCATOR	pMatName_KFS
 ItemVisualLocator.txt	11	STRING	empty in every CY row			_DBC_ITEM_VISUAL_LOCATOR	unk_11
 ItemVisualLocator.txt	12	STRING	empty in every CY row			_DBC_ITEM_VISUAL_LOCATOR	unk_12
 ItemVisualLocator.txt	13	STRING	[SL] FootWeaponObj object (toy_*.obj, 45 rows)	8	0.991	_DBC_ITEM_VISUAL_LOCATOR	pObjFile_Foot
@@ -940,36 +940,36 @@ ItemVisualLocator.txt	25	STRING	[SL] WaistWeaponObj2 object (Sweapon_CR_2021_*�
 ItemVisualLocator.txt	26	STRING	[SL] waist-2 material (empty)	17	gap	_DBC_ITEM_VISUAL_LOCATOR	pMatName_Waist2
 ItemVisualLocator.txt	27	STRING	"1" flag when [25] is set	18	0.944	_DBC_ITEM_VISUAL_LOCATOR	pFlag_Waist2
 ItemVisualLocator.txt	28	STRING	empty in every CY row			_DBC_ITEM_VISUAL_LOCATOR	unk_28
-ItemVisualLocator.txt	29	STRING	gem effect 0 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	19	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[0]
-ItemVisualLocator.txt	30	STRING	gem effect 1 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	20	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[1]
-ItemVisualLocator.txt	31	STRING	gem effect 2 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	21	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[2]
-ItemVisualLocator.txt	32	STRING	gem effect 3 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	22	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[3]
-ItemVisualLocator.txt	33	STRING	gem effect 4 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	23	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[4]
-ItemVisualLocator.txt	34	STRING	gem effect 5 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	24	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[5]
-ItemVisualLocator.txt	35	STRING	gem effect 6 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	25	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[6]
-ItemVisualLocator.txt	36	STRING	gem effect 7 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	26	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[7]
-ItemVisualLocator.txt	37	STRING	gem effect 8 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	27	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[8]
-ItemVisualLocator.txt	38	STRING	gem effect 9 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	28	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[9]
-ItemVisualLocator.txt	39	STRING	gem effect 10 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	29	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[10]
-ItemVisualLocator.txt	40	STRING	gem effect 11 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	30	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[11]
-ItemVisualLocator.txt	41	STRING	gem effect 12 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	31	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[12]
-ItemVisualLocator.txt	42	STRING	gem effect 13 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	32	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[13]
-ItemVisualLocator.txt	43	STRING	gem effect 14 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	33	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[14]
-ItemVisualLocator.txt	44	STRING	gem effect 15 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	34	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[15]
-ItemVisualLocator.txt	45	STRING	gem effect 16 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	35	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[16]
-ItemVisualLocator.txt	46	STRING	gem effect 17 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	36	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[17]
-ItemVisualLocator.txt	47	STRING	gem effect 18 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	37	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[18]
-ItemVisualLocator.txt	48	STRING	gem effect 19 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	38	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[19]
-ItemVisualLocator.txt	49	STRING	gem effect 20 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	39	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[20]
-ItemVisualLocator.txt	50	STRING	gem effect 21 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	40	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[21]
-ItemVisualLocator.txt	51	STRING	gem effect 22 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	41	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[22]
-ItemVisualLocator.txt	52	STRING	gem effect 23 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	42	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[23]
-ItemVisualLocator.txt	53	STRING	gem effect 24 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	43	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[24]
-ItemVisualLocator.txt	54	STRING	gem effect 25 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	44	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[25]
-ItemVisualLocator.txt	55	STRING	gem effect 26 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	45	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[26]
-ItemVisualLocator.txt	56	STRING	gem effect 27 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	46	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[27]
-ItemVisualLocator.txt	57	STRING	gem effect 28 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	47	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[28]
-ItemVisualLocator.txt	58	STRING	gem effect 29 (GemInfo nEffectIndex-1); CY FUN_140608cd0 row+0xe8+idx*8	48	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[29]
+ItemVisualLocator.txt	29	STRING	gem effect 0 (GemInfo nEffectIndex-1)	19	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[0]
+ItemVisualLocator.txt	30	STRING	gem effect 1 (GemInfo nEffectIndex-1)	20	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[1]
+ItemVisualLocator.txt	31	STRING	gem effect 2 (GemInfo nEffectIndex-1)	21	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[2]
+ItemVisualLocator.txt	32	STRING	gem effect 3 (GemInfo nEffectIndex-1)	22	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[3]
+ItemVisualLocator.txt	33	STRING	gem effect 4 (GemInfo nEffectIndex-1)	23	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[4]
+ItemVisualLocator.txt	34	STRING	gem effect 5 (GemInfo nEffectIndex-1)	24	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[5]
+ItemVisualLocator.txt	35	STRING	gem effect 6 (GemInfo nEffectIndex-1)	25	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[6]
+ItemVisualLocator.txt	36	STRING	gem effect 7 (GemInfo nEffectIndex-1)	26	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[7]
+ItemVisualLocator.txt	37	STRING	gem effect 8 (GemInfo nEffectIndex-1)	27	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[8]
+ItemVisualLocator.txt	38	STRING	gem effect 9 (GemInfo nEffectIndex-1)	28	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[9]
+ItemVisualLocator.txt	39	STRING	gem effect 10 (GemInfo nEffectIndex-1)	29	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[10]
+ItemVisualLocator.txt	40	STRING	gem effect 11 (GemInfo nEffectIndex-1)	30	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[11]
+ItemVisualLocator.txt	41	STRING	gem effect 12 (GemInfo nEffectIndex-1)	31	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[12]
+ItemVisualLocator.txt	42	STRING	gem effect 13 (GemInfo nEffectIndex-1)	32	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[13]
+ItemVisualLocator.txt	43	STRING	gem effect 14 (GemInfo nEffectIndex-1)	33	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[14]
+ItemVisualLocator.txt	44	STRING	gem effect 15 (GemInfo nEffectIndex-1)	34	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[15]
+ItemVisualLocator.txt	45	STRING	gem effect 16 (GemInfo nEffectIndex-1)	35	0.471	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[16]
+ItemVisualLocator.txt	46	STRING	gem effect 17 (GemInfo nEffectIndex-1)	36	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[17]
+ItemVisualLocator.txt	47	STRING	gem effect 18 (GemInfo nEffectIndex-1)	37	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[18]
+ItemVisualLocator.txt	48	STRING	gem effect 19 (GemInfo nEffectIndex-1)	38	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[19]
+ItemVisualLocator.txt	49	STRING	gem effect 20 (GemInfo nEffectIndex-1)	39	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[20]
+ItemVisualLocator.txt	50	STRING	gem effect 21 (GemInfo nEffectIndex-1)	40	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[21]
+ItemVisualLocator.txt	51	STRING	gem effect 22 (GemInfo nEffectIndex-1)	41	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[22]
+ItemVisualLocator.txt	52	STRING	gem effect 23 (GemInfo nEffectIndex-1)	42	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[23]
+ItemVisualLocator.txt	53	STRING	gem effect 24 (GemInfo nEffectIndex-1)	43	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[24]
+ItemVisualLocator.txt	54	STRING	gem effect 25 (GemInfo nEffectIndex-1)	44	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[25]
+ItemVisualLocator.txt	55	STRING	gem effect 26 (GemInfo nEffectIndex-1)	45	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[26]
+ItemVisualLocator.txt	56	STRING	gem effect 27 (GemInfo nEffectIndex-1)	46	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[27]
+ItemVisualLocator.txt	57	STRING	gem effect 28 (GemInfo nEffectIndex-1)	47	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[28]
+ItemVisualLocator.txt	58	STRING	gem effect 29 (GemInfo nEffectIndex-1)	48	0.575	_DBC_ITEM_VISUAL_LOCATOR	pEffectName[29]
 ItemVisualLocator.txt	59	STRING		49	0.471	_DBC_ITEM_VISUAL_LOCATOR	pTail[0]
 ItemVisualLocator.txt	60	STRING		50	0.471	_DBC_ITEM_VISUAL_LOCATOR	pTail[1]
 ItemVisualLocator.txt	61	STRING		51	0.471	_DBC_ITEM_VISUAL_LOCATOR	pTail[2]

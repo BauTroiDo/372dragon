@@ -558,7 +558,7 @@ target_include_directories(cys_wxclient PRIVATE
 target_compile_definitions(cys_wxclient PRIVATE _MBCS _DISABLE_TRACE__)
 
 # CYS: Lua host functions of the modern client that 0.85 lacks: generated stubs of the Lua-API agent
-# (Src/Client/LuaApiGen, from Registry/luaapi/catalog.json). Registered by CGameProcedure::InitStaticMemeber.
+# (checked-in sources under Src/Client/LuaApiGen). Registered by CGameProcedure::InitStaticMemeber.
 file(GLOB _cys_luaapigen CONFIGURE_DEPENDS "${CYS_SRC}/Client/LuaApiGen/*.cpp")
 if(_cys_luaapigen)
     target_sources(cys_wxclient PRIVATE ${_cys_luaapigen})

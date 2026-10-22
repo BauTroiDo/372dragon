@@ -66,9 +66,6 @@ bấm cưỡi (packet CGCharAutoRide 636)
 **0 dòng mã**; `configenginer.lua` không có mục `char_mount` (chỉ có `exterior_ride`). File đó chỉ còn
 được liệt kê trong `source-manifest.json`.
 
-Nội dung của nó **là bản của `client_GL`**: 201 dòng × 15 cột, khớp từng byte ở các dòng đã đối chiếu
-(0, 94, 203, 211, 215). Cột 14 của nó = **độ cao bay**, tương ứng cột 22 của bảng CY (`ride-core` đã
-decompile và đổi tên `m_fFlyHeight` trong `Src/Engine/Interface/TDDBC_Struct.h`).
 
 ⇒ Chênh "353 vs 201 dòng" và "thiếu 10 cột" **không phải việc của server**. Client đang chạy đọc bản CY
 ở `Assets/CanonicalCY/Data/ConfigFolder/CharMount.txt` (24 cột, 353 dòng) và bản đó đã đủ.
@@ -189,8 +186,6 @@ Tiêm script chỉ-đọc `probe_ride.lua` vào service cảnh `:000000ac` qua `
 ```
 
 ---
-
-## 6. Hai quyết định kiến trúc còn treo
 
 ### 6.1 Trục ID của `Exterior_Ride` — **khuyến nghị: server phải đổi, không phải CY**
 

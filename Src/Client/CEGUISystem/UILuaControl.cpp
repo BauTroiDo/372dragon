@@ -407,9 +407,9 @@ VOID Window::RegisterMetaTable(VOID)
 	ComboBox::s_pMetaTable->SetObject("__index", *ComboBox::s_pMetaTable);
 
 	ComboBox::s_pMetaTable->RegisterObjectFunctor( "ComboBoxAddItem", &ComboBox::ComboBoxAddItem);
-	// CYS-PLUMB: CY renamed the same call. B's UI_CEGUI.dll registers AddTextItem on MetaTable_Control_ComboBox
-	// (catalog impl_va 0x180012ee0) with the identical body - lua_isstring(2), GetString, new ListboxTextItem(text,
-	// lua_tonumber(3)), selection colours, Combobox::addItem. 75 CY frames call AddTextItem, 28 call ComboBoxAddItem.
+
+
+
 	ComboBox::s_pMetaTable->RegisterObjectFunctor( "AddTextItem", &ComboBox::ComboBoxAddItem);
 	ComboBox::s_pMetaTable->RegisterObjectFunctor( "ResetList", &ComboBox::ResetList);
 	ComboBox::s_pMetaTable->RegisterObjectFunctor( "GetCurrentSelect", &ComboBox::GetCurrentSelect);
@@ -454,9 +454,9 @@ VOID Window::RegisterMetaTable(VOID)
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("RotateBegin", &MeshWindow::RotateBegin );
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("RotateEnd", &MeshWindow::RotateEnd );
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("ChangeActionBegin", &MeshWindow::ChangeActionBegin );
-	// CYS-MESHWIN 19/09: the CY *Ex API (registered by CY at UI_CEGUI.dll 0x18002bb15-0x18002bcf6, same order).
-	// These eight names are registered nowhere else in the shared metatable (grep 19/09), so the shared-metatable
-	// rule holds by uniqueness; every body still checks testClassName("FalagardMeshWindow") first.
+
+
+
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("AttachWindowEx", &MeshWindow::AttachWindowEx );
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("DetachWindowEx", &MeshWindow::DetachWindowEx );
 	MeshWindow::s_pMetaTable->RegisterObjectFunctor("RotateBeginEx", &MeshWindow::RotateBeginEx );
@@ -766,7 +766,7 @@ INT Window::setProperty(LuaPlus::LuaState* pState)
 // 将窗口居中显示，相对与父窗口
 INT Window::SetXAttachPos(LuaPlus::LuaState* state)
 {
-    // B UI_CEGUI.dll 0x180025340..0x180025454: right if it fits, otherwise left.
+
     lua_State* L=state->GetCState();
     if(!m_pWindow || !lua_isnumber(L,2) || !lua_isnumber(L,3) || !lua_isnumber(L,4))return 0;
     const float anchor=(float)lua_tonumber(L,2), occupied=(float)lua_tonumber(L,3);
@@ -1405,28 +1405,28 @@ INT ComplexWindow::AddTextElement(LuaPlus::LuaState* pState)
 		CEGUI::Logger::getSingleton().logEvent((const CEGUI::utf8*)line);
 	}
 
-	// CYS-QLOG 19/09: phep cat "CYS_HOST2_NOINFO" da bi XOA o day. Gia thuyet "the #{_INFO...} lam chet khung Nhiem vu"
-	// da bi LOAI bang so hoc: XSRWGZ_110917_27 dai 205 ky tu; 205 - 32 (#{_INFOUSEITEM...}) - 26 (#{_INFOAIM...})
-	// - 4 (bon ma mau, moi ma 2 ky tu -> 1 utf32) = 143 = dung so "utf32=143" trong log => hai the _INFO sinh ra
-	// 0 ky tu (ParserString_RuntimeNew khong co nhanh _INFO, tra tu dien truot) nen CEGUI KHONG BAO GIO nhin thay
-	// chung, va bo loc cua phep cat khong bao gio khop. Nguyen nhan that: QuestLog.lua:1464 goi
-	// QuestLog_Desc:SetScrollPosition() -> NotSuperListLuaWindow::SetScrollPosition ep kieu mu. Xem
-	// Timeline\handoff\qlog-crash.md.
-	//
-	// CYS-INFOLINK 19/09: con so 143 o tren la phep do cua trang thai CU (the bi vut sach). Nhanh info-links
-	// da cai nhanh _INFO vao ParserString_RuntimeNew (CysInfoLink.h), nen cung khoa do BAY GIO phai dai hon:
-	//   #{_INFOUSEITEM160,93,2,38000173} -> "#aB{160,93,2,2,38000173}#u[160,93]#u#aE"  = 1+21+8+1 = 31 utf32
-	//   #{_INFOAIM160,159,2,赵天师}       -> "#aB{160,159,2,0,赵天师}#u[160,159]#u#aE"  = 1+17+9+1 = 28 utf32
-	//   143 + 31 + 28 = 202
-	// => o kiem cua ban va: dong log nay cho XSRWGZ_110917_27 phai doc "utf32=202", khong con "utf32=143".
-	// ("#u" van la 0 utf32 vi lop phong 0.85 chua co gach chan; xem Timeline\handoff\info-links.md muc 5.)
-	//
-	// CYS-INFOPARITY 19/09: "#u" KHONG con la 0 utf32. Nhanh info-parity cai gach chan nhu CY: moi "#u" phat mot
-	// ma 0xE6000000 (bat) / 0xE7000000 (tat) (CY UI_CEGUI.dll 0x18004bc63/0x18004bc6b), lop phong CEGUIBase.dll ve
-	// gach chan. Moi the _INFO co hai "#u" => +2 utf32 moi the:
-	//   202 + 2 (_INFOUSEITEM) + 2 (_INFOAIM) = 206
-	// => o kiem MOI: dong log nay cho XSRWGZ_110917_27 phai doc "utf32=206". (Dong co the _INFOMAP con them 2 ma
-	// 0xE8 mau lien ket nua; XSRWGZ_110917_27 khong co _INFOMAP.) Xem Timeline\handoff\info-parity.md.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	pComplexWindow->AddChildElement_Text(strUtf32,theFont,(CEGUI::TextFormatting)Typeset);
 
@@ -1984,19 +1984,19 @@ INT CheckButton::GetCheck( LuaPlus::LuaState* pState )
 	return 1;
 }
 
-// CYS-HOST2: the CY scroll-position pair of MetaTable_Control_Listbox.
-//   GetCurrentFirstItem  B UI_CEGUI.dll 0x180015830: item = Listbox::getFirstVisibleItem(); push(item ? getItemIndex(item) : -1.0)
-//   SetCurrentFirstItem  B UI_CEGUI.dll 0x180021b00: Listbox::setFirstVisibleItem((size_t)(int)lua_tonumber(2))
-// Both Listbox members exist only in client_GL's CEGUIBase.dll (exports, RVA 0xE4FA0 / 0xE6600; listings in
-// Build/Logs/2026-09-17-host-2/re/CEGUIBase_*.txt); CEGUI 0.4.1 in this tree has neither, so they are rebuilt here
-// from those listings over the public Listbox API (B's Rect is laid out top/bottom/left/right - read from
-// Rect::isPointInRect - which is what makes the three listings consistent):
-//   getFirstVisibleItem: y = renderArea.top - vertScrollbar.position; for each item: y += item height; the first
-//                        item whose bottom edge passes renderArea.top is it. No scrollbar -> item 0.
-//   setFirstVisibleItem: index >= count -> nothing. before = sum of heights below index, total = sum of all;
-//                        total == areaHeight -> nothing; if (areaHeight > total - before) before = total - areaHeight;
-//                        vertScrollbar.setScrollPosition(before).
-// The vertical scrollbar is the child CEGUIListbox.cpp:116 creates under "<name>__auto_vscrollbar__".
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace
 {
 	CEGUI::Scrollbar* cysListVertScrollbar(CEGUI::Listbox* pList)
@@ -2092,10 +2092,10 @@ LuaPlus::LuaObject* ComboBox::s_pMetaTable = NULL;
 INT ComboBox::ComboBoxAddItem( LuaPlus::LuaState* pState )
 {
 	LuaStack args(pState);
-	// CYS-PLUMB: B's UI_CEGUI AddTextItem (0x180012ee0) gates on lua_isstring, which is also true for a number, and
-	// only then reads LuaStackObject::GetString. 0.85 tested LUA_TSTRING alone, so a numeric caption silently added
-	// nothing (BangHuiFuLi.lua:62 "SetHour:AddTextItem( i+7, i )" left the hour dropdown empty). "%.14g" is Lua's own
-	// number->string format, so the text is what Lua's tostring() would have produced.
+
+
+
+
 	std::string strMbcs;
 	if (args[2].IsString())
 		strMbcs = args[2].GetString();
@@ -2388,37 +2388,37 @@ INT MeshWindow::RotateEnd(LuaPlus::LuaState* pState)
 	return 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////
-// CYS-MESHWIN 19/09: the eight MetaTable_Control_MeshWindow:*Ex functions of CY 3.71.
-//
-// Source: Build\re\cy-oracle\CYGame\Bin64\UI_CEGUI.dll (CY 3.71, sha256 e90c68e0..., image base 0x180000000),
-// registration block 0x18002ba55-0x18002bcf6 (member function stored in the functor, name from .rdata 0x18008bdc0..).
-// CY routes the *Ex calls to a SECOND kernel node "bin\fakeEx" (g_pFakeSystemEx = 0x1800b6258; Game.exe class
-// CFakeObjSystemEx, vtable 0x140af4898, found through RTTI), while SetFakeObject/RotateBegin/RotateEnd keep "bin\fake"
-// (g_pFakeSystem = 0x1800b6250). Its mechanism is the classic one: Attach = create the RTT for (object, window),
-// RotateBegin = remember (entry, speed) and add the speed to the face direction every tick (Game.exe 0x1401fa350 =
-// exactly CFakeObjSystem::Tick), RotateEnd = forget it (0x1401f9d10). So the tree keeps ONE fake system and maps:
-//
-//   AttachWindowEx(obj)         0x180022450  w,h = (int)pixel size (NO pow2), bg = property "BackgroundName",
-//                                            fakeEx->vt[15](window, obj, w, h, bg); does NOT set property FakeObject.
-//                                            Here: CysFakeObjOnUIHook (pow2 as SetFakeObject; Game forces "Player" to
-//                                            256x512 - CY's fakeEx forces 256x256, Game.exe 0x1401f9850) + property
-//                                            FakeObject = obj so MeshShown fires when the window is visible (= the
-//                                            RTT starts updating; CY's fakeEx keys the RTT by window and updates it
-//                                            itself, this tree needs the event).
-//   DetachWindowEx()            0x1800247c0  fakeEx->vt[16](window, 0)          -> hook(window, "", ...) = OnUIUnHook
-//   RotateBeginEx(obj, angle)   0x180032b20  fakeEx->vt[18](obj, angle * 0.5f) -> RotateObj_Begin(obj, angle*0.5f)
-//                                            (the 0.5f is CY's own, .rdata 0x180086574; also in CY's RotateBegin)
-//   RotateEndEx()               0x180032c90  fakeEx->vt[19](window)             -> RotateObj_End(object of the window)
-//   RestPositonEx()             0x1800329c0  fakeEx->vt[20](window) -> render vt[0x9e] -> CysFakeObjRestPose [SL]
-//   GetCameraEx()               0x1800250d0  fakeEx->vt[21](window, &h, &d, &p); pushes 3 numbers
-//   SetCameraEx(h, d, p[, x])   0x1800365c0  args 2-4 numbers, arg 5 optional (0); fakeEx->vt[22](window, h, d, p, x)
-//   ChangeCameraDistanceEx(name, dir, delta)  0x180022a60  strstr(name, "Tujian") && fakeEx->vt[23](name) ->
-//                                            camera (1.0, 9.5, 0.28); else get, d +/- delta (dir == 0 ? + : -), set.
-// Argument checks are CY's (lua_isstring / lua_type == LUA_TNUMBER); a bad argument returns 0 values, no throw.
-// METATABLE RULE (metatable-sweep 19/09): the shared metatable makes every registered name reachable from every Lua
-// window; each body therefore checks testClassName("FalagardMeshWindow") before touching properties that only a
-// mesh window has, and logs instead of casting.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace
 {
 	struct CysMeshWinBridge
@@ -2519,7 +2519,7 @@ INT MeshWindow::RotateBeginEx(LuaPlus::LuaState* pState)
 	LuaStack args(pState);
 	if (!args[2].IsString() || !args[3].IsNumber()) return 0;
 	if (!cysMeshWinIsMesh(m_pWindow, "RotateBeginEx")) return 0;
-	const FLOAT fAngle = args[3].GetFloat() * 0.5f;   // CY: mulss 0x180086574 (= 0.5f) before fakeEx->vt[18]
+	const FLOAT fAngle = args[3].GetFloat() * 0.5f;
 	g_pFakeSystem->RotateObj_Begin(args[2].GetString(), fAngle);
 	// CYS-MESHEX 19/09: these five had no line of their own, so "installed" could not be told from "ran" in a live
 	// run (meshwindow section 3.5 had to leave them at "no call yet"). One line per Lua call, button-rate only.
@@ -2588,8 +2588,8 @@ INT MeshWindow::ChangeCameraDistanceEx(LuaPlus::LuaState* pState)
 	if (!bridge.cameraGet || !bridge.cameraSet) return 0;
 	const char* szName = args[2].GetString();
 	const char* szWindow = m_pWindow->getName().c_str();
-	// CY 0x180022ac7-0x180022b40: a pet-book object ("Tujian" in the name, known to fakeEx) gets a fixed far camera
-	// (.rdata 0x180087764 / 0x18008ddd0 / 0x18008ddb8 = 1.0 / 9.5 / 0.28).
+
+
 	if (strstr(szName, "Tujian") && bridge.exists && bridge.exists(szName) == 1)
 	{
 		bridge.cameraSet(szWindow, 1.0f, 9.5f, 0.28f, 0.0f);
@@ -3198,18 +3198,18 @@ INT NotSuperListLuaWindow::GetSelected( LuaPlus::LuaState* pState )
 	pState->PushNil();
 	return 1;
 }
-// CYS-QLOG 19/09: SUA LOI CHET TIEN TRINH khi bam `Q` (khung Nhiem vu). MOI dieu khien dung CHUNG mot metatable
-// (RegisterMetaTable: `*X::s_pMetaTable = *Window::s_pMetaTable`), nen `QuestLog_Desc:SetScrollPosition()` cua
-// CY (QuestLog.lua:1464) roi vao dung ban NotSuperList nay. `QuestLog_Desc` la `TLBB_ComplexWindow`
-// (FalagardComplexWindow), khong phai NotSuperList: ep kieu C tho doc `d_vertScrollbar` o offset 0x690, ma o do
-// FalagardComplexWindow giu `d_ActionButtonSize` = Size(35,35) theo look (`TLBBLook_ComplexWindow.looknfeel.xml:55`
-// `w:35 h:35`) = 0x420C0000420C0000. Gia tri do khac 0 nen qua duoc `if (d_vertScrollbar)`, roi
-// `Scrollbar::setScrollPosition` doc `[rcx+0x698]` tai mot dia chi KHONG CHINH TAC => #GP, Windows bao
-// ACCESS_VIOLATION voi dia chi 0xFFFFFFFFFFFFFFFF (bao cao cu in `%08X` nen chi thay `0xFFFFFFFF`).
-// Bang chung: minidump `Build\Logs\2026-09-17-host-2\live-{12,14,17}\tmp\dmp104.tmp` - RIP = CEGUIBase.dll+0xCE55E
-// = `Scrollbar::setScrollPosition` (CEGUIScrollbar.cpp:175), rcx = 0x420C0000420C0000, xmm1 = 0.0f.
-// Cach sua: KHONG bao gio ep kieu mu nua - phan phoi theo kieu THAT cua cua so; kieu nao khong co thanh cuon cua
-// ta thi khong lam gi. Tham so vang (CY goi khong doi so = "giu nguyen vi tri") => giu vi tri hien tai.
+
+
+
+
+
+
+
+
+
+
+
+
 INT NotSuperListLuaWindow::SetScrollPosition( LuaPlus::LuaState* pState )
 {
 	LuaStack args(pState);

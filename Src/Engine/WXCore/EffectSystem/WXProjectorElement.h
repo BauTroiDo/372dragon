@@ -158,22 +158,22 @@ namespace WX	{
 		virtual void destroyRenderInstance(void);
 		virtual void updateRenderInstance( Real time, TransformInfo &info );
 
-		/** CYS-FXFINISH (fx-finish, 20/09/2026) - DAT LAI TU THE "CHIEU THANG XUONG" MOI KHUNG HINH.
-		    Goc re o KIEN TRUC, khong phai o mot dong lac cho:
-		      - B/CY giu (position, rotation, scale) cua chu so huu tren node GOC cua HIEU UNG, con node
-		        cua tung element la CON, dung yen o (mRelPos, mRelOrientation). CY 3.71 Render.dll
-		        (4.057.088 B, sha256 e6e67de45489f902...) co setRelPos = 0x180172fa0 va setRelOrientation
-		        = 0x180172f60 la HAM AO ghi THANG mRelPos/mRelOrientation len node [this+0x18] - chi hop ly
-		        khi khong co ai khac ghi len node do moi khung hinh.
-		      - Cay nay DAN PHANG cay node: EffectElement::setTransformInfo (WXEffectElement.cpp:207-222,
-		        ghi chu CYS ngay tai cho) ghi transform THE GIOI len node CUA TUNG ELEMENT moi khung hinh.
-		    => cu setPosition(0,200,0) + setDirection(-Y, TS_WORLD) ma _createProjector dat MOT LAN luc tao
-		    (y het CY: _createProjector = 0x180090720, hang 200.0f @0x1802bc664, setDirection relativeTo=2)
-		    bi xoa ngay tu khung hinh sau => may chieu truc giao quay NGANG, in decal keo let tren nen.
-		    Do duoc: 4/4 aura_rune_projector* lech tam vet 198-223 px cung mot huong o ca 5 moc, doi chung
-		    NAM TRONG CUNG LUOT lech 2-3 px (Build\Logs\2026-09-20-fx-cy-2\projector-centroid.txt).
-		    Ban va: dat lai tu the may chieu SAU moi lan base ghi de. CYS_FXPROJ=0 => canh doi chung A/B,
-		    di NGUYEN VAN duong ma cu. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		virtual void setTransformInfo( const TransformInfo &info );
 
 		/** set the material that will be used in projector */

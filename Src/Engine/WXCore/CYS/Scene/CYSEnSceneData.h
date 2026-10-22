@@ -1,11 +1,11 @@
 #ifndef __CYS_ENSCENEDATA_H__
 #define __CYS_ENSCENEDATA_H__
 
-// CY-Source (scene agent): document model of the B ".EnScene" environment file (197 files in client_GL):
-// EnScene(version) -> EnSky | EnRegionComposite -> EnRegion(name, maxAffectDistance) -> RegionGroups/polygon/Point
-// + EnSky; EnSky -> SkyDome, SkyClouds/SkyCloudsLayer, SkyRingClouds/RingCloudsLayer, Star, Moon, Sun, Ocean,
-// LightAndFog/EnvKey. Tree and value ranges: 05 §4, Tools/re/out/scene_xml_inventory.tsv. B reader:
-// Fairy::EnSceneObject::_loadImpl (FUN_180147bd0): root "EnScene", attribute version="1.0", then one child node.
+
+
+
+
+
 
 #include "CYSEnvKey.h"
 

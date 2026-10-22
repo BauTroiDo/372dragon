@@ -95,9 +95,9 @@ namespace CysHostNbShop
     {
         CEventSystem* events = CEventSystem::GetMe();
         if (!events) return false;
-        // CY pushes ONE string argument, "normal" (.rdata 0x140b217b4); client_GL pushes none. The frame of this
-        // tree is the CY frame and YuanbaoShop.lua:819 reads arg0 == "normal" to reopen the LAST tab. Pushing
-        // nothing would still open (the else branch), which is why only the CY form is correct here.
+
+
+
         events->PushEvent(GE_TOGGLE_YUANBAOSHOP, "normal");
         TDU_Log("CYS-NBSHOP: ToggleYuanbaoShop -> TOGGLE_YUANBAOSHOP(normal)");   // one line per click: rare event
         return true;

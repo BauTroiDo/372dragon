@@ -28,8 +28,6 @@ Toàn bộ là phân tích tĩnh; không exe/DLL nào được chạy. Ký hiệ
    - template SM3.
 10. **(DK)** Có hai bố cục bảng: **HJ** (`client_GL` = CYHJ = server: EquipBase 101 / MonsterAttrEx 71 / PetAttr 51 cột) và **CY/JD** (DataCY = CY Game: 103 / 73 / 54 cột).
 
-## 2. Mã nguồn 0.85 trong `Reference`
-
 ### 2.1 Bố cục
 
 | Thư mục | Nội dung | Quy mô |
@@ -187,15 +185,6 @@ Không có khoảng trống nào về template hay từ khoá effect giữa S1 v
 
 ## 8. Công cụ (tóm tắt; chi tiết ở tài liệu 09)
 
-Đã có sẵn:
-- chuỗi model ⇄ glTF khứ hồi đúng từng byte (`Tools\model-convert`);
-- đường ống bản đồ (`Tools\map-convert`);
-- bộ giải client GL (`Tools\DATA NEW\DIY`);
-- đọc/ghi AXP (`Tools\AXPDecryptor`);
-- bộ kiểm toàn vẹn (`analysis\full-audit-2026-09-10`);
-- client giao thức headless (`Tools\stress-test\tlbb_sim`);
-- 8 project Ghidra đã phân tích;
-- CodeGraph.
 
 Còn phải viết mới: pipeline hợp nhất, Registry, bộ sinh đặc tả và codec giao thức, bộ đối chứng hình ảnh.
 
@@ -206,9 +195,7 @@ Còn phải viết mới: pipeline hợp nhất, Registry, bộ sinh đặc tả
 | Phần cứng | Xeon E5-2696 v3 · 31,9 GB RAM · NVIDIA RTX 2060 |
 | Hệ điều hành | Windows 11 IoT Enterprise LTSC 2024 (10.0.26100) |
 | Dung lượng trống | C: 418,8 GB · D: 757,9 GB · E: 2.151,6 GB |
-| Đã có | Git, Python 3.13 (`C:\Program Files\Python313`), LLVM 22 (có `clang-cl`), Java 21 (Temurin), Ghidra 12.1.3, Blender 5.2, Windows SDK 10.0.26100, CodeGraph 0.20.1 |
 | **Chưa có** | MSVC (VS Build Tools), CMake, Ninja, DirectX SDK June 2010 (không bắt buộc: cây mã có sẵn thư viện D3D9/D3DX9 x64), FMOD Core SDK, Cg Toolkit 3.1; `texconv` có trong `Tools\texture-upscale` nhưng không nằm trên PATH |
-| MCP | CodeGraph hoạt động; **ReVa không kết nối được** (CONNECT_TIMEOUT) trong phiên 12/09 |
 
 ## 10. Bằng chứng
 

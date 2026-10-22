@@ -1,14 +1,14 @@
-/*
-CYS: NewRibbonTrail effect element (294 elements in client_GL all.effect).  Clean-room implementation of the
-behaviour of B Render.dll (ctor 0x18021f2a0, createRenderInstance 0x18021ff90) - see WXNewRibbonTrail.h.
 
-Keywords (as written in .effect files):
-  TrailLength 100, MaxChainElements 80, InitialWidth 20, WidthChange 0, TailWidth 0, LowWidthCut 0,
-  HighWidthCut 100, AlphaColourCut 0, LiftTime 0, ColourFadingTime0..4 0, ColourFadingColour0..4 "0 0 0 1",
-  Material "", BillboardType camera | point | oriented | perpendicular | follow_bone, Direction_or_Point "0 0 0"
-  plus the EffectElement keys (StartTime, LifeTime, Position, Orientation, CreateLevel, ParentSpaceLock).
-The trail is attached to its own node (world space, render queue 80) and follows the element node.
-*/
+
+
+
+
+
+
+
+
+
+
 #ifndef __WXNewRibbonTrailElement_H__
 #define __WXNewRibbonTrailElement_H__
 

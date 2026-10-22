@@ -1,42 +1,42 @@
-// CYS-PLUMB: Lua glue of the shared host plumbing. See CysHost_Plumbing.h.
-//
-// Every entry below was disassembled in client_GL\Bin64\Game.exe at the impl_va of Registry/luaapi/catalog.json
-// (image base 0x140000000); the listings are in Build/Logs/2026-09-17-host-plumbing/measure/disasm/.
-//
-//   Player:GetLevel   B 0x1402d7770 - ObjectManager[+0x98] (MySelf) -> [+0x1b0] (CharacterData) -> [+0x18][+0x6c],
-//       pushed as one number.  That is exactly GetMySelf()->GetCharacterData()->Get_Level().  B only asserts on a
-//       null MySelf, so it would fault on the login screen; this host pushes 0 there instead, because the CY frames
-//       write "local n = Player:GetLevel(); if n < 30 then" and a nil would raise a Lua error.
-//       (catalog impl_085 = SCRIPT_SANDBOX::Character::GetLevel - 0.85 has it on the TARGET only, never on Player.)
-//
-//   Player:IsVaild    B 0x1402d7810 - pushes 1.0 only when two globals are equal (the active procedure is the main
-//       one) AND ObjectManager[+0x98] != 0; otherwise 0.  The CY frames test "~= 1" (PlayerQuicklyEnter.lua:314).
-//
-//   _G:GetCurClientSize  B 0x140227de0 - pushes two numbers:
-//       if (IsIconic(hwnd)) { GetWindowPlacement -> rcNormalPosition, minus the frame that AdjustWindowRectEx
-//                             computes from GWL_STYLE / GWL_EXSTYLE }
-//       else               { GetClientRect -> right-left, bottom-top }
-//       then clamps: width = max(width, 800), height = max(height, 600)   [.rdata 0x1407cb354 = 800, 0x1407cb384 = 600]
-//       The minimum matters: the stub pushed (0, 0) and the 15 frames that read "local w,h = GetCurClientSize()"
-//       laid themselves out on a 0x0 screen.
-//
-//   DataPool:GetServerDayTime  B 0x140273de0 - _localtime64 of a time_t, then
-//           ((tm_year * 100 + 190001 + tm_mon) * 100) + tm_mday
-//       which is (tm_year+1900)*10000 + (tm_mon+1)*100 + tm_mday, i.e. YYYYMMDD.  Checked against the 386 call
-//       sites, which compare it with literals such as 20200106 (Alcohol_Shop.lua:11) and 20190426
-//       (Anniversary.lua:208).
-//   DataPool:GetServerMinuteTime  B 0x140273f30 - the twin of the above, same two clock calls, but
-//           ((tm_hour * 100 + tm_min) * 100) + tm_sec
-//       i.e. HHMMSS despite the name.  Checked against the call sites, which pair it with GetServerDayTime and
-//       compare it with 110000 / 120000 (JieRiHuoDong.lua:302/315 = 11:00:00 and 12:00:00).  Same divergence note
-//       as GetServerDayTime below.
-//
-//       DELIBERATE DIVERGENCE: B does not use the raw clock.  It takes the DataPool server time and adds
-//       (8 - local_timezone_hours) * 3600 before calling _localtime64 (and subtracts one hour when tm_isdst > 0),
-//       i.e. B answers with the date in UTC+8, the operator's time zone, whatever zone the player sits in.  Here the
-//       server is this same machine (WSL), so its day and the client's local day are the same and the shift would
-//       only push the client one day ahead of the server for part of every evening.  If this build ever talks to a
-//       server in another zone, apply the shift here - the formula above is all that changes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "CysHost_Plumbing.h"
 #include "LuaApiGen.h"
 
@@ -130,7 +130,7 @@ namespace CysHostPlumbing
     {
         std::tm parts;
         if (!LocalParts(when, parts)) return 0;
-        // B 0x140273de0: ((tm_year * 100 + 190001 + tm_mon) * 100) + tm_mday
+
         return ((parts.tm_year * 100 + 190001 + parts.tm_mon) * 100) + parts.tm_mday;
     }
 
@@ -138,7 +138,7 @@ namespace CysHostPlumbing
     {
         std::tm parts;
         if (!LocalParts(when, parts)) return 0;
-        // B 0x140273f30: ((tm_hour * 100 + tm_min) * 100) + tm_sec
+
         return ((parts.tm_hour * 100 + parts.tm_min) * 100) + parts.tm_sec;
     }
 

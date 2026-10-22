@@ -651,8 +651,8 @@ System::_postprocessScene(void)
     mTerrainTypeInfos->setTerrainData(mTerrainData);
     mTerrainTypeInfos->updateTerrainTypeInfos();
 
-    // CYS-PARITY: CY System::_postprocessScene (Render.dll FUN_18003f9f0) combos the terrain brushes into one texture
-    //             before the render instances when the scene is not editable (A/B CYS_PARITY_TERRAIN_COMBO=0).
+
+
     if (!isEditable())
         mTerrain->_comboBrushes();
 

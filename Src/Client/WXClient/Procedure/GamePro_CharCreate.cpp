@@ -62,8 +62,8 @@ CGamePro_CharCreate::~CGamePro_CharCreate()
 
 VOID CGamePro_CharCreate::Init(VOID)
 {
-    // CYS-LOGIN: CY 3.71 CGamePro_CharCreate::Init (FUN_140640a50) first restores the View_Resoution window
-    // (FUN_140641c20); the startup prewarm (not the active procedure) must leave the login window alone.
+
+
     if (GetActiveProcedure() == this) CysLoginWindowRestore();
     if (HasCyCreationProfile())
     {
@@ -385,6 +385,3 @@ void CGamePro_CharCreate::SetHairModelByRaceAndIndex(int iRace, int iIndex)
 
 	m_pAvatar[iRaceIndex]->GetCharacterData()->Set_HairMesh(m_iHairModle1);
 }
-
-
-

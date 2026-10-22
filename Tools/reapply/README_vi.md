@@ -483,9 +483,6 @@ cd C:\TLBB\085\CY-Source
 & $py -B Tools\pipeline\cy_i18n_apply.py verify    # đọc lại từ đĩa, so với bản dựng lại từ Config.axp + Registry\i18n\*.tsv
 ```
 
-Idempotent (lần hai báo `unchanged` cho mọi bảng). Nguồn thật không phải file trong `Build/Logs`, mà là
-`C:\TLBB\085\Tools\DATA NEW\CY Game\Data\Config.axp` (không đổi) + `Registry\i18n\*.tsv` (đổi được, git theo dõi) +
-`analysis\translation\translation.db` (đổi được, **ngoài `CY-Source`**, không git theo dõi ở đây).
 
 **Bảng `TABLES` trong `cy_i18n_apply.py` PHẢI liệt kê đúng tên mọi bảng đã thêm vào `DISPLAY` của
 `Tools\pipeline\cy_item_text.py`** — có trong `DISPLAY` mà thiếu trong `TABLES` thì `plan/apply/verify` lặng lẽ bỏ

@@ -39,9 +39,9 @@ protected:
 	INT					m_nRefCount;
 
 public:
-	// CYS-AUDIO: SoundInfo id / file of this buffer (event log); ticks spent unreferenced. CY 3.71 keeps an
-	// unreferenced buffer 60 ticks (CSoundSourceFMod dtor sets buffer+8 = 0x3c, Tick FUN_140687f80 releases it when the
-	// count runs out) so a repeated UI/skill sound is not reloaded every time.
+
+
+
 	INT					m_nCysSoundID;
 	STRING				m_strCysFile;
 	INT					m_nCysIdleTicks;

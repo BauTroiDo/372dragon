@@ -271,7 +271,7 @@ VOID CGamePro_Main::Init(VOID)
 VOID CGamePro_Main::Tick(VOID)
 {
 	CGameProcedure::Tick();
-	CysWorldTime::Tick();	// CYS-SKY: CY FUN_14064a0a0 advances the world time of the sky
+	CysWorldTime::Tick();
 
 	if ( m_pMySelf != NULL )
 	{
@@ -366,24 +366,24 @@ VOID CGamePro_Main::ProcessInput(VOID)
 }
 
 
-// CYS-MOVE2: CY 3.71 dispatches every accelerator through CAccelerateManager::processKeyMessage (client_GL Game.exe
-// 0x140433ea0) and its 79-row table (.data 0x140998980) - both bindings of a row are live all the time, an active IME
-// edit box keeps the "text keys" (A..Z, 0..9, numpad, arrows, Enter, Delete, punctuation) unless Ctrl or Alt is held,
-// key-down AND key-up are dispatched, a dead character only fires rows flagged 0x100 (Esc, Enter, Tab, F11, the lock
-// keys). The old switch on KC_* codes (and the 0.85-only PgUp/PgDn jump, absent from all 79 CY rows) is gone; the
-// table lives in CysAccelTable.cpp / CysAccelCore.h with the evidence for every rule, and the AcceSetup window can
-// rebind the same table.
-//
-// CORRECTION of what 17/09 and the first draft of this comment claimed (review-red measured it, 18/09): the old gate
-// did NOT leak letters into both the chat box and a shortcut. IsIMEEditboxEmpty() is Ime::GetActiveExitBox()->empty()
-// - a std::list of FOCUSED edit boxes (CEGUIIme.h:37) - so it already meant "no edit box is taking keys", and it
-// blocked correctly. What really was broken is the OTHER use of the wrong widget name: every
-// IsIMEEditboxActive("Chat_Frame_EditBox") in the old switch was dead, because the CY widget is named "Chat_EditBox"
-// (ChatFrame.layout.xml:289). Two visible defects came out of that, and both are fixed by the table:
-//   * Esc never reached its "chat is open" branch, so it never pushed GE_CHAT_CLOSED;
-//   * Tab always took the "not chatting" branch and locked the nearest target. CY's Tab callback (0x140438840) does
-//     nothing but push TOGLE_SCENE_MAP {szSceneMap,"2"} - it never locks a target in either state.
-//处理键盘
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 VOID CGamePro_Main::ProcessInput_Keybord(VOID)
 {
 	CObject_PlayerMySelf *pMySelf	= CObjectManager::GetMe()->GetMySelf();
@@ -705,7 +705,7 @@ VOID CGamePro_Main::ProcessInput_Mouse(VOID)
 		}
 	}
 
-	// CYS: CY 3.71 ProcessInput FUN_14064bd70 - giu chuot giua keo doc: pitch += -dy * 0.25 do
+
 	if((dwMouseFlag & MOUSE_MBDOWN) && !bInUIHover && nMousePosYDiff != 0)
 		s_pGfxSystem->Camera_AddPitch( -nMousePosYDiff * 0.25f * __PI / 180.0f );
 

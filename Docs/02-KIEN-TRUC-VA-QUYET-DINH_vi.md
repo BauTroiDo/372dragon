@@ -54,9 +54,6 @@ Bảng dưới đếm số hàm import, lấy bằng `llvm-readobj --coff-import
 
 Hệ quả:
 
-1. Game.exe chỉ nói chuyện với phần đồ hoạ qua **giao diện ảo** lấy từ tEngine: `tGfxSystem`, `tUISystem`, `tSoundSystem`, `tWorldSystem`, `tObjectSystem`, … (khai báo trong `Client\Common\TD*.h`). Riêng vtable render của B có **188 slot** (`Render.dll` VA 0x1802b11e8); bản 0.85 khoảng 54 slot (42 hàm ảo trong `TDGfxSystem.h` cộng 12 của `tNode`).
-2. Các giao diện này truyền `LPCTSTR`, nhưng cũng truyền `STRING` (= `std::string`) và `std::list<…>&` (`TDNode.h`, `TDWorldSystem.h`, `TDSound.h`). Vì vậy **hai bên ranh giới phải cùng CRT/STL**. Không được ghép module VS2012 của B với module VS2022 của ta qua ranh giới này, trừ khi phần ghép được dựng bằng toolset v110.
-3. Không thể thay OgreMain của B bằng OgreMain tự dựng: B có 1.439 export không có trong 0.85, và bố cục lớp C++ của B không có header để khớp.
 
 ## 3. Kiến trúc đích
 
@@ -67,7 +64,6 @@ Hệ quả:
 | Script | `LuaPlus.dll` | `Client\LuaPlus` (Lua 5.0.1, có `continue`) | Giữ nguyên; dựng từ mã, **không** dùng `LuaPlus.dll` của B (bản bên thứ ba dựng bằng VS2022, có lớp SuperHook) |
 | Trình diễn | `Render.dll` | `Client\WXRender` + `Client\WXCore` | Nâng lên đủ tính năng Fairy của B/C (xem 03, pha E2–E3) |
 | Ogre | `OgreMain.dll`, `RenderSystem_Direct3D9.dll` (sau thêm D3D11), `Plugin_ParticleFX2.dll`, `Plugin_OctreeSceneManager.dll` | `OGRE` 1.2.5 Dagon, `ParticleFX2` | Dọn sạch cho x64; thêm DDS ATI1/2, INTZ, 5 affector, 3 element, `curve` cho Cylinder emitter |
-| Tìm đường | `PathLib.dll` | **không có mã** | Viết lại theo đặc tả `.path` (bộ nhớ dự án `tlbb-path-navmesh-format`) và bản dịch ngược `analysis\ghidra\pathlib-out\all.c`; phải chịu được dữ liệu lỗi |
 | UI | `UI_CEGUI.dll`, `CEGUIBase.dll`, `CEGUIFalagard.dll`, `CEGUIOgreRenderer.dll` | `Client\CEGUISystem`, `Client\CEGUI` 0.4.1, `Client\CEGUIFalagardEx` | Giữ CEGUI; thêm widget của B/C khi layout cần; UTF-8 và codepoint gốc; 36 lớp `LUA_CONTROL` như B |
 | Âm thanh | `tSoundSystem` | `Client\WXClient\Sound` (FMOD 3.75, x86) | Chuyển sang FMOD Core 2.x x64 (đọc được `.fsb` của B/C). Bản A đã làm đúng việc này với FMOD 2.2.35 |
 | Dữ liệu | `Data\*Folder` khi phát triển, `*.axp` khi phát hành | kho chuẩn `Assets\Canonical` | Xem tài liệu 05 |
@@ -90,7 +86,6 @@ Trạng thái: **Đề xuất** = chờ người dùng xác nhận; **Chốt** =
 | # | Quyết định | Lý do (bằng chứng) | Hệ quả | Trạng thái |
 |---|---|---|---|---|
 | D1 | **Chủ giao thức là server skynet đang chạy.** Không dùng giao thức 0.85, không dùng tlbb15. | Server nói giao thức của B: 24/24 ID mẫu lệch so với 0.85; khoảng 200 gói chỉ có ở skynet. tlbb15 là binary đóng, tắt ASLR, chạy bằng hook `LD_PRELOAD`. | Client mới sinh codec từ đặc tả của skynet (tài liệu 06). Server C++ 0.85 chỉ làm hộp cát và tài liệu. | Đề xuất |
-| D2 | **Tiến hoá mã 0.85 thay vì viết engine mới**, lấy B/C làm đặc tả qua Ghidra và làm đối chứng bằng ảnh và gói tin. | Mã 0.85 đã đọc đúng mọi định dạng file (mesh v1.40, skeleton 0x4120). Thiếu là tính năng. Viết engine mới đã bị loại ngày 06/09 (60–120 người-tháng). | Cần một quy trình "dịch ngược làm đặc tả": ghi spec, viết lại sạch, không dán mã decompile (tài liệu 04 mục 8). | Đề xuất |
 | D3 | **Không nâng lên Ogre mới** (1.9, 13, Next) trước khi đạt ngang B. | Định dạng mesh/skeleton/material/effect gắn với Dagon và phần mở rộng Fairy. | Giữ Ogre 1.2.5, chỉ dọn cho x64 và thêm tính năng. Nâng Ogre để dành cho pha "vượt ngang". | Đề xuất |
 | D4 | **Toolchain:** VS2022 Build Tools (v143) cho x64 và x86; Windows SDK 10.0.26100 (đã có); D3D9/D3DX9 dùng thư viện x64 có sẵn trong `DirectX9\Lib\x64`; CMake + Ninja làm hệ build duy nhất từ pha E1b. | Máy chưa có MSVC. `.vcxproj` hiện chỉ có Win32 và thiếu 5 project. Mã có 262 `.vcproj` cũ lẫn lộn. | Pha E1a vẫn dùng `.vcxproj` để dựng nhanh bản đối chứng x86. Sau đó chuyển hẳn sang CMake trước khi port x64. | Đề xuất |
 | D5 | **Mã hoá:** mã nguồn lưu UTF-8 và biên dịch với `/execution-charset:.936`; chữ hiển thị là UTF-8; tên tài nguyên giữ byte GBK trong dữ liệu; engine đổi tên GBK sang UTF-16 để mở file bằng `CreateFileW`; cửa sổ Unicode; CEGUI nhận codepoint. | Hệ đang chạy UTF-8 từ 24/08 (Chốt). Hiện có 11 bản vá binary chỉ để có UTF-8. Literal GBK trong mã là khoá tài nguyên. | Bỏ được mọi bản vá code page. Bỏ phụ thuộc ACP 1252. Dữ liệu không phải đổi tên file. | Đề xuất (UTF-8: Chốt) |

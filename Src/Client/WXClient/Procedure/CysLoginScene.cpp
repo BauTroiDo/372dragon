@@ -29,11 +29,11 @@ int poseIndex = -1;
 float rotateSpeed = 0, zoomSpeed = 0, zoomFactor = 1;
 std::string loadedScene; // CYS-CHARSEL: scene file currently in the renderer when a login/showroom scene loaded it
 
-// CYS-CHARSEL: CY 3.71 login background (Docs\specs\ui\login-scene-cy_vi.md, Build\Logs\2026-09-15-charsel-scene).
-// Game.exe CGamePro_Login::Init FUN_14062f940: Scene_Load(-1, "erengu_DL.Scene") - one fixed scene, no random/time
-// choice (the scene-reload callback FUN_1406c5650 maps id -1 to the same name). Render.dll FUN_18002b5e0 then calls
-// CCamera_CharSel FUN_180002a30: FOVy 42 deg, the position/orientation below (binary32 constants in that function),
-// setFarClipDistance(40000). The camera is static; the motion comes from the scene (particles, effects, water, clouds).
+
+
+
+
+
 const char* const kLoginScene = "erengu_DL.Scene";
 const float kLoginEye[3] = {-2279.2099609375f, 4462.81005859375f, -8181.77001953125f};
 const float kLoginOrientation[4] = {0.24467399716377258f, -0.009028379805386066f, -0.9688889980316162f, -0.03574720025062561f};

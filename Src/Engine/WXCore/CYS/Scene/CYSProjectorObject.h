@@ -1,16 +1,16 @@
 #ifndef __CYS_PROJECTOROBJECT_H__
 #define __CYS_PROJECTOROBJECT_H__
 
-// CY-Source (fix-projector 15/09/2026): scene object "Projector" as CY 3.71 Render.dll Fairy::ProjectorObject
-// (FairyProjectorObject.cpp; Ghidra Build/re/fix-projector/out/proj_xref.txt):
-//   ctor FUN_18012a240 (19 properties + defaults), createRenderInstance FUN_18012b810, updateMaterial FUN_18012e980,
-//   _getFovFromProjectionSize FUN_18012b580, BlendModeCmd FUN_18012e100/FUN_18012cde0 (labels at 0x1802e07e0).
-// A decal: an orthographic WX::Projector pointing down (-Y of the object frame) that draws `texture name` on the
-// terrain with its own material "ProjectorObjectMaterial<N>" (no lighting, depth write off, depth bias 1, clamp,
-// texture x projector colour, blend mode, fog forced to white for modulate/colour_blend).
-// Before this class the type was a verbatim property bag (ci-cy 6b7cdef) whose stored "create level" returned an
-// empty Variant; SceneInfo::initialise cast it to Real -> boost::bad_any_cast, TlbbViewer died on luoyang_new and
-// suzhou_new (Build/Logs/2026-09-14-fix-projector).
+
+
+
+
+
+
+
+
+
+
 
 #include "Core/WXPlacementObject.h"
 

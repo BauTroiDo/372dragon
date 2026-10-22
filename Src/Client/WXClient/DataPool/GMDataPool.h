@@ -544,9 +544,9 @@ public:
 
 	VOID						PetStudySkill_SetPetModel(INT nRaceID);
 
-	// CYS-MESHWIN 19/09: the wuhun (武魂, "KFS") avatars of the CY Wuhun / TargetWuhun windows. CY's CDataPool creates
-	// "My_Wuhun" / "Other_Wuhun" as CObject_PlayerNPC fake objects next to My_Pet (Game.exe 0x1400e6149 /
-	// 0x1400e6182) and DataPool:KFS_UpdateKFSModel (0x1400db200) sets their RaceID from KFSBase.txt.
+
+
+
 	VOID						Wuhun_SetModel(INT nModelID);
 	VOID						TargetWuhun_SetModel(INT nModelID);
 

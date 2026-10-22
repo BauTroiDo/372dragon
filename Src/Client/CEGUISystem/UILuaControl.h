@@ -286,8 +286,8 @@ namespace LUA_CONTROL
 		INT	GetFirstSelectItem( LuaPlus::LuaState* pState );
 		INT	SetItemSelect( LuaPlus::LuaState* pState );
 		INT SetItemSelectByItemID( LuaPlus::LuaState* pState );
-		// CYS-HOST2: index of the first visible item (-1 when none) / scroll so that item `index` is the first visible
-		// one (B UI_CEGUI.dll 0x180015830 / 0x180021b00 over CEGUIBase.dll Listbox::get/setFirstVisibleItem).
+
+
 		INT GetCurrentFirstItem( LuaPlus::LuaState* pState );
 		INT SetCurrentFirstItem( LuaPlus::LuaState* pState );
 
@@ -439,9 +439,9 @@ namespace LUA_CONTROL
 		INT		RotateBegin(LuaPlus::LuaState* pState);
 		INT		RotateEnd(LuaPlus::LuaState* pState);
 		INT		ChangeActionBegin(LuaPlus::LuaState* pState);
-		// CYS-MESHWIN 19/09: the eight *Ex functions of CY 3.71 (MetaTable_Control_MeshWindow, UI_CEGUI.dll
-		// 0x180022450 / 0x1800247c0 / 0x180032b20 / 0x180032c90 / 0x1800329c0 / 0x1800250d0 / 0x1800365c0 /
-		// 0x180022a60), mapped onto the classic fake system. Details at the definitions in UILuaControl.cpp.
+
+
+
 		INT		AttachWindowEx(LuaPlus::LuaState* pState);
 		INT		DetachWindowEx(LuaPlus::LuaState* pState);
 		INT		RotateBeginEx(LuaPlus::LuaState* pState);

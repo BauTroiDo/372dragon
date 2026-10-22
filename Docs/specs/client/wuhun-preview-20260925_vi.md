@@ -12,13 +12,6 @@ Loại `10156002` trả về mô hình đĩa `2346`, `武魂御瑶盘20090722.ob
 Hai loại còn lại dùng lại hai nhóm mô hình này. Bốn dòng KFS chứa tổng cộng
 20 ánh xạ, gồm 10 mô hình riêng biệt (2341–2350).
 
-CY gốc: `Game.exe` SHA-256
-`9278c7f37b55539fcfac1d93afa71f278e34d4ce674b0e8b52a0f62ea6e0cc5b`.
-Hàm `0x1400db200` lấy equip point 18, gọi `0x1404fd780` để đọc mô hình, và
-truyền `-1` khi không có Võ hồn. `0x1404fd820–0x1404fd835` chọn cột 10–14
-của `KFSBase`. Chú thích cũ gán tên `Set_RaceID` cho setter trong CY là suy luận
-sai; dữ liệu thực và đường dựng NPC trong mã nguồn chứng minh mã này phải
-được dùng trực tiếp với `CharModelEx`.
 
 Lua CY và GL đều làm cùng chuỗi: tháo liên kết khung, gọi
 `DataPool:KFS_UpdateKFSModel()`, rồi gắn lại `My_Wuhun`. Giữ nguyên chuỗi này
@@ -45,10 +38,6 @@ mô hình; mở lại SelfEquip; đóng khung và di chuyển bằng click trên
 Phần duyệt 10 mô hình kiểm tra trực tiếp lớp xem trước, không thay đổi cấp
 hay ngoại hình vật phẩm lưu trên server.
 
-Bằng chứng tại `Build/Logs/2026-09-25-wuhun-preview/`: bảng ánh xạ JSON,
-disassembly CY, build log và các lượt chạy GUI. Công cụ phát hành
-`Tools/game/deploy_wuhun_preview.py` yêu cầu kết quả probe thành công, cùng
-hash Game/manifest đã kiểm tra, và Overlay/Patch trùng Play trước khi chép.
 
 Kết quả cuối: `live-03` hoàn tất trong 139,5 giây, thoát bình thường,
 `CYS-WUHUN-PREVIEW: RESULT errors=0`; toàn bộ kiểm tra login, scene, di chuyển,

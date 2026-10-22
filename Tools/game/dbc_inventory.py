@@ -1,22 +1,8 @@
 #!/usr/bin/env python3
-"""CY-Source Tools/game/dbc_inventory.py - DBC table inventory of Game.exe on Canonical (client_GL) data.
+"""Inventory DBC tables from checked-in client loaders and configured data directories.
 
-Every source is opened read-only:
-  CAN  Assets/Canonical/Data/ConfigFolder            (target data set, built from client_GL = "B")
-  REF  Reference/tlbb085/085/Build/Client/Data/Config (0.85-era client data, text with type rows)
-  S2   ../Tools/DATA NEW/DataCY31-08-26/Config        (DATA CY, text)
-  SRV  ../wsl/source-snapshot/ubuntu/configs          (snapshot of the skynet server tables: named headers)
-  B    evidence produced by Build/re/game-data (Ghidra on a COPY of client_GL Game.exe):
-       - b-dbc-core.txt : B's OpenAllDataBase (table id + file name pairs)
-       - b-sizes.tsv, b-sizes2.tsv : GetDataBase(id, recordSize) call sites of B (pcode scan, decompiler-text scan)
-Outputs (only where asked): Registry/abi/dbc_inventory_gl.{json,tsv}.
-
-Record-size rule (B and CY-Source agree): INT/FLOAT/UINT/DWORD-time = 4 bytes, STRING = one pointer, each slot aligned
-to its size, record rounded to the largest slot (TLBB_DBC.cpp _BuildLayout; B passes the same sizeof() to GetDataBase).
-
-Usage:
-  python -B Tools/game/dbc_inventory.py build  [--out-dir Registry/abi]
-  python -B Tools/game/dbc_inventory.py report TABLE.txt [TABLE.txt ...]
+Use build [--out-dir Registry/abi] or report TABLE.txt [TABLE.txt ...].
+Record layout: INT/FLOAT/UINT/DWORD-time use four bytes; STRING uses one pointer.
 """
 import argparse
 import datetime
@@ -36,9 +22,6 @@ SOURCES = {
     'SRV': ROOT.parent / 'wsl/source-snapshot/ubuntu/configs',
 }
 GMDB = ROOT / 'Src/Client/WXClient/DBC/GMDataBase.cpp'
-EVIDENCE = ROOT / 'Build/Logs/2026-09-13-game-data/ghidra'
-B_DECOMP = EVIDENCE / 'b-dbc-core.txt'
-B_SIZES = (EVIDENCE / 'b-sizes.tsv', EVIDENCE / 'b-sizes2.tsv')
 TYPE_NAMES = ('INT', 'FLOAT', 'STRING', 'UINT', 'DWORDTIME')
 
 # Tables Game.exe reads outside CDataBaseSystem::OpenAllDataBase (static review of Src; phase = first use).
@@ -60,7 +43,7 @@ OTHER_LOADERS = [
     ('CysCreatePortrait.txt', 'charcreate', 'Client/WXClient/Procedure/CysCreateRoleAppearance.cpp', 'CY creation profile overlay (CharacterFace bytes)'),
     ('CysCreateOutfit.txt', 'charcreate', 'Client/WXClient/Procedure/CysCreateRoleAppearance.cpp', 'CY creation profile overlay (NewRoleEquipset bytes)'),
     ('CysCreateVisual.txt', 'charcreate', 'Client/WXClient/Procedure/CysCreateRoleAppearance.cpp', 'CY creation profile overlay (ItemVisualChar bytes)'),
-    ('ActionSet/ActionSet.txt', 'world', '(B only)', 'modern action sets (B FUN_1400e35b0)'),
+    ('ActionSet/ActionSet.txt', 'world', '(B only)', 'modern action sets (data table)'),
     ('ActionSet/ActionSetLine.txt', 'world', '(B only)', 'modern action set lines'),
     ('ActionSet/ActionSetKV.txt', 'world', '(B only)', 'modern action set key/value track names'),
     ('<scene>.esd', 'world', 'Client/WXClient/World/Scene.cpp', 'per-scene environment sounds (_DBC_ENV_SOUND)'),
@@ -207,53 +190,6 @@ def align(old, new, maxrows=4000):
     return list(reversed(pairs)), len(common)
 
 
-def b_tables(path=B_DECOMP):
-    """(id, file) pairs of B's OpenAllDataBase from the Ghidra decompilation evidence."""
-    if not path.is_file():
-        return []
-    lines = path.read_text(encoding='utf-8').split('\n')
-    try:
-        end = next(i for i, line in enumerate(lines) if line.startswith('==== FUNCTION 140462490'))
-    except StopIteration:
-        end = len(lines)
-    pairs = []
-    for i in range(end):
-        match = re.search(r'= "([^"]+\.txt)";', lines[i])
-        if not match:
-            continue
-        table_id = None
-        for j in range(i - 1, max(i - 6, 0), -1):
-            constant = re.search(r'=\s*(0x[0-9a-fA-F]+|\d+);\s*$', lines[j])
-            if constant and 'memset' not in lines[j] and int(constant.group(1), 0) not in (0, 1):
-                table_id = int(constant.group(1), 0)
-                break
-        pairs.append({'b_id': table_id, 'file': match.group(1), 'evidence_line': i + 1})
-    return pairs
-
-
-def b_sizes(paths=B_SIZES):
-    """B call sites GetDataBase(id, size): {id: {size: count}}; one count per (id, size, function) over both scans
-    (b-sizes.tsv: id, size, call, function, note; b-sizes2.tsv: id, size, function). Size 0 = not resolved."""
-    result, seen = {}, set()
-    for path in paths:
-        if not path.is_file():
-            continue
-        for line in path.read_text(encoding='utf-8').splitlines():
-            if line.startswith('#') or not line.strip():
-                continue
-            parts = line.split('\t')
-            if len(parts) < 2 or parts[1] == '?':
-                continue
-            function = parts[3] if path.name == 'b-sizes.tsv' and len(parts) > 3 else (parts[2] if len(parts) > 2 else '')
-            key = (int(parts[0]), int(parts[1]), function)
-            if key in seen:
-                continue
-            seen.add(key)
-            sizes = result.setdefault(key[0], {})
-            sizes[key[1]] = sizes.get(key[1], 0) + 1
-    return result
-
-
 def our_tables(path=GMDB):
     """(DBC id macro, file) pairs of CDataBaseSystem::OpenAllDataBase in Src."""
     text = path.read_text(encoding='utf-8-sig', errors='replace')
@@ -304,16 +240,10 @@ def describe(name, with_alignment=True):
 
 
 def build(out_dir):
-    btab = b_tables()
-    bsize = b_sizes()
     ours = our_tables()
     by_file = {}
     for dbc, name in ours:
         by_file.setdefault(name, {})['ours'] = {'dbc': dbc, 'loader': 'CDataBaseSystem::OpenAllDataBase', 'phase': 'startup'}
-    for entry in btab:
-        slot = by_file.setdefault(entry['file'], {})
-        slot.setdefault('b', []).append({'b_id': entry['b_id'], 'evidence_line': entry['evidence_line'],
-                                         'record_sizes': bsize.get(entry['b_id'], {})})
     for name, phase, loader, note in OTHER_LOADERS:
         by_file.setdefault(name, {})['other'] = {'phase': phase, 'loader': loader, 'note': note}
     tables = []
@@ -322,42 +252,31 @@ def build(out_dir):
         wanted = 'ours' in info or 'other' in info
         record = describe(name, with_alignment=wanted) if not name.startswith('<') else {'file': name, 'canonical': None}
         record.update(info)
-        can = record.get('canonical')
-        for b in record.get('b', []):
-            sizes = [s for s in b['record_sizes'] if s]
-            b['record_size_match'] = None if not sizes or not can else all(s == can['record_size_x64'] for s in sizes)
         tables.append(record)
     summary = {
         'generated': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
         'tool': 'Tools/game/dbc_inventory.py',
         'sources': {k: str(v) for k, v in SOURCES.items()},
-        'b_evidence': {'decomp': str(B_DECOMP.relative_to(ROOT)), 'sizes': [str(x.relative_to(ROOT)) for x in B_SIZES],
-                       'b_tables': len(btab), 'b_size_ids': len(bsize)},
-        'counts': {'ours_openall': len(ours), 'b_openall': len(btab), 'other_loaders': len(OTHER_LOADERS)},
+        'counts': {'ours_openall': len(ours), 'other_loaders': len(OTHER_LOADERS)},
         'tables': tables}
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / 'dbc_inventory_gl.json').write_text(json.dumps(summary, ensure_ascii=False, indent=1) + '\n',
                                                  encoding='utf-8', newline='\n')
-    header = ['file', 'our_dbc', 'phase', 'loader', 'b_id', 'b_record_size', 'format', 'columns', 'records',
-              'size_x64', 'b_size_match', 'names', 'schema']
+    header = ['file', 'our_dbc', 'phase', 'loader', 'format', 'columns', 'records',
+              'size_x64', 'names', 'schema']
     rows = ['\t'.join(header)]
     for t in tables:
         can = t.get('canonical') or {}
-        b = t.get('b', [{}])[0] if t.get('b') else {}
-        sizes = ','.join(str(s) for s in sorted((b.get('record_sizes') or {}).keys()))
         ours_info = t.get('ours') or {}
         other = t.get('other') or {}
         rows.append('\t'.join(str(x) for x in [
             t['file'], ours_info.get('dbc', '-'), ours_info.get('phase', other.get('phase', '-')),
-            ours_info.get('loader', other.get('loader', '-')), b.get('b_id', '-'), sizes or '-',
+            ours_info.get('loader', other.get('loader', '-')),
             can.get('format', 'MISSING'), can.get('columns', 0), can.get('records', 0), can.get('record_size_x64', 0),
-            b.get('record_size_match', '-'), 'yes' if can.get('names') else 'no',
+            'yes' if can.get('names') else 'no',
             ' '.join(x[0] if x in ('INT', 'FLOAT', 'STRING') else x for x in can.get('types', []))]))
     (out_dir / 'dbc_inventory_gl.tsv').write_text('\n'.join(rows) + '\n', encoding='utf-8', newline='\n')
-    matched = sum(1 for t in tables for b in t.get('b', []) if b.get('record_size_match') is True)
-    mismatched = [t['file'] for t in tables for b in t.get('b', []) if b.get('record_size_match') is False]
-    print('tables=%d ours=%d b=%d other=%d b_size_match=%d b_size_mismatch=%d %s' % (
-        len(tables), len(ours), len(btab), len(OTHER_LOADERS), matched, len(mismatched), ' '.join(mismatched)))
+    print('tables=%d ours=%d other=%d' % (len(tables), len(ours), len(OTHER_LOADERS)))
     return 0
 
 

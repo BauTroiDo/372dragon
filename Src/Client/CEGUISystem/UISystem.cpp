@@ -280,20 +280,20 @@ VOID CUISystem::InjectInput(VOID)
 	}
 }
 
-// CYS-MOVE2: the other half of the CY accelerator gate. Characters reach a CEGUI edit box through THIS path
-// (WM_CHAR -> Ime::ImeMsgProc -> injectChar), which is a different path from the DirectInput queue the game's
-// key handler reads - CUISystem::InjectInput has no keyboard case at all ("default: continue"). That is why a
-// single key press could do two things at once.
-//
-// The CY GUI keeps Chat_EditBox focused for ever (ChatFrame.lua:536 DefaultEditBox=True; measured 18/09,
-// Build/Logs/2026-09-17-move-2/live-1 and live-2), so "an edit box has focus" can never mean "the player is
-// typing". CY answers that question with the variable NonChatActive (its accelerator accessor 0x140434650 reads
-// it; seven CY frames read it too), and this build publishes it from CysAccel::SetChatting - Enter sets it,
-// Esc clears it, the same two callbacks CY uses.
-//
-// So: while NonChatActive == 1 (the keyboard belongs to the game) the text-editing messages are NOT handed to
-// the IME layer if the box that would receive them is the chat box. Every other edit box of the CY GUI (344 of
-// them) behaves normally, and is unaffected: the guard only fires for Chat_EditBox.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static BOOL CysChatInputShouldIgnore(UINT message)
 {
 	switch(message)
@@ -1019,10 +1019,10 @@ bool CUISystem::handleHyperLinkLeftActive(const CEGUI::EventArgs &e)
 	CUIStringSystem::utf8_to_mbcs(eHyperLink.windowName.c_str(), strWnd);
 	CUIStringSystem::utf8_to_mbcs(eHyperLink.hyperLinkName.c_str(), strLink);
 
-	// CYS-INFOLINK 19/09: the key CY writes for every #{_INFOxxx..} tag is "<x>,<y>,<scene>,<type>,<target>"
-	// (CY UI_CEGUI.dll handleHyperLinkLeftActive 0x1800714c0, sscanf "%d,%d,%d,%d,%s" at 0x1800716c3, at least
-	// four fields required). That is NOT the 0.85 layout "<sid>,<x>,<y>##w" handled below, so it is matched
-	// first and only when the key carries no '#' at all - see Src\Client\CEGUISystem\CysInfoLink.h.
+
+
+
+
 	{
 		CysInfoLink::Link cyLink;
 		if(strLink.find('#') == STRING::npos && CysInfoLink::ParseKey(strLink, cyLink))
@@ -1037,15 +1037,15 @@ bool CUISystem::handleHyperLinkLeftActive(const CEGUI::EventArgs &e)
 			// scene < 0 means "the scene you are in" - 292 _INFOHOME rows of StrDictionary.txt ship "-1".
 			if(cyLink.scene >= 0 && cyLink.scene != nCurScene)
 			{
-				// CY walks the player across scenes from here (0x1800718db, game interface vt+0x128). The 0.85
-				// interface has no cross-scene autopath, so report it instead of walking to the wrong place.
+
+
 				g_pEventSys->PushEvent(GE_NEW_DEBUGMESSAGE, CUIStringSystem::FromGbkLiteral("您还没到达目标场景。").c_str()); // CYS: GBK literal -> UI code page
 				return false;
 			}
 
-			// CY does the same call for every type (0x180071885, Player_MoveTo of the game interface); type 2
-			// additionally hands the item table index to the world manager's auto-move target (0x18007197a), which
-			// uses it on arrival - see CysInfoUseItem_Tick. CYS-INFOPARITY 19/09.
+
+
+
 			if(g_pGameInterface)
 				g_pGameInterface->Player_MoveTo(fVector2((FLOAT)cyLink.x, (FLOAT)cyLink.y));
 			if(cyLink.type == 2)
@@ -1135,7 +1135,7 @@ VOID CUISystem::CysInfoUseItem_Arm(INT nItemID, INT nScene, FLOAT fX, FLOAT fY)
 	CHAR szLog[160] = {0};
 	if(nItemID <= 0)
 	{
-		// CY 0x18007191d: not an 8-digit id -> walk only, no item (3 of the 16 ids shipped are 5 digits).
+
 		m_infoUseItem.bActive = FALSE;
 		_snprintf(szLog, sizeof(szLog) - 1, "CYS-INFOLINK: useitem target is not an 8-digit item id, walk only");
 		CEGUI::Logger::getSingleton().logEvent((const CEGUI::utf8*)szLog);
@@ -1160,7 +1160,7 @@ VOID CUISystem::CysInfoUseItem_Tick(VOID)
 	const INT nCurScene = g_pWorldSystem->GetActiveSceneID();
 	if(nCurScene != m_infoUseItem.nScene || (INT)(g_pTimer->GetTimeNow() - m_infoUseItem.nDeadline) > 0)
 	{
-		// scene changed or the walk gave up: CY clears its auto-move target the same way (0x1406c9156)
+
 		m_infoUseItem.bActive = FALSE;
 		_snprintf(szLog, sizeof(szLog) - 1, "CYS-INFOLINK: useitem cancelled id=%d (scene %d->%d or timeout)",
 			m_infoUseItem.nItemID, m_infoUseItem.nScene, nCurScene);
@@ -1171,13 +1171,13 @@ VOID CUISystem::CysInfoUseItem_Tick(VOID)
 	// map (x,y) of the player = (x,z) of the world position, as SceneMap/Radar read it (UILuaControl.cpp:1609)
 	const fVector3 vMe = g_pWorldSystem->GetMyselfPos();
 	const FLOAT dx = vMe.x - m_infoUseItem.fX, dy = vMe.z - m_infoUseItem.fY;
-	if(dx * dx + dy * dy > 2.0f * 2.0f) return;	// CY waits for the exact target cell (0x1406c911d); MoveTo stops within a step
+	if(dx * dx + dy * dy > 2.0f * 2.0f) return;
 
 	m_infoUseItem.bActive = FALSE;
 	tActionItem* pAction = cysFindBagActionByTableID(m_infoUseItem.nItemID);
 	if(!pAction)
 	{
-		// CY 0x1405ff9c3: UserBag_CountItemByIDTable(id) < 1 -> result 5, target cleared, nothing shown
+
 		_snprintf(szLog, sizeof(szLog) - 1, "CYS-INFOLINK: useitem arrived, id=%d is not in the bag", m_infoUseItem.nItemID);
 		CEGUI::Logger::getSingleton().logEvent((const CEGUI::utf8*)szLog);
 		return;

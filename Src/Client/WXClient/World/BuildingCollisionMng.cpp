@@ -31,8 +31,8 @@ UINT CBuildingCollisionMng::LoadCollisionTriInfoFromFile(const char* szFileName)
 
 	if(!szFileName || szFileName[0] == '\0') return 1;
 
-	// CYS-NAV: CY 3.71 CScene (Game.exe FUN_1406bd110) nạp *.wCollision từ nhóm "Scene" vào
-	// PathLib::BuildingCollsionImpl; stage đặt SceneFolder trong "Scene" nên thử cả hai nhóm.
+
+
 	{
 		char szEnv[8] = {0};
 		if(GetEnvironmentVariableA("CYS_NAV_WCOLLISION", szEnv, sizeof(szEnv)) == 1 && szEnv[0] == '0')
@@ -212,8 +212,8 @@ BOOL CBuildingCollisionMng::GetHeight(FLOAT fx, FLOAT fz, FLOAT& fy)
 			fu = (fX1*fY31 - fY1*fX31) / (fX21*fY31 - fY21*fX31);
 			fv = (fY1*fX21 - fX1*fY21) / (fX21*fY31 - fY21*fX31);
 
-			// CYS-NAV: CY lấy độ cao bằng tia thẳng đứng (OPCODE RayCollider, slot 2 FUN_180004380) nên điểm nằm
-			// đúng trên cạnh chung của hai tam giác vẫn chạm; phép kiểm chặt của 0.85 làm rơi xuống địa hình ở khe.
+
+
 			const FLOAT fEps = -0.00001f;
 			if((fv >= fEps)&&(fu >= fEps)&&(1-fv-fu >= fEps))
 			{
@@ -452,4 +452,3 @@ BOOL CBuildingCollisionMng::IntersectTriangle(
 
     return true;
 }
-

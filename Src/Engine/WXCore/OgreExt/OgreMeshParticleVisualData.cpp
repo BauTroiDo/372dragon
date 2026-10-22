@@ -254,9 +254,9 @@ namespace Ogre	{
     //-----------------------------------------------------------------------
     void MeshParticleVisualData::updateAnimation(void)
     {
-        // CYS: client_GL (Render.dll FUN_1801e9f80): the state is looked up only when the entity has it, and
-        // its time is set from the position the MeshAnimationAffector derives from the particle life (0.85
-        // advanced it by the frame time instead)
+
+
+
         if (!mAnimState && mEntity)
         {
             AnimationStateSet* states = mEntity->getAllAnimationStates();

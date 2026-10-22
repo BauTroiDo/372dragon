@@ -120,15 +120,15 @@ VOID CRFObj_Dummy::Attach_ProjTexture(PROJTEX_TYPE type, BOOL bShow, FLOAT Ring_
 	}
 	else
 	{
-		// HAI CAY SONG deu kep Ring_Range TRUOC khi dung, doc bang xref chuoi:
-		//   CY 3.71  Render.dll 4.057.088 B sha256 e6e67de45489f902... CRFObj_Dummy::Attach_ProjTexture
-		//            = 0x180006640; kep tai 0x1800066c4-0x1800066e5 (hang so 100.0f @0x1802bbda4,
-		//            200.0f @0x1802bc664).
-		//   client_GL Render.dll 3.991.552 B sha256 49b2ab1f3c72d4b1... = 0x1800292d0; kep tai
-		//            0x180029354-0x180029375 (100.0f @0x1802b3098, 200.0f @0x1802b5774).
-		//   if (Ring_Range == 0) Ring_Range = 100; else if (Ring_Range < 0) Ring_Range = 200;
-		// Kep nay BAT BUOC: 30 chieu khinh cong (ke ca 34) co m_fDamageRange = 0 => Ring_Range = 0
-		// => fov = atan(0/(2*near))*2 = 0 => cua so truc giao 0 don vi => vong BIEN MAT.
+
+
+
+
+
+
+
+
+
 		if (Ring_Range == 0.0f)      Ring_Range = 100.0f;
 		else if (Ring_Range < 0.0f)  Ring_Range = 200.0f;
 	}
@@ -158,7 +158,7 @@ VOID CRFObj_Dummy::Attach_ProjTexture(PROJTEX_TYPE type, BOOL bShow, FLOAT Ring_
 		{
 			pShadowProj->Show(bShow);
 			pShadowProj->SetAddHeight(fHeight);
-			// CYS-PROJSIZE: CY 0x180006708 / GL 0x180029398 goi SetProjectionSize o CHINH nhanh nay.
+
 			if (s_fix) pShadowProj->SetProjectionSize(Ring_Range);
 			return;
 		}
@@ -166,7 +166,7 @@ VOID CRFObj_Dummy::Attach_ProjTexture(PROJTEX_TYPE type, BOOL bShow, FLOAT Ring_
 		//创建
 		pShadowProj = new CWXObj_ProjTex(type, m_pSceneNode, fHeight);
 
-		// CYS-PROJSIZE: CY 0x180006757 / GL 0x1800293e7 goi ngay sau ctor, TRUOC push_back.
+
 		if (s_fix) pShadowProj->SetProjectionSize(Ring_Range);
 
 		m_vProjTex.push_back(pShadowProj);

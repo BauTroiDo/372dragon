@@ -1,19 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""CYS-FXBASE (fx-cy-baseline, 19/09/2026): fake ImpactSEData_V1 rows so CY 3.71 and CY-Source play the SAME effect
-template on the SAME NPC through the SAME packet (GCCharImpactListUpdate), one row per effect of the 141-effect list.
-
-Why: the only proven way to make the real CY client draw an effect on demand is an impact id (cy-oracle run-24:
-id 13 -> buff_fengxue_01). The 141 effects are not referenced by any impact row, so each side gets its own table with
-N appended rows (ids 20001..): col[7] = continuous effect template (GBK bytes), col[9] = bind point, every other
-column cloned from row 13 (a plain continuous buff). Existing rows are kept byte for byte; the string pool is only
-extended (TLBB_DBC.cpp reads pool size from the header; offsets never move). Nothing here touches Assets/.
-
-usage: fxbase_impactse.py --cy-base <ImpactSEData_V1.txt from Config.axp> --our-base <CanonicalCY table>
-                          --list Tests/fx/audit/lists/cy.tsv [--extra Tests/fx/audit/lists/oracle.tsv:E020,E048]
-                          --out Build/re/fx-cy-baseline/tables [--first-id 20001]
-writes <out>/cy/ImpactSEData_V1.txt, <out>/ours/ImpactSEData_V1.txt, <out>/plan.json, <out>/verify.json
-"""
+'CYS-FXBASE (fx-cy-baseline, 19/09/2026): fake ImpactSEData_V1 rows so CY 3.71 and CY-Source play the SAME effect\ntemplate on the SAME NPC through the SAME packet (GCCharImpactListUpdate), one row per effect of the 141-effect list.'
 import argparse
 import hashlib
 import json
@@ -135,8 +122,8 @@ def append_rows(d, plan):
         cells[1] = item['impact']
         cells[COL_NAME] = pool_add(d, ('FxBase_%s' % item['fid']).encode('ascii'))
         if MODE == 'enable':
-            # one-shot path: the template plays once when the impact is applied (ImpactSE col 4 / bind col 6, the same
-            # path CY uses for skill hit effects, cy-oracle run-27), no continuous effect
+
+
             cells[COL_ENABLE_FX] = pool_add(d, item['effect'].encode('gbk'))
             cells[COL_ENABLE_BIND] = pool_add(d, item['bind'].encode('gbk'))
             cells[COL_FX] = empty

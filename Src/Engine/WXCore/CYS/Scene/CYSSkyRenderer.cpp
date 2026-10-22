@@ -116,11 +116,11 @@ namespace WX
                    std::fabs(a.a - b.a) > 1e-3f;
         }
 
-        // CYS-LOGIN (FACT, CY 3.71 Render.dll): the EnScene moon (FUN_180235a10 ctor, FUN_180236000 per frame) is the
-        // prefab plane entity "en_moon" (200 x 200) under a child node at (0, 0, -9000) scaled by `scale`; the parent node
-        // follows the camera and turns (orient + 180) deg about -Y, then -angle deg about -X, then - unless moonfix -
-        // t * 360 deg about -Y with the day fraction t below. Checked against the real CY login frame (erengu_DL: orient
-        // 344, angle 9 -> red moon 16 deg right of the view axis, 9 deg up; Build\Logs\2026-09-15-charsel-scene).
+
+
+
+
+
         const Real kCyMoonDistance = 9000.0f;
         const Real kCyMoonPlane = 200.0f;
 

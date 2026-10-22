@@ -1719,10 +1719,10 @@ VOID CScriptSystem::Initial(VOID*)
 
 VOID CScriptSystem::Tick(void)
 {
-	// CYS-PERF-FIX luagc: CY 3.71 forces the full Lua collection (lua_setgcthreshold(L,0)) every 10 s, not every 3 s
-	// (Game.exe FUN_140684df0: CalSubTime(last, now) > 9999). The stop-the-world collection of the 0.85 LuaPlus heap
-	// costs 32-45 ms on the main thread (perf-cy world replay: every 3.0 s a "script" frame of 50-61 ms).
-	// CYS_PERF_LUAGC_MS=<ms> overrides the period for A/B runs (3000 = 0.85).
+
+
+
+
 	static UINT COLLECT_TIME = 0;
 	if (!COLLECT_TIME)
 	{

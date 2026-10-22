@@ -190,8 +190,6 @@ sao chép: cần bản gốc để so. Không sửa.
 
 ---
 
-## 4. Lớp lỗi chính: LỆCH TÊN HÀM giữa giao diện CY và script 0.85
-
 ### 4.1 Bảng đối chiếu "tên CY gọi → hàm server có sẵn tương đương"
 
 **[DK]** — `Build\Logs\2026-09-17-power-equip\survey-1-xscript.txt` và `survey-5-whitelist.txt`.
@@ -246,8 +244,6 @@ bảng `*BaoJian*`. Nhóm bảng `KFS*` là **武魂 (võ hồn)**, không phả
 `char_kfs_operate` gọi `scripts.event.equip.wuhun`.
 
 ---
-
-## 5. R1 — lỗ dữ liệu chờ nổ ở hệ NGỌC, ĐÃ VÁ phần phòng thủ
 
 ### 5.1 Vì sao nguy hiểm
 

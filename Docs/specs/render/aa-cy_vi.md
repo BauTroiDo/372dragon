@@ -6,11 +6,6 @@ Quy ước ký hiệu:
 - **FACT**: có bằng chứng đi kèm (hàm, offset, bộ nhớ tiến trình, ảnh hoặc số đo).
 - **INF**: suy luận, chưa kiểm chứng trực tiếp.
 
-Nơi để bằng chứng:
-- Ảnh và số đo: `Build\Logs\2026-09-15-aa-cy\`. Thư mục con: `cy\` là ảnh CY thật kèm log đọc bộ nhớ, `viewer\` là ảnh TlbbViewer, `replay-run-*` là Game.exe, `metrics\` là số đo và ảnh cắt 4×, `perf\` là GPU.
-- Kết quả RE: `Build\re\aa-cy\out\`.
-
-Chuẩn so sánh là CY 3.71.9609, chạy trên bản sao `Build\re\color-calib\CYGame` ở chế độ offline, không có kết nối mạng. SHA-256 của các file CY:
 
 | File | SHA-256 |
 |---|---|
@@ -42,23 +37,6 @@ Người dùng phàn nàn: "Texture trong game vẫn còn răng cưa ? trong khi
   - Các giá trị khác: `none`, `fxaaquality`, `dlaa`.
   - `CYS_TEXFILTER=0|1|2|ogre` chỉ đổi phần lọc texture.
 - Mặc định `fxaa` là **quyết định có chủ ý, lệch khỏi cfg mặc định của CY**. Lý do: CY không có cách khử răng cưa nào khác, còn người dùng yêu cầu hết răng cưa.
-
-## 1. CY làm gì (FACT, Ghidra chỉ đọc + đọc bộ nhớ tiến trình CY)
-
-| Câu hỏi | Chỗ trong CY | Kết luận |
-|---|---|---|
-| `View_TextureFiltering` nghĩa là gì | Hàm xử lý `View_*` trong Render.dll là `FUN_18002ec20`. Nó gọi `(*DAT_1803b4e98 + 0x2f0)(value - '0')`. Vtable nằm ở `0x1802c0d08`; slot `+0x2f0` là `FUN_18002e5c0` | 0: `setDefaultTextureFiltering(TFO_BILINEAR)` + `setDefaultAnisotropy(1)`. 1: `TFO_TRILINEAR` + 2. 2: `TFO_ANISOTROPIC` + **8**. Ngoài ra không có mip bias hay sampler state riêng nào |
-| `View_Fanhunjiao` nghĩa là gì | Cũng trong `FUN_18002ec20`: `(+0x710)(value == "1")`. Slot `+0x710` là `FUN_18002cc80` | Bật/tắt bộ lọc `"FXAA"` (`DAT_1802c0474`, gọi `FUN_18009ce50`), với điều kiện renderer `+0xf0` khác 0. Không đụng tới MSAA |
-| CY có MSAA không | `FUN_180024ea0` (setup) chỉ đưa vào `miscParams` hai khoá `vsync` (lấy từ `View_Aplomb`) và `colourDepth`. Log Fairy của CY: `createRenderWindow … miscParams: colourDepth=32 externalWindowHandle=… vsync=true` | Không truyền `FSAA` |
-| | Trong `RenderSystem_Direct3D9.dll`: tuỳ chọn `Anti aliasing` và `RT Anti aliasing` mặc định `None` (`FUN_18001a7a0`). `createRenderWindow` là `FUN_180018680`, đọc `RTFSAA` vào `+0x43a0`. `FUN_180018350` chỉ tạo RT multisample khi `+0x43a0 != 0` | |
-| | **Bộ nhớ tiến trình CY:** `OgreMain+0x424638` (Root) → `+0x18` (renderer) → `+0x4398..+0x43a4` cho ra `0 0 0 0` | FSAA, FSAAQuality, RTFSAA và RTFSAAQuality đều bằng 0 (`cy\rs-fsaa\run.log`) |
-| Lọc texture khi CY đang chạy | `OgreMain+0x418a08` (MaterialManager) → `+0xB0/+0xB4/+0xB8/+0xBC`. Offset lấy từ `getDefaultTextureFiltering` tại `0x1800c1b80` và `getDefaultAnisotropy` (được gộp chung với `0x1800c1b70`) | Đọc ở giây 20, 75, 85 và 104 (màn đăng nhập) đều ra **`2 2 1 1`** = LINEAR/LINEAR/POINT, aniso 1 (`cy\tf2\run.log`) |
-| Có chỗ nào áp `View_TextureFiltering` lúc khởi động không | Game.exe chỉ **đọc** biến này ở 3 nơi: log `ViewSetup Config` (`FUN_1406b64a0`), gói hiệu năng `CGClientPerformanceLogin` (`FUN_140647430`) và bảng so mức chất lượng (`FUN_1406b72c0`). Ở Lua, `ViewSetup.lua` chỉ gọi `SystemSetup:View_SetData` khi người chơi bấm Accept/Default/mức chất lượng | Không. Giá trị 2 trong cfg chỉ có tác dụng sau khi mở hộp thiết lập |
-| Mipmap | `TextureManager` (`OgreMain+0x424968`) `+0xB8` = `mDefaultNumMipmaps` = **5**. `D3D9Texture::_loadNormTex` (`FUN_180025980`) gọi `D3DXCreateTextureFromFileInMemoryEx` với số mip = số yêu cầu + 1 | Giống hệt dự án: `WXSystem.cpp` gọi `setDefaultNumMipmaps(5)`, còn `OgreD3D9Texture.cpp` dùng `numMips = mNumRequestedMipmaps + 1`. DDS thiếu mip được D3DX tự sinh mip |
-| Alpha-to-coverage cho cỏ/lá | Không có MSAA thì không có coverage. `MaterialTemplates.zip` và `.material` của CY không có `alpha_to_coverage` | Không có |
-| Chỉ thị `filtering` trong dữ liệu CY | `.material` trong CanonicalCY có 522 dòng, phần lớn là `linear linear none` cho UI/FX. Template chỉ có 14 dòng trong `Mtl_Character.material` | Model và cảnh dùng mặc định của `MaterialManager` |
-
-Với INF: màn world của CY không đo được vì phải đăng nhập mới vào được. Không có đường mã nào đổi lọc texture hay AA sau màn đăng nhập ngoài hộp thiết lập, nên suy ra world của CY cũng chạy bilinear, không AA.
 
 ## 2. So cùng khung với CY thật (màn đăng nhập `erengu_DL`, 1280×720)
 
@@ -112,25 +90,6 @@ Ca `CYS_AA=cy` trong viewer vẫn giữ aniso 16 riêng của viewer (`--aniso`,
 - Ảnh cắt 4×: `metrics\game_world1_garden_4x.png`, `game_world1_rail_4x.png`, `game_world1_lower_4x.png`.
 - Đọc bộ nhớ Game.exe sau khi sửa (`metrics\game_mem_fix1.txt`): `2 2 1 1` cho tới khi renderer khởi tạo, sau đó `3 3 2 8` (ANISOTROPIC/ANISOTROPIC/LINEAR, aniso 8).
 - Đọc bộ nhớ một Game.exe của nhánh khác chưa sửa (`game_mem_other_agent_itemtext.txt`) ra `2 2 1 1`.
-
-## 4. Mã
-
-Móc `// CYS-AA:` nằm trong `CysPostFx.cpp`.
-- `applyTextureFiltering` là bản sao đúng `FUN_18002e5c0`: đổi mặc định của `MaterialManager`. OGRE 1.2.5 lấy lại mặc định ở mỗi `_setPass`, nên material đã nạp cũng theo.
-- Khoá khởi động, theo đúng thứ tự trong bảng: `PostFX.AAMode=fxaa`, `View_Fanhunjiao` (host), `Gfx_AA`, `View_TextureFiltering=2`.
-- `startupAaOverride` chỉ tác động lúc khởi động:
-  - Chế độ `fxaa|fxaaquality|dlaa`: cfg để 0 thì đổi thành bộ lọc tương ứng.
-  - `none`: luôn là 0.
-  - `cy`: giữ cfg và bỏ qua `View_TextureFiltering` lúc khởi động.
-- Khi đang chạy, hộp thiết lập vẫn đi qua `applyVariable` (sự kiện `VARIABLE_CHANGED` trong `RenderSystem.cpp`), nên người chơi vẫn tắt/bật FXAA và đổi mức lọc được.
-- Dòng log:
-  - `CysPostFX: anti-aliasing FXAA (View_Fanhunjiao=fxaa)`
-  - `CysPostFX: View_TextureFiltering=2 (…): min/mag/mip 3/3/2 anisotropy 8`
-  - Dòng `start-up configuration` có thêm `[CYS-AA fxaa: View_Fanhunjiao 0->fxaa]`.
-- Công cụ đi kèm:
-  - `run_cy_capture.ps1` có thêm hành động `t:mem:<module>,<rva>,[ptrOff…],<off>,<count>` để đọc bộ nhớ chỉ đọc theo chuỗi con trỏ.
-  - `aa_metrics.py` (`stats`, `sheet`).
-- `Tools\game\stage_game.py`: chỉ sửa chú thích cũ.
 
 ## 5. Chi phí GPU và kiểm tra công tắc
 

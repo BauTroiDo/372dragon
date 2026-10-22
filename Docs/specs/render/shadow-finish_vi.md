@@ -3,10 +3,6 @@
 Tiếp nối `shadow-cy_vi.md` (đặc tả CY) và `d3d9-parity_vi.md` §L1. Chuẩn duy nhất là CY 3.71
 (`Tools\DATA NEW\CY Game`). Ký hiệu: **FACT** = có bằng chứng (offset/hàm/trace/số đo), **INF** = suy luận.
 
-Bằng chứng: `Build\Logs\2026-09-17-shadow-finish\` — `re\` (Ghidra headless chỉ đọc trên bản sao CY của
-`Build\re\shadow-cy\cy-re`), `viewer-base|basisA|basisB|loginB|camsB\` (TlbbViewer + proxy d3d9 của
-`Src\Tools\CysD3D9Trace`), `bench-cy\` (CysShadowTest), các `*.py` là công cụ đo dùng lại được.
-Khung CY đối chứng lấy từ `Build\Logs\2026-09-15-d3d9-trace\cy-world-1-trace` và `cy-login-2-trace`.
 
 ---
 
@@ -46,7 +42,6 @@ Nguồn: `cy-world-1-trace\f002960_w09-idle` (CY) so với `viewer-base\w09-trac
 | 9 | **Hộp ortho của bản đồ bóng** | **9422 × 7555**, sâu 17215 | **9701 × 7684**, sâu 17216 | **+3,0 % / +1,7 %** |
 | 10 | **Số ô địa hình trong bản đồ bóng** | **40** | **48** | **+20 %** |
 | 11 | Số caster (thực thể + địa hình) | 306 | 1057 | xem mục 3 |
-| 12 | Dải hàng đợi caster (mức engine) | pass type 2, queue **40–50** và **68–70** (FACT `FUN_18021f220`) | 25–70 | tương đương về ngữ nghĩa, xem mục 4 |
 
 ---
 
@@ -54,8 +49,6 @@ Nguồn: `cy-world-1-trace\f002960_w09-idle` (CY) so với `viewer-base\w09-trac
 
 `d3d9-parity_vi.md` §L1 ghi "CY 306 caster ở w09, dự án 2.757 ⇒ CY có luật chọn caster chưa biết". Đo lại:
 
-**FACT.** Ở `w09` CY chưa dựng xong cảnh. CY dựng cảnh dần (64 vật khung đầu, rồi 30 vật/giây —
-`perf-cy_vi.md`, Render.dll `FUN_18008b4f0`), và chính ba khung CY trong cùng một lượt cho thấy số caster đang tăng:
 
 | Khung CY (cùng cảnh Đại Lý) | Thời điểm | Caster | Tĩnh | Alpha | Skin | Địa hình | Khoảng cách xa nhất tới mắt |
 |---|---|---|---|---|---|---|---|
@@ -92,15 +85,6 @@ L1 (hộp ortho / số ô địa hình) được sửa ở mục 5.
 
 ## 4. FACT mới từ Render.dll của CY — nút render ShadowMap
 
-`Fairy::defRenderNode_ShadowMap` = `FUN_18021f220` (chuỗi `D:\Fairy_New\FairyCore\Core\RenderPipeline\FairyRenderNode.cpp`):
-
-- `TextureDef "shadow_buffer"` cỡ `0x1000 × 0x1000` = **4096 × 4096** (khẳng định lại: một map, không phải atlas 4 tầng).
-- Scheme material của nút = **"Depth"**.
-- Hai nguồn pass: `FUN_18021d940(node, 0)` (không giới hạn hàng đợi) và `FUN_18021d940(node, 2)` kèm hai dải
-  `FUN_18021db40(src, 0x28, 0x32)` = **40…50** và `FUN_18021db40(src, 0x44, 0x46)` = **68…70**.
-  (`FUN_18021db40` = `push_back` một cặp byte (min,max); `FUN_18016a760` = `SceneRenderPostFilter::createRenderPassDef`.)
-- Đối chiếu các nút khác: `defRenderNode_Scene` dùng 0…75 và 80…85; `defRenderNode_SceneDepth` dùng 40…50, 68…70,
-  81…82; `defRenderNode_SceneDepthForWater` bắt đầu từ 41.
 
 **Ánh xạ sang CY-Source (INF).** Hàng đợi của WX 0.85 khác CY: ô địa hình và StaticEntity nhận bóng ở queue 25,
 StaticEntity còn lại ở 50, `LogicModel` ở 60, nước ở 75/77, hạt ở 80. Dải 25…70 của
@@ -108,8 +92,6 @@ StaticEntity còn lại ở 50, `LogicModel` ở 60, nước ở 75/77, hạt �
 loại nước/hạt/trời/overlay). Chép nguyên con số của CY sẽ **sai**, vì nó sẽ loại địa hình (25) và model (60) của
 dự án. Giữ 25…70.
 
-Ngoài ra `FUN_1800d90b0` (fit CSM) dựng camera bóng bằng **`Ogre::Camera::setDirection(lightDir)`** rồi
-`setPosition(center − dir·|halfSize|·1,2)`; `near = −AABB.max.z − backoff`, `far = −AABB.min.z`.
 
 ---
 
@@ -157,22 +139,3 @@ Bàn thử `CysShadowTest --level 2 --size 4096` chạy lại sau khi sửa: rc 
 như CY (`bench-cy\`).
 
 ---
-
-## 6. Còn lại (không phải chất lượng hình)
-
-1. **Bật mức 0/1 → 2 lúc chạy vẫn cần khởi động lại.** `CYSShadowHost::start` trả `false` khi mức < 2 nên
-   `gStarted` = false và `applyVariable` chỉ ghi log "ignored". CY làm được vì `FUN_18021b1e0` gắn **cả cặp chương
-   trình nhận bóng** vào mỗi pass ngay khi dựng material rồi bật/tắt lúc vẽ. Hướng rẻ nhất cho dự án: nhớ
-   sceneManager/camera trong `start()` cả khi tắt, và khi mức lên 2 thì đặt `setGlobalDefine("SHADOWMAP_TYPE")` +
-   `setShadowReceiverLighting(true)` (cả hai đã xoá `mMaterialCache`/`mTechniqueCache` nên biến thể dựng lại ở
-   khung sau) rồi gọi `start()`. **Chưa làm vì chưa có cách kiểm chứng bằng Game.exe trong đợt này** (đổi biến lúc
-   chạy cần GUI ViewSetup). Chiều 2 → 0 → 2 đã chạy đúng.
-2. **Lệnh console `setShadowDis` / `setShadowMapSize` / `setCascadeParam` / `setShadowConstAndNormalBias` /
-   `setShadowActorCascadeNum`** (CY `FUN_140446700`) và **bảng ghi đè theo cảnh `DAT_140fb35b0`** — nguồn dữ liệu của
-   bảng vẫn chưa xác định (mục 8 của `shadow-cy_vi.md`).
-3. **TlbbViewer không chạy luật bóng theo cảnh** (`CYSShadowHost::onSceneLoaded` chỉ được gọi từ hook
-   `CRenderSystem::Scene_Load`), nên ở cảnh đăng nhập viewer dùng back-off 8000 thay vì 18000 của CY
-   (sâu 16.636 vs 26.626). Không đổi tập caster ở khung đã đo (728 = 728). Sửa bằng một dòng trong
-   `Src\Tools\TlbbViewer` — ngoài phạm vi ghi của đợt này.
-4. Texture bóng giả khi không nhận bóng: CY 1×1 **L8** ở s12, dự án 1×1 A8R8G8B8 (mục 4 #17 của `d3d9-parity_vi.md`,
-   không ảnh hưởng hình).

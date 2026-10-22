@@ -1,26 +1,26 @@
 #ifndef __CYS_WATER_RENDER_H__
 #define __CYS_WATER_RENDER_H__
 
-// CY-Source (water-cy agent, 2026-09-14): the CY 3.71 "new water" render targets behind CYSWaterRenderHooks.
-// Specification and evidence: Docs/specs/render/water-cy_vi.md (CY Render.dll b91401fc..., Ghidra on a copy).
-//
-// What CY does (FACT unless marked INF in the spec) and what this class reproduces:
-//   * TerrainLiquid::_updateRenderQueue (FUN_1801ef510): a material with a "WaterFog" technique renders technique 0
-//     (the under-water fog, alpha forced to 0) in queue 76 and technique 1 (the surface) in queue 77, priority 100
-//     -> WXTerrainLiquid.cpp (hook CYS-WATER) through CYSScene::getNewWaterTechniques.
-//   * SceneRender node (FUN_18021e7b0): scene_buffer A8R8G8B8 1.0 x 1.0; with water the scene is drawn up to queue 76,
-//     copied (node 3 "FrameCopy", FUN_18021f580) and the queues 77..85 are drawn on top
-//     -> renderQueueStarted(77) copies the active render target into "CYS/Compositor/SceneRender/scene_buffer"
-//        (RenderSystem::_copyActiveRenderTarget, a D3D9 StretchRect), the RefractTex of every water material.
-//   * SceneDepthForWater node (FUN_18021eeb0): depth_buffer R32F linear view depth, material scheme "Depth"
-//     -> the post-FX pipeline depth node, requested by the "Water" stage below while new water exists.
-//   * mirror water (TerrainLiquidObject::_createMirrorReflectRenderTexture, FUN_18011ef40): material name contains
-//     "mirror"; ONE shared 1024 x 1024 render texture "waterMirrorReflectTex", camera "ReflectRTCamera", viewport
-//     without overlays / skies, clear colour white every frame; unit 1 of technique 1 pass 0 ("ReflectTexInput")
-//     samples it -> a reflected copy of the main camera clipped at the water plane (0.85 ReflectRenderTargetListener).
-//
-// Switches: CYS_WATER=0 (environment) or setEnabled(false) keeps B/CY's low-quality fallback (replaceMaterial);
-// CYS_WATER_MIRROR=0 skips the mirror texture (mirror water then reflects nothing), CYS_WATER_MIRROR_SIZE=<pixels>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "CYS/Scene/CYSWater.h"
 
@@ -44,7 +44,7 @@ namespace WX
         static const String SCENE_BUFFER_TEXTURE;   ///< "CYS/Compositor/SceneRender/scene_buffer"
         static const String MIRROR_TEXTURE;         ///< "waterMirrorReflectTex"
         static const String MIRROR_CAMERA;          ///< "ReflectRTCamera"
-        static const String POSTFX_STAGE_TYPE;      ///< "Water" (CY post filter name, FUN_180046f00)
+        static const String POSTFX_STAGE_TYPE;
 
         struct Stats
         {

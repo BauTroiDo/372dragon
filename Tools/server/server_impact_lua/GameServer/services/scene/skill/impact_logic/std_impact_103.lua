@@ -1,8 +1,8 @@
--- impact-logic (CY-Source 15/09/2026): logic 103 (tlbb15 StdImpact103_T 横扫AOE) — hiệu ứng duy trì, mỗi nhịp quét địch quanh chủ và gửi tối đa 3 impact con.
--- Bằng chứng: Server (main) StdImpact103_T::OnIntervalOver/IsScanedTargetValid (Build/re/impact-logic/main-stdimpact-sel.c):
---   scan bán kính (index0) quanh chủ, lọc theo 目标选择标记 (index2)/是否影响自己 (index3); mỗi mục tiêu gửi 子效果1/2/3 (index 6..8);
---   子效果 logic 3 (sát thương) → qua CombatCore trước khi phát. Khuôn theo std_impact_086 (đã có trong engine).
--- CY nhãn: 扫描半径, 影响目标人数, 目标选择标记…, 是否影响自己…, 受到影响的类型…, 伤害是否使用战斗计算规则, 子效果1, 子效果2, 子效果3.
+
+
+
+
+
 local class = require "class"
 local combat_core = require "scene.skill.combat_core"
 local impact = require "scene.skill.impact"

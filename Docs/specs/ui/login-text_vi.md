@@ -29,7 +29,6 @@ Font vẫn là `NotoSansSC-Regular.ttf`, UI code page 65001. Unit parser không 
 
 ## Mã màu #g và #l — batch 2
 
-B `UI_CEGUI.dll` RuntimeNew, RVA `0x30d8d–0x3100c`, phân biệt `#c` → `0xFBxxxxxx`, `#e` → `0xFCxxxxxx`, `#g` → `0xD0xxxxxx`. Sáu ký tự được đọc theo `%6X`, gồm cả hành vi hex prefix/truncated của bản B. `#l` trả lại màu trước đó, không đổi chỗ current/previous; cả hai ban đầu trắng `0xFBFFFFFF` (`0x306c6`). `#e` không thay lịch sử màu chữ. NoColor `0x2ea90` bỏ tám byte với c/e/g và hai byte với l.
 
 `CEGUIBase.dll` Font::drawTextLine `0x4ad30` dùng bảng nhảy `0x4c9c8`/`0x4c994`: D0 → `0x4c68c`. Ba hex cao là RGB444 phía trên, ba hex thấp là RGB444 phía dưới; mỗi nibble nhân 17 thành RGB888. Do đó `#gFF0FA0` là **trên #FFFF00, dưới #FFAA00**. Nhánh normal `0x4c098` và blink `0x4bba2` truyền `ColourRect(top,top,bottom,bottom)` vào Image::draw. Alpha lấy từ text colour; blink thay alpha và giữ RGB hai đầu. Hai đầu giống nhau dùng màu chữ phẳng hiện tại theo B. `#c` đổi màu phẳng nhưng giữ gradient; `#e` xóa cả hai đầu gradient; mỗi outer draw mới khởi tạo hai đầu bằng 0. Vì vậy không quy `#g` thành `#c`, cũng không tự tắt gradient khi gặp `#l` trả về mã màu phẳng.
 

@@ -1,23 +1,23 @@
-/*
-CYS: CameraShake and ComplexBlur blocks of client_GL .skill files (16 CameraShake, 1 ComplexBlur) and their
-runtime.  Clean-room implementation of the behaviour of B LogicModel (camera shake 0x1800b7e10, complex blur
-0x1800b8990) - Docs/specs/render/04-effects-particles.md.
 
-CameraShake keywords: AttachTime (normalised animation time) 0, Duration (seconds) 0, RotAmplitude "x y z"
-(degrees) 0, RotFrequency "x y z" 1, LocAmplitude "x y z" 0, LocFrequency "x y z" 1, FovAmplitude (degrees) 0,
-FovFrequency 1, ShakeManner LinearDecrease | LinearIncrease | QuadraticDecrease | QuadraticIncrease (other: constant),
-IsLocalVisible true.
-  Each component oscillates as amplitude * cos(2 pi frequency t) (0 when frequency <= 0), scaled by the manner
-  factor; rotation offsets are applied as pitch (x) / yaw (y) / roll (z) deltas, location offsets with
-  Camera::moveRelative, the FOV around the value saved at the start.  After Duration the offsets are undone and
-  the next shake of the skill waits for its AttachTime.
-ComplexBlur keywords: AttachTime 0, StartTime 0, MidTime 0, EndTime 0 (phase durations, seconds), Strength 0.05,
-Unblured 0.1, FinalDistance 24, IsLocalVisible true.  While the three phases run, the "ComplexBlur" post filter is
-enabled with Unblured / Strength and a Distance ramping 0 -> FinalDistance (start), FinalDistance (mid),
-FinalDistance -> 0 (end); then it is disabled.  0.85 has no ComplexBlur post filter: the block is parsed and the
-runtime reports the missing filter once.
-Both apply when the skill belongs to the local player model, or when IsLocalVisible is false.
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ifndef __WXSkillCameraEffects_H__
 #define __WXSkillCameraEffects_H__
 

@@ -79,7 +79,7 @@ namespace
         DWORD spinAt = 0;
         float spinBase = 0;
         bool spinDone = false;
-        // CYS-SFX: timed cy-oracle scenario (CYS_WORLD_SCENARIO) with shots at fixed offsets after every tag
+
         bool scenario = false, scenarioCam = false;
         unsigned seenTags = 0, scenarioShots = 0;
         std::string tagName;
@@ -164,7 +164,7 @@ namespace
                     char cam[64] = {};
                     const DWORD c = GetEnvironmentVariableA("CYS_SFX_CAM", cam, sizeof(cam));
                     if (c && c < sizeof(cam)) sscanf(cam, "%f,%f", &s.camZoom, &s.camDirDeg);
-                    char addh[32] = {}; // CYS-FXBASE: CY 3.71 orbits 0.8 m above this engine's camera row (cy-oracle camread)
+                    char addh[32] = {};
                     const DWORD ah = GetEnvironmentVariableA("CYS_SFX_CAM_ADDH", addh, sizeof(addh));
                     if (ah && ah < sizeof(addh)) s.camAddH = static_cast<float>(atof(addh));
                     TDU_Log("CYS scenario: %s scene=%u pos=%.2f,%.2f obj=%u steps=%u delay_ms=%u shots=%u cam zoom=%.2f dir_deg=%.2f",
@@ -280,11 +280,11 @@ namespace
 
     float DegToPitch(float lookDownDeg) { return -lookDownDeg * TDU_PI / 180.0f; }
 
-    // CYS-WLP (wuliang-parity): live shots from the CY 3.71 oracle cameras (Build/Logs/2026-09-15-cy-oracle/run-25-wuliang/
-    // cameras.tsv). CYS_WLP_CAMS="name,orbit_distance,yaw_deg;..." (render units, CY yaw = dir_deg). Classic CY view
-    // (fixed Camera_Pitch 40), direction = CY yaw, zoom so that eye-to-look distance = CY orbit distance (same entry
-    // points as right drag / wheel). After each PNG, <CYS_D3DTRACE_DIR>\capture.now asks the d3d9 trace proxy (if
-    // loaded) for the next frame. CYS_WLP_WAIT_MS: delay after the dwell (default 8000).
+
+
+
+
+
     struct WlpCam { std::string name; float dist, yaw; };
     struct WlpState { bool evaluated = false; std::vector<WlpCam> cams; unsigned index = 0, phase = 0; DWORD at = 0; unsigned waitMs = 8000, holdMs = 1500; };
     WlpState& W() { static WlpState w; return w; }
@@ -582,9 +582,9 @@ namespace
 
     void CoreScript(DWORD now); // CYS-CORE
 
-    // CYS-SFX: cy-oracle scenario. The CY camera of the reference run (run-27-hit cameras.tsv: pitch 40, fovy 35,
-    // yaw -23.98, orbit 14.6 m = zoom 0.4 of [6, 27.5]) in the classic mode, then CYS_SFX_SHOT_MS after every tag.
-    // CYS_SFX_TRIGGER=<file>: the label is written there right before each capture (d3d9 trace proxy capture.now).
+
+
+
     void ScenarioScript(DWORD now)
     {
         State& s = S();

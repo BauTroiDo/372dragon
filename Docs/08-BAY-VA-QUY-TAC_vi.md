@@ -8,7 +8,6 @@ sắp xếp. Hai ca kiểm thứ tự gói cùng lượt live chạy lại mới
 Ngoài ra, hộp rơi đã gộp stack khi tạo nên không được cộng1 rồi xóa cả hàng nguồn;
 63ca cuối kiểm cả bảo toàn số lượng và GUID nguồn khi nhặt/hái lượm.
 
-Ngày lập: 2026-09-12. Tổng hợp từ 80 file bộ nhớ dự án (`C:\Users\PC -Sam\.claude\projects\C--TLBB-085\memory\`), các báo cáo trong `C:\TLBB\085\analysis\`, `C:\TLBB\085\GL REAL\`, `C:\TLBB\085\client_GL\README-GL_vi.md`, `C:\TLBB\085\Tools\add-phai\HUONG-DAN-THEM-LOAI-VU-KHI-VA-TU-THE_vi.md` và đợt khảo sát ngày 12/09 (tài liệu `01`).
 
 Mỗi mục đã từng làm hỏng dữ liệu hoặc làm game crash, hoặc được đo trực tiếp. Không mục nào ở đây là suy đoán. Ai làm việc trong `CY-Source` phải đọc tài liệu này trước khi đụng vào dữ liệu hay mã nguồn.
 
@@ -94,9 +93,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 - **12/09, P1-1 font:** SongTiBmp12.font có 2 biến thể CP936/CP1258 dưới `<Fonts>`; bỏ qua wrapper sẽ nạp sai biến thể (backend Bitmap chỉ 12/16 và cố định CP936). Ba font YouYuan tiếp theo dùng cặp file NeedCode; bằng chứng `Build/Logs/2026-09-12-gpt-p1-1/font-proposal/proposal_vi.md`.
 - **12/09, Lua counters:** log missing host function chỉ ghi tên một lần, không thể xếp hạng tần suất; generator xóa file cũ trước khi sinh. Dùng thư mục Build mới và so byte; bằng chứng `Build/Logs/2026-09-12-gpt-p1-1/lua-counts-plan.md`.
 
-- **12/09, P1-2 x64:** event owner DWORD/UINT cắt bit cao của `this`; chuyển đủ interface/storage/callback sang UINT_PTR, test 4 → 8 B và 1/5 → 5/5 (`Build/Logs/2026-09-12-gpt-p1-2/tests/event-owner/run-20260912-210811-5404551/results.json`, commit `1631930`).
-- **12/09, P1-2 Format:** host trả metadata byte, phải decode trước kiểm UTF-8/GBK; không thay bằng eager dictionary lookup, không đổi `lua_pushstring` thành `lua_pushlstring` rồi nhận tương đương B (`Docs/specs/lua/host-api_vi.md`, helper RVA 0x619670).
-- **12/09, P1-2 reader:** body lịch sử nhận `%sa`…`%sf`, giữ token thiếu argument, bỏ riêng unknown key; comment patch code page mâu thuẫn với body, phải tách bằng chứng static và binary hiện tại (`Docs/specs/lua/host-api_vi.md`, reader dòng 2403/2411–2427; 34/34 test).
 
 - **12/09, P1-2 timer/Lua:** DoString gọi `_ALERT` không protected, còn C++ exception qua Lua setjmp có thể bỏ cleanup; timer dùng LoadBuffer/PCall, native lỗi không vào VM lại và chuyển fatal sau TimerProc (`Docs/specs/lua/timers_vi.md`; 40+1 ca trong `Build/Logs/2026-09-12-gpt-p1-2/tests/timers/run-20260912-220005-6174857`).
 - **12/09, Lua 5.0.1 GC:** `luaL_checkudata` trả null khi sai metatable, không tự ném như bản Lua mới; phải kiểm null trước đọc userdata. Ca ngoại lai đã tái hiện và kiểm lại trong timer tests 40/40.
@@ -105,7 +101,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 
 - **12/09, LuaPlus5 metatable:** `lua_getmetatable` luôn có default; kiểm riêng identity default trước khi thêm method vào userdata. Query test phát hiện24/25→25/25 sau sửa, `Tests/luaapi/query_tests.cpp` và log `tests/queries/run-20260912-222544-2508840`.
 
-- **12/09, tham chiếu RE:** toànSHA Gameclient≠client_GL; phải so byte vùngđangphân tích. Đợtchốt38/38giống(8leafchỉprefix32B), khôngsuy transitive/runtime; `Build/Logs/2026-09-12-gpt-p1-2/reference-byte-comparison.json`.
 
 ## 1. Mã hoá ký tự, tên file, chuỗi
 
@@ -121,7 +116,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 
 | # | Bẫy / quy tắc | Xử lý | Nguồn |
 |---|---|---|---|
-| 1.1 | Hệ thống chạy UTF-8 đầu–cuối từ 2026-08-24. Lớp client và lớp server chỉ đúng khi áp cùng lúc. **Không quay lại GBK.** | DL, VH | `analysis\utf8-baseline\TIEN-DO-TONG_vi.md` |
 | 1.2 | `all.material`, `all.obj`, `all.effect`, `all.particle`, `all.skill` là **GBK**, phải sửa ở mức byte. Một lần đọc `errors='replace'` rồi ghi đè đã phá 60.161 material. | DL + KT (kiểm round-trip từng byte) | bộ nhớ `tlbb-allmaterial-gbk-trap` |
 | 1.3 | Khoảng 24.000 tên file trên đĩa là byte GBK hiển thị theo cp1252 (mojibake). Engine mở chúng bằng `CreateFileA` dưới ACP 1252, nên đổi ACP sang UTF-8 là hỏng hết tên file. Muốn đổi tên sang GBK thật: `name.encode('cp1252')` → `.decode('gbk')`, riêng các byte 0x81/0x8D/0x8F/0x90/0x9D giữ nguyên. | **MÃ**: lớp tài nguyên mới đổi tên GBK sang UTF-16 rồi gọi `CreateFileW`, không phụ thuộc ACP | `tlbb-vietnamese-input-ansi-window`, `tlbb-datacy-vs-gl-compare` |
 | 1.4 | Ô đường dẫn/khoá trong bảng (kể cả bảng đã UTF-8) phải **giữ GBK**. Pipeline dịch từng dịch nhầm khoá tài nguyên và phá 2.617 ô ở 11 cột (SpecialDressEffect, GemEffect_Cloth, Bullet…). | DL + KT | `tlbb-dbc-binary-tables`, `tlbb-locator-translation-bug` |
@@ -166,7 +160,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 | 3.1 | Parser material đọc theo dòng: mỗi dòng một từ khoá, thụt lề bằng TAB. Sai là OgreMain crash, và log Fairy dừng ở `error.dds`. | **MÃ**: parser chịu lỗi và báo số dòng; KT | skill `tlbb-add-model` bẫy 1 |
 | 3.2 | Template material nằm trong `Data\MaterialTemplates.zip`. Dòng B/C có 114 file HLSL SM3 (PBR, dissolve, CalcShadow, AntiAlias); bản 0.85 có 17 file Cg SM1–2. Nên dùng `Mtl_Character_PSLit` thay `_Lit`; bậc cao hơn là `Mtl_OutlineCtrl_FlowLight` và `PBRChara`. Đổi file zip làm `NewMaterialTemplateMD5` đổi theo, và ShaderCache bị làm mới. | DL. **MÃ**: engine mới phải hỗ trợ đúng cơ chế template + auto-param của B/C | `tlbb-model-material-shaders`, khảo sát binary |
 | 3.3 | Texture rải ở `MaterialFolder`…`Material5Folder`, mesh/skeleton ở `ModelFolder`…`Model3Folder`; dòng B/C còn có thêm khe Model4–8/Material6–8/Scene2. Tiền tố `jpg_`/`tga_`/`png_` cho biết định dạng gốc. | DL. MÃ: resource group | `tlbb-model-load-pipeline`, khảo sát binary |
-| 3.4 | Xử lý sai sRGB/linear khi nén DDS từng làm giáp đỏ thành đen; các bản làm lại 07/09 dùng BGRA8 không nén. `Bin64\nvtt.dll` là x86, không nạp được vào tiến trình x64, nên dùng texconv x64. | KT | `analysis\model-pipeline\ironman-remake-20260907\KET-QUA_vi.md` |
 | 3.5 | Upscale texture: realesrgan-ncnn chạy chế độ thư mục trả ảnh lệch tên (133/651 ảnh hỏng), nên phải gọi từng file với `-j 1:1:1` rồi kiểm MAD vùng đục ≤ 25. Tham số `-s 2` với x4plus làm hỏng ảnh; alpha phải tách riêng. Loại khỏi upscale: texture UI trong `MaterialFolder/Common` và mọi tên có mặt trong InterfaceFolder. Brush địa hình upscale vô ích (atlas ô cố định). | KT, VH | `tlbb-graphics-overhaul` |
 | 3.5b | **Mới (12/09):**<br>• Real-ESRGAN (x4plus) biến vân dệt/dither trong vải nén DXT1 thành **lưới ô cứng**; phép kiểm MAD không thấy vì thu nhỏ lại thì lưới biến mất. Cần bộ dò lưới (hỏng khi điểm > 0,40, cần xem khi > 0,30) và làm mờ nhẹ trước khi upscale; khi đó vân biến mất và vải trơn hơn.<br>• Vùng alpha trong suốt hoàn toàn bị trả về alpha 1–11 (lớp mờ trên tóc), nên phải giữ nguyên giá trị của vùng alpha phẳng.<br>• `-t 512` cho ra ảnh rác và trùng lúc driver NVIDIA reset.<br>• Chỉ nên upscale ảnh vẽ tay nén DXT3 và texture nhỏ 64–256 px; bỏ tóc ≤ 64 px và texture hiệu ứng/mask. | KT, VH | `Tools\pipeline\upscale_pack.py`, `Assets\Staging\upscale\2026-09-12\summary.json` |
 | 3.5c | **Mới (12/09), client_GL:**<br>• 2.626 ô material không-ASCII trong `ItemVisualChar` là UTF-8, còn tên trong `all.material` là GBK, và game dùng nguyên byte của bảng → material không bao giờ được áp. 373 ô là biến thể màu nên đang hiện sai (vd. IVC 130–142, 685).<br>• **Quy tắc:** mọi cột khoá tài nguyên trong bảng (mesh/material/obj/effect/skeleton) phải giữ GBK.<br>• Trang phục/tóc 2026 dùng skeleton mở rộng (56 xương + 6–24 xương vật lý, file `.dynbone`), LogicModel 0.85 chưa đọc được. | KT, VH | `Build\Logs\2026-09-12-avatar\summary.json`, `Tools\pipeline\avatar.py` |
@@ -201,7 +194,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 | # | Bẫy / quy tắc | Xử lý | Nguồn |
 |---|---|---|---|
 | 5.1 | Định dạng, đã kiểm khớp byte trên 499 map:<br>• `.Heightmap` MHEF, rộng = xsize + 1.<br>• `.GridInfo` IGEF, 5 hoặc 7 B mỗi ô; đây là dữ liệu sơn, không phải mặt nạ đi lại.<br>• `.WCollision` v1 (file rỗng = 8 B).<br>• `lightmap.png` = xsize × 8.<br>• `Color.tga` = xsize × 2, 32 bit; sai là crash trong d3dx9_43. | DL + KT | `tlbb-map-scene-format` |
-| 5.2 | `.path` là navmesh tam giác, mỗi tam giác 29 B: flag bit0 = chặn, `extra` = mã vùng, có cạnh ràng buộc, lưới 8 ô. Mọi đỉnh phải là đầu mút của một cạnh ràng buộc trong ô của nó, nếu không `PathLib.dll` crash (`FUN_18002cd60`). Cách chữa là thêm cạnh suy biến; `probe/path_dllinv.py` phải báo 0. Server không chặn di chuyển của người chơi. | DL + KT. **MÃ**: PathLib mới phải chịu lỗi | `tlbb-path-navmesh-format` |
 | 5.3 | Nhân vật đứng trên `.Heightmap`, không đứng trên mesh. Ô minimap tên `jpg_<cột 11 của SceneDefineEx>_<X>_<Z>.dds`, 64 ô bản đồ cho mỗi ô texture. Nước là object `TerrainLiquid`; cỏ là StaticEntity `0灌木` (11.685 cây từng gây lag nên đã gỡ). | DL | `tlbb-character-stands-on-heightmap`, `tlbb-map-minimap-and-nav`, `tlbb-map-water-and-grass` |
 | 5.4 | ID scene phải tăng dần, nhưng `client_res` lớn gây `bad allocation` (vì vậy scene 1052 được sửa tại chỗ). Tên map phải ASCII. Danh sách scene thật của server là `SceneInfo.ini`; nếu scene đích không có service thì người chơi rơi về Đại Lý. 413/1.289 scene thiếu `.scn`. | DL + KT | `tlbb-map-summoner-rift`, `tlbb-full-audit-2026-09-10` |
 | 5.5 | Nhập OBJ thành map có 9 điều bắt buộc. | DL | `tlbb-map-scene-format` |
@@ -218,7 +210,6 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 | 6.6 | `TLBB_MainFrame_*` kiểu BoundWindow tắt `FrameEnabled` nên không vẽ ảnh của con. Muốn container trong suốt thì dùng `TLBB_StaticImageNULL` với ảnh `Blank`. | DL | `tlbb-client-gl` |
 | 6.7 | Font: giữ Noto Sans SC, vì `zt_1..3.ttf` của GL thiếu dấu tiếng Việt. Cỡ font tính bằng POINT (SongTiBmp12 = 16 px); ô chữ tiếng Việt cần ≥ 24 px. Chữ bake vào nút dùng arialbd (msyhbd thiếu dấu). | DL | như trên |
 | 6.8 | Client chỉ tạo cửa sổ theo danh sách native: thêm dòng vào `InterfaceEx.txt` không tạo được cửa sổ. FakeObject/`SetRabbitModel` chỉ chạy khi đã vào thế giới. | **MÃ**: client mới đăng ký cửa sổ theo dữ liệu | `tlbb-model-viewer-project` |
-| 6.9 | `GCUICommand` (1205) có 274 mã lệnh; Lua chỉ xử lý 7, phần còn lại nằm trong C++ của Game.exe. | **MÃ** (pha G, cần Ghidra) | `GL REAL\01c` |
 | 6.10 | Lua client là LuaPlus/Lua 5.0.1 **có mở rộng `continue`** (`LuaPlus\Src\LuaPlus\src\llex.c:51`, `lparser.c:1419`), không có toán tử `#`. `luac` chuẩn báo lỗi ở `continue` là bình thường. | DL. MÃ: giữ nguyên LuaPlus này | khảo sát mã nguồn 12/09 |
 | 6.11 | Parser layout tự viết từng đọc cả thẻ nằm trong `<!-- -->` (MainMenuBar có một LeftBar bị chú thích trùng tên); đã sửa bằng regex COMMENT. | KT | `tlbb-client-gl` bước 18 |
 
@@ -253,42 +244,8 @@ Nếu không học trước, rất dễ đi viết lại cả đường nạp �
 |---|---|---|
 | 9.1 | Python Windows: `C:\Program Files\Python313\python.exe` (hoặc `py -3`), đặt `PYTHONUTF8=1`. Bộ `model-convert`/`map-convert` chạy bằng python3 trong WSL. Git Bash làm hỏng `/mnt/c` và `$`. Trao đổi file WSL↔Windows qua `/dev/shm`. | `tlbb-windows-tooling-gaps`, kiểm tra máy 12/09 |
 | 9.2 | PowerShell 5.1 chặn `npm.ps1`/`npx.ps1`, nên gọi `npm.cmd`/`npx.cmd`. | `CLAUDE.md` |
-| 9.3 | Ghidra headless chạy qua `.cmd` với đường dẫn tuyệt đối (Start-Job chết theo phiên PowerShell). Chạy nhanh bằng `-process X -noanalysis` trên project đã phân tích sẵn. | `tlbb-graphics-overhaul` |
 | 9.4 | Sửa script Python bằng Edit/Write, không qua heredoc Bash (`\1` trong chuỗi bị đổi thành byte 0x01). | `tlbb-client-gl` |
 | 9.5 | **12/09, ChatGPT:** CI cũ dùng checkout force; stage và metadata CI có xóa file ngoài git. Đã thay bằng kiểm cây sạch và quarantine có move.json; không chạy bản script cũ dưới luật thép. | `05098ff`, `Build\Logs\2026-09-12-gpt-p0-1\safety-test.txt` (9/9), CI 33/33 và smoke 6/6 |
-
-## 10. Bản vá binary đang có trong `client_GL`: tính năng phải làm lại trong mã nguồn
-
-Mỗi dòng là một chỗ hiện đang phải sửa byte. Khi dựng từ mã nguồn, mỗi dòng trở thành một tính năng thật, có cấu hình và kiểm thử.
-
-| Binary | Vị trí | Cũ → mới | Mục đích | Script vá hiện tại | Làm lại ở (Src) |
-|---|---|---|---|---|---|
-| UI_CEGUI.dll | file 0x307A0, 0x36465 | `e6 04`→`e9 fd` | slot 1254 → 65001 | `analysis\utf8-baseline\manifest\patch_cp_v2.py` | `Src\Client\CEGUISystem` (code page UTF-8 gốc) |
-| UI_CEGUI.dll | file 0x4C537 | `a8 03`→`e9 fd` | mặc định 936 → 65001 | như trên | như trên |
-| UI_CEGUI.dll | VA 0x1800314cd | `01`→`02` | resolver `#{KEY*args}` đọc TOTALLEN | `analysis\ghidra\patch_resolver.py` | `CEGUISystem` (UIString) |
-| Game.exe | file 0x97CD84 | `a8 03 00 00`→`e9 fd 00 00` | District 1 → CP 65001 | `…\patch_district_cp.py` | `Src\Client\WXClient` (bỏ ép code page) |
-| Game.exe | lea VA 0x14009bf8b → cave 0x140541dd0 | disp32 | tiêu đề ASCII "TSAM TLBB" | `…\rename_title.py` | WXClient (tiêu đề cấu hình, Unicode) |
-| Game.exe | tên import 0x9780A0 / 0x978253 / 0x978243 / 0x978289 | `A`→`W` | SetWindowLongPtr, PeekMessage, DispatchMessage, DefWindowProc | `…\patch_unicode_input.py` | WXClient (cửa sổ Unicode) |
-| Game.exe | hook VA 0x1403E3892 → cave 0x1405E1C38 (51 B) | lệnh gọi | `SetWindowLongPtrW(GetWindowLongPtrA)` | như trên | như trên |
-| CEGUIBase.dll | file 0x13BA64, 14 B | — | WM_CHAR ≥ 0x20 → `injectChar(codepoint)` | như trên | `Src\ThirdParty\CEGUI` |
-| Game.exe | 19 chỗ 0x1400e3910…0x14042202b, bảng nhảy 0x1405e1c70, section `.phai25` | 133 B | ActionSetLine 11 → 15 ô | `Tools\add-phai\patch_actionsetline_15slots.py` | WXClient `Object\ActionSetMgr` (bảng động) |
-| Render.dll | file 0x15B24, 0x15B33 | `33 D2`→`B2 01` | bật bóng model + `setShadowMapEnabled` | `analysis\graphics-overhaul\patch_shadowmap.py` | `Src\Engine\Render` (cấu hình bóng) |
-| Render.dll | cave RVA 0x2aacf0 (76 B), slot file 0x2b06c8 | DllRelease → cave | bỏ stub NewHDRBloom | `…\patch_hdr.py` | Render (post-filter HDR) |
-| Render.dll | file 0x15E12–13 | `ba 08`→`ba 10` | anisotropy 8 → 16 | `…\patch_aniso.py` | Render (cấu hình lọc) |
-| Lua (dữ liệu) | `ViewSetup_Setup.lua` hook `GfxApply` | — | bật FXAA/HDR/bóng một lần mỗi tiến trình | — | Render đọc cấu hình lúc khởi động (mục 3.6) |
-
-Quy đổi offset của Game.exe (B): offset file trong `.text` = VA − 0x140000C00; offset file trong `.data` = RVA − 0x2400.
-
-**Tiến độ làm lại trong mã nguồn (cập nhật 12/09):**
-
-| Mục | Trạng thái | Commit |
-|---|---|---|
-| Code page UTF-8 của UI | Xong. `System_CodePage=65001` bật chế độ UTF-8 gốc | 8dfef59 |
-| Nhập codepoint Unicode (injectChar) | Xong | 8dfef59 |
-| Clipboard Unicode | Xong | 8dfef59 |
-| Resolver `#{KEY*args}` | Chưa làm: resolver 0.85 chỉ biết `#{KEY}`, cần đặc tả định dạng mới | — |
-| Bóng, HDR, anisotropy | Đang làm (agent bóng đổ, agent hậu kỳ) | — |
-| Cửa sổ Unicode, nạp `System_CodePage`, District code page, tiêu đề, ActionSetLine động | Thuộc agent Game.exe | — |
 
 ## Bẫy hotkey (12/09/2026)
 

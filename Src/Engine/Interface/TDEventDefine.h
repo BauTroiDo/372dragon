@@ -647,13 +647,13 @@ enum GAME_EVENT_ID
 	// CYS-XINFA: CY xinfa study confirmation (CY Game.exe event 0x487 "STUDY_XINFA", MessageBox_Self.lua:3954);
 	// pushed by Network/CysSkillNet.cpp. Appended so every prior event ID stays unchanged.
 	GE_STUDY_XINFA,
-	// CYS-POWER: CY cultivation window (Xiulian.lua:64 RegisterEvent("OPEN_XIULIAN_PAGE"); B Game.exe XiuLianPage
-	// RVA 0x21b780 pushes it). Appended so every prior event ID stays unchanged.
+
+
 	GE_OPEN_XIULIAN_PAGE,
-	// CYS-RIDE: CY mount window (Ride.lua:20 RegisterEvent("OPEN_RIDE_PAGE"); B Game.exe OpenRidePage RVA 0x21b860
-	// pushes it). Appended so every prior event ID stays unchanged.
+
+
 	GE_OPEN_RIDE_PAGE,
-	GE_TOGGLE_WUHUN_PAGE, // CYS-HOST2: CY wuhun hub window (Wuhun.lua:54 RegisterEvent("TOGGLE_WUHUN_PAGE"); B ToggleWuhunPage RVA 0x21b700 pushes 0x27c, -1). Appended.
+	GE_TOGGLE_WUHUN_PAGE,
 	// CYS-WARDROBE: CY wardrobe (外观系统). All 18 NewExterior_* frames open on OPEN_EXTERIOR with arg0 = their own
 	// type and arg1 = 1/0 (NewExterior_PlayerFrame.lua:103, Ride 0, Weapon 1, PetPossJian 2, Facestyle 3,
 	// HairStyle 4, PlayerFrame 5, InfantHairStyle 7, DressBox 8). Without this row RegisterEventHandle() drops the

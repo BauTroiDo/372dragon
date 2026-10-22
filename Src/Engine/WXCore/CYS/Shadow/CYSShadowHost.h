@@ -47,10 +47,10 @@ namespace WX
         /// Run-time change of kLevelKey or a Gfx_Shadow* key; true if the key belongs to the shadows. Switching on a
         /// renderer started with shadows off needs a restart (receivers were compiled without shadows).
         static bool applyVariable(const Ogre::String& key, const Ogre::String& value);
-        /** CYS-LOOK: per-scene rule of CY 3.71 (Render.dll vtable 0x260 FUN_18002b5e0 / 0x228 FUN_18002b710):
-            the login scene (erengu_DL) turns the shadows on with setShadowDis(18000, 1000), the character screen
-            (tl3chuangjian) turns them off; every other scene follows View_HumanLightmap again, as Game.exe resends
-            the key on each EnterScene. Pass the scene file name (with or without folders / extension). */
+
+
+
+
         static void onSceneLoaded(const Ogre::String& sceneFile);
         static void stop(void);
         static bool isStarted(void);

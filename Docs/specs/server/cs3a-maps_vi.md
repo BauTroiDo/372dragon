@@ -18,8 +18,6 @@ Nguồn CY: S4 = `Assets/CanonicalCY/Data` (CY 3.71.9609), bảng text S2 = `Too
 | Bot live | **Chưa chạy**: cần mật khẩu test00 (`CYS_BOT_PWD`) do người dùng cấp; không có trên máy. `Tests/net/run_world_live.ps1` sẵn sàng (bot hash khớp) |
 | Lạc Dương / Tô Châu | Chưa cài. Đã đo (mục 5) và lập kế hoạch; công cụ `survey` có sẵn |
 
-## 1. Server skynet nạp cảnh thế nào [DK]
-
 ### 1.1 Danh sách cảnh
 - `R/configs/SceneInfo.ini` (GBK, LF): 790 section `[sceneN]`; N = **scene ID phía server** (ID trong DB nhân vật, `NewWorld`, `TransferFunc`).
   Khoá dùng: `threadindex`, `clientres`, `name`, `active`, `file`, `type`, `PvpRuler`, `IsReLive`, (tuỳ) `BeginPlus/_clientres/EndPlus`.
@@ -73,8 +71,6 @@ Bảy dòng cùng tên nhưng CY đổi bản đồ: 0 洛阳 `luoyang`→`luoya
 3. **158 ID khác tên**: server giữ scene ID của mình (không đổi dữ liệu đã lưu), nhưng `clientres` phải trỏ sang **dòng CY có cùng tên cảnh/bản đồ** (tra theo tên + tên file `.Scene`, không theo số). Cảnh không có ở CY (Summoner Rift 1052, 35 clientres thiếu) cần dòng client riêng ở dải ID trống của CY (≥ 1100 chưa dùng) — việc của CS1/CS3c cùng lúc với bảng client.
 4. Cảnh chỉ-CY (253 ID) chỉ mở khi có script/quái tương ứng (CS3c/CS4).
 5. Việc 3–4 đổi `SceneInfo.ini` hàng loạt → làm theo đợt, mỗi đợt commit + restart + snapshot.
-
-## 3. Cảnh 2 Đại Lý `dali_new_320` (đã cài)
 
 ### 3.1 File server và nguồn
 
@@ -132,8 +128,6 @@ python3 -B .../cs3a_move_test_char.py inspect|apply ...        # chỉ bản ghi
 
 - Chuỗi restart có dời nhân vật: `Build/Logs/2026-09-14-cs3a-maps/scripts/40-restart-move.sh` (stop → `mongod --config R/mongod.conf` → move → start). Kiểm trước: `Get-Process Game` rỗng, `cys_server.ps1 status` 0 client.
 - Hoàn tác bản đồ: `git -C R revert 995c2df 75c5b91 db6a0c2` rồi restart (file `dali.*` cũ không bị sửa). Hoàn tác vá: `git revert 3ef6774 fc2c65b 9926765 2fc43ec 45d0b3c 181a55a`. Nhân vật: `$set attrib.world_pos` về (165,170) theo `char-move-1.json` hoặc `cys_server.sh restore backups/20260914T082902Z-truoc-cs3a-maps`.
-
-## 5. Lạc Dương, Tô Châu: cần gì, lấy từ đâu (chưa cài)
 
 ### 5.1 Số đo `survey` (`survey/survey-*.json`)
 

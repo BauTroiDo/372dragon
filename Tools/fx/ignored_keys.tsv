@@ -5,7 +5,7 @@
 # pipeline, not in the effect element), the UIParticle sub-effect keys (no sub-effect system for UI particles in
 # B/C either) and ParentSpaceLock on Particle (B/C use setLogicParentTrans; true in 8/5896 CY uses).
 # scope	type	key	evidence	no-op values (comma separated; occurrences with these values are not counted)
-element	particle	use_energy_wave	WXParticleElement.cpp mUseEnergyWave stored, never read (render-pipeline mask in B/C FUN_1801aae40 / C FUN_1801b6990)	false,0
+element	particle	use_energy_wave	WXParticleElement.cpp mUseEnergyWave stored, never read	false,0
 element	particle	ParentSpaceLock	WXEffectElement base key stored; Particle sub-effects follow the node (needs OGRE setLogicParentTrans as B/C)	false,0
 element	uiparticle	ParEffectName	WXUIParticleElement stores the Particle members; no sub-effect system for UI particles	NullEffect,
 element	uiparticle	ColEffectName	same	NullEffect,

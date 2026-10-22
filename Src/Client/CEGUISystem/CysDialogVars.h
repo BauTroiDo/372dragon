@@ -1,12 +1,12 @@
-// CYS-QUEST: dialogue variables ($N $n $U $G $g $R $r) expanded exactly like CY 3.71 UI_CEGUI.dll.
-//
-// Evidence (read-only Ghidra on UI_CEGUI.dll CY 3.71):
-//   FUN_18004a5e0(this, src, dst)  - the expander, called at 0x18004b146 by the runtime string parser
-//                                    FUN_18004b050 right after the code check FUN_180054e20 and before '#' parsing.
-//   Character literals 0x18008f180..0x18008f198 in test order N n U G g R r.
-//   Dictionary key tables 0x1800b59d0 ($G) 0x1800b59e0 ($g) 0x1800b59f0 ($R) 0x1800b5a00 ($r), [0]=_Woman [1]=_Man.
-//   Protected ranges this+0x138 filled by FUN_180054e20 from "#{_INFOMSG<len3>...}" and "#{...*?<len>...}" blocks.
-// Header-only so the parser and the unit tests (Tests\luaapi\dialog_vars_tests.cpp) share one implementation.
+
+
+
+
+
+
+
+
+
 #pragma once
 
 #include <cstdlib>
@@ -18,7 +18,7 @@ namespace CysDialogVars
     // Inclusive byte range [lo, hi] in which a '$' is copied verbatim together with the next byte.
     struct Range { int lo; int hi; };
 
-    // Source of the values CY reads from g_pObjectSystem (CY CObjectManager vftable 0x140c13f88).
+
     class Provider
     {
     public:
@@ -46,7 +46,7 @@ namespace CysDialogVars
         return keys[row][sex == 0 ? 0 : 1];
     }
 
-    // Ranges FUN_180054e20 records while it validates the string (byte-wise equivalent for well-formed text).
+
     inline std::vector<Range> ProtectedRanges(const std::string& s)
     {
         std::vector<Range> ranges;
@@ -87,7 +87,7 @@ namespace CysDialogVars
         return ranges;
     }
 
-    // FUN_18004a5e0. provider == NULL copies the source (CY: g_pObjectSystem not created yet).
+
     inline void Expand(const std::string& src, Provider* provider, const std::vector<Range>& ranges, std::string& out)
     {
         out.clear();

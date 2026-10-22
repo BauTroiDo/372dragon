@@ -116,9 +116,9 @@ namespace CEGUI
             { "Falagard/ChatChannel", "AutoResizeEnabled", "CY: True - the channel bar resizes itself to its tabs.", "False", false },
             { "Falagard/ChatChannel", "ChildItem", "CY: \"key:K name:WindowType\" - window type of a channel tab.", "", true },
             { "Falagard/ChatChannel", "DelButtonSize", "CY: pixel size of the tab close button.", "", false },
-            // CYS-CYGUI: properties the CY looknfeel files set on their auto child windows and no class of that
-            // widget registers (Build/re/cy-gui/look_child_props.txt vs the property names of Src). Without them
-            // the look throws "There is no Property named ..." while the game builds the window at run time.
+
+
+
             { "Falagard/CheckBox", "MinHeight", "CY: smallest height of the check box inside a CreatureBoard.", "0", false },
             { "Falagard/ActionButton", "HorzLabelFormatting", "CY: horizontal formatting of the button label.", "HorzCentred", false },
             { "Falagard/SimpleText", "HorzLabelFormatting", "CY: horizontal formatting of the label text.", "HorzCentred", false },

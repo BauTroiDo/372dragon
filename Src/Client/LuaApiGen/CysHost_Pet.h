@@ -1,13 +1,13 @@
 #pragma once
-// CYS-PET: Lua host functions of the CY 珍兽 (pet) windows (Pet.lua, PetList.lua, PetFrame.lua, PetLevelup.lua,
-// PetSavvy.lua, PetHuanhua.lua, PetLianHua.lua, PetProcreate.lua, PetBank*.lua ...) that the 0.85 source does not
-// register and that the generated catalog stubs answer with a neutral value.
-//
-// Only functions whose behaviour was RECOVERED FROM THE ORIGINAL BINARY are implemented here; every other pet stub
-// is deliberately left in place (it still logs "missing host function" and counts its calls).
-// Evidence per function: Docs/specs/client/host-pet_vi.md, decompiles in Build/re/host-pet/.
-//
-// Game-layer state comes through Services (implemented in WXClient/Network/CysPetNet.cpp); this file is Lua glue only.
+
+
+
+
+
+
+
+
+
 #include "LuaPlus.h"
 
 namespace CysHostPet
@@ -15,18 +15,18 @@ namespace CysHostPet
     struct Services
     {
         void* context = nullptr;
-        // Pet:GetPetLocation(index): the "this pet is being used by window N" marker of the pet in slot `index`
-        // (B Game.exe+0x2b5120: a per-pet int, -1 = free). -1 when the slot holds no pet.
+
+
         int (*petLocation)(void* context, int index) = nullptr;
-        // Pet:SetPetLocation(index, location) (B Game.exe+0x2b5080): store the marker; ignored when the slot is empty.
+
         void (*setPetLocation)(void* context, int index, int location) = nullptr;
-        // Pet:UpdatePetList() (B Game.exe+0x2bc8b0 -> PushEvent 0xe8 = GE_UPDATE_PET_LIST): refresh the pet list UI.
+
         void (*updatePetList)(void* context) = nullptr;
-        // Pet:GetPetIndexByGUID(high, low) (B Game.exe+0x2ae270 -> CDataPool::Pet_GetPetByGuid): slot of that pet, -1.
+
         int (*petIndexByGuid)(void* context, unsigned int high, unsigned int low) = nullptr;
-        // Pet:GetGeneration(index) (B Game.exe+0x2bc6f0, same field as Pet:GetType = m_nEraCount 几代宠). -1 = empty.
+
         int (*petGeneration)(void* context, int index) = nullptr;
-        // Player:IsHaveCurrentPet() (B Game.exe+0x2dca90): is the player's current pet GUID a pet we know about?
+
         bool (*haveCurrentPet)(void* context) = nullptr;
 
         // ---- pet-gc512 (17/09): cells of GCDetailAttrib_Pet (512) that the 0.85 SDATA_PET has no field for -------
@@ -55,9 +55,9 @@ namespace CysHostPet
         bool (*elementOfSelected)(void* context, const char* key, int& value) = nullptr;
         // Pet:GetSkillIDbyIndex(index, pos) (B +0x2b2560 -> CDataPool helper): DBC_SKILL_DATA id in that skill slot, -1.
         int (*skillIdAt)(void* context, int index, int pos) = nullptr;
-        // Pet:GetTakeLevel(index) (B +0x2b5850 -> FUN_1401c3af0: PetAttrTable row of the data id, +0x14 = 可携带等级). 0 = none.
+
         int (*takeLevel)(void* context, int index) = nullptr;
-        // Pet:GetPetGrowLevel(index, rate) (B +0x2b47d0 -> FUN_1401c39a0: 0..4 by the row's 成长率1..4; -1 when rate < 0).
+
         int (*growLevel)(void* context, int index, int ratePerMille) = nullptr;
 
         // ---- CYS-PETSKILL (19/09) ---------------------------------------------------------------------------

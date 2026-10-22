@@ -152,8 +152,8 @@ namespace WX	{
 			return mAttach;
 		}
 
-		/// CYS: B DefaultShow - the effect is still created while the system hides skill effects
-		/// (System::getHideAnimationEffects, B FUN_1800b0ea0)
+
+
 		void setDefaultShow(bool show)
 		{
 			mDefaultShow = show;

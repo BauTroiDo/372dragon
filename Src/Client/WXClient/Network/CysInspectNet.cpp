@@ -73,7 +73,7 @@ int OpenPrivate(LuaPlus::LuaState* s) {
 }
 int GuidToShow(LuaPlus::LuaState* s) {
     LuaPlus::LuaStack a(s);if(!a[1].IsNumber())return 0;
-    // Original B Game.exe 0x14022f810 formats the uint32 GUID as 00000000%08X.
+
     char text[24]={};_snprintf(text,sizeof(text),"00000000%08X",static_cast<unsigned>(a[1].GetNumber()));
     s->PushString(text);return 1;
 }

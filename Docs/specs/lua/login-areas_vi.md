@@ -4,10 +4,6 @@
 
 `GameProduceLogin:GetServerAreaDis(index:number)` trả đúng một chuỗi mô tả vùng tại chỉ số 0-based. Số được cắt về 0 theo int32; NaN/vô cực/ngoài int32 trở thành INT32_MIN và trả rỗng. Chỉ số âm hoặc vượt số vùng trả rỗng; kiểu khác number báo lỗi. Dùng biên C-string như B, không trả tên vùng thay mô tả. Giữ receiver và mọi method khác, chỉ đăng ký vào ô nil trước generated stubs.
 
-- B Game.exe SHA256 `ce0c4fec7666595ca7adb250fcd8075c28f04d1852d05111c88b730f57e1c763`, RVA `293890..293946`: lua_type tham số 2, cvttsd2si, kiểm biên vector 96 B, đọc chuỗi +28, lua_pushstring, return 1.
-- Parser B `3e4440..3e56db`: xuống dòng LF, bỏ CR cuối/space-tab đầu, comment #, SERVER_BEGIN/SERVER_END, tách dấu phẩy; từ 14 cột. Cột tính từ 0: 0 tên vùng, 1 tên server, 2 provider, 4 status, 7 mô tả vùng, 8–11 endpoint, 12 nhóm hiển thị. Nhánh normal nhận nhóm 0/1; nhánh đặc biệt nhận 1/2.
-- Helper `3e63b0..3e66d7` tra tên vùng theo byte và trả vùng có sẵn ngay; vùng mới lấy tên và mô tả từ lần xuất hiện đầu, không đổi mô tả theo server sau. Chuỗi +28 được viết tại `3e661a..3e6638`.
-- Danh sách client_GL đã đọc tĩnh: 350 B, wrapper SEPCIAL_FILE_HD mode 1; plaintext UTF-8 có 1 dòng/14 cột. Chỉ giải mã làm bằng chứng trong Build, không chạy launcher hoặc sửa nguồn tham chiếu. Đường dẫn bằng chứng: `Build/Logs/2026-09-13-gpt-login-areas`.
 
 ## Phạm vi reader CY
 

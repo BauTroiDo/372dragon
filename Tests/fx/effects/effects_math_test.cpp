@@ -1,16 +1,16 @@
-// Tests/fx/effects: pure unit tests for the effect timing / transform / gating maths (no engine, no GPU).
-//
-// Mirrors the rules the fx-effects spec (Docs/specs/render/07c-effects_vi.md) takes from client_GL Render.dll:
-//   1. skill time window of AnimEffect / HitTime / BreakTime / ShakeTime over a normalised animation clock that
-//      wraps when a looping animation restarts (WXLogicModel.cpp);
-//   2. element placement with the B TransformInfo scale (WXEffectElement.cpp setTransformInfo): the same derived
-//      transform as B's scaled effect base node with the element as a local child;
-//   3. the CreateLevel gate (WXEffectElement.cpp update, B FUN_18016bd00): hidden when CreateLevel < manager level;
-//      element default 100, manager level 100;
-//   4. the ParticleElement sub-effect bookkeeping (WXParticleElement.cpp _updateParticleEffects, B FUN_180216c10 /
-//      FUN_180216e90): one entry per live particle in particle order, removed the update its particle is gone,
-//      particles identified by address (a reused pool slot keeps its effect).
-// Build/run with Tests/fx/effects/run_effects_math.cmd. Exit 0 = all cases pass.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include <cmath>
 #include <cstdio>

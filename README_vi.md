@@ -13,7 +13,7 @@ Client chính có source/build; FMOD, Cg và runtime DirectX là các phụ thu�
 | `Docs\` | Tài liệu quy trình 00–09 và bằng chứng khảo sát (`evidence\`) | có |
 | `Reference\` | Mã nguồn 0.85 và bản dựng sẵn. **Chỉ đọc** | không |
 | `Src\` | Mã nguồn làm việc (nhập ở pha E0) | có |
-| `Tools\` | Công cụ riêng của dự án: pipeline, giao thức, dịch ngược | có |
+| `Tools\` | Công cụ riêng của dự án: build, pipeline dữ liệu và giao thức | có |
 | `Assets\` | Nguồn (mô tả + manifest), Staging, kho chuẩn | không (trừ `sources.yaml`) |
 | `Registry\` | Sổ ID, lựa chọn bản, đợt nhập, đặc tả giao thức, ABI | có |
 | `Tests\` | Validators, bộ đối chứng hình ảnh, bot, kiểm ABI | có |

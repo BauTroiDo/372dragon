@@ -1,38 +1,38 @@
 #pragma once
-// CYS-CYGUI: the Falagard window types CY 3.71.9609 has and client_GL does not (user 14/09/2026: "Mọi thứ như CY").
-//
-// Evidence: exported mangled names of CY Bin64\CEGUIFalagard.dll (sha256 4adc5a34...cd1, copy in
-// Build\re\cy-gui\bin), the FalagardMapping entries of the CY scheme Schema/WoWLookSkin.scheme.xml and the
-// properties the CY layouts set on them (Build\Logs\2026-09-14-cy-gui\cy-window-types.tsv).
-// Full table with the per-class exports: Docs\specs\ui\cy-gui_vi.md section 3.
-//
-//   Falagard/MeshWindow/ParentWindow  frame around a MeshWindow portrait (PlayerFrame, TargetFrame, PetFrame,
-//                                     PartyFrame). CY exports FalagardMeshWindow::ParentWindow; layout properties
-//                                     RoundEnabled, MaskImage, Mouse*Hollow.
-//   Falagard/ActionButtonWindow       grid of item windows with a vertical scrollbar (AddChildElement /
-//   Falagard/EventsWindow             ClearAllElement / UpdateAllElement / SetElementsInView / PageEnd /
-//                                     Get|SetVertScrollbarPosition, properties Column, HorizontalPadding,
-//                                     VerticalPadding) - same shape as the GL AchievementWindow, which is the base
-//                                     class used here.
-//   Falagard/ActionButtonItem         element of an ActionButtonWindow: image + three texts + one sub button
-//                                     (SetImage, SetText1..3, SetButton1Text/Tips/State, ChildImage(Show|Hide),
-//                                     events Button1Click, Button2Click, MouseRClick).
-//   Falagard/AchievementBarWindowButton, .../AchievementBarCompareWindowButton,
-//   .../AchievementBarCompareWindowIntegrationButton, .../AchievementWindowCatalogButton,
-//   .../AchievementWindowTextButton, Falagard/GuildButton
-//                                     composite item buttons created at run time by the Lua layer; the setters write
-//                                     into the named child windows the look defines.
-//   Falagard/MultiColumnListNew       MultiColumnList variants (CY adds ColumnHeader/CreateButtonType/SetImageSize/
-//   Falagard/MultiColumnListEx        SetButtonSize/SelectColour/LineDrawOffset/DrawOffset).
-//   Falagard/ScrollText               scrolling notice board (Speed, TextMode, TextBoardNumber, TextBoardHeight,
-//                                     BoardKillTimer; events InfoElementClick/Delete/MoveIn/MoveOut) - ServerNew.
-//   Falagard/DragCornerButton         corner grip that resizes DragTarget (DragMode, TargetSizeLimited,
-//                                     MinWidth/MaxWidth/MiniHeight/MaxHeight) - ChatFrame.
-//   Falagard/PhoneSoftKeyWindow       the soft keyboard of the 0.85/GL code with the CY property names
-//   Falagard/SFZSoftKeyWindow         (PhoneKeySize/PhoneNormalImage/... and SFZKeySize/SFZNormalImage/...).
-//   Falagard/StaticUVImage            StaticImage + MirrorFormat (horizontal/vertical mirrored UVs).
-//   Falagard/CircleProgress           radial progress (ProgressImage, FillDirection, ClockWise, DownDir,
-//                                     LightEnable, LightRadius, AutoMove, MoveSpeed).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "FalModule.h"
 #include "CEGUIWindowFactory.h"
 #include "FalagardAchievementWindow.h"

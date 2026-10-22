@@ -1,46 +1,5 @@
 # Động tác ra chiêu và hiệu ứng impact/buff như CY 3.71 (skill-fx-parity, 15/09/2026)
 
-Agent skill-fx-parity, nhánh `skill-fx-parity`. Hook `// CYS-PARITY:` (đổi hành vi, có công tắc) và `// CYS-SFX:`
-(kịch bản, chẩn đoán). **FACT** = đọc từ binary CY (Ghidra, bản sao `Build\re\skill-fx-parity\projCG`, Game.exe sha
-`9278c7f3…`), log hoặc ảnh chạy thật; **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-15-skill-fx-parity\`.
-
-Chuẩn CY: `Build\Logs\2026-09-15-cy-oracle\run-27-hit` (chiêu NPC + impact 28/110/175/124/54) và `run-24-fx`
-(GCCharImpactListUpdate: 13 trên MySelf, 11+1 trên 木人).
-
-## 1. Dựng lại kịch bản trong dự án (phát lại offline)
-
-- `Tools\game\cy_scenario_replay.py <scenario.json | oracle.log> <out.txt>`: đọc kịch bản cy-oracle (dòng đầu
-  `oracle.log` chính là JSON đã chạy) và viết tệp `CYS_WORLD_SCENARIO`: `scene`, `at=<ms> npc|skill|impact|damage|
-  impactlist|tag`. Tệp của hai chuẩn: `scenario\dali_skill_run27.txt`, `scenario\dali_fx_run24.txt`.
-- Cùng gói, thứ tự và thời điểm như `cy_oracle_server.py` gửi CY (FACT `oracle\frames.tsv`): GCCharSkill_Send
-  (logic 101…105, target 1001), sau 600 ms GCCharDirectImpact + GCDetailHealsAndDamages (sender = MySelf 1001 như
-  oracle), NPC 赵天师 57 / 木人 346 / 稻草人 305 / thỏ 391 / khỉ 1520 cùng vị trí và hướng.
-- Khác có chủ ý: vị trí vào cảnh = điểm teleport (160.5,152.5) thay cho GCObjTeleport ở giây 3 (dự án chưa có handler
-  965); ngoại hình MySelf lấy khung ghi âm của fixture Đại Lý (CY oracle chỉ vẽ đầu + tóc do thiếu GCDetailEquipList).
-- `ReplayStream` (NetCore): `LoadScenario`, GCConnect/GCEnterScene mã hoá lại theo cảnh/vị trí/obj; khung ngoại hình
-  nhân vật ghi âm (455/1772/288) chuyển sang obj kịch bản; bước giao gói theo `enterTime + at + CYS_WORLD_SCENARIO_DELAY_MS`.
-- `CysWorldReplay`: `StepScenario` — camera CY đọc từ bộ nhớ (`cameras.tsv`: pitch 40, fovy 35, yaw −23.98 / −34.67,
-  orbit 14,6 m = zoom 0.4 của [6, 27.5]) ở chế độ classic; chụp `CYS_SFX_SHOT_MS` (mặc định 300,800,1300) sau mỗi
-  tag, nhãn `<tag>-a|b|c…`; `CYS_SFX_TRIGGER=<tệp>` ghi nhãn ngay trước khi chụp (capture.now của proxy D3D9);
-  `CYS_SFX_LOG=1` in thời điểm ms của skill send / animation hit / direct impact / damage board.
-- Handler mới `GCCharImpactListUpdate` (324) → `OC_UPDATE_IMPACT_EX` (port 0.85).
-- Chạy: `sfx_stage.ps1 -N <n>` (stage CanonicalCY 1280×720) rồi
-  `sfx_run.ps1 -Stage <stage> -Scenario <txt> -Out <thư mục> [-Env 'CYS_SFX_SHOT_MS=…;CYS_SFX_CAM=zoom,yaw'] [-Trace]`
-  (lấy `Build\game-slot.lock`, 0 socket, tự thoát).
-- So: `Tools\render\sfx_compare.py` (CY | trước | |diff| | sau | |diff|, số đo `mad_*` và năng lượng hiệu ứng
-  `fx_*` = trung bình max(0, luma − luma khung nền không hiệu ứng) trong vùng cắt); `make_sheets.ps1`.
-
-## 2. Mã CY đã đọc (FACT, Ghidra headless chỉ đọc)
-
-| Hàm CY | Việc | Khác 0.85 |
-|---|---|---|
-| `FUN_14057d2f0` (GCCharDirectImpact Execute) | dựng _LOGIC_EVENT kiểu damage/EFFECT, lệnh 0x12; gói CY chỉ có target, sender, impact (Read `14084fe60`) | — |
-| `FUN_1405ea110` case 0x12 → `FUN_1405f1750` | **luôn** xếp vào `m_listLogicEvent` (begin = now, remove 10000) | 0.85 làm ngay nếu sender sẵn sàng |
-| `FUN_1405f1990` (Update_LogicEvent) | làm khi sender −1 / không thấy / `IsLogicReady`; quá hạn thì bỏ | như 0.85 |
-| `FUN_1405eb160` (vftable +0x1e8 IsLogicReady) | chưa sẵn sàng chỉ khi `0 < count ≤ n` và (count ≠ n hoặc đang SKILL_SEND chưa hit) | **count ≤ 0 = sẵn sàng** |
-| `FUN_1405f52c0` (OnAnimationHit, nhận chỉ số hit) | đặt +0x330 BeAttackEffectShowed theo từng HitTime; chiêu nhiều hit so `count ≤ +0x33c + index` | 0.85 không đăng ký listener |
-| `FUN_1405f1cf0` (DoLogicEvent_Damage) | EFFECT: nhóm `rand()%5` của ImpactDirectly (bước 0x20), lọc cấp hiệu ứng `DAT_14103a37c` + cột +0xc0, kiểm `FUN_140695640` | 0.85 nhóm đầu, không lọc |
-| `FUN_1405f2530` (DisplayDamageBoard) | cổng: caster/receiver là MySelf, pet, summoner của mình; mất máu **một** bảng kiểu 6/7/1 (+0xd/0xe/0x10 khi cờ +0x40); nộ 2/3, mana 4/5, +0x34 11/12 | 0.85 hai bảng (7 và 1) khi tự đánh mình |
 
 ## 3. Bảng khác biệt (số đo)
 
@@ -64,7 +23,6 @@ Trước = `p27-3` (stage-4, chụp +300/+800/+1300 ms), sau = `p27-5` (stage-7,
 | D12 | Màu tên NPC | đỏ (phe địch) | trắng | trắng | **CÒN** (kịch bản chưa gửi camp; không phải FX) |
 | D13 | Xếp hàng mọi OC_LOGIC_EVENT (CY không làm ngay khi push) | ≤ 1 khung | | | **CÒN** (chưa port, ảnh hưởng ≤ 1 khung) |
 | D15 | Vị trí 木人 so với MySelf ở run-24 | 木人 chồng lên MySelf | 木人 lùi phía sau ~1 m trên ảnh | | **CÒN** (không phải FX; kiểm hướng/AI 木人 hoặc camera) |
-| D14 | Lọc cấp hiệu ứng `DAT_14103a37c`/cột 24 và `FUN_140695640` | | | | **CÒN** |
 
 `mad_full` cả khung giữ ~36–43 ở mọi cặp vì HUD CY ≠ HUD dự án, MySelf CY không có thân, hạc 赵天师 vỗ cánh khác pha.
 
@@ -75,12 +33,3 @@ Trước = `p27-3` (stage-4, chụp +300/+800/+1300 ms), sau = `p27-5` (stage-7,
 - Replay cũ `regress-replay-1` (fixture Đại Lý, -Move -Camera, stage-9): PASS (`run.json` passed=true).
 - `Tests\scene\run_scene_test.cmd`: PASS (failures 0, unknown keys 0; `scene-test.log`).
 - Kịch bản run-24 `p24-3` (stage-10): quit_complete, decode_failures 0.
-
-## 5. Bẫy
-
-1. `SetAnimationHitEvent` của 0.85 bị comment: mọi damage/impact chờ hết động tác (~1,25 s). Listener dùng chung
-   `mCallbackFuncInfo` với AnimationFinish — cùng id đối tượng nên an toàn.
-2. Kịch bản gửi GCDetailHealsAndDamages với sender = MySelf (như oracle): chỉ hiện nhờ quy tắc count ≤ 0 của CY.
-3. Dữ liệu CY thiếu `ZHUAN DI1.mesh` (07e 1.3): buff `g01_buff12` ném Ogre::Exception khi hạt mesh tạo entity lần đầu (`_notifyParticleMoved` → `createVisualData`, không phải `AddEffect`).
-4. Dòng tag của oracle ghi cùng lúc GCCharSkill_Send; `wait` của runner khớp sau 0–0,1 s; mỗi PrintWindow 0,1–0,9 s.
-5. `run_cy_oracle.ps1` nhận `-View` hashtable: gọi bằng `&` trong job, không qua `powershell -File`.

@@ -3,11 +3,6 @@
 Đặc tả này nói về các hàm host C++ mà **giao diện Lua nguyên bản của CY 3.71** gọi trong 17 thư mục
 `Pet*` được giao, và về 7 hàm đã được cài thật trong lượt này.
 
-- Mã mới: `Src/Client/LuaApiGen/CysHost_Pet.{h,cpp}` (glue Lua) và
-  `Src/Client/WXClient/Network/CysPetNet.{h,cpp}` (tầng game).
-- Bằng chứng: `Build/Logs/2026-09-17-host-pet/` (phép đếm, build, đo live) và
-  `Build/re/host-pet/` (dịch ngược CHỈ ĐỌC từ `Game.exe` của B).
-- Không sửa `C:\TLBB\085\client`, không sửa `client_GL`, không commit, không restart server riêng.
 
 ---
 
@@ -51,49 +46,8 @@ receiver: `Pet` 97, `DataPool` 22, `PlayerPackage` 7, `Player` 3, `LifeAbility` 
 GetPetRestoreAction` **bị gọi trong MỌI phiên chơi** (thấy trong `WXClient.log` của mọi lần chạy GUI) nhưng
 nằm ở `CommonSkill/CommonSkill.lua`, **ngoài** 17 thư mục được giao — không thuộc nhóm này.
 
-### 1.2 Xếp hạng `[DK]` (dịch ngược được) và `[SL]` (phải suy luận)
-
-`catalog.json` chỉ phủ binary GL/0.85. 80/136 hàm riêng hệ có `impl_va` trong `Game.exe` của B
-(**[DK]**, 319 lời gọi); 56 hàm còn lại (**[SL]**, 141 lời gọi) đến từ `LuaApiGen_Cy.cpp`, sinh từ **lời
-gọi của script CY** chứ không từ binary, nên **không có địa chỉ để dịch ngược** — không phải "tìm không
-ra". 20 dòng đầu của nhóm [DK] (bảng đầy đủ: `rank-pet-before.tsv`):
-
-| # | hàm | gọi | file | impl_va | trạng thái sau lượt này |
-|---|---|---|---|---|---|
-| 1 | `Pet:SetPetLocation` | 47 | 10 | 0x2b5080 | **ĐÃ CÀI** |
-| 2 | `Pet:GetPetLocation` | 23 | 11 | 0x2b5120 | **ĐÃ CÀI** |
-| 3 | `PlayerPackage:IsPetLock` | 15 | 10 | 0x2a6a90 | để stub (ô B-only) |
-| 4 | `Pet:GetIsPossession` | 14 | 4 | 0x2b2170 | để stub (0.85 không có "phụ thể") |
-| 5 | `DataPool:GetLeftProtectTime` | 13 | 9 | 0x26d4d0 | **ĐÃ CÀI** |
-| 6 | `Pet:GetData` | 12 | 1 | 0x2bb530 | để stub (ô B-only) |
-| 7 | `Pet:GetTakeLevel` | 10 | 5 | 0x2b5850 | để stub (helper chưa lần ra) |
-| 8 | `Pet:ClosePetSkillStudyMsgBox` | 9 | 2 | 0x2ba610 | để stub (ID sự kiện CY) |
-| 9 | `Pet:GetSavvy` | 9 | 5 | 0x2b5a10 | để stub (ô B-only) |
-| 10 | `Pet:GetSkillIDbyIndex` | 9 | 1 | 0x2b2560 | để stub |
-| 11 | `Pet:GetPetSkillLevelupInfo` | 8 | 1 | 0x2baee0 | để stub |
-| 12 | `Pet:UpdatePetList` | 7 | 3 | 0x2bc8b0 | **ĐÃ CÀI** |
-| 13 | `Pet:IsPetHaveEquip` | 6 | 5 | 0x2bb490 | để stub |
-| 14 | `Pet:SetSelectPetIdx` | 6 | 1 | 0x2b8fc0 | để stub (4 con trỏ B-only) |
-| 15 | `PlayerPackage:FindFirstBindedItemIdxByIDTable` | 6 | 2 | 0x2a7650 | ngoài phạm vi (túi đồ) |
-| 16 | `PlayerPackage:GetItemTableIndex` | 6 | 4 | 0x2a6db0 | ngoài phạm vi (túi đồ) |
-| 17 | `LifeAbility:CloseReIdentifyMsgBox` | 5 | 1 | 0x29d540 | để stub (ID sự kiện CY) |
-| 18 | `Pet:GetPetList_Appoint_PetBank` | 5 | 1 | 0x2bd270 | để stub (kho trân thú B-only) |
-| 19 | `Pet:PetBank_PetListSelectChange` | 5 | 2 | 0x2bdac0 | để stub (kho trân thú B-only) |
-| 20 | `Pet:GetPetIndexByGUID` | 4 | 3 | 0x2ae270 | **ĐÃ CÀI** |
-
-Nhóm [SL] đầu bảng — `Pet:GetPetCangpinEffectValue` (18), `Pet:GetPetMasterTotalEffectValue` (14),
-`Player:IsPetMasterEffectActive` (14), `DataPool:LuaFnGetCangPinSetEffectLevel` (5) — thuộc hệ **藏品**
-và **珍兽大师** của CY, server riêng **không có gì để trả lời**. Không cài.
-
----
-
 ## 2. Bản đồ bố trí bản ghi trân thú của B (nền của mọi kết luận bên dưới)
 
-Cách lấy: dịch ngược 28 hàm host trân thú **đã có thật trong mã 0.85** rồi đối chiếu ô số nguyên mà B đọc
-với trường mà mã 0.85 đẩy lên Lua (`Build/re/host-pet/decomp-calib.c`). Ba hàm neo đầu tiên cố định phần
-đầu struct: `Pet:GetName` đọc `[5]` + chuỗi ở `+0x20` (dung lượng ở `[0xe]`), `Pet:IsPresent` đọc `[0]`,
-`[2]`, `[3]`, `[5]`; `Pet:GetGUID` đẩy `[2]` rồi `[3]` đúng thứ tự 0.85 đẩy `m_uHighSection` rồi
-`m_uLowSection`.
 
 | ô int của B | offset | trường 0.85 (`SDATA_PET`) | hàm B dùng để xác định |
 |---|---|---|---|
@@ -123,11 +77,8 @@ giữa**, nên **không được** suy offset của 0.85 cho những ô B đọc
 
 ---
 
-## 3. Bảy hàm đã cài — nguồn của từng hàm
-
 ### 3.1 `Pet:SetPetLocation(index, location)` và `Pet:GetPetLocation(index)` — 70 lời gọi
 
-`Build/re/luaapi/decomp/Game.exe/1402b5080.c` và `1402b5120.c`. Toàn bộ thân hàm của B:
 
 ```
 pet = Pet_GetPet((int)lua_tonumber(L,2));
@@ -151,7 +102,6 @@ gọi Lua. `-1` là câu trả lời đúng nghĩa "không bận".
 
 ### 3.2 `Pet:UpdatePetList()` — 7 lời gọi
 
-B: `CEventSystem::PushEvent(0xe8)` (RVA 0x2bc8b0), không làm gì khác.
 
 Bảng sự kiện của B **không trùng** bảng của 0.85 trên toàn dải (`_G:TogglePetPage` lệch +5,
 `Pet:ShowTargetPet` lệch −258), nhưng **khối trân thú/túi đồ lệch đúng +27**, neo ba lần bằng những hàm mà
@@ -167,32 +117,13 @@ mã 0.85 có sẵn:
 "更新宠物列表界面", và `PetList.lua:19` đăng ký `this:RegisterEvent("UPDATE_PET_LIST", false)` rồi dựng lại
 danh sách ở dòng 76. Ba chứng cứ độc lập (số, tên, người nghe) cùng chỉ một kết quả.
 
-### 3.3 `Pet:GetPetIndexByGUID(high, low)` — 4 lời gọi
-
-B (RVA 0x2ae270): `Pet_GetPetByGuid(PET_GUID_t{ [0] = arg1, [4] = arg2 })`, đẩy kết quả là số.
-`FUN_1401437b0` là `CDataPool::Pet_GetPetByGuid`: ba hàm `1401437b0 / 1401437f0 / 140143810` nằm liền nhau
-đúng thứ tự khai báo trong `GMDataPool.h:520-522` (`Pet_GetPetByGuid` / `Pet_GetPet(INT)` /
-`Pet_GetPet(PET_GUID_t)`), và `1401437f0` chính là hàm mọi getter trân thú của B gọi.
-Thứ tự tham số: `PET_GUID_t` có `m_uHighSection` ở offset 0 nên **arg1 = high, arg2 = low** — khớp với
-`Pet:GetGUID` (đẩy high rồi low) và với call site `Pet:GetPetIndexByGUID(mainPet.guid.high, mainPet.guid.low)`
-(PetSavvy.lua:426, PetRHD.lua:508, PetPropagateSingle.lua:564, PetLianHua.lua:378).
-0.85 `Pet_GetPetByGuid` trả `-1` khi không tìm thấy, đúng cái script CY so sánh.
-
 ### 3.4 `Player:IsHaveCurrentPet()` — 4 lời gọi
 
-B (RVA 0x2dca90):
-```
-guid = MySelf->GetCharacterData()->Get_CurrentPetGUID();     // FUN_1401a4b40
-pet  = Pet_GetPet(guid);                                     // FUN_140143810
-push(pet != 0 && pet->[0] != -1);
-```
 Cặp accessor này y hệt cặp mà `Pet::GetIsFighting` của 0.85 dùng
 (`GMGameInterface_Script_Pet.cpp:1197`). Port nguyên văn.
 
 ### 3.5 `Pet:GetGeneration(index)` — 1 lời gọi
 
-B (RVA 0x2bc6f0) đọc `[0x18]` — **đúng ô mà `Pet:GetType` của B (RVA 0x2b03d0) đọc**, và
-`Pet::GetType` của 0.85 đẩy `m_nEraCount` (几代宠). Vậy `GetGeneration = m_nEraCount`.
 
 **Lưu ý trung thực:** gói `GCDetailAttrib_Pet` phiên bản CY mà server riêng gửi
 (`Src/Shared/ProtocolGen/PgPackets_pet_detail_types.h`) **không có trường generation**, nên
@@ -201,10 +132,6 @@ B (RVA 0x2bc6f0) đọc `[0x18]` — **đúng ô mà `Pet:GetType` của B (RVA 
 
 ### 3.6 `DataPool:GetLeftProtectTime()` — 13 lời gọi
 
-Thân hàm của B (RVA 0x26d4d0) **chỉ có hai dòng**: `lua_pushnumber(L, 0.0); return 1;` — bộ đếm thời gian
-bảo vệ chống trộm tài khoản đã bị cắt khỏi client. Pet.lua 1838/2031/2928 chặn "thả / mở khoá trân thú" khi
-`> 0`, nên `0` = cho phép. Cài để biến một ô "chưa biết" thành "đã chứng minh" (stub cũng trả 0, nên hành vi
-không đổi — giá trị nằm ở chỗ nó hết là ẩn số và hết ghi log).
 
 ---
 
@@ -213,24 +140,12 @@ không đổi — giá trị nằm ở chỗ nó hết là ẩn số và hết g
 | nhóm | số hàm | số lời gọi | lý do |
 |---|---|---|---|
 | Ô B-only trong bản ghi trân thú | ~14 | ~60 | `GetSavvy [0x43]`, `GetGrowRate [0x45]`, `GetTitleNum [0x50..0x52]`, `GetPetType [0x5f]`, `GetCriticalAttack/Defence [0x24]/[0x25]`, `GetAttackTrait [0x26]`, `GetLastProcreateLevel [0x11]`, `IsPetLock`/`GetPUnlockElapsedTime_Pet` `[0x46]`/`[0x48]` … — `SDATA_PET` của 0.85 không có ô, và gói CY hiện không được client đọc vào đâu cả |
-| Kho trân thú (`*_PetBank`) | 12 | 30 | B có `PetBank_GetPet` / `PetBank_GetCount` (`FUN_140029710/140029800/1400298e0/14002a6e0`) — **cả một hệ thống dữ liệu client mà 0.85 không có** |
 | Sự kiện CY chưa giải mã | 9 | ~21 | `ClosePetSkillStudyMsgBox` 0x218, `OpenPetSkillStudyMsgBox` 0x217, `CloseReIdentifyMsgBox` 0x1e8, `NotifySelChange` 0x1d4, `NotifyPetDlgClosed` 0x1d5, `PetOpenTitleList` 0x1cf, `CloseSignalPetProCreate` 0x29f, `ShowBagSelectPet_PetBank` 0x386, `OpenPetEquipReIdentifyMsgBox` 0x26f — **không có điểm neo nào của 0.85 trong dải 0x1cf–0x386**, mà độ lệch của bảng sự kiện B **không phải hằng số** (đã kiểm: +5, +27, −258 ở ba dải khác nhau) |
-| "Phụ thể" (`GetIsPossession`, `PossessionPet`, `RestorePet`) | 3 | 16 | B đọc GUID trân thú phụ thể qua `FUN_1401a4e50`; `CCharacterData` của 0.85 **chỉ có** `Get_CurrentPetGUID` |
-| Hệ chỉ có ở CY ([SL]) | 56 | 141 | 藏品 / 珍兽大师 / 内丹 / 幻灵 / 进阶 — `LuaApiGen_Cy.cpp`, **không có `impl_va`**, và server riêng cũng không có chuỗi trả lời |
 | 9 hàm "đuôi dùng chung" | 9 | 25 | thuộc `host-plumbing` |
 | Ngoài phạm vi (túi đồ / mục tiêu / ngân hàng) | 6 | 24 | `PlayerPackage:*`, `Target:GetServerId2ClientId`, `Bank:GetNpcId`, `SystemSetup:OpenPrivatePage` |
 
 Hai trường hợp **cố tình không đoán** dù rất gần:
 
-- `Pet:SetSkillLevelupModel` (0x2b24d0) gọi `FUN_140145f80(DataPool, dataID)` và
-  `Pet:SetStudyNewSkillModel` (0x2bb100) gọi `FUN_140145fc0`, trong khi
-  `Pet:SetSkillStudyModel` (đã có thật trong 0.85) gọi `FUN_140145f40` =
-  `CDataPool::PetStudySkill_SetPetModel`. Ba hàm liền kề = **ba ô fake-object khác nhau**; 0.85 chỉ có
-  một. Ánh xạ cả ba về cùng một ô sẽ đặt model vào **sai cửa sổ xem trước 3D**.
-- `Pet:GetFoodType` (0x2b4fd0) gọi `FUN_1401c3a80`, hàm này tra DBC id `0x70` rồi lấy ô ở byte `+0x24`
-  của bản ghi. 0.85 có sẵn `CDataPool::Pet_GetPetFoodType` đọc `DBC_PET_EX_ATT` cột `m_FoodType`, nhưng
-  trong bố trí CY 54 cột hiện tại `+0x24` rơi vào `m_Reserve2` (是否宝宝) chứ **không** phải `m_FoodType`
-  (`+0x28`), và id `0x70` ≠ `DBC_PET_EX_ATT` (202). Chưa khớp ⇒ giữ stub. 1 lời gọi.
 
 ---
 
@@ -359,24 +274,6 @@ giới bắt đầu (`CysModernGame::Start`).
 
 ## 8. Bẫy đã gặp (đọc trước khi làm tiếp)
 
-1. **Bảng sự kiện của B không lệch đều so với 0.85.** Đo được +5 (TogglePetPage), +27 (khối trân thú/túi
-   đồ), −258 (UPDATE_TARGETPET_PAGE). Chỉ được ánh xạ ID sự kiện khi có **điểm neo trong cùng dải**.
-2. **Bản ghi trân thú của B chèn ô ở giữa**, không chỉ nối thêm ở cuối. Suy offset theo `SDATA_PET` của
-   0.85 là sai từ khoảng `[0x24]` trở đi. Phải hiệu chuẩn bằng các hàm 0.85 đã có (mục 2).
-3. **Ghidra không phục hồi tham số `double` của `lua_pushnumber`** trong nhiều hàm (hiện ra
-   `lua_pushnumber(*param_2)` một tham số). Gặp dạng đó thì bản dịch ngược **chưa đủ**, phải đọc
-   disassembly hoặc bỏ qua — đừng đoán là "đẩy 0".
-4. **`catalog.json` chỉ phủ binary GL/0.85**: 56/136 hàm riêng hệ đến từ `LuaApiGen_Cy.cpp` (sinh từ lời
-   gọi script CY) nên **không có `impl_va`**.
-5. **`Build/re/luaapi/decomp/Game.exe/1402bacd0.c` không tồn tại và Ghidra báo `NO FUNCTION at 1402bacd0`**
-   cho `Pet:ClearSheliziPet` — địa chỉ trong catalog không trỏ vào đầu một hàm đã nhận diện.
-6. **Cây nguồn đang có 7 agent sửa song song.** Lần build đầu hỏng vì
-   `GamePro_Enter.h(36): error C2065: 'm_nResID'` — một agent khác đang sửa dở header đó, không phải lỗi
-   của lượt này. Phải đọc lại file dùng chung ngay trước khi sửa và build lại sau vài phút.
-7. **Chuỗi Lua trong heredoc qua Bash → PowerShell bị nuốt một lớp `\`.** Đoạn dò live phải được ghi bằng
-   công cụ `Write` rồi ghép bằng PowerShell `[IO.File]::ReadAllText/WriteAllText`, không ghép bằng
-   heredoc.
-
 
 ---
 ---
@@ -407,36 +304,19 @@ Server viết `writeuchar(unknow_6)` rồi `unknow_6` byte `unknow_7` (`pet_deta
 (`scenecore.lua:1224`) ⇒ `[1 byte = 4]` = đúng `TYPE_CONTEX_MENU_OTHER_PET` của 0.85 → đổ vào `TargetPet_GetPet()` + `GE_VIEW_EXCHANGE_PET`.
 Đuôi dài hơn (`GCExchangePetView_t` / `GCStallPetView_t`, byte đầu = `flag`) thuộc giao dịch/sạp — đếm `detailDropped`, không đổ.
 
-### 9.2 Kỹ năng: CY 13 ô, 0.85 có 6
-
-Gói CY mang 2 `activate` + 11 `positive` (mỗi ô `id i32 + level u8`, rỗng = `-1`); B giữ **13 ô** mỗi bản ghi (`FUN_140146250` từ chối `pos > 0xc`,
-mảng con trỏ ở `+0x128`, bản ghi dài `0x250`). `SDATA_PET::m_aSkill` chỉ có
-`PET_MAX_SKILL_COUNT = PET_SKILL_INDEX_NUMBERS = 6` (`GameDefine2.h:725`). Ánh xạ theo thứ tự dây: activate → ô 0,1; positive 1..4 → ô 2..5;
-positive 5..11 **bị đếm vào `skillsBeyondSlots`** (không vứt im). Ba trân thú test **không có kỹ năng nào** (Mongo `skills.activate/positive` rỗng)
-nên chưa đo được hiển thị kỹ năng. Mở đủ 12 nút như CY (`PETSKILL_BUTTONS_NUM = 12`, Pet.lua:24) cần **một dòng** thêm enumerator trước
-`PET_SKILL_INDEX_NUMBERS` trong `GameDefine2.h` (kéo `PET_MAX_SKILL_COUNT` lên 13; `_PET_DB_LOAD` chỉ dùng phía server 0.85, client không tham chiếu) —
-**chưa làm** vì đổi header dùng chung ⇒ dựng lại toàn bộ, và chưa có trân thú nào có >6 kỹ năng để nghiệm thu.
-
 ## 10. Ô CY-only của bản ghi B ↔ trường trên dây (mọi ô đã khớp bằng bằng chứng, không đoán)
 
 Giữ trong `CysPetNet.cpp` (`PetCy[6]`, khoá theo GUID của con đang ở slot), không đụng `GMDP_Struct_Pet.h`.
 
-| hàm host (RVA B) | ô B | trường dây 512 | bằng chứng khớp |
 |---|---|---|---|
 | `Pet:GetLixing` (0x2bc640) | `piVar2[?]` (decomp mất chỉ số) | `lingxing` u8 (`m_Flags[2]&0x08`) | tên hàm = tên trường; widget `Pet_Lingxing` (Pet.lua:1183) |
 | `Pet:GetCriticalAttack` (0x2b2390) | `[0x24]` | `mind_attack` | `define.lua:595` `IATTRIBUTE_2ATTACK_RATE` = 会心一击; `human_attrib.lua:111` `mind_attack = {point = IATTRIBUTE_2ATTACK_RATE}`; thứ tự dây hit, miss, mind_attack, mind_defend = `[0x22..0x25]` |
 | `Pet:GetCriticalDefence` (0x2b2430) | `[0x25]` | `mind_defend` | như trên |
 | `Pet:GetSavvy` (0x2b5a10) | `[0x43]` | `wuxing` u32 | 悟性 = wùxìng; widget `Pet_WuXing` "Ngộ tính" (Pet.lua:1196-1197); server `wuxing_bonus[1..10]`; Lua `nSavvy >= 7`. **Giả thuyết cũ "gengu → savvy" SAI**: `gengu` = 根骨 = `m_nBasic` (`Pet:GetBasic`, 0.85 `PET_DETAIL_ATTR_GENGU`) |
 | `Pet:GetTitleNum` (0x2b95c0) | `(end−begin)>>3` của vector `[0x50..0x52]` | `titles[10]` i32 (`-1` = trống) | đếm mục ≠ −1 |
-| `Pet:GetGrowRate` (0x2b5ab0) | `(int)((float)[0x45] * 1000.0)` | `growth_rate` f32 (`-1` khi chưa giám định) | công thức nguyên văn decompile |
 | `Pet:GetPetType` (0x2bc8e0) | byte `+0x17c` | `unknow_13` u8 = `define.PET_TYPE` (0 宝宝, 1 变异, 2 野生) | server tính từ `pet_attr_table.is_var_type/is_baby_type`; Lua `nPetType == 0` = 宝宝 (Pet.lua:1053) |
 | `Pet:GetLastProcreateLevel` (0x2b0330) | `[0x11]` (giữa Level `[0x10]` và Exp `[0x12]`) | `used_procreate_count` i32 (giữa `level` và `exp` trên dây) | vị trí trùng + chú thích Pet.lua:1054 "改成记录已经繁殖次数" |
-| `Pet:IsPetHaveEquip` (0x2bb490) | helper `FUN_1401c3b50(pet)` | `equip_list_1..6.item_index >= 0` (rỗng = `Item_cls.new()` = −1) | tên hàm; **chưa có trân thú nào có trang bị để đo live** |
-| `Pet:SetSelectPetIdx` (0x2b8fc0) | ghi int vào `+0x70` của 4 đối tượng xem trước | — (chỉ số) | decompile |
 | `Pet:GetData("ATTACKCOLD"…)` (0x2bb530) | `[0x27..0x32]`, 12 nhánh `memcmp`, đọc con ĐANG CHỌN | `att_/def_/reduce_def_ × cold/fire/light/poison` | `ATTACKCOLD=[0x27]`, `ATTACKFIRE=[0x2a]`, `ATTACKLIGHT=[0x2d]`, `ATTACKPOISON=[0x30]` ⇒ bước 3 = (att, def, reduce_def) đúng thứ tự dây |
-| `Pet:GetSkillIDbyIndex(i, pos)` (0x2b2560) | `FUN_140146250(pool, i, pos)` | `Pet_GetSkill(i,pos)->m_pDefine->m_nID` | PetLevelup.lua:146-151 dùng cùng `pos` với `EnumPetSkill` |
-| `Pet:GetTakeLevel(i)` (0x2b5850) | `FUN_1401c3af0`: DBC 0x70 (= PetAttrTable, `dbc_inventory_gl.json b_id 112`) dòng `pet[5]` (data id), int `+0x14` | `_DBC_PET_EX_ATT::m_TakeLevel` (CY cột 4 = GL cột 3 可携带等级; 558 → 1, 3009 → 5) | `decomp-gc512-b.c`; bố trí dòng GL x64 `dbc_columns_gl.tsv` cột 3 @ +20 |
-| `Pet:GetPetGrowLevel(i, rate)` (0x2b47d0) | `FUN_1401c39a0`: cùng dòng, so `rate` với int `+0xa4/+0xa8/+0xac/+0xb0` → 0/1/2/3, lớn hơn → 4; `rate < 0` → −1 | `m_GrowRate0..3` (CY cột 30-33 = GL cột 39-42 = 成长率1..4; 3009: 540/594/621/702 ⇒ 0,594 → 1 "Ưu tú") | `decomp-gc512.c`; hàng 3009 đọc từ DBC nhị phân CanonicalCY |
 
 Không cài (lý do cụ thể): `Pet:GetAttackTrait` cần DBC `0xbe` (CY `AttackTraits.txt`, có trong CanonicalCY nhưng **chưa đăng ký** trong `GMDataBase.cpp`);
 `Pet:GetPercent_Lx` cần DBC `0xfe` (`PetLingXing.txt`, 2,2 MB, chưa đăng ký) và ô `[0x5e]`; `Pet:IsFreeing` đọc cờ client `pet[1] == 1`

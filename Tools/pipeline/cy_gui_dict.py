@@ -1,24 +1,4 @@
-"""cy_gui_dict.py - StrDictionary for the CY GUI layer: CY 3.71 keys, Vietnamese text (user decision 14/09/2026:
-"Giữ tiếng Việt, tiếp tục đi").
-
-For every key of the CY 3.71 dictionary (S4 Config.axp, binary 00CCBBDD, GBK) the value is chosen in this order:
-
-  1. gl-same-zh   the GL Vietnamese value, when GL's Chinese source of the same key is exactly the CY Chinese text
-                  (GL Vietnamese = Assets/Canonical/Data/ConfigFolder/StrDictionary.txt, GL Chinese source =
-                  analysis/translation/backup/configfolder/StrDictionary.txt, the untranslated UTF-8 state M0)
-  2. tm           exact match of the CY Chinese text in the translation memory analysis/translation/translation.db
-                  (vimap status clean|color_diff, with the same exclusions as apply_strdict.py: GMDP_ keys and
-                  `exclude` reasons except world/cmp/index/blackvar/nameapi, `unlock` allowlist)
-  3. api          exact match in the project dictionary Registry/i18n/cy_vi_api.tsv (cy-gui-2 14/09/2026: strings the
-                  translation memory did not have, translated through the API of the translation pipeline by
-                  Tools/pipeline/cy_translate.py, validated token-for-token) and the hand overrides
-                  Registry/i18n/cy_vi_override.tsv (by key or by zh text; short labels for narrow CY frames)
-  4. no-han       values without Han characters (after stripping TLBB tokens) are kept
-  5. untranslated the CY Chinese text itself (UTF-8); listed for the next translation batch
-
-Output text table: 2 header lines "STRING\tSTRING" + key\tvalue, UTF-8, CRLF (as the GL file). A value never contains
-TAB/CR/LF (CY 3.71 has none; asserted). Duplicate CY keys keep the first row (TLBB_DBC keeps the first as well).
-"""
+'cy_gui_dict.py - StrDictionary for the CY GUI layer: CY 3.71 keys, Vietnamese text (user decision 14/09/2026:\n"Giữ tiếng Việt, tiếp tục đi").\n\nFor every key of the CY 3.71 dictionary (S4 Config.axp, binary 00CCBBDD, GBK) the value is chosen in this order:\n\nOutput text table: 2 header lines "STRING\tSTRING" + key\tvalue, UTF-8, CRLF (as the GL file). A value never contains\nTAB/CR/LF (CY 3.71 has none; asserted). Duplicate CY keys keep the first row (TLBB_DBC keeps the first as well).\n'
 import collections
 import hashlib
 import os
@@ -45,7 +25,7 @@ ITEM_UI_OVERRIDE_TSV = os.path.join(I18N, 'cy_item_ui_override.tsv')
 # von da chua '(' ')' '+' dau cach '#' '%'; chi hai dieu cam: khoa khong duoc chua '}' (parser dung o
 # do) va dong khong duoc bat dau bang '#' (CysUiDictionary.h coi la dong chu thich).
 FRAME_OVERRIDE_TSV = os.path.join(I18N, 'cy_vi_frame_override.tsv')
-# exclusion reasons of the translation memory that do not apply to a source (see analysis/translation validators.ViMap)
+
 DROP_DICT = ('world', 'cmp', 'index', 'blackvar', 'nameapi')   # StrDictionary: values never reach Lua comparisons
 DROP_CODE = ('world',)                                         # Lua literals / layout text: logic reasons kept
 HAN = re.compile(r'[\u4e00-\u9fff]')
@@ -250,7 +230,7 @@ def load_text_dict(path):
 
 
 class TM:
-    """Read-only port of analysis/translation/manifest/validators.ViMap with the apply_strdict.py options."""
+    'cy_gui_dict project helper.'
 
     def __init__(self, db=DB, drop=DROP_DICT):
         import sqlite3

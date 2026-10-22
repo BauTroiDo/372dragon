@@ -1,13 +1,13 @@
 #ifndef __CYS_SKYSPHEREDATA_H__
 #define __CYS_SKYSPHEREDATA_H__
 
-// CY-Source (scene agent): document model of the B ".skysphere" file (305 files in client_GL), referenced by the
-// <SkySphere enabled filename objectname/> element of a .Scene. Tree (05 §3, scene_xml_inventory.tsv):
-// SkySphere -> SkyHeight, EffectLOD, ParticleLOD, SkySunshine, SkyMoon/DateConfig/AlphaKeyList/KeyAlpha, SkyStar,
-// SkySphereLayers/SkyLayer, SkyWeathers(current_weather)/Weather(name) -> SkyEnviromentList/EnvKey,
-// SkySphereTextureGroups/TextureGroup(<layer>_texture, <layer>_wrap, AlphaKeyList), SkyEffectParams/Effect/Parameter.
-// B reader: Fairy::SkySphereObject::loadFrom (FUN_1800f1120 -> FUN_1800e9980). Times in this file are day
-// fractions (0..1); they are converted to hours for the EnvKeys and kept as fractions for the alpha curves.
+
+
+
+
+
+
+
 
 #include "CYSEnvKey.h"
 

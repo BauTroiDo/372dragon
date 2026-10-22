@@ -168,9 +168,9 @@ BOOL CAI_MySelf::PushCommand_AutoHit(INT isAutoHit)
 BOOL CAI_MySelf::PushCommand_Jump(VOID)
 {
     if(GetCharacter() && GetCharacter()->CysMountFlightState()) return FALSE;
-	// CYS-MOVE2: CY 3.71 CAI_MySelf::PushCommand_Jump 0x140118550 - the first gate is the 500 ms lock at +0xa4
-	// (this m_uForbidTime, armed by PushCommand_Fly and by every skill send): while it runs the jump is refused with
-	// StrDictionary "GMAI_MySelf_1" ("Ngươi hiện đang rất bận") on GE_NEW_DEBUGMESSAGE (CY event 0x85).
+
+
+
 	if(m_uForbidTime != 0)
 	{
 		if(CGameProcedure::s_pUISystem && CGameProcedure::s_pEventSystem)
@@ -200,8 +200,8 @@ UINT CAI_MySelf::GetForbidRemainMs( VOID ) const
 
 BOOL CAI_MySelf::IsCanFly( VOID )
 {
-	// CYS-MOVE2: CY 3.71 0x14011a070 (CAI_MySelf vtable slot 16): dead / in a skill / limited / stalling / following
-	// / on a mount pair / already in the air all refuse; the generic refusal text is StrDictionary GMAI_MySelf_22.
+
+
 	CObject_Character *pCharacter = GetCharacter();
 	CCharacterData* pCharData = pCharacter ? pCharacter->GetCharacterData() : NULL;
 	if(pCharacter == NULL || pCharData == NULL) return FALSE;
@@ -230,14 +230,14 @@ BOOL CAI_MySelf::IsCanFly( VOID )
 
 BOOL CAI_MySelf::PushCommand_Fly(INT idSkill, FLOAT fDestX, FLOAT fDestZ)
 {
-	// CYS-MOVE2: CY 3.71 CAI_MySelf::PushCommand_Fly 0x140118600, step for step:
-	//   1. [this+0xa4] (m_uForbidTime) != 0 -> 0            5. distance > SkillTemplate max range * 0.9 -> clamp
-	//   2. idSkill == -1 -> 0                               6. target must be reachable: CPath::IsPointInUnreachRegion
-	//   3. CCharacterData::Get_Skill(idSkill) with a define    (0x1400e1160) and a ONE-unit direct path (GetPathDirect
-	//   4. vtable slot 16 (IsCanFly) -> 0                      0x1400e0d50, GetUnitNum 0x1400e1120 == 1)
-	//   7. AI stopped (slot 9), CGCharFly{objID, skill, from, to} sent (0x140387fd0), then +0xa4 = 500,
-	//      +0xa8 = now, m_SaveCommand.m_wID = AIC_NONE, return 1.
-	// The 0.9 is the float at 0x14070906c; the range is column 41 of client_GL's SkillTemplate = m_fMaxAttackRange.
+
+
+
+
+
+
+
+
 	if(m_uForbidTime != 0)
 	{
 		TDU_Log("CYS-MOVE2: fly refused, forbid lock %u ms left", GetForbidRemainMs());

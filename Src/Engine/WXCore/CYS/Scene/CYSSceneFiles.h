@@ -11,10 +11,10 @@
 
 namespace WX
 {
-    /// .hdr: KeyValue, LimitedLuminance, GaussianMultiplier, GaussianOffset, GaussianDev (FUN_1801ade30).
-    /// CY 3.71 (ci-cy, 14/09/2026): 10 scene files of CanonicalCY (dali_new_320, luoyang_new, suzhou_new, guishi,
-    /// taohuadaofb, *_MD) are 28 bytes: the same 5 floats plus 2 trailing floats (0.5, 0.5 in every file). Their
-    /// meaning is not traced yet; they are kept in cyExtra[] (hasCyExtra) and reported as deferred, not applied.
+
+
+
+
     struct CYSHdrFileParams
     {
         Real keyValue, limitedLuminance, gaussianMultiplier, gaussianOffset, gaussianDev;
@@ -28,8 +28,8 @@ namespace WX
         }
     };
 
-    /// .newhdrbloom: f32 Intensity, Threshold, SoftKnee, Exposure, u8 UseHDR, UseAutoExposure, f32[4] BloomColor
-    /// (FUN_1801981b0; field names from the setParameter function FUN_180198f80).
+
+
     struct CYSNewHdrBloomParams
     {
         Real intensity, threshold, softKnee, exposure;
@@ -42,8 +42,8 @@ namespace WX
         }
     };
 
-    /// .godrays: 3 floats (FUN_1801b7d40; parameter "Decay", constant sunPos_decay_exposure - the names of the
-    /// last two are INF). No .godrays file exists in client_GL.
+
+
     struct CYSGodRaysParams
     {
         Real decay, exposure, weight;

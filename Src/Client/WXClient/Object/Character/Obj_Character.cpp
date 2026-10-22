@@ -332,9 +332,9 @@ VOID CObject_Character::ReleaseMountRenderInterface( VOID )
 
 VOID CObject_Character::ChangeAction(INT nSetID, FLOAT fSpeed, BOOL bLoop, FLOAT fFuseParam )
 {
-	// CY 3.71: takeoff 0x1405ee030 -> 922, landing 0x1405ee430 -> 923;
-	// FreshAnimation 0x1405f4690 -> airborne idle 924..926 and movement 927.
-	// An idle/appearance refresh must not replace the transition animation.
+
+
+
 	if(CysMountFlightChanging() && !IsDie()) {
 		if(nSetID != (m_cysMountFlightState == 2 ? 922 : 923)) return;
 	} else if(m_cysMountFlightState == 1) {
@@ -1484,10 +1484,10 @@ VOID CObject_Character::UpdateMountActionSetFile(VOID)
 	}
 }
 
-// CYS: B slot of ActionSetLine.txt for this character (Game.exe FUN_1400f9110 / FUN_1400f9200, spec muc 4.3):
-// CYS: players use the weapon slot (Type % 30 -> 0..8), forced to 9 when transformed (model id set) or mounted;
-// CYS: monsters, NPCs and pets always use 9 (the 0.85 NPC column 10 is never selected by B). The mount model
-// CYS: (bMount) gets 9 for monsters and the rider's weapon slot otherwise; its lines are identical in every slot.
+
+
+
+
 INT CObject_Character::CysActionSlot(INT nWeaponType, BOOL bMount) const
 {
 	INT nSlot = CActionSetMgr::CysSlotFromWeaponType(nWeaponType);

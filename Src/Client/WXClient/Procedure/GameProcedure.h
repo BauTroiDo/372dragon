@@ -103,10 +103,10 @@ public:
 	static VOID		MainLoop(VOID);
 	///处理窗口大小发生改变的情况
 	static VOID		HandlePossibleSizeChange(UINT message, WPARAM wParam, LPARAM lParam);
-	// CYS-LOGIN: CY 3.71 window size per procedure. CGamePro_Login::Init (Game.exe FUN_14062f940) drops the sizing frame
-	// and gives the window a fixed 1280x720 client (FUN_1406302b0); CGamePro_CharSel::Init / CGamePro_CharCreate::Init
-	// (FUN_14063c000 / FUN_140640a50) restore the frame and the View_Resoution / View_FullScreen size
-	// (FUN_14063c8e0 / FUN_140641c20).
+
+
+
+
 	static VOID		CysLoginWindowFixed(VOID);
 	static VOID		CysLoginWindowRestore(VOID);
 

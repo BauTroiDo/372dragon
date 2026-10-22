@@ -132,13 +132,13 @@ INT Lua_GetSceneSize( LuaPlus::LuaState* state);
 // 得到当前场景id
 INT Lua_GetSceneID( LuaPlus::LuaState* state); 
 
-// CYS-SCENEMAP: ten bo o ban do cua MOT canh bat ky (SceneDefineEx cot [10] szSceneMap).
-// B (client\Bin64\Game.exe sha256 0bf34493..., build Temp_Release_v0-08-0101) cai o
-// 0x14021f8b0: lua_tonumber(1) -> s_pSceneDBC->Search_Index_EQU(id) -> lua_pushstring(row[+0x40]).
+
+
+
 INT Lua_GetSceneMapByID( LuaPlus::LuaState* state);
 
-// CYS-SCENEMAP: kich thuoc cua MOT canh bat ky (SceneDefineEx cot [2]/[3] nXSize/nZSize).
-// B cai o 0x14021f7e0: lua_tonumber(1) -> Search_Index_EQU(id) -> push row[+0x10], row[+0x14].
+
+
 INT Lua_GetSceneSizeByID( LuaPlus::LuaState* state);
 
 // 得到当前小地图得尺寸
@@ -1617,4 +1617,3 @@ public:
 };
 
 };//namespace SCRIPT_SANDBOX
-

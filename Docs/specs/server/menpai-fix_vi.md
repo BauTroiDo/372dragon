@@ -1,8 +1,5 @@
 # menpai-fix — sửa lỗi kỹ năng môn phái trên server riêng (15/09/2026)
 
-Agent `menpai-fix`, nhánh `menpai-fix` (worktree `Build\wt-menpai-fix`). Tiếp nối `menpai-audit_vi.md` (lỗi 1–3 mục 0) và `impact-logic_vi.md` (mục 4).
-Bằng chứng: `Build\Logs\2026-09-15-menpai-fix\` (không vào git), RE: `Build\re\menpai-fix\`.
-Quy ước: **[DK]** dữ kiện đo được (đường dẫn/địa chỉ). **[SL]** suy luận. `R` = `/home/ubuntu/cys-test-20260913`.
 
 ## 0. Kết quả
 
@@ -28,27 +25,6 @@ Nhánh: `5d091910` (lỗi 1), `1abfd808` (lỗi 2+3), commit đặc tả/handoff
 - Nguyên nhân: `lualib/class.lua` `luaclass` chỉ chép **hàm** lớp cha; `skill_0.IMPACT_NUMBER = 17` và `skill_0.SkillInfoDescriptorIndex` là trường → nil ở lớp con → `skill_0.lua:72 for i = 1, self.IMPACT_NUMBER` sập sau khi đã trừ MP/đặt hồi chiêu.
 - Sửa (`Tools/server/server_impact_lua/.../skill_cy_generic.lua`): chép mọi trường không phải hàm của `skill_0` mà lớp con chưa có (`rawget`). 17 = số ô `effect_once` mà `cfghelper.read_skill_data` điền (tối đa ô 17) ≥ 15 cặp `参数说明/参数值` của SkillData CY (đếm trên bảng server bố cục CY) → vòng đọc phủ đủ ô CY.
 - Test: `server_impact_tests.lua` thêm ca "kế thừa trường không phải hàm qua class.lua thật" (mock `skill_0` giờ có `IMPACT_NUMBER` như bản thật). Chạy trên R trước sửa: **hỏng** (`IMPACT_NUMBER expected 17 got nil`); sau sửa 19/19.
-
-## 3. Lỗi 2 — số phái trong `cy_four_combat/storage.lua` [DK]
-
-`storage.lua:27` chỉ nhận 328 khi phái 15 và 331/332 khi phái 16 (GL). Sửa thành 13/14. Bằng chứng số phái CY cho tài nguyên: Serverhook `MenPai_T::MenPai_13::OnUseSkillSuccessfully` @0x9fbbc dùng mission 0x148 (328), `MenPai_14::OnUseSkillSuccessfully` @0xa173c dùng 0x14b (331), `Hook_Obj_Character::CommonConditionCheck` @0x60978 so `GetMenPai()==0xd/0xe` (`Build\re\menpai-fix\hook-condition.c`, `hook-menpai-useskill.c`).
-Rà các hằng 15/16 còn lại trong `cy_four_combat`: `native.lua:286` `donor_faction(target) ~= 15` là số CY (恶人谷) của impact 149 → giữ. Ngoài `cy_four_combat`: `talent_logic/std_talent_671.lua:31` `get_menpai() ~= 15` (有情皆孽, [SL] là thiên phú 绝情谷 theo GL 16 hoặc 桃花岛 GL 15) — **chưa sửa**, cần tra TalentInfo CY.
-
-## 4. Lỗi 3 — logic điều kiện/tiêu hao CY 16–21 [DK mã tlbb15]
-
-### 4.1 Mã CY
-Decompile Ghidra headless (chỉ đọc, không chạy binary), project `Build\re\menpai-fix\ghidra\proj`:
-- main `Server` (blob VA 0x3f0000): `CDCore_T::ConditionCheck` @0xa87cca / `Deplete` @0xa87a96 — `switch` kiểu 0..13, **mặc định trả 1** (kiểu lạ: đạt, không tiêu hao) → `main-cdcore.c`.
-- `Serverhook.so`: `Hook_Obj_Character::CommonConditionCheck` @0x60978 kiểm **trước** CDCore, chỉ khi đối tượng là người chơi; ô điều kiện ở `SkillInstance+0x30+i*0x18` {kiểu +0, p0 +4, p1 +8}:
-  - 18 `自身不可携带的buff集合`: `xyzServerScanTargetIsImpactInCollection(self, p0, 0)==1` → không đạt (thông báo riêng cho tập 346/348/350);
-  - 19: mục tiêu, `ScanTargetIsImpactInCollectionEx(target, p0) < p1` → không đạt;
-  - 20 `图腾数量`: `ScanTargetIsImpactInCollectionEx(self, p0)==0` → không đạt;
-  - 16 `消耗能量（条件+消耗）`: phái 13 **và** kỹ năng ∈ tập kỹ năng 340: `mission328 % 10000 < p0` → không đạt; `mission329 (con rối) == 0` → không đạt;
-  - 17 `刀意需求`: phái 14: `mission331 % 10 < p0` → không đạt;
-  - 21 `需要天机点`: **không có nhánh** (CDCore mặc định 1) → đạt.
-- Tiêu hao: `MenPai_13::OnUseSkillSuccessfully` (kỹ năng ∈ 340, mỗi ô 16: `328 = cap*10000 + max(0, cur − p0)` + hoàn talent `func_0x135b60`); `MenPai_14::OnUseSkillSuccessfully` chỉ template tlbb15 3843/3846/3847/3851 (mỗi ô 17: `331 = cap*10 + max(0, cur − p0)`).
-- `PublicA::xyzServerScanTargetIsImpactInCollection(Ex)` @0x5dae6/0x5dbaa so **MutexID** từng impact với danh sách ID của tập (bỏ qua cột kiểu); `Skill_IsSkillInCollectioEx` @0x5d9de so ID kỹ năng (`hook-publica-collection.c`).
-- Dữ liệu: SkillData server (CY) dùng 16 ×160 dòng (桃花岛), 17 ×96 (绝情谷), 18 ×144 (峨嵋/天山/唐门/恶人谷), 20 ×70 (唐门), 21 ×64 (鬼谷) — `04-cond-rows.out.txt`. Tên template tlbb15 → CY 3.71 trùng khớp: 3843 笑恩仇→4530, 3846 宁鸣不默（2段）→4533, 3847（3段）→4534, 3851 宁鸣不默→4538 (`08-tlbb15-jue.out.txt`).
 
 ### 4.2 Cài đặt
 - `services/scene/skill/condition_cy.lua` (nguồn `Tools/server/menpai_fix_lua/`): 6 logic trên, `install(core)` đăng ký vào `condition_delplete_core.logics` (16 thay `C_UnitNotHaveImpact_T` — nghĩa GL cũ; 18 mới là "bản thân không có impact thuộc tập"). Tài nguyên dùng chung kho `cy_four_combat` (`human:get/set_cy_four_resource`, con rối `callbacks.get_doll_id`); tiêu hao đẩy vào hàng chờ `bridge.resources.pending` (kiểu 8016/8017) để `on_use_skill_successfully` trừ + hoàn talent như native; không có bridge thì trừ ngay.
@@ -112,8 +88,3 @@ Ai dùng 248 dòng khác / 157 dòng chỉ CY (theo ID × nguồn):
 StandardImpact (tlbb15/HJS + dòng suy ra CY): trong các ID khác, tlbb15 = server 12, tlbb15 = CY 2, khác cả hai/không có 20 (mẫu ≤4 tham chiếu/ID) → dòng StandardImpact gốc tlbb15 cần nghĩa server, dòng CY cần nghĩa CY.
 
 **Kết luận:** thay thẳng không an toàn (Lua GL 6 ID + StandardImpact tlbb15 ~12+ ID đổi nghĩa). **Đề xuất "mọi thứ như CY":** lấy bảng CY 3.71 làm gốc; dời các dòng server/tlbb15 mà Lua/StandardImpact tlbb15 còn dùng sang dải riêng (≥ 900, như `cys_gl_impact_remap` của server-impact) và đổi hằng/ô tham chiếu; khi đó bỏ `cy_idcollections.lua`. Lỗi đang có ngay: 13 điều kiện 0 của SkillData CY đang tra nhầm tập server (vd 313).
-
-## 7. Tu luyện (lỗi 5) — chỉ khảo sát, KHÔNG áp [DK]
-
-- `XiuLianDetail`: server 1 963 dòng × 47 cột (phái 0–12, 11 cuốn); CY 3.71 2 416 × 63 (phái 0–15, 15 cuốn); tlbb15 1 661 × 47 (phái 0–10). Trên 11 cuốn, 1 273/1 963 dòng server = CY, 690 khác (chi phí cấp ≥ 106) — `17-xiulian-cmp.json`.
-- Gói 1014 `GCDetailXiulianList` trong **CY 3.71 Game.exe** (sha256 `9278c7f3…`, bản sao project `Build\re\menpai-fix\ghidra\projCG`): Read @0x140846a00 đọc `0x3c` byte @+0x18 (**15 × u16 cấp + 15 × u16 giới hạn**) + u32 @+0x54 + u32 @+0x58, kích thước tối đa 0x44 = 68 byte; handler @0x14058d5f0 lặp 15 cuốn, u32 thứ nhất → `FUN_1401918d0`, thứ hai → `FUN_1401a3f40` (`cy-gc1014.c`). Server hiện gửi 11+11 u16 + u32 = 48 byte; client CY-Source (`PgPackets_misc`) sinh theo server (48 byte) → đổi gói phải cùng lượt client.

@@ -23,8 +23,6 @@ Tài khoản đo: **test03 / CYTest03 (GUID 200004)**, cấp 15, phái 9.
 
 ---
 
-## 1. 329 ID impact vật phẩm — trục ID của CY là `+ 30000`
-
 ### 1.1 Hiện tượng đã đo trước đó
 
 Agent `item-live` đo live 17/09: mua 大理回城符 `30501004` bằng vàng, dùng → **`hp 2250 → 2219 (−31)`,
@@ -174,8 +172,6 @@ phải đo lại toàn bộ mục 1.8.
 
 ---
 
-## 2. Tỉ lệ thành công cường hoá = BÌNH PHƯƠNG cột bảng
-
 ### 2.1 Mã lỗi [DK]
 
 `GameServer/lualib/script_base.lua`, trong `LuaFnEquipEnhance` (bản gốc, ~dòng 3775):
@@ -257,8 +253,6 @@ của chính lượt đo; bê số từ lượt khác sang là so hai thứ khá
   0 `not configured`, 0 `unmapped positional`, 0 `missing selected impact`.
 
 ---
-
-## 3. Ba bảng tông môn — đã nhập, và vì sao nó KHÔNG mở khoá được gì
 
 ### 3.1 Nguồn đúng [DK]
 

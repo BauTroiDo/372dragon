@@ -1,20 +1,13 @@
 # Lua host timers: SetTimer, KillTimer, ClearAllTimer
 
-Ngày 12/09/2026. Triển khai clean-room tại `Src/Client/LuaApiGen/CysHostTimers.h/.cpp`; decompile/disassembly chỉ dùng làm bằng chứng dưới `Build/re` và `Build/Logs`. Phần chạy biểu thức trong environment do `CScriptSystem::EvaluateTimer` cung cấp qua callback; timer manager không giữ con trỏ cửa sổ.
 
 ## Bằng chứng B và miền đã xác nhận
 
-Bản sao phân tích: `Build/re/luaapi/gpt-p1-2-helpers/inputs/Game.exe`, SHA256 `0bf344935d6266ab80b6807d048fcd59184a925f18fd292072ccc596d045c918`. Không chạy binary B. Chi tiết phép đọc tĩnh và lệnh chạy lại: `Build/Logs/2026-09-12-gpt-p1-2/timers/implementation-plan_vi.md`.
 
-| API | Wrapper RVA / helper RVA | Chứng cứ |
 |---|---|---|
-| SetTimer | 0x460ac0 / 0x460600 | `Registry/luaapi/catalog.tsv:61`; `Build/re/luaapi/gpt-p1-2-helpers/decomp/140460600.c` |
-| KillTimer | 0x460ae0 / 0x460810 | `Registry/luaapi/catalog.tsv:54`; `Build/re/luaapi/gpt-p1-2-helpers/decomp/140460810.c` |
-| ClearAllTimer | 0x460b00 / virtual +0xa0 | `Registry/luaapi/catalog.tsv:3662`; `timer-wrapper-disasm.txt:264` |
 
 Các tên `timer-*.txt` dưới đây tính từ `Build/Logs/2026-09-12-gpt-p1-2/timers/`.
 
-`timer-vtable-constants.txt` xác nhận RTTI `CTimerManager`, vtable VA `0x1407f3098`, singleton VA `0x1409c2998`. Set Lua timer dùng virtual +0x78 → RVA0x45fcf0; Kill expression +0x88 → 0x460010; Kill ID +0x98 → 0x45fea0; Clear +0xa0 → 0x460180. Backend gọi USER32.SetTimer/KillTimer qua IAT, không có scheduler Tick riêng.
 
 ## SetTimer
 
@@ -41,7 +34,6 @@ Source: `CysHostTimers.cpp:62` chuyển số; dòng 145 gọi Win32; dòng 278 k
 
 Không trim, casefold, bỏ `()` hoặc parse chuỗi số thành ID. Ví dụ `KillTimer("123")` tìm expression chuỗi `123`; `KillTimer(123)` tìm ID số. Dữ liệu `Biwuzhaoqin_Tips.lua:29,39,45` có tên có/không có `()`; adapter không tạo alias sửa ngầm dữ liệu.
 
-False của nhánh invalid được xác nhận bằng `timer-wrapper-disasm.txt:90–93`: `xor r8d,r8d` trước `LuaState::PushBoolean(bool)`, không dùng biểu thức stack-address sai trong decompiler.
 
 Khác biệt giữa hai nhánh hủy được giữ đúng B: Windows không xóa WM_TIMER đã xếp hàng khi KillTimer được gọi. Sau Kill(ID), record còn nên một callback đã xếp hàng vẫn tìm được biểu thức; sau Kill(expression), record/route bị xóa nên callback đó bị bỏ qua. Timer đã chết do numeric Kill cũng có thể được chọn đầu tiên bởi Kill(expression), trong khi timer trùng expression khác vẫn sống. Đây là hệ quả từ `timer-backend-disasm.txt:322–347,468–532` và quy tắc [Microsoft KillTimer](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-killtimer); không phải phép đo động B.
 

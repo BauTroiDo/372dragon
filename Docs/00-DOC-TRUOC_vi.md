@@ -77,7 +77,7 @@ Mốc cuối **M5**: client mới thay `client_GL`, ước lượng 15–24 thá
 | `01-HIEN-TRANG-VA-NGUON-LUC_vi.md` | Cần số liệu: mã nguồn, ba dòng binary, server, tài sản, máy |
 | `02-KIEN-TRUC-VA-QUYET-DINH_vi.md` | Cần hiểu kiến trúc đích, các quyết định D1–D15, câu hỏi mở Q1–Q5 |
 | `03-LO-TRINH-TONG_vi.md` | Lập kế hoạch: pha, cổng, ước lượng, rủi ro |
-| `04-QUY-TRINH-MA-NGUON-X64_vi.md` | Cài toolchain, nhập mã, hệ build, port x64, dịch ngược làm đặc tả |
+| `04-QUY-TRINH-MA-NGUON-X64_vi.md` | Cài toolchain, nhập mã, hệ build và port x64 |
 | `05-QUY-TRINH-TAI-SAN_vi.md` | Nhập hay gộp model, effect, particle, texture, map, UI, bảng, âm thanh |
 | `06-GIAO-THUC-VA-SERVER_vi.md` | Gói tin, codec, đồng bộ bảng client–server, reload/restart |
 | `07-KIEM-THU-VA-PHAT-HANH_vi.md` | Kiểm thử, bộ đối chứng, cổng nghiệm thu, phát hành |
@@ -92,7 +92,7 @@ Mốc cuối **M5**: client mới thay `client_GL`, ước lượng 15–24 thá
 3. **Không so theo ID giữa các nhánh.** Mọi ID mới đều qua Registry và phải còn trống ở cả client lẫn server.
 4. Bảng server phải GBK. Bảng client giữ đúng dạng như `client_GL` và sắp ID tăng dần.
 5. Server skynet là chủ giao thức. Đặc tả giao thức được sinh tự động từ server.
-6. Mã nguồn lưu UTF-8 và biên dịch với `/execution-charset:.936`. Không dán mã decompile. Mọi kết luận dịch ngược phải có offset/RVA làm bằng chứng.
+6. Mã nguồn lưu UTF-8 và biên dịch với `/execution-charset:.936`.
 7. Mọi bước ghi dữ liệu có đủ check/apply/verify/revert và bản sao lưu. Không xoá, chỉ cách ly.
 8. Mỗi pha chỉ qua khi đạt **cổng đo được**, kèm hồ sơ bằng chứng trong `Build\Logs`.
 9. Không mở client khi người dùng đang chơi. Không gõ mật khẩu. Không ghi mật khẩu vào tài liệu hay log.

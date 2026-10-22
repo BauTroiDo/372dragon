@@ -214,9 +214,9 @@ public:
         return mTerrainTypeInfos;
     }
 
-    /** CYS: B System+0x2c0 (0 in the B System ctor): hide the skill animation effects except those marked
-        DefaultShow (LogicModel::_createAnimationEffect / _updateAttachedAnimationEffect, B FUN_1800b0ea0 and
-        FUN_1800b97e0). Off by default, so DefaultShow changes nothing until the game turns this on. */
+
+
+
     void setHideAnimationEffects(bool hide)     { mHideAnimationEffects = hide; }
     bool getHideAnimationEffects(void) const    { return mHideAnimationEffects; }
 

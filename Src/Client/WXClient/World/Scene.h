@@ -86,7 +86,7 @@ protected:
 	BOOL						LoadEnvSound(VOID);
 	//销毁所有环境音效
 	void						DestroyEnvSound(void);
-	// CYS-AUDIO: environment/music-region part of the CY 3.71 scene tick (FUN_1406c00e0), CysSceneAudio.cpp
+
 	VOID						TickEnvSound(VOID);
 	VOID						PlayBkgSoundID(INT nSoundID, const char* szWhy);
 
@@ -104,9 +104,9 @@ protected:
 	INT							m_nCysBackSoundID;	// CYS-AUDIO: SoundInfo id of m_pBackSound (-1 none)
 	INT							m_nCysMusicRegion;	// CYS-AUDIO: ESD music region (type 10) the player stands in, -1 none
 
-	//环境音效列表
-	// CYS-AUDIO: CY 3.71 environment sound entry (0x90 bytes, CScene +0x98, built by CScene::LoadEnvSound FUN_1406c0e30
-	// CYS-AUDIO: from <scene>.esd, 20 columns; played by the scene tick FUN_1406c00e0). See Docs/specs/game/audio-cy_vi.md 5.
+
+
+
 	struct EnvSound_t
 	{
 		INT				nID;			// col 0

@@ -46,9 +46,9 @@ BOOL CSoundBufferFMod::ReadWavBuffer(const STRING &name)
 	FMOD::System* pFMod = CSoundSystemFMod::GetMe() ? CSoundSystemFMod::GetMe()->GetFModSystem() : NULL;
 	if(!pFMod) return TRUE;
 
-	// CYS-AUDIO: CY 3.71 CSoundBufferFMod::ReadWavBuffer (FUN_140689a70) turns '\' into '/' before
-	// loadResource(name, "General"): the recursive SoundFolder location indexes "music/ERenGu_Login.wav", not
-	// "music\ERenGu_Login.wav". The name as written is tried second (flat names such as "Ui1.wav").
+
+
+
 	STRING strSlash = name;
 	for(size_t i = 0; i < strSlash.size(); i++) if(strSlash[i] == '\\') strSlash[i] = '/';
 	char* lpAddress = NULL;

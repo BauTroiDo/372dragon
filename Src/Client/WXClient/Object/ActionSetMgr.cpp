@@ -46,9 +46,9 @@ BOOL CActionSetMgr::Init( STRING strResPath )
 	return TRUE;
 }
 
-// CYS: reads one General-group resource into memory (same path as CDataBase::Util_OpenDBCFromTxt). The B loader
-// CYS: (FUN_1400e35b0) builds "<res path>ActionSet.txt" and opens it through the same "General" group; the OGRE index
-// CYS: also resolves the bare base name of a file in a recursive location, so that is tried second.
+
+
+
 static BOOL CysReadResource(const STRING& strPath, const STRING& strBaseName, CHAR*& pData, DWORD& dwSize, STRING& strUsed)
 {
 	pData = NULL;
@@ -129,9 +129,9 @@ INT CActionSetMgr::CysSlotFromWeaponType( INT nWeaponType )
 	case WEAPON_TYPE_SHORT:		return CysActionSet::SLOT_SHORT;
 	case WEAPON_TYPE_FAN:		return CysActionSet::SLOT_FAN;
 	case WEAPON_TYPE_RING:		return CysActionSet::SLOT_RING;
-	case WEAPON_TYPE_MONSTER:	return CysActionSet::SLOT_SHARED;	// CYS-CY: CY FUN_1405e3230: monsters -> 13
+	case WEAPON_TYPE_MONSTER:	return CysActionSet::SLOT_SHARED;
 	case WEAPON_TYPE_NPC:		return CysActionSet::SLOT_SHARED;
-	case WEAPON_TYPE_QIN:		return CysActionSet::SLOT_QIN;	// CYS-CY: CY FUN_1405c6df0 slots
+	case WEAPON_TYPE_QIN:		return CysActionSet::SLOT_QIN;
 	case WEAPON_TYPE_SICKLE:		return CysActionSet::SLOT_SICKLE;
 	case WEAPON_TYPE_CY_DAOZU:	return CysActionSet::SLOT_CY_DAOZU;
 	case WEAPON_TYPE_CY_STAFF:	return CysActionSet::SLOT_CY_STAFF;

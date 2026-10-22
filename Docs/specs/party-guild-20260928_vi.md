@@ -13,8 +13,6 @@ Backup Play: `Build/backups/party_guild-play/20260928-065956`.
 - Server CY riêng: `/home/ubuntu/cys-test-20260913`, WSL `TLBB`, login/game `15733/15734`. Không đổi server chính `/home/ubuntu/GameServer`.
 - Dữ liệu nhân vật ở `tlbb.character`; dữ liệu bang ở **`world_10.guild`**. Hai collection thuộc hai database khác nhau.
 
-## Lỗi và thay đổi
-
 ### Tổ đội
 
 `CysPartyNet` chuyển lệnh native sang packet CY và đưa phản hồi vào `CTeamOrGroup`. Các event phải dùng tên của giao diện CY: `TEAM_REFRESH_DATA`, `TEAM_UPDATE_MEMBER`, `TEAM_NOTIFY_APPLY`, `TEAM_OPEN_TEAMINFO_DLG`.

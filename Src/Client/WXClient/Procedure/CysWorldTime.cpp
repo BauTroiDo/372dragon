@@ -17,7 +17,7 @@ int counterMs = 0;          // DAT_1410393dc
 unsigned lastTick = 0;      // DAT_1410393e0
 bool received = false;
 
-// FUN_14064d030
+
 void Apply()
 {
     if (!CGameProcedure::s_pGfxSystem) return;
@@ -41,7 +41,7 @@ void Apply()
 
 void OnPacket(unsigned worldTime, int counter, float interval)
 {
-    // FUN_1405420a0
+
     if (CGameProcedure::s_pVariableSystem)
     {
         CGameProcedure::s_pVariableSystem->SetAs_Int("WorldTime", static_cast<INT>(worldTime), TRUE);
@@ -58,7 +58,7 @@ void OnPacket(unsigned worldTime, int counter, float interval)
 
 void Tick()
 {
-    // FUN_14064a0a0: View_SkyBoxRefreshTime (CY System.cfg 3000) and NewWorldTime_Interval > 0
+
     if (!received || !CGameProcedure::s_pTimeSystem || !CGameProcedure::s_pVariableSystem) return;
     const unsigned now = CGameProcedure::s_pTimeSystem->GetTimeNow();
     BOOL have = FALSE;

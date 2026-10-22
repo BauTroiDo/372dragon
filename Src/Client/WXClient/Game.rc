@@ -131,13 +131,7 @@ IDC_CURSOR_IDENFITY     CURSOR                  "Res\\Identify.CUR"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Cursor (client_GL "B" art). Recovered by static analysis of
-// client_GL\Bin64\Game.exe (CCursorMng::Initial); see
-// Tools\cursor\extract_cursors.py and Build\re\cursor\out for the
-// per-cursor .cur/.png evidence and manifest.json this was built from.
-// The 0.85 cursors above are kept as-is and used as a fallback by
-// Cursor\CursorMng.cpp if one of these ever fails to load.
-//
+// Cursor resources; original asset rights remain with their authors.
 
 IDC_CURSOR_GL_NORMAL       CURSOR                  "Res\\gl\\GL_Normal.cur"
 IDC_CURSOR_GL_ATTACK       CURSOR                  "Res\\gl\\GL_Attack.cur"
@@ -240,4 +234,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

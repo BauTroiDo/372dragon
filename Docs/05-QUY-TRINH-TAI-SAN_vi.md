@@ -48,8 +48,6 @@ Trọng tâm là **model, effect, particle và texture**.
 
 Không nguồn nào có BC5, BC7 hay DDS header DX10. Chỗ khác nhau giữa các nguồn nằm ở tính năng engine và bố cục bảng, không nằm ở định dạng file.
 
-## 3. Luật chọn bản chuẩn ("tinh hoa")
-
 ### 3.1 Nguồn chính theo loại tài sản
 
 | Loại | Nguồn chính | Nguồn phụ | Lý do |
@@ -116,8 +114,6 @@ flowchart LR
 | Kho chuẩn | đã kiểm | `Assets\Canonical\Data\*Folder`; các file `all.*` được **dựng lại có thứ tự, xác định** (cùng đầu vào thì cùng byte) | `merge.py` |
 | Cài / đóng gói | kho chuẩn | `client_GL\Data` + bảng server (GBK), hoặc `Build\Packs\*.axp` | `install.py`, `package_axp.py` |
 
-## 6. Quy trình theo loại tài sản
-
 ### 6.1 Model (người, NPC, quái, trân thú, tọa kỵ, vũ khí, thời trang)
 
 1. **Xác định object** trong `all.obj` và các thành phần của nó:
@@ -143,10 +139,6 @@ flowchart LR
    - Hệ `Exterior_*` (lưu ý Exterior_TS phía server có 28 cột).
 5. **Cài và kiểm**, sau đó người dùng xem trong game.
 
-Lưu ý riêng theo nguồn:
-- **Người chơi:** rig 085 và CY giống nhau. Animation tư thế của CY giấu xương vũ khí ở Y −9000.
-- **GL:** đi qua `glpet2tlbb.py` → `gltf2tlbb.py`. Gộp xương để không vượt 74 xương/submesh. Texture PBR hiện chỉ lấy kênh diffuse. Lật UV theo trục V. Đã kiểm thành công với 二郎真君 và 哮天犬. Có 34 loài pet GL mà 085 chưa có (`analysis\jpak\BAO-CAO-PET-GL-vs-085_vi.md`), mỗi loài mất khoảng 1–2 giờ.
-- **Model ngoài (glTF/FBX):** làm theo skill `tlbb-add-model` (10 bẫy đã gặp thật). **Không** giảm lưới theo con số "12.813 tam giác".
 
 ### 6.2 Material và shader
 

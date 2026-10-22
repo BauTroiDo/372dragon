@@ -22,23 +22,6 @@ Không đụng `Assets\Canonical`, client_GL, `C:\TLBB\085\client`, `Tools\DATA 
 
 ---
 
-## 2. Lua giao diện đóng gói của CY — thuật toán và bộ giải (DoD 1)
-
-### 2.1 Định dạng **[DK]**
-
-File đóng gói bắt đầu bằng `D2 D1 E2 E1 B2 B1 C2 C1` (= hai u32 `0xE1E2D1D2`, `0xC1C2B1B2`). Lần theo Game.exe CY
-(ảnh nền `0x140000000`; đoạn mã trong `Build\Logs\2026-09-14-cy-gui\lua-unpack\dis_*.txt`):
-
-| Hàm | Vai trò |
-|---|---|
-| `0x1406dd600` | Kiểm: `len > 0x100`, hai u32 magic, và **CRC32 biến thể** của 252 byte đầu bằng u32 tại `0xFC`. Bảng CRC chuẩn ở `0x140fb50e0`, khởi tạo `0xFFFFFFFF`, **không đảo cuối**, và phép dịch là **dịch số học** (`sar r9d, 8` trên số có dấu) nên byte cao giữ bit dấu. |
-| `0x1406dd710` | Vỏ bọc: dựng cấu trúc khoá `{i32 off = 2, i32 len = 16}` rồi gọi bộ giải. |
-| `0x1406dd0e0` | Giải: `memcpy(key, 0x140fb54e0 + (off & 31), len & 31)` → 16 byte ASCII **`ASDRTFYUIOGHJKLm`** (bảng là chuỗi `QWASDRTFYUIOGHJKLmncXz23456789…`), đệm 0 tới 24 byte. Cần `len >= 0x118`. Sinh khoá vòng `0x1406de380` với `ctx.n_blk = 0x18|2` → **Rijndael khối 24 byte, khoá 24 byte, 12 vòng** (mã Gladman; S-box `0x140c674f0`, rcon `0x140c66470`), giải **một khối 24 byte** tại `src + 0x100`; phần còn lại `plain[i] = src[0x100+i] ^ key[(i-24) % 2]` (xen kẽ `key[0]`/`key[1]`). Nếu kiểm thất bại thì dữ liệu được dùng nguyên trạng. |
-| `0x1406dd310` | Bộ đóng gói (chiều ngược): header `0x100` byte gồm 2 magic, `u32 1`, `u32 off`, `u32 len`, `0x14..0xFB` là rác, CRC ở `0xFC`. |
-
-Người gọi: 3 chỗ mở tài nguyên qua Ogre ResourceGroup `"General"` (`0x14051a838`, `0x140621384`, `0x140653543`,
-đều kiểm `size < 0x100000` trước) và 1 chỗ đọc file `fopen "rb"` (`0x1406ddec9`). **[DK]**
-
 ### 2.2 Bộ giải và kết quả **[DK]**
 
 `Tools\pipeline\cy_lua_unpack.py` (Rijndael thuần Python, không phụ thuộc thư viện ngoài) + test
@@ -52,24 +35,6 @@ CRC sai bị từ chối, dữ liệu không đóng gói trả `None`, và **ca 
 - Lệnh: `python -B Tools\pipeline\cy_lua_unpack.py FILE -o OUT` | `--axp <Interface.axp> --out DIR` | `--selftest`.
 
 ---
-
-## 3. Kiểm kê InterfaceFolder của CY và so với GL (DoD 1)
-
-### 3.1 Số lượng **[DK]** (`Build\re\cy-gui\inv_Interface.tsv`)
-
-| Loại | CY (Interface.axp) | Ghi chú |
-|---|---:|---|
-| `.layout.xml` | 2.032 | GL: 1.214 |
-| `.lua` | 2.043 | 226 đóng gói (mục 2), 1.817 plaintext |
-| `.looknfeel.xml` | 20 | GL: 20 file nhưng 692 look trong CY |
-| `.imageset.xml` | 9 file rời + **`Schema/all.imageset.xml`** (3.784 imageset trong MỘT file, 5,2 MB) | GL: 1.787 file rời |
-| `.scheme.xml` | 1 (`WoWLookSkin`, 723 FalagardMapping, 3.792 mục `<Imageset>`) | GL: 1 (497 mapping, 1.778 imageset) |
-| `.font` | 8 (SongTiBmp12, YouYuan9.75/11.25/13/18, VDA_M, VDA_N, TLNA__) | GL: 15 (thêm GLFit10–13, Title, TitleMini, YouYuanMono) |
-| texture trong Interface | dds 2.616, jpg 1.153, tga 93, png 15 | GL để texture ở `Material*Folder` |
-| khác | `0_FIREFOX_2.bin`, `1_FIREFOX_2.bin`, `2_FIREFOX.bin`, `GBK12.bin`, `VTNAM14.bin`, `FontTemplate.program`, `FZLTH-GBK.TTF`, 4 mp4 + 1 webm + 4 html + 1 js (timeline/PV) | |
-
-Mã hoá: layout 1.322 ASCII / 519 UTF-8 BOM / 162 UTF-8 / **29 UTF-16**; Lua 1.891 GBK / 107 ASCII / 44 UTF-8 /
-1 trộn mã hoá (`DressPaint_sp.lua`). **[DK]**
 
 ### 3.2 `all.imageset.xml` **[DK] + [SL]**
 
@@ -88,9 +53,6 @@ theo biến thể đầu, `TextureSize=512`). Viewer xác nhận **8/8 font do e
 
 ### 3.4 Kiểu Falagard CY có mà GL không có (DoD 2) **[DK]**
 
-723 FalagardMapping của CY dùng 79 TargetType; GL dùng 63. **18 kiểu** CY có mà engine dự án chưa đăng ký (đo bằng
-CysUiViewer `census-all-1`). Bằng chứng cho từng lớp: export mangled của CEGUIFalagard.dll CY
-(`Build\re\cy-gui\cy_fal_exports.txt`), thuộc tính layout dùng (`Build\Logs\2026-09-14-cy-gui\cy-window-types.tsv`).
 
 | TargetType CY | Dùng trong layout | Lớp CY (export) | Cài trong `FalagardCyWidgets.*` |
 |---|---:|---|---|
@@ -139,27 +101,12 @@ dùng 4 kiểu cửa sổ tương ứng, nên đây là lỗ hổng có sẵn c�
 | 17/65/174/358 | `MainMenuBar`, `_2`, `_3`, `_4` | thanh nút HUD |
 | 36 / 42 / 43 / 4 | `MiniMap`, `PlayerFrame`, `TargetFrame`, `ChatFrame` | HUD |
 
-So tên cửa sổ CY ↔ GL (bằng chứng `Build\re\cy-gui\`): LogOn 65 cửa sổ CY / 67 GL, **45 trùng tên**; SelectServer
-410/214, 150 trùng; SelectRole 50/51, 46 trùng; CreateRole 96/71, 69 trùng. **39 tên cửa sổ mà mã native của dự án
-tham chiếu đều có trong layout CY** (5 chuỗi còn lại là tên fake-object 3D `CreateRole_Man/Woman/Sect` và tên hàm
-Lua `SelectRoleSlot`, không phải cửa sổ). Vì vậy lớp native đăng nhập chạy được trên layout CY mà không đổi tên.
 
 Khác biệt đáng chú ý: CY có `LogOn_Wegame_*`, `LogOn_MailID`, `LogOn_PassWord_Protect_*`, `LogOn_OwnDefineLogon`;
 GL có `LogOn_Erweima_*` (mã QR), `LogOn_FangChenMi_*`. CY SelectServer dùng `SelectServer_Commendable2_Subarea*`
 thay cho `SelectServer2_Subarea*` của GL và có thêm khu “CG”. CreateRole CY có 15 mục xem trước môn phái
 (`CreateRole_MenpaiModel00..14`) so với 12 của GL.
 
-Hàm host Lua: 2.043 file Lua CY gọi 28.726 cặp (receiver, tên) / 168.990 lời gọi; **3.436 tên (14.330 lời gọi)
-không có trong `Registry/luaapi/catalog.tsv`** (catalog dựng từ binary GL), tức là API của các hệ thống chỉ có ở CY
-(KaJi, Pneuma, BieYe, Exterior mới, XingZhen, UnderArmour…). Danh sách đầy đủ theo tần suất:
-`Build\Logs\2026-09-14-cy-gui\cy-lua-host-calls.tsv`.
-
-`Tools\re\luaapi\gen_cy_stubs.py` sinh `Src\Client\LuaApiGen\LuaApiGen_Cy.{h,cpp}`: **3.271 stub trên 94 receiver**
-(bỏ 165 cặp có receiver là biến cục bộ/đối tượng CEGUI trong script), đăng ký bằng `LuaApiGen::RegisterCyExtras()`
-ngay sau `RegisterAll()`. Stub **không bao giờ đè** hàm đã có, đếm qua cùng bộ đếm “missing host function”, và trị
-trả về là **[SL] suy luận theo tên** (`Is/Has/Can*` → false, `*Num/Count/ID/Level/…` → 0, còn lại → đối tượng null
-trung tính có `__index` trả về chính nó). Receiver chưa tồn tại thì tạo bảng toàn cục; receiver là userdata thì ghi
-vào bảng `__index` của metatable. Đây là lớp đệm để script CY không dừng giữa chừng, **không phải** cài đặt thật.
 
 ---
 
@@ -171,7 +118,6 @@ vào bảng `__index` của metatable. Đây là lớp đệm để script CY kh
 | Nguồn | Số khoá | Giải thích |
 |---|---:|---|
 | `gl-same-zh` | 24.159 | GL đã dịch và nguyên bản Trung của GL **giống hệt** chuỗi Trung của CY |
-| `tm-clean` + `tm-color_diff` | 114.271 + 5.511 | khớp **đúng nguyên văn** trong kho dịch `analysis/translation/translation.db` (cùng luật loại trừ như `apply_strdict.py`: bỏ khoá `GMDP_`, tôn trọng bảng `exclude`/`unlock`) |
 | `no-han` | 2.381 | không có chữ Hán (số, ký hiệu) → giữ nguyên |
 | `untranslated` | **8.454** | giữ chữ Trung của CY; liệt kê ở `_manifest\gui_dict_untranslated.tsv` cho đợt dịch sau |
 
@@ -235,31 +181,5 @@ Mọi lượt: 3.784 imageset tạo được / 0 hỏng, **0 texture thiếu**, 
 
 ## 8. Bẫy
 
-1. **CRC của CY dùng dịch số học** (`sar`), nên bảng CRC32 chuẩn phải được sửa lại: cài đúng thuật toán mới qua được
-   kiểm; sai thì mọi file bị coi là không đóng gói.
-2. **Thuộc tính CEGUI của bản fork nằm trên WindowFactory (tĩnh theo kiểu)**: lớp con đăng ký lại một tên mà lớp cha
-   đã có (`SelectColour` của MultiColumnList) sẽ **ném** khi tạo cửa sổ → layout nạp hỏng. Luôn kiểm
-   `isPropertyPresent` trước khi thêm (macro `CYS_ADD_PROP`).
-3. `all.imageset.xml`: đừng nạp như một imageset; phải tách theo tên file mà scheme gọi (có 4 tên file trùng và vài
-   tên viết sai `*.imagest.xml` — giữ nguyên cách viết của scheme).
-4. Lua CY **không phải bytecode**; nếu bộ giải ra dữ liệu nhị phân thì khoá/thuật toán sai, đừng đi tìm decompiler.
-5. `DressPaint_sp.lua` trộn UTF-8 và GBK trong cùng file (và có byte `0x80` lạc) → chuyển mã theo **từng dòng**.
-6. Bảng nhị phân của CY (`InterfaceEx`, `StrDictionary`, `StrFilter`) phải đọc bằng bộ đọc 00CCBBDD; dòng trùng khoá
-   giữ dòng đầu.
-7. Chữ Việt dài hơn chữ Trung: nhiều nhãn trong khung CY bị cắt/chồng (thấy rõ ở LogOn, SelectServer). Không nới
-   container theo tỷ lệ (bẫy cũ của dự án) — phải rút gọn bản dịch hoặc sửa từng khung.
-8. `LuaState::BoxPointer` trả `LuaStackObject` **đang nằm trên ngăn xếp**: mọi chỗ dùng nó phải `lua_settop` về mốc
-   cũ (LuaObject là tham chiếu). `lua_dostring` = `lua_pcall(…, LUA_MULTRET)` không dọn kết quả/lỗi.
-9. Thêm thuộc tính “giữ giá trị” theo kiểu **superset** làm Window ctor ném “already exists” ở cửa sổ đầu tiên (thuộc
-   tính lớp cơ sở đăng ký muộn, theo factory). Chỉ thêm tên mà không lớp nào của kiểu đó đăng ký.
 
 ---
-
-## 9. Việc tiếp theo
-
-1. Dịch 8.454 khoá StrDictionary còn lại + 204 chuỗi layout + 6.614 literal Lua (dùng đường ống
-   `analysis/translation` với lexer Lua và luật loại trừ).
-2. Sinh stub LuaApiGen cho 3.436 hàm host chỉ có ở CY theo tần suất (`cy-lua-host-calls.tsv`).
-3. Vẽ đúng phần CY chưa mô phỏng: lật UV của `StaticUVImage`, vành của `CircleProgress`, mặt nạ tròn của
-   `MeshWindow/ParentWindow`, các setter mục của nhóm nút Achievement/Guild khi có màn hình chạy thật.
-4. Rà nhãn bị cắt trong khung CY sau khi chạy Game.exe (ưu tiên LogOn, SelectServer, SelectRole, HUD).

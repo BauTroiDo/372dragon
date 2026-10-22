@@ -302,8 +302,8 @@ int main(int argc, char** argv)
         Lua(s.p, "assert(PlayerPackage:GetItemTableIndex(8)==1008)");
         Require(LuaApiGen::GetMissingCallCount() == 0, "existing receiver function became stub");
     });
-    // Expected byte vectors below are specified independently from the recovered
-    // B helper Game.exe+0x619670. They are not produced by a second packer.
+
+
     Test("host_format_exact_b_byte_vector_and_numeric_conversion", [] {
         State s; ServiceTrace trace; RegisterReal(s.p, trace);
         Lua(s.p, "assert(ScriptGlobal_Format('#{K}','Q')==string.char(35,123,75,42,1,6,42,1,81,125)); "

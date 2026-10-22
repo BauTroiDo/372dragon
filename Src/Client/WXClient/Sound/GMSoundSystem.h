@@ -71,8 +71,8 @@ public:
 
 	//UI播放声音接口
 	static void _PlayUISoundFunc(INT nID) { GetMe()->PlayUISoundFunc(nID); }
-	// CYS-AUDIO: CEGUI "ClickSound" values are SoundUI.txt rows in CY 3.71 (looknfeel 17 = click, 19/20 = window
-	// open/close, 22 = scroll); the UI system calls the sound system slot FUN_140686c40 = SoundUI row -> SoundInfo id.
+
+
 	static void _PlayUISoundIndexFunc(INT nIndex) { if(GetMe()) GetMe()->PlayUISoundByIndex(nIndex); }
 
 	//某种类型声音目前是否允许播放
@@ -102,18 +102,18 @@ public:
 	INT Lua_PlaySound(LuaPlus::LuaState* state);
 	//Param1[int]	- 声音句柄
 	INT Lua_StopSound(LuaPlus::LuaState* state);
-	// CYS-AUDIO: CY 3.71 Sound:PlaySoundEffect(id, loop) (FUN_1406873d0): skill-type 2D source, returns the handle
+
 	INT Lua_PlaySoundEffect(LuaPlus::LuaState* state);
-	// CYS-AUDIO: CY 3.71 Sound:PlayUISound(n) (FUN_140687380 -> FUN_140687110): SoundUI.txt row n -> SoundInfo id
+
 	INT Lua_PlayUISound(LuaPlus::LuaState* state);
 
 	// CYS-AUDIO: SoundUI.txt (CY 3.71 GetDataBase 0x7b, columns ID / SoundInfo id / description) row -> UI sound
 	VOID	PlayUISoundByIndex(INT nIndex);
-	// CYS-AUDIO: SoundInfo id of a file name (CY FUN_1406897c0), -1 if the table has no such file
+
 	INT		FindSoundID(LPCTSTR szFileName);
-	// CYS-AUDIO: 3D skill sound at a GAME position (CY FUN_140688ce0: skill type, max distance 20, handle)
+
 	INT		PlaySkillSound3D(INT nSoundID, const fVector3& fvGamePos, BOOL bLoop, const char* szWhat);
-	// CYS-AUDIO: CY FUN_1400a02c0 pattern: SoundInfo file name -> id -> PlaySkillSound3D; -1 when empty/unknown
+
 	static INT	PlaySoundFileAtGame(const char* szFile, const fVector3& fvGamePos, BOOL bLoop, const char* szWhat);
 	static VOID	StopSoundHandle(INT& nHandle);
 	VOID		_CysProbeTick(VOID);	// CYS-AUDIO: CYS_AUDIO_PROBE evidence driver (GMSoundSystem.cpp)

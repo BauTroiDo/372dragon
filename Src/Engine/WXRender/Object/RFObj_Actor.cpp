@@ -111,20 +111,20 @@ VOID CRFObj_Actor::Actor_SetFile(LPCTSTR szActorFile)
     mDressEffects.clear();mDressEffectSpec.clear();
     m_leftWeaponModel=m_rightWeaponModel=NULL;
     m_leftWeaponEffect=m_rightWeaponEffect=0;
-	// CYS-CRASHANIM 19/09/2026: this function used to kill the process over one missing model.
-	// TDAssert is NOT a no-op in this build (Src/Engine/Interface/TDException.h:32 is "#if 1"):
-	// it calls tThrowAssertException, which throws a bare std::exception WITHOUT writing a line
-	// anywhere. Nothing between here and CGameProcedure::MainLoop catches it, so the whole client
-	// died silently. Measured on the user's 19/09 20:18:48 crash: the minidump stack is
-	// CObjectManager::Tick -> CObject_Character::Tick -> Start_Dead -> CTripperObject_ItemBox::Initial
-	// -> Actor_SetFile -> tThrowAssertException, and WXC_SML.TXT Param[2] = Render.dll+0x0020A080,
-	// whose _ThrowInfo has exactly one catchable type, ".?AVexception@std@@".
-	// 54 further model names of CharModelEx.txt are absent from all.obj and would each do the same.
-	// Every other Actor_* method here already starts with "if(!mModel) return;", and the original
-	// code even re-tests "if (mModel)" two lines below the assert: a NULL model was always meant
-	// to be survivable. Now it is: log it once and leave the object without a model.
-	// The control arm keeps HEAD's two asserts on HEAD's own conditions and in HEAD's own places,
-	// so the two arms differ in exactly one thing: whether a missing model is fatal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	const bool bNoCatch = cysActorFileNoCatch();
 	if (bNoCatch) TDAssert(szActorFile && m_pWXObject);
 	if (!szActorFile || !m_pWXObject)

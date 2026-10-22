@@ -46,7 +46,7 @@ def main():
     lname = os.path.splitext(os.path.basename(list_path))[0]
     out = os.path.join(OUT_ROOT, "%s-%s-%s" % (a.set, lname, a.label))
     os.makedirs(out, exist_ok=True)
-    cache = os.path.join(ROOT, r"Build\re\fx-effects\ShaderCache-%s" % a.set)
+    cache = os.path.join(ROOT, r"Build\diagnostics\fx-effects\ShaderCache-%s" % a.set)
     os.makedirs(cache, exist_ok=True)
     extra = shlex.split(a.extra) if a.extra else None
     with open(os.path.join(out, "render.log"), "a", encoding="utf-8") as log:

@@ -180,8 +180,8 @@ namespace WX	{
             return mEffectLevel;
         }
 
-        /** CYS: B EffectManager create level (EffectManager+0x10c = 100 in the B ctor; nothing in B's Render.dll
-            changes it). EffectElement::update hides an element whose CreateLevel is below it (FUN_18016bd00). */
+
+
         void setCreateLevel(unsigned int level)	{	mCreateLevel = level;	}
         unsigned int getCreateLevel(void) const	{	return mCreateLevel;	}
 

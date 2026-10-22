@@ -288,8 +288,6 @@ lúc chạy, mục 3.2) mà có thể làm hỏng `scenecore:get_specifi_scene_c
 
 ---
 
-## 6. ĐO LIVE — 13 lượt bot + 1 lượt client thật
-
 ### 6.1 Bot: 13 cảnh mẫu, tài khoản `test03` (GUID 200004) [DK]
 
 ```powershell
@@ -361,9 +359,6 @@ replay tại điểm hồi sinh đó, không phải hồi quy do bảng DBC.** [
 
 Cả hai nhân vật test đã được trả về bản gốc (`char/restore-200005.json`, `char/inspect-200004-cuoi.json`).
 
-> Không chạy thêm lượt client nào được nữa: từ 21:45 có một `Game.exe` khác của agent khác
-> (`Build\re\cy-oracle\CYGame\Bin64\Game.exe`, PID 5224) đang mở, và luật một-tiến-trình cấm tắt
-> tiến trình của người khác. [DK]
 
 ---
 

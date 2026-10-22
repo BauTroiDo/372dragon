@@ -129,8 +129,6 @@ Cờ đọc trường của 1772 `GCDetailAttrib` (dùng để lấy đúng các
 `flags[2]&8` att_physics, `flags[2]&32` att_magic, `flags[2]&16` def_physics, `flags[2]&64` def_magic,
 `flags[3]&8` hit, `flags[3]&16` miss.
 
-## 5. HỎNG 1 — thuốc/thức ăn mất đi mà không có tác dụng
-
 ### 5.1 Hiện tượng đo được
 
 live-1 / live-5 / live-6, `30001001` 行血散 ("hồi ngay 450 sinh lực"), máu 400–500 / 2250:
@@ -272,8 +270,6 @@ chỉ bị tiêu khi niệm xong. Phải `--hold-ms ≥ 25000`, nếu không phi
 Hướng sạch hơn cho cả nhóm đổi nghĩa là **sửa `g_Impact1/2` trong script vật phẩm** sang ID CY tương đương, chứ
 không phải sửa bảng. Quyết định thuộc về người dùng — công cụ chỉ liệt kê và xếp mức.
 
-## 6. HỎNG 2 — không có quái nào rơi đồ được
-
 ### 6.1 Hiện tượng đo được
 
 live-4, Vô Lượng Sơn (cảnh 6), giết **4** quái bằng chiêu 0:
@@ -388,8 +384,6 @@ Kiểm tra dữ liệu (chỉ đọc, không cần server rảnh):
 wsl.exe -d TLBB -u root -- python3 -B /mnt/c/TLBB/085/CY-Source/Build/Logs/2026-09-17-item-live/tools/item_impact_audit.py
 wsl.exe -d TLBB -u root -- python3 -B /mnt/c/TLBB/085/CY-Source/Build/Logs/2026-09-17-item-live/tools/proposal_numbers.py
 ```
-
-## 9. Đo lại sau khi vá dữ liệu (17/09, server restart 15:27:39)
 
 ### 9.1 Thuốc máu — live-7
 

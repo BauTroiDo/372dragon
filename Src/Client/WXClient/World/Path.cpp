@@ -335,9 +335,9 @@ BOOL	CPath::GetPathDirect(const fVector2& fvCurrent, const fVector2& fvTarget)
 	// 先清空路径.
 	m_vPosStack.clear();
 
-	// Auto-run calls this directly, bypassing CreateMovePath. A flight path must
-	// use the same validated flight surface instead of clipping to ground walls.
-	// CY GetPathDirect 0x1406d8fa0 also has an explicit "use fly" branch.
+
+
+
 	auto self=CObjectManager::GetMe()->GetMySelf();
 	if(self && self->CysMountFlightState()==1) {
 		if(TDU_GetDistSq(fvCurrent,fvTarget)<2.0f) return FALSE;
@@ -355,8 +355,8 @@ BOOL	CPath::GetPathDirect(const fVector2& fvCurrent, const fVector2& fvTarget)
 		fVector2 fvStop(stop.x, stop.z);
 		if(bHit)
 		{
-			// CYS-NAV: như CY CPath::GetPathDirect (Game.exe FUN_1406d8fa0): lùi 0,1 đơn vị từ điểm chạm về phía
-			// xuất phát; nếu điểm lùi vẫn nằm trong ô chặn thì dùng chính điểm chạm.
+
+
 			fVector2 fvBack(fvCurrent.x - fvStop.x, fvCurrent.y - fvStop.y);
 			const FLOAT fBackLen = sqrt(fvBack.x * fvBack.x + fvBack.y * fvBack.y);
 			if(fBackLen > 0.0001f)
@@ -1517,16 +1517,3 @@ INT	 CPath::BuildDijkPath(const fVector2& fvCurrent, const fVector2& fvTarget, i
 
 	return (INT)m_vPosStack.size();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

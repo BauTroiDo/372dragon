@@ -1,27 +1,4 @@
-"""cy_translate.py - Vietnamese for the CY 3.71 GUI strings the translation memory does not have (cy-gui-2, 14/09/2026).
-
-Sources (all read from the CY archives, the same way build_canonical_cy.py builds the GUI layer):
-  dict    ConfigFolder/StrDictionary.txt values (CY keys) that cy_gui_dict.build leaves 'untranslated'
-  layout  Text/Tooltip/ColumnHeader values of the 2.032 CY layouts without an exact translation
-  lua     free display literals ("...") of the 2.043 CY UI scripts (cy_lua_i18n: comparison/index/name-API/
-          blacklisted-variable/custom-table sites are never translated; a literal coupled to code at ANY site is
-          excluded everywhere -> Registry/i18n/cy_lua_exclude.tsv)
-
-Translation goes through the API the project's pipeline already uses (analysis/translation/manifest/api_translate.py:
-endpoint + keys read at run time from Tools/TLBBTranslationStudioPro/config/config.json, model from
-analysis/translation/manifest/api_model.txt; keys are never printed). As in _scan/translate_long.py every control code
-(#r, #cRRGGBB, #W..., #{...}, %s %d, $N, $1$) is masked as [[i]] before the call and restored verbatim after it, long
-strings are cut at #r / sentence ends (<= 260 chars a segment) and segments already known are reused. A result is
-kept only when it validates: same token buckets as the source, no Han left outside tokens, no TAB/CR/LF/control
-character, length <= 14x + 60. Results: Registry/i18n/cy_vi_api.tsv (zh, vi, src, when; appended as batches finish,
-rewritten sorted at the end - idempotent), failures: Registry/i18n/cy_vi_api_fail.tsv.
-
-usage:  python -B cy_translate.py collect [--out DIR]      counts + need lists (no API)
-        python -B cy_translate.py run [--max N] [--workers 6] [--sources dict,layout,lua] [--out DIR]
-        python -B cy_translate.py shorten --fit fit.tsv     labels cy_layout_fit.py flagged -> shorter versions
-                                                            (<= max_chars) into Registry/i18n/cy_vi_override.tsv
-        python -B cy_translate.py stats
-"""
+'cy_translate.py - Vietnamese for the CY 3.71 GUI strings the translation memory does not have (cy-gui-2, 14/09/2026).\n\nSources (all read from the CY archives, the same way build_canonical_cy.py builds the GUI layer):\n  dict    ConfigFolder/StrDictionary.txt values (CY keys) that cy_gui_dict.build leaves \'untranslated\'\n  layout  Text/Tooltip/ColumnHeader values of the 2.032 CY layouts without an exact translation\n  lua     free display literals ("...") of the 2.043 CY UI scripts (cy_lua_i18n: comparison/index/name-API/\n          blacklisted-variable/custom-table sites are never translated; a literal coupled to code at ANY site is\n          excluded everywhere -> Registry/i18n/cy_lua_exclude.tsv)\n\nusage:  python -B cy_translate.py collect [--out DIR]      counts + need lists (no API)\n        python -B cy_translate.py run [--max N] [--workers 6] [--sources dict,layout,lua] [--out DIR]\n        python -B cy_translate.py shorten --fit fit.tsv     labels cy_layout_fit.py flagged -> shorter versions\n                                                            (<= max_chars) into Registry/i18n/cy_vi_override.tsv\n        python -B cy_translate.py stats\n'
 import argparse
 import collections
 import datetime

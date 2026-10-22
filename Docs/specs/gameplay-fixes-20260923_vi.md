@@ -23,10 +23,6 @@ nỏ, trượng, tiêu, nhận và liêm theo bảng môn phái. Không dùng v�
 
 ## Đối chiếu màu tên
 
-Binary CY tham chiếu: `Build/re/cy-oracle/CYGame/Bin64/Game.exe`, hàm
-`GetNameWithColor` tại `0x1405db420`; bản disassembly nằm trong thư mục bằng chứng.
-Đối chiếu thêm SystemColour từ client, client_GL, DataCY31-08-26 và CYHJ091026:
-cả bốn nguồn đều có cùng ba cặp màu dưới đây.
 
 | Loại | Dòng | Màu chữ | Màu viền |
 |---|---:|---|---|

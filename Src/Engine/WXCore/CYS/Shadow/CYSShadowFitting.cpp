@@ -88,13 +88,13 @@ namespace WX
             Ogre::Vector3 d = dir;
             d.normalise();
             z = -d;
-            // CYS-SHADOW-FINISH: CY 3.71 aims its light camera with Ogre::Camera::setDirection (Render.dll
-            // FUN_1800d90b0), and a Camera keeps the fixed yaw axis +Y, so Node::setDirection yields
-            // x = normalise(Y x z), y = z x x. FACT: CY's shadow_view_matrix at Dali w09 is
-            // row0 (0.8759, 0, -0.4824), row1 (-0.3084, 0.7690, -0.5599), row2 = -dir, which is exactly that basis
-            // (row0.y = 0). Anchoring x to world Z instead only rotates the tile around the light, but the tight fit
-            // is an AABB in this basis, so the old basis made the box 3.0 % / 1.7 % wider than CY's 9422 x 7555 at
-            // that camera (coarser texels, more terrain tiles in the map). CYS_SHADOW_BASIS=z restores it for A/B.
+
+
+
+
+
+
+
             static const bool cyBasis = []() {
                 const char* v = getenv("CYS_SHADOW_BASIS");
                 return !(v && (v[0] == 'z' || v[0] == 'Z'));

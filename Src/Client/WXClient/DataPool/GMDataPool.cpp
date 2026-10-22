@@ -180,8 +180,8 @@ VOID CDataPool::Initial(VOID*)
 	m_pPetAvatar  = (CObject_PlayerNPC*)(CFakeObjSystem::GetMe()->NewFakeObject("CObject_PlayerNPC", "My_Pet", "Camera_Main"));
 	m_pTargetPetAvatar  = (CObject_PlayerNPC*)(CFakeObjSystem::GetMe()->NewFakeObject("CObject_PlayerNPC", "My_TargetPet", "Camera_Main"));
 	m_pPetStudySkillAvatar = (CObject_PlayerNPC*)(CFakeObjSystem::GetMe()->NewFakeObject("CObject_PlayerNPC", "My_PetStudySkill", "Camera_Main"));
-	// CYS-MESHWIN 19/09: CY creates the two wuhun avatars here as well (Game.exe 0x1400e6149: "CObject_PlayerNPC",
-	// "My_Wuhun", "Camera_Main"; 0x1400e6182: "Other_Wuhun"). Wuhun.lua:327 / TargetWuhun.lua:238 SetFakeObject them.
+
+
 	m_pWuhunAvatar = (CObject_PlayerNPC*)(CFakeObjSystem::GetMe()->NewFakeObject("CObject_PlayerNPC", "My_Wuhun", "Camera_Main"));
 	m_pTargetWuhunAvatar = (CObject_PlayerNPC*)(CFakeObjSystem::GetMe()->NewFakeObject("CObject_PlayerNPC", "Other_Wuhun", "Camera_Main"));
 }
@@ -2580,15 +2580,15 @@ VOID CDataPool::SendStudySkillEvent(INT nSkillIDandLEVEL,INT NPCID,INT HaveUPLev
 	if (HaveUPLevelSkill !=1) 
 	{
 		STRING strTemp = "";
-		// CYS-MSGEMPTY: `Up_Skill_Level` -> `GMDataPool_Info_Can_Not_Learn`. Bang chung VI TRI,
-		// khong phai theo nghia: CY 3.71.9609 (sha 9278c7f3...) chi co BAY khoa `GMDataPool_*`, va
-		// trong vung ma tuong ung `CDataPool::SendStudySkillEvent` (quanh 0x1400CD690) chuoi xref la
-		//   ... Up_Player_Level 0x1400CD7ED -> Can_Not_Learn 0x1400CD942 -> ...
-		//   ... Up_Level_Money_Is_Not_Enough 0x1400CDF91
-		// tuc `Can_Not_Learn` nam DUNG cho ma `Up_Skill_Level` dang nam: giua phep kiem cap do nhan
-		// vat va phep kiem kim ngan. Khong khoa nao khac cua CY ung voi cho nay.
-		// (Ban dich tieng Viet "Khong the hoc them nua" hep hon nghia goc "khong the hoc"; nen soat
-		// lai o van ban, nhung KHOA thi dung.)
+
+
+
+
+
+
+
+
+
 		strTemp = NOCOLORMSGFUNC("GMDataPool_Info_Can_Not_Learn");
 		CEventSystem::GetMe()->PushEvent(GE_NEW_DEBUGMESSAGE, strTemp.c_str());
 		return;
@@ -5023,9 +5023,3 @@ void CDataPool::SetCharFirstLogin(BYTE bFirst)
 		CNetManager::GetMe()->SendPacket( &msg );
 	}
 }
-
-
-
-
-
-

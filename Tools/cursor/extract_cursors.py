@@ -1,59 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-extract_cursors.py -- pure-Python PE resource parser that rebuilds .cur
-files from a Windows PE image's RT_GROUP_CURSOR + RT_CURSOR resources,
-preserving each frame's hotspot exactly as compiled into the binary.
-
-Why this exists (CY-Source cursor task): client_GL's Game.exe ("B") draws
-its mouse cursors from resources embedded in the EXE (LoadCursor + a
-resource ID), instead of loading external .ani files like the 0.85
-lineage does. To reuse B's actual cursor art in our own Game.rc we need
-real .cur files on disk, extracted byte-for-byte (image data + hotspot)
-from B's binary. This script does that extraction; it does not depend on
-any Windows-only API (no ctypes, no ExtractIconEx) so it also works for
-offline/static inspection of a copied binary.
-
-No third-party dependencies for the extraction itself (stdlib only:
-struct, zlib, json, pathlib, hashlib, argparse). Pillow is used ONLY if
-present and only to additionally render a PNG preview per cursor for
-human/visual evidence; the .cur rebuild logic never depends on it.
-
-PE/resource format notes (why the code does what it does):
-  - IMAGE_RESOURCE_DIRECTORY / IMAGE_RESOURCE_DIRECTORY_ENTRY form a
-    3-level tree under the Resource Table data directory: Type -> Name
-    (ID) -> Language -> IMAGE_RESOURCE_DATA_ENTRY. All offsets inside the
-    tree are relative to the start of the resource directory (the .rsrc
-    section's RVA); only the final IMAGE_RESOURCE_DATA_ENTRY.OffsetToData
-    is an absolute RVA (relative to the image base) and must be resolved
-    through the section table like any other RVA.
-  - RT_GROUP_CURSOR (type 12) data is a NEWHEADER (like ICONDIR) followed
-    by idCount x 14-byte GRPCURSORDIRENTRY {wWidth, wHeight, wPlanes,
-    wBitCount, dwBytesInRes, nID}; nID indexes into RT_CURSOR (type 1) by
-    Name ID. Some references claim wPlanes/wBitCount are repurposed as
-    the hotspot (x, y) for cursor groups; empirically (checked byte-for-
-    byte against client_GL's own Game.exe, see Build/re/cursor for the
-    scratch verification) that is NOT what this toolchain wrote: those
-    two fields hold the real color-plane count and bit depth, identical
-    in meaning to an icon group entry, and wHeight here is the *doubled*
-    DIB height (XOR+AND stacked), not the visual height. Neither field is
-    used below for anything but a sanity cross-check; width/height/
-    hotspot are all derived from the RT_CURSOR payload itself (next
-    bullet), which is the one place Windows' own LoadCursor/
-    CreateIconFromResourceEx actually reads them from.
-  - RT_CURSOR (type 1) raw data, UNLIKE RT_ICON, is prefixed with a 4-byte
-    {WORD xHotspot; WORD yHotspot;} before the DIB (BITMAPINFOHEADER +
-    color table + XOR mask + AND mask). The on-disk .cur file format does
-    NOT keep that prefix inside the image data block -- the hotspot moves
-    into the ICONDIRENTRY instead. Getting this prefix-stripping right is
-    the one part of this format that silently produces corrupt .cur files
-    if skipped; it is verified here two ways: (a) biSize inside the DIB
-    that remains after stripping 4 bytes must read as 40 (a valid
-    BITMAPINFOHEADER) -- with the prefix left in place it reads as 0 and
-    is instantly recognizable as wrong; (b) the DIB's own biHeight, once
-    halved for the stacked XOR+AND masks, must reconcile exactly with the
-    resource's total byte size (also asserted below).
-"""
+'\nextract_cursors.py -- pure-Python PE resource parser that rebuilds .cur\nfiles from a Windows PE image\'s RT_GROUP_CURSOR + RT_CURSOR resources,\npreserving each frame\'s hotspot exactly as compiled into the binary.\n\nWhy this exists (CY-Source cursor task): client_GL\'s Game.exe ("B") draws\nits mouse cursors from resources embedded in the EXE (LoadCursor + a\nresource ID), instead of loading external .ani files like the 0.85\nlineage does. To reuse B\'s actual cursor art in our own Game.rc we need\nreal .cur files on disk, extracted byte-for-byte (image data + hotspot)\nfrom B\'s binary. This script does that extraction; it does not depend on\nany Windows-only API (no ctypes, no ExtractIconEx) so it also works for\noffline/static inspection of a copied binary.\n\nNo third-party dependencies for the extraction itself (stdlib only:\nstruct, zlib, json, pathlib, hashlib, argparse). Pillow is used ONLY if\npresent and only to additionally render a PNG preview per cursor for\nhuman/visual evidence; the .cur rebuild logic never depends on it.'
 import argparse
 import hashlib
 import json

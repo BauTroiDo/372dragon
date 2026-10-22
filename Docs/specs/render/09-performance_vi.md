@@ -126,8 +126,6 @@ Bật bằng biến môi trường `CYS_PERF=1`. Khi không bật, mọi móc ch
 
 Kiểm thử ở `Tests/perf`: `test_perf_report.py` (6 ca) và `test_patchers.py` (2 ca, áp lên bản HEAD sạch).
 
-## 4. Baseline (trước khi sửa)
-
 ### 4.1 Game.exe
 
 Biến thể A là mã HEAD cộng dụng cụ đo, hành vi y hệt bản người dùng (nhịp 30 fps). B0 là đúng nhị phân của người dùng (`stage-91148e1`, SHA Game.exe `698887bc…`), không có dụng cụ đo.
@@ -323,15 +321,6 @@ Trong lượt B-1080, hai đoạn cuối về 30 fps vì cửa sổ mất tiêu 
 - Hình ảnh cùng bước smoke (`create-male-default`) của hai lượt giống nhau về ánh sáng, màu và model; chỉ lá rơi và đom đóm lệch vị trí do thời điểm.
 - Chạy đủ kịch bản: PASS Preview, 0 lỗi UI, 0 socket.
 - Thời gian CPU không tách được vì nhiễu: lúc chạy có 10,8–13,2 tiến trình biên dịch của agent khác.
-
-### 7.5 `seqframe` và `nonvis`: hai nút cổ chai của hệ hạt (theo phát hiện của agent hạt)
-
-Agent hạt (`Build/Logs/2026-09-13-fx-particles/HANDOFF.md`) tìm ra hai điểm nằm trong phạm vi tôi phụ trách. Cả hai giữ nguyên hành vi.
-- **`seqframe`**, tệp `Src/Engine/WXCore/CYS/Effects/WXSequenceFrameAffector.h`: affector SequenceFrame lưu trạng thái từng hạt trong `std::map<const Particle*, …>` và tra map cho **từng hạt mỗi khung** trong `_getTexCoordIndex`. Đổi sang `std::unordered_map` (O(log n) → O(1)); không chỗ nào cần duyệt theo thứ tự.
-  - Đo bằng `CYSParticleBench` (200 hệ, trong đó 21 hệ `texcoord_billboard`, dt 0,033 s, trung vị 5 lượt): pha nộp của renderer `texcoord_billboard` — nơi duy nhất gọi `_getTexCoordIndex` — 0,116 → 0,110 ms (−5 %). Lượt "sau" chạy lúc máy có 5 TlbbViewer nền nên các số khác nhiễu lên; −5 % ở đúng đường bị ảnh hưởng vẫn là tín hiệu thật. Lợi ích tỉ lệ với số hạt flip-book (~2.000 mẫu Canonical / ~3.700 S2 đi qua đường này).
-- **`nonvis`**, tệp `Src/Engine/WXRender/RenderSystem.cpp`: thêm `Ogre::ParticleSystem::setDefaultNonVisibleUpdateTimeout(5.0f)` ngay sau `setDefaultIterationInterval(0.033f)`.
-  - Xác minh trên B: `client_GL/Bin64/Render.dll` gọi đúng hàm này với `5.0f` (const tại `0x1802afc3c`) ngay sau `setDefaultIterationInterval(0.033f)` trong hàm khởi tạo (bản sạch `Build/re/perf/B-Bin64-Render.dll`, import `?setDefaultNonVisibleUpdateTimeout@ParticleSystem@Ogre@@SAXM@Z`).
-  - Hệ hạt ra khỏi tầm nhìn quá 5 s sẽ ngừng cập nhật cho tới khi được nhìn thấy lại. Đúng như B; giảm chi phí cập nhật hạt ở cảnh thế giới nhiều hệ hạt bị che.
 
 ### 7.6 Bảng so sánh cuối
 

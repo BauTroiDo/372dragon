@@ -1,16 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Tests/fx/effects/census/gen_wx_tables.py - emit wx_dicts.tsv and wx_key_usage.tsv for fx_census.py.
-
-The tables encode, per (scope,key), what the WXCore effect parsers accept (dicts) and, for keys that are parsed
-and STORED but never read at run time, an IGNORED row with the source evidence. A key present in dicts but with
-no usage row counts as USED. Keys the parsers do not accept at all are absent from dicts -> the census marks them
-NOT_PARSED from the data side. Every claim is grounded in a Src file:line, listed in the evidence column.
-
-This is authored from a direct read of the WXCore sources (commit at hand) and the B Render.dll RE
-(Build/re/fx-effects/out/*). Re-audit when the effect sources change.
-"""
+'\nTests/fx/effects/census/gen_wx_tables.py - emit wx_dicts.tsv and wx_key_usage.tsv for fx_census.py.\n\nThe tables encode, per (scope,key), what the WXCore effect parsers accept (dicts) and, for keys that are parsed\nand STORED but never read at run time, an IGNORED row with the source evidence. A key present in dicts but with\nno usage row counts as USED. Keys the parsers do not accept at all are absent from dicts -> the census marks them\nNOT_PARSED from the data side. Every claim is grounded in a Src file:line, listed in the evidence column.'
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -63,13 +53,13 @@ OWN = {
                          "IsLocalVisible"],
 }
 
-# (scope,key) -> evidence. Only IGNORED (parsed but not applied) rows are needed; anything else in dicts is USED.
-# Sub-effect / collision keys are now USED: ParticleElement::_updateParticleEffects / _updateCollisionEffects
-# (B FUN_180216c10/FUN_180216e90/FUN_180216800). use_scale is USED via TransformInfo::mScale +
-# LogicModel::setEffectFollowScale. DefaultShow is USED via System::getHideAnimationEffects gate. CreateLevel is
-# USED via EffectElement::update level gate. The beam wave/curve keys are parsed + stored (matching B's dict) but
-# only consumed by CurveType 3-7 / spline 2,4, which no shipped beam selects (every beam is CurveType 0/1), so
-# they stay IGNORED with that evidence.
+
+
+
+
+
+
+
 IGNORED = {
     ("element:UIParticle", "ParEffectName"): "stored, never read (UIParticle has no sub-effect system in B either)",
     ("element:UIParticle", "ColEffectName"): "stored, never read",

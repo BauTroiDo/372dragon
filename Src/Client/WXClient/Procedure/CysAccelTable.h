@@ -1,20 +1,20 @@
 #pragma once
-// CYS-MOVE2: the CY 3.71 accelerator manager (CAccelerateManager) of Game.exe, table driven.
-//
-// CGamePro_Main::ProcessInput_Keybord used to be a hard-coded switch on DirectInput scan codes; CY dispatches every
-// key through its 79-entry table (client_GL Game.exe .data 0x140998980), and the AcceSetup window rebinds rows of
-// that same table.  This module owns the live table, the dispatch, the capture (rebinding) flow and the per-account
-// file "..\Accounts\<account>\Acce_Custom.ini" - see CysAccelCore.h for the evidence of each rule.
-//
-// Who calls what:
-//   * CGamePro_Main::ProcessInput_Keybord -> ProcessKey(kc, down) for every key event that passed the die/hotkey gates.
-//   * host-2's CysHost_Accel.cpp (SystemSetup:GetInputSetup / InputSetup_OnOff / ComeBackAcce / SaveCurAcceCustom /
-//     RevertAcceCustom / UseAcceCustomKey / GetIsConfigChanged / SetIsConfigChanged) -> the AcceSetup group below.
-//   * CGamePro_Login::CheckAccount -> SetAccount(name) so the custom file lives next to the account's other cfg files.
-//   * _G.SetMenuBarPageNumber (Lua MainMenuBar.lua:1514) -> SetMenuBarPage(page) for F1..F10.
-//
-// Nothing here touches the UI DLL's vtable: the active edit box is read through the CysUiInputBridge exports of
-// UI_CEGUI.dll (GetProcAddress), exactly like GameProcedure.cpp's _CysActiveInputName.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "Type.h"
 
 namespace CysAccel
@@ -32,9 +32,9 @@ namespace CysAccel
     // permanently in the CY GUI (DefaultEditBox=True, the input line is always shown), so the real answer is CY's
     // own variable "NonChatActive" - see SetChatting.
     bool ChatEditActive();
-    // Publish CY's "NonChatActive" variable (1 = the keyboard belongs to the game, 0 = the player is typing).
-    // Enter sets it to typing, Esc clears it - the two callbacks CY uses (0x140439c00 / 0x140438300). Seven CY
-    // frames read the same variable, so writing it also fixes them.
+
+
+
     void SetChatting(bool chatting);
     bool AnyEditActive();
     // Name of the active edit box ("" when none) - the UI bridge value, for logs and tests.

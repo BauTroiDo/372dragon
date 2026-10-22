@@ -4,21 +4,12 @@ Ngày 12/09/2026. Adapter nằm trong `Src/Client/LuaApiGen/CysHostGlobals.*`; c
 
 | Hàm | Tham số → kết quả | Hành vi và bằng chứng |
 |---|---|---|
-| `Talk:HideContexMenu4Speaker` | mọi đối số → 0 giá trị | Phát HIDE_CONTEXMENU_SPEAKER; B RVA `341410`; [hợp đồng và test](login-remaining_vi.md). |
 | `OpenWindow` | `name:string/number` → 0 giá trị | Gate nLocalID 77 trước đọc đối số, phát OPEN_WINDOW; B `226850`/`218430`; [spec](login-remaining_vi.md). |
 | `DataPool:GetProvincesNum` | → một số | Số tỉnh trong catalog thật; B `26e880`, loader `15f030`; [spec](login-remaining_vi.md). |
 | `DataPool:EnumProvinces` | `index:number` → ID, tên UTF-8 | Thứ tự xuất hiện đầu, chỉ số không hợp lệ báo lỗi; B `26e970`; [spec](login-remaining_vi.md). |
 | `DataPool:GetCityNumFromOneProvinceId` | `index:number` → số thành phố hoặc −1 | Đếm catalog của tỉnh thật; B `26eb50`; [spec](login-remaining_vi.md). |
 | `DataPool:NumCityFromOneProvince` | `provinceIndex:number, cityIndex:number` → ID, tên | ID/tên thành phố thật, ngoài cận −1/rỗng; B `26ebd0`; [spec](login-remaining_vi.md). |
 | `GetDictionaryString` | `key:string/number` → một chuỗi; kiểu khác → 0 giá trị | Tra dictionary thật rồi NoColor; B `227f60` → UI `4fbf0`, chỉ literal/`%%`, tối đa 2048 byte. Template cần varargs báo lỗi vì wrapper B không cấp đối số; [hợp đồng và kiểm thử](login-remaining_vi.md). |
-| `GameProduceLogin:GetServerAreaDis` | `index:number` → một chuỗi | Đọc mô tả vùng, ngoài phạm vi trả rỗng; B RVA `293890`; [reader và hợp đồng](login-areas_vi.md). |
-| `SetSoftKeyAim` | `editboxName:string/number` → không trả giá trị | Phát `SET_SOFTKEY_AIM(arg0)`, tới bàn phím ảo native; RVA B `229810`, registry ID 1ba tại `6cd918`; [spec và kiểm thử](login-hosts_vi.md). |
-| `ScriptGlobal_Format` | `template:string/number, 1..15 tham số string/number` → một chuỗi đóng gói; chỉ có `template` → không trả giá trị | Đóng gói khóa và tham số thành chuỗi metadata byte theo cấu trúc dưới đây; UI giải mã và tra từ điển sau. Không thay `%sN` trong hàm host. Nhánh một tham số gửi `NEW_DEBUGMESSAGE(template)`. RVA B `Game.exe+0x21ecf0`, catalog dòng 35; caller `Build/re/luaapi/decomp/Game.exe/14021ecf0.c` và helper mới phục hồi `Build/re/luaapi/gpt-p1-2-helpers/decomp/140619670.c` tại RVA `0x619670`. |
-| `PushEvent` | `name:string/number, ...:string/number` → không trả giá trị | Chuyển số theo Lua, giữ thứ tự và chuỗi rỗng; dừng tại `nil` hoặc giá trị không đổi được sang chuỗi, rồi đưa tên và tham số vào hàng đợi sự kiện thật. RVA B `Game.exe+0x22cde0`, catalog dòng 46, `Build/re/luaapi/decomp/Game.exe/14022cde0.c`; dữ liệu `InterfaceFolder/Bank/Bank.lua:260` và `AnimationPass/AnimationPass.lua:68`. |
-| `SetTimer` | `owner:string/number, expression:string/number, milliseconds:number` → ID number, sai kiểu −1 | Timer lặp Win32 main-thread, không thay expression trùng; RVA B `0x460ac0`, helper `0x460600`; [spec timer](timers_vi.md). |
-| `KillTimer` | `id:number` hoặc `expression:string` → boolean | Đúng kiểu luôn true; ID giữ record, expression xóa match đầu tiên; sai kiểu false. RVA B `0x460ae0`, helper `0x460810`; [spec timer](timers_vi.md). |
-| `ClearAllTimer` | không tham số → 0 giá trị | Hủy toàn bộ timer Lua thuộc manager và bỏ record/route; RVA B `0x460b00`, backend `0x460180`; [spec timer](timers_vi.md). |
-| `CloseWindow` | `name:string/number, immediate?:boolean` → không trả giá trị | `true` yêu cầu đóng trực tiếp qua UI; thiếu, `false`, hoặc kiểu khác yêu cầu đóng qua hàng đợi. RVA B `Game.exe+0x2268c0`, catalog dòng 48, `Build/re/luaapi/decomp/Game.exe/1402268c0.c`; dữ liệu `InterfaceFolder/Agreement/Agreement.lua:48` và `Bank/Bank.lua:106`. |
 | `DataPool:CreateActionItemForShow` | `tableId:number, count:number` → ActionButton userdata, isLocked | **Chưa triển khai:** regular Enable, cache count/max/tableId; B wrapper273110/factory164240; [spec/phụ thuộc DBC](display-items_vi.md). |
 | `DataPool:CreateBindActionItemForShow` | `tableId:number, count:number` → ActionButton userdata, isLocked | **Chưa triển khai:** cache thêm bind-state1, giữ enable; wrapper273530/factory164500; [spec/phụ thuộc DBC](display-items_vi.md). |
 | `PlayerPackage:GetItemTableIndex` | `index:number` → signed table ID, slot trống −1 | Query nguồn thật, truncate int32; B wrapper2a6db0/getter13b0c0/tableID50bf80. CY60/B240 slot; xem giới hạn bên dưới. |
@@ -26,7 +17,6 @@ Ngày 12/09/2026. Adapter nằm trong `Src/Client/LuaApiGen/CysHostGlobals.*`; c
 
 `CysHostGlobals::Services` nối adapter với dịch vụ sự kiện và cửa sổ của game. Format có tham số thay thế không cần dịch vụ bên ngoài. Mỗi closure Lua giữ bản sao cấu hình callback; context thuộc bên gọi và phải sống tới khi Lua state kết thúc. Test đơn vị kiểm byte đầu ra Format và thay context bằng trạng thái có thể quan sát để kiểm tra thứ tự sự kiện, tác động đóng cửa sổ. Adapter không giả kết quả khi thiếu dịch vụ: lần gọi báo lỗi Lua rõ tên dịch vụ, không ghi nội dung tham số ra log.
 
-Nhánh format không có tham số thay thế gửi cùng mã sự kiện `0x85` như hàm B `PushDebugMessage` tại `Game.exe+0x21bb00`; bằng chứng phụ `Build/re/luaapi/decomp/Game.exe/14021bb00.c`. Nhánh đóng qua hàng đợi dùng sự kiện `CLOSE_WINDOW`, được script `InterfaceFolder/CampaignTrack/CampaignTrack.lua:22` và `MissionTrack/MissionTrack.lua:141` đăng ký nhận. Lỗi C++ từ callback chuyển thành lỗi Lua sau khi các đối tượng C++ tạm đã được hủy; không biến lỗi dịch vụ thành kết quả thành công.
 
 Tên và tham số chuỗi của `PushEvent`/`CloseWindow` cũng đi qua biên C-string: phần sau NUL đầu tiên không chuyển vào dịch vụ. Bằng chứng `14022cde0.c` đếm byte tới NUL khi chép tên/tham số; `1402268c0.c` truyền `LuaStackObject::GetString` trực tiếp tới dịch vụ.
 
@@ -65,13 +55,9 @@ Giải từ điển và thay placeholder thuộc bước tiêu thụ UI. Dữ li
 
 ## Decoder UI của CY
 
-`Src/Client/CEGUISystem/CysPackedFormat.h` hiện thực consumer độc lập, ban đầu suy ra từ cấu trúc producer B và dữ liệu dictionary nêu trên. Producer B đã được phục hồi trong đợt này. Sau khi có decoder/unit test, đã tìm thấy **body reader lịch sử** tại `C:/TLBB/085/analysis/ghidra/resolver-out/resolver_FUN_180030640.c` (UI_CEGUI RVA `0x30640`); chỉ đọc file có sẵn, không chạy script/Ghidra/patch và không chép pseudo-code vào Src. Artifact lịch sử chưa có hash manifest được đối chiếu trong đợt này, nên phân biệt nó với việc đã đo lại consumer đúng binary B hiện tại.
 
 Reader lịch sử cung cấp thêm bằng chứng cụ thể:
 
-- Dòng 704–729 và 739–764 có hai cách chọn dấu `}`: `firstStar + COUNT` hoặc `firstStar + TOTALLEN`, chỉ nhận vị trí nếu byte đích là `}`. `C:/TLBB/085/analysis/ghidra/patch_resolver.py` ghi sửa byte tại VA `0x1800314cd` từ `01` thành `02` để dùng TOTALLEN và tránh cắt vào brace trong argument lồng; `Docs/08-BAY-VA-QUY-TAC_vi.md:167` ghi nhận patch này. Tuy nhiên, comment script gán nhánh COUNT cho code page 936, trong khi body dòng 697–716 gán nó cho 1251/1252/65001/1258 và nhánh else dùng TOTALLEN. Không dùng nhận định code page mâu thuẫn đó để mô phỏng lỗi hoặc khẳng định nhánh binary hiện tại.
-- Dòng 2373–2395 xác minh `firstStar + TOTALLEN == substring.size()` trước khi tách argument theo từng length. Đây là kiểm độ dài tuyệt đối, không phải modulo. Cách CY tính S từ count/length rồi kiểm modulo 256 là phòng vệ và mở rộng cho S > 252; không chấm các ca tổng length wrap của CY là tương đương reader lịch sử.
-- Dòng 2411–2427 nhận `%s0`…`%s9` và `%sa`…`%sf` (index 10…15); khi có argument thì thay đúng 3 byte token rồi nhảy qua toàn bộ argument vừa chèn. Khi index không có argument, token được giữ nguyên. `%%s0` được thay tại dấu `%` thứ hai. Dictionary lookup không tìm thấy ở dòng 2403 thì không emit đoạn đó. Reader gọi lại chính nó trên template đã thay ở dòng 2433.
 
 `CysPackedFormat::Expand(input, resolver, context, output)` trả `Result { error, offset, expanded }`. Resolver trả boolean để phân biệt khóa thiếu với giá trị dictionary rỗng hợp lệ. `UIString.cpp:485` nối resolver vào dictionary nội bộ; `ParserString_RuntimeNew` gọi Expand tại dòng 531, trước `_CheckStringCode` tại dòng 540. Byte count/length vì thế được đọc trước khi kiểm UTF-8 hoặc GBK; decoder không chuyển encoding. Sau expansion, kiểm encoding, lọc nội dung, mã màu và parser dictionary/special key hiện có tiếp tục xử lý kết quả.
 
@@ -89,6 +75,5 @@ Kiểm thử decoder/tích hợp LuaPlus thật → host → decoder: **34/34 PA
 
 ## Phạm vi bằng chứng
 
-Catalog chỉ ghi mẫu tham số từ metadata, không phải chữ ký đầy đủ. Helper Format được phục hồi bằng Ghidra trên project bản sao, `-readOnly -noanalysis`, heap 3 GB. CLI hiện có đã thử và lỗi Windows 193; launcher dự án và Java script đã có được dùng làm phương án thay thế được điều phối. Lệnh, exit code, số đo và giới hạn ghi tại `Build/Logs/2026-09-12-gpt-p1-2/timers/recovered-helpers_vi.md` và `run-result.json`. Không chạy B, không chép pseudo-code vào `Src`.
 
 Encoder và consumer CY đã có mã cùng unit test; hook consumer đã nối vào UIString. Bộ 34 test đã xác nhận 3 sửa semantics sau khi tìm thấy body reader lịch sử: `%sa`…`%sf`, giữ token thiếu argument, và chỉ bỏ envelope có unknown key. Kết quả này chưa chứng minh Game UI đã render đúng. Commit `ce93717` đã CI 33/33, smoke 6/6, checks 3/3, census 5 viewer không tăng (log `Build/Logs/ci/ce93717`); smoke Game hiện bị chặn bởi vấn đề font baseline đang chờ xử lý. Các khác biệt phòng ghi tràn/đầu vào rỗng, lỗi decoder và giới hạn phòng vệ nêu trên là lựa chọn rõ ràng của CY, không phải hành vi trả lỗi đã đo trên B.

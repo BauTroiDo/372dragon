@@ -17,8 +17,6 @@ Server không bị sửa, không restart bởi agent này. Chỉ bản ghi Mongo
 
 Tâm pháp học/nâng được ở cả 15 phái (live 13 phái), chi phí server = bảng CY (trùng từng ô). Bí tịch: chỉ **tu luyện (phái 0–12), võ hồn, sách trân thú** có handler server; **client mới chưa có cửa sổ nào chạy**, bí tịch chiêu thức/kinh mạch/lệnh bài/tinh trận thiếu cả server.
 
-## 1. Kiểm live theo phái
-
 ### 1.1 Cách đo **[DK]**
 - Nhân vật: CYTest00 (cấp 15, vốn vô môn phái 9). Trước lượt: `cys_server.ps1 backup truoc-menpai-audit` → `R/backups/20260915T040040Z-truoc-menpai-audit` (`backup-1.txt`); bản ghi gốc `char-original.json`.
 - Đổi phái: sửa Mongo bản ghi test (`char_menpai.py set`) đúng như `script_base:LuaFnJoinMenpai` + học 6 tâm pháp thường: `attrib.menpai`, `reputation`, `xinfa_list` = 6 tâm pháp đầu của phái (bỏ 第七/第八心法) ở **cấp 30** (cấp kỹ năng = ⌈30/10⌉+1 = 4), `skill_list` = 9 kỹ năng chung + template `是否直接学会` + template `class_by_user 0` của 6 tâm pháp + 远功 (`MENPAI_JINZHAN_YUANGONG_SKILL`). Server nạp bản ghi từ Mongo mỗi lần đăng nhập (`msgagent.lua:192 load_my_data`), không có cache sau khi thoát sạch (`03-survey-msgagent.out.txt`, `04-survey-gamed.out.txt`).

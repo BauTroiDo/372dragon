@@ -1,11 +1,5 @@
 # Render specs — index and priorities ("game must be beautiful")
 
-Date 2026-09-12. Target: bring the 0.85 source engine (OGRE 1.2.5 Dagon + WX) up to the rendering feature set of client_GL (B:
-Fairy/VS2012, Render.dll with 29 compositor post-filters + render nodes, shadow map/CSM/PCF, 114-entry SM3 HLSL
-MaterialTemplates.zip, 9 extra effect/particle types). Every claim in these files is marked **FACT** (file/offset/RVA/string/
-script output given) or **INF** (inference). Render.dll addresses refer to the original pre-patch build (SHA-256 `fda12053…d67901`,
-the program in `analysis\graphics-overhaul\ghidra\proj\gfx.gpr`, analysed read-only on a copy); client_GL runs a byte-patched
-descendant (`49b2ab1f…`: shadow + HDR + anisotropy, doc 08 §10).
 
 | File | Content |
 |---|---|
@@ -41,17 +35,3 @@ Total ≈ 6–8 months of E2+E3 work, in line with doc 03 (E2 2–4 months, E3 2
 3. Script keywords missing from the 0.85 serializer: pass `render_queue`, `separate_scene_blend`; texture_unit `content_type` (compositor refs, INTZ), `sampler_index`, `shader_type` — 323 uses in B data (templates + all.material); plus no vertex-texture fetch or INTZ in the 0.85 D3D9 render system.
 4. B builds shader permutations at run time (22 injected macros) and pushes 54 named per-instance constants (dissolve, flow light, outline, rim, water) — no equivalent in 0.85.
 5. Post-processing: 0.85 has 5 script-defined compositor filters; B has 29 code-built filters on an extended compositor API (RT aliasing/ping-pong, cross-compositor texture references, render-queue passes, scheme/visibility per target) and a render-node pipeline (depth, water depth, shadow, SSAO).
-
-## Evidence and tools (all under `CY-Source`, re-runnable, read-only on sources)
-
-| Tool | Purpose | Output |
-|---|---|---|
-| `Tools\re\extract_mtltemplates.py [zip dst]` | extract template zips | `Assets\Staging\materialtemplates\B`, `…\A085` (+`_manifest.tsv`) |
-| `Tools\re\mtl_catalog.py` | material/program catalogue + gap analysis | `Tools\re\out\mtl_*.tsv/json/txt` |
-| `Tools\re\ogre_api_gap.py` | B OgreMain exports missing from 0.85 | `Tools\re\out\ogre_api_gap.tsv` |
-| `Tools\re\fx_params.py` | effect/particle/skill key inventory | `Tools\re\out\fx_types.tsv`, `fx_params.tsv/json` |
-| `Tools\re\scene_features.py` | scene files inventory | `Tools\re\out\scene_*.tsv/json` |
-| `Tools\re\ghidra\CyReDump.java`, `CyReByName.java`, `run_cyre.cmd`, `run_cyre_byname.cmd`, `run_ogre_import.cmd` | headless Ghidra (read-only, `-readOnly -noanalysis`) on a scratch copy of `gfx.gpr` and on a scratch import of B OgreMain.dll | `Tools\re\out\ghidra\*.txt` (+ `*_c.txt` condensed) |
-| `Tools\re\condense_decomp.py`, `pf_digest.py`, `pf_summary.py`, `fnview.py` | make Ghidra output readable (strip std::string boilerplate, rebuild compositor "scripts") | `pf_digest.txt`, `*_c.txt` |
-
-Note: list separators for the `.cmd` wrappers must be `+` (cmd.exe splits unquoted arguments on commas). Set `GFXPROJ` to a copy of the gfx project; never open one project from two processes.

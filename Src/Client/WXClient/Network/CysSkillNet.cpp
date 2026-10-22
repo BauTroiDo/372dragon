@@ -202,7 +202,7 @@ namespace
         return 0;
     }
 
-    // CY level cap of a xinfa (Game.exe 0x1400cd732 compares the learned level with 0x77 = define.HUMAN_MAX_LEVEL).
+
     const int CYS_XINFA_MAX_LEVEL = 119;
 
     // CY shows its refusals through the chat/debug line with a StrDictionary key (GMDataPool_Info_*); when the key is
@@ -360,10 +360,10 @@ int CysSkillNet::XinfaLevelSum()
     return sum;
 }
 
-// CYS-XINFA: CY 3.71 CDataPool::SendStudySkillEvent(xinfaId) (Game.exe 0x1400cd690, reached from the one-argument
-// SkillsStudyFrame_study at 0x140234c20): read the learned level, refuse at the cap, read the XinFaStudySpend_V1 cost,
-// refuse without the money, then - unless the returning-player pool (HUILIUEXP, absent here) covers the experience -
-// push STUDY_XINFA so MessageBox_Self asks before the character's own experience is spent.
+
+
+
+
 bool CysSkillNet::RequestStudyXinfa(int xinfaId)
 {
     ++g_counters.studyRequests;
@@ -407,10 +407,10 @@ bool CysSkillNet::RequestStudyXinfa(int xinfaId)
     return true;
 }
 
-// CYS-XINFA: CY 3.71 SendAskStudyXinfa (Game.exe 0x140234c90) writes the three Lua numbers straight into the packet
-// body as menpai / xinfa / now_level. The server (msgagent CGAskStudyXinfa -> scenecore char_study_xinfa) refuses a
-// now_level that differs from the stored one. Preserve the confirmed level: replacing a stale confirmation with
-// the latest cached level would authorize a different purchase and debit the player twice.
+
+
+
+
 bool CysSkillNet::AskStudyXinfa(int xinfaId, int nowLevel, int menpai)
 {
     CObject_PlayerMySelf* self = Self();

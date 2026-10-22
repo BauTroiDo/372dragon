@@ -1,35 +1,35 @@
-// CYS-HOST2: second batch of Lua host functions + the live probe. See CysHost_Host2.h.
-//
-// Disassembly (client_GL\Bin64\Game.exe, image base 0x140000000; listings in Build/Logs/2026-09-17-host-2/re/):
-//
-//   DataPool:Lua_GetItemNameByIndex  B 0x140244070 (578 bytes)
-//       lua_type(2) != NUMBER -> tThrowStringException("Lua_GetItemNameByIndex parameter2 error!")
-//       kind = ItemTableMgr->vf[18](index)      // 1 equip, 2 common item, 3 gem; anything else -> nothing pushed
-//       kind 1: row = DBC 0x74 (EquipBase).Search_Index_EQU(index)      -> lua_pushstring(row + 0x28 = szName)
-//       kind 2: index in [39920000, 39999999] -> DBC 0x113 (CampaignItemTable) row + 0x10
-//               else                          -> DBC 0x75 (CommonItem)        row + 0x20 = szName
-//       kind 3: row = DBC 0x76 (GemInfo)                                  -> row + 0x28 = szName
-//       no row -> returns 0 values (nil in Lua).
-//       The 0x28 / 0x20 / 0x28 offsets are the szName columns of _DBC_ITEM_EQUIP_BASE (10 ints before it),
-//       _DBC_ITEM_MEDIC (5 ints + szIcon) and _DBC_ITEM_GEM (5 ints + szIcon + nRule) with 8-byte string cells -
-//       the same column layout this tree declares in TDDBC_Struct.h. The kind follows the index ranges that
-//       Obj_Item.cpp CObject_Item::NewItem uses (1xxxxxxx equip, 2-4xxxxxxx common item, 5xxxxxxx gem).
-//       DELIBERATE GAP: this tree loads no CampaignItem table; the 39.92M-39.99M window falls back to CommonItem,
-//       which has no id there (CanonicalCY CommonItem.txt: 0 rows in that range) -> nil, as B answers for an
-//       unknown index.
-//
-//   _G:ToggleWuhunPage  B 0x14021b700 (52 bytes)
-//       if (!Guard()) g_EventSystem->PushEvent(0x27c, -1);  return 0 values
-//       Guard (0x140218430) = the active procedure exists and its class id is 0x4d, i.e. NOT the main game
-//       procedure; here: skip unless CGameProcedure::GetActiveProcedure() == s_pProcMain (the test that
-//       Player:IsVaild / CysHost_Plumbing already uses for "in the main procedure").
-//       0x27c = 636 = "TOGGLE_WUHUN_PAGE" (Wuhun.lua:54 RegisterEvent) - a NEW event of this tree
-//       (TDEventDefine.h / GMEventSystem.cpp, tagged CYS-HOST2), otherwise RegisterEventHandle drops the handler.
-//
-//   _G:SetDefaultMouse  B 0x140222ce0 (61 bytes)
-//       type = g_Game->vf[45]();  g_CursorMng->vf[18](type)   - the cursor manager's SetCursor with the default type
-//       of the current state. [SL] the default type is CURSOR_NORMAL here; GamePro_Main re-evaluates the hover
-//       cursor every tick anyway, so the one-shot reset is what the 51 CY frames want (shop windows closing).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "CysHost_Host2.h"
 #include "LuaApiGen.h"
 #include "Network/CysModernGame.h"
@@ -134,23 +134,23 @@ namespace CysHostHost2
             return 0;
         }
 
-        // ---- DataPool:GetKfs* - the wuhun (武魂, "KFS") readers of Wuhun.lua ----------------------------------
-        // B (listing Build/Logs/2026-09-17-host-2/re/Kfs_DataPool_140270cd0-1a00.txt), all four start alike:
-        //     item = ItemContainerMgr->vf[0x19](0x12)          // the equipment at point 18 (= server HEQUIP_WUHUN)
-        //     if (!item || item->vf[3]() != 1 || !IsKfs(item)) return 0 values      // IsKfs: define->nEquipPoint == 0x12
-        // so WITHOUT a wuhun every one of them answers NOTHING (nil). The generated stubs answered "" / 0 / ("", 0)
-        // instead, and Wuhun.lua:354 "data < 5" on that "" raised a Lua error that aborted Wuhun_Update before
-        // this:Show() - the hub window could never open. With a wuhun equipped B reads the item's wuhun block
-        // (level, exp, life, grow rate, extra attributes ...) which this client does not carry yet
-        // (PgStructs.h has wh_level & co, CysModernHandlers::ItemInfoToLegacy drops them): those keys answer nil
-        // and log once, so the gap stays visible instead of showing a wrong number.
-        //   GetKfsData(key)      B 0x140270cd0: "NAME" -> item name, "NEEDLEVEL" -> level requirement (both from the
-        //                        item table, answered here), the other keys from the wuhun block (nil here).
-        //   GetKfsFixAttrEx(i)   B 0x140271540: (text, value) of fixed attribute i          -> nil here
-        //   GetKfsBase(i)        B 0x1402716c0: base value i (KfsBase table by wh_level)     -> nil here
-        //   GetFixKfsBase(i)     B 0x140271770: base value i * grow rate / 1000             -> nil here
-        //   GetKfsSkill(i) / KFS_UpdateKFSModel() stay stubs: B answers 0 / nothing without a wuhun, exactly what
-        //   the stubs answer, so installing them would only silence the "missing host function" line.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         CObject_Item* EquippedWuhun()
         {
             CDataPool* pool = CDataPool::GetMe();

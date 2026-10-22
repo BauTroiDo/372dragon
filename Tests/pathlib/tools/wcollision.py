@@ -1,21 +1,5 @@
 #!/usr/bin/env python3
-"""CYS-NAV: giải mã *.WCollision của CY (PathLib BuildingCollsionImpl, magic 0xff000002/0xff000001) và so với
-*.Heightmap: mặt đi được của công trình (bục, cầu, bậc thang) cao hơn địa hình bao nhiêu.
-
-  python wcollision.py <SceneFolder> <scene> <outdir> [--probe x,z ...]
-
-Định dạng (đo từ cy_PathLib.dll: BuildingCollsionImpl slot1 FUN_180004580 -> slot4 FUN_180004a00 ->
-FUN_180003d80; slot2 FUN_180004380 = tia thẳng đứng từ y=10000 xuống, lấy điểm chạm GẦN NHẤT = mặt trên cùng):
-  u32 magic = 0xff000002
-  u16 meshCount; meshCount x { u16 nv; nv x f32[3]; u16 nt; nt x u16[3] }
-  f32[3] offset; f32[3] scale                           (toạ độ cảnh = (thế giới - offset) / scale)
-  u16 instCount; instCount x { f32[3] scale; f32[3] pos; f32[4] quat (w,x,y,z); u16 mesh }   (42 byte)
-  thế giới = T(pos) * R(quat) * S(scale) * v
-magic 0xff000001 (và bản không magic của 0.85): u32 magic/version, u32 cellCount,
-  cellCount x { i32 x, i32 z, u32 n, n x f32[9] }  (toạ độ cảnh sẵn)
-Ra: <outdir>/<scene>_wcoll.json (số đo), <scene>_wcoll_height.png (xám = địa hình, màu = mặt công trình cao hơn),
-     <scene>_wcoll_tris.bin (float32 x9 mỗi tam giác, toạ độ cảnh — cho test C++).
-"""
+'CYS-NAV: giải mã *.WCollision của CY (PathLib BuildingCollsionImpl, magic 0xff000002/0xff000001) và so với\n*.Heightmap: mặt đi được của công trình (bục, cầu, bậc thang) cao hơn địa hình bao nhiêu.\n\n  python wcollision.py <SceneFolder> <scene> <outdir> [--probe x,z ...]'
 import json
 import math
 import os

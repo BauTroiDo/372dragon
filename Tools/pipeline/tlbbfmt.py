@@ -1,17 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Read-only format helpers for the CY-Source data pipeline (phase D0 index).
-
-Logic adapted (copied, not imported) from:
-  Docs/evidence/assetinv/formats.py        mesh/skeleton chunk walk, DDS header
-  Tools/model-convert/lib/ogre_io.py        Fairy chunk-size conventions (sizes of
-                                            0x3000/0x4000/0x5000 are wrong -> walk sequentially)
-  analysis/datacy-compare-2026-09-10/scripts/index_models.py   cp1252 mojibake -> GBK
-The AXP reader is imported from Docs/evidence/assetinv/axp_index.py (single copy).
-
-GBK rule (Docs/08 muc 1.2): all.obj / all.material / all.effect / all.particle / all.skill
-are handled as BYTES. Names are decoded only for display (errors='replace') and for
-lookup keys (errors='surrogateescape', lower-cased). Nothing here writes to a source.
-"""
+"Read-only format helpers for the CY-Source data pipeline (phase D0 index).\n\nGBK rule (Docs/08 muc 1.2): all.obj / all.material / all.effect / all.particle / all.skill\nare handled as BYTES. Names are decoded only for display (errors='replace') and for\nlookup keys (errors='surrogateescape', lower-cased). Nothing here writes to a source.\n"
 import hashlib
 import os
 import re

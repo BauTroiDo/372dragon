@@ -99,22 +99,22 @@ VOID CDataBaseSystem::Release(VOID)
 	CloseAllDataBase();
 }
 
-// CYS-CY 14/09 (cs1-tables): the record structs and schema strings follow CY 3.71 (Assets/CanonicalCY/Data, built from
-// CYS-CY: S4 = CY 3.71.9609 + the GUI layer of client_GL; Docs/specs/cy-switch_vi.md 3.4, Registry/abi/dbc_columns_cy.tsv).
-// CYS-CY: GUI tables follow CY 3.71 as well (user directive 14/09 "Mọi thứ như CY"): InterfaceEx 10 columns; StrDictionary
-// CYS-CY: (SS) and StrFilter (ISI) have the same columns in CY and client_GL.
-// CYS-CY: HairStyle/CampAndStand do not exist in CY 3.71 (CY Game.exe does not name them). HairStyle: NULL schema, empty
-// CYS-CY: table. CampAndStand (cs2-world 14/09): CY keeps the same data under another name - ReputationTable.txt, read
-// CYS-CY: by CY Game.exe through GetDataBase(0xbb) into the very TemplateManager_T<U>::InitFromDB of this source
-// CYS-CY: (FUN_140784410); DBC_CAMP_AND_STAND now opens that table, so no client_GL table is staged any more.
-// CYS 13/09 (game-data): the table list follows client_GL (B), whose data set Assets/Canonical/Data is the target of
-// CYS: CY-Source (Docs/specs/game/canonical-data_vi.md). File names are B's (CharModelEx, CharFaceGeo, SceneDefineEx,
-// CYS: InterfaceEx, plus EquipBase and ActionSetFile) and every record struct follows the client_GL columns. Each row
-// CYS: carries sizeof(record struct) and the column types of the client_GL table (I = INT, F = FLOAT, S = STRING,
-// CYS: generated from Canonical). After loading, both are compared with the table; a mismatch is logged as
-// CYS: "DBC ERROR" in WXClient.log (the struct overlay would misread that table). Tests/abi/check_dbc_layout.py
-// CYS: --strict checks the same rows against the data and the struct layouts offline. A NULL schema marks a 0.85
-// CYS: table that client_GL does not have (B does not load it): it is opened empty (0 records, lookups return NULL).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static BOOL _CysOpenEmptyTable(DBC::DBCFile* pDBC)
 {
 	static const CHAR s_szEmpty[] = "INT\r\nINT\r\n";
@@ -193,10 +193,10 @@ VOID CDataBaseSystem::OpenAllDataBase(VOID)
 		{ DBC_LIFEABILITY_ITEMCOMPOSE,	"ItemCompound.txt",	sizeof(_DBC_LIFEABILITY_ITEMCOMPOSE),	"ISIIIIIIIIIIIIIIIIIIIIIISIIIIIIIIIIIII" },
 		{ DBC_LIFEABILITY_PLATFORM,	"Platform.txt",	sizeof(_DBC_LIFEABILITY_PLATFORM),	"IISSI" },
 		{ DBC_CODE_CONVERT,	"CodeConvert.txt",	sizeof(_DBC_CODE_CONVERT),	"ISS" },
-		// CYS-CY 16/09 (menpai-verify): 心法升级花费. CY Game.exe opens the same file in the same place of its own
-		// table list (CY id 0x97, between Platform.txt and CharTitle.txt; Build/re/menpai-verify/out/xinfa-disasm.txt,
-		// full CY list Build/Logs/2026-09-16-menpai-verify/23-cy-dbc-list.tsv). Without this row GetDataBase(907)
-		// dereferenced map::end() and Lua_GetUplevelXinfaSpend* could not show a cost.
+
+
+
+
 		{ DBC_XINFA_STUDYSPEND,	"XinFaStudySpend_V1.txt",	sizeof(_DBC_XINFA_STUDYSPEND),	"IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII" },
 		{ DBC_TITLE_NAME,	"CharTitle.txt",	sizeof(_DBC_TITLE_NAME),	"IISSIIISISIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII" },
 		{ DBC_SKILLDATA_V1_DEPLETE,	"SkillData_V1.txt",	sizeof(_DBC_SKILLDATA_V1_DEPLETE),	"ISSISIIIISIIISIIISIIIIIISISISISISISISISISISISISISISISI" },
@@ -214,10 +214,10 @@ VOID CDataBaseSystem::OpenAllDataBase(VOID)
 		{ DBC_CAMP_AND_STAND,	"ReputationTable.txt",	sizeof(_DBC_CAMP_AND_STAND),	"ISIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIS" },	// 阵营/声望配置表 CYS-CY: CY 3.71 camp relations (cs2-world; CY Game.exe GetDataBase(0xbb) -> TemplateManager_T<U>::InitFromDB)
 		{ DBC_FULLCMP_FILTER,	"FullCompareFilter.txt",	sizeof(_DBC_FULLCMP_FILTER),	"ISS" },	// 完全匹配过滤表
 		{ DBC_PET_LEVELUP,	"PetLevelUpTable.txt",	sizeof(_DBC_PET_LEVELUP),	"II" },	// 宠物升级所需经验表
-		// CYS-PETSKILL 19/09 (pet-skill-12): the two CY-only pet tables of the 珍兽 window. CY Game.exe opens them in
-		// its own table list as 0xbe / 0xfe (Build/re/host-pet/decomp-b.c: s_pAttackTrait at
-		// GMGameInterface_Script_Pet.cpp:0x801, s_pLxUp at :0x16a6); the ids here are ours, the files are CY's.
-		// Without these rows Pet:GetAttackTrait / Pet:GetPercent_Lx had nothing to read and stayed stubs.
+
+
+
+
 		{ DBC_PET_ATTACK_TRAIT,	"AttackTraits.txt",	sizeof(_DBC_PET_ATTACK_TRAIT),	"ISSIIIIIII" },	// 攻击特性表
 		{ DBC_PET_LINGXING,	"PetLingXing.txt",	sizeof(_DBC_PET_LINGXING),	"IIIIIIIIIIIIIIIIIIIIIIII" },	// 珍兽灵性表
 	};

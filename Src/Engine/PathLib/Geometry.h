@@ -1,6 +1,6 @@
-// Geometry.h — 2-D primitives used by PathLib, re-derived from the decompiled predicates
-// (FUN_180031e00 segment/segment, FUN_1800117f0 robust cross, FUN_180011a30 dist2, ...).
-// Header-only, no state, so both PathData and PathFinder share one definition.
+
+
+
 
 #ifndef CYS_PATHLIB_GEOMETRY_H
 #define CYS_PATHLIB_GEOMETRY_H
@@ -28,9 +28,9 @@ inline float dist2(const float* a, const float* b) {
 
 inline float dist(const float* a, const float* b) { return std::sqrt(dist2(a, b)); }
 
-// Segment (a->b) vs segment (c->d).  On a proper intersection returns true and writes the
-// crossing point (on a->b) to out[0..1].  Mirrors FUN_180031e00 exactly: t is the param on
-// a->b, u the param on c->d, hit iff both in [0,1].
+
+
+
 inline bool segSeg(const float* a, const float* b, const float* c, const float* d, float* out) {
     const float denom = (d[1] - c[1]) * (b[0] - a[0]) - (b[1] - a[1]) * (d[0] - c[0]);
     if (nearlyEqual(denom, 0.0f, kDenomEps)) return false;
@@ -43,7 +43,7 @@ inline bool segSeg(const float* a, const float* b, const float* c, const float* 
     return t >= 0.0f && t <= kOne && u >= 0.0f && u <= kOne;
 }
 
-// Robust "do the two segments cross" boolean (orientation test), FUN_1800117f0.
+
 inline float orient(const float* a, const float* b, const float* c) {
     return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
 }

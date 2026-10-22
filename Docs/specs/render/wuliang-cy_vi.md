@@ -4,24 +4,6 @@ Agent `wuliang-parity`, nhánh `wuliang-parity`, 15/09/2026. Dừng theo lệnh 
 dừng hẳn, không bắt đầu khác biệt mới"). Quy ước: **[DK]** dữ kiện (trace, ảnh, mã, disasm), **[SL]** suy luận.
 Bằng chứng: `Build\Logs\2026-09-15-wuliang-parity\`.
 
-## 1. Chuẩn và cách so
-
-- Chuẩn CY: `Build\Logs\2026-09-15-cy-oracle\run-25-wuliang` (4 khung, `cameras.tsv`); cảnh 6 `wuliang.Scene`, cổng (43,172),
-  12:00, pitch 40, fovy 35.
-- Trace CY (lượt riêng trên bản sao `Build\re\wuliang-parity\CYGame`, 0 byte vá, 0 kết nối ngoài, proxy gỡ sau lượt):
-  `cy-A-trace\f002630_w0-far`, `cy-A-trace\f003570_w1-close`. Camera đọc lại trùng từng số với run-25 (`cy-A\cam-w0/w1.json`).
-  Lượt `cy-B` (w2/w3) không chạy được: khoá bị agent khác giữ quá 15 phút.
-- Dự án:
-  - TlbbViewer cùng camera: `viewer-1` (main b5a6ae90), `viewer-2` (sau rebase lên main e0d1fd3c: có L5 gộp brush địa hình,
-    prewarm, trời shader), mỗi khung kèm trace khung 230.
-  - Game.exe live trên server riêng: `live-1` (stage-1-wlp, test00, cảnh 6), trace 4 khung `live-1-trace`. Lượt này chạy
-    ở 1024×768 (mặc định stage) và nhân vật đứng ở (41,147) nên **không cùng khung** với CY; chỉ dùng cho cấu trúc pass.
-- Công cụ (trong `scripts\`): `wlp_compare.py` (ảnh ba cột + số đo, che HUD CY), `wlp_layers.py` (lệnh vẽ/px theo lớp),
-  `wlp_draws.py` (liệt kê lệnh vẽ), `wlp_cy_trace.ps1` + `wlp_cy_oracle.ps1` (lượt CY có trace, khoá chủ `wuliang-parity`),
-  `wlp_live_turn.ps1` (lượt Game.exe live), `slot.ps1`. Driver Game.exe: `CYS_WLP_CAMS="tên,orbit_distance,yaw;..."`
-  (`CysWorldReplay.cpp`, hook `// CYS-WLP`) đặt camera classic theo khoảng cách quỹ đạo + yaw của `cameras.tsv`, chụp PNG
-  và ghi `capture.now` cho proxy.
-
 ## 2. Số đo ảnh (viewer-2 so CY, HUD CY che) [DK]
 
 `cmp-1\metrics-viewer2.tsv`, ảnh `cmp-1\contact-viewer2.png` (cột CY / dự án / |diff|×3).
@@ -65,7 +47,6 @@ Bằng chứng: `Build\Logs\2026-09-15-wuliang-parity\`.
 |---|---|---|---|---|---|
 | 1 | Cấu trúc khung Game.exe | Vô Lượng Sơn: **2 pass** — bóng `rt1` 4096² R32F → vẽ thẳng back buffer 1280×720 X8R8G8B8, không RT FP16, không hậu kỳ (Đại Lý có FP16 + HeightFog vì cảnh có sương cao [SL]) | live-1: bóng → `rt2` FP16 → FXAA (`bcf6cee1`) → chép + `ditherAmount` (`a6ff6bd9`) → bb | CysPostFX luôn dựng chuỗi FP16 + FXAA (aa-cy bật FXAA mặc định) | aa-cy / d3d9-trace L2 — **chưa sửa**, ghi lại |
 | 2 | Địa hình | 12–14 lệnh vẽ, atlas 4096×1024 + lightmap **L8 256²/ô** | viewer-2 12–14 lệnh vẽ (sau L5), lightmap **cả map 2560² L8**; vệt lưới biên ô trong ảnh hiệu | L5 phần lightmap theo ô | d3d9-trace (không thuộc phạm vi); main 1ff0f593 đã gộp L5b (lightmap 256² L8 + colormap 64² theo ô) — cần đo lại |
-| 3 | Sương mù tuyến tính | `fog_params` w0 (zoom mặc định) **(5387,86; 13100)**, w1 (lăn 6 nấc) **(4287,86; 12000)**; Đại Lý w09/w28/w42 (7600; 13100) với khoá 12:00 (6500; 12000) | (4288; 12000) mọi zoom (viewer), live-1 (4319; 12000) | CY cộng **+1100 vào cả near/far khi camera ở xa**, 0 khi đã lăn lại gần; hệ số thứ 4 = 1/(far−near) giữ nguyên. Không nằm ở `FUN_1801e7f80` (EnvKey ghi thẳng `fog.linear start/end` tại `1801e81d6`) và không ở `Enviroment` apply `1800e18c0` (`SceneManager::setFog` với trường +0x108/+0x10c) | **Đang phân tích, chưa sửa.** Việc kế: lượt CY trace ở 0…6 nấc lăn để lấy hàm offset(zoom), tìm nơi ghi +0x108 |
 | 4 | Hạt cổng `chuansongdian` | 4 lệnh vẽ HLSL: `091c76b0` (_05) + `e633dab2` ×3 (_01, _03, _04), VS `e46476b1`, blend ONE/ONE | _01/_03 (material `chuansongdian_01/02` FF không kế thừa `Mtl_Particle`) vẽ **FF** (COLOROP MODULATE), _04/_05 HLSL | Hệ vật liệu CY đổi pass FF của hạt sang `Particle` HLSL; `CysMaterialSystem` không đổi hai material này | fx — disasm `e633dab2` = saturate(tex × màu đỉnh), alpha × `surface_diffuse_colour.w` ⇒ cùng toán học với FF [DK]; màu cam/xanh khác trong ảnh do pha ngẫu nhiên của ColourFading [SL]. Chưa sửa |
 | 5 | Hằng hạt `blocks`/`useUDirection` | (0,874; 0,812) / 0,557 (giá trị rác thanh ghi của shader trước) | (1,1) / 0 | CY không đặt hằng này | không ảnh hưởng (nhánh `useRibbon = 0`) |
 | 6 | Pass bóng caster alpha-test | D3D `ALPHATESTENABLE=1 GREATER 128`, sampler ANISOTROPIC ×8 + mip LINEAR | không bật alpha test D3D (PS `2d5580e0` vẫn `texkill` cùng ngưỡng), sampler LINEAR + mip POINT, aniso 16 | cấu hình sampler pass bóng | ảnh hưởng nhỏ (hình bóng lá ở mip xa); shadow/perf-cy |
@@ -86,13 +67,3 @@ Không có sửa render nào hoàn tất trước lệnh dừng. Đã commit cô
 `quit_complete quit_flag=0 decode_failures=0`, 0 lỗi Lua, 0 dump, chỉ socket 127.0.0.1:15733/15734, 151 s. Các kiểm
 `three_ground_clicks/position_changed` sai theo thiết kế (chế độ WLP không click); `world_shots` sai vì tên ảnh — đã đổi
 thành `wlp-cam-*`. Không đổi vị trí/cấp/phái nhân vật (bot đặt chỗ lượt live-1 lỗi tham số, không gửi gói).
-
-## 7. Bẫy
-
-1. `CysNetBot --out` phải là đường dẫn tương đối dưới `Build/Logs`.
-2. `run_world_gui_live.ps1` kiểm `world_shots` theo tên `cys-live-*(move-before|move-after|cam-)`.
-3. Stage mới mặc định 1024×768; CY 1280×720 ⇒ sửa `Bin64\WXSystem.cfg` của stage trước khi so.
-4. Khoảng cách camera CY trong `cameras.tsv` (`orbit_distance`) không bằng 27,5 m ở zoom mặc định (w0 2358) — va chạm địa
-   hình/tâm quỹ đạo [SL]; driver dùng thẳng khoảng cách đó.
-5. px của trace viewer nhân 4 (MSAA 4 đếm mẫu).
-6. `run_cy_oracle.ps1` tự ghi khoá tên `cy-oracle`; bản sao `wlp_cy_oracle.ps1` ghi `wuliang-parity`.

@@ -934,40 +934,40 @@ INT Lua_GetSceneID( LuaPlus::LuaState* state)
 	return 1;
 }
 
-// ---------------------------------------------------------------------------------------------
-// CYS-SCENEMAP: hai ham host cua ban do lon (Alt+M) va minimap. Truoc 20/09 ca hai la STUB sinh
-// tu dong (LuaApiGen_Globals.cpp:225/233) nen tra ve "" va 0,0 => LargeMap.lua:283,
-// MiniMap.lua:246/402/407 va SceneMap.lua:572-573/814 khong dung duoc o .dds nao, con d_SceneSize
-// bi dat = 0 (UILuaControl.cpp:2615) nen no thanh MAU SO 0 trong FalagardSceneMap::UpdateAllWindow
-// va ScenePosToWindowPos => cham vi tri nhan vat sai cho.
-//
-// BANG + COT (do tu ma may cua B, KHONG suy tu ten ham):
-//   B = C:\TLBB\085\client\Bin64\Game.exe, sha256 0bf344935d6266ab80b6807d048fcd59184a925f18fd
-//       292072ccc596d045c918, chuoi duong dan nhung trong binary = D:\TLBB\Temp_Release_v0-08-0101
-//       (client_GL\Bin64\Game.exe co cung byte cho hai ham nay - catalog impl_bytes="same").
-//   Dinh vi lai bang CHUOI, khong nhay thang toi dia chi chep tu tai lieu (luat 22.8):
-//       "Lua_GetSceneMapByID Wrong nIndex:%d" o VA 0x140762a18 co DUNG MOT xref, tai 0x14021f93a,
-//       nam trong [0x14021f8b0, +193) => dung la than ham GetSceneMapByID.
-//   0x14021f8b0 GetSceneMapByID : lua_tonumber(L,1) -> DBC_DEFINEHANDLE(s_pSceneDBC) ->
-//       Search_Index_EQU(id) -> if(!row) TDThrow(...) -> lua_pushstring(row[+0x40]).
-//       row[+0x40] = offset 64 = _DBC_SCENE_DEFINE::szSceneMap = cot [10] (cot thu 11 dem tu 1).
-//   0x14021f7e0 GetSceneSizeByID: cung tra cuu, roi push row[+0x10] va row[+0x14]
-//       = nXSize (cot [2]) va nZSize (cot [3]).
-//   Doi chung doc lap: Assets\CanonicalCY\Data\ConfigFolder\SceneDefineEx.txt (sha256
-//       df9324a0cb9f1a33..., 803 dong x 25 cot, do 20/09) cot [10] cua canh Dai Ly = "dali_new_320"
-//       va Vo Luong = "wuliangscene" - trung khit voi hai bo o jpg_dali_new_320_* /
-//       jpg_wuliangscene_* ma `minimap-holes` dem duoc tren dia; cot [2]/[3] = 320/320.
-//
-// KHONG GIONG B mot cho, CO Y: B goi thang Search_Index_EQU roi nem neu truot. Do tren
-// SceneInfo.ini cua server rieng: 514 canh active thi 455 tra duoc bang chinh scene id, con
-// 55 canh CHI tra duoc qua client_res (vd scene 230/265/266/... -> clientres 536), va 4 canh
-// (42, 316, 1298, 1301) khong co dong DBC nao. Vi Lua chi cam scene id (MiniMap.lua:245
-// `sceneID = GetSceneID()` = ID phia SERVER, xem CWorldManager::GetActiveSceneID), tra cuu tran
-// se lam 55 canh do van trang. Nen: truot thi dung dinh nghia cua canh DANG DUNG, vi
-// CWorldManager::EnterScene da giai xong client_res cho no (WorldManager.cpp:112-127 CYS-SCENERES).
-// Va thay vi nem, tra ve gia tri trung tinh + ghi log MOT lan moi ID, de 4 canh khong co dong DBC
-// hong sach chu khong lam van client.
-// ---------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static const _DBC_SCENE_DEFINE* _CysSceneDefineByID( INT nSceneID )
 {
 	DBC_DEFINEHANDLE(s_pSceneDBC, DBC_SCENE_DEFINE);

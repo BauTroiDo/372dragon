@@ -28,20 +28,20 @@ namespace CysHostSkill
 
         int XinfaLevel(int id) { return g_services.xinfaLevel ? g_services.xinfaLevel(id) : 0; }
 
-        // CYS-HOST2: "explain" of CY 3.71 Game.exe (0x14038aac2..0x14038abad, listing Build/Logs/2026-09-17-host-2/re/
-        // CY_xinfainfo_region.txt). CY does NOT push XinFa_V1 column 3 raw - every one of its 120 rows ends in
-        // "...#r#c54FF00最高等级%d#r..." and CY formats it:
-        //     level = MySelf->GetCharacterData()->Get_Level()
-        //     max   = level <= 119 ? 119 : 129                              (0x77 / 0x81)
-        //     if (pSkillClass->m_nPosIndex == 7)                            (the 8th xinfa slot)
-        //         max = level <= 119 ? 250 : 300; if (g_flag[+0x6f5874]) max = 119;   ([SL] flag = 0 here, see below)
-        //     _snprintf(buf, 0x400, pszDesc, max); PushString(buf)
-        // client_GL (0x1402d2610) pushes pszDesc raw - its data predates the "%d" - which is why the window showed
-        // the literal "%d" (ui-fit / host-xinfa screenshots). The flag at CY g+0x6f5874 is set by the handler of
-        // packet 0xbfc, which this server never sends, so it stays 0.
-        // The substitution is done by hand (only "%d" and "%%"), not by _snprintf on the row text: a translated
-        // description with a stray '%' would otherwise corrupt the label, and for a well-formed row the result is
-        // byte-identical to CY's.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         bool g_explainOff = false;   // CYS_HOST2_OFF=1: keep the raw text (same-binary control of the A/B runs)
 
         std::string FormatExplain(const char* desc, int maxLevel)
@@ -94,11 +94,11 @@ namespace CysHostSkill
             return 1;
         }
 
-        // SkillsStudyFrame_study(xinfaId) - ActionSkillsStudy.lua:312 "ActionSkillsStudy_UpLevel_Clicked".
-        // CY Game.exe 3.71 registers a ONE-argument version (0x140234c20 -> CDataPool::SendStudySkillEvent at
-        // 0x1400cd690, catalog nargs_read 1); the 0.85 lua_SkillsStudyFrame_study wants three integers and throws
-        // "Wrong Param" on the CY call, so the learn button of the CY window died before any packet was built.
-        // Three arguments keep the 0.85 meaning (skill*100+level, teacher, has-previous-level) for GL layouts.
+
+
+
+
+
         int GlobalSkillsStudyFrameStudy(LuaPlus::LuaState* s)
         {
             LuaPlus::LuaStack args(s);
@@ -110,10 +110,10 @@ namespace CysHostSkill
             return 0;
         }
 
-        // SendAskStudyXinfa(nowLevel, xinfaId, menpai) - MessageBox_Self.lua:6488, the OK button of the CY
-        // STUDY_XINFA confirmation. CY Game.exe 3.71 0x140234c90: three lua_tonumber reads, then one CGAskStudyXinfa
-        // whose 6 body bytes are written as [+0] = arg3 (menpai), [+2] = arg2 (xinfa), [+4] = arg1 (now_level) -
-        // exactly the field order of pg::CGAskStudyXinfa (555).
+
+
+
+
         int GlobalSendAskStudyXinfa(LuaPlus::LuaState* s)
         {
             LuaPlus::LuaStack args(s);

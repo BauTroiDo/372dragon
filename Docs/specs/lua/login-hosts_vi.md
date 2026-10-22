@@ -6,11 +6,6 @@
 
 `SetSoftKeyAim(editboxName:string/number)` không trả giá trị. Chuyển tham số đầu qua biên Lua/C-string, phát đúng một sự kiện `SET_SOFTKEY_AIM` với tên ô nhập ở arg0. Bỏ qua tham số thừa. Không gõ ký tự hoặc lấy nội dung ô nhập trong hàm host.
 
-- B Game.exe SHA256 `ce0c4fec7666595ca7adb250fcd8075c28f04d1852d05111c88b730f57e1c763`, chỉ phân tích tĩnh cục bộ. RVA `229810..229855`: GetString của tham số 1, gọi dịch vụ sự kiện tại slot +b8 với ID 1ba, trả 0. Bản decompile trước được đối chiếu với disassembly của client_GL hiện tại.
-- Khởi tạo registry B tại RVA `6cd918..6cd940` gắn ID 1ba với tên `SET_SOFTKEY_AIM`. Không đưa số 1ba của B vào enum CY; thêm sự kiện ở cuối để giữ nguyên toàn bộ ID đã có.
-- Script Canonical `InterfaceFolder/SoftKeyBoard/SoftKeyBoard.lua` đăng ký sự kiện trong PreLoad; handler gọi `SoftKeyBoard_SoftKey:SetAimEditBox(arg0)`. CUIWindowItem nạp layout trước khi gọi OnEvent. Wrapper chuyển tên tới FalagardSoftKeyBoard; widget xử lý mouse/input thật vào Editbox.
-- CY đăng ký vào ô nil trước LuaApiGen. Dịch vụ được giữ riêng cho từng Lua state. Thiếu tham số, nil, boolean, table, function hoặc dịch vụ không có → lỗi Lua rõ ràng; không tạo tác dụng giả và không tính là lượt stub.
-- Chuỗi rỗng vẫn phát sự kiện theo biên host; widget báo không tìm thấy cửa sổ. Byte sau NUL không đi qua C-string. Không chuẩn hóa tên cửa sổ, không đổi byte UTF-8, không đụng clipboard hay nội dung tài khoản thật.
 
 Source: `Src/Client/LuaApiGen/CysHostGlobals.cpp`, `Src/Engine/Interface/TDEventDefine.h`, `Src/Client/WXClient/Event/GMEventSystem.cpp`. Không sửa generated stub. Evidence tĩnh: `Build/Logs/2026-09-13-gpt-login-hosts/{set-softkey.txt,event-softkey-name.txt,reference-strings.json}`.
 
@@ -39,8 +34,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tests/ui/run_game_offline_sm
 
 ## Các host còn lại (cập nhật 13/09/2026 07:14)
 
-- `GetServerAreaDis` đã triển khai tại `d1b2c16`: trường mô tả riêng + reader UTF-8 plaintext, Lua/reader 29/29, Game missing 2→0. Spec mới `Docs/specs/lua/login-areas_vi.md`; INI legacy trả mô tả rỗng theo dữ liệu. Bảng dưới còn 3 hàm/3 lượt.
-- `OpenWindow` (1 lượt): B RVA `226850` kiểm helper `218430..218496` trước khi phát event 16b. Helper kiểm một chuỗi đối tượng ảo rồi giá trị đầu bằng 4d; chưa chốt loại đối tượng/ngữ cảnh. Không bỏ gate để chỉ phát OPEN_WINDOW. Tiếp từ `open-window-gate.txt`.
-- `DataPool:GetProvincesNum` và `Talk:HideContexMenu4Speaker` (mỗi hàm 1 lượt) còn chờ phục hồi và triển khai.
 
 Toàn P1-2 chưa đạt. Những giới hạn UI/data từ `Docs/specs/ui/login-offline_vi.md` vẫn áp dụng; không coi phép thử host là đăng nhập server hoặc kiểm điều khiển trong thế giới.

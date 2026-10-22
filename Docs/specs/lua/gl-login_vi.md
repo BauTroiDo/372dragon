@@ -4,11 +4,8 @@ Phạm vi: `GameProduceLogin`, parser danh sách UTF-8, procedure đăng nhập 
 
 ## Bằng chứng B
 
-Binary đối chiếu chỉ đọc `../client_GL/Bin64/Game.exe`; SHA256 `ce0c4fec` là tiền tố của SHA đã ghi ở bộ registration. Bằng chứng LLVM tại `Build/Logs/2026-09-13-gpt-gl-login/`: `catalog-hosts.txt`, `catalog-search.txt`, `catalog-page.txt`, `catalog-recommend.txt`, `catalog-string-search.txt`, `check-account.txt`. Parser gốc: `Build/Logs/2026-09-13-gpt-login-areas/parse-list.txt`, `group-normal-area.txt`. Không chạy Ghidra mới và không thay DLL B vào Game.
 
-| Host | RVA B | Hợp đồng phục hồi |
 |---|---|---|
-| GetAreaLoginServerInfo | 0x293ae0 | Trả **5**: name, status, recommendLevel, isNew số 0/1, provider. GL đọc 4 giá trị đầu. Giá trị thứ 5 không phải serverId. Server không tồn tại trả `"",0,0,0,-1`; double -1 xác minh ở RVA 0x6e6240. |
 | GetServerAreaRecommendLevel | 0x293950 → 0x3ec260 parser | Số ở area+0x48, mặc định 0; section RECOMMENDAREA gồm `areaName,level`, clamp âm về 0, tên khu không tồn tại không làm phát sinh khu; bản ghi trùng lấy lần cuối. |
 | SetCurrentServerPage | 0x294140 → 0x3eaa80 | Chuyển số kiểu int32 rồi lưu page tại procedure, trả 0 giá trị; không tự đổi chỉ số area/server. |
 | SetLoginServerKeyword | 0x293c70 → 0x3e57c0 | Xóa kết quả trước đó, tìm tên phân biệt hoa thường, bỏ status10, loại trùng cùng area và cùng tên; keyword rỗng trả 0. |
@@ -60,7 +57,6 @@ Runner `Tests/ui/run_gl_login_smoke.ps1` có Mode Offline/WSLTest (14400/15733),
 
 Runtime `offline-fdc5342` đã nhận WM_CHAR Việt/Trung và Tab/Enter nhưng ảnh còn SelectServer che LogOn; `offline-3b09b6f` xác định soft keyboard không mở. Tại Canonical `SelectServer/SelectServer.lua:488`, close event gọi `NotFlashAreaBtnAll()` trước `this:Hide()`. Hàm tại dòng1251 gọi `FlashMe(0)` rồi `SetCheck(0)` trên16 khu thường và16 khu thử. Mapping `TLBB_ButtonCheckForServer` → `Falagard/CheckBox` → native `LUA_CONTROL::CheckButton` chưa đăng ký FlashMe. Gán LuaObject metatable native từ Window giữ bảng native khác bảng generated ImageCheckbox; vì vậy generated stub không được gọi, missing counter0 không chứng minh script thành công. DoString cũ bỏ returncode Lua nên nil method dừng handler âm thầm trước Hide. Sửa báo lỗi thực thi Lua do agent khác phụ trách.
 
-B `UI_CEGUI.dll+0x15270` kiểm arg2 có Lua type number; `cvttsd2si` truncate int rồi chỉ int1 đặt property `Flash="1"`, số khác `"0"`, nonnumber không đổi; trả0 giá trị. CYS dùng khoảng [1,2) tương đương phép truncate==1, tránh cast số nonfinite/out-of-range. Native `FalagardButton` B constructor+0x1600 đăng ký Flash và khởi tạo mode0/counter0/direction giảm; getter+0x30b0, setter+0x3470 chỉ lưu integer không reset pha. Update+0x3540 bỏ qua hidden; BtnAnimation enabled ưu tiên, không chạy Flash. Flash khác0 tăng/giảm counter theo elapsed, clamp từng đầu [0,0.6] giây, đảo chiều rồi setAlpha(counter/0.6). Mode0 đặt alpha1 ở update tiếp theo. B bắt đầu counter0/direction giảm nên tick đầu clamp0 rồi mới đi lên. Setter không tự đổi alpha, disable/re-enable giữ pha; không timer/callback ngoài lifetime window. Window fade chạy sau updateSelf nên giữ thứ tự với StartFade. Native render dùng alpha thực, không thêm hiệu ứng giả hoặc bỏ lệnh của GL.
 
 Nguồn: `Src/Client/CEGUISystem/{CysFlashBinding.h,UILuaControl.cpp,UILuaControl.h}`, `Src/ThirdParty/CEGUI-0.4.1/CEGUI/WidgetSets/Falagard/{include/FalButton.h,src/FalButton.cpp}`. Bằng chứng LLVM `Build/Logs/2026-09-13-gpt-gl-login/{flashme,flash-ctor,flash-update-full,flash-render}.txt`; B chỉ đọc, không dùng DLL B trong build. Thêm state ở class native; phải rebuild các DLL phụ thuộc FalButton trước chạy, không trộn DLL với ABI cũ.
 

@@ -515,7 +515,7 @@ namespace WX
     //-----------------------------------------------------------------------
     void CYSEnvironmentManager::setTimeOfDay(Real hours)
     {
-        mCyFreeClock = false;           // CYS-SKY: FUN_18002e3d0 pauses the CY clock when the game sets the time
+        mCyFreeClock = false;
         mTimeOfDay = wrapHours(hours);
         mFixedTimeOfDay = mTimeOfDay;
         if (mSystem)
@@ -612,8 +612,8 @@ namespace WX
             return;
         if (dt > 0)
         {
-            // CYS-SKY: CY Render.dll clock (FUN_1800ddec0): fraction += elapsed seconds / 60, hours = fraction * 24,
-            // clamped to 23.9 (FUN_1801ea5c0).
+
+
             mCyDayFraction += dt / 60.0f;
             mCyDayFraction -= (Real)(int)mCyDayFraction;
             if (mCyFreeClock)
@@ -642,10 +642,10 @@ namespace WX
         if (mCySky)                     // CYS-SKY
             mCySky->update(dt, mEnv);
 
-        // CYS-PARITY (d3d9-trace L6): scene brightness = imodel_userdata.w (Model_Emissive / Model_LSScene show their
-        // emissive map when <= 0.4). FACT CY 3.71 Render.dll FUN_1800db590 + FUN_1801e7f80 / FUN_1800f4700:
-        // setBrightness(((ambient.r+g+b) + (main light one diffuse r+g+b) + (main light two diffuse r+g+b)) / 3 / 3);
-        // checked on the traces: erengu_DL 0.47756, Dali 0.639176 (project: always 1). CYS_PARITY_BRIGHTNESS=0 keeps 1.
+
+
+
+
         static const bool brightnessParity = []() {
             const char* v = getenv("CYS_PARITY_BRIGHTNESS");
             return !(v && v[0] == '0');

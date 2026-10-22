@@ -1,51 +1,5 @@
 # -*- coding: utf-8 -*-
-"""upscale_pack.py - CY-Source STAGING: 2x high-resolution texture pack (nothing is installed anywhere).
-
-Source  : C:\\TLBB\\085\\client_GL\\Data (S1), read-only. Model closures come from the D0 index
-          (Assets\\Staging\\index\\sha256_S1.tsv + all.obj/all.material parsed with tlbbfmt).
-Output  : Assets\\Staging\\upscale\\<date>\\ = mirror of the Data folder paths (same GBK/mojibake names) holding
-          ONLY textures whose chosen variant passed every check, plus manifest.tsv (append-only, last row per
-          texture wins), selection.tsv, run.log, runs.json, verify.txt, overlay_manifest.tsv (PASS rows with
-          their Data-relative paths, for a later overlay into Assets\\Canonical) and a compact review
-          (index.html + per-category contact sheets in review\\).
-          Work files: Assets\\Staging\\upscale\\_work-<date>\\ (per-texture crops, temp files).
-
-v1 (2026-09-12) logic was copied from C:\\TLBB\\085\\analysis\\graphics-overhaul\\upscale_tex.py (2026-09-03) and
-hardened with the 03/09 14:07 incident (Docs\\08 muc 3.4, 3.5); v2 (2026-09-13) adds the variant cascade.
-  * Real-ESRGAN ncnn-vulkan 20220424 runs PER FILE with -j 1:1:1, one GPU process at a time (directory mode
-    returned mis-named images: 133/651 broken). Every output is size-checked. Tile size stays automatic
-    (2026-09-12: -t 512 silently returned garbage and coincided with an nvlddmkm driver reset).
-  * realesrgan-x4plus always with -s 4, then Lanczos down to exactly 2x (-s 2 with x4plus breaks images).
-    realesr-animevideov3 has native x2/x3/x4 models (ANIME_SCALE below).
-  * Alpha goes separately through the same model as the RGB of that variant (grey image); interiors whose
-    3x3 source alpha is constant are snapped back to the exact source value. Black fill under fully
-    transparent texels is replaced by a push-pull fill before upscaling (dark fringes otherwise).
-  * Checks on every candidate and again on the DECODED OUTPUT DDS: MAD vs the original (2x result
-    Lanczos-reduced back) on opaque texels <= 25, no broken/black tiles, mean colour shift <= 4 levels (sRGB
-    trap), alpha coverage within 2 %, local alpha change, period-2 lattice detector (grid <= 0.40), exact 2x,
-    legacy DX9 header, full mip chain.
-  * Variant cascade per texture: x4plus -> animevideov3 -> x4plus on a Gaussian-blurred input (0.6, 1.0).
-    The cascade stops at the first variant that passes with grid <= 0.30; texture sets marked t1 (the
-    2026-09-12 failures and 'look here' cards) try every variant. Among passing variants the lowest risk
-    (worst check / its limit) wins; the earliest cascade entry wins ties within 0.05. No passing variant =
-    the original stays (status fail, nothing in the mirror).
-  * UI textures (MaterialFolder\\Common, any name referenced by InterfaceFolder xml/lua) are never selected;
-    terrain, effect cards and mask/flow/rim maps are not selected; only diffuse slots of model materials.
-  * Encoding: texconv x64, -dx9, -m 0, BC1 when the source is DXT1 or has no alpha, BC3 when a DXT3/DXT5
-    source has alpha, 32-bit uncompressed stays uncompressed. texconv input is an uncompressed A8R8G8B8 DDS
-    (UNORM), so no PNG gamma metadata can trigger an sRGB conversion. No BC7.
-  * Watchdog: realesrgan runs at normal priority with a 4-logical-core affinity; a pass that exceeds 6x the
-    measured GPU time or prints no '[0 NVIDIA' device line raises GpuFallback; two in a row stop the run
-    (resumable: rerun the same command).
-
-Usage (PowerShell, $env:PYTHONUTF8="1"; & "C:\\Program Files\\Python313\\python.exe" upscale_pack.py ...):
-  select  --date 2026-09-13 --scope full --t1-from 2026-09-12      (build selection.tsv)
-  run     --date 2026-09-13 --seed-from 2026-09-12                  (resumable; --limit N, --cats, --retry-failed)
-  sheets  --date 2026-09-13          compact review: index.html + review\\*.jpg contact sheets
-  overlay --date 2026-09-13          overlay_manifest.tsv (PASS rows, Data-relative paths)
-  verify  --date 2026-09-13          re-check the mirror against the manifest
-  (v1 batch 2026-09-12: select/run/grade/review with the default --scope batch1)
-"""
+'upscale_pack.py - CY-Source STAGING: 2x high-resolution texture pack (nothing is installed anywhere).\n\nSource  : C:\\TLBB\\085\\client_GL\\Data (S1), read-only. Model closures come from the D0 index\n          (Assets\\Staging\\index\\sha256_S1.tsv + all.obj/all.material parsed with tlbbfmt).\nOutput  : Assets\\Staging\\upscale\\<date>\\ = mirror of the Data folder paths (same GBK/mojibake names) holding\n          ONLY textures whose chosen variant passed every check, plus manifest.tsv (append-only, last row per\n          texture wins), selection.tsv, run.log, runs.json, verify.txt, overlay_manifest.tsv (PASS rows with\n          their Data-relative paths, for a later overlay into Assets\\Canonical) and a compact review\n          (index.html + per-category contact sheets in review\\).\n          Work files: Assets\\Staging\\upscale\\_work-<date>\\ (per-texture crops, temp files).\n\nUsage (PowerShell, $env:PYTHONUTF8="1"; & "C:\\Program Files\\Python313\\python.exe" upscale_pack.py ...):\n  select  --date 2026-09-13 --scope full --t1-from 2026-09-12      (build selection.tsv)\n  run     --date 2026-09-13 --seed-from 2026-09-12                  (resumable; --limit N, --cats, --retry-failed)\n  sheets  --date 2026-09-13          compact review: index.html + review\\*.jpg contact sheets\n  overlay --date 2026-09-13          overlay_manifest.tsv (PASS rows, Data-relative paths)\n  verify  --date 2026-09-13          re-check the mirror against the manifest\n  (v1 batch 2026-09-12: select/run/grade/review with the default --scope batch1)\n'
 import argparse
 import base64
 import collections

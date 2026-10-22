@@ -37,10 +37,6 @@ Chat_EditBox="1234567890ccaassqqfftteexxoodd--hzvvjmmw,,..rrikbbppl``1234567890"
 **0/38 phím chữ kích hoạt được phím tắt**; mọi chữ rơi vào ô chat. Suy ra cho bản CŨ:
 `IsIMEEditboxEmpty()` **luôn FALSE** ⇒ bản cũ **chặn sạch mọi phím tắt** trừ khi giữ Alt. [DK]
 
-**CY không dùng danh sách focus.** Bộ truy cập `0x140434650` hỏi
-`UISystem->GetVariable("NonChatActive") == 1` — một **biến**, và **7 khung CY đọc đúng biến đó**
-(`ChatFrame.lua:534`, `LargeMap:317`, `MainMenuBar:1686`, `MiniMap:1190`, `SceneMap:465/1001`,
-`TeamFrame:2825`); hàm đặt là `SystemSetup:Lua_SetNonChatActive` (CY `Game.exe +0x32e710`). [DK]
 
 **Sự thật 4 — ô nhập chat cũng HIỆN vĩnh viễn, và tầng UI gõ chữ bất kể tầng game làm gì.**
 Lượt `live-2` (binary đã sửa) ra **y hệt** `live-1`: `rows fired state A = 0`, log nói cổng rơi xuống
@@ -59,7 +55,6 @@ tầng nào "nuốt" được của tầng kia. [DK]
 
 | nửa | file | làm gì |
 |---|---|---|
-| tầng game | `Procedure\CysAccelTable.cpp` | ghi `NonChatActive` (Enter đặt, Esc xoá — đúng hai callback CY `0x140439c00`/`0x140438300`) và dùng nó làm cổng nuốt |
 | tầng UI | `CEGUISystem\UISystem.cpp` `CUISystem::MessageProc` | khi `NonChatActive == 1` **và** ô đang nhận là `Chat_EditBox`, **không** chuyển `WM_CHAR`/`WM_KEYDOWN`/`WM_IME_*` cho `Ime::ImeMsgProc` |
 
 Tầng UI đọc được biến vì `UI_CEGUI.dll` có sẵn `g_pVariableSystem` (cùng nút `bin\var` mà tầng game ghi,
@@ -75,17 +70,7 @@ bình thường nên vẫn hỏi bằng danh sách focus.
 
 | thứ | địa chỉ | nội dung |
 |---|---|---|
-| bảng | `.data 0x140998980` | 79 mục × `0x30` byte |
 | bố cục mục | | `+0x00 u32 id` · `+0x08 char* khoá StrDictionary` · `+0x10 u32 key1` · `+0x14 u32 key2` · `+0x18 fn_down` · `+0x20 fn_up` · `+0x28 u32 flags` |
-| phân phối | `0x140433ea0` `CAccelerateManager::processKeyMessage` | |
-| tra text-key | `0x1404352a0` | tập phím "thuộc về ô nhập" |
-| tra hợp lệ khi đổi phím | `0x1404357e0` | hai danh sách: dùng khi chat / dùng khi không chat |
-| bắt phím mới | `0x140437050` | |
-| xoá phím trùng | `0x140435b80` | |
-| đổi phím thành chữ | `0x140435eb0` | |
-| ghi tệp | `0x140434880` | |
-| đọc tệp | `0x140435420` | |
-| tên tệp | `0x140408b64` | `"..\Accounts\%s\Acce_Custom.ini"` |
 
 **Khoá phím đóng gói trong một u32**: `vk | Ctrl<<16 | Alt<<17 | Shift<<18`. [DK]
 `processKeyMessage` đặt bit bằng `GetKeyState(VK_CONTROL) → bts 0x10`, `VK_MENU → bts 0x11`,
@@ -119,8 +104,6 @@ bình thường nên vẫn hỏi bằng danh sách focus.
 Giữ vì luật 14/09 "mọi thứ như CY"; hàm có cờ `cyQuirk=false` cho log/test in đầy đủ. [DK]
 
 ---
-
-## 3. Đã làm gì
 
 ### 3.1. Bảng thay cho switch
 
@@ -159,17 +142,6 @@ Nhảy chỉ còn `J` / `Alt+J`. [DK]
 `Shift+1/2/3` **không tồn tại**: CY dùng **`Ctrl+1/2/3`** cho `acc_MainMenuBarPageOne/Two/Three`
 (hàng 31/32/33, key `0x31 mod 1`). Bản 17/09 gắn nhầm vào `Shift` vì chú thích bit bị đảo. [DK]
 
-Tên sự kiện CY lấy được bằng cách quét bảng đăng ký sự kiện của CY (`0x1406c9c08` và lân cận,
-`mov [rip+X], <id>` đi liền `lea rax, [rip+Y]` trỏ tên): **1.639 cặp id→tên**, trong đó
-`0x69 = ACCELERATE_KEYSEND`, `0x85 = NEW_DEBUGMESSAGE`, `0xcd = TOGLE_INPUTSETUP`,
-`0x1a5 = OPEN_AUTOSEARCH`, `0x22b = MINMAP_PLAYERLIST_SHOW`, `0x27c = TOGGLE_WUHUN_PAGE`,
-`0x286 = OPEN_XIULIAN_PAGE`, `0x312 = TRIGGER_ZIDONGZHANDOU`, `0x135 = UPDATE_SUPERTOOLTIP`,
-`0x12f = SHOW_SUPERTOOLTIP2`. Bảng đầy đủ: `scratchpad/m2/cy_events_all.json`. [DK]
-
-**5 hàng CY có mà bản này chưa làm được** — ghi log `not ported`, không đoán bừa:
-F12 (cờ thế giới `+0x41`), `Ctrl+Tab` (làm tươi thế giới có tiết lưu), `Z` (`InfoBrowser`),
-`W` (một singleton `0x1409b7900`), `I` và `L` (tự động chiến đấu — cần trạng thái mà bản này chưa có),
-F11 (ẩn/hiện toàn bộ UI — engine này không có API).
 
 ### 3.3. Khinh công
 
@@ -183,29 +155,6 @@ F11 (ẩn/hiện toàn bộ UI — engine này không có API).
 | `GMDP_CharacterData.h` | khai báo `GetDefaultFlySkillID` |
 | `CysModernHandlers.cpp` | 2 dòng `CYS-MOVE2` nối `GCCharFly` vào bộ phân phối |
 
-**`CAI_MySelf::PushCommand_Fly` = `0x140118600`**, dịch từng bước: [DK]
-
-1. `[this+0xa4] != 0` ⇒ trả 0 — **đây chính là khoá 500 ms**;
-2. `skillId == -1` ⇒ 0;
-3. tra kỹ năng qua `FUN_1401addb0(charData, skillId)`, không có define ⇒ 0;
-4. `vtable slot 16` (`0x14011a070`) = `IsCanFly` ⇒ 0;
-5. kẹp đích về `tầm × 0.9` (hằng float `0x14070906c` = 0.9; tầm = `m_fMaxAttackRange`);
-6. đích phải tới được: `IsPointInUnreachRegion` **và** đường thẳng đúng **một** đoạn
-   (`GetPathDirect` → `GetUnitNum() == 1`);
-7. dừng AI (slot 9) → gửi `CGCharFly` → `[0xa4] = 500` (`0x1f4`), `[0xa8] = now`, `[0x10] = 0xFFFF`.
-
-**Khoá 500 ms cũng là cổng đầu tiên của `PushCommand_Jump`** (`0x140118550`): khi khoá còn chạy,
-CY in `StrDictionary "GMAI_MySelf_1"` (chuỗi tại `0x14070d940`) — bản Việt: *"Ngươi hiện đang rất bận"*.
-Bản này dùng lại `m_uForbidTime` sẵn có (`USE_SKILL_FORBID_TIME` = 500 ms), nên không thêm biến mới. [DK]
-
-`IsCanFly` (`0x14011a070`) từ chối khi: chết, đang trong chiêu, bị hạn chế di chuyển, đang bày sạp,
-đang theo tổ đội, đang nhảy, đang bay; thông báo chung là `GMAI_MySelf_22`. [DK]
-
-**`GetDefaultFlySkillID`**: CY khoá theo bảng `0x1407132c8` (13 ô, kỹ năng **5271..5285**), nhưng đó là
-**không gian ID của CY**, không phải của server này. Server dùng `define.QINGGONG_SKILL`
-(`lualib/define.lua:296`): thiếu lâm 23 … tiêu dao 31, Mộ Dung 110, Ác Nhân Cốc 4648, và **34 luôn được
-chấp nhận cho mọi phái** (`scenecore:is_qinggong_skill` trả true cho 34). Hàm chọn: kỹ năng của phái nếu
-đã học → kỹ năng khinh công bất kỳ đã học → 34 → -1. [DK]
 
 **Cung bay** (`Obj_Character_Leap.cpp`): parabol `lift = 4·h·t·(1−t)`, cộng vào `GetGroundLift()` —
 cùng cơ chế `ride-core` dùng cho thú bay, nên `CObject_Phy::SetMapPosition` nâng cả chân lẫn camera.
@@ -222,8 +171,6 @@ Hoạt cảnh lấy từ `ActionSetKV.txt`: **393 `轻功起飞`** (cất cánh)
 Độ cao cung (`0.25 × cự ly`, kẹp `[1.5, 4.0]`) và cách chọn biến thể theo phái (`N = menpai + 1`) là **[SL]**.
 
 ---
-
-## 4. Số đo thật
 
 ### 4.1. Lõi bảng phím — 30 phép kiểm, độc lập engine
 
@@ -247,21 +194,9 @@ Bằng chứng: `Build/Logs/2026-09-17-move-2/bot-fly-*/core-loop.tsv`.
 Ba kết quả khớp từng dòng `scenecore:char_fly` (`scenecore.lua:6146`). Hai đường từ chối chỉ trả
 **tip**, không có mã lỗi — nên client phải tự gác trước khi gửi, đúng như CY làm. [DK]
 
-**Phát hiện sửa một giả định sai của chính tôi**: `from` trên dây là **vị trí TRƯỚC khi bay**
-(160,150), không phải đích. Nhưng handler của CY (`0x140395860`) **không đọc `from`** — nó chỉ lấy
-`logic_count (+0x1c)`, `skill (+0x20)`, `to (+0x2c/0x30)`, `to2 (+0x34/0x38)` rồi đẩy lệnh 202.
-Vị trí bắt đầu nhìn thấy luôn là vị trí client của chính đối tượng. Bản này làm y hệt. [DK]
 
 Mở rộng bot: `--fly X,Z[,SKILL]` (`Src/Tools/CysNetBot/main.cpp`, thẻ `CYS-MOVE2`) — gửi một
 `CGCharFly` 1,5 s sau setup rồi ở lại 6,5 s để bắt `GCCharFly`/tip.
-
-### 4.3. Tab — bác một tiền đề nằm sẵn trong mã
-
-Dịch ngược trọn callback hàng 57 (`0x140438840`) từ đầu đến `ret`: toàn bộ thân hàm chỉ dựng
-`vector<STRING>{szSceneMap, "2"}` rồi `PushEvent(0x78 = TOGLE_SCENE_MAP)` và bật hai cờ làm tươi minimap
-(`0x1409c13c0`, `0x1409c13c1` — đúng `m_bNeedFreshMinimap` / `m_bWaitNeedFreshMinimap` của 0.85).
-**Không có lời gọi nào khoá mục tiêu.** Chú thích `CYS-SKILL` cũ trong `GamePro_Main.cpp`
-("CY binds Tab to select the nearest enemy") **sai**; hàng 57 nay là `ACT_SCENE_MAP`. [DK]
 
 ### 4.4. Phiên live 79 phím
 
@@ -357,7 +292,3 @@ Mission**, không phải của bảng phím: trước đây phím chữ trơn ch
   | `SystemSetup:RevertAcceCustom()` | `CysAccel::Revert()` |
   | `SystemSetup:UseAcceCustomKey()` | `CysAccel::Commit()` |
   | `SystemSetup:GetIsConfigChanged()` / `SetIsConfigChanged(n)` | `CysAccel::IsChanged()` / `SetChanged(n != 0)` |
-
-  `AcceSetup.lua` còn gọi `SystemSetup:InputSetupSwitch` (dòng 369) — chưa dịch ngược, chưa cần.
-- **Độ cao cung bay** vẫn là [SL]. Chốt được bằng một lượt CY oracle có server trả `GCCharFly` cho
-  chính nhân vật (`cy_oracle_server.py` hiện chưa phát gói này).

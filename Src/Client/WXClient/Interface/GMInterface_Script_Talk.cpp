@@ -47,30 +47,30 @@ namespace SCRIPT_SANDBOX
 	const char*		NAMETYPE_TALK_SELF		= "self";
 	const char*		NAMETYPE_TALK_MENPAI	= "menpai";
 
-	// ---------------------------------------------------------------------------------------------------------
-	// CYS-CHATENTER 20/09/2026 - CUA VE cua khung chat (bang vi sai dong D4,
-	// Build\Logs\2026-09-20-chat-enter\02-bang-vi-sai.md).
-	//
-	// HOC: o MOI cay song (client 0.85 phat hanh, client_GL, CY 3.71) Lua KHONG ve chat - dong
-	//   `elseif (event == "CHAT_MESSAGE") then --ChatFrame_InsertChatContent(arg0, arg1, arg2);`
-	// nam TRONG CHU THICH (client_GL\Data\InterfaceFolder\ChatFrame\ChatFrame.lua:516-517, CY ChatFrame.lua:546-547).
-	// Chinh C++ ve: ham chua chuoi "Chat_Frame_History" + assert "vParam.size() == 5" cua
-	// client_GL\Bin64\Game.exe (sha256 ce0c4fec..., [0x356f40,0x3587cc); CY 3.71 sha256 9278c7f3..., [0x4972d0,0x4989b2))
-	// dung chuoi mau roi goi tUISystem o [62] (id, "Chat_Frame_History", chu, op, extra). SAU noi goi no, tim bang quet
-	// `call rel32`: HandleRecvTalkPacket x2, InsertHistory x2, cua addTalkMsg x2.
-	// TA: C++ thoi ma nguon chi PushEvent(GE_CHAT_MESSAGE) va trong cay ta KHONG con ai nghe su kien do => cam.
-	//
-	// PHAN BIEN: khong chep duoc nguyen van ham ve cua ban song (~6 KB ma may, hang chuc nhanh chien truong / lien
-	// may chu, va LOC THEO TAB bang SetTabCfg/SetCurTab - o ta ca hai con la stub). Ap dung CO CHE (C++ -> ten cua so
-	// -> insertChatString); DINH DANG lay tu chinh bo dinh dang CY con de lai trong du lieu:
-	// `ChatFrame_InsertChatContent` (CY ChatFrame.lua:820-855) + bang mau CHANNEL_DATA[kenh][4]/[5] (:280-432,
-	// nhanh SystemSetup:IsClassic() == 0). Lien ket ten nguoi noi: ban song dung "#{_INFOUSR%s}" (GetHyperLinkString,
-	// Game.exe rva 0x344210) ma bo phan tich chuoi cua ta CHUA hieu the do (CysInfoLink.h:79) => dung dang
-	// "#aB{ten}ten#aE" ma no hieu (UIString.cpp:680) - chinh la dong bi chu thich ngay trong ham Lua do.
-	// CHUA LAM: loc theo tab; "KillTimer". Moi kenh deu hien o tab dang mo.
-	//
-	// Su kien GE_CHAT_MESSAGE VAN duoc day nhu cu (khong ai nghe thi vo hai; tay doi chung A/B = dung hanh vi cu).
-	// CYS_CHATENTER_OFF=1 (doc MOT lan) tat duong ve => tay doi chung tren CUNG mot binary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	static VOID cysChatShow(const std::vector< STRING >& vParam);
 	static void cysChatTrace(const char* format, ...)
 	{

@@ -1,21 +1,21 @@
--- menpai-fix (CY-Source 15/09/2026): logic điều kiện/tiêu hao CY 16–21 của SkillData CY, cài theo MÃ tlbb15 (dịch ngược, không chạy binary):
---   * main Server  Combat_Module::CDCore_T::ConditionCheck @0xa87cca / Deplete @0xa87a96: switch kiểu 0..13, kiểu khác → trả 1 (đạt, không tiêu hao).
---   * Serverhook.so Hook_Obj_Character::CommonConditionCheck @0x60978 (kiểm trước CDCore, chỉ khi đối tượng là người chơi):
---       18: bản thân có impact (theo MutexID) thuộc tập p0                     → không đạt
---       19: mục tiêu có số impact thuộc tập p0 < p1                              → không đạt
---       20: bản thân có 0 impact thuộc tập p0                                     → không đạt
---       16: phái 13 và kỹ năng ∈ tập kỹ năng 340 (桃花岛共情技能): mission328 % 10000 < p0 → không đạt; mission329 (con rối) = 0 → không đạt
---       17: phái 14: mission331 % 10 < p0                                         → không đạt
---       21 (需要天机点): không có nhánh nào → đạt (như CDCore mặc định)
---   * MenPai_13::OnUseSkillSuccessfully @0x9fbbc: kỹ năng ∈ 340, mỗi ô kiểu 16 → mission328 hiện tại −p0 (sàn 0) + hoàn talent
---   * MenPai_14::OnUseSkillSuccessfully @0xa173c: template 3843/3846/3847/3851 (tlbb15) — mỗi ô kiểu 17 → mission331 hiện tại −p0 (sàn 0)
---       tên trùng CY 3.71: 3843 笑恩仇→4530, 3846 宁鸣不默（2段）→4533, 3847 宁鸣不默（3段）→4534, 3851 宁鸣不默→4538
---   * PublicA::xyzServerScanTargetIsImpactInCollection(Ex) @0x5dae6/0x5dbaa: so MutexID của từng impact với danh sách ID của tập
---     (bỏ qua cột kiểu); Skill_IsSkillInCollectioEx @0x5d9de: so ID kỹ năng.
--- Tập ID: bảng IDCollections của client CY 3.71 (SkillData CY trỏ tập CY; bảng server riêng là bản HJS/GL, 248 dòng khác),
--- dòng thiếu lấy từ tlbb15 Public/Config (340) — xem lualib/cy_idcollections.lua (sinh máy).
--- Tài nguyên 桃花岛/绝情谷 dùng chung kho cy_four_combat (human:get/set_cy_four_resource 328/331, con rối callbacks.get_doll_id);
--- tiêu hao đẩy vào hàng chờ bridge.resources (trừ ở on_use_skill_successfully như native), không có bridge thì trừ ngay.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local define = require "define"
 
 local M = {}

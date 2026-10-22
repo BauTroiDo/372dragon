@@ -166,13 +166,13 @@ protected:
 	INT		Lua_GetOwnerQuest(LuaPlus::LuaState* pState);	//!!只针对任务奖励虚拟物品，得到物品是属于第几个任务的。
 	INT		Lua_GetPrice(LuaPlus::LuaState* pState);	//得到价格
 	INT		Lua_GetNum(LuaPlus::LuaState* pState);		//得到每一组的数量
-	// CYS-UIFRAMES: colour prefix a shop row puts in front of the item name
-	// (`SetText(theAction:GetItemColorInShop()..theAction:GetName())`, 15 CY frames).
-	// B returns a string (Game.exe+0x1df5d0, noted in LuaApiGen_ActionButtonMetaTable.cpp).
-	// The quality->colour mapping has NOT been measured yet, so this returns "" - which every
-	// call site already handles (BieYe_MCJBShop.lua:217 tests `~= ""` explicitly). The name then
-	// shows in the default colour. Registering it matters either way: without it the method is
-	// nil on a real action object and the shop row throws instead of just losing a colour.
+
+
+
+
+
+
+
 	INT		Lua_GetItemColorInShop(LuaPlus::LuaState* pState);
 	// CYS-UIFIX2: chi so hang cua vat pham trong bang vat pham, doc tren CHINH doi tuong action.
 	// Day la ten phuong thuc THIEU NHIEU SITE NHAT tren ActionButtonMetaTable: 27 site / 12 khung,

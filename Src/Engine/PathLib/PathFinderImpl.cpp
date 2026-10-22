@@ -1,8 +1,8 @@
-// PathFinderImpl — concrete PathFinder: A* over the triangle navmesh + greedy string-pull
-// (funnel), straight-line walkability, region queries, nearest-walkable, and a slide/move
-// helper. Re-derived from the observed contract of FUN_1800287c0 / FUN_180027db0 /
-// FUN_1800288d0 / FUN_18002cd60 (island fast-reject, A*, funnel, smoothing) — written clean,
-// with every array access bounds-checked so malformed meshes cannot fault.
+
+
+
+
+
 
 #include <algorithm>
 #include <cmath>
@@ -91,7 +91,7 @@ public:
         if (st == kNoNeighbor || gt == kNoNeighbor) return false;
         if (mesh->tris[st].blocked() || mesh->tris[gt].blocked()) return false;
 
-        // Island fast-reject (FUN_1800287c0): different connected regions => unreachable.
+
         const std::uint32_t rs = mesh->tris[st].extra;
         const std::uint32_t rg = mesh->tris[gt].extra;
         if (rs == 0 || rg == 0 || rs != rg) return false;
@@ -209,9 +209,9 @@ private:
         else if (outFirst && !points.empty()) { outFirst[0] = points.back().x; outFirst[1] = points.back().z; }
     }
 
-    // Straight-line walkability: no constraint edge (wall) and no dynamic obstacle crossed,
-    // walking only the grid cells the segment passes through (DDA). Mirrors the intent of
-    // FUN_18002c2b0 / the segment-vs-constraint-edge test, restricted to touched cells.
+
+
+
     bool losSegment(const float* a, const float* b) const {
         // Any dynamic obstacle edge crossed?
         for (const auto& poly : blockPolys) {

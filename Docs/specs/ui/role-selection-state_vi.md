@@ -6,11 +6,9 @@ Mốc này phục hồi host cần thiết để Lua mở màn hình chọn nhâ
 
 ## Bằng chứng B
 
-Target chỉ đọc: `../client_GL/Bin64/Game.exe`; identity đầy đủ tại `Build/Logs/2026-09-13-gpt-gl-login/role-selection-identity.json`. Các RVA dưới đây dùng image base `0x140000000`.
 
 | Đường thực thi | Bằng chứng |
 | --- | --- |
-| Singleton CharSel | `+0x3dfd77` cấp `0x4d8` byte, `+0x3dfd8e` gọi ctor `+0x3f68e0`, `+0x3dfd98` lưu pointer vào `0x1409c1418`. |
 | Khởi tạo danh sách trống | Ctor đặt `r12d=0` tại `+0x3f6919`; count `+0x30` nhận 0 tại `+0x3f6a38`, selected slot `+0x460` nhận 0 tại `+0x3f6a6d`. Do đó empty ban đầu là **0**, không phải -1. |
 | Getter Lua | `+0x294bd0`: đọc singleton trên; `+0x294be3` lấy int `+0x460`, chuyển sang Lua number, push và return 1. Không suy ra từ count. |
 | Chỉ số xóa khác state chọn | `SetCurSelect`, `+0x295e40`, đọc arg2 rồi ghi int vào singleton `+0x0c`; không ghi `+0x460`. |
@@ -18,7 +16,6 @@ Target chỉ đọc: `../client_GL/Bin64/Game.exe`; identity đầy đủ tại 
 | Khởi tạo hiển thị | `+0x3f31e0`: sau tạo thành công, count dương chọn `count-1` tại `+0x3f3244`; nhánh đọc `Idx` kiểm range và chọn 0 khi không hợp lệ, ghi tại `+0x3f33b2`. |
 | Thao tác chọn | `+0x3f5270` nhận kết quả hit test, bỏ -1 và slot không đổi, phát event/camera rồi ghi tại `+0x3f52f4`. `+0x3f55c0` kiểm slot 0..2, actor hiện tại/đích và trạng thái camera; có pending/previous state `+0x464/+0x468`, ghi selected tại `+0x3f56ab`. |
 
-Disassembly có annotation import: `role-getter.txt`, `role-delete-setter.txt`, `role-state-singleton.txt`, `role-state-construct.txt`, `role-state-entry.txt`, `role-state-ctor.txt` (hàm khởi tạo hiển thị, không phải ctor đối tượng), `role-state-select.txt`, cùng thư mục evidence trên. Dùng LLVM cục bộ; không sửa binary B hoặc tải lên bên ngoài.
 
 ## Phần đã triển khai và giới hạn
 

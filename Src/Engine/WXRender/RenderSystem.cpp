@@ -821,10 +821,10 @@ VOID CRenderSystem::Camera_GetWindowToViewportRay(INT nX, INT nY, fRay& fRay)
 	fRay.mDirection = fVector3(ray.getDirection().x, ray.getDirection().y, ray.getDirection().z);
 }
 
-//=====================================================================================
-// CYS: camera 3D tu do theo CY 3.71 (Docs/specs/render/camera3d_vi.md). Pitch nguoi choi = CCamera_Scene::STATIC_PITCH
-// (quy uoc 0.85: radian, am = nhin xuong). Gioi han pitch/khoang cach/FOV lay tu System.cfg nhu Game.exe C khi vao
-// canh (FUN_1406be820: View_DefaultCamera != 0 va canh Type 0), nguoc lai la dong 1 cua SpecialSceneCamera.txt.
+
+
+
+
 namespace
 {
 	FLOAT _CysCamFloat(LPCTSTR szName, FLOAT fDefault)
@@ -869,7 +869,7 @@ VOID CRenderSystem::Camera_ApplyVariables(VOID)
 			fPitchMin = fCfgPitchMin;
 			fPitchMax = fCfgPitchMax;
 		}
-		// C FUN_140647430: <= 0 -> 6 / 27.5; max >= min + 0.1
+
 		fMinDist = _CysCamFloat("Camera_MinDistance", 6.0f);
 		fMaxDist = _CysCamFloat("Camera_MaxDistance", 27.5f);
 		if(fMinDist <= 0.0f) fMinDist = 6.0f;
@@ -881,14 +881,14 @@ VOID CRenderSystem::Camera_ApplyVariables(VOID)
 	s_fCysPitchUpper = -fPitchMin*kCysDeg;
 	s_fCysPitchLower = -fPitchMax*kCysDeg;
 	s_bCysSmooth = _CysCamInt("Camera_Smooth", 1) != 0;
-	// CYS-SCFIX: CY 3.71 do tu bo nho (Build/Logs/2026-09-15-scene-change-fix/oracle-1-luoyang cam-a0/a1/a3,
-	// cy-oracle run-18..21): voi System.cfg cua CY, keo chuot phai doc 160 px va lan chuot 4 nac KHONG doi pitch,
-	// pitch luon = Camera_Pitch (40 do nhin xuong); keo ngang doi yaw. C khong co khoa View_UseSkyCamera: mac dinh 0
-	// = goc CY co dinh Camera_Pitch. Gia tri 1 (khoa cua B) chi con cho driver chup anh 3D.
-	// CO Y KHAC CY (17/09/2026): ban choi (stage_game.py) nay ghi View_UseSkyCamera=1 = CAMERA TU DO theo
-	// yeu cau nguoi dung; CY that su khoa pitch 40 do. Mac dinh cua ENGINE van la 0 (dung CY) de cac bo
-	// do doi chung (cy-oracle, d3d9-trace, viewer) khong bi doi camera khi khong co cfg cua ban choi.
-	// Muon quay ve dung CY khi choi: doi mot khoa View_UseSkyCamera ve 0 trong stage_game.py.
+
+
+
+
+
+
+
+
 	s_bCysSkyCamera = _CysCamInt("View_UseSkyCamera", 0) != 0;
 	if(!s_bCysSkyCamera)
 	{
@@ -921,16 +921,16 @@ VOID CRenderSystem::Camera_ApplyVariables(VOID)
 
 VOID CRenderSystem::Camera_SetPitch(FLOAT fPitch)
 {
-	// C FUN_18002b420: chi nhan |p| < 89 do, ghi STATIC_PITCH roi Update
+
 	if(!(fPitch < 1.553343f && fPitch > -1.553343f)) return;
 	CCamera_Scene::STATIC_PITCH = fPitch;
 	if(m_pCamera_Scene) m_pCamera_Scene->Update();
 }
 
-// CYS-FXBASE (fx-cy-baseline 19/09): do cao diem nhin tren vi tri nhan vat, tinh bang met (CCamera_Scene add height).
-// CY 3.71 quay quanh mot diem cao hon dong bang camera cua engine nay 0,8 m (cy-oracle camread: target y 1350 so voi
-// 1270 tai cung cho, cung pitch/yaw/khoang cach); replay ngoai tuyen dat gia tri nay qua CYS_SFX_CAM_ADDH de hai camera
-// trung nhau. Khong ai goi ham nay trong duong choi thuong.
+
+
+
+
 VOID CRenderSystem::Camera_SetAddHeight(FLOAT fAddHeight)
 {
 	if(!(fAddHeight >= 0.0f && fAddHeight < 10.0f)) return;
@@ -940,7 +940,7 @@ VOID CRenderSystem::Camera_SetAddHeight(FLOAT fAddHeight)
 VOID CRenderSystem::Camera_AddPitch(FLOAT fDelta)
 {
 	if(!s_bCysSkyCamera) return;
-	// C ProcessInput FUN_14064bd70: p = GetPitch() - dy/300, kep trong [DAT_140fae444, DAT_140fae440]
+
 	FLOAT p = CCamera_Scene::STATIC_PITCH + fDelta;
 	if(p > s_fCysPitchUpper) p = s_fCysPitchUpper;
 	if(p < s_fCysPitchLower) p = s_fCysPitchLower;
@@ -949,7 +949,7 @@ VOID CRenderSystem::Camera_AddPitch(FLOAT fDelta)
 
 FLOAT CRenderSystem::Camera_GetPitch(VOID) const
 {
-	return CCamera_Scene::STATIC_PITCH;	// C FUN_18002b1c0
+	return CCamera_Scene::STATIC_PITCH;
 }
 
 VOID CRenderSystem::Camera_SetFreeMode(BOOL bFree)
@@ -991,7 +991,7 @@ VOID CRenderSystem::Camera_SetZoomTarget(FLOAT fZoom)
 
 VOID CRenderSystem::Camera_Tick(VOID)
 {
-	// C GamePro_Main tick FUN_14064a0a0: |zoom - target| > SmoothStep -> zoom += +-SmoothStep, nguoc lai gan dung target
+
 	if(!m_pCamera_Current || m_pCamera_Current != m_pCamera_Scene || s_fCysZoomTarget < 0.0f) return;
 	FLOAT z = Camera_GetZoom();
 	if(::fabs(z - s_fCysZoomTarget) > s_fCysSmoothStep)
@@ -1374,7 +1374,7 @@ inline FLOAT CRenderSystem::Camera_GetDirection(VOID) const
 
 inline FLOAT CRenderSystem::Camera_GetZoom(VOID) const 
 {
-	// CYS: C FUN_18002b270 tra ve zoom chuan hoa [0,1] (0.85 tra ve khoang cach nen Camera_SetZoom(fTransDistance) vo hieu)
+
 	if(CCamera_Scene::MAX_DISTANCE <= CCamera_Scene::MIN_DISTANCE) return 1.0f;
 	return (m_pCamera_Current->GetDistance() - CCamera_Scene::MIN_DISTANCE)/(CCamera_Scene::MAX_DISTANCE - CCamera_Scene::MIN_DISTANCE);
 }
@@ -1512,8 +1512,8 @@ extern "C" __declspec(dllexport) int __cdecl CysLoginSceneCamera(
 static_assert(std::is_same<decltype(&CysLoginSceneCamera),
     CysLoginSceneBridge::CameraPose>::value, "Login camera bridge signature mismatch");
 
-// CYS-CHARSEL: CY login camera CCamera_CharSel FUN_180002a30 ends with setFarClipDistance(40000); CCamera_CharSel::Update
-// restores 100000 when the character screens select the view again.
+
+
 extern "C" __declspec(dllexport) int __cdecl CysLoginSceneFarClip(void* renderer, float farClip)
 {
     if (!renderer || renderer != CRenderSystem::GetMe() || !std::isfinite(farClip) || farClip < 1000 || farClip > 200000)
@@ -1527,8 +1527,8 @@ extern "C" __declspec(dllexport) int __cdecl CysLoginSceneFarClip(void* renderer
 static_assert(std::is_same<decltype(&CysLoginSceneFarClip),
     CysLoginSceneBridge::CameraFarClip>::value, "Login far clip bridge signature mismatch");
 
-// CYS-SKY: CY 3.71 Render.dll day clock (FUN_1800dde40: 60 s day, FUN_1800ddec0 advances it) keeps running until the game
-// sets the time (FUN_18002e3d0, called when entering the world). Login / character procedures never set it.
+
+
 extern "C" __declspec(dllexport) int __cdecl CysSceneSkyClock(void* renderer, int running)
 {
     if (!renderer || renderer != CRenderSystem::GetMe())
@@ -1539,9 +1539,9 @@ extern "C" __declspec(dllexport) int __cdecl CysSceneSkyClock(void* renderer, in
 static_assert(std::is_same<decltype(&CysSceneSkyClock),
     CysLoginSceneBridge::SkyClock>::value, "Sky clock bridge signature mismatch");
 
-// CYS-SKY: CY 3.71 CRenderSystem vtable +0x350 = FUN_18002e3d0 (Render.dll): without a SkySphere it stops the day clock
-// and sets the day fraction; with one it sets the SkySphere time and lunar date. Game.exe FUN_14064d030 calls it from
-// GCWorldTime and every View_SkyBoxRefreshTime ms.
+
+
+
 extern "C" __declspec(dllexport) int __cdecl CysSceneSetTime(void* renderer, int dayOfMonth, float dayFraction)
 {
     if (!renderer || renderer != CRenderSystem::GetMe() || !std::isfinite(dayFraction))

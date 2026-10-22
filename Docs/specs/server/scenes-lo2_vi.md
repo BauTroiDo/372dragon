@@ -62,8 +62,6 @@ không phải lỗi). Đối chứng trên cảnh đang chạy: `luoyang_new` 19
 
 ---
 
-## 3. Dòng DBC — nguồn 24 cột và ba bẫy [DK]
-
 ### 3.1 `huashan` (cảnh 125): không bảng nào có dòng, và `clientres` trỏ nhầm hình học
 
 | bảng | dòng `huashan.scene`? | dòng 168 (= `clientres` của cảnh 125) |

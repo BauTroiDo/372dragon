@@ -116,8 +116,8 @@ namespace WX
         bool gStatsAdded = false;
     }
 
-    // FACT (CY 3.71): Render.dll FUN_18002ec20 dispatches "View_HumanLightmap" (atoi) from VARIABLE_CHANGED; CY's
-    // default System.cfg sets View_HumanLightmap=2 (Build\Logs\2026-09-14-shadow-cy\cy-re\strings).
+
+
     const char* const CYSShadowHost::kLevelKey = "View_HumanLightmap";
 
     //---------------------------------------------------------------------------------------------------------------
@@ -128,11 +128,11 @@ namespace WX
     //---------------------------------------------------------------------------------------------------------------
     CYSShadowConfig CYSShadowHost::configForLevel(int level)
     {
-        // FACT (CY 3.71, Docs\specs\render\shadow-cy_vi.md): Render.dll FUN_18002e100 calls setShadowMapEnabled(1) only
-        // for View_HumanLightmap 2; 0 and 1 switch the shadow map off (1 only changes the terrain mode). The level
-        // never changes the map parameters: constructor FUN_1800d7a20 = CSM, 4 cascades, 1024 texels per cascade
-        // (+0x1c8), splits 668 / 1945 / 4508 / 9625 (+0x50 +0x9c +0xe8 +0x134), back-off 8000 (+0x38), blend 0.005;
-        // AutoParamDataSource bias defaults const 5 / normal 20 world units (CY/B OgreMain), EnvKey strengths.
+
+
+
+
+
         CYSShadowConfig cfg;
         if (level < 2)
         {
@@ -141,11 +141,11 @@ namespace WX
         else
         {
             cfg.mode = CYSShadowConfig::MODE_CSM;
-            // CYS-PARITY (d3d9-trace, Docs/specs/render/d3d9-parity_vi.md L1): FACT d3d9 trace of CY 3.71 at run time,
-            // login erengu_DL and Dali (cy-oracle world, 3 frames): ONE 4096x4096 R32F map, receivers
-            // shadow_param (1,1,4096,0), shadow_csm_param (1, 1, 0.005, 8000), isystem_userdata (8,0,0,20), 300..730
-            // caster draws. The constructor values below (4 x 1024, splits 668..9625, bias 5) are replaced at run time.
-            // CYS_PARITY_SHADOW=ctor restores them.
+
+
+
+
+
             const char* cysAb = std::getenv("CYS_PARITY_SHADOW");
             if (!(cysAb && std::strcmp(cysAb, "ctor") == 0))
             {
@@ -307,9 +307,9 @@ namespace WX
     //---------------------------------------------------------------------------------------------------------------
     void CYSShadowHost::onSceneLoaded(const Ogre::String& sceneFile)
     {
-        // FACT (CY 3.71 Render.dll, Build\Logs\2026-09-14-shadow-cy\cy-re\decomp\03): after the login scene
-        // erengu_DL.Scene the client calls setShadowMapEnabled(1) + setShadowDis(18000, 1000) (FUN_18002b5e0);
-        // the character screen tl3chuangjian.Scene calls setShadowMapEnabled(0) (FUN_18002b710).
+
+
+
         if (!gStarted)
             return;
         Ogre::String name = sceneFile;

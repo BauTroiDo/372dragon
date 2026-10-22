@@ -153,9 +153,9 @@ void CGameUIScript::createBindings(void)
 		metaUIWindowItem.RegisterObjectFunctor("IsVisible"			, &CUIWindowItem::LUA_IsVisible);
 		metaUIWindowItem.RegisterObjectFunctor("TransAllWindowText"	, &CUIWindowItem::LUA_TransAllWindowText);
 		metaUIWindowItem.RegisterObjectFunctor("CareObject"			, &CUIWindowItem::LUA_CareObject);
-		// CYS-HOST2: B registers GetChildOffset on this metatable (catalog: MetaTable_UIWindowItem, UI_CEGUI.dll
-		// 0x180058500). The LuaApiGen stub sat on a global table named "this" and could never be reached.
-		// CYS_HOST2_OFF=1 leaves it out (same-binary control of the A/B measurement).
+
+
+
 		{ char off[4] = {0}; if (!(::GetEnvironmentVariableA("CYS_HOST2_OFF", off, sizeof(off)) == 1 && off[0] == '1')) metaUIWindowItem.RegisterObjectFunctor("GetChildOffset", &CUIWindowItem::LUA_GetChildOffset); }
 	}
 

@@ -5,7 +5,7 @@
 # usage: fxbase_replay_run.ps1 -Batch b00-calib [-Rep 1] [-CamZoom 0.4 -CamDir -24.0] [-Seconds 130] [-Env 'K=V;K=V']
 # ASCII only (Windows PowerShell 5.1).
 param([Parameter(Mandatory=$true)][string]$Batch, [int]$Rep = 1, [double]$CamZoom = -1, [double]$CamDir = -999,
-      [string]$Table = 'C:\TLBB\085\CY-Source\Build\re\fx-cy-baseline\tables\ours\ImpactSEData_V1.txt',
+      [string]$Table = 'C:\TLBB\085\CY-Source\Build\diagnostics\fx-cy-baseline\tables\ours\ImpactSEData_V1.txt',
       [int]$Seconds = 175, [string]$Env = '', [string]$Stage = 'C:\TLBB\085\CY-Source\Build\world-gui\stage-fxbase-3')
 $ErrorActionPreference = 'Stop'
 $R = 'C:\TLBB\085\CY-Source'

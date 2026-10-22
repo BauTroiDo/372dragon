@@ -88,10 +88,10 @@ protected:
 	INT		_ComputeManualRollOff(INT volumeDB, INT dbMin, INT dbMax, DOUBLE alpha, FLOAT sqrdist) const;
 
 public:
-	// CYS-AUDIO: CY 3.71 CSoundSourceFMod (0xb0 bytes, ctor FUN_14068a880): max distance +0x64 (default 10.0,
-	// skill 3D sounds 20.0 via FUN_140688ce0, ESD sounds the table distance), gain +0x6c (1.0). UpdateVolume
-	// (FUN_14068a1d0): 2D = type volume * gain; 3D = type volume * (1 - d/max) * gain, 0 beyond max (d = listener
-	// distance on the ground plane).
+
+
+
+
 	VOID	SetMaxDistance(FLOAT fMax) { _MaxDistance = fMax > 0.01f ? fMax : 0.01f; }
 	FLOAT	GetMaxDistance(VOID) const { return _MaxDistance; }
 	VOID	SetGain(FLOAT fGain) { _Gain = fGain; }

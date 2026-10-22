@@ -1,9 +1,9 @@
 #ifndef __CYS_SCENE_COMMON_H__
 #define __CYS_SCENE_COMMON_H__
 
-// CY-Source (scene agent, 2026-09-12): shared helpers for the scene-level beauty data of the modern client:
-// EnScene, SkySphere, EnvKey, height fog, per-scene post-filter files, water, fake lights, dynamic bones.
-// Specification: Docs/specs/render/05-scene-features.md (+ 02-postfx.md). Written from the spec, no decompiled code.
+
+
+
 
 #include "Core/WXPrerequisites.h"
 

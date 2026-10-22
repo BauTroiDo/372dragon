@@ -61,11 +61,11 @@ namespace WX
             }
         }
     }
-    //-----------------------------------------------------------------------
-    // CYS-WATER: defaults of CY 3.71 TerrainLiquidObject (Render.dll FUN_18011ccc0, floats at +0x208..+0x228: 0.6 0.6
-    // 0.59 0.44 0.22 0.11 113.1 0.41 0.1 = the default_params of the water programs). Fog colour / density, uvScale and
-    // wave speed follow the program defaults (FogColorDensity 1 1 1 0, UVScale 1 1, wavesSpeed 1; INF: the matching
-    // constructor slots are 1.0).
+
+
+
+
+
     CYSWaterSettings::CYSWaterSettings(void)
         : showNewWater(false)
         , showMirrorReflectWater(false)
@@ -162,14 +162,14 @@ namespace WX
         if (replaced)
             *replaced = false;
         const bool newWater = material.find("shader") != String::npos;
-        // CYS-WATER: CY mesh water (FUN_1801219e0) renders only PBRScene_Water as new water; a "shader" material on a
-        // mesh takes replaceMaterial.
+
+
         const bool newWaterAvailable = sHooks && sHooks->supportsNewWater() && settings.meshName.empty();
         const bool usable = isMaterialUsable(material);
         if (usable && (!newWater || newWaterAvailable || settings.replaceMaterial.empty()))
         {
-            // CYS-PARITY (L2): Render.dll FUN_1801275e0 - with the INTZ scene depth a "shader*" / "PBRScene_Water*"
-            // material becomes "<material>_DSIntZ" (water fog on 'content_type dsintz', PS 78f6952f)
+
+
             if (CysPostFxPipeline::intzSceneDepth() &&
                 (material.find("shader") != String::npos || material.find("PBRScene_Water") != String::npos) &&
                 isMaterialUsable(material + "_DSIntZ"))
@@ -250,8 +250,8 @@ namespace WX
     {
         return name.find("shader") != String::npos || name.find("PBRScene_Water") != String::npos;
     }
-    //-----------------------------------------------------------------------
-    // CYS-WATER: see CYSWater.h (CY FUN_1801ef510 looks the technique up by the name "WaterFog").
+
+
     bool CYSScene::getNewWaterTechniques(const Ogre::MaterialPtr& material, Ogre::Technique*& fog, Ogre::Technique*& surface)
     {
         fog = surface = 0;

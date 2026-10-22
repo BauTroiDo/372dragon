@@ -2,15 +2,6 @@
 
 Phạm vi: dọn build cũ; nút lên cấp và EXP; camera Phòng Thay đồ; cao độ bay; GMTool/Trân thú; tìm Võ Hồn–Chiến Hồn; lễ hộp trong Túi; các quầy Nguyên Bảo trống. Mọi lượt thử dùng nhân vật test15 trên máy chủ riêng `/home/ubuntu/cys-test-20260913`. Không sửa máy chủ chính `/home/ubuntu/GameServer`.
 
-## Nguồn đối chiếu
-
-- Lua và layout GL: `client_GL/Data/InterfaceFolder/Pet`, `GmTool`; ảnh `PetTujian`.
-- CY: `Assets/CanonicalCY/Data/ConfigFolder/OptionalGiftBox.txt`, các khung `OptionalGiftBox_Two/Three/Four/Five`, `Model_Parameter.txt`, thuộc tính `Camera_Main` của actor, lưới `.fly` và action cất/hạ cánh hiện có.
-- Hàm đọc bảng lễ hộp GL: `Game.exe` SHA-256 `ce0c4fec7666595ca7adb250fcd8075c28f04d1852d05111c88b730f57e1c763`, các địa chỉ `0x14023e220` và `0x14023e3e0`. Chỉ đọc để xác nhận thứ tự cột; không nạp/hook DLL của GL vào client.
-- Cấu hình và các hàm tạo vật phẩm của máy chủ CY riêng là nguồn quyết định ID, số lượng, ràng buộc và giao dịch thật.
-
-## Thay đổi
-
 ### EXP và lên cấp
 
 `Player:IsCanLevelup()` trước đây vẫn là hàm rỗng trả 0. Hàm mới đọc EXP và mức cần lên cấp từ dữ liệu nhân vật thật. SelfEquip cho phép bấm khi đủ EXP và dưới cấp 200; điều kiện môn phái/tâm pháp vẫn do máy chủ xét. Bỏ khóa giao diện theo mốc vùng máy chủ CY gốc không áp dụng ở máy chủ riêng.

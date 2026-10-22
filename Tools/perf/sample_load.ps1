@@ -1,6 +1,6 @@
 # CY-Source Tools/perf/sample_load.ps1 - machine load while a perf run is going (perf-cy, 15/09/2026).
 # Every -Every seconds: total CPU %, GPU 3D utilisation of the whole machine and of the measured process, count of
-# compilers/linkers/Ghidra/other Game or viewer processes, and the three busiest processes. Stops after -Seconds or when
+# compilers/linkers/other Game or viewer processes, and the three busiest processes. Stops after -Seconds or when
 # the file -StopFile appears. ASCII only (Windows PowerShell 5.1).
 param(
     [Parameter(Mandatory=$true)][string]$Out,

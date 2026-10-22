@@ -165,8 +165,8 @@ namespace WX {
             else
                 renderQueueID = Ogre::RENDER_QUEUE_WORLD_GEOMETRY_2;
 
-            // CYS-WATER: CY FUN_1801ef510 - "WaterFog" technique in queue 76 ('L'), the surface in queue 77 ('M'),
-            // priority 100, when the new water renders (CYSWaterRenderHooks); otherwise the 0.85 single queue.
+
+
             Ogre::Technique* cysFog = 0;
             Ogre::Technique* cysSurface = 0;
             const bool cysNewWater = CYSScene::getNewWaterTechniques(mMaterial, cysFog, cysSurface);

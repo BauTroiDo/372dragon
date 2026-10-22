@@ -26,8 +26,6 @@ Ký hiệu: **[DK]** dữ kiện đọc từ mã server / bảng / mã client; *
 
 Kết quả (define.lua / packet_domains): `UseEquipResultCode` 1 thành công, 2 cấp, 3 loại, 4 giám định, 5 môn phái; `GCUnEquipResult.result` 1 thành công, 3 kho thời trang đầy; `DISCARDITEM_RESULT` 0/1; `GCSplitItemResult.RESULT` 0 sai, 1 hết chỗ, 2 thành công; `GCShopBuy.BUY_RESULT` 0 OK, 1 mua lại OK, 2 **không đủ tiền** (mọi loại tiền), 4 túi đầy; `GCShopSell.SELL_RESULT` 0/1 **[DK]**.
 
-## 2. Bố cục và luật server
-
 ### 2.1 Chỉ số túi, điểm trang bị
 
 - `human_bag_container.lua bag_start = {prop = 0, material = 100, task = 200}`; kích thước từ `human:get_bag_size` (prop, material theo DB; task cố định 20). `get_empty_item_index(bag)` quét `bag_start[bag] .. +size-1` **[DK]**. CYTest00: prop 20, material 20 **[LIVE]**.

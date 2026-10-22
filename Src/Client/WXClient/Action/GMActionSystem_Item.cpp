@@ -172,23 +172,23 @@ INT CActionItem_Item::GetPosIndex(VOID)
 	return pItem->GetPosIndex();
 }
 
-// CYS-UNEQUIP 20/09/2026: which mouse button takes a WORN item off.
-//
-// Both living binaries agree, and the 0.85 source this file came from does the opposite:
-//   client_GL Bin64\Game.exe (sha256 ce0c4fec...c763), CActionItem_Item vtable 0x140755f58 (RTTI .?AVCActionItem_Item@@)
-//     +0x70 = what ActionButton:DoSubAction() calls = 0x1401f5320: owner IO_MYSELF_EQUIP + class ICLASS_EQUIP
-//             -> CGUnEquip{ equipPoint = this->GetPosIndex(), bagIndex = 0xFF }          (0x1401f5bb6..0x1401f5c1a)
-//     +0x68 = what ActionButton:DoAction() calls = 0x1401f2540, owner 1 -> 0x1401f3ade: repair only, and only while
-//             the booth is open; it never builds a CGUnEquip.
-//   CY 3.71 Bin64\Game.exe (sha256 9278c7f3...cc5b), vtable 0x140a4a368: +0x70 = 0x14003f1f0 sends CGUnEquip,
-//     +0x68 = 0x14003aa80 case 1 = repair only.
-// The layouts of all three trees bind the RIGHT button (MouseRClick) to DoSubAction and the LEFT one (Clicked) to
-// DoAction, so a player takes equipment off with a RIGHT click. Here the right click fell out of DoSubAction without
-// doing anything, silently - "khong thao vu khi duoc" (user play session 20/09 14:30, stage-play-5).
-// Evidence: Build\Logs\2026-09-20-unequip\01-cay-song-lam-the-nao.md and 02-bang-vi-sai.md (rows M4a, M4b, M4c).
-//
-// CYS_UNEQUIP_LEGACY=1 keeps the 0.85 behaviour (left click takes off, right click does nothing). It exists so that
-// one binary can run both arms of the A/B; it is read once.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static bool CysUnequipLegacy()
 {
 	static int s_nState = -1;
@@ -202,9 +202,9 @@ static bool CysUnequipLegacy()
 	return s_nState == 1;
 }
 
-// The equipment POINT the worn item sits in - not the type its table row names. Rings (6/11) and amulets (12/13)
-// share one EquipBase type (CDataPool::UserEquip_SetItem knows), so GetItemType() names the wrong point for the
-// second of a pair; both living binaries send GetPosIndex() (client_GL 0x1401f5bf2, CY vtable +0x60).
+
+
+
 static VOID CysSendUnEquip(CActionItem_Item* pAction, const char* szDoor)
 {
 	CGUnEquip msg;
@@ -230,8 +230,8 @@ VOID CActionItem_Item::DoSubAction(VOID)
 			return;
 		}
 		if(pItem->GetItemClass() != ICLASS_EQUIP) return;
-		// Both binaries leave a worn item alone while the identify cursor is up (client_GL 0x1401f5382..0x1401f53b7:
-		// default action == identify -> only a bag item is looked at).
+
+
 		if(CActionSystem::GetMe()->GetDefaultAction() == CActionItem_MouseCmd_Identify::GetMe()) return;
 		CysSendUnEquip(this, "DoSubAction (right click)");
 		return;
@@ -677,10 +677,10 @@ VOID CActionItem_Item::DoAction(VOID)
 					return;
 				}
 
-				// CYS-UNEQUIP 20/09/2026: a LEFT click on a worn item does not take it off in either living binary
-				// (client_GL 0x1401f3ade, CY 0x14003aa80 case 1: repair only, and only while the booth is open).
-				// The 0.85 source sent CGUnEquip from here; that is now the job of DoSubAction (right click).
-				// CYS_UNEQUIP_LEGACY=1 keeps the old door for the A/B, byte for byte (table type as the point).
+
+
+
+
 				if(!CysUnequipLegacy())
 				{
 					TDU_Log("CYS-UNEQUIP: DoAction (left click) on worn item point=%d -> nothing (CY: repair only)", GetPosIndex());

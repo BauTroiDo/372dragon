@@ -1,7 +1,7 @@
-// CYS-QUEST: join event-list texts that the private server split at the CY 255-byte limit.
-// CY Game.exe reads one event-list text of 1..255 bytes (GCScriptCommand reader 0x1408471d0, buffer 256); Vietnamese
-// UTF-8 is longer than the Chinese GBK originals, so script_base:EndEvent sends a long text as several text items, each
-// but the last ending with the continuation byte 0x1F. Header-only (Tests\luaapi\event_text_join_tests.cpp).
+
+
+
+
 #pragma once
 
 #include <string>

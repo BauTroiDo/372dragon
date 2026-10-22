@@ -1,9 +1,5 @@
 # xinfa-client — tâm pháp phía client: bảng chi phí DBC 907 như CY 3.71 (16/09/2026)
 
-Agent `menpai-verify`, nhánh `menpai-verify`, worktree `Build\wt-menpai-verify`.
-Tiếp nối `../server/menpai-audit_vi.md` mục 2 (dòng "Client") và `../net/skills-ui_vi.md` mục 7.
-Quy ước: **[DK]** dữ kiện đo được (có đường dẫn). **[SL]** suy luận.
-Bằng chứng: `Build\Logs\2026-09-16-menpai-verify\`, RE `Build\re\menpai-verify\` (bản sao chỉ đọc của project Ghidra CY 3.71 Game.exe `Game_C_9278c7f3.exe`, sha256 `9278c7f3…cc5b`).
 
 ## 0. Trả lời ngắn
 
@@ -21,15 +17,6 @@ Bản sửa: mở bảng CY thật, bỏ hai hàm giả, chặn `GetDataBase` kh
 
 ## 1. CY nạp bảng nào, ở đâu **[DK]**
 
-- Chuỗi `"XinFaStudySpend_V1.txt"` nằm ở `0x140a58fd8` trong CY Game.exe, **một tham chiếu duy nhất**, trong
-  `FUN_140091df0` = `OpenAllDataBase` của CY (`Build\re\menpai-verify\out\xinfa-xref.txt`).
-- Ô bảng của nó bắt đầu tại `0x140092933` (`Build\re\menpai-verify\out\xinfa-disasm.txt`):
-
-  ```
-  140092939  MOV dword ptr [RBP + 0x22f0], 0x97          ; id bảng
-  140092943  LEA RAX, [0x140a58fd8]                      ; "XinFaStudySpend_V1.txt"
-  14009294a  MOV qword ptr [RBP + 0x22f8], RAX
-  ```
 
 - **Bảng khớp nhau theo TÊN FILE, không theo số hiệu.** CY đánh số 562 bảng thành **một dãy liền** bắt đầu `0x64`
   (`23-cy-dbc-list.tsv`, quét tĩnh bằng `scripts\23-cy-dbc-list.py` theo mẫu ba lệnh `MOV id / LEA tên / MOV con trỏ`),

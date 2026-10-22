@@ -38,9 +38,9 @@ namespace WX	{
 
 		Ogre::Vector3 mPosition;
 		Ogre::Quaternion mRotation;
-		/// CYS: B (client_GL Render.dll) TransformInfo is {position, rotation, scale}. B's Effect::setTransformInfo
-		/// puts the scale on the effect base node (FUN_18004b2f0); LogicModel fills it from the locator's derived
-		/// scale only while the model's "effects follow scale" flag is on (B LogicModel+0x328, off by default).
+
+
+
 		Ogre::Vector3 mScale;
 	};
 

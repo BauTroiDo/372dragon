@@ -22,8 +22,6 @@ Ba lựa chọn đã gửi để làm rõ, chưa có câu trả lời tại th�
 
 Bản đề xuất dưới đây tạm lấy hướng **pháp bảo do người chơi dùng chiêu**, **có chiêu đặc trưng và ô tùy biến**, **giữ dữ liệu cũ để lập phương án chuyển đổi**. Đây là đề xuất, không phải quyết định đã được duyệt. Cấp tối đa, phí, tỷ lệ, thời gian hồi và hệ số sát thương chưa chốt.
 
-## 2. Những gì source hiện tại thực sự có
-
 ### Trang bị, thuộc tính và lưu dữ liệu
 
 - Võ hồn dùng một slot `HEQUIP_WUHUN = 18` ở server/C++; host Lua trang bị có quy ước chỉ số khác ở một số chỗ. Không dùng lẫn số ô UI, equip point và chỉ số túi.
@@ -59,8 +57,6 @@ Audit này xác nhận cấu trúc và mapping. **Không phải kiểm chiến �
 - Đường hiện có đã nối world, SelfEquip và màn chọn nhân vật. Tab VH dựng riêng model Võ hồn, tránh lỗi dựng lại cả nhân vật.
 - Có sẵn hai nhóm model cơ bản và sáu dòng Huyễn hồn, mỗi dòng hai dạng/ba bậc. Có thể dùng làm kho hình cho prototype, phải chọn theo mesh/effect thật.
 - Engine xử lý thuộc tính `SlotCreate` qua `changeSlotAttrib`. Có nền để thêm attachment riêng, nhưng cần khai báo locator/slot trên actor và kiểm thực tế; chưa có bằng chứng một tên slot mới tự hoạt động chỉ bằng packet.
-
-## 3. Thiết kế gameplay đề xuất
 
 ### Hai vai trò độc lập
 
@@ -114,8 +110,6 @@ Các hiệu ứng xuyên tuyến, vùng và nảy mục tiêu chỉ được coi
 - World, SelfEquip, màn chọn nhân vật và kiểm tra người khác đều phải có đủ hai hồn và trạng thái ẩn/hiện tương ứng.
 - Hai locator theo hướng nhân vật; không chỉ nhân scale âm để lật model vì có thể đảo mặt/hiệu ứng. Chỉnh offset, góc và tỷ lệ theo giới tính, cưỡi, biến thân và từng nhóm model.
 - Hiệu ứng thường trực tiết chế, tuyệt kỹ có điểm nhấn ngắn. Đo tải cảnh đông người, chia chất lượng hiển thị người gần/xa; thay LOD hình không thay kết quả combat.
-
-## 5. Cách triển khai trên nền hiện có
 
 ### Mô hình dữ liệu
 

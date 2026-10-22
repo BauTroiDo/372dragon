@@ -7,13 +7,6 @@ Client thay đổi: CY-Source, ứng viên `Build/world-gui/stage-actions-23`. C
 Máy chủ thay đổi duy nhất: `/home/ubuntu/cys-test-20260913` (15733/15734).
 Đã cập nhật Play chính ngày 23/09/2026 lúc 15:51, sau các lượt kiểm chứng bên dưới.
 
-Nguồn đối chiếu: Lua CY/GL của SuperTooltip, ActionSkill, MainMenuBar, SelfEquip,
-YuanbaoShop, Gemcompose; bảng SkillData/SkillTemplate, ActionSet, all.skill,
-EquipBase, GemInfo, AttrLevelUpTable và BaseValueTable của các bản hiện có.
-CY Game.exe SHA9278c7f37b55539fcfac1d93afa71f278e34d4ce674b0e8b52a0f62ea6e0cc5b:
-GCRetSettingHandler 0x140540c86 xác nhận 50 ô settings2..51;
-chat loader0x1404a0850 xác nhận tab2→52,3→70,5→112,6→54,7→56,8→79.
-Không suy viền Chí Tôn từ chỉ số trang bị hoặc tự sáng tác cân bằng môn phái.
 
 ## Sửa đổi
 

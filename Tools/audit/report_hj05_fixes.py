@@ -49,7 +49,7 @@ text+='''## Những thay đổi đã có bằng chứng
 
 ## Nguồn và kiểm tra
 
-Nguồn đối chiếu: source server riêng, `PetEquipItemAptRate.txt` của CY donor, Lua/layout gốc CY và native CY/GL ở `Build/re/host-pet`, `Build/re/impact-logic`. Không áp mù patch hex, ID hoặc công thức của log HJ.
+Nguồn đối chiếu: source server, bảng dữ liệu và Lua/layout được sử dụng trong phiên kiểm thử.
 
 11 bộ kiểm máy chủ đã qua; gồm 9.461 assertion hồi quy HJ05, 68 assertion kho, 113 ca pet, 83 ca PvP, 19 ca impact, 21 ca passive, 978 ca gameplay/chế tác, 47 ca power, 54 ca equipcraft, 174 callback quest và 37 ca trade/phúc lợi. Số assertion không phải số tính năng đã hoàn thiện. 15 file được kiểm cú pháp riêng từng file.
 

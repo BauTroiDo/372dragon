@@ -1,2 +1,0 @@
-scalar C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\scalar_2c0.txt 2c0,140620000,140640000
-funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\areaparse.txt 140627880,140627bb0

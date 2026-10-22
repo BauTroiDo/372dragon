@@ -14,24 +14,6 @@ lượt publish20:43 bên dưới là lịch sử của bản trước.
 
 Đã phân tích tĩnh, không sửa binary tham khảo:
 
-- `Build/re/wuliang-parity/CYGame/Bin64/Game.exe`, SHA256
-  `9278c7f37b55539fcfac1d93afa71f278e34d4ce674b0e8b52a0f62ea6e0cc5b`.
-- `Render.dll` cùng thư mục, SHA256
-  `e6e67de45489f90207379419c0eb2e9f4fbdbd1d800cc6f46902c1fe5eb0cec7`.
-- `StrDictionary.txt`, các khóa `FLY_101118_01/02` chỉ dẫn Ctrl + chuột trái.
-  Các khóa 04/05/06/08/10 nêu giới hạn bản đồ, đổi thú, kỹ năng, vật phẩm và hủy buff.
-- `Game.exe:0x140613380`: đọc CharMount109, kiểm tra **cột19, offset0x6c >= 1**;
-  gửi `CGFlyOperation`, objectID32 + operation8; 0=cất cánh, 1=hạ cánh; khóa2000ms.
-- Native codec `0x1407861a0 / 0x14083b640`, packet ID **2242**, body **5 byte**.
-  Op2 được gửi khi native áp dụng trạng thái đất (`0x1405de2e0`), không cấp quyền bay.
-- `0x14019b110 / 0x14019b130`: getter/setter trạng thái bay trong character data.
-- `0x1405c3f60`: lấy độ cao đường bay qua render interface khi nhân vật trên không.
-- `Render.dll:0x18008e020`: tên scene đổi đuôi `.fly`; đọc u32 số điểm,
-  bỏ 16 byte reserved, đọc mảng float độ cao tuyệt đối. Dữ liệu CY còn có các file
-  đời cũ chỉ có header4; bộ đọc port phân biệt bằng kích thước chính xác.
-
-Các phép đo và disassembly nằm trong `Build/Logs/2026-09-24-mount-flight/`.
-Công cụ tái kiểm tra: `Tools/game/audit_mount_flight.py` (PE/Capstone, chỉ đọc).
 
 **Đính chính tài liệu 17–18/09:** cột22 và hình thú lơ lửng sát đất không chứng minh
 chức năng bay cao đã hoạt động. Cột19 mới là điều kiện cất cánh của native CY.
@@ -117,16 +99,6 @@ Fixture chỉ dùng test15, giữ BSON gốc để phục hồi toàn bộ sau t
 
 Đối chiếu tiếp **đúng binary CY3.71 có SHA ở trên**, không suy từ tên model:
 
-- `0x1405ee030`, tại `0x1405ee3bd`: cất cánh gọi action **922**, loop=true.
-- `0x1405ee430`, tại `0x1405ee6f9`: hạ cánh gọi action **923**, loop=true.
-- `0x1405ec038` và `0x1405f4690`: đứng trên không **924**, động tác nghỉ
-  **925/926**, di chuyển trên không **927**. Không lấy action chạy mặt đất4
-  cộng một offset chung: CY chọn927 cho nhánh di chuyển trên không.
-- Resolver nhân vật `0x1405e3230` và thú `0x1405e33a0` tra ActionSet đang dùng.
-  CharModelEx của CY lấy bộ động tác ở **cột20**; ghi chú cột9 trong vài hàm nguồn
-  là ghi chú cũ của GL, không phải layout CY hiện tại.
-- `0x1406d8fa0`: GetPathDirect có nhánh use-fly. Phần port bổ sung đường trực tiếp
-  trên mặt bay cho auto-run, cùng kiểm biên với CreateMovePath.
 
 Đã nối các action trên vào ChangeAction, giữ animation chuyển tiếp không bị
 FreshAnimation/động tác đứng ghi đè, dọn lệnh cũ khi bắt đầu cất/hạ cánh. Tên animation

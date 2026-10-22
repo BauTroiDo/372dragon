@@ -69,7 +69,7 @@ VOID CObject_Special::Initial( VOID* pInit )
 		ChangEffect( GetSpecialObjData()->m_lpszEffect_Normal, TRUE );
 	}
 
-	// CYS-AUDIO: CY 3.71 FUN_14061ae30: SpecialObjData column 9 (normal sound id, row +0x38) loops in 3D, handle kept
+
 	CSoundSystemFMod::StopSoundHandle(m_nCysNormalSound);
 	if ( GetSpecialObjData() != NULL && GetSpecialObjData()->m_nSound_Normal >= 0 && CSoundSystemFMod::GetMe() )
 		m_nCysNormalSound = CSoundSystemFMod::GetMe()->PlaySkillSound3D( GetSpecialObjData()->m_nSound_Normal, GetPosition(), TRUE, "special-normal" );
@@ -274,7 +274,7 @@ VOID CObject_Special::DoTrigger( INT nLogicCount, INT nTargetCount, ObjID_t *paT
 
 VOID CObject_Special::DoDie( VOID )
 {
-	// CYS-AUDIO: CY 3.71 FUN_14061b630: stop the normal sound, play column 13 (die sound id, row +0x58) once
+
 	CSoundSystemFMod::StopSoundHandle(m_nCysNormalSound);
 	if ( GetSpecialObjData() != NULL && GetSpecialObjData()->m_nSound_Die >= 0 && CSoundSystemFMod::GetMe() )
 		CSoundSystemFMod::GetMe()->PlaySkillSound3D( GetSpecialObjData()->m_nSound_Die, GetPosition(), FALSE, "special-die" );

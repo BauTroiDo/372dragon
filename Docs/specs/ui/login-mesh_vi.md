@@ -2,18 +2,6 @@
 
 Lượt `integration-5d5ece4` còn bốn lỗi property `BackgroundName` khi nạp PetZhengYou/PetFriendSearch. Giá trị đến từ `Data/Interface/Schema/TLBBLook_Frame.looknfeel.xml`, look `TLBB_Look_MeshWindow`: `Common/MeshBack.dds`. Đây là tên texture nền của ảnh nhân vật, không phải tile `WorldMap`.
 
-## Hợp đồng phục hồi từ B
-
-- `CEGUIFalagard.dll` setter RVA `9e070`: lưu chuỗi vào member `+720`. Chuỗi không rỗng và `Window::isVisible(false)` thì phát `MeshShown`, kèm `WindowEventArgs(this)`, namespace `Falagard/MeshWindow`. Gán lại cùng chuỗi vẫn phát; gán rỗng hoặc cửa sổ/cha ẩn thì không phát. Property constructor `9d580` có default rỗng; chuỗi `None` là tham số metadata phía sau default, không phải tên texture mặc định.
-- `populateRenderCache` `9e040` chỉ stretch và vẽ ảnh RTT hiện có; setter không tự tạo ảnh CEGUI hoặc quad nền riêng.
-- `UI_CEGUI.dll` Lua `MeshWindow::SetFakeObject` `21f50`: kiểm string, lấy kích thước pixel, cắt phần thập phân rồi chọn lũy thừa hai nhỏ nhất không bé hơn kích thước, tối thiểu 2. Đọc `BackgroundName`, gọi fake system với window/object/width/height/background, rồi gán property `FakeObject`.
-- Game `3ce600` giữ lookup/unhook/binding hiện có. Tại `3ce92b..3ce95b`, tên object chính xác `Player` (so cả NUL) ép 256×512; các tên khác dùng size từ UI. Các class ID trước nhánh này phục vụ actor flag, không điều khiển size.
-- Render `17ac0` → manager `1c9e0` → `_GetFakeNode` `1dd80`: RTT dùng width/height đầu vào. Khi background không rỗng và material `TLBB/UIModelBackground` tồn tại, tạo `Rectangle2D(true)`, góc `(-1,+1,+1,-1)`, queue 0, visibility flag 4, bounding box vô hạn, gắn child node của scene root. Material `TLBB/UIModelBackground` có thật trong stage `Data/Material/all.material`; material tắt lighting/depth_write, texture clamp.
-- B clone/reuse material `<object>_Rectangle`; khi clone mới và có technique/pass/texture unit đầu, thay tên texture bằng `BackgroundName`. Empty background hoặc không có base material thì không tạo rectangle. B viewport clear RGB `(156,123,74)/255`, alpha **0**.
-- `SetActiveObject` `1d460` chỉ bật rectangle của object đang được render, tắt các rectangle còn lại; post viewport gọi với null. Destructor `1dbb0..1dc2e` detach rectangle, bỏ node con và delete rectangle. B giữ material clone trong manager tài nguyên.
-
-Evidence LLVM/read-only tại `Build/Logs/2026-09-13-gpt-login-remaining/mesh-{background,background-property,ui-hook,fake-hook,render-create,render-manager-create,render-get-node,render-active,render-lifecycle,render-thunks,render-listener}.txt`. Không chạy Ghidra mới, không sửa B.
-
 ## Đường nối CY
 
 `FalagardMeshWindow/Properties` bổ sung property và event đúng hợp đồng trên. `UILuaControl::SetFakeObject` gửi chuỗi UTF-8 và kích thước qua export của Game `CysFakeObjOnUIHook`. Game giữ lookup/unhook như cũ, rồi gửi renderer/entity/camera/size/background qua `CysFakeObjCreateWithBackground` của Render. `CysUiMeshBridge.h` chỉ có typedef tham số POD và con trỏ mượn trong thời gian gọi; không thêm slot hoặc đổi chữ ký hàm ảo của `tFakeObjSystem`/`CRenderSystem`. Đường `OnUIHook` cũ vẫn có default 256×512 và nền rỗng.

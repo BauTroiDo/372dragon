@@ -39,35 +39,6 @@ Ngày lập: 2026-09-12. Áp dụng cho đường ray S và G1. Số liệu đo 
 
 **Kết luận:** cùng dòng TLBB (288 tên lớp gói chung), nhưng **không tương thích trên dây** với 0.85. Client mới phải nói giao thức skynet (quyết định D1).
 
-## 3. Đặc tả giao thức máy đọc được (S1, G1)
-
-- **Tệp đặc tả:** `Registry\protocol\packets.yaml`. Mỗi gói ghi:
-  - `id`, `name`, chiều (`CG`/`GC`/`CL`/`LC`/`CGW`/`WGC`), `domain`;
-  - danh sách trường, mỗi trường có `name`, `type` (`u8`/`u16`/`u32`/`i32`/`f32`/`bytes[N]`/`str8`/`str16`/`str32`/`array<…>`), độ dài hoặc giới hạn, và điều kiện (cờ bit);
-  - nguồn (file:dòng của codec Lua), mức chắc chắn, ghi chú.
-- **Bộ sinh** `Tools\protocol\specgen.py` đọc codec Lua trong `packet_types` và `packet_domains` của **bản sống** (qua `\\wsl.localhost`, chỉ đọc). Việc đầu tiên là ghi lại cú pháp DSL của các file codec đó.
-- **Đặt tên trường `unknow_N`:**
-  - Ưu tiên ghép với lớp C++ 0.85 cùng tên khi bố cục khớp nhau (288 lớp chung).
-  - Nếu không khớp, lấy từ hàm Read/Write của lớp gói trong Game.exe của B, qua Ghidra (script `DumpPacketById`).
-- **Gói định nghĩa hai lần:** kiểm ngày 12/09 thì **không có định nghĩa trùng nào còn hiệu lực**. Bản `CGAskChangeScene` ở `combat.lua:32` nằm trong khối chú thích `--[[ ]]`; chỉ bản ở `misc.lua:2925` chạy. `GUID` và `GCShowFashionDepotData` cũng đã bị chú thích. Nếu sau này có định nghĩa trùng thì đặc tả ghi bản thắng (bản nạp sau theo thứ tự trong `packet.lua`).
-- **Kết quả ngày 12/09:**
-  - Đặc tả ở `Registry\protocol\packets.yaml` gồm 497 gói và 34 struct, 3.321 trường, trong đó 533 trường tên `unknow*`. Mô tả DSL codec: `Tools\protocol\CODEC_DSL_vi.md`.
-  - Kiểm trên bản bắt 27/08 (1.699 khung, 51 ID): giải mã rồi mã hoá lại khớp từng byte. Tuy vậy cổng G1 vẫn cần một bản bắt đầy đủ từ chính `client_GL`.
-  - File `split_packet.py` không còn tồn tại ở đâu.
-  - Một ID không có codec: `XYID_GC_MONSTER_SPEAK` = 1229.
-- **Lỗi tiềm ẩn phía server** (chưa sửa, vì server đang chạy):
-  - Gõ nhầm `readuhcar` (3 chỗ trong `ItemInfo.bis`) và `readlfoat` (`GCArrive.bis`, `GCCharSkill_Lead.bis`).
-  - `social.lua:938` truyền `self` vào chỗ cần stream.
-  - Handler `request:CGShowFashionDepotData` trả về một gói có định nghĩa đã bị chú thích, nên sẽ crash nếu được gọi.
-  - ID 1032: server giải mã như `CGShowFashionDepotData`, còn client dùng cho `GCYuanBao`.
-  - `GCItemList` (`item.lua:844-867`), **chờ người dùng**:
-    - Nhánh thứ ba kiểm `self.type`. Gói không có trường này (luôn nil), nên nhánh không bao giờ chạy.
-    - Nhánh `TYPE_ITEM` gọi `stream:write(item.data)` mà không truyền độ dài, nên `bostream:write` báo lỗi.
-  - `GCScriptCommand` (`mission.lua:280-285`, `m_nCmdID == 4`), **chờ người dùng**: ghi độ dài `#event[i].str` nhưng lại kiểm `self.event[i].len`. Giá trị này không có trên dây; nếu nil thì Lua báo lỗi.
-  - `ItemInfo.bis` (`item_types.lua:152`), **chờ người dùng**: kiểm `self.pet_equip_type ~= 1`, nhưng `bis` không đọc trường này (luôn nil). Vì vậy với trang bị trân thú (`flag == 7`) có `pet_equip_type == 1`, server đọc nhầm nhánh so với `bos`.
-- **Lệch trong bot `Tools\stress-test\tlbb_sim`:** `GC_CHARMOVE` ghi 653 (server dùng 564, nên bộ đọc gói di chuyển của bot không bao giờ chạy); `GC_CHAR_MOVE_RESULT` ghi 568 (server dùng 1090); `CG_HEART_BEAT` để `None` (server dùng 3).
-- **Phiên bản đặc tả:** mỗi lần sinh ghi hash của các file codec và ngày sinh. Server đổi codec thì phải sinh lại, rồi diff với bản trước.
-
 ## 4. Sinh codec từ đặc tả
 
 | Đích | Nơi ghi | Yêu cầu |
@@ -150,7 +121,6 @@ Lệch nào đã biết từ trước thì ghi vào `Registry\parity-known.yaml`
 
 | Gói (ID) | Giới hạn | Nguồn |
 |---|---|---|
-| GCNewPlatform (378) | mô tả 1–31 byte (Game.exe `0x14067b010`) | `packet_domains\misc.lua` ~377–384 |
 | GCPrivateInfo (291) | chữ ký ≤ 34 byte; một chuỗi mặc định tiếng Trung 39 byte từng làm crash | `packet_domains\social.lua` ~1068–1073 |
 | GCRetSecKillData (1072) | ≤ 12 món (chú thích ghi "error[873]", có lẽ ghi nhầm) | `misc.lua:5496` |
 | Trường độ dài cố định | tên 30 B, tài khoản 50 B, IP 24 B | `services\login\packet.lua` |

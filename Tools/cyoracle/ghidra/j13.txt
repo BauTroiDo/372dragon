@@ -1,2 +1,0 @@
-strdec C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\worldtime.txt ^(WorldTime|NewWorldTime_Interval)$
-funcs C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\worldtime_upd.txt 14064d030

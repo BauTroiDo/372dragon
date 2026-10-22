@@ -1,29 +1,29 @@
 #!/usr/bin/env python3
-# CYS: Tests/abi/check_dbc_layout.py - checks that every DBC record struct matches the column types of its table.
-#
-# The client overlays whole DBC records with C structs (_DBC_XXX in Engine/Interface/TDDBC_Struct.h, SSkillData &
-# co. in Shared/Common). DBC::DBCFile (Shared/Common/DataBase/TLBB_DBC.cpp) lays records out with the natural C
-# layout of the column types: INT/FLOAT = 4 bytes, STRING = one pointer. client_GL (B) uses the same layout and even
-# passes sizeof(record) to its GetDataBase (Build/Logs/2026-09-13-game-data/ghidra/b-sizes*.tsv). This tool lists,
-# per table opened by CDataBaseSystem::OpenAllDataBase (Src/Client/WXClient/DBC/GMDataBase.cpp), the layout status
-# of the record struct named by the row's sizeof(...) on x86 and x64:
-#   OK       struct and record layouts agree (full width)
-#   PREFIX   the struct covers only the first columns
-#   BAD/LONG first slot where the layouts diverge / the struct has more slots than the table has columns
-#   ABSENT   the table list marks it absent from the data set (NULL schema) and the file is absent
-#   MISSING  the file is not in the data set although the table list expects it
-#   NOSTRUCT no record struct found
-#   INVALID  table schema/header cannot be loaded (nonzero exit; layout mismatches remain informational)
-# and, in the schema column, whether the column-type string of the row (I/F/S) equals the data file:
-#   OK / DIFF / ABSENT / UNEXPECTED (row says absent, file exists) / - (row has no schema string)
-# --strict turns every table whose x86, x64 or schema status is not OK/ABSENT into a nonzero exit (the CanonicalCY
-# gate of Docs/specs/cy-switch_vi.md CS1; before 14/09 the Canonical gate of Docs/specs/game/canonical-data_vi.md).
-# CYS-CY 14/09 (cs1-tables): the default data set is Assets/CanonicalCY/Data (CY 3.71 structs). KEEP_GL tables are not in
-# CY 3.71 and are staged from Assets/Canonical (--gl-data); OTHER_TABLES are read by loaders outside OpenAllDataBase and
-# are checked against the column types their parser expects, so the gate covers every CY table Game.exe opens.
-# --columns FILE writes the column registry: struct member and data header name for every column.
-# Usage: python check_dbc_layout.py [DataDir | --data DataDir] [--gl-data DataDir] [--out file.tsv] [--columns file.tsv]
-#        [--strict [--allow-pending]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import os
 import re
 import struct

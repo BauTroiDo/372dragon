@@ -190,8 +190,8 @@ Terrain::loadResource(Ogre::Resource* resource)
             wholeTexture->getBuffer()->blitFromMemory(mData->mLightmapImage->getPixelBox());
         return;
     }
-    // CYS-PARITY (L5b): CY Terrain::loadResource (Render.dll FUN_1800d2a70) "<colorMap>(x,z)": the tile's box of the
-    //      colour map image (scaleSize texels per grid), blitted as is.
+
+
     if (name.compare(0, 11, "<colorMap>(") == 0 && mCysColorMapImage)
     {
         Ogre::StringVector vec = Ogre::StringUtil::split(name.substr(11, name.size() - 12), ",", 2);
@@ -294,16 +294,16 @@ Terrain::loadResource(Ogre::Resource* resource)
 	}
 }
 
-// CYS-PARITY: CY Render.dll Fairy::Terrain::_comboBrushes (FUN_1800cc830, packer FUN_1800cbf50, caller
-// FUN_18003f9f0 = System::_postprocessScene when not editable). FACT (trace cy-world-1 w09, cy-login-2): every CY
-// terrain draw samples one 4096x1024 A8R8G8B8 5-level texture on both layers; a tile = one draw for its one-layer
-// grids + one for its two-layer grids (scene 12 / shadow 40 draws at Dali w09).
-// Steps as in Render.dll: brush i -> image (w+64)x(h+64) filled 0xAB, source at (32,32), the 32 px borders = the
-// source edge row/column scaled (bilinear), corners stay 0xAB; first-fit on a 128-column grid of 32 px cells
-// (rows opened on demand, 32 px each); atlas 4096 x next_pow2(opened rows * 32), 4 mipmaps (bilinear halving);
-// pixmap' = (inner box origin + pixmap * brush size) / atlas size; textures = { "ComboedBrush" }.
-// INF: CY keeps the packer grid in the Terrain object; Dali after the login scene is still 1024 high, so it is
-// reset per scene here.
+
+
+
+
+
+
+
+
+
+
 static bool cysParityTerrainCombo(void)
 {
     const char* v = std::getenv("CYS_PARITY_TERRAIN_COMBO");
@@ -355,7 +355,7 @@ Terrain::_comboBrushes(void)
             Ogre::Image::scale(s.getSubVolume(Ogre::Box(w - 1, 0, w, h)), d.getSubVolume(Ogre::Box(pw - 32, 32, pw, ph - 32)));
             Ogre::Image::scale(s.getSubVolume(Ogre::Box(0, h - 1, w, h)), d.getSubVolume(Ogre::Box(32, ph - 32, pw - 32, ph)));
 
-            // packer (FUN_1800cbf50): first fit, rows top-down, columns left-right; -1 = row not opened yet
+
             const size_t cw = (pw + cell - 1) / cell, ch = (ph + cell - 1) / cell;
             bool placed = false;
             for (size_t row = 0; !placed && cw <= cells && ch <= cells && row + ch <= cells; ++row)
@@ -949,7 +949,7 @@ Terrain::_getGridMaterial(const TerrainData::GridInfo &gridInfo, ushort depthBia
         //      FairyTerrainColorMap*.material sample "<colorMap>", which stayed unresolved (blank = black terrain).
         if (mData->mCYSExtras.hasColorMap && !mData->mCYSExtras.colorMapFilename.empty())
             aliasList["<colorMap>"] = mData->mCYSExtras.colorMapFilename;
-        // CYS-PARITY (L5b): CY _getGridMaterial (FUN_1800cfa30) "<colorMap>(x,z)" of the tile
+
         if (_cysColorMapTiles())
             aliasList["<colorMap>"] = "<colorMap>(" + Ogre::StringConverter::toString(nTileX / mData->mTileSize) + "," +
                                       Ogre::StringConverter::toString(nTileZ / mData->mTileSize) + ")";
@@ -1071,9 +1071,9 @@ Terrain::_cysTileMaps(void)
     return on;
 }
 
-// CYS-PARITY (L5b): CY Terrain (Render.dll FUN_1800d3ab0): with useColorMap, one "<colorMap>(x,z)" texture per tile of
-// scaleSize x tileSize texels, A8R8G8B8, automatic mipmaps, filled by loadResource from the colour map image.
-// FACT trace cy-login-2: erengu_DL s3 = 64x64 A8R8G8B8 per tile (512x512 Color.tga, 256 grids, tile 32).
+
+
+
 void
 Terrain::_cysPrepareColorMapTextures(void)
 {
@@ -1146,7 +1146,7 @@ Terrain::prepareLightmapTexture(void)
 
     // CYS: one whole-terrain lightmap for the B/C templates that sample "<lightmap>" with the TEXCOORD7
     //      whole-terrain UV (client_GL FairyTerrain*.material: tex_coord_set 7); same texel density as the tiles.
-    if (!_cysTileMaps())    // CYS-PARITY (L5b): CY has only the tile lightmaps (FUN_1800d3ea0)
+    if (!_cysTileMaps())
     {
         const uint texelsPerGrid = getLightmapQuality() == LMQ_LOW ? 2 : 8;
         uint wholeWidth = mData->mXSize * texelsPerGrid;

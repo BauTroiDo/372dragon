@@ -71,10 +71,10 @@ namespace WX	{
 			return;
 		}
 
-		// CYS: B EffectElement::update (client_GL Render.dll FUN_18016bd00) hides an element whose CreateLevel is
-		// below the effect manager's create level, and neither creates nor updates it while hidden; it reappears
-		// when the level allows it. This wraps the original create -> life-check -> update flow unchanged, so an
-		// element at the default level (100 >= 100) behaves exactly as before.
+
+
+
+
 		if ( static_cast<unsigned int>(mCreateLevel) < EffectManager::getSingleton().getCreateLevel() )
 		{
 			if ( false == mHiddenByLevel )
@@ -214,10 +214,10 @@ namespace WX	{
 		{
 			Ogre::Matrix3 mat(Ogre::Matrix3::IDENTITY);
 			info.mRotation.ToRotationMatrix(mat);
-			// CYS: B puts (position, rotation, scale) on the effect's base node and keeps the element nodes as its
-			// local children at (mRelPos, mRelOrientation) (Effect::setTransformInfo, FUN_18004b2f0). The element
-			// nodes here are placed in world space, so the same derived transform is written directly: the relative
-			// position is scaled and the node carries the scale (meshes, emitters, local-space particles follow it).
+
+
+
+
 			mBasicNode->setPosition(info.mPosition + mat * (info.mScale * mRelPos));
 			mBasicNode->setOrientation(info.mRotation * mRelOrientation);
 			mBasicNode->setScale(info.mScale);

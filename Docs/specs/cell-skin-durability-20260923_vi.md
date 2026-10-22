@@ -2,14 +2,6 @@
 
 Phạm vi: client CY từ mã nguồn, bản Play `Build/world-gui/stage-play-21`. Giữ dữ liệu CanonicalCY, client và client_GL nguyên trạng. Ứng viên nằm ở `Build/world-gui/stage-cell-skin-23`.
 
-## Đối chiếu và nguyên nhân
-
-- `Schema/TLBBLook_StaticText.looknfeel.xml` khai báo `TLBB_Look_MuliteTextFrame` có `Background_Common1` và `Frame_Type_Lace3` trong state `Enabled`. Các look tiêu đề tooltip có nền/viền riêng tương tự. Cả CY và bản client gốc đều dùng kiểu này.
-- `FalSimpleText.cpp::populateRenderCache` trước sửa chỉ vẽ chữ, không vẽ state imagery của look; chữ trống còn thoát sớm. Vì vậy những ô này mất nền và viền riêng, làm lộ nền cửa sổ phía sau. Đây là lỗi renderer, không phải thiếu ảnh cần vẽ lại.
-- `TLBB_ActionButton` đã có `BackgroundImage` từ `CommonItem/ActionBK`; ô trống còn có `BackImage`. Giữ nguyên cơ chế này và ảnh gốc, kiểm tra cả ô có đồ và ô trống trong phiên thực.
-- Cột đỏ/xanh của CY tên `BaoShiCheckRed/Green`, dùng ảnh `Button11/BaoShiCheck_*`. `SelfEquip_UpdateGemContainer` và `TargetEquip_UpdateGemContainer` chọn màu theo khả năng đổi ngọc. Nó không biểu diễn tỷ lệ độ bền; không đổi chức năng hoặc tô xanh giả các nút này.
-- Bản gốc `Game.exe+0x1df930` (`Build/re/host-power/decomp-game.c`) trả độ bền hiện tại/tối đa; hàm đang chạy trước sửa trả nguyên điểm hiện tại và bỏ qua loại action `AOT_EQUIP`. Sửa đúng tỷ lệ, xử lý dữ liệu không hợp lệ và thêm kết quả hai số `GetEquipDurValue`.
-
 ## Thay đổi
 
 - SimpleText vẽ state Enabled/Disabled của look trước khi vẽ chữ, kể cả khi ô chưa có chữ. Đồng thời đọc vùng `TextArea` của look để chữ nằm trong lòng viền; trước đây bỏ qua vùng đệm này. Không thay màu, ảnh hoặc kích thước control.

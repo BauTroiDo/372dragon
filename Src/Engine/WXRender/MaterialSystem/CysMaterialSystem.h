@@ -1,33 +1,33 @@
-// CY-Source: runtime material system of the B/Fairy renderer (client_GL Render.dll
-// MaterialSystemManager), rewritten from the spec Docs\specs\render\01-materials.md §3 P3/P4 and §6.
-// CYS: new file (2026-09-12). Depends on OgreMain only, so OgreSmoke / tools can compile it too.
-//
-// What it does
-//  * client_GL's MaterialTemplates reference PIXEL shaders only (Character_Skin_PS, PBRChara_PS,
-//    Particle_PS ...); D3D9 cannot run ps_3_0 with fixed-function vertex processing, so B pairs a
-//    vertex program per model state. Here: for every pass with a fragment program and no vertex
-//    program the matching vertex program of MaterialTemplates (Model_VS / Model_Skin_VS / Depth_*_VS /
-//    Particle_VS) is chosen and, when the pixel shader needs it, compiled as a variant with the
-//    runtime macros B injects (USE_SKIN, USE_QUAT_SKIN, USE_TANGENT, USE_VERTEXCOLOR, LIGHT_CALC_TYPE,
-//    XINGNING_EFFECT, SHADOWMAP_TYPE, LUT_ENABLE ...). Skinned entities get hardware skinning up to
-//    74 bones per sub-mesh (MAX_SKIN_BONE_NUM) and the quaternion variant up to 105 bones
-//    (MAX_QUAT_SKIN_BONE_NUM); above that, or when a sub-entity is fixed-function, the whole entity
-//    falls back to software skinning with the static variant. Materials are cloned per state
-//    ("<name>@CYS<state>"), the name the game sees (SubEntity::getMaterialName) does not change.
-//  * Meshes whose pixel shaders need tangents (USE_TANGENT, PBR / normal maps) and that have none get
-//    tangents generated (per-triangle UV derivatives, handedness in w).
-//  * Per-instance shader constants (the 54 names Render.dll registers: dissolve, flow light,
-//    outline, rim, water ...) are set on a per-entity clone of its materials.
-//  * Shader microcode cache: .\ShaderCache next to the exe, wiped when MaterialTemplates.zip changes.
-//  * CYS fx-render 2026-09-13: a variant is a clone, but the game keeps writing the material it holds (mesh
-//    particles set their colour as self-illumination every frame, the dissolve / sequence-frame affectors push
-//    B's per-instance constants into the billboard or mesh material, transparency fades change the diffuse
-//    alpha). Every change made to the source after the variant was cloned is therefore followed onto the variant
-//    when it is queued (colours, blending, depth, alpha test, texture names, the 54 per-instance constants).
-//    Cache entries are checked against the source object (a material re-created under the same name gets a new
-//    variant) and variants whose source nobody holds any more are purged (mesh-particle clones have unique names).
-//  * CYS fx-render 2026-09-13: particle pixel shaders on meshes are paired with Model[_Skin]_VS as in B (Render.dll
-//    FUN_1802120b0 / USE_MODEL_VS_OUT); Particle_VS stays for billboards and ribbons.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ifndef __CYS_MATERIAL_SYSTEM_H__
 #define __CYS_MATERIAL_SYSTEM_H__
 
@@ -44,7 +44,7 @@
 
 namespace CYS
 {
-    /// Per-instance shader constant known to the renderer (Render.dll FUN_180156ab0).
+
     struct InstanceParamInfo
     {
         const char* name;
@@ -78,12 +78,12 @@ namespace CYS
         /** Macro added to every generated variant (SHADOWMAP_TYPE, LUT_ENABLE, ...); affects materials
             resolved afterwards. Empty value removes it. */
         void setGlobalDefine(const Ogre::String& name, const Ogre::String& value);
-        /** CYS-SHADOW: shadow receivers. ShaderLib/CalcLight.inc samples the shadow map only with pixel lighting
-            (LIGHT_CALC_TYPE 2); Character_Skin_PS & co. leave LIGHT_CALC_TYPE to its default 1 (vertex lighting), so
-            with SHADOWMAP_TYPE alone no character receives. On (default, CY 3.71 rule FUN_18021b1e0): while the
-            global SHADOWMAP_TYPE is 1 or 2, Model_* pixel shaders whose LIGHT_CALC_TYPE is missing or 1 are compiled
-            (with their paired vertex program) as LIGHT_CALC_TYPE 2; 0 (unlit) stays; FairyTerrainColorMap passes get
-            LIGHT_CALC_TYPE 2 + SHADOWMAP_TYPE (CY FUN_180166280). Off (CYS_SHADOW_PROMOTE=0): as authored. */
+
+
+
+
+
+
         void setShadowReceiverLighting(bool on);
         bool getShadowReceiverLighting(void) const { return mShadowReceiverLighting; }
 

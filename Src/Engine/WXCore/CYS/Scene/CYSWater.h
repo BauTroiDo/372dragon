@@ -1,24 +1,24 @@
 #ifndef __CYS_WATER_H__
 #define __CYS_WATER_H__
 
-// CY-Source (scene agent): B/C water settings of TerrainLiquid objects (2,253 in 416 scenes; 05 §5) that 0.85 lacks,
-// from the B ParameterDefs (Render.dll FUN_180110360) and the data (Tools/re/out/scene_objects.tsv):
-//   replaceMaterial (514), mesh name (62), showNewWaterEnabled (57), showMirrorReflectWaterEnabled (80),
-//   orientation/scale (mesh water), "texture scale for mesh water low level" (61), "texture depth" (34) and the 13
-//   "ShaderParams.*" (~520 each) that feed the constants of Model_Water_ps.hlsl.
-//
-// What CY-Source does today (no render-node framework yet):
-//   * material choice as B's low-quality path: a material that cannot render, or a "new water" material
-//     (name contains "shader": B enables those only with View_HumanLightmap = 2 and its "Water" filter),
-//     falls back to replaceMaterial; without a usable material nothing is created (0.85 threw from
-//     TerrainLiquid::setMaterialName and aborted the scene);
-//   * mesh water ("mesh name") is rendered as an entity with that mesh instead of the terrain-flood grid;
-//   * ShaderParams are pushed as named constants into every pass program that declares them
-//     (FogColorDensity, BigWavesScale, SmallWavesScale, BumpScale, ReflectionAmount, TransparencyRatio,
-//     SunShinePow, SunMultiplier, FresnelBias, UVScale, wavesSpeed, texRotateScale, texDepthFactor) on a per-object
-//     clone of the material;
-//   * CYSWaterRenderHooks is the plug-in point for the reflection / refraction / mirror render targets and the
-//     SceneDepthForWater depth node (see the report and CYSWaterRenderHooks below).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "CYSSceneCommon.h"
 
@@ -113,9 +113,9 @@ namespace WX
         bool materialHasPrograms(const Ogre::MaterialPtr& material);
         /// Mesh water on the fixed-function path: tile every texture unit `tiles` times.
         void applyTextureTiling(const Ogre::MaterialPtr& material, Real tiles);
-        /// CYS-WATER: CY TerrainLiquid::_updateRenderQueue (Render.dll FUN_1801ef510): when new water renders and the
-        /// material has a supported technique named "WaterFog" followed by another one, returns both (fog -> queue 76,
-        /// surface -> queue 77, priority 100).
+
+
+
         bool getNewWaterTechniques(const Ogre::MaterialPtr& material, Ogre::Technique*& fog, Ogre::Technique*& surface);
         /// CYS-WATER: true for the materials CY treats as new water ("shader" or "PBRScene_Water" in the name).
         bool isNewWaterMaterial(const String& name);

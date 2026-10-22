@@ -179,24 +179,6 @@ python -X utf8 Tools\ui-fit\make_edit_targets.py --measure <thư mục đo> `
   Cần một `Game.exe` dựng **sau** commit `cfde805c`; stage cũ hơn thì menu vẫn hiện nhưng bấm vào
   không mở khung. Danh sách đầy đủ **56** khung vẫn phải dùng `PgDn`/`PgUp` (NPC chỉ chứa được 11).
 
-- *(nền, giữ để đối chiếu)* **Cơ chế NPC:**
-  Một mục menu NPC có chứa `@UIEDIT:<TênKhung>` được client **nuốt tại chỗ** và mở thẳng khung, không
-  ra server (`GMUIDataPool.cpp`, `CUIDataPool::SendSelectEvent`). Không có dấu hiệu đó thì đường NPC
-  bình thường **không đổi một byte**. Nhờ vậy server **không cần một dòng logic nào** — nó chỉ cung
-  cấp nhãn.
-  Vật chủ là script `714057` (`odali_zhongzhipai1`, NPC trồng trọt) — chọn vì nó **hiện không làm gì
-  cả** trên server này, nên hỏng nó không mất gì; và vì làm vậy thì **không đụng `cy4_npc.lua`**
-  (84 NPC CY4, trong đó có cửa duy nhất vào bốn bản đồ môn phái).
-  **Không có cổng GM** — quyết định **có điều kiện**: server riêng một người. Có người chơi khác thì
-  phải thêm cổng, hoặc đặt `M.enabled = false`.
-- **`PgDn` có thể làm văng game — và đó là lỗi CÓ SẴN của khung, không phải của bộ sửa.**
-  Mỗi khung trong danh sách là một đoạn Lua **chưa từng chạy**. Ca đầu tiên đã gặp và đã vá:
-  mở `Synthesize` giết tiến trình vì `GetAbilityInfo` deref con trỏ NULL
-  (`GMGameInterface_Script_PlayerMySelf.cpp:664`, bảy nhánh không một phép kiểm). Bất kỳ người chơi
-  nào mở khung chế tạo khi chưa có kỹ năng sinh hoạt tương ứng cũng văng y như vậy.
-  Gặp văng: đọc `Bin64\WXC_SML.TXT`, lấy `Fault: Game.exe+0x...`, rồi
-  `llvm-symbolizer --obj=Game.exe --relative-address 0x<RVA>`. Mỗi lần như vậy là **một lỗi có sẵn
-  được lôi ra**, không phải một lỗi mới sinh ra.
 
 - Bộ sửa ghi đè hình học **ngay sau khi nạp layout**. Khung nào tự tính lại vị trí trong `*_OnLoad`
   hoặc khi nhận `ADJEST_UI_POS` / `VIEW_RESOLUTION_CHANGED` thì có thể đè ngược lại; gặp thì ghi lại

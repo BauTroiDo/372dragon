@@ -1,10 +1,5 @@
 # Đối chiếu từng lệnh vẽ Direct3D 9 — CY 3.71 và CY-Source (d3d9-parity)
 
-Ngày 15/09/2026, agent d3d9-trace, nhánh `d3d9-trace`. Chuẩn là CY 3.71.9609 chạy offline trên bản sao
-`Build\re\d3d9-trace\CYGame`. **FACT** = đọc thẳng từ trace (lệnh vẽ, state, hằng, texture) hoặc mã/dữ liệu có đường
-dẫn; **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-15-d3d9-trace\`.
-
-## 1. Công cụ
 
 ### 1.1. Proxy `Src\Tools\CysD3D9Trace` (thành phần CMake `d3d9trace`)
 
@@ -28,19 +23,6 @@ dẫn; **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-15-d3d9-trace\`
 | `CYS_D3DTRACE_VB` | hash dải index + byte đỉnh tham chiếu (buffer managed) | 1 |
 | `CYS_D3DTRACE_MAX` / `_RTMAX` | số lần bắt / số PNG mỗi lần | 8 / 64 |
 
-- Mỗi lần bắt `f<khung>_<nhãn>\`: `events.jsonl` (theo thứ tự: `setrt`, `setds`, `clear`, `stretchrect`, `colorfill`,
-  `readback`, `marker`, `draw`, `present`), `textures.jsonl`, `shaders.jsonl`, `capture.json`, `rt\*.png`. Dùng chung:
-  `shaders\<hash>.<vs|ps>.{bin,asm}` (disasm `D3DXDisassembleShader`), `trace.log` (tham số thiết bị, ngoại lệ có
-  module+RVA).
-- Mỗi `draw` có: API/primitive/số tam giác; RT 0–3, DS, viewport, scissor; 65 render state; VS/PS (hash bytecode) và
-  **giá trị mọi hằng** mà bảng hằng (CTAB) khai báo, theo tên (không có CTAB thì theo thanh ghi quét từ disasm);
-  decl, stream (stride, tần suất, hash byte), index buffer; texture của từng sampler PS (và FF stage) với 9 sampler state,
-  texture stage state khi không có PS, ma trận FF khi không có VS; `px`; thời điểm CPU.
-- Texture: id = 12 hex đầu hash nội dung mức 0 (managed/dynamic) ⇒ **cùng file dữ liệu ở CY và dự án có cùng id**;
-  RT = `rt<n>` theo thứ tự xuất hiện trong khung, back buffer = `bb`. Lưu ý D3D9 báo 1 mức cho texture `AUTOGENMIPMAP`
-  (usage 1024).
-- Chương trình thử `TraceSelfTest.cpp` (RT FP16, HLSL có CTAB, FF `DrawPrimitiveUP`, `StretchRect`) — biên dịch nhanh
-  bằng `Build\Logs\2026-09-15-d3d9-trace\cl_proxy.cmd`.
 
 ### 1.2. So sánh `Tools\render\d3d9_trace_diff.py`
 
@@ -55,14 +37,6 @@ dẫn; **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-15-d3d9-trace\`
 - Xếp hạng theo **diện tích** = Σ `px` / diện tích RT của các lệnh vẽ liên quan (overdraw cộng dồn).
 - Ra: `diff.txt`, `diff.json`, `pairs.tsv`, `unmatched.tsv`, `shaderdiff\*.diff`.
 
-### 1.3. Lệnh chạy
-
-- CY: `powershell -File Build\Logs\2026-09-15-d3d9-trace\cy_capture.ps1 -Out cy-login-N -At 84,104`
-  (bọc `Tools\render\run_cy_capture.ps1`: offline, giết tiến trình khi có kết nối không phải 80/443, chờ Game.exe khác).
-- Dự án: `proj_capture.ps1 -N <n> -Out proj-login-N [-SkipStage] [-At 50,75] [-Env 'K=V;...']` (stage
-  `Build\world-gui\stage-<n>-d3dtrace`, smoke đăng nhập offline `run_game_smoke.ps1`).
-- So: `python Tools\render\d3d9_trace_diff.py diff <cy>\f001767_at84s <proj>\f003167_at75s --out diff-login-2`.
-
 ## 2. Các lần bắt
 
 | Lần | Nguồn | Khung | Lệnh vẽ | Ghi chú |
@@ -72,7 +46,6 @@ dẫn; **INF** = suy luận. Bằng chứng: `Build\Logs\2026-09-15-d3d9-trace\`
 | `proj-login-2-trace` | `6d6fcef9` | 2312, 3167 | 2.527 / 2.527 | sau sửa |
 
 | `proj-login-3/5..8` | `63ffec19` → `dbc68392` | 2996–3248 | 4.163–4.207 | lightmap/caster, FakeLight khối, FP16, A/B FP16 |
-| `cy-world-1-trace` | CY 3.71 Đại Lý qua oracle (`cy_world_capture.ps1`, kịch bản `dali`) | 2960 `w09-idle`, 3540 `w28-tp1`, 3850 `w42-tp2` | 471 / 1.013 / 891 | 0 kết nối ngoài; proxy gỡ khỏi bản sao cy-oracle sau lượt |
 | `world-2-trace` | dự án, world replay Đại Lý (`world_capture.ps1`) | 340 `world-1`, 1120 `cam-zoom-far` | 1.022 / 1.867 | camera replay khác CY |
 | `viewer-2\dali_w09*` | TlbbViewer cùng camera CY `w09` (lấy bằng `d3d9_trace_diff.py camera`) | 230 | 3.224 | kiểm cấu hình bóng/fit |
 
@@ -165,8 +138,6 @@ sửa và chủ sở hữu đề xuất.
 | 29 | Hằng `shadow_view_matrix` | hướng đèn thật (0.4575, 0.4575, 0.7625) | ma trận nhận (−0.7071, 0.7071, 0) | cùng #1 | L1 |
 | 30 | Thời gian ghi khung | 10–19 s | 3 s | occlusion query + khoá texture lớn của CY | chỉ ảnh hưởng khung bị bắt |
 
-## 5. Đã sửa (hook `// CYS-PARITY:`)
-
 ### 5.1. Sương mù địa hình colormap — `Src\Engine\WXCore\Core\Terrain.cpp`
 
 - FACT: bảng thay chương trình theo chế độ sương (`TerrainDataSerializer::_fixupMissingInfo`) chỉ có 4 chương trình cũ
@@ -247,13 +218,6 @@ sửa và chủ sở hữu đề xuất.
   (≤ 2 %); giữ mặc định bật.
 - Chưa làm: bỏ pass depth R32F bằng DS INTZ (cần INTZ trong RenderSystem_Direct3D9 + `content_type dsintz`).
 
-### 5.7. Ghi chú thứ tự hàng đợi (M1)
-
-- FACT mã: `Pass::_recalculateHash` của dự án = chỉ số pass + băm tên texture unit 0/1 (kiểu OGRE 1.4) ⇒ nhóm theo
-  texture, đục/alpha-test xen kẽ. CY nhóm liền theo chương trình (673 PS `9f7d6cc2` liền, rồi 370 alpha-test) ⇒ INF:
-  OgreMain CY băm theo chương trình GPU (kiểu `MIN_GPU_PROGRAM_CHANGE` của OGRE 1.7) — cần Ghidra `Pass::_recalculateHash`
-  của OgreMain CY để xác nhận trước khi đổi.
-
 ### 5.8. Cấu hình bóng lúc chạy như CY — `CYSShadowHost.cpp::configForLevel` (L1 phần 1)
 
 - FACT: mục 3 #1 và 3.1 — một map 4096², khoảng 8000, bias 8/20, dải hoà 0,005 ở mức 2 (đăng nhập và world).
@@ -283,17 +247,6 @@ sửa và chủ sở hữu đề xuất.
 
 ### 5.10. Chiếu sáng nhân vật/NPC/quái như CY (L6)
 
-FACT (trace CY `cy-world-2-trace` w11/w23, `cy-world-1-trace`, `cy-login-2-trace`; `actor_rule.py`, `actor_compare.py`):
-- Mọi lệnh vẽ model `imodel_userdata.x = 1` (actor) dùng VS chiếu sáng theo đỉnh `f1f0dbe2` (2 đèn actor) và PS gốc
-  (`692dc86a`, bản alpha-test `a2769318`) **không** hằng bóng/LUT; mọi model `x = 0` (kể cả model skin của cảnh:
-  cây, đèn lồng, chim) nhận bóng. Không có ngoại lệ ở 6 khung.
-- `imodel_userdata = (x, số trọng số xương/đỉnh, alpha-ref/256, brightness)`; brightness = Render.dll
-  `FUN_1800db590`: ((ambient r+g+b) + (đèn chính 1 r+g+b) + (đèn chính 2 r+g+b)) / 3 / 3 (gọi từ `FUN_1801e7f80`,
-  `FUN_1800f4700`, `SceneManager::setBrightness`) — khớp số: đăng nhập 0,47756, Đại Lý 0,639176.
-- Đại Lý (SkySphere): `actor_ambient_params` = ambient bề mặt × **ambient cảnh** (0,372549) + emissive, dù khoá
-  SkySphere có `actor_light_ambient` 0,494118; `actor_lightone/two` lấy khoá (0,494118). EnScene (đăng nhập) dùng
-  ambient của khoá. INF: đường SkySphere của CY không đặt actor ambient.
-- Pass bật alpha test (D3D9) ⇔ PS `ALPHATEST_ENABLE=1` (cả receiver `6972ae69` lẫn actor `a2769318`).
 
 Dự án trước sửa: nhân vật/NPC trong game là `LogicModelObject` tên tự sinh ⇒ `x = 0`; skin mặc định ⇒ actor; mọi
 model nhận bóng + LUT; brightness 1; actor ambient = khoá SkySphere; pass alpha-test có chương trình không có biến thể
@@ -349,13 +302,6 @@ FACT (trace, `terrain_draws.py`):
 - **Texture.** s0 (và s1) luôn là **một** texture 4096×1024 A8R8G8B8 5 mức (Đại Lý `t700a05e`, đăng nhập `t2e1cd19`); lọc ở world ANISO 8/MIP LINEAR. Lightmap theo ô 256² L8 (s2).
 - **Index buffer.** IB 16-bit dùng chung, 1.024 quad.
 
-FACT (Render.dll):
-- `Fairy::Terrain::_comboBrushes` = `FUN_1800cc830`, gọi từ `System::_postprocessScene` (`FUN_18003f9f0`) khi `!isEditable()`, trước khi dựng hình.
-- Mỗi brush: ảnh (w+64)×(h+64) tô 0xAB, ảnh gốc đặt ở (32,32). Viền 32 px = hàng/cột mép của ảnh gốc kéo giãn bilinear; 4 góc giữ 0xAB.
-- Xếp chỗ (`FUN_1800cbf50`): first-fit trên lưới 128 cột ô 32 px, mở hàng khi cần. Texture `ComboedBrush` rộng 4096, cao = lũy thừa 2 ≥ số hàng đã mở × 32, 4 mipmap (scale bilinear), `loadImage`.
-- Pixmap mới = (gốc hộp trong + pixmap × kích thước brush) / kích thước atlas; `textureId = 0`. Danh sách texture của TerrainData còn đúng `ComboedBrush`; bản gốc được chép sang `data+0x120`.
-- `Terrain` ctor của CY: atlas 512 / pixmap 64 / 6 mip / khối 8 — giống dự án. Vì vậy sau khi gộp, brush 4096 đi nhánh "texture lớn dùng nguyên" của `_createAtlasPixmap`, và mỗi ô chỉ còn vật liệu `1.0` + `1.1`.
-- Mô phỏng `combo_pack.py` ra 4096×1024 cho cả `dali_new_320` (41 brush, dùng 960 px) và `erengu_DL` (7 brush, 576 px), đúng như trace.
 
 Sửa:
 - `Terrain::_comboBrushes` làm đúng các bước trên. Nếu nạp/xếp lỗi thì log `CYS parity: terrain combo cancelled` và giữ dữ liệu cũ.
@@ -401,26 +347,9 @@ Game.exe world replay (`world-6`, PASS). Chuỗi cảnh: đăng nhập → tạo
 - Ảnh `fix-5\game_world_terrain_combo_before_after.png`: khác 0,82 % điểm ảnh, gồm tên/bot và hạt.
 - Khung hình bị VSync giới hạn: dt p95 23,5 → 18,8 ms (`world-4` cũ 19,0); `cpu_ms` p95 18,0.
 
-Còn khác (chưa làm):
-- Lightmap: CY dùng texture 256² L8 riêng cho mỗi ô, UV nằm trong `TEXCOORD7`. Dự án dùng `<Lightmap>(all)` cả map 2560², và thêm một bộ UV lightmap riêng (decl 1 lớp 48 B, CY 40 B).
-- Colormap đăng nhập: CY 64²/ô, dự án 512² cả map.
-- VB: CY tạo VB riêng cho từng renderable, dự án dùng chung theo lớp.
-- normalSpec: CY gộp thêm bằng `FUN_1800cdcc0` khi bật; dự án không có đường dùng.
 
 ### 5.13. DS INTZ thay pass depth R32F (L2) + lọc texture màn đăng nhập (S1)
 
-FACT (`depth_users.py`, trace CY `cy-login-2` f002133, `cy-world-1` w09):
-- Pass cảnh vẽ vào `rt2` FP16, DS = **INTZ 1280×720**, clear T+Z+S. Không có pass render lại cảnh vào depth.
-- Trong pass cảnh, với INTZ đang gắn làm DS (ghi Z tắt), có hai loại lệnh vẽ sample chính texture INTZ đó:
-  - 44 hộp FakeLight: VS `f2b805aa`, PS `1e1f4ac9` (Z 0/0);
-  - 13 khối sương nước: VS `925fbf71`, PS `78f6952f` (Z test 1, ghi 0).
-- Sau cảnh: HeightFog đọc `rt2` + INTZ bằng PS `6c52486a`, lúc đó DS đổi sang D24S8.
-- Render.dll thêm hậu tố `_DSIntZ` vào tên vật liệu:
-  - nước (`FUN_1801275e0`): tên có `shader` / `PBRScene_Water`;
-  - model: `FUN_1801219e0`;
-  - HeightFog (`FUN_1801bf970`): `PostFilters/HeightFog_DSIntZ`.
-  Các vật liệu này có trong `Mtl_Character.material` / `all.material` (`content_type dsintz`, `USE_DSINTZ=1`).
-- Lọc texture: đăng nhập MIN LINEAR / MIP POINT / aniso 1; world ANISOTROPIC / MIP LINEAR / aniso 8.
 
 Sửa:
 - **RenderSystem D3D9** (`_cysSetIntzSceneDepthTarget`, `_cysIntzSceneDepthFor`): render target đã đăng ký lấy DS là texture INTZ cùng kích thước.
@@ -459,15 +388,6 @@ Kiểm:
 
 ### 5.14. Lightmap + colormap theo ô, decl địa hình như CY (L5b) — `Terrain.cpp`, `TerrainTileOptimized.cpp`, `RenderSystem.cpp`
 
-FACT:
-- **Render.dll:**
-  - `TerrainTileOptimized::createGeometry` (`FUN_1801cb520`): POSITION, NORMAL, TEXCOORD0, [TEXCOORD1]. Khi có lightmap hoặc colormap thì **chỉ** thêm TEXCOORD7 = UV trong ô `(x − xbase + góc) / xsize`.
-  - `FUN_1800d3ea0` tạo lightmap theo ô `<Lightmap>(x,z)`, cỡ `tileSize × 8` (quality ≠ 1).
-  - `FUN_1800d3ab0` tạo colormap theo ô `<colorMap>(x,z)`, cỡ `scaleSize × tileSize`, A8R8G8B8.
-  - `loadResource` (`FUN_1800d2a70`) blit phần của ô từ ảnh lightmap / colormap.
-  - Terrain ctor đặt quality = 2. Không có biến `View_LightmapQuality` nào trong Game.exe / Render.dll của CY.
-- **Trace `cy-login-3`** (proxy mới `CYS_D3DTRACE_VBDUMP`): TEXCOORD7 bắt đầu từ 0 ở mỗi ô. s2 256² L8 ×36, s3 64² A8R8G8B8 ×36, VB 196.608 B mỗi ô.
-- **Trace Đại Lý w09:** decl 40 B (1 lớp) / 48 B (2 lớp); VB lưới 2 lớp 11.328 / 52.032 / 35.328 / 25.344 / 10.944 / 28.416 B.
 
 Sửa (A/B `CYS_PARITY_TERRAIN_TILEMAPS=0`):
 - `TerrainTileOptimized`: bỏ bộ UV lightmap riêng; TEXCOORD7 = UV trong ô.
@@ -510,7 +430,6 @@ Phát hiện khi kiểm (chưa sửa):
 
 | Mã | Việc | Bằng chứng/điểm vào | Lợi ích |
 |---|---|---|---|
-| L1 | **ĐÃ XONG (shadow-finish 17/09, `shadow-finish_vi.md`)**: "luật chọn caster như CY" đã **bị bác bỏ** — 306 caster của CY ở `w09` là trạng thái dựng cảnh dần (30 vật/giây), không phải luật lọc; ở cảnh đăng nhập tập caster của dự án trùng từng lệnh vẽ với CY (728, 919.379 tam giác). Caster địa hình xong (5.11); fit `tight` như CY; trục cơ sở ánh sáng đã sửa ⇒ hộp ortho 9425 × 7557 (CY 9422 × 7555), ô địa hình 40/44/42 = CY | mục 3.1, 5.8, `CYSShadowCasters.cpp:201`; RE Render.dll `FUN_18021f220` (render node ShadowMap) | độ mượt (CPU atlas 10–17 ms ở viewer), bóng địa hình |
 | L2 | **ĐÃ LÀM (5.13)** Cảnh FP16 + DS INTZ đọc trực tiếp, bỏ pass depth R32F; FXAA sau HeightFog | `CysPostFxPipeline.cpp:713`, `buildDepthNode`; CY `Mtl_*_DSIntZ` | màu cộng dồn đúng CY; −1.161 lệnh vẽ/khung |
 | L3 | Bầu trời bằng `EnScene.hlsl` + `SkySphereLayer.hlsl` — **ĐÃ LÀM** (sky-enscene): vòm/SkySphere đầu pass cảnh, mây vòng/trăng sau đồ đục | `sky-enscene-cy_vi.md`; `CYSSkyCyRenderer.cpp` | màu trời như CY (sai khác 2–5/255); −7,2 triệu px tô |
 | L4 | FakeLight dạng khối `Mtl_FakePointLight_DSIntZ` thay point light OGRE | mục 4 #10; `CYSSceneObjects.cpp:305` | hết dư sáng tượng/địa hình; model/địa hình về 2 đèn như CY |
@@ -521,7 +440,6 @@ Phát hiện khi kiểm (chưa sửa):
 | L6 | **ĐÃ LÀM (5.10)** Actor (người chơi/NPC/quái) như CY: `imodel_userdata.x = 1`, chiếu sáng theo đỉnh, **không** nhận bóng, brightness 0,639 (nguồn chưa rõ) | mục 3.2; `CysMaterialSystem::promotesToPixelLighting`, `LogicModelManager` (bot replay x = 0) | màu/độ tương phản nhân vật như CY, bớt chi phí PS |
 | L3b | Bầu trời Đại Lý: SkySphereLayer HLSL — **ĐÃ LÀM**; FACT: 5 lệnh là lệnh đầu pass cảnh (queue 5), không phải sau đồ đục | `sky-enscene-cy_vi.md` §7.2 | |
 | — | **ĐÃ QUYẾT + LÀM (5.13)**: world aniso 8, màn đăng nhập/nhân vật bilinear mip POINT aniso 1 như CY; VSync giữ như dự án | mục 4 #4, #19 | |
-| — | Bắt khung world CY (Đại Lý: nhân vật, kỹ năng, nước, bóng) khi cy-oracle vào được world offline | `cy_capture.ps1` + kế hoạch phím/chuột | bảng khác biệt world |
 
 ## 7. Bẫy
 

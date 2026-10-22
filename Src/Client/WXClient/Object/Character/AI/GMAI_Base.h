@@ -18,8 +18,8 @@ public:
 	virtual BOOL		PushCommand_MoveTo(FLOAT fDestX, FLOAT fDestZ)	= 0;
 	virtual BOOL		PushCommand_AutoHit(INT isAutoHit) = 0;
 	virtual BOOL		PushCommand_Jump(VOID)	= 0;
-	// CYS-MOVE2: CY 3.71 CAI_MySelf vtable slot 6 (0x140118600), the slot right after PushCommand_Jump - 轻功 (qinggong)
-	// to (fDestX, fDestZ) with skill idSkill. Only the player's own AI implements it; every other AI refuses.
+
+
 	virtual BOOL		PushCommand_Fly(INT idSkill, FLOAT fDestX, FLOAT fDestZ) { return FALSE; }
 	virtual BOOL		PushCommand_UseSkill(INT idSkill, GUID_t guidTarget, INT idTargetObj, FLOAT fTargetX, FLOAT fTargetZ, FLOAT fDir)	= 0;
 

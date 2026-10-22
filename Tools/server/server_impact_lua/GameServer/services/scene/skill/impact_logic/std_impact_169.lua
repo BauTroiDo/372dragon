@@ -1,10 +1,10 @@
--- impact-logic (CY-Source 15/09/2026): logic 169 (tlbb15 StdImpact169_T 拘魂·命/金刚不坏体/绝处逢生) — hiệu ứng duy trì:
---   mỗi nhịp hồi máu/khí theo phần nghìn máu/khí tối đa, có thể tự trừ máu; khi bị đánh miễn % sát thương.
--- Bằng chứng: Serverhook.so StdImpact169_T::InitFromData/OnDamage/ContinuanceCalc (Build/re/impact-logic/hook.trim.c):
---   InitFromData: 0x30=回复千分比(idx0), 0x34=免疫率(idx1), 0x38=回调时间(idx2), 0x3c=蓝量回复千分比(idx4), 0x40=扣血(idx5).
---   OnDamage: nếu 免疫率>0 → *dmg = (100-免疫率)*dmg/100.
---   ContinuanceCalc: mỗi khi (elapsed/回调时间) đổi bước → hồi máu 回复千分比×maxhp, hồi khí 蓝量回复千分比×maxmp, và 扣血 (nếu >0).
--- Bản Lua: is_intervaled theo 发作时间间隔 của dòng (回调时间); on_interval_over hồi máu/khí/扣血; on_damages áp 免疫率 vào damages.imm_dmg_rate.
+
+
+
+
+
+
+
 local class = require "class"
 local base = require "scene.skill.impact_logic.base"
 local util = require "scene.skill.impact_logic.cy_impact_util"

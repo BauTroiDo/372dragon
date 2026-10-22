@@ -1,18 +1,8 @@
 #!/usr/bin/env python3
-"""CYS-SFX: cy-oracle scenario -> CYS_WORLD_SCENARIO text for the offline replay of Game.exe (skill-fx-parity, 15/09).
+"""Convert a scene JSON or scenario log to CYS_WORLD_SCENARIO for offline replay.
 
-The input is a cy-oracle scenario (Tools/cyoracle/scenarios/*.json) or the oracle.log of a CY run (its first line holds
-the scenario JSON exactly as cy_oracle_server.py used it, e.g. Build/Logs/2026-09-15-cy-oracle/run-24-fx/oracle/oracle.log).
-The output mirrors what cy_oracle_server.py sent to CY 3.71 (same objects, ids, logic counts, packet order and times):
-
-  * GCEnterScene -> `scene` (position = the first teleport of the timeline: CY teleported 3 s after entering and the
-    replay has no GCObjTeleport handler, so the character starts there);
-  * GCNewMonster + GCCharBaseAttrib (race/name/level) of every NPC -> `at=0 npc`;
-  * "impacts" (answers to CGCharAskImpactList right after entering) -> `at=0 impactlist`;
-  * timeline steps -> `tag` first, then `skill` (GCCharSkill_Send), after 600 ms `impact` (GCCharDirectImpact) and
-    `damage` (GCDetailHealsAndDamages, sender = own object as cy_oracle_server.gc_skill), `impactlist`, `impact`.
-
-usage: cy_scenario_replay.py <scenario.json | oracle.log> <out.txt>
+Usage: cy_scenario_replay.py <scenario.json | scenario.log> <out.txt>
+The input describes scene coordinates, character, NPCs, impacts and a timed action list.
 """
 import json
 import sys
@@ -38,7 +28,7 @@ def convert(sc):
         if 'teleport' in step:
             x, z = float(step['teleport'][0]), float(step['teleport'][1])
             break
-    out = ['# CYS_WORLD_SCENARIO from cy-oracle scenario "%s" (Tools/game/cy_scenario_replay.py)' % sc.get('name', '?'),
+    out = ['# CYS_WORLD_SCENARIO from scene scenario "%s" (Tools/game/cy_scenario_replay.py)' % sc.get('name', '?'),
            'scene id=%d x=%g z=%g obj=%d name=%s' % (int(scene['id']), x, z, me, sc.get('character', {}).get('name', ''))]
     for npc in sc.get('npcs', []):
         out.append('at=0 npc obj=%d race=%d x=%g z=%g dir=%g level=%d name=%s' % (
@@ -68,7 +58,7 @@ def convert(sc):
                 int(step.get('target', -1)), int(step.get('caster', me)), step['direct_impact'])))
         if not acts and 'teleport' not in step:
             continue
-        # cy_oracle_server logs the tag after sending the step's first packet; the replay tags first (same frame)
+        # Emit the tag before the actions in the same replay frame.
         if tag and (acts or 'teleport' in step):
             out.append('at=%d tag %s' % (t, tag))
         for at, text in acts:

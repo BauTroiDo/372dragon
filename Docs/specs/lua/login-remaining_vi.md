@@ -12,7 +12,6 @@ Ngày 13/09/2026. Phạm vi mã và bằng chứng chỉ trong CY-Source. Ngư�
 
 ## Bằng chứng tĩnh B
 
-Game tham chiếu SHA256 `ce0c4fec7666595ca7adb250fcd8075c28f04d1852d05111c88b730f57e1c763`; chỉ đọc bằng LLVM/PE cục bộ theo skill deep-analysis, không import hoặc sửa Ghidra. RVA:
 
 | Phần | Bằng chứng |
 | --- | --- |
@@ -62,7 +61,6 @@ UI B SHA256 `344628121ed7068a45a70dd4bf6732f4c68d01916cbb3a226ae0d7be10e93f73`. 
 - Native NoColor được gọi qua service UI thật; host không chứa bảng từ điển hay bộ bỏ mã màu riêng. Phạm vi màu phụ thuộc parser UI hiện có; không tuyên bố các expansion phức tạp `#{_INFOUSR...}`/`#{_INFOID...}` của B đã hoàn tất.
 - Năm key hiện cần: Tip_PVP_Peace (hai lần), Tip_PVP_Moral, Tip_PVP_FreeForAll, Tip_PVP_FreeForTeam, TM_20080311_16. Corpus Canonical UTF-8 hiện có đủ, giá trị đều literal và không chứa `%`/`#`. Host không thay mã hóa key hoặc chuẩn hóa Unicode; display value do loader dictionary chọn profile UTF-8/936.
 
-Bằng chứng wrapper `Build/re/luaapi/decomp/Game.exe/140227f60.c`; target UI và helper trong `Build/Logs/2026-09-12-gpt-p1-2/next-hosts/ui-dictionary-{virtual,format,color}-disasm.txt`, định danh virtual đã sửa trong `followup-plan_vi.md` của cùng thư mục. Có 13 ca host mới: kiểu/return count, missing/empty/number key, C-string ở ba biên, UTF-8 Việt/Trung, extras, `%%`/giới hạn, format bị từ chối, thứ tự callback NoColor, thiếu service/exception, nil-only, descriptor theo LuaState và sáu lời gọi với đúng corpus Canonical. Ca callback chỉ kiểm đường truyền tới NoColor; không thay unit renderer/native bằng fixture.
 
 Kết quả `Tests/luaapi/run_tests.ps1 -OutDir Build/Logs/2026-09-13-gpt-login-remaining/dictionary-host-tests-2 -Jobs 1`: **67/67 PASS**, build/run exit 0, không warning; cùng sáu lời gọi từ corpus giảm missing 6→0, kiểm đủ sáu kết quả. Lượt `dictionary-host-tests-1` build fail do windows.h đặt macro GetMessage xung đột với LuaException::GetMessage trong test runner; đã undef tại include boundary và giữ log lỗi. Chưa chạy Game sau tích hợp host này; không suy kết nối WSL hoặc hết lỗi runtime từ unit. Hash source, corpus và DLL LuaPlus trong `dictionary-host-source-identity.json` cùng thư mục bằng chứng.
 
@@ -74,6 +72,5 @@ B UI_CEGUI `21b40..21be1` đã kiểm đủ: lua_type(arg2)==NUMBER tại `21b58
 
 Sửa duy nhất host `Src/Client/CEGUISystem/UILuaControl.cpp`: khôi phục kiểm kiểu và cận đó; số hữu hạn truncate về int32 không âm (−0,5 → 0), NaN/Inf/overflow trả 0 trước cast. Giữ nguyên core Listbox và Lua stage; không bắt rồi nuốt exception. Canonical ZhengyouSearch khác stage (MenPai là cặp text/ID và SetCurrentSelect(0) sau vòng lặp); không thay script để che thiếu hợp đồng host.
 
-Bằng chứng đọc cục bộ, không chạy Ghidra mới: `Build/re/luaapi/decomp/UI_CEGUI.dll/180021b40.c`, registry `reg_UI_CEGUI.dll.jsonl` site `1a607`, disassembly `Build/Logs/2026-09-13-gpt-login-remaining/combobox-set-current-select.txt`. Lệnh từ CY-Source: `python -B Build/Logs/2026-09-13-gpt-p1-1/disasm.py ../client_GL/Bin64/UI_CEGUI.dll 0x21b40 0x21be1 Build/Logs/2026-09-13-gpt-login-remaining/combobox-set-current-select.txt`. B DLL chỉ đọc, mọi output trong CY-Source.
 
 Chưa build hoặc chạy riêng sau hunk này. Phiên chính sẽ kiểm CI, widget suite và đúng script stage trong Game: lỗi Listbox 1→0, list MenPai đủ11 item rồi chọn index10, các combo còn lại được khởi tạo. Không tạo helper hay test phản chiếu phép kiểm cận đơn giản; không báo PASS trước khi có bằng chứng runtime.

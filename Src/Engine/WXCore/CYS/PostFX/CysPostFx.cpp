@@ -61,24 +61,24 @@ namespace WX
         String gSceneName;                      ///< base name of the current scene
         bool gLutEnvRead = false;
         String gLutEnv;                         ///< CYS_COLORLUT (A/B): 0 | 1 | auto | <file.png>
-        // CYS-COLOR (color-calib, Docs/specs/render/color-calib_vi.md): HDR rule of CY 3.71 (default) or of client_GL.
-        //   cy: View_HDRFilter drives the legacy "HDR" filter (CY Render.dll vtable 0x308 FUN_18002ced0 ->
-        //       setEnabled("HDR")), never NewHDRBloom; CScene::EnterScene (Game.exe FUN_1406be820) calls
-        //       Scene_SetSceneNewHDRBloomEnabled(0, 0, 0) (vtable 0x320 FUN_18002dec0) on every scene, the only caller,
-        //       so NewHDRBloom stays off in the world. Defaults View_HDRFilter = 0, View_Fanhunjiao = 0 (CY System.cfg).
-        //   gl: client_GL's patched Render.dll (View_HDRFilter -> NewHDRBloom), the previous CY-Source default.
+
+
+
+
+
+
         bool gCyHdr = true;                     ///< PostFX.HDRMode = cy | gl (CYS_COLOR = cy | gl wins)
         bool gColorEnvRead = false;
         String gColorEnv;                       ///< CYS_COLOR (A/B)
         bool gHdrBloomExplicit = false;         ///< Gfx_HDRBloom = 1 set by the host / command line: kept on scenes
         bool gLegacyHdrLogged = false;
-        // CYS-AA (aa-cy, Docs/specs/render/aa-cy_vi.md): texture filtering and anti-aliasing as CY 3.71.
-        //   View_TextureFiltering -> CY Render.dll renderer vtable 0x2f0 FUN_18002e5c0: 0 = bilinear + anisotropy 1,
-        //   1 = trilinear + 2, 2 = anisotropic + 8 (MaterialManager defaults; CY System.cfg ships 2).
-        //   View_Fanhunjiao -> vtable 0x710 FUN_18002cc80: FXAA filter on/off (no MSAA: CY's D3D9 render system keeps
-        //   FSAA = RTFSAA = 0, read from the running CY process).
-        //   CYS_AA (A/B, wins over the configuration): cy = CY's run-time state (no start-up filtering, FXAA from
-        //   View_Fanhunjiao) | none | fxaa | fxaaquality | dlaa. CYS_TEXFILTER: 0 | 1 | 2 | ogre (leave OGRE's default).
+
+
+
+
+
+
+
         bool gAaEnvRead = false;
         String gAaMode = "fxaa";                ///< PostFX.AAMode
         String gAaEnv;                          ///< CYS_AA
@@ -107,7 +107,7 @@ namespace WX
             { "PostFX.AAMode", "fxaa" },    // CYS-AA: fxaa = CY's FXAA option on at start-up | cy = View_Fanhunjiao as CY
             { "View_Fanhunjiao", "0" },     // CYS-COLOR: CY System.cfg (client_GL: 1); CYS-AA: PostFX.AAMode decides 0
             { "Gfx_AA", "" },
-            { "View_TextureFiltering", "2" }, // CYS-AA: CY System.cfg 2 = anisotropic x8 (Render.dll FUN_18002e5c0)
+            { "View_TextureFiltering", "2" },
             { "View_HDRFilter", "0" },      // CYS-COLOR: CY System.cfg (client_GL: 1)
             { "Gfx_HDRBloom", "" },
             { "View_FullScreenLight", "" },
@@ -271,10 +271,10 @@ namespace WX
             return false;
         }
 
-        /// Decides and applies the ColorLUT filter from the mode (Gfx_ColorLUT / CYS_COLORLUT), the quality level
-        /// (View_HumanLightmap) and the scene LUT. CY (Render.dll FUN_18002e100 -> FUN_18002db70): level 2 sets
-        /// LUTImage = the name Game.exe passed for the scene, destAmount = "1" and enables "ColorLUT"; any other
-        /// level disables it. A LUT that is not in the resources is logged and the filter stays off.
+
+
+
+
         void applyColorLut(PostFilterManager* manager, Ogre::Viewport* viewport, const char* why)
         {
             if (!gLutEnvRead)
@@ -351,13 +351,13 @@ namespace WX
                                    " CYS_TEXFILTER=" + (gTexFilterEnv.empty() ? String("-") : gTexFilterEnv));
         }
 
-        /// CY Render.dll FUN_18002e5c0 (renderer vtable 0x2f0, called by the View_TextureFiltering handler
-        /// FUN_18002ec20 with value - '0'): the same three MaterialManager defaults; other values change nothing.
-        /// OGRE resolves units without an explicit 'filtering' line against these defaults at every _setPass, so
-        /// already loaded materials follow (CY data: 398 of 522 'filtering' lines are 'linear linear none' on UI/FX).
-        /// CYS-PARITY (S1, d3d9-trace): FACT CY 3.71 trace - the login / server list / character screens sample with
-        /// MIN LINEAR, MIP POINT, anisotropy 1 (cy-login-2), world scenes with ANISOTROPIC x8, MIP LINEAR (cy-world-1).
-        /// CYS_PARITY_LOGIN_TEXFILTER=0 keeps View_TextureFiltering on every scene.
+
+
+
+
+
+
+
         bool loginTextureFilteringParity(void)
         {
             static const bool on = []() {
@@ -640,7 +640,7 @@ namespace WX
                 request(manager, viewport, "Floodlighting", on);
                 return true;
             }
-            if (k == "view_texturefiltering")                   // CYS-AA: CY Render.dll FUN_18002e5c0
+            if (k == "view_texturefiltering")
             {
                 readAaEnvironment();
                 if (!gTexFilterEnv.empty())
@@ -884,11 +884,11 @@ namespace WX
         //-------------------------------------------------------------------
         String sceneColorLut(int sceneId, const String& sceneFile)
         {
-            // CYS-LUT-TABLE (FACT, CY 3.71 Game.exe x64 sha256 9278c7f3...): CScene::EnterScene (FUN_1406be820) walks the
-            // per-scene override table DAT_140fb35b0 (43 records of 0x68 bytes, count DAT_140fb3434) keyed by the
-            // SceneDefine id (record +0x00) and passes record +0x10 (LUT file name, "" for most) to
-            // CRenderSystem vtable 0x328 after resetting it to "" before the loop; every scene id outside the table
-            // therefore gets "". Only 17 records name a LUT (Build\Logs\2026-09-14-colorlut\re\scene_override_table.tsv):
+
+
+
+
+
             struct Entry { int id; const char* scene; const char* lut; };
             static const Entry kTable[] =
             {
@@ -944,8 +944,8 @@ namespace WX
         void onSceneLoaded(PostFilterManager* manager, Ogre::Viewport* viewport, int sceneId)
         {
             (void)viewport;
-            // B (Render.dll FUN_180018540): scenes loaded with a negative id - the login and character screens -
-            // force View_HDRFilter off; world scenes get the configured state back
+
+
             const bool loginScreen = sceneId < 0;
             applySceneTextureFiltering(loginScreen);             // CYS-PARITY (S1)
             const bool wasHeld = gSuspended.find("NewHDRBloom") != gSuspended.end();

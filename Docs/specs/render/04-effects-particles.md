@@ -2,31 +2,17 @@
 
 Status: spec for phase E2 item 4. Date 2026-09-12. FACT/INF legend as in `01-materials.md`.
 
-Evidence: `Tools\re\fx_params.py` → `Tools\re\out\fx_types.tsv` (block counts, 0.85/B presence), `fx_params.tsv` (every key of the new
-types: uses, coverage, arity, numeric range per component, top values), `fx_params.json`; parameter-name/description strings dumped
-from B binaries in `Tools\re\out\fx_param_strings.txt`, `fx_param_strings2.txt`; Ghidra `Tools\re\out\ghidra\fx_classes.txt`
-(factories/ParamDictionaries in Render.dll). S1 = client_GL `EffectFolder\all.effect/all.particle/all.skill` (GBK); S2 = DataCY31-08-26.
-"0.85 src" = quoted type literal found in `CY-Source\Src\Engine` (`WXCore\EffectSystem`, `ParticleFX2`, OGRE plug-ins).
 
 ## 1. Summary (FACT, `fx_types.tsv`)
 
 | Block (file) | S1 uses | S2 uses | In 0.85 src | Implemented in B | Class / factory evidence |
 |---|---|---|---|---|---|
-| `element NewRibbonTrail` (all.effect) | 294 | 290 | no | Render.dll | `FairyNewRibbonTrailElement.cpp`, `NewRibbonTrailElement::CmdElementType::doSet` (`FUN_180220b70`), factory `FUN_180173d80` |
-| `element UIParticle` (all.effect) | 9 | 25 | no | Render.dll + OgreMain | factory `FUN_180174240`; OgreMain `UIParticleSystem`, `ParticleSystemManager::createUiParticleSystem/getUIParticleSystemShader` |
 | `affector RevoluMove` (all.particle) | 3,164 | 3,374 | no | Plugin_ParticleFX2.dll | string `RevoluMoveAffector` (file 0x11790 region) |
-| `affector SequenceFrame` | 1,589 | 1,507 | no | Render.dll | `SequenceFrameAffector1/2/3` (`FUN_18012af30`), `FairySequenceFrameEffect.cpp` |
-| `affector Dissolve` | 375 | 415 | no | Render.dll | `DissolveAffector` (`FUN_180129440`) |
-| `affector RotationCurve` | 30 | 21 | no | Render.dll | `RotationCurveAffector` (`FUN_18013c210`) |
-| `affector PolarMove` | 13 | 12 | no | Render.dll | `PolarMoveAffector` (`FUN_18012e4f0`) |
-| skill `CameraShake` (all.skill) | 16 | 7 | no | Render.dll | `AnimationCameraShake` ParamDictionary (`FUN_1801c7c00`), parser `EffectManager::parseAnimCameraShakeAttrib` (`FUN_18004fa00`) |
-| skill `ComplexBlur` | 1 | 2 | no | Render.dll | `AnimationComplexBlur` (`FUN_1801c91b0`), `parseAnimComplexBlurAttrib` (`FUN_18004fea0`) |
 | `emitter Cylinder` new keys `curve`, `bend_angle` | 0 | 1 (`curve 4`) | Cylinder yes, keys no | Plugin_ParticleFX.dll | strings `topdown_ratio | curve | BendAngle` (B) / `bend_angle` (C) |
 | material param `dissolveBox` | 0 | 0 | no | only CY 3.71 Render.dll (0x2e9370) | material-system constant, see 01 §6 |
 
 Registered but unused by S1/S2 data (FACT strings, Render.dll 0x2b8958…): affectors `UvAnim` (`ParticleUvAnimEffect`, param `offset`), `MeshRotator`, `MeshAnimationAffector`, `CurveAffector` (curve files `../Media/Curve/*.curve`, `CurveSegmentManager`, param `curve_name`); skill blocks `CameraMove`, `RadialBlur`; element `RibbonTrail`, `Beam`, `Mesh`. 0.85 already has elements Particle/Mesh/Beam/Projector/PointLight/BillboardSet and skill AnimEffect/Ribbon/Sound/SceneLight (FACT, `WXCore\EffectSystem` literals) and ParticleFX2 affectors Revolution/Movement/ColourFading/ScaleInterpolator + PolarEmitter.
 
-B particle core changes the new types rely on (FACT, B OgreMain exports, `ogre_api_gap.tsv`): `ParticleSystemData` (shared template data, 11 new methods), `MergeParticleSystem`/`MergeParticleSystemGroup` (batching of identical systems), `BackParticleSystem`, `ParticleSystemManager::setTotalLargeParticleSystemNum/SystemUpdate/MergePs`, `ParticleSystemRenderer::BuildGeometry/UpdateGeometry`. Render init sets `ParticleSystem::setDefaultIterationInterval(0.033)`, `setDefaultNonVisibleUpdateTimeout(5.0)`, `setTotalLargeParticleSystemNum(1000)` (FACT `FUN_18000e530`).
 
 ## 2. Per-type specification
 
@@ -42,14 +28,6 @@ Same keys as `element Particle` (`ParticleSystem`, `ParEffectName`, `ColEffectNa
 ### 2.3 RevoluMove affector (3,164 uses — the most used new type)
 Keys: `rotation_speed` −555..900 "the speed of particle circle rotation" (459); `rotation_axis` (165); `radius_increment` −3000..2000 (1,116); `use_radius_increment_scale` + `radius_increment_scale0..5` −8000..9000 with `time0..5` (curve of radius growth, " RadiusIncrementScale.") (1,082); `center_offset_min/max` (≈180, xyz up to 50000); `move_usevariablevelocity` "Use VariableVelocity movement" (1,865) + `move_velocity_point0..5` (xyz) with `move_time0..5` "The velocity of the movement … velocity" (≈1,700); `move_velocity` (16); `move_repeattimes` 2..10 "repeattimes" (8).
 Behaviour (INF): each particle orbits a centre (emitter origin + random offset) around `rotation_axis` at `rotation_speed` deg/s while the orbit radius grows by `radius_increment`·scale(t); in addition the particle translates with a piecewise-linear velocity curve (6 keys over normalised life, optionally repeated). Extends 0.85's `Revolution` affector (same plug-in).
-
-### 2.4 SequenceFrame affector (1,589 uses; flipbook sprites)
-Keys: `stacks` 0..9, `slices` 0..16 (atlas rows/cols); `play_mode` normal 1,492 / single 63 / random 34; `repeat_times` 0..777; `loop` (1,492: true 1,482); `pingpang` (1,555: true 16); `start_range` "0 0".."4 12"; `play_times` "none" or 2 floats; `head_and_tail` "none"; `baned_frames` "none". Three parameter dictionaries `SequenceFrameAffector1/2/3` (FACT) — INF one per play mode. Shader side: `sequenceFrameUVFactor` named constant (`FUN_1801e9bb0`) and renderer types `texcoord_billboard`/`ribbon` recognised in `FairySequenceFrameEffect.cpp`.
-Behaviour (INF): per-particle frame index over life = f(play_mode, repeat_times, loop/pingpong, start_range, banned frames) mapped to UV cell (stacks×slices).
-
-### 2.5 Dissolve affector (375 uses)
-Keys: `colora`, `colorb` RGBA; `params` 4f (0..0.1, 0..0.1, 0..0.3, 0..0.5); `uv_repeat` 2f (0.11..4, 0.11..10); `soft_edge_width` 0..2 (351); keyed clip curve `clip0..5` 0..1.3 with `time0..5` (116–278 uses each). Drives the particle material `Mtl_Particle_Dissolve` (359 materials) through named constants `dissolveClip, dissolveColorA, dissolveColorB, dissolveParams, dissolveUVRepeat, dissolveSoftEdgeWidth` (FACT `FUN_1801e9530`); texture alias `<dissolveTexure>`.
-Behaviour: clip threshold animated over normalised particle life from the 6-key curve; pixel discarded where noise < clip with a coloured soft edge (colora→colorb) — shader in `Particle_ps.hlsl` under `DISSOLVE_EFFECT` (FACT macro, 01 §3).
 
 ### 2.6 RotationCurve affector (30 uses; mesh particles)
 Keys: `init_rot_range_start/end` 3f (yaw/pitch/roll degrees, −120..200); `yaw_speed0..4`, `pitch_speed0..4`, `roll_speed0..4` — each "value time" pairs (value −800..880, time 0..1). Behaviour (INF): initial Euler rotation random in range; angular speed per axis from a 5-key curve over life (3-D version of OGRE `Rotator`, complements 0.85 `MeshRotator`).

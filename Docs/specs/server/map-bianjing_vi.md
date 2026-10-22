@@ -142,8 +142,6 @@ với `= 1` (như CY) thì không. Luật PK thật nằm ở `PvpRuler` của `
 
 ---
 
-## 4. Navmesh và các điểm CY
-
 ### 4.1 `bianjing.path` [DK]
 `cs3a_scene.py path-info` trên file **đã cài**:
 `version 0x2000`, **44.999 đỉnh / 89.986 tam giác (41.361 chặn) / 44.997 cạnh**, lưới 128×128 ô 8,
@@ -244,8 +242,6 @@ không phán các khoá còn lại. (Trước khi gia cố, chạy lại `apply`
 
 ---
 
-## 6. Giá nạp navmesh: 228 giây cho 65 cảnh — bản vá `iostream` làm còn 1,5 s [DK]
-
 ### 6.1 Nguyên nhân và bản vá
 `.path` được đọc bằng `lualib/pathparser.lua` → `lualib/iostream.lua`. Bản gốc:
 
@@ -299,8 +295,6 @@ Vì vậy quyết định phải ra **trước** cửa sổ restart; người đ
 (`verify --scenes 755,775,776,779,780,785` → `ok: true`), và log 18:47 cho thấy **cả 6 cảnh đều được tạo**.
 
 ---
-
-## 7. Đo LIVE sau restart 18:47:56 — DoD 2 và 3 đã đạt [DK]
 
 ### 7.1 Khởi động: 65 cảnh, 4 giây
 Người điều phối restart lúc **18:47:56** sau khi vá cả 7 hàm `iostream` và bật 5 tuyến phụ.

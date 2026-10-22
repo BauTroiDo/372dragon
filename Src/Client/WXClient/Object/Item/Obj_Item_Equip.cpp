@@ -378,7 +378,7 @@ ENUM_WEAPON_TYPE CObject_Item_Equip::GetWeaponType(VOID) const
 	case WTYPE_2DUAN:	return WEAPON_TYPE_DSHORT;
 	case WTYPE_SHAN:	return WEAPON_TYPE_FAN;
 	case WTYPE_HUAN:	return WEAPON_TYPE_RING;
-	// CYS-CY: CY 3.71 weapon types (Type % 30 as CY Game.exe FUN_1405c6df0)
+
 	case 6:			return WEAPON_TYPE_QIN;
 	case 7:			return WEAPON_TYPE_SICKLE;
 	case 8:			return WEAPON_TYPE_CY_DAOZU;

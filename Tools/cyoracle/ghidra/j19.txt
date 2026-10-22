@@ -1,1 +1,0 @@
-scalar C:\TLBB\085\CY-Source\Build\re\cy-oracle\out\scalar_172.txt 172,140530000,1405b0000

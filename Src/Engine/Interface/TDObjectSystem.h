@@ -295,8 +295,8 @@ public:
 	virtual VOID			CareObject(INT id, BOOL bCare, std::string szSign) = 0;
 	//从本地资源表中读取物品名字
 	virtual LPCTSTR			ItemNameByTBIndex(UINT idTable) = 0;
-	// CYS-QUEST: CY 3.71 CObjectManager vt+0xb8/+0xc0/+0xc8, read by the UI dialogue variables $N $n $G $g $R $r $U
-	// (UI_CEGUI.dll FUN_18004a5e0). nWho 0 = MySelf, otherwise the main target (must be a CObject_Character).
+
+
 	virtual LPCTSTR			GetTalkName(INT nWho) = 0;
 	// 0 female, 1 male, -1 unknown.
 	virtual INT				GetTalkSex(INT nWho) = 0;

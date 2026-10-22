@@ -32,16 +32,16 @@ struct Record {
 // (1764) and the C->S stream with CGConnect (49); otherwise `error` names the reason.
 bool LoadFixture(const std::string& path, std::vector<Record>& out, std::string& error);
 
-// CYS-SFX: timed scenario replacing the recorded world stream (skill-fx-parity, 15/09). The text file is written by
-// Tools/game/cy_scenario_replay.py from a cy-oracle scenario (Tools/cyoracle/scenarios/*.json), so Game.exe receives
-// the same objects, packets, order and times (ms after GCEnterScene) as CY 3.71 received from cy_oracle_server.py.
-//   scene id=2 x=160.5 z=152.5 obj=1001 name=CYOracle
-//   at=0 npc obj=2001 race=57 x=164 z=150 dir=4.71 level=25 name=<utf-8>
-//   at=12000 skill caster=2002 target=1001 skill=0 logic=101
-//   at=12600 impact target=1001 sender=2002 id=28 logic=101
-//   at=12600 damage target=1001 sender=1001 hp=-404 logic=101
-//   at=0 impactlist obj=1001 ids=13,11
-//   at=12000 tag muren-hit28
+
+
+
+
+
+
+
+
+
+
 struct ScenarioStep {
     uint32_t atMs = 0;
     std::string kind, name;

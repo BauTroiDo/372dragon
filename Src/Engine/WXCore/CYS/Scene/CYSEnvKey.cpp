@@ -238,7 +238,7 @@ namespace WX
     //////////////////////////////////////////////////////////////////////////
     namespace
     {
-        // Attributes understood by the B EnScene reader (FUN_1801f4b70).
+
         const char* const kEnSceneKeyAttrs[] =
         {
             "time", "ambient", "pbr_ambient", "shadow_strength", "pbr_shadow_strength", "fog",

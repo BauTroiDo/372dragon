@@ -1,25 +1,25 @@
 #ifndef __CYS_POSTFX_H__
 #define __CYS_POSTFX_H__
 
-// CY-Source (post-processing agent, 2026-09-12): public entry points of the CY-Source post-processing framework.
-// Specification: Docs/specs/render/02-postfx.md (framework 1, filters 2, per-scene files 3). Written from the spec
-// and B's shader sources (client_GL MaterialTemplates.zip); no decompiled code.
-//
-// Filters (WX::PostFilter types, created / enabled / parameterised by name through WX::PostFilterManager):
-//   GenSSAO, FXAA, FXAAQuality, DLAA, DoF, NewHDRBloom, ColorLUT, HeightFog, GodRays
-// All enabled CY-Source filters of a viewport run in ONE OGRE compositor (CysPostFxPipeline): scene colour in a
-// 16-bit float target, an optional linear-depth node (R32F), two shared ping-pong targets, B's chain order
-// (02 1: ... FXAA, NewHDRBloom, ColorLUT, HeightFog, GodRays). The 0.85 filters (Floodlighting, Fade, Bloom,
-// HeatVision, MotionBlur) keep their own compositors and run after it.
-//
-// Configuration: start-up and run time go through the same call, so a value read from System.cfg at start-up
-// takes effect without a VARIABLE_CHANGED event (fixes doc 08 3.6):
-//   CysPostFx::applyVariable(manager, viewport, key, value)   or   CysPostFx::applyConfigFile(...)
-// Keys (case-insensitive): View_HDRFilter, View_Fanhunjiao, View_FullScreenLight (B System.cfg names),
-//   Gfx_PostFX, Gfx_AA (none|fxaa|fxaaquality|dlaa), Gfx_HDRBloom, Gfx_SSAO, Gfx_HeightFog, Gfx_GodRays, Gfx_DoF,
-//   Gfx_ColorLUT (auto = CY: scene LUT at View_HumanLightmap 2 | 0 | 1 | <lut.png>), View_HumanLightmap,
-//   PostFX.Media (folder), PostFX.<Filter>.<Parameter> = value,
-//   PostFX.Preset (b = client_GL exact, default: 8-bit targets + B's NewHDRBloom | cinematic = FP16 + ACES path).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "PostFilter/WXPostFilterPrerequisites.h"
 
@@ -77,13 +77,13 @@ namespace WX
         size_t applyStartup(PostFilterManager* manager, Ogre::Viewport* viewport, VariableLookup lookup, void* user);
         /// Shipped default of a configuration key ("" = none: left alone when the host does not set it).
         String getDefaultValue(const String& key);
-        /// Scene hook (host Scene_Load): B forces View_HDRFilter off on the login / character screens (scene id < 0,
-        /// Render.dll FUN_180018540) and restores the configured state for world scenes.
+
+
         void onSceneLoaded(PostFilterManager* manager, Ogre::Viewport* viewport, int sceneId);
-        // ---- CYS-LUT (2026-09-14, colorlut): per-scene ColorLUT as CY 3.71 ----
-        /// Scene hook with the scene file (host Scene_Load, TlbbViewer): CY's Game.exe picks the LUT of a scene by its
-        /// .Scene name (CScene::EnterScene -> Scene_SetSceneLUTParam, Render.dll vtable 0x330) and Render.dll enables
-        /// the ColorLUT filter with it only for View_HumanLightmap 2 (FUN_18002e100). Docs/specs/render/colorlut-cy_vi.md.
+
+
+
+
         void onSceneLoaded(PostFilterManager* manager, Ogre::Viewport* viewport, int sceneId, const String& sceneFile);
         /// LUT texture of a scene as CY's Game.exe table ("" = none): by SceneDefine id when sceneId > 0 (the game),
         /// else by the .Scene name (tools; with or without folders / extension).

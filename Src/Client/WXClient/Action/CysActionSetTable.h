@@ -1,13 +1,13 @@
-// CysActionSetTable.h - CYS (actionset, 2026-09-14)
-//
-// The action-set tables of client_GL ("B"): ConfigFolder/ActionSet/ActionSet.txt + ActionSetLine.txt + ActionSetKV.txt,
-// selected per model through ActionSetFile.txt (CharModelEx column 9). 0.85 kept one 13-column file per model
-// (Config/ActionSet/<model>.txt); B replaced that with these three shared tables. Format, semantics and the
-// Game.exe evidence (FUN_1400e35b0 loader, FUN_1400e3db0 reader, FUN_1400f9110/FUN_1400f9200 slot wrappers,
-// FUN_140421ff0 Type -> slot) are in Docs/specs/game/actionset_vi.md.
-//
-// This file has no engine dependency (standard C++ only) so the same parser runs in Game.exe (CActionSetMgr) and in
-// the offline checker (Src/Tools/CysActionSetCheck). Names are GBK bytes and are never re-encoded.
+
+
+
+
+
+
+
+
+
+
 #pragma once
 
 #include <map>
@@ -16,10 +16,10 @@
 
 namespace CysActionSet
 {
-	// CYS-CY: slot numbers of CY 3.71 (0-based column of ActionSetLine.txt after the line id; CY ships 16 slots + 3
-	// extras = 20 columns, record 0x26 bytes in FUN_1405b7610). Evidence: CY Game.exe FUN_1405c6df0 (EquipBase Type %
-	// 30 -> slot jump table) and FUN_1405e3230 / FUN_1405e33a0 / FUN_1405d84f0 (monster, transform, rider, bus -> 13).
-	// client_GL (B) numbering differed (shared 9, sickle 8, CY sects 11..14 after the 09/09 patch).
+
+
+
+
 	enum Slot
 	{
 		SLOT_NONE	= 0,	// bare hands
@@ -41,8 +41,8 @@ namespace CysActionSet
 		SLOT_MAX	= 32	// hard cap of this parser (CY: 16 compiled in)
 	};
 
-	// CYS-CY: CY 3.71 FUN_1405c6df0: EquipBase Type % 30 -> slot (0->2, 1->1, 2->4, 3->3, 4->5, 5->6, 6->7, 7->15,
-	// 8->8, 9->9, 10->10, 16->11, 17->12); anything else and negative Type -> 0.
+
+
 	int SlotFromEquipType(int nEquipType);
 
 	struct Stats
@@ -97,14 +97,14 @@ namespace CysActionSet
 		// (action id, line id) pairs of one set, in file order; empty when the set does not exist.
 		const std::vector<std::pair<int, int> >* GetSetActions(int nSetID) const;
 
-		// B FUN_1400e3db0 step 1: (set, action) -> line id, or -1.
+
 		int FindLine(int nSetID, int nActionID) const;
-		// B FUN_1400e3db0 step 2: line id + slot -> animation name (GBK), NULL when the line, slot or name id is out of
-		// range. An empty string is a valid result (no animation, B keeps the pointer and the model stops animating).
+
+
 		const char* GetLineName(int nLineID, int nSlot) const;
-		// The three extra cells of a line (B: +0x16/+0x18/+0x1a of the 28-byte record; after the 15-slot patch
-		// +0x1e/+0x20/+0x22). A = hide weapon (0/1), B = appointed weapon visual id or -1, C = -1/0/1 (unknown use, B
-		// reads it through FUN_1400e4090; see spec). Out-of-range line -> 0 / -1 / -1.
+
+
+
 		bool GetHideWeapon(int nLineID) const;
 		int GetAppointedWeapon(int nLineID) const;
 		int GetExtraC(int nLineID) const;

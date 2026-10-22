@@ -30,11 +30,11 @@
 #define IDC_CURSOR6                     149
 #define IDD_DIALOG_WXC_SML              150
 
-// CYS: cursors recovered from client_GL ("B") Game.exe by static analysis
-// (CCursorMng::Initial, RVA 0x12be90) -- see Tools\cursor\extract_cursors.py
-// and Build\re\cursor\out for the extraction evidence (.cur/.png per id +
-// manifest.json). Kept as a separate ID block so the 0.85 cursors above
-// remain untouched and available as a fallback (Cursor\CursorMng.cpp).
+
+
+
+
+
 #define IDC_CURSOR_GL_NORMAL            1300
 #define IDC_CURSOR_GL_ATTACK            1301
 #define IDC_CURSOR_GL_AUTORUN           1302

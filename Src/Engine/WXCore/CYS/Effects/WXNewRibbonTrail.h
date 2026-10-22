@@ -1,19 +1,19 @@
-/*
-CYS: NewRibbonTrail - the trail renderable of the NewRibbonTrail effect element (294 elements in client_GL
-all.effect).  Clean-room implementation of the behaviour of B Render.dll FairyRibbonTrail (derived from the
-B OgreMain BillboardChain, vtable 0x1802db760) - Docs/specs/render/04-effects-particles.md.
 
-The trail follows a tracked scene node (the element node).  Elements are kept about TrailLength / (MaxChainElements - 2)
-apart; a jump longer than TrailLength rebuilds a straight chain.  The total length is kept at TrailLength by
-shortening the tail segment.  Each frame (only when LiftTime, WidthChange or the colour keys make it change) every
-element ages, its width changes by WidthChange per second, its colour follows the five colour keys, and the chain is
-cut at the first element older than LiftTime (LiftTime > 0) or whose width / alpha leaves the
-[LowWidthCut, HighWidthCut] / AlphaColourCut limits.  Widths taper from the head width to TailWidth along the
-chain; the texture u runs from 0 at the head to 1 at the tail.
-Billboard types: camera (faces the camera), point (faces Direction_or_Point), oriented (perpendicular =
-Direction_or_Point), perpendicular (tangent x Direction_or_Point), follow_bone (perpendicular = x axis of the
-tracked node).  With ParentSpaceLock the chain moves rigidly with the effect transform.
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ifndef __WXNewRibbonTrail_H__
 #define __WXNewRibbonTrail_H__
 

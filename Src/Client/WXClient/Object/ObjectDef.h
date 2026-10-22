@@ -39,7 +39,7 @@ enum ENUM_WEAPON_TYPE
 	WEAPON_TYPE_RING,		// 环类
 	WEAPON_TYPE_MONSTER,	// 怪物
 	WEAPON_TYPE_NPC,		// NPC，就是不可以被攻击的 Monster
-	// CYS-CY: CY 3.71 weapon types (EquipBase Type % 30; CY Game.exe FUN_1405c6df0 gives each its own action slot)
+
 	WEAPON_TYPE_QIN,		// Type 6
 	WEAPON_TYPE_SICKLE,		// Type 7
 	WEAPON_TYPE_CY_DAOZU,	// Type 8

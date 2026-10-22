@@ -85,9 +85,9 @@ VOID CSoundSystemFMod::Initial(VOID*)
 		{
 			TDThrow("FMOD: You are using the wrong DLL version (%08x < %08x)!", nVersion, (UINT)FMOD_VERSION);
 		}
-		// CYS-AUDIO: CY 3.71 FUN_140687500: setOutput(AUTODETECT), init(32, FMOD_INIT_NORMAL), log output type and
-		// CYS-AUDIO: every driver, NOSOUND when no driver, set3DSettings(1, 1, 1). Test runs may redirect the mix to a
-		// CYS-AUDIO: WAV file (CYS_AUDIO_OUTPUT=wav:<file>) so the evidence needs no speakers.
+
+
+
 		void* pExtra = CysAudio::ConfigureOutput(pSystem);
 		m_bCysTestOutput = (GetEnvironmentVariableA("CYS_AUDIO_OUTPUT", NULL, 0) > 0);
 		nInitResult = (int)pSystem->init(32, FMOD_INIT_NORMAL, pExtra);
@@ -182,8 +182,8 @@ VOID CSoundSystemFMod::Initial(VOID*)
 
 	m_pMetaTable->RegisterObjectFunctor("PlaySound", &CSoundSystemFMod::Lua_PlaySound);
 	m_pMetaTable->RegisterObjectFunctor("StopSound", &CSoundSystemFMod::Lua_StopSound);
-	// CYS-AUDIO: the two other host functions of CY 3.71 CNewSoundSystemFMod (FUN_140687500 registers PlaySound,
-	// PlaySoundEffect, StopSound, PlayUISound); LuaApiGen_Sound.cpp only fills names still missing (stubs).
+
+
 	m_pMetaTable->RegisterObjectFunctor("PlaySoundEffect", &CSoundSystemFMod::Lua_PlaySoundEffect);
 	m_pMetaTable->RegisterObjectFunctor("PlayUISound", &CSoundSystemFMod::Lua_PlayUISound);
 
@@ -473,7 +473,7 @@ tSoundBuffer* CSoundSystemFMod::Buffer_Create(INT nID)
 	//非法ID
 	if(it == m_mapSoundID.end())
 	{
-		// CYS-AUDIO: CY 3.71 FUN_140689490 logs "Invalid sound source id: %d" and returns NULL (0.85 threw)
+
 		CysAudio::NoteMissing("id", nID, "(not in SoundInfo.txt)");
 		return NULL;
 	}
@@ -597,7 +597,7 @@ void CSoundSystemFMod::PlayUISoundFunc( INT nID )
 	pSndSource->Play();
 }
 
-// CYS-AUDIO: CY 3.71 FUN_140687110 / FUN_140686c40: SoundUI row -> FUN_140688e00(sound id) (UI type, 2D, auto destroy)
+
 VOID CSoundSystemFMod::PlayUISoundByIndex(INT nIndex)
 {
 	std::map< INT, INT >::iterator it = m_mapCysSoundUI.find(nIndex);
@@ -609,7 +609,7 @@ VOID CSoundSystemFMod::PlayUISoundByIndex(INT nIndex)
 	PlayUISoundFunc(it->second);
 }
 
-// CYS-AUDIO: CY 3.71 FUN_1406897c0: file name -> SoundInfo id
+
 INT CSoundSystemFMod::FindSoundID(LPCTSTR szFileName)
 {
 	if(!szFileName) return -1;
@@ -618,8 +618,8 @@ INT CSoundSystemFMod::FindSoundID(LPCTSTR szFileName)
 	return it->second->pDefine->nID;
 }
 
-// CYS-AUDIO: CY 3.71 FUN_140688ce0 (EnableSKSound checked, GFX->GAME position done by the caller here): skill type,
-// 3D, max distance 20.0, loop as asked, auto destroy; returns the handle (source id) or -1.
+
+
 INT CSoundSystemFMod::PlaySkillSound3D(INT nSoundID, const fVector3& fvGamePos, BOOL bLoop, const char* szWhat)
 {
 	if(CVariableSystem::GetMe()->GetAs_Int(szSKSoundVar) != 1) return -1;
@@ -676,7 +676,7 @@ INT CSoundSystemFMod::PlaySoundFunc(LPCTSTR szSoundFile, FLOAT* fvPos, BOOL bLoo
 	//创建一个声音源，自动删除
 	tSoundSource* pSndSource = Source_Create(CSoundSourceFMod::type_skill, TRUE, TRUE);
 	if(!pSndSource) return -1;
-	// CYS-AUDIO: CY 3.71 FUN_1400a02c0 (effect/skill sound by file name) -> FUN_140688ce0: max distance 20.0
+
 	((CSoundSourceFMod*)pSndSource)->SetCysWhat("skill-3d");
 	((CSoundSourceFMod*)pSndSource)->SetMaxDistance(20.0f);
 
@@ -763,8 +763,8 @@ INT CSoundSystemFMod::Lua_PlaySound(LuaPlus::LuaState* state)
 	int idSource = (int)args[2].GetNumber();
 	bool bLoop =  args[3].GetBoolean();
 
-	// CYS-AUDIO: CY 3.71 FUN_1406871b0: an optional 4th boolean marks "main" music (SelectServer.lua
-	// CYS-AUDIO: Sound:PlaySound(2110, true, true)); it is skipped while DisableMainSound = 1.
+
+
 	if(args[4].IsBoolean() && args[4].GetBoolean() && CVariableSystem::GetMe()->GetAs_Int("DisableMainSound") != 0)
 	{
 		TDU_Log("CYS audio: lua PlaySound id=%d skipped (DisableMainSound=1)", idSource);
@@ -796,7 +796,7 @@ INT CSoundSystemFMod::Lua_PlaySound(LuaPlus::LuaState* state)
 	return 1;
 }
 
-// CYS-AUDIO: CY 3.71 FUN_1406873d0
+
 INT CSoundSystemFMod::Lua_PlaySoundEffect(LuaPlus::LuaState* state)
 {
 	LuaStack args(state);
@@ -827,7 +827,7 @@ INT CSoundSystemFMod::Lua_PlaySoundEffect(LuaPlus::LuaState* state)
 	return 1;
 }
 
-// CYS-AUDIO: CY 3.71 FUN_140687380 ("LUA: Lua_PlayUISound Wrong Param")
+
 INT CSoundSystemFMod::Lua_PlayUISound(LuaPlus::LuaState* state)
 {
 	LuaStack args(state);
@@ -854,5 +854,3 @@ INT CSoundSystemFMod::Lua_StopSound(LuaPlus::LuaState* state)
 	Source_Destroy(idSound);
 	return 0;
 }
-
-

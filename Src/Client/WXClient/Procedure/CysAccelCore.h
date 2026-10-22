@@ -1,27 +1,27 @@
 #pragma once
-// CYS-MOVE2: engine-free core of the CY 3.71 accelerator table (CAccelerateManager). Everything in this header was
-// read out of client_GL\Bin64\Game.exe (sha256 ce0c4fec...) on 18/09/2026 - the addresses are the evidence:
-//
-//   table          .data 0x140998980, 79 entries x 0x30:
-//                    +0x00 u32 id (callback argument; 200.. for the 11 fixed rows, 1..54 and 100..113 for the rest)
-//                    +0x08 char* StrDictionary key, +0x10 u32 key1, +0x14 u32 key2, +0x18 fn_down, +0x20 fn_up,
-//                    +0x28 u32 flags (bit 8 = usable while dead)
-//   packed key     vk | Ctrl<<16 | Alt<<17 | Shift<<18   (processKeyMessage 0x140433ea0: GetKeyState(VK_CONTROL)
-//                  -> bts 0x10, VK_MENU -> bts 0x11, VK_SHIFT -> bts 0x12; KeyText 0x140435eb0: 0x40000 "Shift+",
-//                  0x20000 "Alt+", 0x10000 "Ctrl+").  So in the u16 mod field 1 = Ctrl, 2 = Alt, 4 = Shift.
-//                  (CysHost_Accel_Table.inc's comment "1 Shift, 4 Ctrl" has these two swapped; the numbers are right.)
-//   dispatch       processKeyMessage: BOTH bindings of every row are live all the time; while an IME edit box is
-//                  active a key without Ctrl/Alt that belongs to the text set (0x1404352a0) is left to the edit box;
-//                  key-down and key-up are dispatched (fn_down / fn_up), keyboard auto-repeat is ignored; a dead
-//                  character only fires rows with flags bit 8.
-//   capture        InputSetup_OnOff(true, slot, id) -> 0x140437050: Esc cancels; a key from the "chat" list
-//                  (0x1404357e0 +0x20: Alt+A..Z, Alt/Ctrl+0..9, F1..F12, Alt+Delete, Ctrl+Tab, Alt+punctuation)
-//                  goes to binding 2, one from the "plain" list (+0x15c: A..Z, 0..9, Ctrl+0..9, F1..F12, Delete, Tab,
-//                  punctuation) to binding 1, anything else is refused with ZDYKJJ_20071227_02; the same key on
-//                  another row is cleared there (ZDYKJJ_20071227_03) - 0x140435b80; the window is told with
-//                  TOGLE_INPUTSETUP(key1 text, key2 text, id).
-//   file           "..\Accounts\%s\Acce_Custom.ini" (0x140408b64), one [ACCE_CUSTOM_%d] section per editable row
-//                  with id=, key1=, key2= (0x140434880 writes, 0x140435420 reads).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -41,13 +41,13 @@ namespace CysAccelCore
     enum Action
     {
         ACT_NONE = 0,
-        ACT_ESCAPE,             // 0x140438300: chat close / OnPushEcsape + cancel the mouse skill
-        ACT_CHAT_OPEN,          // 0x140439c00: UISystem->[0x1e0](true)
-        ACT_CHAT_GM_PREV,       // 0x140438f30 ',': chat GM history up   (0x14034ca40)
-        ACT_CHAT_GM_NEXT,       // 0x140438f30 '.': chat GM history down (0x14034cd80)
-        ACT_DEBUG,              // debug-only rows (gated on byte 0x1409b64a4 / EnableDebugReport); nothing here
+        ACT_ESCAPE,
+        ACT_CHAT_OPEN,
+        ACT_CHAT_GM_PREV,
+        ACT_CHAT_GM_NEXT,
+        ACT_DEBUG,
         ACT_SYSTEM_LOCKKEY,     // CapsLock / ScrollLock / NumLock rows: lock-key bookkeeping of CY, nothing here
-        ACT_SCREENSHOT,         // PrintScreen: fn_up 0x140438220 (screenshot on release)
+        ACT_SCREENSHOT,
         ACT_MENUBAR,            // F1..F10: MainMenuBar_DoAction((id-1) + 10*page, down)
         ACT_MENUBAR_SLOT,       // 1..0 (slot id+19 = 30..39) and custom rows (id-35 = 70..78): MainMenuBar_DoAction
         ACT_EVENT_ACC,          // PushEvent(GE_ACCELERATE_KEYSEND, arg)
@@ -57,10 +57,10 @@ namespace CysAccelCore
         ACT_ZOOM_OUT,           // Alt+Down: Camera_SetZoom(FALSE, 2)
         ACT_UP,                 // Up: chat history up when chatting, else zoom in
         ACT_DOWN,               // Down: chat history down when chatting, else zoom out
-        ACT_SCENE_MAP,          // Tab: 0x140438840 pushes TOGLE_SCENE_MAP {szSceneMap, "2"} + the two minimap flags.
-                                // CY does NOT lock a target with Tab - the whole callback is only this push
-                                // (event id 0x78 = TOGLE_SCENE_MAP, flags at 0x1409c13c0/0x1409c13c1). Measured
-                                // 18/09 by disassembling the row-57 callback end to end.
+        ACT_SCENE_MAP,
+
+
+
         ACT_EVENT_NAMED,        // PushEventByName(arg) with no argument
         ACT_EVENT_NAMED_INT,    // PushEventByName(arg, -1)
         ACT_STOP_TEAM_FOLLOW,   // K: send CGStopTeamFollow (1263)
@@ -212,8 +212,8 @@ namespace CysAccelCore
         return (dik >= 0 && dik < 256) ? table[dik] : 0u;
     }
 
-    // CY's "text keys": while an IME edit box is active a key from this set without Ctrl/Alt belongs to the box.
-    // 0x1404352a0: A..Z, 0..9, numpad 0..9 and its operators, then Left Right Home End Delete Enter ; = , - . / ` [ \ ] ' 0xDF.
+
+
     inline bool IsTextKey(unsigned vk)
     {
         if ((vk >= 'A' && vk <= 'Z') || (vk >= '0' && vk <= '9') || (vk >= 0x60 && vk <= 0x6F)) return true;
@@ -234,7 +234,7 @@ namespace CysAccelCore
                vk == 0xBC || vk == 0xBE || vk == 0xBF;
     }
 
-    // Keys the capture accepts for binding 2 (the one used while chatting) - 0x1404357e0, list at manager +0x20.
+
     inline bool IsValidChatBinding(unsigned packed)
     {
         const unsigned vk = Vk(packed), mod = Mod(packed);
@@ -247,8 +247,8 @@ namespace CysAccelCore
         return false;
     }
 
-    // Keys the capture accepts for binding 1 (used while not chatting) - list at manager +0x15c. The WASD exclusion
-    // of CY applies only while its keyboard-walk flag (0x1409b64ba) is on, which this build does not have.
+
+
     inline bool IsValidPlainBinding(unsigned packed)
     {
         const unsigned vk = Vk(packed), mod = Mod(packed);
@@ -260,9 +260,9 @@ namespace CysAccelCore
         return false;
     }
 
-    // CY's own spelling of a key (0x140435eb0). Quirk kept on purpose: only ONE modifier prefix is written, chosen
-    // Shift > Alt > Ctrl (the function jumps straight to the key name after the first prefix), so "Ctrl+Alt+," of the
-    // fixed rows 4/5 reads "Alt+,". Returns false when the buffer is too small. "" for key 0.
+
+
+
     inline bool KeyText(unsigned packed, char* out, unsigned capacity, bool cyQuirk = true)
     {
         if (!out || capacity == 0) return false;
@@ -370,8 +370,8 @@ namespace CysAccelCore
             return -1;
         }
 
-        // CY 0x140435b80: bind `packed` to slot `slot` of row `row`; the same key on any other EDITABLE row is cleared
-        // there. Returns the number of rows that lost the key (the window shows ZDYKJJ_20071227_03 when > 0).
+
+
         int Apply(int row, int slot, unsigned packed)
         {
             int replaced = 0;
@@ -386,7 +386,7 @@ namespace CysAccelCore
             return replaced;
         }
 
-        // "..\Accounts\<account>\Acce_Custom.ini" body, CY's layout (0x140434880): one section per editable row.
+
         int Serialize(char* out, unsigned capacity) const
         {
             unsigned used = 0;

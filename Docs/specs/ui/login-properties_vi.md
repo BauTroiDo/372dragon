@@ -25,15 +25,6 @@ Batch tiếp theo P1-1, theo yêu cầu sửa lỗi hiện có và mở UI cần
 
 Không gắn thuộc tính trống để che log. Còn **18 lỗi baseline chưa được xử lý trong batch**: BtnAnimation 16, BoardKillTimer 1, LightEnable 1. Các nhóm này được giữ là việc chưa đạt để kiểm tiếp sau build tích hợp.
 
-## Hợp đồng và bằng chứng
-
-- ClickSound là thay đổi ranh giới plugin: append `SetClickSoundCallback(void (*)(int))` cuối tUISystem, không thay vị trí slot cũ. Phải rebuild đồng bộ Game, UI_CEGUI và native CEGUI; không trộn DLL cũ. Game không link trực tiếp CEGUI để đăng ký âm thanh.
-- Listbox giữ style riêng của từng item nếu cửa sổ không hề khai báo SelectBrush/SelectColour. Giá trị brush rỗng được phép xóa; tên resource không tồn tại ném lỗi trước khi cập nhật item. Combobox chờ child initialization để tránh truy cập con quá sớm.
-- B CEGUIFalagard SHA256 `82b61321a2b2b159370d6bb7cd627b94e071c41917a555ce22f5407780ff527f`, 1.699.360 byte. Đọc PE bằng LLVM cục bộ; CodeGraph module UI không có node nên tra source có mục tiêu bằng rg. Không suy diễn từ tên thuộc tính đơn thuần.
-- B `setItemBkg` RVA 98550..98779: nhận dir:left, middle, right; tra ảnh qua PropertyHelper rồi lưu ba con trỏ. `populateRenderCache` RVA 97a40..98470 dùng ItemBkgLeftSize, ItemBkgMiddleSize, ItemBkgRightSize và IconSize cho mỗi hàng. Bằng chứng: `Build/Logs/2026-09-13-gpt-ui-properties/b-channel-bkg.txt`, `b-channel-draw.txt`, `b-falagard-identity.json`.
-- Canonical `Assets/Canonical/Data/InterfaceFolder/ChatFrame/ChatFrame.layout.xml` dòng 168–170 đều có giá trị sai `dir:CommonFrame set:Chat image:CommonEditBoxBK`; không có imageset Chat. Profile stage phải thay lần lượt bằng `dir:left set:CommonFrame image:CommonEditBoxBK`, middle, right. Native không nhận dạng alias sai để nuốt lỗi. Công cụ profile tích hợp quản lý backup/hash dữ liệu trong Build.
-- ChatChannel giữ input native; danh sách rỗng không chia cho 0; vẽ icon/background được dù font chưa có. ChildItem chỉ lưu factory khi đọc property, không tạo children trong lúc look chưa hoàn tất.
-
 ## Kiểm thử batch
 
 Build native x64 Release, tối đa 2 jobs, tree riêng `Build/cmake/gpt-login-ui-props`, target `cys_ceguifalagard`, components `freetype;expat;cegui;falagardex`: **rc 0**, `Build/Logs/2026-09-13-gpt-ui-properties/build-6.log`. Các log lỗi trung gian được giữ để truy vết; không dùng chúng làm kết quả đạt.
@@ -56,13 +47,10 @@ Giới hạn: renderer kiểm cache/quads bằng ảnh tổng hợp, không phá
 - BoardKillTimer B chỉ kích hoạt khi insert với mode 3/4; chat mode 0 thường không hết hạn. CY hiện có interface insert một tham số nên không được tự làm mọi dòng chat biến mất. `board-insert.txt`, `board-update.txt`, `board-kill-handler.txt`, `board-kill-setter.txt`, `board-own-timer.txt` cùng thư mục trên.
 - LightEnable B chọn nhánh render light tại đầu progress, dùng state LightEnable và named area LightArea khi có. Evidence ở `Build/Logs/2026-09-13-gpt-ui-properties/b-progress-draw-head.txt` và `b-progress-light.txt`; phần đầu tệp light bắt giữa instruction nên chỉ đọc từ địa chỉ instruction hợp lệ. Chưa triển khai batch này.
 
-## Batch 2: ba thuộc tính còn lại
-
 ### BtnAnimation / EnableAnimation
 
 `FalButton.h/.cpp` bổ sung tài nguyên overlay và cờ chạy riêng. `BtnAnimation` tra tên trong AnimateManager, giữ tài nguyên cũ nếu manager/tên chưa tồn tại giống B, chọn frame đầu nhưng không bật animation. `EnableAnimation=True` chỉ có tác dụng khi đã có animation; chuyển false→true bắt đầu từ System elapsed time, gán frame/alpha đầu. Gán True lặp lại không restart. False xóa frame. Update khi visible, lấy frame/alpha bằng thời gian CEGUI; overlay phủ đúng kích thước nút sau imagery trạng thái, alpha frame nhân với effective alpha của Window. Hành vi PushButton và autorepeat vẫn chạy.
 
-Bằng chứng B: setter RVA 33e0, enable 2de0, updateAnimate 34a0, updateSelf 3540; `Build/Logs/2026-09-13-gpt-login-remaining/btn-animation.txt`, `btn-enable.txt`, `btn-constructor.txt`, `btn-render.txt`. Không port thêm flash hoặc animation API khác chưa được giao.
 
 ### LightEnable
 
@@ -70,7 +58,6 @@ Bằng chứng B: setter RVA 33e0, enable 2de0, updateAnimate 34a0, updateSelf 3
 
 Look hiện đại dùng Enabled/Disabled/Effect thay vì ProgressImage legacy; native trước đây không vẽ các state này. Batch 2 bổ sung nhánh look: fill và effect theo progress/current smooth value, giữ nhánh RenderableImage khi có ProgressImage riêng. Màu mặc định trắng; dữ liệu EffectColorLevel vẫn được áp dụng. Sửa trả chỉ số màu đã clamp thay vì tính lại chỉ số chưa clamp. Khi bật light, đầu sáng bám progress đích ngay cả khi hiệu ứng chuyển tiếp chưa theo kịp.
 
-Bằng chứng đầy đủ không bắt giữa instruction: `Build/Logs/2026-09-13-gpt-ui-properties/b-progress-complete.txt`, RVA 42620..432d5. Nhánh flag ở 42674, state Enabled/Disabled tại 428fb, LightEnable tại 4293e/429a4, LightArea tại 42a19/42a7f, rect đầu sáng tại 42b32..42ba5. Phạm vi CY hiện vẫn là thanh ngang đã có; không tuyên bố parity các chế độ vertical/reverse của B.
 
 ### BoardKillTimer
 
@@ -104,7 +91,6 @@ Binding đăng ký DestructionStarted của popup dùng chung. Khi popup bị h�
 
 Kiểm thử phát hiện lỗi có sẵn ở ItemListBase: addChild_impl thêm vào d_listItems nhưng không có removeChild_impl đối ứng. destroyWindow/cleanupChildren bỏ child mà list giữ con trỏ đã được cleanDeadPool, dẫn tới AV khi hủy menu sau đó. Sửa ItemListBase.h/.cpp đồng bộ list khi detach; resetList tách toàn bộ danh sách sở hữu trước callback/hủy để không skip phần tử hoặc gọi layout ảo từ base destructor. MenuBase.h/.cpp đóng popup và xóa active item trước khi detach. Không sửa global Event hoặc bỏ cleanDeadPool khỏi test.
 
-B CEGUIBase SHA256 `C79A301F373FA108BA0E709B8644EF85219473C953FF479A2F689C84EA25282B`; setter RVA f2c50..f2d60 lưu tên và tra WindowManager, không chuyển parent; open RVA f2750..f2b80 tính vị trí popup theo màn hình. Bằng chứng: `Build/Logs/2026-09-13-gpt-ui-properties/b-base-exports.txt`, `b-popup-set.txt`, `b-popup-open.txt`.
 
 ### MapImage
 
@@ -112,7 +98,6 @@ B CEGUIBase SHA256 `C79A301F373FA108BA0E709B8644EF85219473C953FF479A2F689C84EA25
 
 ChildImage nhận `name:KEY set:IMAGESET image:IMAGE`, tra resource trước khi ghi map và có thể thay mapping cùng key; không tự đổi ảnh đang hiển thị. SetCurrentImage chọn key và vẽ chính ảnh đã tra; key chưa có xóa ảnh trước giống B. Getter giữ tên vừa yêu cầu; descriptor sai hoặc resource thiếu không phá mapping cũ.
 
-B CEGUIFalagard dùng SHA256 đã ghi ở batch 1; constructor RVA 8f4f0, map assign 8fc30, chọn ảnh 900d0..90166. Bằng chứng `b-map-ctor.txt`, `b-map-add.txt`, `b-map-current.txt`, `b-map-class.txt` cùng thư mục. B sử dụng StaticImage backend của nó; CY dùng FalagardStaticImage backend trong source đang có, giữ hợp đồng resource/key và quads thực.
 
 ### Kết quả batch 3 và giới hạn
 

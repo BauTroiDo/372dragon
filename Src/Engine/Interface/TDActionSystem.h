@@ -81,11 +81,11 @@ public:
 	virtual BOOL			CoolDownIsOver(VOID)	= 0;
 	//拖动结束
 	virtual VOID			NotifyDragDropDragged(BOOL bDestory, LPCSTR szTargetName, LPCSTR szSourceName) = 0;
-	//显示tooltips
-	// CYS-FRAMESTRUTH 20/09: the living clients pass the PIXEL RECT OF THE BUTTON, not nothing.
-	// B (client\Bin64, Ghidra sha256 7a2bf167...) and CY 3.71 (sha256 9278c7f3...): RTTI class CActionItem,
-	// vtable slot +0xa8 takes four ints; UI_CEGUI (string "FalagardActionButton") calls it with
-	// getPixelRect() left/top/right/bottom. Same slot, same position - only the parameters changed.
+
+
+
+
+
 	virtual VOID			NotifyTooltipsShow(INT nLeft, INT nTop, INT nRight, INT nBottom) = 0;
 	//隐藏tooltips
 	virtual VOID			NotifyTooltipsHide(VOID) = 0;

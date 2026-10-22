@@ -7,13 +7,6 @@ Ngày lập: 2026-09-12. Danh mục này liệt kê những gì đã có trong `
 - **O** — trình cài một lần; chỉ dùng làm khuôn.
 - **T** — công cụ bên thứ ba hoặc dữ liệu.
 
-**Môi trường chạy:**
-- **Win-Py** — `C:\Program Files\Python313\python.exe`, đặt `PYTHONUTF8=1`.
-- **WSL-Py** — `wsl -d TLBB python3`.
-- **PS** — PowerShell 5.1.
-- **C#**, **Java/Ghidra**.
-
-## 1. Theo khâu của pipeline
 
 ### Khâu 1 — Đọc và giải nén nguồn
 
@@ -22,17 +15,11 @@ Ngày lập: 2026-09-12. Danh mục này liệt kê những gì đã có trong `
 | `Tools\AXPDecryptor` (`AxpDecryptor.cs`) | G | C# | Đọc, giải mã và đóng lại AXP v1.1 với lớp bọc kiểu 19–25 | **Không** đọc được kiểu 1–18. CY 3.71 có 7.368 mục model (6.101 mesh, 1.267 skeleton) thuộc loại này; lấy chúng từ bản đã giải của DataCY |
 | `Docs\evidence\assetinv\axp_index.py` | G | Win-Py | Đọc chỉ mục và danh sách `(list)` của 23 file `.axp` (108.726 mục) mà không giải nén | Viết ngày 12/09, port từ `AxpDecryptor.cs` |
 | `Tools\AXPManager-LLT` | T | .NET GUI | "Axp Tool", không có mã và README | Không dùng trong pipeline |
-| `Tools\DATA NEW\DIY` (`run_pipeline.cmd`, `jpak.py`, `extract_all.py`, `tlhash.py`, `uiml_export.py`, `luac_convert.py` + unluac, `btab_decode.py`, `jmt2png.py`, `c\tlbrute`) | G | Win-Py + Java | Giải toàn bộ client GL: JPAK, JSTR, UIML, BTAB, JMT1, Lua 5.3 | Dùng bản DIY thay cho `analysis\jpak` (bản gốc có đường dẫn cứng) |
-| `analysis\utf8-baseline\manifest\loginserver_crypt.py` | G | Win-Py | Giải mã và mã hoá `LoginServer.txt` | — |
-| `Tools\model-convert\dbc.py`, `analysis\utf8-baseline\manifest\dbc_convert2.py`, `column_convert2.py`, `Tools\add-phai\compare-cy-20260909\compare_tables.py` (`read_table`) | G | WSL-Py / Win-Py | Đọc và ghi bảng DBC `00CCBBDD` và bảng text | — |
-| `analysis\utf8-baseline\manifest\scan_enc.py`, `Tools\rasoat-4phai\fix_cp1252_names.py` | G | Win-Py | Quét mã hoá; chữa tên file cp1252/GBK | — |
 
 ### Khâu 2 — Chỉ mục, so sánh, kiểm toàn vẹn
 
 | Công cụ | Loại | Việc |
 |---|---|---|
-| `analysis\datacy-compare-2026-09-10\scripts\index_models.py` (có hàm `moji_to_gbk`), `compare_cyhj.py`, `compare_cyhj2.py` | G | Lập chỉ mục model; so sánh các nhánh **theo tên obj/mesh** |
-| `analysis\full-audit-2026-09-10\`: `model_integrity.py`, `obj_integrity.py`, `table_xref_all.py`, `sortcheck.py`, `lua50check.py`, `scene_inventory3.py`, `packet_handler_audit.py`, `console.py` | G | Bộ kiểm toàn vẹn. Làm nền cho `Tests\validators` |
 | `Tools\rasoat-4phai\`: `plan_resources.py`, `check_icons.py`, `fix_server_utf8_rows.py` (chế độ `check`), `npc_harness.lua` | G | Kiểm tài nguyên, icon, dòng UTF-8 lọt vào bảng server |
 | `Docs\evidence\assetinv\fullscan.py`, `formats.py`, `fxkeys.py`, `inv_walk.py` | G | Kiểm kê nguồn: phiên bản mesh/skeleton, fourCC của DDS, template/keyword của effect (12/09) |
 | `Docs\evidence\binlineage\inventory.py`, `expcmp.py`, `strscan.py`, `ziplist.py`, `patchdiff.py` | G | So sánh các bộ binary (PE, export, chuỗi, RTTI, zip template, diff bản vá) |
@@ -85,7 +72,6 @@ Ngày lập: 2026-09-12. Danh mục này liệt kê những gì đã có trong `
 | `Tools\costume-add\add_costume.py`, `shop_front.py`, `_hot_reload_sharetable.lua` | G | Thêm thời trang, bày shop, nạp nóng |
 | `Tools\gmtool\` (`gen_gm_index.py`, `gen_scene_index_server.py`, `gen_equip_rules.lua`) | G | Chỉ mục GM Tool. **Chỉ mục cảnh phải sinh theo ID cảnh của server** |
 | `Tools\add-phai\sort_tables_by_id.py`, `widen_actionsetline.py` | G | Sắp bảng tăng dần; nới ActionSetLine |
-| `analysis\translation\` (`run_all.py`, `dbc_translate.py`, `gen_wire_names.py`, `_scan\audit.py`, `translate_long.py`, `translation.db`), `Tools\TLBBTranslationStudioPro\tlbb_tm.db` | G | Dịch Trung→Việt. Đo tiến độ bằng `_scan\audit.py`, **không tin `run_all.py status`** |
 
 ### Khâu 8 — Giao thức và server
 
@@ -94,29 +80,14 @@ Ngày lập: 2026-09-12. Danh mục này liệt kê những gì đã có trong `
 | `Tools\stress-test\tlbb_sim\` (7.726 dòng Python: codec, gói tin, A* trên navmesh, seeder, perception, goals, arena, fleet) | G | Client headless nói giao thức skynet; khung cho test tích hợp |
 | `Tools\stress-test\_capture\sniffer.py`, `decode.py`, `PROTOCOL_SPEC_vi.md` | G | Bắt và giải gói; đặc tả khung gói |
 | `Tools\stress-test\TLBB-Launcher.ps1` | G | Launcher 3 tab (Máy chủ / Simulator / Cấu hình) |
-| `analysis\server-check\skynet_stat.py` | G | Thống kê server |
 | `CY-Source\Tools\protocol\specgen.py` (+ `validate_capture.py`, `match085.py`, `crosscheck_sim.py`, `codegen_cpp.py`) | G | **Đã có (12/09).** Sinh đặc tả `Registry\protocol\packets.yaml` từ codec Lua sống của server. `split_packet.py` mà chú thích server nhắc tới không còn tồn tại |
 | `wsl\Start-TLBB.cmd`, `Stop-TLBB.cmd`, `Status-TLBB.cmd` | G | Vận hành server |
-
-### Khâu 9 — Dịch ngược và kiểm binary
-
-| Công cụ | Loại | Việc |
-|---|---|---|
-| Ghidra 12.1.3 (`Tools\ghidra`), project: `analysis\ghidra\game-exe-proj\game_exe.gpr`, `headless-projects\{cegui, pathlib, tlgl, tlgl32, tlgl_upd, utf8_client}.gpr`, `analysis\graphics-overhaul\ghidra\proj\gfx.gpr` | G | Nguồn đặc tả cho pha E2/G1. `game_exe.gpr` phân tích Game.exe **trước** khi vá ActionSetLine |
-| Script Java: `DumpPacketById`, `FindStrRefs`, `FindScalarUsers`, `DumpVtableAround`, `ResolveVtable.java`, `DumpFuncs.java`, `DumpCallers.java`, `DumpStringXrefs.java`, `DumpFnsTo.java` | G | Chạy headless nhanh bằng `-process X -noanalysis` |
-| Skill `headless-ghidra*`, `binary-triage`, `deep-analysis`; `Tools\ghidra-agent-cli` 1.8.0; ReVa MCP | G | ReVa **không kết nối được** trong phiên 12/09 (CONNECT_TIMEOUT). Cần khởi động lại hoặc kiểm tra trước khi dùng |
-| `analysis\ghidra\pathlib-out\all.c` | G | Bản dịch ngược PathLib; làm đặc tả khi viết lại PathLib |
-| Các script vá `patch_*.py` (utf8-baseline, graphics-overhaul, add-phai) | G | Tài liệu tham chiếu: mỗi bản vá là một tính năng phải làm lại trong mã (tài liệu 08, mục 10) |
-| LLVM 22 (`llvm-readobj`, `llvm-objdump`, `llvm-strings`, `clang-cl`) | T | Đọc PE, import/export, chuỗi |
-| CodeGraph 0.20.1 + `Tools\Sync-CodeGraphSources.ps1` | G | Đồ thị mã nguồn. Phải thêm `CY-Source\Src` vào gương index (tài liệu 04, mục 2.4) |
-| `Tools\zig-0.16.0`, `Tools\unluac` | T | Biên dịch C chéo nền; dịch ngược Lua 5.x |
 
 ### Khâu 10 — Kiểm thử và vận hành client
 
 | Công cụ | Loại | Việc |
 |---|---|---|
 | `Tools\gl-skin\Chup-ManHinh-Game.ps1` (PrintWindow, không cần cửa sổ nổi), `Game-Input.ps1` | G | Chụp màn hình và gửi phím cho client. Là nền của bộ đối chứng ảnh |
-| `analysis\graphics-overhaul\presets\Doc-Log-Do-Hoa.cmd`, `hdr_tune.py`, `Doi-Do-Hoa.cmd` | G | Đọc log đồ hoạ; chỉnh `.newhdrbloom` |
 | `Tools\diag-ride-pk` | O | Chẩn đoán lỗi cưỡi thú + PK (log `DIAG_RIDE_PK` đang bật) |
 
 ## 2. Công cụ phải viết mới trong `CY-Source\Tools`
@@ -131,12 +102,4 @@ Ngày lập: 2026-09-12. Danh mục này liệt kê những gì đã có trong `
 | `Tools\pipeline\package_axp.py` | Đóng gói AXP v1.1 cho `Build\Packs` | `AxpDecryptor.cs` |
 | `Tests\validators\*` | Gộp bộ kiểm full-audit và thêm: parser effect nghiêm ngặt, tham chiếu template/texture-slot, DDS và sRGB, xương/submesh, bất biến `.path`, đăng ký scene, cặp bảng client–server | Tài liệu 07, mục 3 |
 | `Tools\protocol\specgen.py`, `codegen_cpp.py`, `codegen_py.py` | Sinh đặc tả giao thức (YAML) từ `packet_ids.lua` + `packet_types` + `packet_domains`; từ đó sinh codec C++ cho client mới và Python cho `tlbb_sim` | Tài liệu 06 |
-| `Tools\re\` | Script Ghidra lấy đặc tả: dump vtable có tên slot; dump bảng đăng ký API Lua của Game.exe B (tên → địa chỉ hàm); dump danh sách lớp gói | `DumpVtableAround`, `ResolveVtable.java` |
 | `Tests\oracle\` | Chụp và so ảnh (SSIM) giữa B và client mới trên cùng cảnh/camera; so log | `Chup-ManHinh-Game.ps1`, `preview_scene.py` |
-
-## 3. Quy tắc dùng công cụ
-
-1. **Không sửa công cụ gốc** trong `C:\TLBB\085\Tools` chỉ vì CY-Source cần. Muốn đổi thì chép sang `CY-Source\Tools` (ghi nguồn gốc trong commit) hoặc gọi đường dẫn gốc ở chế độ chỉ đọc.
-2. Mọi công cụ **có ghi dữ liệu** phải có đủ bốn chế độ `check`, `apply`, `verify`, `revert`, và phải sao lưu trước khi ghi.
-3. Công cụ xử lý file GBK phải làm **ở mức byte**, không đi qua `errors='replace'` (tài liệu 08, mục 1.2).
-4. Kết quả của công cụ AI hay decompile chỉ là đầu mối cho tới khi có xref/offset làm bằng chứng (`CLAUDE.md`).

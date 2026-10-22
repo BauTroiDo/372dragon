@@ -6,7 +6,6 @@ Ngày: 2026-09-13. Phạm vi: Lua → cửa sổ CEGUI; không sửa Lua/layout,
 
 Stage GL dùng `SelectServerQuest.lua` gọi `SelectServerQuest_InfoWindow:GetWindowSize()` trong `LoginSelectUpdateRect`, rồi đặt chiều cao khung bằng `23 + 25 + height`. Native common metatable thiếu phương thức; generated `UI_Window.GetWindowSize` chỉ là stub. Đây là lỗi tiếp theo sau khi tách modern login khỏi socket legacy, không phải nguyên nhân crash `WaitConnecting` trước đó.
 
-B `UI_CEGUI.dll` RVA `0x17080..0x170ff` đọc hai float liên tiếp của window tại offset `0x110/0x114`; mỗi giá trị đi qua `cvttss2si`, sau đó push number. Hàm trả đúng 2 kết quả theo thứ tự width, height. SHA-256 B: `344628121ed7068a45a70dd4bf6732f4c68d01916cbb3a226ae0d7be10e93f73`.
 
 Bằng chứng LLVM: `Build/Logs/2026-09-13-gpt-gl-login/get-window-size-b.txt`. Ánh xạ nguồn: `CEGUI::Window::getAbsoluteSize()` trả `d_pixelSize`, tức kích thước pixel đã chịu giới hạn của native window, không phải kích thước tương đối hay kích thước chữ đo lại.
 

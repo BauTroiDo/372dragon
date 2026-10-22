@@ -1,9 +1,5 @@
 # skill-logic — cài 91 logic kỹ năng (技能逻辑ID) của CY còn thiếu trên server riêng
 
-Ngày: 16/09/2026. Agent `skill-logic`, nhánh `skill-logic`, worktree `Build\wt-skill-logic`.
-Tiếp nối `menpai-audit_vi.md` (mục 1.3 A, mục 4 lỗi 5), `menpai-fix_vi.md`, `impact-logic_vi.md` (mục 3), `server-impact_vi.md` (mục 4).
-Bằng chứng: `Build\Logs\2026-09-16-skill-logic\` (script + bảng, không vào git). RE: `Build\re\skill-logic\`.
-Quy ước: **[DK]** dữ kiện đo được (đường dẫn/địa chỉ). **[SL]** suy luận. `R` = `/home/ubuntu/cys-test-20260913`.
 
 ## 0. Kết quả
 
@@ -19,12 +15,6 @@ Quy ước: **[DK]** dữ kiện đo được (đường dẫn/địa chỉ). **
 | Test offline | `Tools\server\skill_logic_tests.lua` **26/26 đạt**; `luac5.4 -p` sạch 11 file; 265/265 nhãn đặc tả khớp SkillData thật |
 | Áp server riêng | `07369ff` (74 logic + 20 ô nhãn), `dffe28c` (+884 → 75), `97813ec` (chú thích talent 671), `1ef0d81` (khối 16 logic chưa cài), `265b531` (logic impact 115). Sao lưu từng file `R/backups/skill-logic-2026091*Z/` |
 | Restart / kiểm live | xem mục 6 |
-
-## 1. Bản đồ logic kỹ năng của CY **[DK]**
-
-### 1.1 Nguồn
-`tlbb15/Server/Server` (ELF64 đã xoá section header) — symtab khôi phục bằng `recover_main.py` của impact-logic (27.105 symbol, `Build\re\impact-logic\main-symbols.json`).
-Decompile Ghidra headless, chỉ đọc, không chạy binary: `Build\re\skill-logic\ghidra\run-registry.cmd` và `run-skills.cmd` (blob `main-load1-va3f0000.bin` VA 0x3f0000, `Serverhook.so` base 0x100000; heap 3 GB).
 
 ### 1.2 `logic_id = chỉ số − 1`
 `Combat_Module::LogicManager_T<Combat_Module::Skill_Module::SkillLogic_T, 691>::Init()` @0xa8c70c (2.688 byte) ghi 42 con trỏ vtable vào `param_1 + 8*k` (`main-skill-registry.c`).
@@ -44,8 +34,6 @@ Dùng **dữ liệu của chính CY**, không đoán từ tên logic:
 - cờ `目标逻辑`/`站位` của SkillTemplate.
 Bảng nhãn đầy đủ cho cả 91 logic: `scripts\02-labels.md` / `02-labels.json` (sinh bởi `02-labels.py`).
 Mỗi dòng đặc tả ghi `src`: `native` (có địa chỉ mã CY), `label` (nhãn + tip), `partial` (làm phần chính, phần còn lại cần cơ chế native — ghi rõ).
-
-## 2. Cài đặt **[DK]**
 
 ### 2.1 Kiến trúc
 Không viết 75 module rời. Một bộ chạy + một bảng dữ liệu:
@@ -73,7 +61,6 @@ Vì sao cần bộ chạy riêng thay vì để `skill_cy_generic`: generic áp 
 | 793 敛其羽翼 | `SkillLogic793_T::EffectOnUnitOnce` @0x6bbe4, impact 0x1138 | `teleport = {label = '瞬移特效', to = 'doll'}` + `路径效果N` cho `影响人数` địch |
 | 794 秦皇东遣 | `SkillLogic794_T::EffectOnUnitOnce` @0x6bd58: `SendSpecificImpactToUnit(self, self, 0x114a)`, không cần con rối | `teleport = {label = '\|生效一次自己附加效果1', to = 'dest'}` |
 
-Bản decompile: `Build\re\skill-logic\{main-skill-registry.c, main-skilllogic.c, hook-skilllogic.named.c}`.
 
 ### 2.3 Phạm vi đã phủ
 75 logic đã cài phủ **126/137** template kỹ năng phái cấp kỹ năng 1–4 (`05-table.tsv`), theo phái:
@@ -177,10 +164,6 @@ tham số 0 = `伤害量缩放系数`.
 | `StdImpact115_T::OnActive` | 0xa5f2f8 | mục tiêu còn sống + có cảnh → tìm người gây theo `imp[+0x0c]`, loại phải ∈ human/pet/monster (`(type−1) u< 3`) → `ImpactCore::InitImpactFromData(core, **DataIndex 0**, &newImp, mục_tiêu, 0)` → nếu `newImp.逻辑ID == 3` thì `CombatCore::Reset` + `GetResultImpact(cc, người_gây, mục_tiêu, &newImp, 0x64)` → `newImp[+8] = imp[+8]` (ID kỹ năng) → `EventCore::RegisterImpactEvent(cảnh, mục_tiêu, người_gây, &newImp, 0, −1)` |
 | `StdImpact115_T::IsOverTimed` / `::IsIntervaled` | 0xa5f538 / 0xa5f53e | cả hai `mov eax,0; ret` → hiệu ứng tức thời |
 
-DataIndex 0 của StandardImpact chính là dòng `普通攻击的伤害效果， 这一行永远不能删除或者改变.这是缺省效果`.
-Tháo mã (chỉ đọc file, không chạy binary): `Build
-e\skill-logic\stdimpact115_init.asm.txt`, `stdimpact115_onactive.asm.txt`,
-`stdimpact115_onactive2.asm.txt`, `stdimpact115_flags.asm.txt` (script `scripts!-asm.sh`, offset = VA − 0x3F0000).
 
 **Trước lượt này:** 115 không có trong `impactenginer.id_logic_module` → rơi về `std_impact_003`; dòng 115
 không có ô `攻击/伤害` nào nên gây **0 sát thương**.
@@ -245,8 +228,6 @@ cùng `修正步长` → **0 cảnh báo**; kiểm mẫu tay 7 cặp bằng `scr
 4400, 4543, 4549. Đã kiểm ở mốc `6ca25a8`: chúng **đã thiếu từ trước**, cùng `逻辑ID` 8038/8168, thuộc
 đường "literal impacts" của `guigu.lua`/`tao.lua` (`make_impact` coi logic 8038 là "verified native
 marker", không gọi `bridge:state`) nên không gây assert.
-
-## 11. Hai lỗi làm RỚT NGƯỜI CHƠI trên đường `cy_four_combat` **[DK]** — đừng đặt lại
 
 ### 11.1 `unmapped positional impact` → nhân vật không đăng nhập được
 
@@ -552,14 +533,6 @@ mỗi lượt (`trap.per_target` + `chance_ladder` + `max`). ID bẫy đọc t�
 - `human:on_study_xinfa` cấp kỹ năng theo `心法ID` **không kèm giới hạn cấp** — thêm một template mới cùng 心法ID
   nghĩa là mọi người đã học tâm pháp đó sẽ nhận nó ở lần học kế tiếp.
 
-## 14. cy-native-12 (17/09/2026) — 14 chiêu "gửi chiêu không tác dụng": nguồn tác dụng ở đâu **[DK]**
-
-Agent `cy-native-12`. Việc **dịch ngược + lập đặc tả, không sửa server**.
-Đầu vào: `Build\Logs\2026-09-17-coord\81-o-rong-khong-phai-loi-nhap.md` + `80-con-lai.tsv`
-(đã chứng minh các ô `参数说明`/`参数值` trên server **trùng từng ký tự** với bảng CY).
-Bằng chứng thô: `Build\re\cy-native-12\` (20 file). Kết luận từng chiêu:
-`Build\Logs\2026-09-17-cy-native-12\ket-luan.tsv` + `README_vi.md`.
-
 ### 14.0 Kết quả
 
 14/14 chiêu đã xác định được nguồn tác dụng; **không chiêu nào cần một cơ chế CY hoàn toàn mới chưa biết**.
@@ -585,10 +558,6 @@ bị đặt −1** nên tung ra không làm gì.
 | 3558 柳暗花明 (SD 31597–31612) | **514** | SD3077 → impact 2785 「柳暗花明(隐身)」 logic 14 (隐身 55, −20 % tốc độ, 30 s) |
 | 3559 灭此朝食 (SD 31613–31628) | **304** | SD557 → impact 2809 「灭此朝食（嘲讽）」 logic 74 + 17441 (giảm tốc, logic 14) |
 
-Dấu nhận biết chắc chắn nằm trong ô `技能描述(FOR TIP)` của các dòng rỗng — chúng mở đầu bằng
-`#cFF0000未学习#r#G学习指引：…` (chữ **未学习** màu đỏ + chỉ dẫn nhận nhiệm vụ để học). Trong cùng khối,
-`3566–3575 诛仙万象` cũng là 10 bản sao rỗng cùng kiểu (`Build\re\cy-native-12\14-block3550.txt`).
-Kiểm live xác nhận: **304 và 514 CHẠY** (`buffs_other {345:7, 23:7}` và `{214:1}`), còn 3559/3558 trắng.
 
 ⇒ **Quy tắc chung:** khi một chiêu có mọi ô impact = −1 **và** tip bắt đầu bằng `未学习`, đó là mục hiển thị
 của bảng kỹ năng, **không** phải thiếu dữ liệu. Loại khỏi danh sách kiểm và đừng cấp bằng GM
@@ -673,23 +642,6 @@ Cài đề xuất trong `cy_skill_logic_spec` cho logic 840:
   Vô Lượng Sơn không nhận khống chế. Riêng **飞针入穴** ("tích đủ 5 lần bị hội tâm thì nổ, 5 m / 4 mục tiêu")
   **không có ô nào trong dữ liệu** ⇒ bộ đếm nằm trong native CY; cần cơ chế mới theo khuôn
   `std_impact_101/102/103`.
-
-### 14.6 Bẫy mới
-
-- **Client CY 3.71 KHÔNG chứa mã kỹ năng/impact của server.** `Tools\DATA NEW\CY Game\Bin64\Game.exe`
-  (`v3-71-9001`): 4 527 chuỗi RTTI và 269 đường dẫn `.cpp` đều nằm dưới `Prj\GameCode\Client\Game\…`,
-  **0 lớp `SkillLogic` / `StdImpact`**. Đừng tốn thời gian mở nó bằng Ghidra để tìm logic kỹ năng — dùng
-  dữ liệu CY + tip + đối chứng bản GL/HJ.
-- **Một chiêu có mọi ô impact = −1 chưa chắc là thiếu dữ liệu.** Kiểm tip trước: mở đầu bằng
-  `#cFF0000未学习#r` nghĩa là mục "chưa học" (bản sao trưng bày), CY cố ý để rỗng.
-- **Trùng tên ≠ trùng chiêu.** Trước khi kết luận "chiêu X hỏng", liệt kê **mọi** `SkillTemplate` cùng tên
-  (`Build\re\cy-native-12\03-variants.txt` sinh lại được) — 灭此朝食 có 4 template, 万箭齐发 có 9, 荡千军 có 4.
-- `SkillAddImpact.txt` của CY chỉ có **2 dòng dữ liệu** ⇒ không phải nguồn hiệu ứng, đừng tra lại.
-- `IDCollections` có dòng mang tên chiêu (468 飞龙在天, 517 催箭式, 520 意纵横, 521 仁以守本, 522 战可得威)
-  nhưng nội dung là danh sách cho **武道/thi đấu**, không phải hiệu ứng.
-- `DataCY31-08-26\tlbb15\Server\Config\StandardImpact.txt` là bảng **tlbb15** (155 cột), không phải CY;
-  bảng CY 3.71 phía server ta **không có bản gốc**. Dùng nó để biết dòng nào là di sản tlbb15 và dòng nào
-  thuộc khối CY (37xxx/42xxx/44xxx/45xxx…), đừng coi nó là "bảng CY".
 
 ## 15. taohua-doll (17/09/2026) — con rối 离人偶 (桃花岛) và 星阵 (鬼谷): nguồn `-44` và nguồn "phát mà không nổ" **[DK]**
 
@@ -1177,13 +1129,6 @@ Cài: **file riêng** `services/game/packet_domains/cy_combat.lua` + **một dò
 `由 split_packet.py 自动生成，勿手动修改`; hằng `XYID_GC_CHAR_DO_ACTION = 786` đặt ngay trong `M.bind` (với
 `net:register_packets`, một số trong bảng `packet` là hằng id, một bảng là lớp gói — hai cách khai là một).
 
-Khuôn byte **[DK]**: `/home/ubuntu/GameServer/lualib/cy_four_combat/action_packet.lua:1` (bản port gốc) ghi
-*"GCCharDoAction: current GL reader 0x1406830e0, ID 786, three signed int32s"*; `M.bytes` của bản trên server riêng
-giữ đúng `string.pack('<i4i4i4', obj_id, action_id, target_id)`. `bostream:writeint` (`lualib/iostream.lua:184`) dùng
-`string.pack("i4", n)` = `<i4` trên x86-64 ⇒ ba lần `writeint` cho **đúng 12 byte** của `M.bytes` (test đối chiếu
-từng byte trên 4 bộ giá trị). **Ba tên trường phải giữ nguyên** `obj_id`/`action_id`/`target_id`: `net:send2client`
-không chép dữ liệu, nó `setmetatable(data, {__index = msg})` rồi gọi `bos` của lớp này trên **chính** bảng mà
-`cy_four_combat` dựng.
 
 ### 17.2 2901 万箭齐发 — ô `效果1` của bẫy đi theo CẤP, không theo bảng **[DK]**
 

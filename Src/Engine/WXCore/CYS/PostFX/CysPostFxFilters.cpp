@@ -1,8 +1,8 @@
-// CY-Source (post-processing agent, 2026-09-12): the CY-Source post filters (Docs/specs/render/02-postfx.md 2).
-// Each filter follows B's pass structure (compositor builders in Tools/re/out/ghidra/pf_digest.txt, constants and
-// parameters in pf_params.txt; functions named per class) and reuses B's HLSL from client_GL MaterialTemplates.zip
-// where it is usable. CY-Source shaders live in media/ (see CysPostFX.material). Written from the spec; no
-// decompiled code.
+
+
+
+
+
 #include "CysPostFxPipeline.h"
 #include "CYS/Scene/CYSEnvironment.h"
 #include "CYS/Scene/CYSSceneFiles.h"
@@ -71,7 +71,7 @@ namespace WX
         return (v && v[0] == '0') ? CYS_ORDER_AA : CYS_ORDER_HEIGHTFOG + 5;
     }
 
-    /// FXAA (B FUN_1801af260): one pass, B FXAA_PS_NOLUMA (FXAA 3 console, edge threshold 0.35 / 0.06).
+
     class CysFXAA : public CysPostFxStage
     {
     public:
@@ -84,7 +84,7 @@ namespace WX
         }
     };
 
-    /// FXAAQuality (B FUN_1801afb10): luma into alpha, then FXAA 3.11 quality preset 12 (B FXAA_PS_Quality).
+
     class CysFXAAQuality : public CysPostFxStage
     {
     public:
@@ -98,8 +98,8 @@ namespace WX
         }
     };
 
-    /// DLAA (B FUN_1801b05d0): edge detection (colour + edge luminance in alpha), then directional blending.
-    /// B's EdgeRT is the free ping-pong target here (same size; FP16 keeps HDR values).
+
+
     class CysDLAA : public CysPostFxStage
     {
     public:
@@ -137,33 +137,33 @@ namespace WX
         }
     }
 
-    /// NewHDRBloom (B builder FUN_180195a00, constants FUN_180198780, parameters FUN_180198f80, scene file
-    /// FUN_1801981b0). Gamma scene -> linear FP16 (B ConvertToLinearSpace) -> [log luminance 81^2 .. 1^2 + eye
-    /// adaptation] -> brightpass 1/3 (B 13-tap box + quadratic soft-knee threshold) -> downsample 1/6, 1/12, 1/24 ->
-    /// tent upsample 1/12, 1/6, 1/3 -> final: auto exposure, + bloom * BloomColor * Intensity, ACES, gamma.
-    /// Parameters of B (setParameter names): Intensity, Threshold, SoftKnee, Exposure, BloomColor, UseHDR,
-    /// UseAutoExposure; <scene>.newhdrbloom through CYSEnvironment (UseSceneFile) or "SceneFile".
-    /// Exposure is used as 2^Exposure (INF: B's files hold 0 with UseHDR = 1, so a plain multiplier would give
-    /// black). Auto exposure: scene * 2^Exposure * AutoExposureKey * Lavg^-AutoExposureCompression; B's formula
-    /// for a uniform image is key 0.576 (= 1/1.735), compression 0.693 (ln 2 of its log2/ln mix). No client_GL
-    /// scene ships UseHDR = 1, so the default key is 0.3, which keeps mid-grey where the LDR image has it (B's
-    /// 0.576 lifts shadows by about 1 stop and washes the image out); eye adaptation (AdaptationSpeed per second,
-    /// 0 = instant as B) and the luminance clamp [MinLuminance, MaxLuminance] are CY-Source additions.
-    /// CYS fx-render 2026-09-13, ClampScene (default on): B renders the scene into an 8-bit A8R8G8B8 scene_buffer
-    /// (Render.dll FUN_180213940: format 0xc, factor 1.0), so without UseHDR stacked additive particles saturate at 1
-    /// before ConvertToLinearSpace and the brightpass; our 16-bit scene would let them exceed 1 and bloom harder than
-    /// B. With UseHDR = 0 the linearisation pass clamps the scene to [0, 1] first (the FP16 precision stays).
-    ///
-    /// CYS fx-render 2026-09-13, Mode "B" (default; "Cinematic" = everything above, PostFX.Preset=cinematic): client_GL's
-    /// NewHDRBloom pass for pass with B's own materials from the game data (MaterialFolder std_quad.program /
-    /// all.material, MaterialTemplates Bloom.hlsl + CopyFrameBuffer.hlsl): ConvertToLinearSpace into the free chain
-    /// target (8-bit like B's) -> Bloom/GrayDownScaleLum 81^2 -> Bloom/Downscale3x3 27^2, 9^2, 3^2, 1^2 (always built, as
-    /// B) -> Bloom/DownsampleBrightpass 1/3 -> Bloom/Downsample 1/6, 1/12, 1/24 -> Bloom/Upsample 1/12, 1/6, 1/3 ->
-    /// Bloom/FinalPass[_HDR[_AutoExposure]] into the input target (Render.dll FUN_180195a00). Constants as B's
-    /// FUN_180195910 / listener FUN_180198780: threshold = sRGB-exact linear Threshold t, knee = t * SoftKnee + 1e-5,
-    /// (t, t - knee, 2 knee, 0.25 / knee); bloomColor = (linear BloomColor, 2^(Intensity / 10) - 1); exposure =
-    /// 2^Exposure; sampleScale = the factory's zero-initialised field (0: one bilinear tap). Intensity 3 of the
-    /// client_GL files is therefore a bloom weight of 0.23 (the cinematic path used 3.0: the white walls).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     class CysNewHDRBloom : public CysPostFxStage
     {
     public:
@@ -383,8 +383,8 @@ namespace WX
         }
 
     private:
-        // ---- CYS fx-render: mode B ----
-        /// B's pass identifiers (FUN_180195a00), except ID_B_LINEAR (B's ConvertToLinearSpace pass has none)
+
+
         enum
         {
             ID_B_LINEAR = 0x3e4,
@@ -404,7 +404,7 @@ namespace WX
         {
             if (CysPostFxUtil::toLowerAscii(mMode) == "cinematic")
                 return false;
-            // B's factory checkEnable (FUN_180197b50) needs Bloom/FinalPass; the whole set comes with the game data
+
             static const char* const kMaterials[] = { "ConvertToLinearSpace", "Bloom/GrayDownScaleLum",
                 "Bloom/Downscale3x3", "Bloom/DownsampleBrightpass", "Bloom/Downsample", "Bloom/Upsample",
                 "Bloom/FinalPass", "Bloom/FinalPass_HDR", "Bloom/FinalPass_HDR_AutoExposure" };
@@ -478,7 +478,7 @@ namespace WX
                    StringConverter::toString(v.z) + " " + StringConverter::toString(v.w);
         }
 
-        /// B's constants (FUN_180195910 through the listener FUN_180198780)
+
         void renderB(Ogre::uint32 id, const Ogre::GpuProgramParametersSharedPtr& fp)
         {
             if (id == ID_B_BRIGHT)
@@ -574,14 +574,14 @@ namespace WX
         Vector4 mBLoggedThreshold, mBLoggedColour;
     };
 
-    //=======================================================================
-    // GenSSAO
-    //=======================================================================
-    /// GenSSAO (B SceneRender node FUN_18015cf50: depth with scheme "Depth" -> GenSSAO -> ssao_buffer, read at s12
-    /// by CalcLight.inc / FairyTerrainColorMap.hlsl). CY-Source AO: 16-sample normal-oriented hemisphere with a
-    /// per-pixel rotation and a depth-aware separable blur, into the render node "CYS/Global/SSAO" (sampled by the
-    /// material system's LIGHT_CALC_TYPE 2 lighting). Composite multiplies it into the colour as well, for the
-    /// materials that do not read s12 (0.85 / fixed-function materials, terrain lightmaps).
+
+
+
+
+
+
+
+
     class CysGenSSAO : public CysPostFxStage
     {
     public:
@@ -680,11 +680,11 @@ namespace WX
         size_t mAoW, mAoH, mDepthW, mDepthH;
     };
 
-    //=======================================================================
-    // ColorLUT
-    //=======================================================================
-    /// ColorLUT (B FUN_18019cff0, parameters FUN_180016220 / FUN_18019da30): B ColorLUT.hlsl colorLUT_fp with a
-    /// 512x512 LUT of 8x8 tiles (client_GL MaterialFolder LUT_00.png ... LUT_11.png), blended by destAmount.
+
+
+
+
+
     class CysColorLUT : public CysPostFxStage
     {
     public:
@@ -720,17 +720,17 @@ namespace WX
         Real mAmount;
     };
 
-    //=======================================================================
-    // HeightFog
-    //=======================================================================
-    /// HeightFog (B FUN_1801b3d50, constants FUN_1801b55d0, parameters FUN_1801b6020, scene file FUN_1801b4e20):
-    /// B HeightFog_vs/ps.hlsl on the depth node (R32F: the non-DSIntZ variant). With a scene loaded and
-    /// UseEnvironment the values come from CYSEnvironment (.hfog + EnvKey height_fog_enabled / height_fog_param,
-    /// scene agent); otherwise from the parameters (B names, .hfog defaults) or "SceneFile". While the filter is on,
-    /// the scene agent's linear-fog emulation of the height fog is switched off.
-    /// CYS fx-render 2026-09-13: "Auto" (default on) - B turns HeightFog on from the scene environment (EnvKey
-    /// height_fog_enabled; the 7 .hfog scenes): with a scene loaded the pass and its depth node are only built while
-    /// the environment has height fog, so the other scenes pay nothing. Auto 0 = always (the old behaviour).
+
+
+
+
+
+
+
+
+
+
+
     class CysHeightFog : public CysPostFxStage
     {
     public:
@@ -779,9 +779,9 @@ namespace WX
 
         void onMaterialSetup(Ogre::uint32 id, Ogre::MaterialPtr& mat)
         {
-            // The CY-Source OgreMain binds a uniform named light_direction0 to light 0 automatically (as Render.dll
-            // does for generated programs); B's HeightFog listener pushes the sun direction itself (FUN_1801b55d0),
-            // and a full-screen quad has no lights, so the automatic binding is removed on this pass.
+
+
+
             Ogre::GpuProgramParametersSharedPtr fp = fragmentParams(mat);
             if (!fp.isNull() && fp->hasNamedConstant("light_direction0"))
                 fp->clearAutoConstant(fp->getParamIndex("light_direction0"));
@@ -880,14 +880,14 @@ namespace WX
         String mSceneFile;
     };
 
-    //=======================================================================
-    // GodRays
-    //=======================================================================
-    /// GodRays (B FUN_1801b6cb0, constants FUN_1801b8240, scene file FUN_1801b7d40): sun mask -> B genGodRays_fp
-    /// (100-sample radial march, sunPos_decay_exposure) -> B GaussianBlur H / V (fStrength) -> B addGodRays_fp.
-    /// B's sun source is a render target of the EnScene sun ("SunRT"); here the mask takes the bright sky pixels
-    /// (depth node at the far value) around the sun's screen position, so it works with any sky renderer.
-    /// .godrays = (Decay, Exposure, Weight), defaults (0.98, 0.05, 1.0); rays fade when the sun leaves the view.
+
+
+
+
+
+
+
+
     class CysGodRays : public CysPostFxStage
     {
     public:
@@ -1009,12 +1009,12 @@ namespace WX
         Real mAspect;
     };
 
-    //=======================================================================
-    // DoF
-    //=======================================================================
-    /// DoF (B FUN_1801b2160): B DepthOfField.hlsl - 3x3 Gaussian into a half-size target, then a 12-tap Poisson
-    /// circle-of-confusion mix of the sharp and blurred colour from the linear depth node (non-DSIntZ variant).
-    /// dofParams = (NearBlurDistance, FocalDistance, FarBlurDistance, MaxFarBlur); B default (0.3, 500, 1000, 0.3).
+
+
+
+
+
+
     class CysDoF : public CysPostFxStage
     {
     public:
@@ -1088,16 +1088,16 @@ namespace WX
         size_t mW, mBW;
     };
 
-    //=======================================================================
-    // CYS-FX (fx-cy, 2026-09-14): ComplexBlur - the skill-driven radial blur of B/C (all.skill block ComplexBlur).
-    // C Render.dll FairyComplexBlurPostFilter.cpp: build FUN_1801b4a10 = one quad scene_buffer -> rt_output with the
-    // game material 'PostFilters/ComplexBlur' (MaterialFolder all.material, MaterialTemplates ComplexBlur.hlsl);
-    // checkEnable FUN_1801b5050 refuses without that material; the filter parameters Distance / Strength / Unblured
-    // (LogicModel FUN_180073ab0 sets them every frame from the skill block) map to the constants fDistance /
-    // fStrength / fUnblured. Same code in B (FUN_1801a8ec0 / FUN_1801a9500; only struct offsets differ).
-    // Driven by WX::SkillCameraEffects (CYS/Effects/WXSkillCameraEffects.cpp): enabled while the block plays,
-    // Distance ramps 0 -> FinalDistance -> 0 over StartTime / MidTime / EndTime.
-    //=======================================================================
+
+
+
+
+
+
+
+
+
+
     class CysComplexBlur : public CysPostFxStage
     {
     public:

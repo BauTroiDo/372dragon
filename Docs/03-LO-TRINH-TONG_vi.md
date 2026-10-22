@@ -54,8 +54,6 @@ flowchart TB
 
 Nếu có cây mã `Temp_Release_v0-85-9602\Prj\GameCode` (câu hỏi Q1 trong tài liệu 02), M1 rút xuống khoảng 1 tháng.
 
-## 3. Đường ray D — Dữ liệu và tài sản (bắt đầu ngay)
-
 ### D0 — Kho nguồn và manifest (1–2 tuần)
 - **Việc chính:**
   - Lập `Assets\Sources\sources.yaml` mô tả 7 nguồn S1–S7 (đường dẫn, phiên bản, vai trò, quyền chỉ đọc; tài liệu 05 mục 2).
@@ -64,16 +62,6 @@ Nếu có cây mã `Temp_Release_v0-85-9602\Prj\GameCode` (câu hỏi Q1 trong t
   - Ghi nhận 7.368 mục AXP kiểu 1–18 của CY Game (sẽ lấy bản đã giải trong DataCY).
 - **Sản phẩm:** manifest + chỉ mục; báo cáo khớp DataCY ↔ CY Game, lấy kích thước chuẩn = kích thước trong `(list)` − 96.
 - **Cổng D0:** đủ manifest cho 7 nguồn; không còn file nào của S1–S4 mà pipeline không đọc được, trừ `.xzip` là bản vá đã được áp sẵn vào `.axp`.
-
-### D1 — Pipeline chuẩn hoá, Registry, validators (4–8 tuần)
-- **Việc chính:**
-  - `Tools\pipeline\ingest.py`: đọc thư mục rời, AXP, JPAK; cắt đệm 0; chuẩn hoá tên.
-  - `registry.py`: dải ID và kiểm va chạm với cả client lẫn server.
-  - `tables.py`: ánh xạ cột CY/JD → HJ; ghi bảng client UTF-8 và bảng server GBK.
-  - `merge.py`: chọn bản chuẩn theo luật.
-  - `install.py`: cài vào `client_GL` và server, có check/apply/verify/revert.
-  - Gộp các bộ kiểm của `analysis\full-audit-2026-09-10` và `Tools\rasoat-4phai` thành `Tests\validators`.
-- **Cổng D1:** chạy lại bằng pipeline một đợt nhập trước đây làm tay (6 tọa kỵ 2026 hoặc 楚小九). Kết quả phải trùng trạng thái hiện tại của `client_GL` (khác biệt duy nhất được phép là ID), và validators báo 0 lỗi.
 
 ### D2 — Kho chuẩn v1 và các đợt nhập (liên tục)
 - **Việc chính:**
@@ -88,8 +76,6 @@ Phạm vi:
 - Lightmap ALI8.
 
 Cổng: một hiệu ứng pet GL và một map GL nhỏ hiển thị đúng trong `client_GL`.
-
-## 4. Đường ray E — Engine từ mã nguồn
 
 ### E0 — Môi trường và nhập mã (1–2 tuần)
 - **Việc chính** (chi tiết ở tài liệu 04, mục 2–3):
@@ -167,15 +153,6 @@ Kèm theo là công cụ **TLBB Viewer**: một exe nhỏ dùng Render.dll của
 ### E4 — Tuỳ chọn: công cụ biên tập
 Hai hướng: dựng SceneEdit/FairyEditor bản x86 (cần mã wxWidgets 2.6.1), hoặc làm editor mới trên engine x64. Làm sau E3.
 
-## 5. Đường ray G — Lớp game và giao thức
-
-### G1 — Đặc tả và codec (1–2 tháng; phần đặc tả có thể làm từ E0)
-- **Việc chính:**
-  - `Tools\protocol\specgen.py` sinh `Registry\protocol\packets.yaml` cho 482 + 16 ID: trường, kiểu, độ dài, giới hạn.
-  - Đặt tên các trường `unknow_N` dựa trên 288 lớp gói chung với C++ 0.85 và trên Ghidra của B.
-  - Sinh codec C++ vào `Src\Client\WXNetPackets\gen\` và codec Python cho `tlbb_sim`.
-- **Cổng G1:** 100 % gói trong đặc tả có codec C++ và Python; khứ hồi đúng từng byte trên bộ gói bắt được từ ≥ 1 phiên chơi đầy đủ của `client_GL`.
-
 ### G2 — Vòng lõi (2–4 tháng)
 - **Việc chính:**
   - Đăng nhập (`CGLoginAcc`, phiên bản 0x785); danh sách, tạo và xoá nhân vật.
@@ -220,7 +197,6 @@ Hai hướng: dựng SceneEdit/FairyEditor bản x86 (cần mã wxWidgets 2.6.1)
 
 | Rủi ro | Mức | Giảm thiểu |
 |---|---|---|
-| G3 (2.185 hàm + hệ thống mới) lớn hơn ước lượng | Cao | Ưu tiên theo tần suất gọi và theo chức năng người dùng thật sự dùng; tự động hoá việc lấy đặc tả từ Ghidra; đo tiến độ bằng số hàm và số cửa sổ chạy được |
 | Hình ảnh khác B ở chi tiết nhỏ (thứ tự render, auto-param) | Trung bình | Bộ đối chứng ảnh + so log; dùng nguyên 114 template làm dữ liệu |
 | PathLib và D3D11 không có mã | Trung bình | PathLib viết lại theo đặc tả `.path` + `pathlib-out\all.c`; D3D11 để sang pha V |
 | Server đổi giao thức trong lúc làm | Thấp–TB | Đặc tả sinh tự động từ server; chạy lại test khứ hồi mỗi khi server đổi |

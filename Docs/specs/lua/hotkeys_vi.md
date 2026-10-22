@@ -2,7 +2,6 @@
 
 ## Contract và bằng chứng
 
-`DataPool:SetCanUseHotKey(value)` nhận NUMBER ở đối số 2, cắt phần lẻ về int32, trả 0 giá trị. Thiếu đối số, nil, boolean, chuỗi số và kiểu khác đều không làm gì. Giữ giá trị số nguyên, chỉ 0 là khóa; mọi giá trị khác 0 là mở. B: wrapper Game.exe RVA `0x26d540`, field DataPool `+0x7b2d0`, reader `0x43416f` kiểm bằng 0 trước nhánh Escape/dispatch. Các điểm init/reset của B và giới hạn suy luận được ghi trong `Build/Logs/2026-09-12-gpt-p1-2/next-hosts/followup-plan_vi.md`, mục 4. Không có lần chạy binary B mới trong đợt này.
 
 `CysHostHotKeys` đăng ký trước `LuaApiGen::RegisterAll`, chỉ điền method nil của metatable riêng trên userdata DataPool đã có. Không thay receiver, metatable, __index hoặc method non-nil. Descriptor callback được sao vào closure; adapter Game tra CInputSystem đang sống, cùng luồng chính. Lỗi thiếu service hoặc ngoại lệ dịch vụ thành Lua error cố định sau C++ unwind, không ghi payload. NaN/Inf/ngoài miền chuyển thành INT_MIN theo chính sách phòng vệ CY đã dùng cho timer/query; không mô phỏng FP flags của B.
 

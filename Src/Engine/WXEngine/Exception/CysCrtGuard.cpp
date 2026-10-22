@@ -68,8 +68,8 @@ static CysCrtSiteKey CysCrtCaptureSite(PVOID* pFrames, USHORT nWant, USHORT* pnG
 	return key;
 }
 
-// "<ten module>+0x<RVA>" - dung dung dinh dang ma CYS-CRASHRPT 19/09 da chon, de dan
-// thang vao llvm-symbolizer duoc.
+
+
 static VOID CysCrtFormatAddr(ULONG_PTR addr, CHAR* szOut, size_t nOut)
 {
 	szOut[0] = 0;

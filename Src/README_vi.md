@@ -13,9 +13,3 @@ Bố cục tổng quát (một số mô tả kế hoạch ban đầu bên dướ
 | `Shared\Common` | Struct game, gói tin, DBC dùng chung với server |
 | `ThirdParty\` | LuaPlus (Lua 5.0.1 có `continue`), CEGUI-0.4.1, FreeType, expat, tinyxml, Opcode, zziplib, zlib, Devil, Xerces 2.6, boost (phần header cần dùng). `_sdk\` chứa FMOD và Cg, không commit |
 | `Tools\SceneEdit` | Chỉ nhập ở pha E4 |
-
-Quy tắc:
-- File lưu UTF-8 có BOM.
-- Biên dịch với `/source-charset:utf-8 /execution-charset:.936`, vì literal tiếng Trung là khoá tài nguyên dạng GBK.
-- Commit đầu tiên chứa mã nguyên trạng, kèm manifest hash của từng file.
-- Không dán mã decompile. Viết lại theo đặc tả trong `Docs\specs\`.

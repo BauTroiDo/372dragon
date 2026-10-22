@@ -1,22 +1,22 @@
-/*
-CYS: SequenceFrame affector - flip-book animation of texcoord_billboard particles (1,589 blocks in client_GL
-all.particle, always with renderer texcoord_billboard).  Clean-room implementation of the behaviour of
-B Render.dll (SequenceFrameAffector1/2/3, ctor 0x18012af30, FairySequenceFrameEffect.cpp; the per-particle frame
-choice lives in the renderer-side helper 0x1801eb0a0) - Docs/specs/render/04-effects-particles.md section 2.4.
 
-Keywords (lower case):
-  play_mode    normal | random | single                     (default normal)
-  stacks, slices   atlas rows / columns                      (default 1 / 1)
-  repeat_times real, flip-book cycles over the particle life (default 1)
-  pingpang     bool, play forward then backward              (default false)
-  loop         bool                                          (default true)
-  start_range  "a b": random start frame a..b (1-based, "0 0" = none)
-  head_and_tail "a b": play frames a..b only (a > b plays backwards, a == b = fixed frame), "none"
-  play_times   "h t": fraction of the cycle kept on the first / last frame, "none"
-  baned_frames list of frames (1-based) skipped by the flip-book, "none"
-The affector binds itself to the particle system's texcoord_billboard renderer (per-particle rect index) and
-sets the renderer's stacks x slices atlas.
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ifndef __WXSequenceFrameAffector_H__
 #define __WXSequenceFrameAffector_H__
 

@@ -2,28 +2,28 @@
 #include "CysPetSoul.h"
 #include "CysPetNet.h"
 
-// CYS-PET: the pet (珍兽) side of the CY protocol + the Lua host functions of the CY Pet* windows
-// (Docs/specs/client/host-pet_vi.md). Nothing in this file is guessed; the chain per item:
-//
-//   GCDetailAttrib_Pet (512)  wire shape = the server's bos() (pet_detail_types.lua:785, the 12 remapped flag bytes
-//                              are undone by pg::deriveDetailAttribPetFlags); the field -> SDATA_PET assignment is the
-//                              0.85 GCDetailAttrib_PetHandler.cpp normal branch, field by field. The CY-only cells
-//                              were matched against the B (CY 3.71 Game.exe) pet record read by its host functions
-//                              (Build/re/host-pet/decomp-*.c): [0x11] used_procreate_count (GetLastProcreateLevel),
-//                              [0x24]/[0x25] mind_attack/mind_defend (GetCriticalAttack/Defence), [0x26] attack_type
-//                              (GetAttackTrait), [0x27..0x32] the 12 element cells in ATTACK/DEFENCE/RESISTOTHER x
-//                              COLD/FIRE/LIGHT/POISON order (GetData), [0x43] wuxing (GetSavvy: widget Pet_WuXing,
-//                              server wuxing_bonus[1..10], Lua "nSavvy >= 7"), [0x45] growth_rate as float x 1000
-//                              (GetGrowRate), [0x50..0x52] the titles vector (GetTitleNum = its size), [0x5f] byte
-//                              pet type = server define.PET_TYPE (GetPetType; Lua "nPetType == 0" = baby).
-//   GCNewPet (1216)           port of GCNewPetHandler.cpp; the server fills unknow_1 = pet:get_model() (pet.lua:311).
-//   GCRemovePet (52)          port of GCRemovePetHandler.cpp.
-//   GCManipulatePetRet (666)  port of GCManipulatePetRetHandler.cpp; ret values = define.ENUM_MANIPULATEPET_RET,
-//                              identical to the 0.85 enum for 0..7 (8/9 soul melting are CY-only).
-//   CGManipulatePet (435)     misc.lua CGManipulatePet.bis reads m_objID, PetGUID, type; scenecore.lua:6484
-//                              char_manipulate_pet uses only pet_guid and type (0 call up, 1 recall, 2 free).
-//   Pet:SetPetLocation / GetPetLocation, UpdatePetList, GetPetIndexByGUID, GetGeneration, IsHaveCurrentPet:
-//                              see the previous notes kept below (host-pet 17/09).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include "CysHost_Pet.h"
 #include "..\Script\GMScriptSystem.h"
 #include "..\DataPool\GMDataPool.h"
@@ -570,10 +570,10 @@ int CysPetNet::GrowLevel(int index, int ratePerMille)
 int CysPetNet::AttackType(int index) { const PetCy* c = CyAt(index); return c ? c->attackType : -1; }
 int CysPetNet::MainPerception(int index) { const PetCy* c = CyAt(index); return c ? c->mainPerception : -1; }
 
-// B FUN_1402b58c0: s_pAttackTrait = GetDataBase(0xbe); row = Search_Index_EQU((int)(short)pet[0x26]); push row[+8]
-// then row[+0x10] (name, icon), or two empty strings when there is no row. The cast to short is B's: attack_type
-// travels as an unsigned short (pet_detail_types.lua writeushort), so a value above 0x7fff would come back negative
-// and find no row - same outcome as "no row", kept here for the same reason.
+
+
+
+
 bool CysPetNet::AttackTrait(int index, const char*& name, const char*& icon)
 {
     name = "";
@@ -590,11 +590,11 @@ bool CysPetNet::AttackTrait(int index, const char*& name, const char*& icon)
     return true;
 }
 
-// B FUN_1402bc1c0: s_pLxUp = GetDataBase(0xfe); walk every row with Search_LineNum_EQU and take the first whose
-// 宠物编号 == pet[5] (m_nDataID) and whose [col2, col3) contains pet[0x5e] (main_perception), provided
-// (unsigned)(pet[0x18] - 0x65) < 10, i.e. lingxing in 101..110; then push *(int*)(row - 0x184 + lingxing*4), which
-// for lingxing 101..110 is column 4..13 = nBonus[lingxing - 101]. B's linear scan is kept on purpose: the table is
-// keyed by 宠物编号 in column 1, not by the index column, so Search_Index_EQU would answer with a row number.
+
+
+
+
+
 int CysPetNet::PercentLx(int index)
 {
     SDATA_PET* pet = PetAt(index);

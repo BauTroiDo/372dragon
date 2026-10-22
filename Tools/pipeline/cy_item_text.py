@@ -1,32 +1,4 @@
-"""cy_item_text.py - item text of the CY 3.71 tables in Vietnamese (agent item-text, 15/09/2026).
-
-Problem (gui-live-8, 14/09): item names/descriptions in the shop, bag and tooltip showed boxes. The CY 3.71 item
-tables (S4 Config.axp, binary DBC 00CCBBDD) keep their strings in GBK; Game.exe x64 hands every string to CEGUI as
-UTF-8 (font Noto) -> GBK bytes are invalid UTF-8 -> boxes / empty labels.
-
-Decision: fix the data layer, not the loader. build_canonical_cy.py (cy_gui_generate) calls generate() and writes the
-item tables into Assets/CanonicalCY/_generated/gui-cy/ConfigFolder as layer `cy-item-text-vi` (manifest files.tsv +
-_manifest/item_text*.tsv), exactly like the StrDictionary layer. Only the DISPLAY columns listed in DISPLAY (struct
-member names from Tests/abi/check_dbc_layout.py --columns: szName/szDesc/szTypeDesc/szExplain) are rewritten:
-GBK -> UTF-8, then Vietnamese when a translation exists. Every other cell (INT/FLOAT and the resource-key STRING
-columns: szIcon, szColor, ...) keeps its exact bytes; verify() proves it cell by cell (0 keys changed), and a
-display cell that looks like a resource (path / file extension) is left untouched as well.
-
-Vietnamese, first hit wins (same exact-match rules as cy_gui_dict.translate_strings):
-  1. Registry/i18n/cy_items_vi_override.tsv   hand fixes (zh -> vi)
-  2. translation memory analysis/translation/translation.db (vimap clean|color_diff, StrDictionary exclusions)
-  3. Registry/i18n/cy_items_vi.tsv            API results of this tool (translate mode)
-  4. Registry/i18n/cy_vi_api.tsv + cy_vi_override.tsv (cy-gui-2 project dictionary)
-  5. Registry/i18n/cy_items_vi_hanviet.tsv    NAMES only: Han-Viet reading (hanviet mode; TM phrases + per character,
-                                              used while the API has no balance - API/override results win)
-  6. otherwise the Chinese text itself, as UTF-8 (readable with Noto SC, listed in item_text_untranslated.tsv)
-
-usage:  python -B cy_item_text.py stats                       coverage per table/column (no writes)
-        python -B cy_item_text.py build --out DIR             write converted tables + manifests into DIR, verify
-        python -B cy_item_text.py translate [--kind name|desc|all] [--max N] [--workers 6] [--out LOGDIR]
-        python -B cy_item_text.py hanviet                     names without translation -> cy_items_vi_hanviet.tsv
-        python -B cy_item_text.py selftest
-"""
+'cy_item_text.py - item text of the CY 3.71 tables in Vietnamese (agent item-text, 15/09/2026).\n\nProblem (gui-live-8, 14/09): item names/descriptions in the shop, bag and tooltip showed boxes. The CY 3.71 item\ntables (S4 Config.axp, binary DBC 00CCBBDD) keep their strings in GBK; Game.exe x64 hands every string to CEGUI as\nUTF-8 (font Noto) -> GBK bytes are invalid UTF-8 -> boxes / empty labels.\n\nDecision: fix the data layer, not the loader. build_canonical_cy.py (cy_gui_generate) calls generate() and writes the\nitem tables into Assets/CanonicalCY/_generated/gui-cy/ConfigFolder as layer `cy-item-text-vi` (manifest files.tsv +\n_manifest/item_text*.tsv), exactly like the StrDictionary layer. Only the DISPLAY columns listed in DISPLAY (struct\nmember names from Tests/abi/check_dbc_layout.py --columns: szName/szDesc/szTypeDesc/szExplain) are rewritten:\nGBK -> UTF-8, then Vietnamese when a translation exists. Every other cell (INT/FLOAT and the resource-key STRING\ncolumns: szIcon, szColor, ...) keeps its exact bytes; verify() proves it cell by cell (0 keys changed), and a\ndisplay cell that looks like a resource (path / file extension) is left untouched as well.\n\nusage:  python -B cy_item_text.py stats                       coverage per table/column (no writes)\n        python -B cy_item_text.py build --out DIR             write converted tables + manifests into DIR, verify\n        python -B cy_item_text.py translate [--kind name|desc|all] [--max N] [--workers 6] [--out LOGDIR]\n        python -B cy_item_text.py hanviet                     names without translation -> cy_items_vi_hanviet.tsv\n        python -B cy_item_text.py selftest\n'
 import argparse
 import collections
 import os
@@ -448,9 +420,7 @@ _LEVEL = re.compile(r'(\d+)\s*级')
 
 
 def hanviet_model(tm_db=GDICT.DB):
-    """-> (readings {char: syllable}, phrases {zh: vi}) from the translation memory.
-    A TM pair counts as Han-Viet when zh is 2-6 Han characters and vi has as many capitalised syllables; the most
-    frequent syllable per character wins (ties keep analysis/translation/hanviet_from_tm.json)."""
+    'cy_item_text project helper.'
     import json
     import sqlite3
     base = json.load(open(HANVIET_JSON, encoding='utf-8')) if os.path.exists(HANVIET_JSON) else {}

@@ -74,13 +74,13 @@ int main(int argc,char** argv){
             require(guard.manager->GetInstanceByID(15)&&guard.manager->GetInstanceByID(15)->StandByCampID(15),"last valid ID lost");
         });
     }
-    // CYS-TESTRED 19/09: the other half of the bound, and it needs an INDEPENDENT anchor. Measured, not assumed:
-    // rebuilding this suite against a MAX_ID=15 header leaves every derived case green (sizeof_record 260 -> 68,
-    // still 12/12) because the loop above then asks about 16/17 instead of 64/65 - a bound that defines its own
-    // expectation cannot catch the bound moving. So the ceiling is pinned to the source it was taken FROM:
-    // CY 3.71 keeps 64 camp rows in ReputationTable.txt (CY Game.exe FUN_140784410 checks the id against 0..0x3f,
-    // matrix 0x14103e0b8 = 64 rows x 0x120), which is what commit 3bbd7759 (14/09, CS2) implemented. Change this
-    // number only together with new evidence from CY, never to make a build pass.
+
+
+
+
+
+
+
     test("the camp ceiling still matches CY 3.71 and its highest ID is reachable",[&]{
         require(CampStandRecord_T::MAX_SIZE==64,"camp ceiling no longer matches CY 3.71 ReputationTable (64 rows)");
         const int last=CampStandRecord_T::MAX_ID;

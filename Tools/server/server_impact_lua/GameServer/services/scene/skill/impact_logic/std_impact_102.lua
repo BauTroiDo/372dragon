@@ -1,8 +1,8 @@
--- impact-logic (CY-Source 15/09/2026): logic 102 (tlbb15 StdImpact102_T 一日丧命散) — AOE quét khi kích hoạt (激活产生效果) và khi tan (死亡效果 nếu chủ chết, 消散效果 nếu còn sống).
--- Bằng chứng: Server (main) StdImpact102_T::OnActive/OnFadeOut/IsScanedTargetValid (Build/re/impact-logic/main-stdimpact-sel.c):
---   OnActive gửi 激活产生效果 (index10) cho chính chủ; OnFadeOut quét bán kính (index0) quanh chủ, mỗi mục tiêu gửi
---   死亡效果 (index6/7 khi chủ chết) hoặc 消散效果 (index8/9 khi còn sống) — hai đợt (i=0,1). Chọn theo trạng thái sống của chủ.
--- CY nhãn: 扫描半径, 影响目标人数, 目标选择标记…, 是否影响自己…, 受到影响的类型…, 伤害是否使用战斗计算规则, 死亡效果, 消散效果, 激活产生效果.
+
+
+
+
+
 local class = require "class"
 local combat_core = require "scene.skill.combat_core"
 local impact = require "scene.skill.impact"

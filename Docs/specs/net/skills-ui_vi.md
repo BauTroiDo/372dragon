@@ -20,8 +20,6 @@ Ký hiệu: **[DK]** dữ kiện đọc từ mã server / bảng / mã client; *
 
 Mã kết quả `GCOperateResult` gặp khi dùng kỹ năng (`define.lua OPERATE_RESULT`): −4 mục tiêu đã chết, −6 đang hồi chiêu, −8 mục tiêu không hợp lệ, −16 cảnh báo (NPC phe 8), **−42 cần học kỹ năng trước** (server CÓ kiểm kỹ năng đã học với kỹ năng phái: bot `--cast 775,0` → −42) **[LIVE]**.
 
-## 2. Quy ước dữ liệu
-
 ### 2.1 ID kỹ năng, cấp
 
 - Server CY dùng **ID SkillTemplate** ở mọi nơi (danh sách, thanh nhanh, CGCharUseSkill, GCCharSkill_Send). 0.85 dùng **SkillData id = template × 100 + cấp** trong `CActionSystem` (`MainMenuBar_Set`, `CAI_MySelf::SendUseSkillMessage`) và khoá bản đồ kỹ năng `CCharacterData::Set_Skill` **[DK]**. Bản port core-loop cũ hiểu 55 là SkillData id (`Set_Skill(id/100, id%100)`) → skill 35 thành template 0 cấp 35: sai với dữ liệu thật (fixture replay chỉ có {0}).

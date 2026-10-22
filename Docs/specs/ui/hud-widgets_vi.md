@@ -154,7 +154,6 @@ Thuộc tính mà các layout GL đặt lên từng kiểu thiếu (đếm từ 
 
 ## 3. Ngữ nghĩa từng kiểu theo B (client_GL)
 
-Bằng chứng chính là chuỗi/ký hiệu xuất trong `client_GL\Bin64\CEGUIFalagard.dll` (`gl-CEGUIFalagard-strings.txt`, 15.806 chuỗi) và `UI_CEGUI.dll` (`gl-UI_CEGUI-strings.txt`, tên MetaTable/hàm Lua), looknfeel/layout GL trong `Assets\Canonical`, và cách Lua GL gọi (`Assets\Canonical\Data\InterfaceFolder\**\*.lua`). Mỗi file nguồn mới ghi lại bằng chứng ở đầu file. (ReVa/Ghidra không cần: các export C++ mangled của B cho đủ tên lớp, phương thức, thuộc tính.)
 
 | Kiểu | Ngữ nghĩa theo B | Bằng chứng | Cài đặt (file) |
 |---|---|---|---|

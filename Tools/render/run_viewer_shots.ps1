@@ -7,7 +7,7 @@ param(
     [Parameter(Mandatory=$true)][string]$Cases,
     [Parameter(Mandatory=$true)][string]$Out,
     [string]$Data = 'C:\TLBB\085\CY-Source\Assets\CanonicalCY\Data',
-    [string]$Cache = 'C:\TLBB\085\CY-Source\Build\re\color-calib\ShaderCache',
+    [string]$Cache = 'C:\TLBB\085\CY-Source\Build\diagnostics\color-calib\ShaderCache',
     [string]$Only = '',
     [int]$TimeoutSec = 300,
     [switch]$Force

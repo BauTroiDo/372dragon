@@ -1,7 +1,5 @@
 # perf-cy — Độ mượt: CY 3.71 so với CY-Source
 
-Ngày 15/09/2026. Người làm: agent perf-cy (Claude). Nhánh `perf-cy`, worktree `Build/wt-perf-cy`.
-Bằng chứng: `Build/Logs/2026-09-15-perf-cy/`. RE (Ghidra, chỉ đọc, trên bản sao): `Build/re/perf-cy/out/`.
 
 Chỉ thị người dùng (15/09): "Chú trọng vào render bản đồ, bối cảnh, nhân vật, hiệu ứng,... phải thật mượt, phải thật đẹp. CY
 gốc làm rất tốt, nếu ta chưa giống là ta chưa phân tích kỹ cách CY làm."
@@ -20,47 +18,6 @@ nhân từng khung, cách CY làm, và các bản sửa có số đo trước/sa
 | So với CY world (probe, cùng máy) | CY: p50 16,0, p95 18,0-18,1, p99 19,8-20,2 ms, 8 khung >33 ms / 63 s, CPU luồng vẽ 4,9 ms, 834-853 lệnh vẽ. Dự án (C): p95 18,6-19,1, p99 23,2-24,5 ms, 10 khung >33 ms / ~50 s, CPU render 12,8 ms, 1.668 lệnh vẽ. **Số giật gần ngang CY; chi phí CPU mỗi khung vẫn ~2,5 lần** (mục 8) |
 | VSync | CY mặc định `D3DPRESENT_INTERVAL_ONE` + 2 back buffer + cap 45 fps. Chưa đổi mặc định dự án (mục 7) |
 | Nhịp khung | CY: `timeSetEvent(int(1000/fps), 1 ms, event, TIME_PERIODIC)` + `MsgWaitForMultipleObjects`. Dự án: waitable timer độ phân giải cao (09-performance). Tương đương khi đứng yên: p50 CY 15,97-15,98 ms (62,5 fps do làm tròn 16 ms) / dự án 16,63-16,67 ms |
-
-## 2. Cách đo
-
-- **Máy dùng chung:** Xeon E5-2696 v3, RTX 2060, màn 2560×1440 @ 59 Hz; 6-10 agent khác biên dịch/chạy viewer cùng lúc. Mỗi lượt
-  ghi tải máy (`load.csv`: CPU tổng, GPU 3D, số `cl/link/ninja`, số Game.exe, 3 tiến trình bận nhất) bằng `Tools/perf/sample_load.ps1`.
-  Hai lượt có Game.exe thứ hai của agent khác chạy song song (`gcA-2`, `ueA-2`, `games>1` trong `load.csv`); `ueA-2` lệch rõ
-  (khung >33 ms = 154) nên không dùng để kết luận.
-- **Cùng một đồng hồ cho CY và dự án:** `Tools/perf/present_probe` — `d3d9.dll` proxy (chỉ bản sao/stage của perf-cy):
-  thời điểm mọi `IDirect3DDevice9::Present` (QPC), thời gian trong Present, chu kỳ CPU của luồng vẽ và của các luồng khác
-  (`QueryThreadCycleTime`/`QueryProcessCycleTime`, quy đổi 2,27·10⁶ chu kỳ/ms đo từ khoảng nạp bận 100 %), số lệnh vẽ và
-  `Create*` giữa hai Present, tham số `CreateDevice`/`Reset`. Bảng: `Tools/perf/probe_table.py`.
-- **Quy nguyên nhân (chỉ dự án):** `CYS_PERF=1` + `CYS_PERF_CSV`; `Tools/perf/hitch_report.py` chia đoạn theo mốc của driver replay
-  và gán mỗi khung >33,4 ms cho pha tự thân lớn nhất. Khung chụp PNG (`shot:*`) và khung kế tiếp bị loại khỏi thống kê.
-  Log chẩn đoán kèm theo (chỉ khi `CYS_PERF=1`): `CYS-PERF slow packet|event` (`WXClient.log`), `slow window|load`
-  (`UISystem.log`), `slow texture` (`WXRender.log`).
-- **Kịch bản dự án** (`Tools/perf/run_world_perf.ps1`, 0 socket, ≤150 s): replay `-Move -Core -Camera` trên stage
-  `stage_game.py build --data CanonicalCY` → đăng nhập → chọn nhân vật → vào Đại Lý `dali_new_320` → kịch bản camera →
-  **xoay camera 360° liên tục 8 s** (`CYS_PERF_SPIN`) → 3 click đi bộ → đánh quái 3 đòn có impact, nhặt đồ, chat, túi.
-  1280×720 cửa sổ, `System_MaxFPS_Front/Back = 60/60`, `View_Aplomb = 0` (cấu hình người dùng).
-  Đoạn: `enter` (10 s đầu trong world), `idle`, `spin`, `walk`, `core`, `world-all`.
-- **Kịch bản CY** (`Tools/perf/run_cy_probe.ps1` → `Tools/render/run_cy_capture.ps1`): bản sao riêng
-  `Build/re/perf-cy/CYGame` (Bin/Bin64 chép, `Data` là junction tới bản sao color-calib), màn đăng nhập 3D, 120 s, 0 kết nối
-  game. Cấu hình: `default` = CY gốc (45/25 fps, VSync bật; Back đặt 45 để mất tiêu điểm không đổi nhịp), `nov60`
-  (60/60, VSync tắt), `vs60` (60/60, VSync bật). CY chưa vào được world offline (agent cy-oracle) nên chỉ so màn đăng nhập.
-- **A/B:** mỗi bản sửa có công tắc môi trường trong cùng binary (`CYS_PERF_LUAGC_MS`, `CYS_PERF_UIEVENT=legacy`,
-  `CYS_PERF_SCENEBUILD=legacy`), chạy xen kẽ A/B/A/B/A/B.
-- Phân vị: hạng gần nhất `sorted[round(q·(n−1))]`. Stutter = khung > 2 × trung vị 30 khung trước và dài hơn trung vị ≥ 4 ms.
-
-## 3. CY 3.71 làm gì (FACT từ RE, chỉ đọc)
-
-| Mảng | CY 3.71 | 0.85 / dự án | Nguồn |
-|---|---|---|---|
-| Nhịp khung | `System_MaxFPS_Front/Back` kẹp [5,150] (ngoài khoảng → 30); `View_GaoZhenLv=1` → 60 fps; hai `timeSetEvent(int(1000/fps), 1, event, 0x11)`; vòng lặp `MsgWaitForMultipleObjects` trên sự kiện Front khi cửa sổ active, Back khi không | 0.85: `timeSetEvent(33,33)` (lưới 15,6 ms). Dự án: waitable timer độ phân giải cao, hạn tuyệt đối (`pacer`) | Game.exe `FUN_14061e270`, `FUN_1406218a0`, `FUN_140620710`; `out/g1_imports.txt`, `g2_strs.txt` |
-| Present | `CreateDevice`: back buffer 2, `SwapEffect=DISCARD`, `PresentationInterval=ONE` khi `View_Aplomb=1` (mặc định CY), `IMMEDIATE` khi 0 (1 back buffer); HAL, HW vertex processing (0x40), D24S8 | Dự án: cùng quy tắc (`OgreD3D9RenderWindow`: VSync → 2 BB), nhưng cấu hình người dùng `View_Aplomb=0` | probe `cy/login-*/probe_*.txt`; d3d9-trace `diff-login-1` |
-| Lua GC | `lua_setgcthreshold(L, 0)` khi `CalSubTime(last, now) > 9999` → **10 s** | 3 s (`COLLECT_TIME = 3*1000`) | `FUN_140684df0`, `out/g3_gc.txt` |
-| Sự kiện UI | `this:RegisterEvent("EV", bLoad)` lưu cờ theo tên (item +0x1c8), không đăng ký trùng; `_OnGameEvent` bỏ sự kiện `bLoad=false` khi cửa sổ ẩn (+0x160) — không nạp layout, không chạy script. Script CY truyền `false` 7.005 lần, `true` 1.699 lần | bỏ qua tham số 3: mọi sự kiện nạp layout | UI_CEGUI `FUN_180079300`, RegisterEvent (`Build/re/login-polish/out/u_onevent.txt`, `u_onload.txt`) |
-| Dựng cảnh dần | `IncrementalSceneBuilder` (còn `Fairy_Hack`): khung đầu 64 vật, sau đó ngân sách `+= 30 × timeSinceLastFrame` (30 vật/giây). Có thêm lưới quanh camera (khoảng cách 300) và huỷ `StaticEntity` xa theo `Distance Cull` | 1 vật/khung, tìm vật gần nhất O(N) mỗi vật | Render.dll ctor `FUN_1800876d0`, `frameStarted` `FUN_18008b4f0`; `out/r4_builder.txt` |
-| Hạt | `ParticleBackGroundManager`: **4 luồng** cập nhật hạt (`ParticleSystemManager::SystemUpdate(i)`), ghi vào 4 vertex buffer phần mềm; luồng chính `NotifyUpdateParticle(camera)` rồi `WaitForMainThreadRender` và đổi sang 4 buffer phần cứng dùng chung (`MergeParticleSystem`, queue 8); log `OpenBackGroundParticleSystem` | cập nhật hạt trên luồng chính | OgreMain `StartThread` 0x18011c130, `Run`, `WaitForMainThreadRender`; `out/o2_particle.txt`, `o3_pbg.txt` |
-| Nạp file | `Fairy::MemLoadManager` + `MemLoadThread`: đọc `filedep.xml` (MainFile → DepFile), đọc trước file phụ thuộc vào bộ nhớ ở luồng nền, `swapData` mỗi khung đưa sang luồng chính; đếm `LoadResNum Total/MainThread/BackThread`. Có cả trong Render.dll của client 0.85 và client_GL | Nguồn dự án (bản WX cũ) không có | Render.dll `FUN_1800b92b0`, `FUN_1800b70f0`, `FUN_1800b95c0`; `out/r1_strs.txt`, `r2_memload.txt` |
-| Model logic | thuộc tính scene `LogicModelBackgroundLoad` ("resource is loaded by background thread"); `Gfx_SkeletonPreload` bật khi RAM > 320 MB; `View_InsteadModel` (model thay thế) | không có | Render.dll `FUN_180129690`, `FUN_18002f190`; Game.exe `FUN_1405c7730` |
-| Shader cache | `Bin64/ShaderCache`: 396 tệp ghi ở lượt chạy đầu, các lượt sau không ghi thêm | `CYS::MaterialSystem` + `ShaderCache` (09-performance) | `Build/re/perf-cy/CYGame/Bin64/ShaderCache` |
 
 ## 4. CY 3.71 màn đăng nhập (probe, 1280×720)
 
@@ -86,23 +43,6 @@ Nhận xét:
 - VSync bật (`default`, `vs60`) trên máy dùng chung này: CY chỉ 21-29 fps, `Present` chặn ~30 ms. Đây là môi trường
   (DWM + GPU bị chia); không dùng để đánh giá mặc định VSync (mục 7).
 - `nov60-1` (14 trình biên dịch song song) lệch: p50 19,05 ms.
-
-### 4.1 CY 3.71 world Đại Lý (probe qua cy-oracle)
-
-`Build/Logs/2026-09-15-perf-cy/cy_world.ps1` → `Tools/cyoracle/run_cy_oracle.ps1` trên bản sao riêng (LoginServer về 127.0.0.1
-bằng `make_loginserver.py`, `Patch/RemoteAddr.txt` Login_IP=127.0.0.1 và `ClientType.cfg NewStopSend_V2=0` như bản sao
-cy-oracle — thiếu hai tệp này CY mở kết nối web cổng 80 sau khi vào game và lượt bị dừng). Kịch bản `dali.json`: đứng
-quảng trường, skill +10 s, dịch chuyển +20/+32 s. Cửa sổ đo = sau khoảng nạp cuối + 3 s. 1280×720, cap 60/60, VSync tắt.
-Oracle chưa dựng model nhân vật (theo cy-oracle), nên số lệnh vẽ của CY thiếu phần nhân vật.
-
-| run | size | vsync | bb | seconds | frames | fps | p50 | p95 | p99 | max | sd | o33 | o50 | stut | present_ms | main_cpu_ms | other_cpu_ms | draws |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| world-nov60-2 | 1280x720 | off | 1 | 64.8 | 4037 | 62.3 | 16.01 | 17.99 | 19.79 | 79.0 | 2.44 | 8 | 7 | 8 | 0.45 | 4.9 | 3.43 | 850 |
-| world-nov60-3 | 1280x720 | off | 1 | 60.9 | 3796 | 62.3 | 16.0 | 18.13 | 20.15 | 82.7 | 2.61 | 8 | 7 | 8 | 0.45 | 4.96 | 3.45 | 834 |
-| world-nov60-4 | 1280x720 | off | 1 | 65.3 | 4066 | 62.3 | 15.97 | 17.96 | 20.12 | 81.9 | 2.54 | 8 | 7 | 8 | 0.45 | 4.93 | 3.47 | 853 |
-
-- 6/8 khung >33 ms là GC Lua 10 s (54-60 ms, toàn CPU luồng chính); 2 khung là tạo texture/VB khi dịch chuyển (42-79 ms).
-- Bóng CY world (d3d9-trace `cy_shadow_casters.tsv`): một map 4096² R32F; caster 306 / 709 / 703 ở w09 / w28 / w42.
 
 ### 4.2 Dự án màn đăng nhập cùng cấu hình (lgn-1/2/3, stage-fix5-perfcy, `CYS_PERF_LOGIN_HOLD_MS=30000`)
 
@@ -134,8 +74,6 @@ Lượt `base-warm` (stage `stage-base-perfcy`, HEAD 858b6bef + móc đo) và c�
 
 Chi phí khung ổn định (world, sau 10 s): CPU `render` 10,5-12,9 ms (`draw` 5,7-6,8, `cull` 3,2-4,1), `tick` 0,7-1,2 ms,
 GPU 6,9-8,0 ms; luồng vẽ theo probe 10,6-13,4 ms CPU/khung — ngang CY ở màn đăng nhập (10,4-12 ms).
-
-## 6. Các bản sửa (mỗi bản một commit, số đo A/B xen kẽ 3 lượt)
 
 ### 6.1 `luagc` — 7efde694
 
@@ -185,16 +123,6 @@ Cảnh sẽ đầy chậm hơn (30 vật/giây như CY). Với `camdiscull` (6.4
 
 ### 6.4 `camdiscull` — 35e94688 (số đo da77a265), đường dựng tức thì 34f28ef7
 
-- FACT RE (Render.dll): `SceneConfig` `EnableCamDisCull` / `SetCamDisCullDepth` (giữ khi 100 < depth < 10000) /
-  `SetCamDisCullParam` (> 0) → System +0x148 / +0x150, +0x154 = depth² / +0x14c (`FUN_180133a20`, setter `FUN_180134cb0`,
-  `FUN_180134cf0`, `FUN_180134d20`); mỗi vật +0x148 = `Entity::getBoundingRadius() × param`, +0x14c = bình phương
-  (`FUN_1800bc880`); `IncrementalSceneBuilder::frameStarted` (`FUN_18008b4f0`) chỉ tạo StaticEntity trong depth và huỷ vật đã tạo
-  khi dist² > max(depth², (r × param)²) (vật có `Distance Cull` = false thì không cắt). `dali_new_320`: bật, 4000, 14.
-- Cài (`WXSceneInfo.cpp`): hoãn tạo StaticEntity ngoài depth; mỗi khung duyệt ≤ 512 vật đã tạo, ẩn/hiện `Entity` theo luật trên.
-  **Khác CY (INF, chủ ý):** ẩn thay vì huỷ/tạo lại, để quay lại không phải nạp lại mesh. Đường dựng tức thì (TlbbViewer) cũng
-  áp luật ẩn. `CYS_PERF_CAMDISCULL=0` để A/B. Log `CYS-PERF camdiscull:` (cấu hình + created/hidden/pending mỗi 10 s).
-- Đo (stage-cdc-perfcy = main 612463fa + camdiscull; sau vào cảnh 10 s, bỏ khung chụp; A = không bóng vật tĩnh,
-  B = bóng như main, C = B + camdiscull):
 
 | run | frames | p50 | p95 | p99 | >33 | stut | draws | cpu render | cull | draw | anim | gpu frame | gpu rtt | built | hidden |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -237,11 +165,6 @@ Caster ở đúng camera của trace CY world (d3d9-trace `cy-world-1-trace` w09
 | w28 (8 s sau dịch chuyển 1) | 709 | 1.882 | 1.064 | 484 / 143 / 38 / 44 | 792 / 227 / 45 / 0 |
 | w42 (10 s sau dịch chuyển 2) | 703 | 1.559 | 835 | 480 / 160 / 21 / 42 | 594 / 206 / 35 / 0 |
 
-Đọc bảng:
-- camdiscull giảm caster 43-46 % ở cả ba camera.
-- Phần chênh còn lại so với CY chủ yếu do CY đang dựng dần (suy luận). Mỗi khung CY, `IncrementalSceneBuilder` chỉ có 64 vật + 30 vật/giây, nên ở w09 CY mới dựng khoảng 330 vật quanh camera. TlbbViewer thì dựng toàn cảnh ngay. w42 là khung CY đã dựng lâu nhất; tại đó dự án chỉ còn hơn CY 19 %.
-- Địa hình của CY cũng đổ bóng (40-44 lệnh), dự án thì 0. Việc này thuộc d3d9-trace.
-- Chưa làm: lưới ô quanh camera của builder CY (+0x50..+0x5c, bước ô +0x38/+0x40 × +0x44, hằng +0x68 = 300). Có thể nó cắt thêm; cần RE tiếp.
 
 ### 6.5 `prewarm` — 6f49d0b0 (hồi quy giật do bóng vật tĩnh)
 
@@ -312,9 +235,6 @@ Chi phí world ổn định (sau vào cảnh 10 s, bỏ khung chụp):
 
 ### 6.6 Phân rã CPU mỗi khung: CY so với dự án (bộ lấy mẫu trong probe, 1280×720, cap 60)
 
-Công cụ: `present_probe` với `CYS_PROBE_SAMPLE=1` (81e20d76):
-- mỗi 4 ms dừng luồng vẽ, chép 64 KB ngăn xếp, `RtlVirtualUnwind` trên bản chép;
-- `Tools/perf/sample_profile.py DIR [--focus hàm]`: ký hiệu PDB khi PE timestamp khớp, CY theo export gần nhất (`~`).
 
 | Nhóm (ms mỗi khung, luồng vẽ) | CY world `cy/world-smp-3` | Dự án main + L5 `world/smp4-1.perf` |
 |---|---|---|
@@ -391,48 +311,7 @@ Sửa:
 | CPU mỗi khung trong world | Main + L5: luồng vẽ 8,66 ms, render 6,3-6,9 ms (probe/CYS_PERF), ~870 lệnh vẽ (mục 6.6) | luồng vẽ 6,28 ms | Còn ~1,3-1,4 lần. Điểm nóng chưa sửa: (1) CEGUI dựng lại cả GUI mỗi khung do bảng tên trên đầu (`CCreatureBoard::SetPosition/Show` gọi setAlpha/setPosition/setSize/requestRedraw mỗi tick; CY CEGUIBase có `populateRenderCache` theo cửa sổ + `requestRedraw(bool)`) ~1 ms; (2) octree `_addToRenderQueue` 1,45 ms so với CY 0,9 |
 | Biến thể material địa hình lần đầu | **đã sửa `prewarm` (6f49d0b0)**: khung đầu world cull 202-235 → 23-29 ms, 0 khung cull > 16 ms khi xoay | CY tạo mọi shader trong khung nạp | Giá: khung nạp +470-550 ms; giảm khi d3d9-trace gộp brush |
 | Khung đầu vào world | sau `prewarm` 147-217 ms (trước 324-360 ms); cái còn lại: build 64 vật khởi động (~30 ms, như CY) + events + draw/UI; trước prewarm là 160-172 ms: cull 60 (nạp material/texture lần đầu, 52 texture) + build 31 (64 vật khởi động, như CY) + events 29 + draw/UI 21-25 | CY che bằng màn nạp; không đo được khung đầu | Có thể giữ màn nạp tới hết khung dựng đầu |
-| `SCENE_TRANSED` | 461-502 ms (MiniMap nạp theo nhu cầu vì đăng ký `true`, 365-391 ms) | cùng luật đăng ký | Nạp layout MiniMap trước (khi vào world lần đầu) nếu CY làm vậy — chưa RE |
 | Texture dùng lần đầu | draw 25-43 ms khi nạp 5-6 texture; PNG mây `Xyanmenguan_yun02.png` 68-77 ms | `MemLoadThread` đọc trước file theo `filedep.xml` ở luồng nền | Nạp nền kiểu CY là việc lớn (nguồn WX không có `MemLoadManager`) |
 | Nạp lại cảnh đăng nhập | `CysLoginScene::Enter` gọi `Scene_Load` ở `Login::Init` và lại ở `CharSel::Init`; `unloadUnreferencedResourcesInGroup` giải phóng rồi nạp lại texture | — | Việc của charsel-scene |
 | VSync | Mặc định người dùng tắt | Bật (ONE, 2 BB, cap 45) | Mục 7 |
 | Gói `GCCharEquipment` | trước uievent 330 ms (kéo theo sự kiện UI); sau uievent không còn trong log chậm | — | Theo dõi |
-
-## 9. Lệnh chạy lại
-
-```
-# probe
-cmd /c Tools\perf\present_probe\build_probe.cmd Build\re\perf-cy\probe
-# CY (bản sao riêng; one Game.exe)
-powershell -NoProfile -ExecutionPolicy Bypass -File Tools\perf\run_cy_probe.ps1 -OutDir Build\Logs\...\cy\login-X -Seconds 120 -View "System_MaxFPS_Front=60;System_MaxFPS_Back=60;View_Aplomb=0"
-python -B Tools\perf\probe_table.py "Build\Logs\...\cy\login-*"
-# dự án (stage riêng Build\world-gui\stage-*-perfcy)
-powershell -NoProfile -ExecutionPolicy Bypass -File Tools\perf\run_world_perf.ps1 -Stage Build\world-gui\stage-T-perfcy -OutDir Build\Logs\...\world\X -Probe -Env "CYS_PERF_UIEVENT=legacy"
-python -B Tools\perf\hitch_report.py Build\Logs\...\world\X.perf\frames.csv
-# chuỗi A/B xen kẽ có nghỉ 60 s và khoá lượt chung; bảng chi phí world
-powershell -File Build\Logs\2026-09-15-perf-cy\world_series.ps1 -Probe -Gap 60 -Runs "xA-1|TAG|CYS_PERF_CAMDISCULL=0;xB-1|TAG|"
-python -B Build\Logs\2026-09-15-perf-cy\world_cost.py xA-1 xB-1        # chạy trong thư mục world
-# CY world qua oracle (bản sao riêng, probe); run_cy_oracle.ps1 tự lấy khoá lượt
-powershell -File Build\Logs\2026-09-15-perf-cy\cy_world.ps1 -Name world-nov60-N
-# caster ở camera của trace CY (TlbbViewer + proxy d3d9-trace), phân loại
-powershell -File Build\Logs\2026-09-15-perf-cy\viewer_casters.ps1 -Tag vN
-python -B Build\Logs\2026-09-15-perf-cy\casters_cat.py <capture>
-```
-
-## 10. Bẫy
-
-- `run_cy_capture.ps1` ghi `-View` vào `System.cfg` của bản sao và giữ lại cho lượt sau: `run_cy_probe.ps1` đặt lại 45/25/VSync
-  trước mỗi lượt (lượt `login-default-2` đầu tiên thực chất là `nov60` → đổi tên `login-nov60-2b`).
-- Game.exe của agent khác có thể khởi động giữa lượt dù lượt đã chờ lúc bắt đầu: xem cột `games` của `load.csv`.
-- `Tee-Object` của PowerShell 5.1 ghi UTF-16; báo cáo ghi bằng `Out-File -Encoding utf8`.
-- Heredoc Bash làm hỏng `\\` và `\n` trong script Python; viết script bằng công cụ Write.
-- Stage có `--pdb` nặng ~300 MB; ổ C: từng xuống 2,5 GB. Stage perf-cy dựng không PDB.
-- Ghidra headless chạy song song trên cùng thư mục settings kẹt ở "Press any key": chạy tuần tự (`queue*.cmd`).
-- **Khoá lượt Game.exe** `Build/game-slot.lock` (điều phối 15/09): `run_cy_oracle.ps1` tự lấy khoá, nên đừng lấy khoá bọc ngoài
-  (khoá của mình < 5 phút làm nó chờ). Huỷ một lượt đang giữ khoá thì phải xoá khoá. Chạy nối liền không nghỉ làm agent khác
-  không có lượt: `world_series.ps1 -Gap 60`.
-- `d3d9.dll` proxy đặt trong thư mục `bin` của build bị `stage_game.py` chép vào stage **và manifest** → gỡ khỏi manifest
-  hoặc xoá proxy trước khi dựng stage (`viewer_casters.ps1` tự xoá sau khi chạy).
-- Bản sao CY dùng cho oracle cần `Patch/RemoteAddr.txt` Login_IP=127.0.0.1 và `Bin/ClientType.cfg NewStopSend_V2=0`; thiếu
-  thì CY nối web cổng 80 sau khi vào game và lượt bị dừng.
-- PowerShell: `$args` là biến tự động, không dùng làm tên biến mảng tham số.
-- So caster với trace CY cần nhớ CY đang dựng cảnh dần: ở w09 CY mới dựng ~330 vật, TlbbViewer dựng hết ngay.

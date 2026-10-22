@@ -148,8 +148,6 @@ kế của khung**, không phải bề rộng thật CY vẽ ra.
 
 ---
 
-## 2. Đã tìm ra gì
-
 ### 2.1 Ba lỗi được chỉ đích danh — phép đo tìm lại được cả ba, độc lập [DK]
 
 `host-xinfa` báo ở `ActionSkillsStudy`. Chạy `measure_ui_text.py --filter ActionSkillsStudy` cho ra:

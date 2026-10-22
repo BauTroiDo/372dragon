@@ -17,7 +17,7 @@ namespace CysAudio
     // Before System::init: CYS_AUDIO_OUTPUT = "wav:<file>" (FMOD WAV writer, nothing reaches the speakers) or
     // "nosound". Returns the extradriverdata for System::init (the WAV file name) or NULL.
     void* ConfigureOutput(FMOD::System* pSystem);
-    // After System::init: output type + drivers logged as CY FUN_140687500 does, level metering enabled.
+
     void OnInitialised(FMOD::System* pSystem, int nInitResult);
     void OnRelease(FMOD::System* pSystem);
 

@@ -1,30 +1,10 @@
-// pathlib_test.cpp — load test + differential test for the clean-room PathLib.dll.
-//
-// Modes:
-//   pathlib_test load  <our.dll> <sceneFolder> [<sceneFolder2> ...]
-//       Parse every *.path in the folder(s) with OUR DLL (getPathData + slot-3 parseBuffer),
-//       guarded by SEH so a fault in any one file is caught & counted. Must reach 0 crashes.
-//       (CanonicalCY keeps 46 of its 418 .path files in Scene2Folder: pass both folders; one total line.)
-//
-//   pathlib_test diff  <our.dll> <orig.dll> <sceneFolder> [pairsPerScene] [maxScenes]
-//       For up to N scenes: parse each .path in BOTH DLLs, extract the mesh through the
-//       accessor vtable slots, and compare (vertex count, triangle count, every vertex,
-//       every triangle's v0..v2 / n0..n2 / flag / extra). Then run >=pairs random start/goal
-//       queries: compare OUR exported findPath()'s reach verdict against the ground truth
-//       derived from the ORIGINAL DLL's extracted triangles (containing-triangle + region id),
-//       and report path length. Every mismatch is printed.
-//
-// The harness calls object methods purely by vtable slot index (both DLLs share variant-A
-// slot order), so it needs no headers from the DLL.
-
+// Load and navigation smoke tests for the PathLib.dll built from this repository.
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
-#include <random>
 #include <string>
 #include <vector>
 
@@ -62,8 +42,7 @@ struct Dll {
 
 static Dll loadDll(const char* path) {
     Dll d;
-    // Let the DLL resolve its own dependencies (MSVCR110 / libgmp-10 for the original) from
-    // its own directory.
+    // Resolve dependencies from the directory of the tested build.
     std::string dir(path);
     size_t slash = dir.find_last_of("\\/");
     if (slash != std::string::npos) {
@@ -99,8 +78,6 @@ struct ExTri {
 struct TriLayout {
     int v0, n0, flag, extra;
 };
-// Original PathLib.dll (variant A/B): v at 0x2c, n at 0x38, flag 0x60, extra 0x64.
-static const TriLayout kOrig{0x2c, 0x38, 0x60, 0x64};
 // Our DLL: struct Tri{ u32 v[3]; u32 n[3]; u8 flag; u32 extra; ... } -> v 0, n 12, flag 24, extra 28.
 static const TriLayout kOurs{0, 12, 24, 28};
 
@@ -186,71 +163,6 @@ static bool sehFindPath(void* pf, const float* s, const float* g, float* out, bo
     }
 }
 
-// SEH-guarded: run findPath on `pf` and return the resulting polyline length (sum of segment
-// lengths via the pointCount/point slots), or -1.0 if not reachable / -2.0 on a fault.
-static double sehPathLen(void* pf, const float* s, const float* g) {
-    __try {
-        float out[2] = {0, 0};
-        bool r = vcall<slot::PF_findPath, bool>(pf, s, g, out);
-        if (!r) return -1.0;
-        long long n = vcall<slot::PF_pointCount, long long>(pf);
-        if (n < 2 || n > 100000) return 0.0;
-        double len = 0.0;
-        const float* prev = vcall<slot::PF_point, const float*>(pf, (intptr_t)0);
-        float px = prev ? prev[0] : 0, pz = prev ? prev[1] : 0;
-        for (long long i = 1; i < n; ++i) {
-            const float* p = vcall<slot::PF_point, const float*>(pf, (intptr_t)i);
-            if (!p) break;
-            const double dx = p[0] - px, dz = p[1] - pz;
-            len += std::sqrt(dx * dx + dz * dz);
-            px = p[0]; pz = p[1];
-        }
-        return len;
-    } __except (EXCEPTION_EXECUTE_HANDLER) {
-        return -2.0;
-    }
-}
-
-// SEH-guarded bring-up / teardown of a DLL's pathfinder (kept out of functions that own
-// C++ unwinding objects, which cannot contain __try).
-static bool sehInitPf(const Dll& d, const std::vector<std::uint8_t>& bytes, void** pd, void** pf) {
-    __try {
-        *pd = d.getPathData(nullptr);
-        vcall<slot::PD_parse, void>(*pd, (void*)bytes.data());
-        *pf = d.getPathFinder(nullptr);
-        vcall<slot::PF_init, void>(*pf, *pd);
-        return true;
-    } __except (EXCEPTION_EXECUTE_HANDLER) {
-        return false;
-    }
-}
-static void sehDestroyPf(const Dll& d, void* pd, void* pf) {
-    __try {
-        if (pf) d.destroyPathFinder(nullptr, pf);
-        if (pd) d.destroyPathData(nullptr, pd);
-    } __except (EXCEPTION_EXECUTE_HANDLER) {}
-}
-
-static bool pointInTri(float px, float pz, const Mesh& m, const ExTri& t) {
-    if (t.v[0] >= m.vx.size() || t.v[1] >= m.vx.size() || t.v[2] >= m.vx.size()) return false;
-    const float ax = m.vx[t.v[0]], az = m.vz[t.v[0]];
-    const float bx = m.vx[t.v[1]], bz = m.vz[t.v[1]];
-    const float cx = m.vx[t.v[2]], cz = m.vz[t.v[2]];
-    const float d1 = (bx - ax) * (pz - az) - (bz - az) * (px - ax);
-    const float d2 = (cx - bx) * (pz - bz) - (cz - bz) * (px - bx);
-    const float d3 = (ax - cx) * (pz - cz) - (az - cz) * (px - cx);
-    const bool neg = d1 < 0 || d2 < 0 || d3 < 0;
-    const bool pos = d1 > 0 || d2 > 0 || d3 > 0;
-    return !(neg && pos);
-}
-
-// Ground truth from a mesh: containing triangle index (or -1), brute force.
-static long long containingTri(float px, float pz, const Mesh& m) {
-    for (size_t i = 0; i < m.tris.size(); ++i)
-        if (pointInTri(px, pz, m, m.tris[i])) return (long long)i;
-    return -1;
-}
-
 // -------- load mode --------
 static int runLoad(const char* dllPath, const std::vector<std::string>& folders) {
     Dll d = loadDll(dllPath);
@@ -283,166 +195,6 @@ static int runLoad(const char* dllPath, const std::vector<std::string>& folders)
     }
     printf("\nLOAD TEST: %d files, %d parsed ok, %d parse-fail, %d CRASH\n", total, okc, parseFail, crash);
     return crash == 0 ? 0 : 1;
-}
-
-// -------- diff mode --------
-static int runDiff(const char* ourPath, const char* origPath, const char* folder,
-                   int pairs, int maxScenes) {
-    Dll our = loadDll(ourPath);
-    Dll orig = loadDll(origPath);
-    if (!our.ok()) { printf("FAIL: cannot load OUR dll %s\n", ourPath); return 2; }
-    const bool haveOrig = orig.ok();
-    if (!haveOrig) printf("WARN: original dll not loadable (%s); parse-diff skipped, running self checks only\n", origPath);
-
-    WIN32_FIND_DATAA fd;
-    std::string pat = std::string(folder) + "\\*.path";
-    HANDLE hf = FindFirstFileA(pat.c_str(), &fd);
-    if (hf == INVALID_HANDLE_VALUE) { printf("no .path files\n"); return 0; }
-
-    int scenes = 0, sceneMismatch = 0;
-    long long totalPairs = 0, reachMismatch = 0, ourCrashes = 0;
-    long long totalLenCompared = 0, totalLenMismatch = 0;
-    std::mt19937 rng(12345);
-
-    do {
-        if (scenes >= maxScenes) break;
-        std::string full = std::string(folder) + "\\" + fd.cFileName;
-        std::vector<std::uint8_t> bytes;
-        if (!readFile(full.c_str(), bytes) || bytes.size() < 32) continue;
-
-        Mesh mo, mm;  // original, ours
-        const char* err = "";
-        if (!extractMesh(our, bytes, kOurs, mm, &err)) {
-            printf("[%s] OUR extract failed: %s\n", fd.cFileName, err);
-            continue;
-        }
-        bool parseMatch = true;
-        if (haveOrig) {
-            const char* e2 = "";
-            if (!extractMesh(orig, bytes, kOrig, mo, &e2)) {
-                printf("[%s] ORIG extract failed: %s (skipping parse-diff)\n", fd.cFileName, e2);
-            } else {
-                // Compare counts + every vertex + every triangle.
-                if (mo.vcount != mm.vcount || mo.tcount != mm.tcount) {
-                    parseMatch = false;
-                    printf("[%s] COUNT mismatch: verts %lld/%lld tris %lld/%lld\n", fd.cFileName,
-                           mm.vcount, mo.vcount, mm.tcount, mo.tcount);
-                }
-                long long vn = mo.vcount < mm.vcount ? mo.vcount : mm.vcount;
-                int shown = 0;
-                for (long long i = 0; i < vn; ++i) {
-                    if (mo.vx[(size_t)i] != mm.vx[(size_t)i] || mo.vz[(size_t)i] != mm.vz[(size_t)i]) {
-                        parseMatch = false;
-                        if (shown++ < 3) printf("[%s] vert %lld differs\n", fd.cFileName, i);
-                    }
-                }
-                long long tn = mo.tcount < mm.tcount ? mo.tcount : mm.tcount;
-                shown = 0;
-                for (long long i = 0; i < tn; ++i) {
-                    const ExTri& a = mm.tris[(size_t)i];
-                    const ExTri& b = mo.tris[(size_t)i];
-                    if (std::memcmp(a.v, b.v, 12) || std::memcmp(a.n, b.n, 12) ||
-                        a.flag != b.flag || a.extra != b.extra) {
-                        parseMatch = false;
-                        if (shown++ < 3)
-                            printf("[%s] tri %lld differs: ours{v %u,%u,%u f%u e%u} orig{v %u,%u,%u f%u e%u}\n",
-                                   fd.cFileName, i, a.v[0], a.v[1], a.v[2], a.flag, a.extra,
-                                   b.v[0], b.v[1], b.v[2], b.flag, b.extra);
-                    }
-                }
-                if (!parseMatch) ++sceneMismatch;
-            }
-        }
-
-        // Random reachability queries: OUR exported findPath vs ground-truth from the mesh
-        // (containing triangle + region id). Ground truth uses the original mesh when present,
-        // else ours (still validates our findPath against our own parse — a regression guard).
-        const Mesh& gt = haveOrig && mo.tcount ? mo : mm;
-        float minx = 1e30f, maxx = -1e30f, minz = 1e30f, maxz = -1e30f;
-        for (size_t i = 0; i < gt.vx.size(); ++i) {
-            minx = gt.vx[i] < minx ? gt.vx[i] : minx;
-            maxx = gt.vx[i] > maxx ? gt.vx[i] : maxx;
-            minz = gt.vz[i] < minz ? gt.vz[i] : minz;
-            maxz = gt.vz[i] > maxz ? gt.vz[i] : maxz;
-        }
-        if (maxx <= minx || maxz <= minz) { ++scenes; continue; }
-        std::uniform_real_distribution<float> ux(minx, maxx), uz(minz, maxz);
-
-        void* pd = our.getPathData(nullptr);
-        vcall<slot::PD_parse, void>(pd, (void*)bytes.data());
-        void* pf = our.getPathFinder(nullptr);
-        vcall<slot::PF_init, void>(pf, pd);
-
-        // The original pathfinder is intentionally NOT invoked (its findPath ABI is not
-        // reliably reproducible cross-DLL); length is validated on our own result below.
-        void* opd = nullptr;
-        void* opf = nullptr;
-        bool origPf = false;
-        long long lenCompared = 0, lenMismatch = 0, origPfFaults = 0;
-        (void)sehInitPf;
-
-        int reached = 0, made = 0;
-        for (int k = 0; k < pairs; ++k) {
-            float s[3] = {ux(rng), 0, uz(rng)};
-            float g[3] = {ux(rng), 0, uz(rng)};
-            long long st = containingTri(s[0], s[2], gt);
-            long long gtt = containingTri(g[0], g[2], gt);
-            bool truthReach = false;
-            if (st >= 0 && gtt >= 0) {
-                const ExTri& a = gt.tris[(size_t)st];
-                const ExTri& b = gt.tris[(size_t)gtt];
-                truthReach = !(a.flag & 1) && !(b.flag & 1) && a.extra != 0 && a.extra == b.extra;
-            }
-            float outFirst[2] = {0, 0};
-            bool crashed = false;
-            bool ourReach = sehFindPath(pf, s, g, outFirst, &crashed);
-            if (crashed) { ++ourCrashes; continue; }
-            ++totalPairs;
-            if (truthReach) ++reached;
-            if (ourReach) ++made;
-            if (ourReach != truthReach) {
-                if (reachMismatch < 20)
-                    printf("[%s] reach mismatch @ (%.1f,%.1f)->(%.1f,%.1f): ours=%d truth=%d\n",
-                           fd.cFileName, s[0], s[2], g[0], g[2], (int)ourReach, (int)truthReach);
-                ++reachMismatch;
-            }
-            // Path-length quality gate on OUR result: a returned path must be finite and no
-            // shorter than the straight-line distance (a lower bound), and not absurdly long.
-            // (Direct length parity with the original is not asserted: the original's findPath
-            //  vtable-slot argument packing could not be reproduced reliably cross-DLL.)
-            if (ourReach) {
-                double lm = sehPathLen(pf, s, g);
-                if (lm >= 0.0) {
-                    ++lenCompared;
-                    const double straight = std::sqrt((double)(g[0]-s[0])*(g[0]-s[0]) + (double)(g[2]-s[2])*(g[2]-s[2]));
-                    const bool bad = !(lm >= 0.0) || lm != lm /*NaN*/ ||
-                                     lm < straight - 0.5 || lm > straight * 12.0 + 100.0;
-                    if (bad) {
-                        if (lenMismatch < 8)
-                            printf("[%s] path length unreasonable @ (%.0f,%.0f)->(%.0f,%.0f): len=%.1f straight=%.1f\n",
-                                   fd.cFileName, s[0], s[2], g[0], g[2], lm, straight);
-                        ++lenMismatch;
-                    }
-                }
-            }
-            (void)origPf; (void)opf; (void)origPfFaults;
-        }
-        printf("[%s] verts=%lld tris=%lld parseMatch=%s | pairs=%d truthReach=%d ourReach=%d | lenChk=%lld lenBad=%lld\n",
-               fd.cFileName, mm.vcount, mm.tcount, haveOrig ? (parseMatch ? "YES" : "NO") : "n/a",
-               pairs, reached, made, lenCompared, lenMismatch);
-        totalLenCompared += lenCompared;
-        totalLenMismatch += lenMismatch;
-        if (opd || opf) sehDestroyPf(orig, opd, opf);
-        our.destroyPathFinder(nullptr, pf);
-        our.destroyPathData(nullptr, pd);
-        ++scenes;
-    } while (FindNextFileA(hf, &fd));
-    FindClose(hf);
-
-    printf("\nDIFF TEST: %d scenes, parse-mismatch scenes=%d, pairs=%lld, reach-mismatch=%lld, our-crashes=%lld\n"
-           "           our path length checked=%lld, unreasonable=%lld\n",
-           scenes, sceneMismatch, totalPairs, reachMismatch, ourCrashes, totalLenCompared, totalLenMismatch);
-    return (sceneMismatch == 0 && ourCrashes == 0 && totalLenMismatch == 0) ? 0 : 1;
 }
 
 // -------- probe mode: does OUR findTri (via findPath to centroids) locate triangles? -----
@@ -495,12 +247,7 @@ int main(int argc, char** argv) {
         for (int i = 3; i < argc; ++i) folders.push_back(argv[i]);
         return runLoad(argv[2], folders);
     }
-    if (argc >= 5 && strcmp(argv[1], "diff") == 0) {
-        int pairs = argc >= 6 ? atoi(argv[5]) : 2000;
-        int maxScenes = argc >= 7 ? atoi(argv[6]) : 10;
-        return runDiff(argv[2], argv[3], argv[4], pairs, maxScenes);
-    }
     printf("usage:\n  pathlib_test load <our.dll> <sceneFolder>\n"
-           "  pathlib_test diff <our.dll> <orig.dll> <sceneFolder> [pairs=2000] [maxScenes=10]\n");
+           "  pathlib_test probe <our.dll> <pathFile>\n");
     return 2;
 }

@@ -1,11 +1,11 @@
 #pragma once
-// CYS-PLUMB: shared Lua host plumbing - host functions that are NOT owned by one CY window but sit on the path of
-// every frame (player level, screen size, server date).  Measured, not guessed: the 17/09 world session
-// (Build/Logs/2026-09-17-host-plumbing) logged which LuaApiGen stubs the running client really calls, and every
-// function here was then read back out of client_GL\Bin64\Game.exe at the catalog's impl_va before it was written.
-// See Docs/specs/client/host-plumbing_vi.md.
-//
-// Game-layer state comes through Services (filled in WXClient/Procedure/GameProcedure.cpp); this file is Lua glue.
+
+
+
+
+
+
+
 #include "LuaPlus.h"
 
 namespace CysHostPlumbing

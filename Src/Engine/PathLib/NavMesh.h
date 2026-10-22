@@ -1,20 +1,20 @@
-// NavMesh.h — the in-memory triangle navmesh parsed from a .path file, shared by PathData
-// and PathFinder.  Layout is our own (the DLL ABI only constrains vtables + exports, never
-// object fields), but the *file format* and field meanings are the recovered ones.
-//
-// .path format (Docs 08 §5.2, memory tlbb-path-navmesh-format, verified against 483 files):
-//   u16 version                       0x1000 => all counts/indices u16 ; 0x2000 => u32
-//   N   pointCount ; pointCount x {float x, float z}
-//   N   triCount   ; triCount   x {v0 v1 v2  n0 n1 n2  u8 flag  N extra}
-//                     flag bit0 = BLOCKED ; extra = connected-region id (0 on blocked) ;
-//                     nK = adjacent triangle across edge K, 1000000 = none.
-//   N   edgeCount  ; edgeCount  x {a b t1 t2}  a,b vertex idx ; t1 blocked-side tri, t2 walkable
-//   u32 cellSize (always u32) ; N nx ; N nz     (nx=ceil(xsize/cellSize))
-//   nx*nz cells (row-major: for z, for x) x { N nTri; nTri x triIdx ; N nEdge; nEdge x edgeIdx }
-//
-// EVERY read is bounds-checked; invalid indices are repaired (dropped/clamped) so that no
-// later query can read out of range — this is the core robustness guarantee that the
-// original PathLib.dll lacked (it crashed in FUN_18002cd60 on malformed cells).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #ifndef CYS_PATHLIB_NAVMESH_H
 #define CYS_PATHLIB_NAVMESH_H

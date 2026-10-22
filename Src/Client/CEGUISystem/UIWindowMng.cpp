@@ -367,10 +367,10 @@ INT CUIWindowItem::LUA_RegisterEvent(LuaPlus::LuaState* pState)
 
 	STRING strEventName = args[2].GetString();
 
-	// CYS-PERF-FIX uievent: CY 3.71 UI_CEGUI RegisterEvent (Build/re/login-polish/out/u_onload.txt): argument 3 is an
-	// optional boolean (default true) kept per event name at item +0x1c8; an event this window already registered is
-	// not registered twice. 7.005 registrations of the CY scripts pass false (ADJEST_UI_POS, VIEW_RESOLUTION_CHANGED,
-	// HIDE_ON_SCENE_TRANSED, OBJECT_CARED_EVENT, PACKAGE_ITEM_CHANGED_EX, MONEY_CHANGE_EX, ...).
+
+
+
+
 	const BOOL bLoad = (pState->GetTop() >= 3 && args[3].IsBoolean()) ? (args[3].GetBoolean() ? TRUE : FALSE) : TRUE;
 	if (m_cysEventLoad.find(strEventName) != m_cysEventLoad.end()) return 0;
 	m_cysEventLoad[strEventName] = bLoad;
@@ -424,24 +424,24 @@ INT	CUIWindowItem::LUA_TransAllWindowText(LuaPlus::LuaState* pState)
 	return 0;
 }
 
-//关心与某逻辑Obj的距离(用于商人或者任务窗口，当距离超过一定距离后自动关闭)
-// CYS-HOST2: B UI_CEGUI.dll 0x180058500 (CUIWindowItem::LUA_GetChildOffset, listing
-// Build/Logs/2026-09-17-host-plumbing/measure/disasm/GetChildOffset.txt):
-//     if (!lua_isstring(L, 2)) throw "LUA: CUIWindowItem::LUA_GetChildOffset Wrong Param1"
-//     w = FindChild(name)                       // 0x180057690: isChild(name) ? getChild(name) : NULL, recursive
-//     x = y = 0
-//     while (w && w != m_pWindow) { x += w->getAbsoluteXPosition(); y += w->getAbsoluteYPosition(); w = w->d_parent; }
-//     push(x); push(y); return 2
-// getAbsoluteXPosition() in this CEGUI (0.4.1, CEGUIWindow.h:904) is the position in PIXELS RELATIVE TO THE PARENT
-// ("absolute" = absolute metrics mode, not screen space), so the sum over the parent chain is the child's pixel
-// offset inside this layout's root window - which is exactly how the scripts use it (ActionSkill.lua:807-814 adds
-// ActionSkill_Frame's own AbsoluteXPosition to get to screen space). An unknown name gives (0, 0), as in B.
-//
-// B's FindChild (0x180057690) walks the tree itself: root->isChild(name) ? root->getChild(name) : for every child c,
-// c->isChild(name) ? c->getChild(name) : recurse into c's children (0x1800575f0). It has to, because
-// Window::isChild(name) / getChild(name) of this CEGUI (0.4.1, CEGUIWindow.cpp:333/393) look at DIRECT children only
-// (the recursive lookup arrived with CEGUI 0.5). Caught live: "MiniMap_Forum" (MiniMap.layout.xml:485, nested) came back
-// found=0 from a direct-only lookup (live-5-on).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static CEGUI::Window* cysFindDescendant(CEGUI::Window* pRoot, const CEGUI::String& name)
 {
 	if (!pRoot) return NULL;
@@ -539,19 +539,19 @@ VOID WINAPI	CUIWindowItem::_OnGameEvent(const EVENT* pEvent, UINT_PTR dwOwnerDat
 		if (!end || *end || !g_uiCommandRoutes.Allows(command, pWinItem->m_dwID)) return;
 	}
 
-	// CYS-LOGIN: CY 3.71 UI_CEGUI.dll CUIWindowItem::_OnGameEvent (FUN_180079300) returns at once for
-	// VIEW_RESOLUTION_CHANGED (event id 0x166, Game.exe table FUN_140a0db90) when the window is not loaded yet
-	// (item +0x170 == 0; also requires item +0x180 == 1, INF: set for the demand-loaded windows). 1.651 of the 2.042 CY
-	// scripts register that event, so without this every window resize (the login window 1280x720 -> View_Resoution
-	// at character select, CysLoginWindowRestore) demand-loads ~1.150 layouts.
+
+
+
+
+
 	if(!(pWinItem->m_bLayoutLoaded) && pEvent->pEventDef && pEvent->pEventDef->idEvent == GE_VIEW_RESOLUTION_CHANGED)
 		return;
 
-	// CYS-PERF-FIX uievent: CY 3.71 CUIWindowItem::_OnGameEvent (UI_CEGUI FUN_180079300): an event registered with
-	// bLoad=false is dropped while the window is hidden (item +0x160 = shown): it neither demand-loads the layout nor runs
-	// the script. Without it one package / world-entry event demand-loaded hundreds of CY layouts in a single frame
-	// (perf-cy world replay: 815 ms and 1.07 M allocations after picking loot, 814 ms at world entry).
-	// CYS_PERF_UIEVENT=legacy keeps the 0.85 behaviour for A/B runs.
+
+
+
+
+
 	static int s_cysUiEventLegacy = -1;
 	if (s_cysUiEventLegacy < 0)
 	{

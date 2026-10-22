@@ -6,13 +6,6 @@ Tài liệu của agent game-data, ngày 13/09/2026. Mục tiêu: Game.exe x64 c
 
 ## 1. Bảng DBC: danh mục, cấu trúc, cổng kiểm
 
-**Danh mục.** `Registry/abi/dbc_inventory_gl.{json,tsv}` do `Tools/game/dbc_inventory.py build` sinh ra. Mỗi bảng Game.exe
-đọc (khởi động, đăng nhập, chọn/tạo nhân vật, vào thế giới) có kiểu cột Canonical, tên cột (13 bảng có hàng tên),
-ID bảng của B và kích thước bản ghi B truyền cho `GetDataBase(id, size)`. Bằng chứng B nằm ở
-`Build/Logs/2026-09-13-game-data/ghidra/b-sizes*.tsv` (Ghidra trên bản sao, `Build/re/game-data`).
-- 345 bảng; 63 bảng do `CDataBaseSystem::OpenAllDataBase` mở; 20 bảng do bộ đọc khác mở.
-- Kích thước bản ghi trùng B ở 94 lời gọi. Ba chỗ lệch là SkillTemplate_V1, XianluShop và Zhounianshop. SkillTemplate_V1:
-  B đọc 80/81 cột đầu (368 byte), Canonical có 82 cột (376 byte).
 
 **Cấu trúc.** `Src/Engine/Interface/TDDBC_Struct.h` và `Src/Shared/Common/GameStruct_Skill.h` theo đúng cột client_GL,
 giữ tên 0.85 khi nghĩa không đổi (ghi chú `// CYS:` và số cột `[n]` trên từng trường). Bảng đổi bố cục: CharHairGeo,

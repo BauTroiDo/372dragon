@@ -1,24 +1,24 @@
-// PathLib.h — public interface of PathLib.dll (clean-room reimplementation).
-//
-// PathLib.dll has NO surviving source. This interface was recovered as a *specification*
-// (Docs 04 §8) from three sources, cross-checked:
-//   1. the export table of client_GL\Bin64\PathLib.dll (variant A, x64, the build the
-//      modern client's Render.dll links against — this is our ABI target);
-//   2. how Render.dll wraps and calls the 6 imported factory functions and the returned
-//      objects' virtual methods (analysis\ghidra + Build\re\pathlib\out\render_*);
-//   3. the decompiled bodies in analysis\ghidra\pathlib-out\all.c.
-// No decompiled code is pasted; every method is re-derived from the observed contract.
-//
-// ABI contract that MUST hold for a drop-in replacement (verified: consumers never read
-// object fields directly — they only call the factory and the objects' virtuals):
-//   * the 24 exported mangled names (see pathlib.def — union of variant A and B name sets);
-//   * PathLibRoot::get{PathData,PathFinder,BuildingCollsion}() return a heap object whose
-//     vtable slots appear in the exact order below (variant A: PathData 18 slots,
-//     PathFinder 20 slots, BuildingCollision 5 slots on the concrete class);
-//   * PathLibRoot::destroy*() delete such an object.
-//
-// The classes below are ABSTRACT interfaces (all-pure vtables, matching the exported
-// ??_7*@PathLib@@6B@ vtable symbols). The concrete *Impl classes live in PathLibImpl.h.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #ifndef CYS_PATHLIB_H
 #define CYS_PATHLIB_H

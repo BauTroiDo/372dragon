@@ -1,6 +1,6 @@
-// CYS: bounded reader for the packed Format envelope emitted by Game.exe+0x619670.
-// The byte layout is recovered from B; placeholder/limit policy is documented in
-// Docs/specs/lua/host-api_vi.md. No UI/encoding dependency.
+
+
+
 #pragma once
 
 #include <cstddef>

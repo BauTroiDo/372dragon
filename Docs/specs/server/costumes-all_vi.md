@@ -199,8 +199,6 @@ vì `Game.exe` của `stage-fps-daiviet` (bản 13:17) chưa đọc `CYS_BOT_ACC
 
 ---
 
-## 8. Vá client để VẼ thời trang (CYS-DRESS) — đã làm trong nhánh này
-
 ### 8.1. Chỗ đứt, đo trước khi sửa
 
 1. **Server gửi đủ.** `GCCharEquipment` (id 1194, `Src/Shared/ProtocolGen/PgPackets_misc.h:2775-2776`) có

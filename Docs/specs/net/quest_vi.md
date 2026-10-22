@@ -89,8 +89,6 @@ và Mongo `mission_data.char_missions` của 1403 đi từ `p0=0,p1=0` → **`p0
   ("通往大理") là **bàn thao tác**, đứng lên đó KHÔNG đổi cảnh (lượt `t6` đứng ở 38,176 và vẫn ở cảnh 6) — đây là
   cái bẫy dễ mất một phiên.
 
-## 4. Lỗi đã tìm ra và đã vá
-
 ### 4.1 CHẶN CỨNG: nhiệm vụ không có vật phẩm thưởng thì không nộp được
 
 **Triệu chứng [LIVE]** (`t16b`, `t17`, mission 1408/210274): hộp thoại chạy đủ — cmd 0 (menu có

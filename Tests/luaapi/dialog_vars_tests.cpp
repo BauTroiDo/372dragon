@@ -1,6 +1,6 @@
-// CYS-QUEST: unit tests for CysDialogVars (CY 3.71 UI_CEGUI.dll FUN_18004a5e0 dialogue variables).
-// Expected strings are written from the recovered CY algorithm (re\ui-4a5e0.txt, re\ui-54e20.txt), not produced by
-// the implementation. argv[1] = CanonicalCY StrDictionary.txt (optional section).
+
+
+
 #include "CysDialogVars.h"
 
 #include <cstdio>

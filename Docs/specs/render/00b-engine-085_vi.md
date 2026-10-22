@@ -289,8 +289,6 @@ alpha của texture **không** phải độ trong, nó là mặt nạ trộn (la
 
 ---
 
-## 5. Địa hình — hệ render riêng, không phải của OGRE
-
 ### 5.1 Atlas texture
 
 **FACT** `A\Client\WXCore\Core\Terrain.cpp:50–55`:
@@ -420,8 +418,6 @@ Cơ chế material instance (`A\Client\WXCore\Core\WXMaterialInstance.h`) rất 
 đây chính là khoảng trống mà `P\WXRender\MaterialSystem\CysMaterialSystem.cpp` (1.929 dòng) lấp (mục 16).
 
 ---
-
-## 7. Ánh sáng và bóng đổ — nơi 0.85 nghèo nhất
 
 ### 7.1 Cấu hình bóng của SceneManager
 
@@ -744,11 +740,3 @@ Mỗi thay đổi phải có cặp ảnh trước/sau cùng cảnh, cùng camera
 | Mô hình link OgreMain của bản port | `CY-Source\Src\cmake\components\ogremain.cmake` (chú thích đầu file) |
 
 ---
-
-## 20. Đọc tiếp
-
-`00-INDEX.md` (thứ tự ưu tiên theo tác động hình ảnh) → `01-materials.md` → `02-postfx.md` → `03-shadows.md` →
-`05-scene-features.md` → `04-effects-particles.md`.
-Bản tiếng Việt đi sâu từng mảng: `cy-look_vi.md`, `shadow-cy_vi.md`, `water-cy_vi.md`, `sky-enscene-cy_vi.md`,
-`aa-cy_vi.md`, `colorlut-cy_vi.md`, `d3d9-parity_vi.md`, `09-performance_vi.md`.
-Nguồn hành vi chuẩn của CY: `cy-oracle_vi.md` và ghi nhớ `cy-source-cy-oracle`.

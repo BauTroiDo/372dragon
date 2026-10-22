@@ -31,9 +31,9 @@ from .data import gbk, text
 PART_ATTRS = {1: (b'CapMesh', b'CapMat'), 2: (b'MainBodyMesh', b'MainBodyMat'),
               3: (b'ArmMesh', b'ArmMat'), 4: (b'FootMesh', b'FootMat')}
 PART_NAMES = {1: 'cap', 2: 'body', 3: 'arm', 4: 'foot'}
-# CYS-AVATAR (14/09): IVL slot columns, KFS column, Type -> stance column and the mount/dress columns are taken from
-# the column profile of the data set (data.COLUMN_PROFILES: 'cy' = CY 3.71, 'gl' = client_GL); the GL constants
-# below are kept for reference only (FUN_140112b40 / FUN_140421ff0 of client_GL Game.exe).
+
+
+
 IVL_SLOTS_GL = ((b'RightWeaponObj', 2, 1, 'rw'), (b'LeftWeaponObj', 5, 6, 'lw'),
                 (b'FootWeaponObj', 11, 12, 'fw'), (b'BackWeaponObj', 15, 16, 'bw'))
 KFS_SLOT_GL = (b'KFSObj', 9, 10, 'kfs')
@@ -259,7 +259,7 @@ def _compose_player(ctx, spec, cr, name, scale=None, anim_set=None, anim_overrid
 
     # body parts and costume (R07, R08)
     if race > 1:
-        ctx.note('race %d: B FUN_140116570 asserts nRaceID < CHAR_RACE_NUM (2) and applies no '
+        ctx.note('race %d: the supported player race range is nRaceID < CHAR_RACE_NUM (2) and applies no '
                  'ItemVisualChar part; the template keeps its baked outfit' % race)
     else:
         dress = _resolve_dress(ctx, spec.costume) if spec.costume is not None else None

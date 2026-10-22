@@ -62,63 +62,6 @@ public static class CysWin {
         using (var g = Graphics.FromImage(o)) g.DrawImage(b, 0, 0, b.Width, b.Height);
         return o;
     }
-    // Read-only memory scan of a process (same user): every committed readable private/mapped region is searched for
-    // a little-endian float pattern; each hit is written with +-window floats as text. Used to read the CY login camera
-    // (Ogre::Frustum aspect ratio next to the FOV, near/far and the camera orientation/position).
-    [DllImport("kernel32.dll")] public static extern IntPtr OpenProcess(uint access, bool inherit, int pid);
-    [DllImport("kernel32.dll")] public static extern bool CloseHandle(IntPtr h);
-    [DllImport("kernel32.dll")] public static extern bool ReadProcessMemory(IntPtr h, IntPtr addr, byte[] buf, IntPtr size, out IntPtr read);
-    [StructLayout(LayoutKind.Sequential)] public struct MBI { public IntPtr Base; public IntPtr AllocBase; public uint AllocProtect; public IntPtr Size; public uint State; public uint Protect; public uint Type; }
-    [DllImport("kernel32.dll")] public static extern IntPtr VirtualQueryEx(IntPtr h, IntPtr addr, out MBI info, IntPtr len);
-    public static int ScanFloat(int pid, float value, float tol, int before, int after, string outPath, int maxHits) {
-        IntPtr h = OpenProcess(0x0410, false, pid); if (h == IntPtr.Zero) return -1;
-        int hits = 0;
-        using (var w = new System.IO.StreamWriter(outPath)) {
-            long addr = 0; MBI m;
-            while (hits < maxHits && VirtualQueryEx(h, (IntPtr)addr, out m, (IntPtr)Marshal.SizeOf(typeof(MBI))) != IntPtr.Zero) {
-                long size = (long)m.Size; long start = (long)m.Base;
-                bool readable = m.State == 0x1000 && m.Type == 0x20000 && (m.Protect & 0x100) == 0 && (m.Protect & 0x44) != 0;
-                if (readable && size < (512L << 20)) {
-                    byte[] buf = new byte[size]; IntPtr got;
-                    if (ReadProcessMemory(h, (IntPtr)start, buf, (IntPtr)size, out got)) {
-                        int n = (int)got;
-                        for (int i = 0; i + 4 <= n && hits < maxHits; i += 4) {
-                            float f = BitConverter.ToSingle(buf, i);
-                            if (!(Math.Abs(f - value) <= tol)) continue;   // NaN never matches
-                            hits++;
-                            var sb = new System.Text.StringBuilder();
-                            sb.AppendFormat("hit 0x{0:X} region 0x{1:X} type 0x{2:X}\n", start + i, start, m.Type);
-                            for (int j = Math.Max(0, i - before); j < Math.Min(n - 4, i + after); j += 4)
-                                sb.AppendFormat("  {0:+0;-0} {1,14:G7} {2:X8}\n", j - i, BitConverter.ToSingle(buf, j), BitConverter.ToUInt32(buf, j));
-                            w.Write(sb.ToString());
-                        }
-                    }
-                }
-                addr = start + size; if (addr <= 0) break;
-            }
-        }
-        CloseHandle(h); return hits;
-    }
-    // CYS-AA (aa-cy 15/09): read-only 'module+rva -> pointer -> +off, count int32' probe. Returns "" on failure.
-    // 'chain' = pointer offsets applied after the first dereference (module+rva -> p; p = *(p+chain[i]); ints at p+off).
-    public static string ReadDeref(int pid, long moduleBase, long rva, long off, int count) { return ReadChain(pid, moduleBase, rva, new long[0], off, count); }
-    public static string ReadChain(int pid, long moduleBase, long rva, long[] chain, long off, int count) {
-        IntPtr h = OpenProcess(0x0410, false, pid); if (h == IntPtr.Zero) return "";
-        try {
-            byte[] p = new byte[8]; IntPtr got;
-            if (!ReadProcessMemory(h, (IntPtr)(moduleBase + rva), p, (IntPtr)8, out got)) return "";
-            long obj = BitConverter.ToInt64(p, 0); if (obj == 0) return "null";
-            foreach (long c in chain) {
-                if (!ReadProcessMemory(h, (IntPtr)(obj + c), p, (IntPtr)8, out got)) return "";
-                obj = BitConverter.ToInt64(p, 0); if (obj == 0) return "null";
-            }
-            byte[] b = new byte[4 * count];
-            if (!ReadProcessMemory(h, (IntPtr)(obj + off), b, (IntPtr)b.Length, out got)) return "";
-            var sb = new System.Text.StringBuilder(); sb.AppendFormat("obj 0x{0:X} +0x{1:X}:", obj, off);
-            for (int i = 0; i < count; i++) sb.Append(" " + BitConverter.ToInt32(b, 4 * i));
-            return sb.ToString();
-        } finally { CloseHandle(h); }
-    }
     public static void Key(IntPtr h, int vk) { PostMessage(h, 0x100, (IntPtr)vk, IntPtr.Zero); System.Threading.Thread.Sleep(60); PostMessage(h, 0x101, (IntPtr)vk, (IntPtr)unchecked((int)0xC0000001)); }
     public static void Click(IntPtr h, int x, int y) {
         IntPtr lp = (IntPtr)((y << 16) | (x & 0xFFFF));

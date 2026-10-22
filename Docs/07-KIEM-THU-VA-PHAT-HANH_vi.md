@@ -131,7 +131,6 @@ Mục có dấu ★ là bắt buộc.
 | Loại | Nơi lưu |
 |---|---|
 | Log, ảnh, báo cáo theo cổng hoặc đợt | `Build\Logs\<ngày>-<cổng/đợt>\` |
-| Đặc tả dịch ngược | `Docs\specs\<module>\<tính-năng>.md` |
 | Đợt nhập dữ liệu | `Registry\batches\<đợt>.yaml` |
 | Lựa chọn bản | `Registry\selections\<đợt>.yaml` |
 | Đặc tả giao thức | `Registry\protocol\packets.yaml` |

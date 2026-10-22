@@ -1,8 +1,6 @@
 # Factory item xem trước — contract và phụ thuộc còn chặn
 
-Ngày 12/09/2026, P1-2. Hai factory vẫn là stub; tài liệu này không xác nhận đã tạo được item/action hoặc giảm missing calls. Phân tích tĩnh dùng bản sao `Build/re/luaapi/gpt-p1-2-helpers/inputs/Game.exe`, SHA-256 `0bf344935d6266ab80b6807d048fcd59184a925f18fd292072ccc596d045c918`; không chạy binary tham chiếu.
 
-| Hàm | Tham số → kết quả | RVA Game.exe |
 |---|---|---|
 | DataPool:CreateActionItemForShow | tableId:number, count:number → ActionButton userdata, isLocked:boolean | wrapper273110, factory164240 |
 | DataPool:CreateBindActionItemForShow | tableId:number, count:number → ActionButton userdata, isLocked:boolean | wrapper273530, factory164500 |
@@ -10,7 +8,6 @@ Ngày 12/09/2026, P1-2. Hai factory vẫn là stub; tài liệu này không xác
 
 Lua arg2/arg3 phải là NUMBER thật, không nhận numeric string; B báo lỗi native khi sai kiểu. Giá trị double bị truncate về int32; wrapper truyền thêm max=1. Factory trả null thì wrapper trả userdata trỏ invalid action tĩnh cùng false, không trả nil. Có action thì boolean lấy từ item thật qua IsLocked, không phải success hoặc bind. Wrapper thường gọi Enable; wrapper Bind giữ trạng thái enable hiện tại.
 
-Chứng cứ: `Build/re/luaapi/decomp/Game.exe/{140273110,140273530,140273bb0}.c`; RTTI, caller và disassembly bổ sung trong `Build/Logs/2026-09-12-gpt-p1-2/action-items/factory-followup_vi.md`.
 
 ## Cache và sở hữu
 
@@ -19,7 +16,6 @@ Chứng cứ: `Build/re/luaapi/decomp/Game.exe/{140273110,140273530,140273bb0}.c
 - CActionSystem tạo/cập nhật action và giữ map action. GetImpl tìm item theo client ID; Lua userdata mượn action, không sở hữu item/action.
 - Clear hủy item, đặt slot cache null rồi dọn action không còn impl. Dung lượng vector giữ nguyên. Userdata cũ có thể còn giữ pointer action đã hủy; chưa chốt được kỷ luật caller hoặc cơ chế vô hiệu hóa phía B. Không thêm Lua GC xóa borrowed action.
 
-Các target đã xác minh: CItemSystem New/Destroy/Find=431120/4314b0/431550; CActionSystem Update/Get/Clean=1e9270/1eac30/1ebc50. Hai batch Ghidra tuần tự đều4/4 PASS, read-only/noanalysis, heap3GB: `Build/re/luaapi/gpt-p1-2-factories/decomp` và `gpt-p1-2-item-lifetime/decomp`.
 
 Enable được đối chiếu bằng named IsEnable wrapper1dfb90 (+80 đọc, +88 ghi1, +90 ghi0), cùng CreateActionItemForShowDisable273320. IsLocked được đối chiếu bằng LifeAbility.Lock_Packet_ItemByID299fc0: setter+100 ghi byte+21, getter+108 đọc đúng byte này. Không suy tên chỉ từ offset. Bind getter+120 có trạng thái0/1/2/3; helper equipment424fb0 chưa phục hồi đủ để triển khai.
 

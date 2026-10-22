@@ -32,11 +32,11 @@ public:
 	const _DBC_CHARACTER_ACTION_SET *GetActionSet( std::string strFileName, UINT dwID );
 	const DBC::DBCFile *GetActionSetFile(std::string strFileName);
 
-	// CYS: B (client_GL) path. Init() loads ActionSet.txt + ActionSetLine.txt + ActionSetKV.txt from m_strResPath
-	// CYS: (the per-model files above stay as the 0.85 fallback). nSetID = ActionSetFile.txt id (CharModelEx column 9,
-	// CYS: CharMount columns 5/6/7); nActionID = ENUM_BASE_ACTION or a skill/chat-mood action; nSlot = CysActionSet::Slot.
-	// CYS: Returns NULL when the tables are absent or the (set, action, slot) has no entry -> the caller keeps its
-	// CYS: current animation, like B's FUN_1400f7860. An empty name is a valid result (B: the model stops animating).
+
+
+
+
+
 	BOOL CysHasTables( VOID ) const { return m_cysTable.IsReady(); }
 	BOOL CysHasSet( INT nSetID ) const { return m_cysTable.IsReady() && m_cysTable.HasSet(nSetID); }
 	LPCSTR CysGetActionName( INT nSetID, INT nActionID, INT nSlot, BOOL *pbHideWeapon, INT *pnAppointedWeaponID ) const;

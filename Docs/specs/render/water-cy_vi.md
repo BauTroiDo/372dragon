@@ -1,10 +1,5 @@
 # Nước của CY 3.71 và bản dựng trong CY-Source (water-cy, 14/09/2026)
 
-Phạm vi: nước mặt đất (`TerrainLiquid`) của **CY 3.71.9609** (`Tools\DATA NEW\CY Game`, gọi tắt **C**), đối chiếu client_GL
-(**B**) và hiện trạng CY-Source trước agent này. Quy ước: **FACT** = đọc thẳng từ binary/dữ liệu (có địa chỉ, file);
-**INF** = suy luận. Mọi RE chạy read-only trên bản sao `Build\re\water-cy\projC` (Render.dll của C,
-md5 `b91401fc50e5fd559a77877697cdb5fe`, Ghidra 12.1.3 headless, heap 3 GB). Dump: `Build\re\water-cy\out\*.txt`.
-Bằng chứng chạy: `Build\Logs\2026-09-14-water-cy\`.
 
 ## 0. Tóm tắt
 
@@ -14,15 +9,12 @@ Bằng chứng chạy: `Build\Logs\2026-09-14-water-cy\`.
 | Material nước (`all.material`) | `shader_water01`, `shader_water_mirror`, `baseWater`, `haihuwater`… | **giống hệt C** (khối 17 965 byte, cùng md5) | nạp được | như C |
 | Dữ liệu cảnh | 2 597 TerrainLiquid / 418 cảnh; **`shader_water01` 1 073**, `haihuwater` 891 | 2 253 / 416; `haihuwater` 1 287, `shader_water01` 351 | — | đọc dữ liệu C |
 | Nước mới (khúc xạ + phản chiếu cube + sương dưới nước) | bật theo mục chất lượng "nước" | có | **tắt**: rơi về `replaceMaterial` (ảnh động `huwaterlv`…) | **bật** |
-| Tách pass sương/mặt nước (queue 76/77) | có (`FUN_1801ef510`) | INF có | không (chỉ technique tốt nhất = sương) | có |
 | `scene_buffer` (RefractTex) | chép cảnh tới queue 76 | có | không ai tạo | chép bằng StretchRect |
 | Nút độ sâu cho nước | `SceneDepthForWater` R32F | có | có nút độ sâu của hậu kỳ nhưng chỉ khi một bộ lọc cần | stage `Water` giữ nút sống |
 | Nước gương | RT 1024² dùng chung, camera `ReflectRTCamera` | có | không | có |
 
 ## 1. Dữ liệu nước của C (FACT, `census_cy.json`, `census_cy.tsv`)
 
-Công cụ `Build\re\water-cy\water_census.py` quét mọi `<Object type="TerrainLiquid">` trong `SceneFolder`/`Scene2Folder`
-của `Assets\CanonicalCY\Data` (và client_GL để so).
 
 | Material | C: đối tượng / cảnh | B: đối tượng / cảnh | Loại |
 |---|---|---|---|
@@ -41,8 +33,6 @@ của `Assets\CanonicalCY\Data` (và client_GL để so).
 - Thành phố chính: `dali_new_320` 10 `shader_water01`; `suzhou_new` 26; `luoyang_new` 17; `jinghu` (Kính Hồ) chỉ
   `haihuwater` (nước cũ ở cả C lẫn B). `dali.Scene` của B chỉ có `haihuwater`/`水01` (không có nước mới).
 - Texture: `oceanwaves.dds` (normal/noise), `Water_Cubicmap.dds` (cube), `water_depth.tga` đều có trong `MaterialFolder` của C.
-
-## 2. Material và shader (FACT, `mt_cy\*`, `all.material` dòng 754 182–755 077 của C)
 
 ### 2.1 `shader_water01` (nước mới, không gương)
 
@@ -79,51 +69,6 @@ Một pass `render_queue on 77`, VS `Model_Water_VS`, PS `PBRScene_Water_PS` (`M
 `haihuwater`, `huwaterlv`, `bingwater`…: fixed-function, `anim_texture` + `water_depth.tga` 1D qua `tex_coord_set 1`,
 `alpha_blend`. `baseWater(_DSIntZ)`: `Base_Water_VS/PS`, queue 77, sương theo depth (C chỉ dùng cho mesh không phải shader).
 
-## 3. Đường vẽ của C (FACT, Render.dll C)
-
-### 3.1 Chọn material
-
-- Hàm dựng `TerrainLiquidObject` `FUN_18011ccc0`: định nghĩa thuộc tính (`material`, `replaceMaterial`, `mesh name`,
-  `showNewWaterEnabled`, `showMirrorReflectWaterEnabled`, 13 `ShaderParams.*`…); kiểm `vs_2_0`/`ps_2_0` (cờ `+0x58`); mặc
-  định `replaceMaterial` = `"waterNormal"`; mặc định ShaderParams = đúng `default_params` của chương trình:
-  BumpScale 0,6/0,6, BigWaves 0,59, SmallWaves 0,44, Reflection 0,22, Transparency 0,11, SunShinePow 113,1, SunMultiplier
-  0,41, FresnelBias 0,1 (hằng float tại `+0x208…+0x228`).
-- `FUN_1801275e0` (setter material): nếu có INTZ và tên chứa `shader` hoặc `PBRScene_Water` → tên + `_DSIntZ`.
-- Tạo lưới nước `FUN_1801215e0`: material chứa `shader` và cờ nước mới (`+0x2c1`) → nhân bản `New_Pool_<n>`, bật cờ toàn cục
-  "có nước mới" (`GfxLayer+0x291`) và nút render 3; rồi `_createMirrorReflectRenderTexture`, `_createRenderTexture` (đường
-  `waterReflectRefractMat` cũ 512², không dữ liệu nào dùng), mặt phẳng phản chiếu/khúc xạ (`FUN_180120f90`); không có cờ nước
-  mới → dùng `replaceMaterial` (`+0x1c8`).
-- Nước mesh `FUN_1801219e0`: `PBRScene_Water` + cờ nước mới → nhân bản `<mesh>_water`, queue **77**; material không chứa
-  `shader` → nhân bản `baseWater[_DSIntZ]` lấy unit 0 của material gốc, queue 75; mesh + `shader_water01` → `replaceMaterial`.
-- Công tắc toàn cục `FUN_180046f00` (gọi từ bảng thiết lập đồ hoạ `FUN_18002d9d0`, mục thứ 15 không tên sau GodRays, và
-  `FUN_18002e710`): đặt `showNewWaterEnabled` cho **mọi** TerrainLiquid có material chứa `shader`; tắt thì tắt post filter
-  **`Water`**. INF: đây là mục "hiệu ứng nước" trong bảng chất lượng; ở mức cao mọi nước shader đều là nước mới.
-- Công tắc gương `FUN_1801273d0`: khi đã tạo nước mới, bật/tắt đổi material giữa `shader_water_mirror_DSIntZ` và
-  `shader_water01_DSIntZ` (chỉ khi đổi lúc chạy; lúc nạp cảnh C chỉ xét tên material chứa `mirror`, xem 3.3).
-
-### 3.2 Hàng đợi vẽ và nút SceneRender
-
-- `TerrainLiquid::_updateRenderQueue` `FUN_1801ef510`: material có technique tên **`WaterFog`** → `addRenderable(tech 0,
-  queue 'L' = 76, priority 100)` và `addRenderable(tech 1, queue 'M' = 77, priority 100)`; thiếu technique → log
-  "New Water Material Error! Technique is NULL!"; material thường → queue mặc định 'K' = 75.
-- Nút SceneRender `FUN_18021e7b0`: `scene_buffer` 1,0×1,0, định dạng `0xc` = A8R8G8B8, xoá màu **Black**. Ba target pass:
-  pass 4 queue 0–75 và 80–85 (không nước); pass 5 queue 0–76 (cảnh + sương dưới nước); pass 6 (cờ `+0x4e`) queue 77–85.
-- Nút 3 `FUN_18021f580`: target pass `scene_buffer` với quad **`FrameCopy`** đọc `scene_buffer` → bản chép cảnh trước mặt nước
-  (INF: đây là nguồn `RefractTex` khi vẽ queue 77).
-- Nút `SceneDepthForWater` `FUN_18021eeb0` (không có INTZ): `depth_buffer` định dạng `0x21` = PF_FLOAT32_R, material scheme
-  `Depth`.
-- Thứ tự gọi nút `FUN_18021f800`: ShadowMap, SceneDepthForWater, SceneDepth, FrameCopy(3), SceneRender.
-
-### 3.3 Nước gương `_createMirrorReflectRenderTexture` `FUN_18011ef40`
-
-- Chỉ khi tên material chứa `"mirror"`; material phải có unit 1 của technique 1 pass 0 tên `ReflectTexInput`.
-- Một đối tượng dùng chung toàn hệ thống (`system+0xc0`) giữ texture `waterMirrorReflectTex`: `createManual(2D, 1024, 1024,
-  depth 1, 0 mip, format 0xb, TU_RENDERTARGET)`, `setAutoUpdated(false)`; viewport camera **`ReflectRTCamera`**, overlay tắt,
-  xoá màu+độ sâu mỗi khung, **sky tắt**, bóng bật, nền **White**. Listener đăng ký vào danh sách của trình quản lý
-  (`FUN_180127550`).
-- INF (thân listener chưa giải): như `ReflectRenderTargetListener` 0.85 — ẩn nước, `enableReflection(plane y = h)` +
-  `enableCustomNearClipPlane`, rồi khôi phục.
-
 ### 3.4 Độ phân giải và chất lượng
 
 | RT | C | Ghi chú |
@@ -148,12 +93,7 @@ Không có caustic hay bọt bờ trong shader C (FACT: không có sampler/hằn
 
 | Phần | File | Theo C |
 |---|---|---|
-| Tách queue 76/77 | `WXCore\Core\WXTerrainLiquid.cpp` (`LiquidRenderable::getTechnique`, `_updateRenderQueue`) | `FUN_1801ef510` |
-| Chọn material, mặc định ShaderParams, kỹ thuật nước mới | `WXCore\CYS\Scene\CYSWater.*` | `FUN_18011ccc0`, `FUN_1801219e0` |
-| RT + nút | `WXCore\CYS\Water\CysWaterRender.*` (mới) | `FUN_18021e7b0`, `FUN_18021f580`, `FUN_18021eeb0`, `FUN_18011ef40` |
 | Chép render target | `OgreRenderSystem.h` `_copyActiveRenderTarget`; D3D9 `StretchRect` | nút `FrameCopy` |
-| Nước mesh queue 77 | `WXTerrainLiquidObject.cpp` | `FUN_1801219e0` |
-| Stage hậu kỳ `Water` | `CysWaterRender.cpp`, đăng ký trong `CysPostFx.cpp` | tên filter `Water` (`FUN_180046f00`) |
 | Cài vào host | `WXRender\RenderSystem.cpp`, `TlbbViewer\ViewerApp.cpp` | — |
 
 Chi tiết cách dựng:

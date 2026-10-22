@@ -78,8 +78,8 @@ VOID CObjectManager::Release(VOID)
 //	m_pAvatar = NULL;
 }
 
-// CYS-SCFIX: close limit per care sign, CY 3.71 Game.exe 1405c79dd..1405c8623 (xmm7 1e9, xmm12 6, xmm9 15, xmm10 3,
-// xmm11 10, xmm8 5; constants 0x140c141fc / 0x140a561ac / 0x140a54e2c / 0x140a54e28 / 0x140a6eae8 / 0x140a561a8).
+
+
 static FLOAT CysCareCloseDistance(const std::string& sign)
 {
 	static const char* const kNever[] = { "ContexMenu", "TargetEquip", "TargetData", "TargetRune", "TargetWuhun",
@@ -95,14 +95,14 @@ static FLOAT CysCareCloseDistance(const std::string& sign)
 	if (sign == "StallBuy" || sign == "Exchange") return 6.0f;
 	for (size_t i = 0; i < sizeof(kNever) / sizeof(kNever[0]); ++i) if (sign == kNever[i]) return 1.0e9f;
 	if (sign == "PetProcreate" || sign == "BieYeCutePetProcreate") return 15.0f;
-	// INF: CY keeps LootPacket open (1e9) while MySelf has impact 0x157/0x2c1/0x2657 (FUN_1405f9510); not ported.
+
 	for (size_t i = 0; i < sizeof(kTen) / sizeof(kTen[0]); ++i) if (sign == kTen[i]) return 10.0f;
 	for (size_t i = 0; i < sizeof(kFive) / sizeof(kFive[0]); ++i) if (sign == kFive[i]) return 5.0f;
 	return 3.0f;
 }
 
-// CYS-SCFIX: CY UI_CEGUI CUIWindowMng 0x1800763b0 only hides a window that is shown; a sign that names no window
-// ("MsgBox") does nothing.
+
+
 static VOID CysCareCloseWindow(const std::string& sign)
 {
 	if (!CGameProcedure::s_pUISystem || sign.empty()) return;
@@ -117,15 +117,15 @@ VOID CObjectManager::Tick(VOID)
 		m_pLogicalObject->Tick_CheckAlive();
 	//执行逻辑函数
 	m_pLogicalObject->Tick();
-	//检查被UI关心的逻辑对象
-	// CYS-SCFIX: CY 3.71 CObjectManager::Tick (Game.exe 1405c79ca..1405c8705, Build/re/scene-change-fix/out/g_caretick.asm)
-	// never broadcasts OBJECT_CARED_EVENT. For each cared object it measures the 2D distance to MySelf, picks a limit by
-	// the care sign and, when distance > limit, calls tUISystem vtable +0xe0 (UI_CEGUI 0x180068730 -> CUIWindowMng
-	// 0x1800763b0: hide the shown window whose name == sign) and drops the entry. Event id 0x137 OBJECT_CARED_EVENT is
-	// only in the CY event table. The 0.85 broadcast reached every CY window that registers the event with bLoad=true:
-	// MessageBox_Self (hidden) falls through its OnEvent chain to MessageBox_Self_UpdateFrame, whose UpdateFrameEx
-	// returns 1 for g_FrameInfo -1 and shows the frame with the layout default text #{INTERFACE_XML_681} (the
-	// "save stall info" box) - after every scene transfer the NPC dialog's cared NPC is destroyed (npc-quest gui-live-11).
+
+
+
+
+
+
+
+
+
 	std::vector< std::string > cysCareClose;
 	std::map< std::string, OBJECT_BECARED >::iterator it;
 	for(it=m_mapCaredObject.begin(); GetMySelf() && it!=m_mapCaredObject.end(); it++)
@@ -674,8 +674,8 @@ VOID CObjectManager::CareObject(INT id, BOOL bCare, std::string szSign)
 	}
 }
 
-// CYS-QUEST: CY 3.71 CObjectManager vt+0xb8 (Game.exe 0x1405c95f0). nWho 0: MySelf name; otherwise the main target's
-// name when it is a CObject_Character; "" when there is none.
+
+
 namespace
 {
 	CObject_Character* CysTalkCharacter(CObjectManager* self, INT nWho)
@@ -695,8 +695,8 @@ LPCTSTR CObjectManager::GetTalkName(INT nWho)
 	return szName ? szName : "";
 }
 
-// CY vt+0xc0 (0x1405c9700) -> character vt+0x308: players (0x14060b8a0) race record id % 2 when RaceID != -1,
-// NPCs (0x1406026a0) the creature record gender. CY also requires an NPC field at +0x4f0 to be 0 [SL: not mapped].
+
+
 INT CObjectManager::GetTalkSex(INT nWho)
 {
 	CObject_Character* pChar = CysTalkCharacter(this, nWho);
@@ -714,8 +714,8 @@ INT CObjectManager::GetTalkSex(INT nWho)
 	return -1;
 }
 
-// CY vt+0xc8 (0x1405c96c0 -> 0x1401955c0): a MySelf character data string (+0x4940), "" in cross-server mode.
-// [SL] the field is only reset in CY (0x1401bc250) and no data or script uses $U; 0.85 has no matching field -> "".
+
+
 LPCTSTR CObjectManager::GetTalkUserString(VOID)
 {
 	return "";

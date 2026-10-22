@@ -6,13 +6,11 @@ Nhánh tiếp từ `902ecf8`; lỗi được tìm khi điều tra GL baseline d�
 
 `TemplateManager_T::InitFromDBMemory` dùng `MAXSIZE < nID`, nên cho phép ID bằng capacity truy cập ngoài mảng. `CampStandRecord_T` cũ chỉ có 12 camp (MAX_ID=11), nhưng DATA đang nạp gồm ID 0–15. Record12 ghi 52 byte từ offset632 của manager640byte: đè `m_pDB` và 44 byte ngoài object.
 
-Debug heap phát hiện tại `Game.exe+0xcd0a3`, allocation `new CActionSetMgr` ngay sau `s_pCampDataMgr->InitFromDBMemory`. Executable stage155 xác nhận compare `0xc` rồi `ja`, nhân ID với `0x34`, cộng8 và gọi record initializer. Chứng cứ tại `Build/Logs/2026-09-13-gpt-gl-login/baseline-stack-debugheap-v2.txt`, `camp-init-call.txt`, `heap-camp-finding_vi.md`.
 
 Các dump khác phát hiện muộn trong CEGUI String::grow hoặc WIC WriteSource. Chúng không chứng minh hai hàm ấy là writer. Dump không capture vùng heap-failure-info hay global camp pointer, nên điều tra không gán địa chỉ block khi thiếu dữ liệu. Bằng chứng writer ở đây là source + machine code của executable đang chạy + ID12 trong bảng thật.
 
 ## DATA B và contract được giữ
 
-`Assets/Canonical/Data/ConfigFolder/CampAndStand.txt` byte exact bảng B: SHA-256 `90a735a4cc41b1cbd042c0edb130669bda9680015743264843c2099b0760271b`. DBC nhị phân có **17 INT ×16 record**, gồm ID và 16 quan hệ. Bản text trong stage155 khác dạng lưu nhưng toàn bộ ID và 256 quan hệ khớp. Chi tiết: `camp-schema-compare.txt`; B đăng ký tên bảng tại Game RVA `12603d`, `b-camp-table-registration.txt`. Chưa phục hồi ABI manager của B; capacity16 trong CY căn cứ schema B thật, không khẳng định class layout nhị phân tương đương.
 
 - `TemplateManager.h`: sửa strict bound `MAXSIZE <= nID`, khớp đường InitFromDB và GetInstanceByID hiện có. ID âm/bằng/vượt capacity không được ghi vào array.
 - `CampAndStand.h`: MAX_ID thành15, đủ ID0–15. Không bỏ các camp12–15 để né lỗi.

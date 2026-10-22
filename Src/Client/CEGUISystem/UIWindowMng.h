@@ -79,8 +79,8 @@ public:
 	INT				LUA_TransAllWindowText(LuaPlus::LuaState* pState);
 	//关心与某逻辑Obj的某些事件
 	INT				LUA_CareObject(LuaPlus::LuaState* pState);
-	// CYS-HOST2: this:GetChildOffset("child") -> pixel offset of a descendant relative to this layout's root window
-	// (B UI_CEGUI.dll 0x180058500, 173 CY call sites in 49 frames).
+
+
 	INT				LUA_GetChildOffset(LuaPlus::LuaState* pState);
 
 	//------------------------------------------------------------

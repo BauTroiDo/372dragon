@@ -1,9 +1,5 @@
 # 07d — Hậu kỳ trong game và đường material của hạt/hiệu ứng (fx-render, 13/09/2026)
 
-Phạm vi: `Src\Engine\WXCore\CYS\PostFX\**`, `Src\Engine\WXCore\PostFilter\**`, phần material hạt/hiệu ứng và hook khởi động
-của `Src\Engine\WXRender` (`MaterialSystem\CysMaterialSystem.*`, `RenderSystem.cpp`), `Src\Tools\CysPostFxTest\**`, và hai chỗ
-sửa nhỏ có gắn thẻ trong viewer. Bằng chứng: `Build\Logs\2026-09-13-fx-render\` (ghi ở từng mục). Quy ước FACT/INF như
-`01-materials.md`. B = `client_GL` (chỉ đọc); mọi RE chạy trên bản sao `Build\re\fx-render\proj-gfx`, heap 2 GB, read-only.
 
 ## 0. Kết quả chính
 
@@ -13,7 +9,6 @@ sửa nhỏ có gắn thẻ trong viewer. Bằng chứng: `Build\Logs\2026-09-13
 | Tích hợp game | Render.dll áp khoá System.cfg lúc khởi động và mỗi lần `VARIABLE_CHANGED`; thiếu khoá thì lấy mặc định = cái người dùng thấy trong client_GL. |
 | Viewer | `--postfx b | key=value | file` (lặp được), áp ngay sau khi có thiết bị nên dùng được cho cả `--fx-sheet`. |
 | Material hạt (1) | Biến thể material là **ảnh chụp** của material nguồn → màu mesh-particle, dissolve, sequence-frame, fade không tới GPU. Đã sửa (theo dõi thay đổi của nguồn, mục 4). |
-| Material hạt (2) | Shader hạt trên **mesh** được ghép `Particle_VS` (đọc COLOR0 mà mesh không có → alpha 0): mọi hạt mesh `src_alpha` vô hình. Nay ghép `Model[_Skin]_VS` như B (RE `FUN_1802120b0`, macro `USE_MODEL_VS_OUT`, mục 4b). Oracle cùng binary: hạt sống mà không vẽ gì 6 → 3. |
 | fx-audit D2/D4/D20 | D2: 35 (b3) → 7 (b8) → **3**; D4: 8/8 mục `saturated_black_max` ≤ 0,014 (b3 0,03–0,23); D20: bục chọn đúng màu xanh/cam/lam (chroma 0,18–0,21, như P027/P028) — mục 9. |
 | Hậu kỳ giống hệt B | Tường trắng cháy ở S01 = NewHDRBloom cũ (FP16, ACES, Intensity 3,0 làm trọng số thẳng). Nay bộ mặc định **giống hệt B** (`PostFX.Preset=b`): đích 8 bit A8R8G8B8, material NewHDRBloom của chính B, trọng số bloom = 2^(I/10)−1 = **0,231**. Đường FP16/ACES giữ làm preset `cinematic`, tắt mặc định — mục 10. |
 | Hiệu năng | Bộ mặc định (FXAA + NewHDRBloom, B-exact) **+0,30 ms GPU** ở 1080p RTX 2060 (các pass 0,36); có sương độ cao +0,45 ms; preset cinematic ~+0,02 ms. Hook material S01: 197 → **73 ns/lần**. Dưới ngân sách 3 ms. |
@@ -31,10 +26,6 @@ sửa nhỏ có gắn thẻ trong viewer. Bằng chứng: `Build\Logs\2026-09-13
 
 ## 2. Tích hợp game (Render.dll)
 
-FACT từ B: `Accounts\System.cfg` có `View_Fanhunjiao=1`, `View_HDRFilter=1`, `View_FullScreenLight=0` (file thắng hai file cfg còn lại);
-`ViewSetup_Setup.lua` (hook `GfxApply_PostFilters`) bật lại FXAA/HDR/FullScreenLight **một lần mỗi tiến trình** vì Render.dll chỉ phản ứng
-với sự kiện đổi biến (doc 08 §3.6). 522/548 file `.newhdrbloom` là `3 / 0,65 / 0,35 / 0`, UseHDR 0 (`hdr_tune.py`). Scene nạp với id < 0
-(đăng nhập/chọn nhân vật) ép `View_HDRFilter` tắt (`FUN_180018540`). HeightFog của B bật theo EnvKey `height_fog_enabled`.
 
 `RenderSystem.cpp` (hunk gắn `// CYS:`):
 1. Sau `registerAllPostFilterFactories` + Floodlighting/Fade: `CysPostFx::applyStartup(manager, viewport, _CysPostFxLookup, 0)`.
@@ -62,10 +53,6 @@ HeightFog "auto": `CysPostFxStage::isActive()` mới; pipeline so tập stage "m
 S01 Tô Châu (không `.hfog`) dựng FXAA + NewHDRBloom, **không** có depth node; S08 cy4_guigu dựng thêm HeightFog + depth node; S10
 cy4_tangmen 12:00 EnvKey tắt sương nên như S01 (`scenes\S0x_on.png.log`).
 
-NewHDRBloom `ClampScene` (mặc định bật). FACT: SceneRender của B định nghĩa `scene_buffer` hệ số 1,0 × 1,0, định dạng `0xc` =
-`PF_A8R8G8B8` (`FUN_180213940`, `Build\re\fx-render\out\scenenodes.txt`); chỉ các mip bloom là FP16 (`0x16`). Vậy trong B hạt cộng dồn
-bão hoà ở 1 trước `ConvertToLinearSpace`/brightpass. Đích FP16 của ta để giá trị > 1 đi qua và bloom mạnh hơn B, nên khi `UseHDR = 0`
-pass tuyến tính hoá kẹp về [0, 1] trước (`CysPostFX/HDR/ToLinearClamp`), vẫn giữ độ chính xác FP16 cho phần còn lại.
 
 ## 3. Viewer
 
@@ -97,12 +84,6 @@ Nguồn B: `MaterialTemplates.zip` (`Mtl_Particle.material`, `Particle.program`,
   `Particle_Dissolve_PS` loại gần hết pixel → 359 material `Mtl_Particle_Dissolve` (+ TwoTex_Dissolve) gần như vô hình;
 - sequence frame / ribbon (`sequenceFrameUVFactor`, `useRibbon`...), fade độ trong suốt của model.
 
-Nay mỗi mục cache giữ nguồn và biến thể; mỗi lần renderable vào hàng đợi, thay đổi của nguồn (màu, blend, depth, alpha test, tên
-texture một khung, 54 hằng per-instance của `FUN_180156ab0`, so theo thanh ghi) được chép sang biến thể. Quy tắc "theo thay đổi": chỉ
-thuộc tính nguồn vừa đổi mới ghi, nên code ghi thẳng vào biến thể không bị đè. Kèm theo:
-- mục cache kiểm đúng đối tượng nguồn (material bị xoá rồi tạo lại cùng tên → biến thể mới), chặn trùng địa chỉ Technique;
-- dọn biến thể mà nguồn chỉ còn cache giữ (clone mesh-particle có tên duy nhất → trước đây rò mãi mãi), khi cache gấp đôi;
-- `CYS_MATSYS_FOLLOW=0` tắt cơ chế (A/B); `getFrameStats()` in chi phí hook.
 
 Kiểm trên dữ liệu thật: 16 hiệu ứng sáng của `oracle.tsv` (`fx-glow16.tsv`), cùng binary, cùng seed: 11/16 đổi ảnh; độ phủ trước → sau
 E019 0,0000 → 0,0036, E021 0,0008 → 0,0130, E033 0,0005 → 0,0092, E050 0,0038 → 0,0245, E065 0,0008 → 0,0077, E100 0,0000 → 0,0024
@@ -110,17 +91,6 @@ E019 0,0000 → 0,0036, E021 0,0008 → 0,0130, E033 0,0005 → 0,0092, E050 0,0
 
 ### 4b. Vertex shader cho shader hạt trên mesh (lỗi thứ hai, sửa 13/09 tối)
 
-FACT (bản sao B `proj-gfx`, read-only, `out\b_vs_xrefs.txt`, `out\b_ps_xrefs.txt`, `out\b_scheme.txt`):
-- `FUN_180154160` (khởi tạo MaterialSystemManager) dựng bảng 22 macro B tự tiêm: `USE_SKIN, USE_QUAT_SKIN, USE_TEXCOORD, USE_NORMAL,
-  USE_TANGENT, USE_VERTEXCOLOR, TEX_EFFECT_0/1, TEX_PROJECT, VS_ANIMATION, LIGHT_CALC_TYPE, ALPHATEST_ENABLE, BLEND_OP_0/1,
-  DIFFUSE_1/2_ENABLE, SPHEREMAPPING_ENABLE, SHADOWMAP_TYPE, LUT_ENABLE, USE_MODEL_VS_OUT (ô 0x13), PER_ALPHA, DISSOLVE_EFFECT`.
-  `USE_MODEL_VS_OUT` chỉ được `ParticleDef.inc:27` đọc: shader hạt nhận đầu ra của Model VS (`Model_VS_OUT.inc`).
-- Hàm dựng tên VS (`FUN_1802120b0`, vtable `0x1802f3108`, cùng lớp với hàm mặc định PS `"Particle_PS"` `FUN_180212020`) chỉ sinh
-  `Model[_Skin][_VsAnimation][_Water|_FakePointLight]_VS` (hoặc `Depth[_Skin|_DQSkin][_NoTex][_VsAnimation]_VS`); chuỗi
-  `Particle_VS` không có trong DLL nào của B (x64/x86) lẫn C.
-- Với `LIGHT_CALC_VS` (mặc định `ParamNamed.inc:40-41`) và ambient/diffuse `0 0 0` của mọi template `Mtl_Particle*`, Model VS cho màu =
-  `derived_scene_colour` = self-illumination (màu hạt mesh do `MeshParticleVisualData::setColour` ghi) và PS lấy alpha từ
-  `surface_diffuse_colour.a` (alpha hạt) — đúng thiết kế "setSelfIlluminationAndDiffuseAlpha" của B.
 
 Ta ghép `Particle_VS` (`USE_VERTEXCOLOR=1`) cho cả mesh. Mesh hiệu ứng không có COLOR0, D3D9 trả vColor.a = 0 → alpha 0: mọi hạt mesh
 `scene_blend src_alpha …` **vô hình** (Canonical: 5.157 template hạt mesh `src_alpha`, cộng 3.690 `one`, 1.091 `zero`; ví dụ D2 còn
@@ -131,9 +101,6 @@ dịch lại với `USE_MODEL_VS_OUT`: D3D9 SM3 nối đầu ra VS với đầu 
 
 ## 5. Hiệu năng (1920×1080, RTX 2060, máy dùng chung)
 
-GPU đo bằng timestamp D3D9 ở mỗi lần cập nhật render target và trước mỗi pass hậu kỳ (`CysPostFxTest --bench 120`, trung vị 120
-khung, thế giới đứng yên); CPU = thời gian submit một khung. Lượt cuối `postfx-final2` (máy dùng chung, không có Ghidra chạy nền),
-bảng đầy đủ `postfx-final2\summary.txt`; lượt trước `postfx-after2` cho số cùng cỡ.
 
 | Pass | GPU ms (`postfx-final2`) |
 |---|---|
@@ -152,16 +119,6 @@ bảng đầy đủ `postfx-final2\summary.txt`; lượt trước `postfx-after2
 Số cũ (đích FP16 cho mọi bộ lọc, `postfx-final2`): bộ mặc định +0,46 ms. Ngân sách 3 ms: bộ mặc định dùng ~10 %; kể cả bộ nặng nhất
 (`all`: SSAO + FXAA + HDR bloom + HeightFog + GodRays) +1,52 ms.
 
-CPU của hệ material (hook hàng đợi, mỗi renderable mỗi khung — `getFrameStats()`):
-- Lượt đầu (theo nguồn ở **mọi** lần gọi): 777 ns/lần (`postfx-after2`, máy đang chạy Ghidra), S01 thật 197 ns/lần.
-- Nay mỗi mục chỉ kiểm nguồn **một lần mỗi khung** (FrameListener của Root), mục 30 lần liền không đổi thì 8 khung mới kiểm
-  một lần (lệch pha theo địa chỉ); công cụ không có frame event giữ cách cũ. `postfx-final2`: **167 ns/lần** (228.907 lần,
-  38 ms trên 2.568 khung = 15 µs/khung), 18.968 lần kiểm cho 228.907 lần gọi.
-- Tải nặng nhất là hạt mesh (mỗi hạt một entity, đổi màu mỗi khung nên không bao giờ "yên"): sheet oracle 715 ns/lần (bật theo)
-  so với 229 ns/lần (tắt theo), khoảng 0,6–1,4 µs mỗi lần kiểm có chép trạng thái — nhỏ so với chính draw call của hạt mesh.
-- Không có clone material mỗi khung: biến thể chỉ tạo ở lần resolve đầu (`first resolutions`), số material có trần (D15, mục 9);
-  không thêm auto-constant nào ngoài các tên B tự gắn (`_setAutoConstantsByName`, bảng `FUN_180155ba0`/`FUN_180154d30`); việc
-  cập nhật auto-constant mỗi renderable là hành vi lõi OGRE 1.2 (B cũng vậy), không đổi ở đây.
 
 Hậu kỳ thêm vài chục draw quad; depth node vẽ lại toàn bộ vật đục (tốn CPU theo số draw call) nên chỉ dựng khi có
 HeightFog/SSAO/DoF/GodRays — lý do HeightFog "auto".
@@ -204,22 +161,8 @@ S2 `DataCY31-08-26\MaterialTemplates` (thư mục). Kết quả: `mtltemplates-B
 | MaterialTemplates | 112 file | 112 file, **C = S2 từng byte**; khác B đúng 6 file: 2 ảnh loginSplash, `Model_ps.hlsl`, `Model_Flow_ps.hlsl`, `ShaderLib\ParamNamed.inc`, `ShaderLib\TexKill.inc` | mọi template/program hạt giống hệt → không có template hạt mới, không soft particle |
 | Dissolve model hướng (`DISSOLVE_EFFECT 5`) | nhiễu theo UV + `time_0_x` | nhiễu theo toạ độ object trong hộp `dissolveBox` (mặc định `0,1,0,1`), hai tầng nhiễu, công thức cắt/viền mới | thêm `dissolveBox` vào bảng hằng per-instance (C mới hơn); việc sinh biến thể `DISSOLVE_EFFECT 5` cho model chưa có ở engine (fx-effects/materials) |
 | Post-filter | 27 factory + HDR + SceneRender | cùng danh sách file nguồn (chỉ khác tiền tố `D:\Fairy_New` / `E:\Fairy_TLBB_Truck`) | không có bộ lọc mới |
-| Chuỗi chỉ có ở C | — | `View_Specular`, `dissolveBox`, `OpenBackGroundParticleSystem`, thăm dò `d3d11.dll`/`isD3D11Supported`, dump tài nguyên | xem kết quả RE bên dưới |
 | `.newhdrbloom` | client_GL: 527/548 = `3 / 0,65 / 0,35 / 0`, LDR (`hdr_tune.py`) | S2: 73 file gốc Changyou, 37 = mặc định reader (Intensity 0, UseHDR 1, tự phơi sáng), còn lại chỉnh tay (vd. `2 / 0,65 / 0,05 / −0,3`) | Canonical giữ bộ của B (người dùng đang thấy); scene S2 dùng file S2 của chính nó |
 
-Dữ liệu stage đang chơi (`stage-91148e1\Data`) chỉ có một scene, `tl3chuangjian` (cảnh tạo nhân vật CY, nạp với id −2) và
-không có `.newhdrbloom`; NewHDRBloom bị giữ tắt ở đó như B nên cảnh này chỉ có FXAA. Scene thế giới sẽ lấy từ Canonical (đủ 548 file).
-Khi thiếu file, reader dùng giá trị dựng sẵn của B (0, 1, 0,5, 0, UseHDR 1, tự phơi sáng) — FACT `FUN_1801981b0`, giữ nguyên.
-
-**Kết quả RE trên bản sao C** (`Build\re\fx-render\projC`, read-only; `out\c_hdrload.txt`, `out\c_xrefs.txt`):
-- FACT: hàm nạp scene của C (`FUN_180030510`, log "Load scene %s...") phát lại `View_Weather/View_HDRFilter/View_ObjectMove`
-  khi id ≥ 0; khi id < 0 đặt `View_HDRFilter` = `"0"` (`DAT_1802bbffc`) — **y hệt quy tắc đăng nhập của B**. Cảnh tạo nhân vật CY
-  vì thế không có HDR/tonemap ở cả B lẫn C.
-- FACT: `SceneRender` của C định nghĩa `scene_buffer` định dạng `0xc` = `PF_A8R8G8B8` (`FUN_18021e7b0`, như `FUN_180213940` của B);
-  29 compositor khác chỉ tham chiếu `SceneRender/scene_buffer`. Vậy cộng dồn hạt ở C cũng bão hoà ở 1 như B.
-- FACT: `View_Specular` không có tham chiếu mã nào (chuỗi chết); `dissolveBox` dùng ở `FUN_180162a80` (đã thêm vào bảng per-instance).
-- Kết luận cho fx-audit D4: giả thuyết "B cộng trên HDR rồi tonemap" không đúng cho màn tạo nhân vật (B và C đều LDR 8 bit, HDR tắt);
-  không có gì của C cần thêm vào chuỗi hậu kỳ.
 
 ## 9. Các mục fx-audit thuộc R (fx-render) và các "hồi quy" orchestrator nêu
 
@@ -238,29 +181,14 @@ viewer của tôi; **A/B cùng một binary** bằng biến môi trường: `CYS
 
 ## 10. Chuỗi mặc định giống hệt B ("B-exact", 13/09 tối)
 
-Vấn đề: `scenes\S01_off_on.png` — tường trắng (toà nhà góc trái, tường đình) cháy trắng phẳng khi bật hậu kỳ. Nguyên nhân (FACT, RE trên
-bản sao `Build\re\fx-render\proj-gfx`, read-only; `out\b_nhb.txt`, `b_nhb2.txt`, `b_factory.txt`, `b_samplescale.txt`):
 
 | Mục | B (FACT) | CY-Source trước | Nay (preset `b`) |
 |---|---|---|---|
-| Trọng số bloom | `FUN_180195910`: `bloomColor.w = exp(Intensity/10 · ln2) − 1` = **2^(I/10) − 1** → file client_GL (I = 3) cho **0,231** | dùng thẳng Intensity = **3,0** (gấp 13 lần) → tường trắng | 0,231 |
 | Ngưỡng | `Threshold` qua `Math::GammaToLinearSpaceExact` (OgreMain B, hằng 0,04045 / 12,92 / 0,055 / 1,055 / 2,4): 0,65 → **0,380**; knee = t·SoftKnee + 1e-5; hằng `threshold` = (t, t − knee, 2·knee, 0,25/knee) | 0,65 (không tuyến tính hoá) | như B |
 | Màu bloom | `Math::GammaToLinearSpace(Vector3)` (đa thức 0,305306 / 0,682171 / 0,012523) | không đổi | như B (mọi file = trắng) |
 | Exposure | `exp(Exposure · ln2)` = 2^Exposure | 2^Exposure | như B |
-| `sampleScale` (Upsample 700–702) | trường `+0x10` của factory NewHDRBloom (static `0x1803b7c08`, vùng `.data` không khởi tạo = 0; không hàm nào ghi; constructor chỉ đặt vtable; `default_params` của program cũng 0) → Upsample = 1 mẫu bilinear | 1,0 (4 mẫu toả) | 0 |
-| Định dạng scene / chuỗi | `scene_buffer` **A8R8G8B8** (`FUN_180213940`); ping-pong của chuỗi dùng lại định dạng đó (INF) | FP16 + ClampScene | A8R8G8B8, bản sao cuối không dither (B `FrameCopy`) |
-| RT bloom / lum | `rt_brightpass` 1/3, `rt_down_bloom2/1/0` 1/6, 1/12, 1/24, `rt_up_bloom0/1/2` 1/12, 1/6, 1/3 (`PF_FLOAT16_RGB`); `rt_lum4..0` 81², 27², 9², 3², 1² `PF_FLOAT16_R` (`FUN_180195a00`) | cùng kích thước; lum/adaptation của ta | như B (FP16 RGBA vì D3D9 không có FP16 3 kênh) |
 | Pass | ConvertToLinearSpace → GrayDownScaleLum (0x3e3) → Downscale3x3 ×4 (0x3e2…0x3df, **luôn dựng**) → DownsampleBrightpass (0x323) → Downsample ×3 (0x322, 0x321, 800) → Upsample ×3 (702, 701, 700) → FinalPass / _HDR / _HDR_AutoExposure (500/600) | shader của ta | **material của chính B** trong dữ liệu game |
-| Thứ tự chuỗi | FXAA → NewHDRBloom → ColorLUT → HeightFog → GodRays → FinalPass (`FUN_18000e530`) | cùng thứ tự | như cũ |
-| `.newhdrbloom` | `FUN_1801981b0` đọc +0x60, +0x64, +0x68, +0x6c (f32), +0x70, +0x71 (u8), +0x50 (16 B); `FUN_180198f80` cho tên: Intensity, Threshold, SoftKnee, Exposure, UseHDR, UseAutoExposure, BloomColor; thiếu file → (0, 1, 0,5, 0, 1, 1, trắng); tìm `#TEMP#` (thư mục scene) rồi nhóm `Scene` | `CYSSceneFiles.cpp` cùng thứ tự, cùng mặc định | không đổi (đã đúng) |
-| Bật lọc | `View_Fanhunjiao` → FXAA, `View_HDRFilter` → NewHDRBloom (cave của client_GL), id scene < 0 ép `View_HDRFilter` = "0" (B `FUN_180018540`, C `FUN_180030510`); hook `ViewSetup_Setup.lua` `GfxApply_PostFilters` bật lại FXAA/HDR/FullScreenLight **chỉ khi** cfg = 1, một lần mỗi tiến trình | như B | như B |
 
-Cài đặt: `PostFX.Preset` (khoá khởi động mới, mặc định `b`): `CysPostFxPipeline::setCinematic(false)` = đích 8 bit + bản sao
-thẳng; NewHDRBloom `Mode=B` dựng đúng các pass trên bằng material B (`ConvertToLinearSpace`, `Bloom/*` trong
-`MaterialFolder\all.material` + `std_quad.program`, program `Bloom.hlsl`/`CopyFrameBuffer.hlsl` của MaterialTemplates) và đẩy hằng như
-`FUN_180195910`/`FUN_180198780`. Thiếu material B (vd. dữ liệu stage CY) → ghi log một lần và dùng chuỗi cinematic (checkEnable của B
-cũng chỉ kiểm `Bloom/FinalPass`). `PostFX.Preset=cinematic` = đường cũ (FP16, ACES/eye adaptation, Intensity là trọng số thẳng) — tuỳ
-chọn, tắt mặc định. Tham số phụ: `PostFX.NewHDRBloom.BSampleScale` (0), `BLinearFP16` (0 = cảnh tuyến tính trong đích 8 bit như B).
 
 "Hồi quy" orchestrator nêu (so với b3), kiểm bằng A/B cùng binary — **không mục nào do thay đổi material/hậu kỳ của tôi**:
 
